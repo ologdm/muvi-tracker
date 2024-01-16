@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+            android:id="@+id/uno"
+            android:title="Popular"
+            android:icon="@drawable/baseline_view_list_24"/>
+
+    <item
+            android:id="@+id/due"
+            android:title="Box Office"
+            android:icon="@drawable/baseline_view_list_24"/>
+
+    <item
+            android:id="@+id/myList"
+            android:title="My List"
+            android:icon="@drawable/baseline_library_add_check_24" />
+
+    <item
+            android:id="@+id/searchButton"
+            android:title="Search"
+            android:icon="@drawable/baseline_search_24" />
+
+</menu>
