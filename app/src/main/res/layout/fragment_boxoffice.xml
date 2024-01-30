@@ -3,4 +3,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/boxofficeFragmentRV"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+
+    <!-- da chiarire -->
+    <include layout="@layout/empty_states" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

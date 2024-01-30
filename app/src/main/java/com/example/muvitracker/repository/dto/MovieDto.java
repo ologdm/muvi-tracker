@@ -1,10 +1,10 @@
-package com.example.muvitracker.repository;
+package com.example.muvitracker.repository.dto;
 
 
 // serealized serve?
 
 @SuppressWarnings("unused")
-public class DataModel {
+public class MovieDto { // DTO = data transfer object
 
     // Attributi
     String title;
@@ -33,7 +33,9 @@ public class DataModel {
         this.ids = ids;
     }
 
-
+    public String getImageUrl() {
+        return "https://image.tmdb.org/t/p/w500/" + ids.imdb + ".jpg";
+    }
 
 
     // CLasse Nuova

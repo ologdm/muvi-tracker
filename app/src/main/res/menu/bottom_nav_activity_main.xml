@@ -2,22 +2,22 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-            android:id="@+id/uno"
+            android:id="@+id/button1Popular"
             android:title="Popular"
             android:icon="@drawable/baseline_view_list_24"/>
 
     <item
-            android:id="@+id/due"
+            android:id="@+id/button2Boxoffice"
             android:title="Box Office"
             android:icon="@drawable/baseline_view_list_24"/>
 
     <item
-            android:id="@+id/myList"
+            android:id="@+id/button3MyList"
             android:title="My List"
             android:icon="@drawable/baseline_library_add_check_24" />
 
     <item
-            android:id="@+id/searchButton"
+            android:id="@+id/button4Search"
             android:title="Search"
             android:icon="@drawable/baseline_search_24" />
 

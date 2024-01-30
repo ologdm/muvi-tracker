@@ -18,6 +18,9 @@ package com.example.muvitracker.repository;
 
 
 
+import com.example.muvitracker.repository.dto.BoxofficeDto;
+import com.example.muvitracker.repository.dto.MovieDto;
+
 import java.util.List;
 
 import retrofit2.Call;
@@ -28,14 +31,16 @@ public interface TraktApi {
     // https://api.trakt.tv/
 
     @GET("movies/popular") // @GET fa riferimento al metodo sotto
-    Call<List<DataModel>> getPopularMovies();
-
-    @GET("movies/trending")
-    Call<List<DataModel>> getTrendingMovies();
+    Call<List<MovieDto>> getPopularMovies();
 
     @GET("movies/boxoffice")
-    Call<List<DataModel>> getBoxOfficeMovies();
+    Call<List<BoxofficeDto>> getBoxofficeMovies();
 
+
+    /*
+    @GET("movies/trending")
+    Call<List<DataModelMovie>> getTrendingMovies();
+     */
 
 
 }
