@@ -5,11 +5,11 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-// == quello di main
 
-public class PopularViewholder extends RecyclerView.ViewHolder {
 
-    public PopularViewholder(@NonNull View itemView) {
+public class PopularVH extends RecyclerView.ViewHolder {
+
+    public PopularVH(@NonNull View itemView) {
         super(itemView);
     }
 

@@ -11,12 +11,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.muvitracker.R;
-import com.example.muvitracker.mainactivity.UiUtils;
-import com.example.muvitracker.mainactivity.VisibilityEnum;
+import com.example.muvitracker.utils.UiUtils;
+import com.example.muvitracker.utils.Visibility;
 import com.example.muvitracker.repository.dto.MovieDto;
 
 import java.util.List;
@@ -29,15 +30,16 @@ public class PopularFragment extends Fragment implements PopularContract.View {
 
     // ATTRIBUTI
     RecyclerView recyclerView;
-    PopularAdapter popularAdapter = new PopularAdapter();
-
+    PopularAdapter adapter = new PopularAdapter();
     PopularContract.Presenter presenter = new PopularPresenter(this);
 
     // Empty states, include_layout
     ProgressBar progressBar;
-    Button buttonRetry;
-    TextView textNoInternet;
+    Button retryButton;
+    TextView noInternetText;
 
+    // refresh
+    SwipeRefreshLayout swipeRefreshLayout;
 
 
 
@@ -59,57 +61,77 @@ public class PopularFragment extends Fragment implements PopularContract.View {
 
         // OK
         recyclerView = view.findViewById(R.id.popularFragmentRV);
-        recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
-        recyclerView.setAdapter(popularAdapter);
+        recyclerView.setAdapter(adapter);
+        //recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
+        recyclerView.setLayoutManager(new GridLayoutManager(requireActivity(),3));
 
-        // TODO empty states
-        //progressBar = view.findViewById(R.id.progressBar);
-        //buttonRetry = view.findViewById(R.id.retryButton);
-        //tvNoInternet = view.findViewById(R.id.noInternetConnection);
 
-        presenter.serverCallAndUpdateUi();
-        System.out.println("prova");
+        // Empty States OK
+        progressBar = view.findViewById(R.id.progressBar);
+        retryButton = view.findViewById(R.id.retryButton);
+        noInternetText = view.findViewById(R.id.noInternetText);
+
+
+        // SwipeRefresh OK
+
+        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout.setOnRefreshListener(
+            () -> presenter.serverCallAndUpdateUi(true));
+
+        //  poi nascondi caricamento di swipeRefresh: .setRefreshing(false); '
+        // caso success - in .updateUi ()
+        // caso error - in caso .setErrorPage(nointernet)
+
+
+
+        // Caricamento Default OK
+        presenter.serverCallAndUpdateUi(false);
+
+
+        // Retry OK
+        retryButton.setOnClickListener(v ->
+            presenter.serverCallAndUpdateUi(false));
+
+
     }
 
 
     // CONTRACT METHODS - utilizzati in presenter
-    // 1.
+    // 1. caricamento dati
     @Override
     public void updateUi(List<MovieDto> list) {
-        popularAdapter.updateList(list);
+        adapter.updateList(list);
+
+        // in caso di success,
+        swipeRefreshLayout.setRefreshing(false);
+        setRvVisibility(Visibility.SHOW);
     }
 
 
-    // 2. progresssion  + error OK
+    // 2. Progresssion  + Error OK
+    // di default -> entrambi GONE
     @Override
-    public void setProgressBar(VisibilityEnum visibility) {
+    public void setProgressBar(Visibility visibility) {
         UiUtils.setSingleViewVisibility(progressBar, visibility);
-        /* prova
-        if (visibility==VisibilityEnum.SHOW){
-            progressBar.setVisibility(View.VISIBLE);
-        } else {
-            progressBar.setVisibility(View.GONE);
-        }
+    }
 
-         */
-
+    // 3.
+    @Override
+    public void setErrorPage(Visibility visibility) {
+        UiUtils.setDoubleViewVisibility(retryButton, noInternetText, visibility);
+        // nascondere barra caricamento
+        swipeRefreshLayout.setRefreshing(false);
     }
 
 
+    // 4.
     @Override
-    public void setErrorPage(VisibilityEnum visibility) {
-        UiUtils.setDoubleViewVisibility(buttonRetry, textNoInternet, visibility);
-        // prova
-        /*
-        if (visibility==VisibilityEnum.SHOW){
-            buttonRetry.setVisibility(View.VISIBLE);
-            tvNoInternet.setVisibility(View.VISIBLE);
+    public void setRvVisibility(Visibility visibility) {
+        if (visibility == Visibility.SHOW) {
+            recyclerView.setVisibility(View.VISIBLE);
         } else {
-            buttonRetry.setVisibility(View.GONE);
-            tvNoInternet.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.GONE);
         }
-
-         */
     }
 
 

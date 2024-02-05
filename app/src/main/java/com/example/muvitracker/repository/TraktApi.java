@@ -28,7 +28,6 @@ import retrofit2.http.GET;
 
 public interface TraktApi {
 
-    // https://api.trakt.tv/
 
     @GET("movies/popular") // @GET fa riferimento al metodo sotto
     Call<List<MovieDto>> getPopularMovies();
@@ -36,11 +35,6 @@ public interface TraktApi {
     @GET("movies/boxoffice")
     Call<List<BoxofficeDto>> getBoxofficeMovies();
 
-
-    /*
-    @GET("movies/trending")
-    Call<List<DataModelMovie>> getTrendingMovies();
-     */
 
 
 }

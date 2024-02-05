@@ -5,41 +5,36 @@
         android:id="@+id/frameEmptyStates"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="10dp"
-        android:visibility="gone"
-        tools:visibility="visible">
+        android:padding="10dp">
 
+
+    <!-- visibile su xml, nascosto a programma -->
     <ProgressBar
             android:id="@+id/progressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            android:visibility="gone"
+            tools:visibility="visible"/>
 
     <Button
             android:id="@+id/retryButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Retry"
-            android:layout_gravity="center" />
+            android:layout_gravity="center"
+            android:visibility="gone"
+            tools:visibility="visible"/>
 
     <TextView
-            android:id="@+id/noInternetConnection"
+            android:id="@+id/noInternetText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="no internet connection"
             android:textSize="15sp"
-            android:layout_gravity="bottom" />
+            android:layout_gravity="bottom"
+            android:visibility="gone"
+            tools:visibility="visible"/>
 
-
-    <!--
-    <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycleviewtest"
-            android:layout_width="0dp"
-            android:layout_height="194dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
--->
 
 </FrameLayout>

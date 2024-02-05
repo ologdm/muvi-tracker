@@ -2,7 +2,7 @@ package com.example.muvitracker.mainactivity.popularfragment;
 
 import androidx.annotation.NonNull;
 
-import com.example.muvitracker.mainactivity.VisibilityEnum;
+import com.example.muvitracker.utils.Visibility;
 import com.example.muvitracker.repository.dto.MovieDto;
 
 import java.util.List;
@@ -15,11 +15,12 @@ public interface PopularContract {
         public void updateUi (List<MovieDto> list);
 
         @NonNull
-        public void setProgressBar(VisibilityEnum visibility);
+        public void setProgressBar(Visibility visibility);
 
         @NonNull
-        public void setErrorPage (VisibilityEnum visibility);
+        public void setErrorPage (Visibility visibility);
 
+        public void setRvVisibility(Visibility visibility);
 
     }
 
@@ -28,7 +29,7 @@ public interface PopularContract {
 
         // 1 metodo
         @NonNull
-        public void serverCallAndUpdateUi();
+        public void serverCallAndUpdateUi(boolean forceRefresh);
 
     }
 }

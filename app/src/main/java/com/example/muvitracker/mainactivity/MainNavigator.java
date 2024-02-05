@@ -17,12 +17,12 @@ public class MainNavigator {
 
     // sostituisco Fragment in FrameLayout
     public void replaceFragment(FragmentActivity fragmActivity, Fragment fragment) {
-        if (fragment == null) { // crea solo se è nullo
+        //if (fragment == null) { // crea solo se è nullo
             FragmentManager manager = fragmActivity.getSupportFragmentManager();
             manager.beginTransaction()
                 .replace(R.id.frameLayout, fragment)
                 .commit();
-        }
+        //}
     }
 
 

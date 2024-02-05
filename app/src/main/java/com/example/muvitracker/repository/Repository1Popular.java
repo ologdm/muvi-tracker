@@ -1,6 +1,7 @@
 package com.example.muvitracker.repository;
 
 import com.example.muvitracker.repository.dto.MovieDto;
+import com.example.muvitracker.utils.MyRetrofitCallback;
 
 import java.util.List;
 
@@ -14,6 +15,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 // singleton - istanza statica di se stessa, costruttore privato, creo istanza solo se istanza==null
 // lista non serve -> passo direttamente callback dove mi serve quando ho i dati pronti
 
+// **MovieDto**
 
 public class Repository1Popular {
 
@@ -44,18 +46,21 @@ public class Repository1Popular {
     TraktApi traktApi = retrofit.create(TraktApi.class);
 
     // 3.3 prelevo call
-    Call<List<MovieDto>> popularCall = traktApi.getPopularMovies();
+
 
 
     // 3.4 chiamata popular
     public void callPopular(MyRetrofitCallback<MovieDto> callback) {
+        // enqueue si fa sempre su una nuova call, riutilizzare la call non si puo fare
+        Call<List<MovieDto>> popularCall = traktApi.getPopularMovies();
+
         popularCall.enqueue(new Callback<List<MovieDto>>() {
             @Override
             public void onResponse(Call<List<MovieDto>> call, Response<List<MovieDto>> response) {
                 // caricamento
                 if (response.isSuccessful()) {
                     callback.onSuccess(response.body());
-                    System.out.println("prova retrofit");
+                    System.out.println("DIMA REPOSITORY ");
                 } else {
                     // response fornira l'ecception; TODO dove la scrivo???
                     callback.onError(new HttpException(response));

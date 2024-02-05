@@ -1,4 +1,4 @@
-package com.example.muvitracker.repository;
+package com.example.muvitracker.utils;
 
 import java.util.List;
 

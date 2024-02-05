@@ -1,16 +1,36 @@
 package com.example.muvitracker.repository.dto;
 
 
-// serealized serve?
+// DTO = data transfer object
+// serialized serve? - no, solo per passare una classe complessa da un activity fragment ad un altro
+
+
+
+/* JSON - Popular (lista standard)
+  {
+    "title": "The Dark Knight",
+    "year": 2008,
+    "ids": {
+      "trakt": 16,
+      "slug": "the-dark-knight-2008",
+      "imdb": "tt0468569",
+      "tmdb": 155
+    }
+  },
+  */
+
+
+// Returns the most popular movies.
+// Popularity is calculated using the rating percentage and the number of ratings.
+
 
 @SuppressWarnings("unused")
-public class MovieDto { // DTO = data transfer object
+public class MovieDto {
 
     // Attributi
     String title;
     int year;
-    Ids ids;
-
+    Ids ids; // null
 
     // Get, Set
     public String getTitle() {
@@ -23,6 +43,14 @@ public class MovieDto { // DTO = data transfer object
         return ids;
     }
 
+
+    // Image URL - metodo che prende url da (OMDb id == IMDb id)
+    public String getImageUrl() {
+        return "http://img.omdbapi.com/" +"?apikey=ef6d3d4c" + "&i=" + ids.getImdb();
+    }
+
+
+
     public void setTitle(String title) {
         this.title = title;
     }
@@ -33,16 +61,13 @@ public class MovieDto { // DTO = data transfer object
         this.ids = ids;
     }
 
-    public String getImageUrl() {
-        return "https://image.tmdb.org/t/p/w500/" + ids.imdb + ".jpg";
-    }
 
 
-    // CLasse Nuova
+    // Inner Class 'Ids'
     public static class Ids {
         int trakt;
         String slug;
-        String imdb;
+        String imdb; // utilizzata per immagini
         int tmdb;
 
 

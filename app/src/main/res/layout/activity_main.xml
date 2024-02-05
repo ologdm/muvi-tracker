@@ -8,12 +8,12 @@
 
 
     <com.google.android.material.appbar.AppBarLayout
+            app:layout_constraintBottom_toTopOf="@+id/bottomNavigation"
             android:id="@+id/appBarLayout"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="100dp"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginBottom="524dp"
-            app:layout_constraintBottom_toTopOf="@+id/bottomNavigation"
+            android:layout_marginBottom="550dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintHorizontal_bias="0.0">
@@ -25,6 +25,15 @@
                 android:textStyle="bold"
                 android:layout_marginStart="0dp" />
 
+        <TextView
+                android:id="@+id/testoCategoria"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:paddingStart="20dp"
+                android:paddingTop="10dp"
+                android:hint="mostra categoria" />
+
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -32,9 +41,6 @@
             android:id="@+id/frameLayout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:padding="10dp"
-            android:visibility="gone"
-            tools:visibility="visible"
             app:layout_constraintBottom_toTopOf="@+id/bottomNavigation"
             app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
 
