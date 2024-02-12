@@ -47,12 +47,13 @@ public class DetailsFragment extends Fragment implements DetailsContract.View {
     private DetailsPresenter presenter = new DetailsPresenter(this);
 
 
-    // COSTRUTTORE
+    // COSTRUTTORE OK
     // 2.1 privato - dobbiamo sempre avere un Id
     private DetailsFragment() {
     }
 
-    // 2.2 Crea Fragment con Id - SetArguments -> usare
+    // 2.2 Factory OK
+    // Crea Fragment con Id - SetArguments -> usare
     public static DetailsFragment create(int id) {
         DetailsFragment detailsFragment = new DetailsFragment();
         Bundle bundle = new Bundle();
@@ -108,6 +109,8 @@ public class DetailsFragment extends Fragment implements DetailsContract.View {
             @Override
             public void onClick(View v) {
                 // TODO -> torna indietro nello stack
+                // getActivity().onBackPressed(); - > esce dal programma
+
             }
         });
 
@@ -115,14 +118,14 @@ public class DetailsFragment extends Fragment implements DetailsContract.View {
 
 
     // 4. METODO CONTRACT
-    // 4.1
+    // 4.1 OK
     @Override
     public void updateDetailsDto(DetailsDto detailsDto) {
         this.detailsDto = detailsDto;
         System.out.println("dto");
     }
 
-    // 4.2
+    // 4.2 OK
     // devo eseguire .setText() solo quando ho la risposta dal server
     @Override
     public void updateUi() {
@@ -133,7 +136,7 @@ public class DetailsFragment extends Fragment implements DetailsContract.View {
         rating.setText(String.valueOf(detailsDto.getRating()) + " stars");
         overview.setText(detailsDto.getOverview());
 
-        //immagine
+        //4.3 OK
         Glide.with(getContext())
             .load(detailsDto.getImageUrl())  //Url
             .into(image);
