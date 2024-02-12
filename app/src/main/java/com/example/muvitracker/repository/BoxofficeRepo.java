@@ -17,24 +17,23 @@ import retrofit2.Callback;
 import retrofit2.HttpException;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
-public class BoxofficeRepository {
+public class BoxofficeRepo {
 
 
     // SINGLETON
-    static BoxofficeRepository istance;
+    static BoxofficeRepo istance;
     // static BoxofficeRepository istance = new BoxofficeRepository();
     // equivalente del singleton, si usa il metodo invece di questo
     // il metodo permette anche di passare dei paramentri al getIstance(par1,par2)
 
 
-    private BoxofficeRepository() {
+    private BoxofficeRepo() {
     }
 
-    public static BoxofficeRepository getIstance() {
+    public static BoxofficeRepo getIstance() {
         if (istance == null) {
-            istance = new BoxofficeRepository();
+            istance = new BoxofficeRepo();
         }
         return istance;
     }

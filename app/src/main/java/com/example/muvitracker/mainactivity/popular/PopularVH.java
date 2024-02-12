@@ -1,4 +1,4 @@
-package com.example.muvitracker.mainactivity.popularfragment;
+package com.example.muvitracker.mainactivity.popular;
 
 import android.view.View;
 

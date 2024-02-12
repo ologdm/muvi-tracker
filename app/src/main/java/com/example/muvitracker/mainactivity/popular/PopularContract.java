@@ -1,4 +1,4 @@
-package com.example.muvitracker.mainactivity.popularfragment;
+package com.example.muvitracker.mainactivity.popular;
 
 import androidx.annotation.NonNull;
 
@@ -10,9 +10,11 @@ import java.util.List;
 public interface PopularContract {
 
 
+
     public interface View {
 
-        // 2°STEP
+        //  2°STEP - POPULAR + BOXOFFICE + EMPTY STATES
+
         @NonNull
         public void updateUi (List<MovieDto> list);
 
@@ -25,7 +27,8 @@ public interface PopularContract {
         public void setRvVisibility(Visibility visibility);
 
 
-        // TODO 3°STEP - DETAILS
+
+        // 3°STEP - DETAILS
         public void startDetailsFragment (int movieId);
 
     }
@@ -39,7 +42,7 @@ public interface PopularContract {
         public void serverCallAndUpdateUi(boolean forceRefresh);
 
 
-        // TODO 3°STEP - DETAILS
+        // 3°STEP
         public void onVHolderClick(int movieId);
 
     }

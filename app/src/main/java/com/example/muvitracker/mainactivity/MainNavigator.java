@@ -34,6 +34,7 @@ public class MainNavigator {
         FragmentManager manager = fragmActivity.getSupportFragmentManager();
         manager.beginTransaction()
             .replace(R.id.frameLayout, fragment)
+            .addToBackStack(null)
             .commit();
 
     }

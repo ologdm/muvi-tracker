@@ -16,7 +16,7 @@ import retrofit2.Retrofit;
 
 
 
-public class DetailsRepository {
+public class DetailsRepo {
 
     // ATTRIBUTO
 
@@ -25,11 +25,11 @@ public class DetailsRepository {
 
 
     // SINGLETON
-    private static DetailsRepository istance;
-    private DetailsRepository() {}
-    public static DetailsRepository getIstance() {
+    private static DetailsRepo istance;
+    private DetailsRepo() {}
+    public static DetailsRepo getIstance() {
         if (istance == null) {
-            istance = new DetailsRepository();
+            istance = new DetailsRepo();
         }
         return istance;
     }
@@ -51,7 +51,7 @@ public class DetailsRepository {
     TraktApi traktApi = retrofit.create(TraktApi.class);
 
 
-    public void callDetails (MyRetrofitCallback<DetailsDto> myRetrofitCallback) {
+    public void callDetailsApi(MyRetrofitCallback<DetailsDto> myRetrofitCallback) {
         // call - una nuova per ogni chiamata
         Call<DetailsDto> detailsCall = traktApi.getDetailsDto(movieId);
 

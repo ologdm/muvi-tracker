@@ -11,26 +11,25 @@ import retrofit2.Callback;
 import retrofit2.HttpException;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 // singleton - istanza statica di se stessa, costruttore privato, creo istanza solo se istanza==null
 // lista non serve -> passo direttamente callback dove mi serve quando ho i dati pronti
 
 // **MovieDto**
 
-public class PopularRepository {
+public class PopularRepo {
 
     // SINGLETON
     // istanza statica, costruttore privato, metodo che costruisce l'istanza statica
     // attrib statico - utilizzata da tutte le istanze della classe
-    public static PopularRepository istance;
+    public static PopularRepo istance;
 
-    private PopularRepository(){};
+    private PopularRepo(){};
     // motodo static -> si puo chiamare da blueprint
-    public static PopularRepository getIstance (){
+    public static PopularRepo getIstance (){
         // se nulla la creo
         if (istance==null){
-            istance = new PopularRepository();
+            istance = new PopularRepo();
         }
         return istance; // dammi istanza comune del blueprint
     }

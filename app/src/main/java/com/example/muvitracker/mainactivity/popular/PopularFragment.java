@@ -1,4 +1,4 @@
-package com.example.muvitracker.mainactivity.popularfragment;
+package com.example.muvitracker.mainactivity.popular;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -17,37 +17,54 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.muvitracker.R;
 import com.example.muvitracker.mainactivity.MainNavigator;
-import com.example.muvitracker.mainactivity.detailsfragment.DetailsFragment;
+import com.example.muvitracker.mainactivity.details.DetailsFragment;
 import com.example.muvitracker.utils.UiUtils;
 import com.example.muvitracker.utils.Visibility;
 import com.example.muvitracker.repository.dto.MovieDto;
 
 import java.util.List;
 
+//        2°STEP->
 // 1. Rappresenta la lista da API
-// 2. passa dati ad altre fragment - esempio details;  ma forse non serve !!!!
+// 2. metodi EmptyStates
+// 3. metodi aggiornam Adapter MVP
+// 4. SwipeRefresh
+//          1- setOnRefreshListener()
+//          2- setRefreshing(false) ->
+//             hide loading bar per caso success and fail
+
+//        3°STEP
+// 1. Passa dati ad altre fragment -> details
+// 2. metodo Click VH() -> startDetailsFragment()
+//                      -> chiama funzione -> @Presenter-> @Fragment MVP
+
 
 
 public class PopularFragment extends Fragment implements PopularContract.View {
 
-    // ATTRIBUTI
+    // 1. ATTRIBUTI
+    // 1.1 RView
     RecyclerView recyclerView;
     PopularAdapter adapter = new PopularAdapter();
-    PopularContract.Presenter presenter = new PopularPresenter(this);
 
-    // Empty states, include_layout
+    // 1.2 Empty states, include_layout
     ProgressBar progressBar;
     Button retryButton;
     TextView noInternetText;
 
-    // refresh
+    // 1.3 Refresh
     SwipeRefreshLayout swipeRefreshLayout;
 
-    // TODO 3° STEP
+    // 1.4
+    PopularContract.Presenter presenter = new PopularPresenter(this);
+
+
+    // 1.5 3°STEP OK
     MainNavigator navigator = new MainNavigator();
 
 
-    // 1. CREAZIONE VIEW
+    // 2. FUNZIONI FRAGMENT
+    // 2.1 Creazione
     @Nullable
     @Override
     public View onCreateView(
@@ -58,26 +75,26 @@ public class PopularFragment extends Fragment implements PopularContract.View {
     }
 
 
-    // 2. LOGICA
+    // 2.2 Logica
     @Override
     public void onViewCreated(@NonNull View view,
                               @Nullable Bundle savedInstanceState) {
         //presenter = new PopularPresenter(this);
 
-        // OK
+        // 1. OK
         recyclerView = view.findViewById(R.id.popularFragmentRV);
         recyclerView.setAdapter(adapter);
         //recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
         recyclerView.setLayoutManager(new GridLayoutManager(requireActivity(), 3));
 
 
-        // Empty States OK
+        // 2. Empty States OK
         progressBar = view.findViewById(R.id.progressBar);
         retryButton = view.findViewById(R.id.retryButton);
         noInternetText = view.findViewById(R.id.noInternetText);
 
 
-        // SwipeRefresh OK
+        // 3. SwipeRefresh OK
         swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(
             () -> presenter.serverCallAndUpdateUi(true));
@@ -86,56 +103,62 @@ public class PopularFragment extends Fragment implements PopularContract.View {
         // caso error - in caso .setErrorPage(nointernet)
 
 
-        // Default Loading Data OK
+        // 4. Default Loading Data OK
         presenter.serverCallAndUpdateUi(false);
 
 
-        // Retry Data OK
+        // 5. Retry Data OK
         retryButton.setOnClickListener(v -> {
             presenter.serverCallAndUpdateUi(false);
         });
 
 
-        // TODO 3° STEP
-        // Click VHolder
-        // ->presenter.onVHolderCLick() -> startDetailsFragment()
+        // 6.       3°STEP
+        // - Click VHolder OK
         adapter.setCallbackVH(movieId -> {
             presenter.onVHolderClick(movieId);
         });
-
-
     }
 
 
-    // CONTRACT METHODS - utilizzati in presenter
-    // 1. Caricamento Dati
+
+
+
+    // 3. CONTRACT METHODS
+    // !!! utilizzati in presenter
+
+    // 3.1 Caricamento Dati
     @Override
     public void updateUi(List<MovieDto> list) {
         adapter.updateList(list);
-
-        // in caso di success,
-        swipeRefreshLayout.setRefreshing(false);
         setRvVisibility(Visibility.SHOW);
+
+        // Caso Success
+        swipeRefreshLayout.setRefreshing(false);
     }
 
 
-    // 2. Progresssion  + Error OK
-    // di default -> entrambi GONE
+
+    // 3.2 Progresssion
+    // -> default .GONE
     @Override
     public void setProgressBar(Visibility visibility) {
         UiUtils.setSingleViewVisibility(progressBar, visibility);
     }
 
-    // 3.
+
+    // 3.3 ErrorPage
+    // (default .GONE)
     @Override
     public void setErrorPage(Visibility visibility) {
         UiUtils.setDoubleViewVisibility(retryButton, noInternetText, visibility);
-        // nascondere barra caricamento
+        // Caso2 - fail
+
         swipeRefreshLayout.setRefreshing(false);
     }
 
 
-    // 4.
+    // 3.4 RView
     @Override
     public void setRvVisibility(Visibility visibility) {
         if (visibility == Visibility.SHOW) {
@@ -146,8 +169,8 @@ public class PopularFragment extends Fragment implements PopularContract.View {
     }
 
 
-    // TODO 3°STEP
-    // 5° Crea Details e passa Id
+    //          3°STEP
+    // 3.5  Crea DetailsFragment + pass Id
     @Override
     public void startDetailsFragment(int movieId) {
         navigator.addToBackstackFragment(

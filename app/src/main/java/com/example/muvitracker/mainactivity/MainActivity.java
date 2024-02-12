@@ -5,15 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.muvitracker.R;
-import com.example.muvitracker.mainactivity.boxofficefragment.BoxofficeFragment;
-import com.example.muvitracker.mainactivity.popularfragment.PopularFragment;
-import com.example.muvitracker.utils.Categoria;
-import com.example.muvitracker.utils.UiUtils;
+import com.example.muvitracker.mainactivity.boxoffice.BoxofficeFragment;
+import com.example.muvitracker.mainactivity.popular.PopularFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 

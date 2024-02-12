@@ -1,4 +1,4 @@
-package com.example.muvitracker.mainactivity.boxofficefragment;
+package com.example.muvitracker.mainactivity.boxoffice;
 
 import android.view.View;
 

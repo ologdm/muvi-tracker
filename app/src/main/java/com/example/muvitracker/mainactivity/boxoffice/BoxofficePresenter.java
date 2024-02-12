@@ -1,6 +1,6 @@
-package com.example.muvitracker.mainactivity.boxofficefragment;
+package com.example.muvitracker.mainactivity.boxoffice;
 
-import com.example.muvitracker.repository.BoxofficeRepository;
+import com.example.muvitracker.repository.BoxofficeRepo;
 import com.example.muvitracker.repository.dto.BoxofficeDto;
 import com.example.muvitracker.utils.MyRetrofitListCallback;
 import com.example.muvitracker.utils.Visibility;
@@ -10,7 +10,7 @@ import java.util.List;
 public class BoxofficePresenter implements BoxofficeContract.Presenter {
 
     private BoxofficeContract.View view;
-    private BoxofficeRepository repository = BoxofficeRepository.getIstance();
+    private BoxofficeRepo repository = BoxofficeRepo.getIstance();
 
 
     public BoxofficePresenter(BoxofficeContract.View v) {

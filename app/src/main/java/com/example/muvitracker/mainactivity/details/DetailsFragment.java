@@ -1,4 +1,4 @@
-package com.example.muvitracker.mainactivity.detailsfragment;
+package com.example.muvitracker.mainactivity.details;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -16,16 +16,20 @@ import com.bumptech.glide.Glide;
 import com.example.muvitracker.R;
 import com.example.muvitracker.repository.dto.DetailsDto;
 
+//      3°STEP-> inizio
+// 1. Details film si apre grazie al IdFilm,
+// 2. Poi cerca sul DB necessario i dati da mostrare
+// 3. Scroll view
+// 4. Aggiorna caselle view solo quando ho i dati
+// 5. back Button
 
-// Details film si apre grazie al IdFilm,
-// Poi cerca sul DB necessario i dati da mostrare
-// Scroll view
-// Aggiorna caselle view solo quando ho i dati
-// TODO -> mettere caricamento prima di apertura fragment -> su presenter
-// TODO -> arrotondare valori rating(float)
+
+// TODO
+//      1 -> metodi contract - mettere caricamento prima di apertura fragment -> su presenter
+//      2 -> arrotondare valori rating(float)
+//      3 -> metodo updateDto() chiamato su presenter -> si puo eliminare??
 
 
-// TODO 3°STEP
 
 public class DetailsFragment extends Fragment implements DetailsContract.View {
 
@@ -44,16 +48,19 @@ public class DetailsFragment extends Fragment implements DetailsContract.View {
     private TextView overview;
     private Button buttonBack;
 
-    private DetailsPresenter presenter = new DetailsPresenter(this);
+    // 1.3
+    // ??? perchè final
+    private final DetailsPresenter presenter = new DetailsPresenter(this);
 
 
-    // COSTRUTTORE OK
-    // 2.1 privato - dobbiamo sempre avere un Id
+    // 2. COSTRUTTORE
+    // 2.1 Costruttore privato
+    //     dobbiamo sempre avere un Id
     private DetailsFragment() {
     }
 
-    // 2.2 Factory OK
-    // Crea Fragment con Id - SetArguments -> usare
+    // 2.2 Factory
+    //     crea Fragment con Id - SetArguments -> usare
     public static DetailsFragment create(int id) {
         DetailsFragment detailsFragment = new DetailsFragment();
         Bundle bundle = new Bundle();
@@ -64,7 +71,7 @@ public class DetailsFragment extends Fragment implements DetailsContract.View {
 
 
     // 3. FUNZIONI FRAGMENT
-    // 3.1.Creazione
+    // 3.1 Creazione
     @Nullable
     @Override
     public View onCreateView(
@@ -74,13 +81,14 @@ public class DetailsFragment extends Fragment implements DetailsContract.View {
         return inflater.inflate(R.layout.fragment_details, container, false);
     }
 
-    // 3.2. Logica
+
+    // 3.2 Logica
     @Override
     public void onViewCreated(
         @NonNull View view,
         @Nullable Bundle savedInstanceState) {
 
-        // 1 Assegnazione View OK
+        // 1 Assegnazione View
         title = view.findViewById(R.id.titoloTitle);  //string
         image = view.findViewById(R.id.imageFilm); // glide
         released = view.findViewById(R.id.uscitaReleased); // string
@@ -100,39 +108,42 @@ public class DetailsFragment extends Fragment implements DetailsContract.View {
         // 3. Passa Id
         presenter.passIdToCall(movieId);
 
-        // 4. Updata Data
+        // 4. Update Data
         presenter.getDataFromCall();
 
 
-        // 5. TODO 1
-        buttonBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO -> torna indietro nello stack
-                // getActivity().onBackPressed(); - > esce dal programma
-
-            }
+        // 5. BackButton
+        buttonBack.setOnClickListener(v -> {
+            // torna indietro nello stack
+            // metodo dell'activity (meglio consiglio eugi)
+            requireActivity().onBackPressed();
         });
 
     }
 
 
+
     // 4. METODO CONTRACT
-    // 4.1 OK
+
+    // 4.1 Aggiorna Dto
+    // TODO 3 - chiamato su presenter
     @Override
     public void updateDetailsDto(DetailsDto detailsDto) {
         this.detailsDto = detailsDto;
-        System.out.println("dto");
+        //System.out.println("dto");
     }
 
-    // 4.2 OK
-    // devo eseguire .setText() solo quando ho la risposta dal server
+
+    // 4.2 Aggiorna Views
+    // !!! devo eseguire .setText() solo quando ho la risposta dal server
     @Override
     public void updateUi() {
         title.setText(detailsDto.getTitle());
         released.setText(detailsDto.getReleased());
+        // ??? come fare +"min" TODO 2
         runtime.setText(String.valueOf(detailsDto.getRuntime()) + " min");
         country.setText(detailsDto.getCountry());
+        // ??? come fare +"min" TODO 2
         rating.setText(String.valueOf(detailsDto.getRating()) + " stars");
         overview.setText(detailsDto.getOverview());
 
@@ -143,6 +154,8 @@ public class DetailsFragment extends Fragment implements DetailsContract.View {
 
     }
 
+
+    // TODO 1
 
 }
 

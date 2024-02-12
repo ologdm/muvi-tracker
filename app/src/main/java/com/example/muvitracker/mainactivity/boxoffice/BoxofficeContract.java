@@ -1,4 +1,4 @@
-package com.example.muvitracker.mainactivity.boxofficefragment;
+package com.example.muvitracker.mainactivity.boxoffice;
 
 import com.example.muvitracker.repository.dto.BoxofficeDto;
 import com.example.muvitracker.utils.Visibility;
