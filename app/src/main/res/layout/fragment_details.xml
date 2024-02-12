@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="800dp">
+
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            android:padding="15dp">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+            <Button
+                    android:id="@+id/buttonBack"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="back" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <!-- 1° titolo film-->
+        <TextView
+                android:id="@+id/titoloTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Titolo Filmmmm mmm mmm mmm"
+                android:textSize="30dp"
+                android:layout_marginEnd="30dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="30dp"/>
+
+        <!-- 2° split imagine / info orizzontale -->
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+
+            <!-- 2.1 immagine 2/3 -->
+            <ImageView
+                    android:id="@+id/imageFilm"
+                    android:layout_width="160dp"
+                    android:layout_height="240dp"
+                    android:layout_marginEnd="15dp"
+                    android:background="@android:color/holo_red_light"/>
+
+
+            <!-- 2.2 info vicino ad immagine -->
+            <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Uscita:" />
+                <TextView
+                        android:id="@+id/uscitaReleased"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:hint="testo" />
+
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Durata:"
+                        android:layout_marginTop="10dp"/>
+                <TextView
+                        android:id="@+id/durataRuntime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:hint="testo" />
+
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Country:"
+                        android:layout_marginTop="10dp"/>
+                <TextView
+                        android:id="@+id/paeseCountry"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:hint="testo" />
+
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Rating:"
+                        android:layout_marginTop="10dp"/>
+                <TextView
+                        android:id="@+id/rating"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:hint="testo" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="description"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="10dp"/>
+        <TextView
+                android:id="@+id/descrizioneOverview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint=" ''''PROVA''' Prova radotto dall'inglese-La notte oscura dell'anima è una fase di purificazione passiva dello spirito nello sviluppo mistico, come descritta dal mistico e poeta spagnolo del XVI secolo San Giovanni della Croce nel suo trattato Notte oscura, un commento al suo poema con lo stesso nome." />
+
+
+    </LinearLayout>
+
+</ScrollView>

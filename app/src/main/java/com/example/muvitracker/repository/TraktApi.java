@@ -17,23 +17,42 @@ package com.example.muvitracker.repository;
 // GET https://api.trakt.tv/movies/id/aliases - nomi in altre lingue
 
 
+//-> /movies/tron-legacy-2010?extended=full
+
+
+import androidx.annotation.Nullable;
 
 import com.example.muvitracker.repository.dto.BoxofficeDto;
+import com.example.muvitracker.repository.dto.DetailsDto;
 import com.example.muvitracker.repository.dto.MovieDto;
 
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
+import retrofit2.http.Headers;
+import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface TraktApi {
 
 
-    @GET("movies/popular") // @GET fa riferimento al metodo sotto
+    @GET("movies/popular")
+        // @GET fa riferimento al metodo sotto
     Call<List<MovieDto>> getPopularMovies();
 
+    // metadati
     @GET("movies/boxoffice")
     Call<List<BoxofficeDto>> getBoxofficeMovies();
+
+
+
+    @GET("movies/{movie_id}?extended=full")
+    Call<DetailsDto> getDetailsDto(
+        @Path("movie_id") int movieId
+    );
 
 
 

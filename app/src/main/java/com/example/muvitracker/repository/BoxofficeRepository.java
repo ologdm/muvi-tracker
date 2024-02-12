@@ -7,9 +7,9 @@ package com.example.muvitracker.repository;
 // **BoxofficeDto**
 
 import com.example.muvitracker.repository.dto.BoxofficeDto;
-import com.example.muvitracker.utils.MyRetrofitCallback;
+import com.example.muvitracker.utils.MyRetrofit;
+import com.example.muvitracker.utils.MyRetrofitListCallback;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -19,36 +19,41 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class Repository2Boxoffice {
+public class BoxofficeRepository {
 
 
     // SINGLETON
-    public static Repository2Boxoffice istance;
+    static BoxofficeRepository istance;
+    // static BoxofficeRepository istance = new BoxofficeRepository();
+    // equivalente del singleton, si usa il metodo invece di questo
+    // il metodo permette anche di passare dei paramentri al getIstance(par1,par2)
 
-    private Repository2Boxoffice() {
+
+    private BoxofficeRepository() {
     }
 
-    ;
-
-    public static Repository2Boxoffice getIstance() {
+    public static BoxofficeRepository getIstance() {
         if (istance == null) {
-            istance = new Repository2Boxoffice();
+            istance = new BoxofficeRepository();
         }
         return istance;
     }
 
 
-    // RETROFIT
-    // TODO - spostare retrofit a parte
+    /*
     Retrofit retrofit = new Retrofit.Builder()
         .baseUrl("https://private-anon-5a4b7269e2-trakt.apiary-mock.com/")
         .addConverterFactory(GsonConverterFactory.create())
         .build();
+     */
 
+
+    // RETROFIT
+    // 3.1
+    Retrofit retrofit = MyRetrofit.getRetrofit();
     TraktApi traktApi = retrofit.create(TraktApi.class);
 
-
-    public void callBoxoffice(MyRetrofitCallback<BoxofficeDto> callback) {
+    public void callBoxoffice(MyRetrofitListCallback<BoxofficeDto> callback) {
         // call, va messa qua in modo che ad ogni chiamata viene fatta una nuova
         Call<List<BoxofficeDto>> boxofficeCall = traktApi.getBoxofficeMovies();
 

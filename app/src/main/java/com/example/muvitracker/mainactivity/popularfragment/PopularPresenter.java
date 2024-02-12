@@ -2,8 +2,8 @@ package com.example.muvitracker.mainactivity.popularfragment;
 
 
 import com.example.muvitracker.utils.Visibility;
-import com.example.muvitracker.utils.MyRetrofitCallback;
-import com.example.muvitracker.repository.Repository1Popular;
+import com.example.muvitracker.utils.MyRetrofitListCallback;
+import com.example.muvitracker.repository.PopularRepository;
 import com.example.muvitracker.repository.dto.MovieDto;
 
 import java.io.IOException;
@@ -18,20 +18,22 @@ import java.util.List;
 public class PopularPresenter implements PopularContract.Presenter {
 
 
-    // attributi
+    // Attributi
     PopularContract.View view;
-    Repository1Popular repositoryPopular =
-        Repository1Popular.getIstance();
+
+    PopularRepository repositoryPopular = PopularRepository.getIstance();
 
 
-    // costruttore
-    public PopularPresenter(
-        PopularContract.View v) {
+    // Costruttore
+    public PopularPresenter(PopularContract.View v) {
         this.view = v;
     }
 
 
     //METODI
+
+
+    // 2°STEP
     // ** forceRefresh ** -
     // true, comportamento swipeRefresh
     // false - default
@@ -47,36 +49,45 @@ public class PopularPresenter implements PopularContract.Presenter {
         }
 
 
-        repositoryPopular.callPopular(new MyRetrofitCallback<MovieDto>() {
+        repositoryPopular.callPopular(new MyRetrofitListCallback<MovieDto>() {
 
-                @Override
-                public void onSuccess(List<MovieDto> list) {
-                    view.updateUi(list);
-                    // progression nascondi
-                    view.setProgressBar(Visibility.HIDE);
-                    view.setErrorPage(Visibility.HIDE);
-                }
+            @Override
+            public void onSuccess(List<MovieDto> list) {
+                view.updateUi(list);
+                // progression nascondi
+                view.setProgressBar(Visibility.HIDE);
+                view.setErrorPage(Visibility.HIDE);
+            }
 
-                @Override
-                public void onError(Throwable throwable) {
-                    // devo sempre mostrare gli errori
-                    throwable.printStackTrace();
-                    // nascondo la RV gia caricata in caso di errore
-                    view.setRvVisibility(Visibility.HIDE);
+            @Override
+            public void onError(Throwable throwable) {
+                // devo sempre mostrare gli errori
+                throwable.printStackTrace();
+                // nascondo la RV gia caricata in caso di errore
+                view.setRvVisibility(Visibility.HIDE);
 
-                    // errori di internet
-                    if (throwable instanceof IOException) {
-                        // errorr comunicazione, no internet
-                        // mostra error e nascondi progression
-                        view.setErrorPage(Visibility.SHOW);
-                        view.setProgressBar(Visibility.HIDE);
-
-                    } // TODO errore somtg went wrong da afggiungere
+                // errori di internet
+                if (throwable instanceof IOException) {
                     // errorr comunicazione, no internet
                     // mostra error e nascondi progression
                     view.setErrorPage(Visibility.SHOW);
                     view.setProgressBar(Visibility.HIDE);
-                }
-            });
+
+                } // TODO errore somtg went wrong da afggiungere
+                // errorr comunicazione, no internet
+                // mostra error e nascondi progression
+                view.setErrorPage(Visibility.SHOW);
+                view.setProgressBar(Visibility.HIDE);
+            }
+        });
     }
+
+
+    // TODO 3°STEP
+    @Override
+    public void onVHolderClick(int movieId) {
+        view.startDetailsFragment(movieId);
+    }
+
+
 }

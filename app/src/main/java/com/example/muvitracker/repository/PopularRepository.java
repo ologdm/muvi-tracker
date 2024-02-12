@@ -1,7 +1,8 @@
 package com.example.muvitracker.repository;
 
 import com.example.muvitracker.repository.dto.MovieDto;
-import com.example.muvitracker.utils.MyRetrofitCallback;
+import com.example.muvitracker.utils.MyRetrofit;
+import com.example.muvitracker.utils.MyRetrofitListCallback;
 
 import java.util.List;
 
@@ -17,40 +18,43 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 // **MovieDto**
 
-public class Repository1Popular {
+public class PopularRepository {
 
     // SINGLETON
     // istanza statica, costruttore privato, metodo che costruisce l'istanza statica
     // attrib statico - utilizzata da tutte le istanze della classe
-    public static Repository1Popular istance;
+    public static PopularRepository istance;
 
-    private Repository1Popular (){};
+    private PopularRepository(){};
     // motodo static -> si puo chiamare da blueprint
-    public static Repository1Popular getIstance (){
+    public static PopularRepository getIstance (){
         // se nulla la creo
         if (istance==null){
-            istance = new Repository1Popular();
+            istance = new PopularRepository();
         }
         return istance; // dammi istanza comune del blueprint
     }
 
 
-    // RETROFIT
-    // 3.1
+
+    /*
     Retrofit retrofit = new Retrofit.Builder()
         .baseUrl("https://private-anon-5a4b7269e2-trakt.apiary-mock.com/")
         .addConverterFactory(GsonConverterFactory.create())
         .build();
 
+     */
+
+
+    // RETROFIT
+    // 3.1
+    Retrofit retrofit = MyRetrofit.getRetrofit();
+
     // 3.2 creo api
     TraktApi traktApi = retrofit.create(TraktApi.class);
 
-    // 3.3 prelevo call
-
-
-
-    // 3.4 chiamata popular
-    public void callPopular(MyRetrofitCallback<MovieDto> callback) {
+    // 3.3/3.4 chiamata popular
+    public void callPopular(MyRetrofitListCallback<MovieDto> callback) {
         // enqueue si fa sempre su una nuova call, riutilizzare la call non si puo fare
         Call<List<MovieDto>> popularCall = traktApi.getPopularMovies();
 

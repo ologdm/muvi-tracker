@@ -1,10 +1,13 @@
 package com.example.muvitracker.mainactivity;
 
-// navigazione dei fragment
-// mi serve Fragment Manager, quindi activity
-// replace, backstack ecc
+// Navigatore per creazioni fragment e sostituzione in (R.id.frameLayout)
 
-// debug 2° step - creo/sostituisco fragment solo se ==null, altrimenti no
+// Funzioni - Replace, Backstack ecc
+
+// ** mi serve Fragment Manager nella funzione, quindi activity come paramentro
+
+
+
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -15,7 +18,7 @@ import com.example.muvitracker.R;
 
 public class MainNavigator {
 
-    // sostituisco Fragment in FrameLayout
+    // 1. Sostituisco Fragment
     public void replaceFragment(FragmentActivity fragmActivity, Fragment fragment) {
         //if (fragment == null) { // crea solo se è nullo
             FragmentManager manager = fragmActivity.getSupportFragmentManager();
@@ -23,6 +26,16 @@ public class MainNavigator {
                 .replace(R.id.frameLayout, fragment)
                 .commit();
         //}
+    }
+
+    // 2. Aggiungo Fragment al Backstack
+    public void addToBackstackFragment(FragmentActivity fragmActivity, Fragment fragment) {
+        //if (fragment == null) { // crea solo se è nullo
+        FragmentManager manager = fragmActivity.getSupportFragmentManager();
+        manager.beginTransaction()
+            .replace(R.id.frameLayout, fragment)
+            .commit();
+
     }
 
 

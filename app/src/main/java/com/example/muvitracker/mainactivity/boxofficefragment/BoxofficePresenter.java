@@ -1,8 +1,8 @@
 package com.example.muvitracker.mainactivity.boxofficefragment;
 
-import com.example.muvitracker.repository.Repository2Boxoffice;
+import com.example.muvitracker.repository.BoxofficeRepository;
 import com.example.muvitracker.repository.dto.BoxofficeDto;
-import com.example.muvitracker.utils.MyRetrofitCallback;
+import com.example.muvitracker.utils.MyRetrofitListCallback;
 import com.example.muvitracker.utils.Visibility;
 
 import java.util.List;
@@ -10,7 +10,7 @@ import java.util.List;
 public class BoxofficePresenter implements BoxofficeContract.Presenter {
 
     private BoxofficeContract.View view;
-    private Repository2Boxoffice repository = Repository2Boxoffice.getIstance();
+    private BoxofficeRepository repository = BoxofficeRepository.getIstance();
 
 
     public BoxofficePresenter(BoxofficeContract.View v) {
@@ -30,7 +30,7 @@ public class BoxofficePresenter implements BoxofficeContract.Presenter {
         }
 
 
-        repository.callBoxoffice(new MyRetrofitCallback<BoxofficeDto>() {
+        repository.callBoxoffice(new MyRetrofitListCallback<BoxofficeDto>() {
             @Override
             public void onSuccess(List<BoxofficeDto> list) {
                 view.updateUi(list);

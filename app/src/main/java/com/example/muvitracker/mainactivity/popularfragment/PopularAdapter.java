@@ -27,6 +27,7 @@ public class PopularAdapter extends RecyclerView.Adapter {
     List<MovieDto> popularList = new ArrayList<>();
 
 
+
     // 1.
     @NonNull
     @Override
@@ -54,7 +55,7 @@ public class PopularAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         // prendo dato singolo da lista e lo gestisco
-        MovieDto dtoPopular = popularList.get(position);
+        MovieDto popularDto = popularList.get(position);
 
         // identifico pezzi view nel VH
         TextView titoloVH = holder.itemView.findViewById(R.id.titoloVH);
@@ -62,15 +63,25 @@ public class PopularAdapter extends RecyclerView.Adapter {
 
         ImageView posterVH = holder.itemView.findViewById(R.id.imageVH);
 
-        // passo i dati su textview
-        titoloVH.setText(dtoPopular.getTitle());
-        annoVH.setText(String.valueOf(dtoPopular.getYear()));  // convertire int in Stringa
+        // Set Textview
+        titoloVH.setText(popularDto.getTitle());
+        annoVH.setText(String.valueOf(popularDto.getYear()));  // convertire int in Stringa
 
-        // TODO - click su oggetto, ma forse non serve - details usa un altro api
-
+        // set Image
         Glide.with(holder.itemView.getContext())
-            .load(dtoPopular.getImageUrl())
+            .load(popularDto.getImageUrl())
             .into(posterVH);
+
+
+        // TODO 3°STEP
+        // Click VH
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // passo come parametro l' Id
+                callbackVH.esegui(popularDto.getIds().getTrakt());
+            }
+        });
 
 
     }
@@ -84,11 +95,32 @@ public class PopularAdapter extends RecyclerView.Adapter {
 
 
 
-    // AGGIORNA LISTA VISUALIZZATA
+    // Aggiorna Lista da Mostrare
     public void updateList(List<MovieDto> list){
         this.popularList = list;
         notifyDataSetChanged();
-        System.out.println("prova");
+    }
+
+
+
+    // TODO 3° STEP
+    // CALLBACK -
+    // devo chiamare callback implementata su PopularFragment
+    // al click del VH
+    // 2.Dichiarazione
+
+    // 1. Dichiarazione
+    CallbackVH callbackVH;
+
+    // 2. Setter
+    public void setCallbackVH(CallbackVH callbackVH) {
+        this.callbackVH = callbackVH;
+    }
+
+
+    // 3. Interfaccia
+    public interface CallbackVH {
+        public void esegui (int movieId);
     }
 
 

@@ -16,6 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.muvitracker.R;
+import com.example.muvitracker.mainactivity.MainNavigator;
+import com.example.muvitracker.mainactivity.detailsfragment.DetailsFragment;
 import com.example.muvitracker.utils.UiUtils;
 import com.example.muvitracker.utils.Visibility;
 import com.example.muvitracker.repository.dto.MovieDto;
@@ -41,14 +43,17 @@ public class PopularFragment extends Fragment implements PopularContract.View {
     // refresh
     SwipeRefreshLayout swipeRefreshLayout;
 
+    // TODO 3° STEP
+    MainNavigator navigator = new MainNavigator();
 
 
     // 1. CREAZIONE VIEW
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
+    public View onCreateView(
+        @NonNull LayoutInflater inflater,
+        @Nullable ViewGroup container,
+        @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_popular, container, false);
     }
 
@@ -63,7 +68,7 @@ public class PopularFragment extends Fragment implements PopularContract.View {
         recyclerView = view.findViewById(R.id.popularFragmentRV);
         recyclerView.setAdapter(adapter);
         //recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
-        recyclerView.setLayoutManager(new GridLayoutManager(requireActivity(),3));
+        recyclerView.setLayoutManager(new GridLayoutManager(requireActivity(), 3));
 
 
         // Empty States OK
@@ -73,31 +78,37 @@ public class PopularFragment extends Fragment implements PopularContract.View {
 
 
         // SwipeRefresh OK
-
         swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(
             () -> presenter.serverCallAndUpdateUi(true));
-
         //  poi nascondi caricamento di swipeRefresh: .setRefreshing(false); '
         // caso success - in .updateUi ()
         // caso error - in caso .setErrorPage(nointernet)
 
 
-
-        // Caricamento Default OK
+        // Default Loading Data OK
         presenter.serverCallAndUpdateUi(false);
 
 
-        // Retry OK
-        retryButton.setOnClickListener(v ->
-            presenter.serverCallAndUpdateUi(false));
+        // Retry Data OK
+        retryButton.setOnClickListener(v -> {
+            presenter.serverCallAndUpdateUi(false);
+        });
+
+
+        // TODO 3° STEP
+        // Click VHolder
+        // ->presenter.onVHolderCLick() -> startDetailsFragment()
+        adapter.setCallbackVH(movieId -> {
+            presenter.onVHolderClick(movieId);
+        });
 
 
     }
 
 
     // CONTRACT METHODS - utilizzati in presenter
-    // 1. caricamento dati
+    // 1. Caricamento Dati
     @Override
     public void updateUi(List<MovieDto> list) {
         adapter.updateList(list);
@@ -132,6 +143,16 @@ public class PopularFragment extends Fragment implements PopularContract.View {
         } else {
             recyclerView.setVisibility(View.GONE);
         }
+    }
+
+
+    // TODO 3°STEP
+    // 5° Crea Details e passa Id
+    @Override
+    public void startDetailsFragment(int movieId) {
+        navigator.addToBackstackFragment(
+            requireActivity(),
+            DetailsFragment.create(movieId));
     }
 
 

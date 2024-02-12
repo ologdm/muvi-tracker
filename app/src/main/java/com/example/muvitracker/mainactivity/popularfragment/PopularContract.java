@@ -9,8 +9,10 @@ import java.util.List;
 
 public interface PopularContract {
 
+
     public interface View {
 
+        // 2°STEP
         @NonNull
         public void updateUi (List<MovieDto> list);
 
@@ -22,14 +24,23 @@ public interface PopularContract {
 
         public void setRvVisibility(Visibility visibility);
 
+
+        // TODO 3°STEP - DETAILS
+        public void startDetailsFragment (int movieId);
+
     }
+
 
 
     public interface Presenter {
 
-        // 1 metodo
+        // 2°STEP
         @NonNull
         public void serverCallAndUpdateUi(boolean forceRefresh);
+
+
+        // TODO 3°STEP - DETAILS
+        public void onVHolderClick(int movieId);
 
     }
 }

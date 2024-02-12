@@ -6,7 +6,7 @@ package com.example.muvitracker.repository.dto;
 
 
 
-/* JSON - Popular (lista standard)
+/* JSON - Popular (lista standard Movie)
   {
     "title": "The Dark Knight",
     "year": 2008,
