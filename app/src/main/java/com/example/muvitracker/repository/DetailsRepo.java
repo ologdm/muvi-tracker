@@ -9,22 +9,22 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-// Argomenti nuovi
-// Aggiungi @Path, @Query, @Headers(sopra GET)/Header(come path), @Body
-// Aggiungi Headers direttamente in Retrofit
-// Sposta retrofit base direttamente in altra funzione
+//              3°STEP
+// 1. Argomenti nuovi:
+//      Aggiungi @Path, @Query, @Headers(sopra GET)/Header(come path), @Body
+//      Aggiungi Headers direttamente in Retrofit (eugi) - da fare copia incolla no studio
+
+// 2. Sposta Retrofit (base) direttamente in altra funzione
 
 
 
 public class DetailsRepo {
 
     // ATTRIBUTO
+    // 1.1
+    int movieId;
 
-    // TODO collegare con Call
-    int movieId; // id trakt film selezionato
-
-
-    // SINGLETON
+    // 1.2
     private static DetailsRepo istance;
     private DetailsRepo() {}
     public static DetailsRepo getIstance() {
@@ -34,7 +34,11 @@ public class DetailsRepo {
         return istance;
     }
 
-    // GET/SET ID
+
+
+    // 2. METODI
+
+    // 2.1 Getter/Setter Id
     public int getMovieId() {
         return movieId;
     }
@@ -45,14 +49,14 @@ public class DetailsRepo {
 
 
 
-    // RETROFIT
+    // 2.2 Retrofit
     Retrofit retrofit = MyRetrofit.getRetrofit();
 
     TraktApi traktApi = retrofit.create(TraktApi.class);
 
 
     public void callDetailsApi(MyRetrofitCallback<DetailsDto> myRetrofitCallback) {
-        // call - una nuova per ogni chiamata
+
         Call<DetailsDto> detailsCall = traktApi.getDetailsDto(movieId);
 
         detailsCall.enqueue(new Callback<DetailsDto>() {
@@ -61,6 +65,7 @@ public class DetailsRepo {
                 if (response.isSuccessful()){
                     myRetrofitCallback.onSuccess(response.body());
                 } else {
+                    // !!! Messaggio inviato al presenter in caso di errore server
                     myRetrofitCallback.onError(new Throwable("response unsuccessful"));
                 }
             }
@@ -76,26 +81,3 @@ public class DetailsRepo {
 
 
 }
-
-
-
-/*
-    Retrofit retrofit = new Retrofit.Builder()
-        .baseUrl("https://api.trakt.tv/")
-        .addConverterFactory(GsonConverterFactory.create())
-        // Add Headers -> trakt-api-key
-        .callFactory(new OkHttpClient.Builder()
-            .addInterceptor(new Interceptor() {
-                @Override
-                public okhttp3.Response intercept(Chain chain) throws IOException {
-                    Request newRequest = chain.request()
-                        .newBuilder()
-                        .addHeader("trakt-api-key",
-                            "d3dd937d16c8de9800f9ce30270ddc1d9939a2dafc0cd59f0a17b72a2a4208fd")
-                        .build();
-                    return chain.proceed(newRequest);
-                }
-            })
-            .build())
-        .build();
-     */

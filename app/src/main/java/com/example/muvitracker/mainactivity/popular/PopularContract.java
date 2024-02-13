@@ -22,7 +22,7 @@ public interface PopularContract {
         public void setProgressBar(Visibility visibility);
 
         @NonNull
-        public void setErrorPage (Visibility visibility);
+        public void setErrorPage (Visibility visibility, String errorMsg);
 
         public void setRvVisibility(Visibility visibility);
 

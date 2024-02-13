@@ -12,76 +12,101 @@ import com.example.muvitracker.mainactivity.boxoffice.BoxofficeFragment;
 import com.example.muvitracker.mainactivity.popular.PopularFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+//          1°STEP-> inizio
+// 1. test Api data, RV semplice in Activity
+// 2. Button Navigation semplice
+// 3. ToolBar -> name + catogories
+// 4. Navigator
 
-// Manage the interaction with fragments
-// ToolBar -> name + refresh + account(firebase)
-// Bottom Nav -> main categories cinema, popolari, watchlist, search
+
+//          2°STEP
+// 1. Manage the interaction with fragments - Navigator
+// 2. Refactoring design
+// 2. Button Navigation -> popular, boxoffice, mylist, search
+//                         funzionamento al click
+//
+
+// TODO
+//    1 Search
+//    2 Mylist
 
 
 public class MainActivity extends AppCompatActivity {
 
-    // COSTANTI
+    // 0. COSTANTI
     private final String POPULAR = "Popular";
-    private final String BOXOFFICE = "Box Office";
-    private final String MYLIST = "My List";
+    private final String BOX_OFFICE = "Box Office";
+    private final String MY_LIST = "My List";
+    private final String SEARCH = "Search";
 
 
-    // ATTRIBUTI
+    // 1. ATTRIBUTI
     BottomNavigationView bottomNavigationView;
     MainNavigator navigator = new MainNavigator();
 
     TextView testoCategoria;
 
 
+    // 2.
+
+    // 3. METODO ACTIVITY
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // 3.1 Attribuzione
         testoCategoria = findViewById(R.id.testoCategoria);
         bottomNavigationView = findViewById(R.id.bottomNavigation);
 
 
-        // default home page  OK
-        // 2° STEP mostra caricamento - nei vari fragment
+        // 3.2 Default HomePage -> Popular
         navigator.replaceFragment(this, new PopularFragment());
         testoCategoria.setText(POPULAR);
 
 
-
+        // 3.3 Click Elemento
+        //     se id corrisdponde -> true, {..fai..}
+        //     se id non corrisp -> false, torna al padre
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
-            @Override // item -> del bottom nav
+            @Override // !!! item -> del bottom nav
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int itemId = item.getItemId();
 
-                // OK
                 if (itemId == R.id.button1Popular) {
                     // new Fragment popular
-                    navigator.replaceFragment(MainActivity.this, new PopularFragment());
+                    navigator.replaceFragment(
+                        MainActivity.this,
+                        new PopularFragment());
                     testoCategoria.setText(POPULAR);
                     return true;
                 }
 
                 // OK
                 if (itemId == R.id.button2Boxoffice) {
-                    navigator.replaceFragment(MainActivity.this, new BoxofficeFragment());
-                    testoCategoria.setText(BOXOFFICE);
+                    navigator.replaceFragment(
+                        MainActivity.this,
+                        new BoxofficeFragment());
+                    testoCategoria.setText(BOX_OFFICE);
                     return true;
                 }
 
 
-                // TODO STEP°3 - MYLIST
-                if (itemId == R.id.button3MyList) {
-                    testoCategoria.setText(MYLIST);
-                    return true;
-                }
 
-                // TODO SEARCH
                 if (itemId == R.id.button4Search) {
-
+                    testoCategoria.setText(SEARCH);
+                    // TODO 1
                     return true;
                 }
-                // non reagisco false -> torno al padre
+
+
+                if (itemId == R.id.button3MyList) {
+                    testoCategoria.setText(MY_LIST);
+                    // TODO 2
+                    return true;
+                }
+
+                // Non reagisco false -> torno al padre
                 return false;
             }
         });

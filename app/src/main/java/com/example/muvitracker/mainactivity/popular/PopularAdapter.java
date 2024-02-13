@@ -19,11 +19,8 @@ import java.util.List;
 
 //          2° STEP-> inizio
 // 1. mostrare dati API su RV
-
 // 2. mostrare immagini su RV con GLide
-
 // 3. fatto tutte le funzioni senza guardare
-
 // 4. (eugi argomento) - @getItemViewType()
 //                       per creare diversi tipi di VH e gestirli,
 //                       in onCreateViewHolder(sopra) ho il controllo con int viewType
@@ -36,7 +33,8 @@ import java.util.List;
 
 
 //          3° STEP
-// 1. Creare Callback per passare dati VH -> Fragment (in UiUtils)
+// 1. Creare Callback (in UiUtils) per passare dati da VH-> Fragment
+
 
 
 // TODO
@@ -49,10 +47,10 @@ public class PopularAdapter extends RecyclerView.Adapter {
 
     // 1. ATTRIBUTI
 
-    List<MovieDto> popularList = new ArrayList<>();
+    private List<MovieDto> popularList = new ArrayList<>();
 
 
-    // 2. COSTRUTTORE
+    // 2. COSTRUTTORE vuoto
 
 
     // 3. METODI ADAPTER

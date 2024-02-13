@@ -12,14 +12,28 @@ import retrofit2.HttpException;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-// singleton - istanza statica di se stessa, costruttore privato, creo istanza solo se istanza==null
+//              2°STEP
+// 1. **MovieDto**
+// 2. Singleton
+// 3. Callback passaggio dati a presenter
+
+
+
+//              3°STEP
+// 1. Spostamento Retrofit (parte fissa) in classe statica
+
+
+
+// !!! Singleton
+// istanza statica di se stessa, costruttore privato, creo istanza solo se istanza==null
 // lista non serve -> passo direttamente callback dove mi serve quando ho i dati pronti
 
-// **MovieDto**
+
 
 public class PopularRepo {
 
-    // SINGLETON
+    // 1. ATTRIBUTI
+    // Singleton
     // istanza statica, costruttore privato, metodo che costruisce l'istanza statica
     // attrib statico - utilizzata da tutte le istanze della classe
     public static PopularRepo istance;
@@ -27,8 +41,7 @@ public class PopularRepo {
     private PopularRepo(){};
     // motodo static -> si puo chiamare da blueprint
     public static PopularRepo getIstance (){
-        // se nulla la creo
-        if (istance==null){
+        if (istance==null){ // se nulla la creo
             istance = new PopularRepo();
         }
         return istance; // dammi istanza comune del blueprint
@@ -36,42 +49,39 @@ public class PopularRepo {
 
 
 
-    /*
-    Retrofit retrofit = new Retrofit.Builder()
-        .baseUrl("https://private-anon-5a4b7269e2-trakt.apiary-mock.com/")
-        .addConverterFactory(GsonConverterFactory.create())
-        .build();
+    // 2. METODI
 
-     */
-
-
-    // RETROFIT
-    // 3.1
+    // 2.1 Creo Retrofit
+    // !!! singleton per tutto il programma
     Retrofit retrofit = MyRetrofit.getRetrofit();
 
-    // 3.2 creo api
+    // 2.2 Creo Api
     TraktApi traktApi = retrofit.create(TraktApi.class);
 
-    // 3.3/3.4 chiamata popular
+
+    // 2.3 Chiamata PopularApi
+    //     piu passaggio info a Presenter tramite Callback pers
     public void callPopular(MyRetrofitListCallback<MovieDto> callback) {
-        // enqueue si fa sempre su una nuova call, riutilizzare la call non si puo fare
+
+        // !!! enqueue si fa sempre su una nuova call, riutilizzare la call non si puo fare
         Call<List<MovieDto>> popularCall = traktApi.getPopularMovies();
 
         popularCall.enqueue(new Callback<List<MovieDto>>() {
             @Override
             public void onResponse(Call<List<MovieDto>> call, Response<List<MovieDto>> response) {
-                // caricamento
                 if (response.isSuccessful()) {
                     callback.onSuccess(response.body());
                     System.out.println("DIMA REPOSITORY ");
                 } else {
-                    // response fornira l'ecception; TODO dove la scrivo???
+                    // !!! risposta server 4xx, 5xx
+                    // Passo l'HttpException a ->presenter ->printStackTrace
                     callback.onError(new HttpException(response));
                 }
             }
             @Override
             public void onFailure(Call<List<MovieDto>> call, Throwable t) {
-                // dove lo mostro??
+                // !!! no risposta server
+                // Invio a presenter-> printStackTrace
                 callback.onError(t);
             }
         });

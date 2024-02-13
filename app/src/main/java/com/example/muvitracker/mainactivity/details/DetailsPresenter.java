@@ -53,7 +53,7 @@ public class DetailsPresenter implements DetailsContract.Presenter {
 
             @Override
             public void onError(Throwable throwable) {
-                // Stampo Errore su Logcat
+                // Stampo Errore su Logcat (sia server 4xx,5xx, sia altro)
                 throwable.printStackTrace();
             }
         });

@@ -1,5 +1,6 @@
 package com.example.muvitracker.mainactivity.popular;
 
+import com.example.muvitracker.utils.UiUtils;
 import com.example.muvitracker.utils.Visibility;
 import com.example.muvitracker.utils.MyRetrofitListCallback;
 import com.example.muvitracker.repository.PopularRepo;
@@ -23,30 +24,31 @@ import java.util.List;
 
 //          3°STEP
 // 1. metodo VHCLick
+// 2. Messaggio personalizzato su ErrorPage.textview -> (no internet + "something went wrong")
 
 
-// TODO
-//  1 ->  Altro tipi errore -> add "something went wrong" a textview in metodo ServerCall+UpdateData()
 
 
 public class PopularPresenter implements PopularContract.Presenter {
 
 
-    // 1 ATTRIBUTI
-    PopularContract.View view;
-    PopularRepo repositoryPopular = PopularRepo.getIstance();
+
+    // 1. ATTRIBUTI
+    private PopularContract.View view;
+    private PopularRepo repositoryPopular = PopularRepo.getIstance();
 
 
-    // 2 COSTRUTTORE
+
+    // 2. COSTRUTTORE
     public PopularPresenter(PopularContract.View v) {
         this.view = v;
     }
 
 
-    // 3 CONTRACT METHODS
+
+    // 3. CONTRACT METHODS
 
     //     2°STEP
-
     // 3.1
     // - Repository->Adapter
     // - EmptyStates Management
@@ -63,7 +65,8 @@ public class PopularPresenter implements PopularContract.Presenter {
         }
 
 
-        repositoryPopular.callPopular(new MyRetrofitListCallback<MovieDto>() {
+        repositoryPopular.callPopular(
+            new MyRetrofitListCallback<MovieDto>() {
 
 
             @Override
@@ -72,7 +75,8 @@ public class PopularPresenter implements PopularContract.Presenter {
 
                 // EmptyStates 2 - successo
                 view.setProgressBar(Visibility.HIDE);
-                view.setErrorPage(Visibility.HIDE);
+                // ??? corretto mettere null?
+                view.setErrorPage(Visibility.HIDE, null);
             }
 
 
@@ -82,24 +86,23 @@ public class PopularPresenter implements PopularContract.Presenter {
                 throwable.printStackTrace();
 
                 // EmptyStates 3 - sempre
-                // nascondo sempre la RV gia caricata in caso di errore
+                // errore -> nascondo Rv
                 view.setRvVisibility(Visibility.HIDE);
-
 
                 if (throwable instanceof IOException) {
                     // EmptyStates 3 - caso noInternet
-                    view.setErrorPage(Visibility.SHOW);
+                    view.setErrorPage(Visibility.SHOW, UiUtils.NO_INTERNET);
                     view.setProgressBar(Visibility.HIDE);
 
                 } else {
-                    // TODO
-                    //  altro tipi errore -> add "something went wrong" a textview
-                    view.setErrorPage(Visibility.SHOW);
+                    // EmptyStates 3 - altro errore
+                    view.setErrorPage(Visibility.SHOW, UiUtils.OTHER_ERROR_MESSAGE);
                     view.setProgressBar(Visibility.HIDE);
                 }
             }
         });
     }
+
 
 
 

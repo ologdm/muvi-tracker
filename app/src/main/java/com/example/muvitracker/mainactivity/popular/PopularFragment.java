@@ -37,30 +37,30 @@ import java.util.List;
 // 1. Passa dati ad altre fragment -> details
 // 2. metodo Click VH() -> startDetailsFragment()
 //                      -> chiama funzione -> @Presenter-> @Fragment MVP
-
+// 3.setErrorPage() -> implementato setErrorMessage personalizzzato (da presenter)
 
 
 public class PopularFragment extends Fragment implements PopularContract.View {
 
     // 1. ATTRIBUTI
     // 1.1 RView
-    RecyclerView recyclerView;
-    PopularAdapter adapter = new PopularAdapter();
+    private RecyclerView recyclerView;
+    private PopularAdapter adapter = new PopularAdapter();
 
     // 1.2 Empty states, include_layout
-    ProgressBar progressBar;
-    Button retryButton;
-    TextView noInternetText;
+    private ProgressBar progressBar;
+    private Button retryButton;
+    private TextView tvErrorMessage;
 
     // 1.3 Refresh
-    SwipeRefreshLayout swipeRefreshLayout;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     // 1.4
-    PopularContract.Presenter presenter = new PopularPresenter(this);
+    private PopularContract.Presenter presenter = new PopularPresenter(this);
 
 
     // 1.5 3°STEP OK
-    MainNavigator navigator = new MainNavigator();
+    private MainNavigator navigator = new MainNavigator();
 
 
     // 2. FUNZIONI FRAGMENT
@@ -81,7 +81,7 @@ public class PopularFragment extends Fragment implements PopularContract.View {
                               @Nullable Bundle savedInstanceState) {
         //presenter = new PopularPresenter(this);
 
-        // 1. OK
+        // 1. Rv
         recyclerView = view.findViewById(R.id.popularFragmentRV);
         recyclerView.setAdapter(adapter);
         //recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
@@ -91,37 +91,35 @@ public class PopularFragment extends Fragment implements PopularContract.View {
         // 2. Empty States OK
         progressBar = view.findViewById(R.id.progressBar);
         retryButton = view.findViewById(R.id.retryButton);
-        noInternetText = view.findViewById(R.id.noInternetText);
+        tvErrorMessage = view.findViewById(R.id.noInternetText);
 
 
         // 3. SwipeRefresh OK
         swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
-        swipeRefreshLayout.setOnRefreshListener(
-            () -> presenter.serverCallAndUpdateUi(true));
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            presenter.serverCallAndUpdateUi(true);
+        });
         //  poi nascondi caricamento di swipeRefresh: .setRefreshing(false); '
         // caso success - in .updateUi ()
         // caso error - in caso .setErrorPage(nointernet)
 
 
-        // 4. Default Loading Data OK
+        // 4. Default Loading Data
         presenter.serverCallAndUpdateUi(false);
 
 
-        // 5. Retry Data OK
+        // 5. Retry Data
         retryButton.setOnClickListener(v -> {
             presenter.serverCallAndUpdateUi(false);
         });
 
 
-        // 6.       3°STEP
-        // - Click VHolder OK
+        //        3°STEP
+        // 6. Click VHolder
         adapter.setCallbackVH(movieId -> {
             presenter.onVHolderClick(movieId);
         });
     }
-
-
-
 
 
     // 3. CONTRACT METHODS
@@ -133,28 +131,33 @@ public class PopularFragment extends Fragment implements PopularContract.View {
         adapter.updateList(list);
         setRvVisibility(Visibility.SHOW);
 
-        // Caso Success
+        // Caso1 Success
         swipeRefreshLayout.setRefreshing(false);
     }
-
 
 
     // 3.2 Progresssion
     // -> default .GONE
     @Override
     public void setProgressBar(Visibility visibility) {
-        UiUtils.setSingleViewVisibility(progressBar, visibility);
+        UiUtils.setSingleViewVisibility(
+            progressBar, visibility);
     }
 
 
     // 3.3 ErrorPage
     // (default .GONE)
     @Override
-    public void setErrorPage(Visibility visibility) {
-        UiUtils.setDoubleViewVisibility(retryButton, noInternetText, visibility);
-        // Caso2 - fail
+    public void setErrorPage(Visibility visibility, String errorMsg) {
+        // 1 Visibility
+        UiUtils.setDoubleViewVisibility(retryButton, tvErrorMessage, visibility);
 
+        // 2. Caso2 - fail
         swipeRefreshLayout.setRefreshing(false);
+
+        //          3°STEP
+        // 3. Set ErrorMessage
+        tvErrorMessage.setText(errorMsg);
     }
 
 

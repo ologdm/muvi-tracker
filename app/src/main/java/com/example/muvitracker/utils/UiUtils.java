@@ -15,11 +15,18 @@ import javax.security.auth.callback.Callback;
 
 public class UiUtils {
 
-    // eugi OK
+
+    // EMPTY STATES MANAGEMENT
+
+    // 1. Costanti
+    public static final String NO_INTERNET = "no internet connection PROVA";
+    public static final String OTHER_ERROR_MESSAGE = "something went wrong";
+
+
+    // 2. Visibility
+    // 2.1
     @NonNull
-    public static void setSingleViewVisibility(
-        View view,
-        Visibility visibility) {
+    public static void setSingleViewVisibility(View view, Visibility visibility) {
         if (visibility == Visibility.SHOW) {
             view.setVisibility(View.VISIBLE);
         } else {
@@ -28,7 +35,7 @@ public class UiUtils {
     }
 
 
-    // OK
+    // 2.2
     public static void setDoubleViewVisibility(View view1, View view2, Visibility visibility) {
         if (visibility == Visibility.SHOW) {
             view1.setVisibility(View.VISIBLE);
@@ -40,24 +47,6 @@ public class UiUtils {
 
     }
 
-
-
-    /* SWIPE TO REFRESH IN ACTIVITY - PROVA
-    public static void refreshButton (View view, Fragment fragment){
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-    }
-
-
-    public static void prova (View.OnClickListener o, Fragment fragment){
-
-    }
-
-     */
 
 
 

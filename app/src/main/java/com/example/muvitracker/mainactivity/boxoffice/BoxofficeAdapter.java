@@ -12,18 +12,34 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.muvitracker.R;
 import com.example.muvitracker.repository.dto.BoxofficeDto;
+import com.example.muvitracker.utils.CallbackVH;
 
 import java.util.ArrayList;
 import java.util.List;
 
-// OK
+//          2° STEP-> inizio
+// == Popular
+
+
+//          3° STEP
+// == Popular
+
+
+// TODO
+//      1- spostare onBind su VH
+
+
 
 public class BoxofficeAdapter extends RecyclerView.Adapter {
 
-    List<BoxofficeDto> boxofficeList = new ArrayList<>();
+    // 1. ATTRIBUTI
+    private List<BoxofficeDto> boxofficeList = new ArrayList<>();
+
+    // 2. COSTRUTTORE vuoto
 
 
-    // 1 OK
+    // 3. METODI ADAPTER
+    // 3.1 Costruttore
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -34,7 +50,7 @@ public class BoxofficeAdapter extends RecyclerView.Adapter {
     }
 
 
-    // 2
+    // 3.2 onBind
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         BoxofficeDto dto = boxofficeList.get(position);
@@ -43,6 +59,7 @@ public class BoxofficeAdapter extends RecyclerView.Adapter {
         TextView annoVH = holder.itemView.findViewById(R.id.annoVH);
         ImageView posterVH = holder.itemView.findViewById(R.id.imageVH);
 
+
         titoloVH.setText(dto.getMovie().getTitle());
         annoVH.setText(String.valueOf(dto.getMovie().getYear())); // converte 'int in String'
 
@@ -50,10 +67,21 @@ public class BoxofficeAdapter extends RecyclerView.Adapter {
             .load(dto.getUrlImage())
             .into(posterVH);
 
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                callbackVH.esegui(dto.getMovie().getIds().getTrakt());
+            }
+        });
+
+
+
+
     }
 
 
-    // 3
+    // 3.3 Size
     @Override
     public int getItemCount() {
         return boxofficeList.size();
@@ -61,11 +89,27 @@ public class BoxofficeAdapter extends RecyclerView.Adapter {
 
 
 
-    // OK
+
+    // 4. MY METHODS
+    // 4.1 Aggiorna Lista da mostrare
     public void updateAdapter(List<BoxofficeDto> list) {
         boxofficeList = list;
         notifyDataSetChanged();
     }
+
+
+
+    // 5 CALLBACK
+    // dichiaraz
+    CallbackVH callbackVH;
+    // setter
+    public void setCallbackVH (CallbackVH callbackVH){
+        this.callbackVH = callbackVH;
+    }
+
+
+
+
 
 
 }

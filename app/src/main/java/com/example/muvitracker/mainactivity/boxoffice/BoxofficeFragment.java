@@ -16,91 +16,125 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.muvitracker.R;
+import com.example.muvitracker.mainactivity.MainNavigator;
+import com.example.muvitracker.mainactivity.details.DetailsFragment;
 import com.example.muvitracker.repository.dto.BoxofficeDto;
 import com.example.muvitracker.utils.UiUtils;
 import com.example.muvitracker.utils.Visibility;
 
 import java.util.List;
 
+//             2°STEP
+// = Popular
 
-// al click, MainActivity crea BoxofficeFragment
+
+//             3°STEP
+// = Popular
+//      - passa dati a details - clickVH
+//      - setErrorMessage
+
+
 
 public class BoxofficeFragment extends Fragment implements BoxofficeContract.View {
 
-    // ATTRIBUTI
-    // base
+    // 1. ATTRIBUTI
     RecyclerView recyclerView;
     BoxofficeAdapter adapter = new BoxofficeAdapter();
 
-    BoxofficeContract.Presenter presenter = new BoxofficePresenter(this); // passo questa view al presenter
-
-    // empty states
     ProgressBar progressBar;
     Button retryButton;
-    TextView noInternetText;
+    TextView tvErrorMessage;
 
+    BoxofficeContract.Presenter presenter = new BoxofficePresenter(this); // passo questa view al presenter
     SwipeRefreshLayout swipeRefreshLayout;
+    MainNavigator navigator = new MainNavigator();
 
 
-    // METODI FRAGMENT
+    // 2. METODI FRAGMENT
+    // 2.1 Creazione
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_boxoffice, container, false);
     }
 
-
+    // 2.2 Logica
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
-        // Identificazione View
+        // 1. Identificazione
         recyclerView = view.findViewById(R.id.boxofficeFragmentRV);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 3));
 
         progressBar = view.findViewById(R.id.progressBar);
         retryButton = view.findViewById(R.id.retryButton);
-        noInternetText = view.findViewById(R.id.noInternetText);
+        tvErrorMessage = view.findViewById(R.id.noInternetText);
 
+        // 3. SwipeRefresh
         swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+
+            presenter.serverCallAndUpdateUi(true);
 
 
-        // Codice Funzionamento
+        });
 
-        // click retry
-        // click swipe
-        swipeRefreshLayout.setOnRefreshListener(()
-            -> presenter.serverCallAndUpdateUi(true));
-
-
-        // chiama funzione
+        // 4. Default Loading Data
         presenter.serverCallAndUpdateUi(false);
 
 
+
+        // 4. RetryButton
+        retryButton.setOnClickListener(v -> {
+            presenter.serverCallAndUpdateUi(false);
+        });
+
+
+        //      3°STEP
+        // 6. Click VHolder OK
+        adapter.setCallbackVH(movieId -> {
+            presenter.onVHolderClick(movieId);
+        });
+
+
+
+
     }
 
 
-    // CONTRACT METHODS
+    // 3 CONTRACT METHODS
+
+    // 3.1 Caricamento Dati
     @Override
     public void updateUi(List<BoxofficeDto> list) {
-        //adapter
+
         adapter.updateAdapter(list);
+
         swipeRefreshLayout.setRefreshing(false); // ferma barra refreshing
     }
 
+
+    // 3.2 Progresssion
     @Override
     public void setProgressBar(Visibility visibility) {
-        UiUtils.setSingleViewVisibility(progressBar, visibility);
+        UiUtils.setSingleViewVisibility(
+            progressBar, visibility);
     }
 
 
+    // 3.3 ErrorPage
     @Override
-    public void setErrorPage(Visibility visibility) {
-        UiUtils.setDoubleViewVisibility(retryButton, noInternetText, visibility);
-        swipeRefreshLayout.setRefreshing(false); // ferma barra refreshing
+    public void setErrorPage(Visibility visibility, String errorMsg) {
+
+        UiUtils.setDoubleViewVisibility(retryButton, tvErrorMessage, visibility);
+
+        swipeRefreshLayout.setRefreshing(false);  // ferma barra refreshing
+
+        tvErrorMessage.setText(errorMsg);
     }
 
-
+    // 3.4 RView
     @Override
     public void setRvVisibility(Visibility visibility) {
         if (visibility == Visibility.SHOW) {
@@ -109,4 +143,16 @@ public class BoxofficeFragment extends Fragment implements BoxofficeContract.Vie
             recyclerView.setVisibility(View.GONE);
         }
     }
+
+
+
+    // 3.5  Crea DetailsFragment + pass Id
+    @Override
+    public void startDetailsFragment(int movieId) {
+        navigator.addToBackstackFragment(
+            requireActivity(),
+            DetailsFragment.create(movieId));
+    }
+
+
 }
