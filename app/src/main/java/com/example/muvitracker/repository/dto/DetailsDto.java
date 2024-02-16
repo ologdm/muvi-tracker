@@ -58,9 +58,6 @@ package com.example.muvitracker.repository.dto;
  */
 
 
-import android.media.Rating;
-
-import com.example.muvitracker.repository.dto.MovieDto;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;

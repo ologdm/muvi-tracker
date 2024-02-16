@@ -10,8 +10,12 @@ import android.widget.TextView;
 import com.example.muvitracker.R;
 import com.example.muvitracker.mainactivity.boxoffice.BoxofficeFragment;
 import com.example.muvitracker.mainactivity.popular.PopularFragment;
+import com.example.muvitracker.mainactivity.search.SearchFragment;
+import com.example.muvitracker.repository.SearchRepo;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+
+
 //          1°STEP-> inizio
 // 1. test Api data, RV semplice in Activity
 // 2. Button Navigation semplice
@@ -25,6 +29,7 @@ import com.google.android.material.navigation.NavigationBarView;
 // 2. Button Navigation -> popular, boxoffice, mylist, search
 //                         funzionamento al click
 //
+
 
 // TODO
 //    1 Search
@@ -73,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int itemId = item.getItemId();
 
+                // POPULAR
                 if (itemId == R.id.button1Popular) {
                     // new Fragment popular
                     navigator.replaceFragment(
@@ -82,24 +88,27 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 }
 
-                // OK
+                // BOXOFFICE
                 if (itemId == R.id.button2Boxoffice) {
                     navigator.replaceFragment(
                         MainActivity.this,
-                        new BoxofficeFragment());
+                        new BoxofficeFragment()
+                    );
                     testoCategoria.setText(BOX_OFFICE);
                     return true;
                 }
 
-
-
+                // SEARCH
                 if (itemId == R.id.button4Search) {
+                    navigator.replaceFragment(
+                        MainActivity.this,
+                        new SearchFragment()
+                    );
                     testoCategoria.setText(SEARCH);
-                    // TODO 1
                     return true;
                 }
 
-
+                // MYLIST - da fare
                 if (itemId == R.id.button3MyList) {
                     testoCategoria.setText(MY_LIST);
                     // TODO 2
@@ -111,8 +120,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-    }
 
+    }
 
 
 }

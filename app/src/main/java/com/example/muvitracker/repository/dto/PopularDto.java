@@ -25,7 +25,7 @@ package com.example.muvitracker.repository.dto;
 
 
 @SuppressWarnings("unused")
-public class MovieDto {
+public class PopularDto {
 
     // Attributi
     String title;

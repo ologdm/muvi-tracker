@@ -1,6 +1,6 @@
 package com.example.muvitracker.repository;
 
-import com.example.muvitracker.repository.dto.MovieDto;
+import com.example.muvitracker.repository.dto.PopularDto;
 import com.example.muvitracker.utils.MyRetrofit;
 import com.example.muvitracker.utils.MyRetrofitListCallback;
 
@@ -61,14 +61,14 @@ public class PopularRepo {
 
     // 2.3 Chiamata PopularApi
     //     piu passaggio info a Presenter tramite Callback pers
-    public void callPopular(MyRetrofitListCallback<MovieDto> callback) {
+    public void callPopular(MyRetrofitListCallback<PopularDto> callback) {
 
         // !!! enqueue si fa sempre su una nuova call, riutilizzare la call non si puo fare
-        Call<List<MovieDto>> popularCall = traktApi.getPopularMovies();
+        Call<List<PopularDto>> popularCall = traktApi.getPopularMovies();
 
-        popularCall.enqueue(new Callback<List<MovieDto>>() {
+        popularCall.enqueue(new Callback<List<PopularDto>>() {
             @Override
-            public void onResponse(Call<List<MovieDto>> call, Response<List<MovieDto>> response) {
+            public void onResponse(Call<List<PopularDto>> call, Response<List<PopularDto>> response) {
                 if (response.isSuccessful()) {
                     callback.onSuccess(response.body());
                     System.out.println("DIMA REPOSITORY ");
@@ -79,7 +79,7 @@ public class PopularRepo {
                 }
             }
             @Override
-            public void onFailure(Call<List<MovieDto>> call, Throwable t) {
+            public void onFailure(Call<List<PopularDto>> call, Throwable t) {
                 // !!! no risposta server
                 // Invio a presenter-> printStackTrace
                 callback.onError(t);
