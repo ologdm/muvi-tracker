@@ -22,7 +22,7 @@ public class DetailsRepo {
 
     // ATTRIBUTO
     // 1.1
-    int movieId;
+    int traktMovieId;
 
     // 1.2
     private static DetailsRepo istance;
@@ -39,11 +39,11 @@ public class DetailsRepo {
     // 2. METODI
 
     // 2.1 Getter/Setter Id
-    public int getMovieId() {
-        return movieId;
+    public int getTraktMovieId() {
+        return traktMovieId;
     }
-    public void setMovieId(int movieId) {
-        this.movieId = movieId;
+    public void setTraktMovieId(int traktMovieId) {
+        this.traktMovieId = traktMovieId;
     }
 
 
@@ -57,7 +57,7 @@ public class DetailsRepo {
 
     public void callDetailsApi(MyRetrofitCallback<DetailsDto> myRetrofitCallback) {
 
-        Call<DetailsDto> detailsCall = traktApi.getDetailsDto(movieId);
+        Call<DetailsDto> detailsCall = traktApi.getDetailsDto(traktMovieId);
 
         detailsCall.enqueue(new Callback<DetailsDto>() {
             @Override

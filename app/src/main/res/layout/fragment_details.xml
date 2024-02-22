@@ -1,26 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="800dp">
+        android:layout_height="wrap_content">
 
 
     <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="15dp">
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
+                android:layout_height="wrap_content">
 
-            <Button
+
+            <ImageButton
                     android:id="@+id/buttonBack"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="back" />
+                    app:srcCompat="@drawable/baseline_arrow_back_24"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+
+            <ImageButton
+                    android:id="@+id/addToMylistButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/baseline_add_circle_24"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginEnd="16dp"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -34,7 +51,7 @@
                 android:textSize="30dp"
                 android:layout_marginEnd="30dp"
                 android:layout_marginTop="30dp"
-                android:layout_marginBottom="30dp"/>
+                android:layout_marginBottom="30dp" />
 
         <!-- 2° split imagine / info orizzontale -->
         <LinearLayout
@@ -46,10 +63,10 @@
             <!-- 2.1 immagine 2/3 -->
             <ImageView
                     android:id="@+id/imageFilm"
-                    android:layout_width="160dp"
-                    android:layout_height="240dp"
+                    android:layout_width="200dp"
+                    android:layout_height="300dp"
                     android:layout_marginEnd="15dp"
-                    android:background="@android:color/holo_red_light"/>
+                    android:background="@android:color/holo_red_light" />
 
 
             <!-- 2.2 info vicino ad immagine -->
@@ -62,6 +79,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Uscita:" />
+
                 <TextView
                         android:id="@+id/uscitaReleased"
                         android:layout_width="wrap_content"
@@ -73,7 +91,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Durata:"
-                        android:layout_marginTop="10dp"/>
+                        android:layout_marginTop="10dp" />
+
                 <TextView
                         android:id="@+id/durataRuntime"
                         android:layout_width="wrap_content"
@@ -85,7 +104,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Country:"
-                        android:layout_marginTop="10dp"/>
+                        android:layout_marginTop="10dp" />
+
                 <TextView
                         android:id="@+id/paeseCountry"
                         android:layout_width="wrap_content"
@@ -97,16 +117,26 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Rating:"
-                        android:layout_marginTop="10dp"/>
+                        android:layout_marginTop="10dp" />
+
                 <TextView
                         android:id="@+id/rating"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:hint="testo" />
 
+                <CheckBox
+                        android:id="@+id/watchedCheckbox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="watched"
+                        android:layout_marginTop="40dp"
+                        android:textAlignment="textStart"/>
+
             </LinearLayout>
 
         </LinearLayout>
+
 
 
         <TextView
@@ -114,7 +144,8 @@
                 android:layout_height="wrap_content"
                 android:text="description"
                 android:layout_marginTop="30dp"
-                android:layout_marginBottom="10dp"/>
+                android:layout_marginBottom="10dp" />
+
         <TextView
                 android:id="@+id/descrizioneOverview"
                 android:layout_width="wrap_content"

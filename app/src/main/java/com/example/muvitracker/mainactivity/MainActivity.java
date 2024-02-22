@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.example.muvitracker.R;
 import com.example.muvitracker.mainactivity.boxoffice.BoxofficeFragment;
+import com.example.muvitracker.mainactivity.mylist.MylistFragment;
 import com.example.muvitracker.mainactivity.popular.PopularFragment;
 import com.example.muvitracker.mainactivity.search.SearchFragment;
 import com.example.muvitracker.repository.SearchRepo;
@@ -111,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
                 // MYLIST - da fare
                 if (itemId == R.id.button3MyList) {
                     testoCategoria.setText(MY_LIST);
-                    // TODO 2
+                    navigator.replaceFragment(MainActivity.this,new MylistFragment());
                     return true;
                 }
 

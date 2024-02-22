@@ -225,7 +225,7 @@ public class DetailsDto implements Serializable {
     public static class Ids {
         int trakt;
         String slug;
-        String imdb; // utilizzata per immagini
+        String imdb = "x"; // utilizzata per immagini
         int tmdb;
 
 

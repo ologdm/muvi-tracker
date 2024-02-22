@@ -14,13 +14,13 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 
 import com.example.muvitracker.R;
+import com.example.muvitracker.mainactivity.details.DetailsFragment;
 
 
 public class MainNavigator {
 
     // 1. Sostituisco Fragment
     public void replaceFragment(FragmentActivity fragmActivity, Fragment fragment) {
-        //if (fragment == null) { // crea solo se è nullo
             FragmentManager manager = fragmActivity.getSupportFragmentManager();
             manager.beginTransaction()
                 .replace(R.id.frameLayout, fragment)
@@ -30,13 +30,22 @@ public class MainNavigator {
 
     // 2. Aggiungo Fragment al Backstack
     public void addToBackstackFragment(FragmentActivity fragmActivity, Fragment fragment) {
-        //if (fragment == null) { // crea solo se è nullo
         FragmentManager manager = fragmActivity.getSupportFragmentManager();
         manager.beginTransaction()
             .replace(R.id.frameLayout, fragment)
             .addToBackStack(null)
             .commit();
 
+    }
+
+
+    // Crea Details - add to backstack
+    public void startDetailsFragmentAndAddToBackstack (FragmentActivity fragmActivity, int traktMovieId){
+        FragmentManager manager = fragmActivity.getSupportFragmentManager();
+        manager.beginTransaction()
+            .replace(R.id.frameLayout, DetailsFragment.create(traktMovieId))
+            .addToBackStack(null)
+            .commit();
     }
 
 
