@@ -1,9 +1,12 @@
 package com.example.muvitracker.mainactivity.details;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -24,28 +27,31 @@ import com.example.muvitracker.repository.dto.DetailsDto;
 // 5. back Button
 
 //      5°STEP - aggiungi elemento a Mylist
-// 1. add /remove
-// 2. check element in prefList
-// 3.  TODO cambia icona (vuota,piena) in base a presenza elemento nella mia lista
-// -> metodo updateDto() chiamato su presenter -> eliminato OK
-// -> ScrollView non scrolla!!! -> debug -> non devo vincolarla in lunghezza
+// 1. add /remove OK
+// 2. checkId in presenter e prefRepo OK
+// 3 gestione cambio icona ->
+//               1.apertura  Details OK
+//               2. setClick OK
+// 4 aggiungere watched checkbox
+//              (oppure disegno diverso)
 
 
 // TODO
 //      1 -> metodi contract - mettere caricamento prima di apertura fragment -> su presenter
 //      2 -> arrotondare valori rating(float)
 //      3 -> cache-ing elementi aperti su ram (poi room)
-//      4 -> aggiungere banner per add/remove
 
+
+// -> ScrollView non scrolla!!! -> debug -> non devo vincolarla in lunghezza OK
 
 
 public class DetailsFragment extends Fragment implements DetailsContract.View {
+
 
     // 1. ATTRIBUTI
 
     // 1.1
     private int traktMovieId;
-    //private DetailsDto detailsDto = new DetailsDto();
 
     // 1.2 Views
     private TextView title;
@@ -58,14 +64,17 @@ public class DetailsFragment extends Fragment implements DetailsContract.View {
     private ImageButton buttonBack;
 
 
+    //  AddIcon + Checkbox  (5°STEP)
+    ImageButton addIcon; // OK
+    private CheckBox watchedCheckbox;
+
+
     // 1.3
     // ??? perchè final
     private final DetailsPresenter presenter = new DetailsPresenter(this);
     //MainNavigator navigator = new MainNavigator();
 
-    // TODO     5°STEP -> addIcon
-    boolean isFavorite = false; // leggi da presenter
-    ImageButton addIcon;
+
 
 
     // 2. COSTRUTTORE
@@ -102,9 +111,14 @@ public class DetailsFragment extends Fragment implements DetailsContract.View {
     @Override
     public void onViewCreated(
         @NonNull View view,
-        @Nullable Bundle savedInstanceState) {
+        @Nullable Bundle savedInstanceState
+    ) {
 
-        // 1 Assegnazione
+        Drawable FAVORITE_DRAW = getContext().getDrawable(R.drawable.baseline_favorite_24);
+        Drawable FAVORITE_BORDER_DRAW = getContext().getDrawable(R.drawable.baseline_favorite_border_24);
+
+
+        // Assegnazione
         title = view.findViewById(R.id.titoloTitle);  //string
         image = view.findViewById(R.id.imageFilm); // glide
         released = view.findViewById(R.id.uscitaReleased); // string
@@ -114,12 +128,58 @@ public class DetailsFragment extends Fragment implements DetailsContract.View {
         overview = view.findViewById(R.id.descrizioneOverview); // string
         buttonBack = view.findViewById(R.id.buttonBack);
 
+        // addIcon + watched
+        addIcon = view.findViewById(R.id.addToMylistButton);
 
-        // 2. Get Arguments
+        watchedCheckbox = view.findViewById(R.id.checkBox);
+
+
+        // Get Arguments - assegnazione Id
         Bundle bundle = getArguments();
         if (bundle != null) {
             traktMovieId = bundle.getInt("key_id");
         }
+
+        //   TODO (5°STEP) - 1. addButton
+        //  - gestione addIcon drawable status
+        // 1. checkId
+        boolean isIdIntoPref = presenter.checkMovieId(traktMovieId);
+        // 2.
+        if (isIdIntoPref){
+            addIcon.setImageDrawable(FAVORITE_DRAW); // icona piena
+        } else {
+            addIcon.setImageDrawable(FAVORITE_BORDER_DRAW); // icona vuota
+        }
+
+
+        //  click addIcon
+        addIcon.setOnClickListener(v -> {
+
+            if (!isIdIntoPref) {
+                presenter.addItem();
+                addIcon.setImageDrawable(FAVORITE_DRAW); // cambia in piena
+            } else {
+                presenter.removeItem(traktMovieId);
+                addIcon.setImageDrawable(FAVORITE_BORDER_DRAW); // cambia in vuota
+            }
+
+        });
+
+
+
+        // TODO (5°STEP) - 2. click watched
+
+        // visibilità checkbox + scritta -> appari se premi like
+
+        //
+        watchedCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            // funzione contiene set e ri-aggiornamento da repo
+            presenter.setWatchedStatus(isChecked);
+        });
+
+
+
+
 
 
         // 3. BackButton
@@ -130,33 +190,7 @@ public class DetailsFragment extends Fragment implements DetailsContract.View {
         });
 
 
-        //   TODO   5°STEP -> addIcon
-        // Aggiungi elemento OK
-        addIcon = view.findViewById(R.id.addToMylistButton);
-        addIcon.setOnClickListener(v -> {
-            presenter.addItem(); // TODO aggiungere dentro questo metodo view.statoIcona()
-        });
-
-
-        /*
-        // TODO eugi spiegfazione -  addIcon - cambia Icona
-        addToMylist.setOnClickListener(v -> {
-            Drawable drawable;
-            if (isFavorite) {
-                drawable = getContext().getDrawable(R.drawable.baseline_favorite_24);
-            } else {
-                drawable = getContext().getDrawable(R.drawable.baseline_favorite_border_24);
-            }
-            addToMylist.setImageDrawable(drawable);
-
-            isFavorite = !isFavorite;
-        });
-
-         */
-
-
-
-        // 4. Load Data ( da cache o server) OK
+        // Load Data ( da cache o server) OK
         presenter.getMovie(traktMovieId);
     }
 
@@ -184,13 +218,12 @@ public class DetailsFragment extends Fragment implements DetailsContract.View {
 
     }
 
-    // 4.2   TODO   5°STEP -> addIcon
-    public void setAddIcon (){}
-
-
-
 
     // TODO 1
 
 }
+
+
+
+
 

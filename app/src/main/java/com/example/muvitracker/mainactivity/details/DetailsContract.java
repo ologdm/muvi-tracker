@@ -1,47 +1,35 @@
 package com.example.muvitracker.mainactivity.details;
 
+import com.example.muvitracker.mainactivity.mylist.MylistDto;
 import com.example.muvitracker.repository.dto.DetailsDto;
 
 public interface DetailsContract {
 
+    // 3°STEP - Details
     public interface View {
-
-        // 3°STEP - DETAILS
-
-        //public void updateDetailsDto (DetailsDto detailsDto); // ??? Si puè eliminare?
 
         public void updateUi (DetailsDto detailsDto);
 
     }
 
 
+    // 3°STEP - Details - eliminato funzioni
+    // 5°STEP - MyList - rifatto tutte le funzioni
     public interface Presenter {
 
-        // 3°STEP
-        // eliminato
-        //public void passIdToCall(int movieId);
-        // Modificato in private
-        // public void getDataFromCall(); -> private callServer
+        public void addItem();
+
+        public void removeItem(int traktId);
+
+        public void getMovie (int traktId);
+
+        // checkl se elemento nella lista
+        public boolean checkMovieId(int traktId);
 
 
+        //public void setWatchedStatus (MylistDto prefDto); // set poi aggiorna dati
 
-        // TODO 5°STEP MYLIST
-        //  1. add element
-        //  2. remove element
-        //  3. check If element is present in list
-        //  4. cambiare funzioni getMovie(id)
-
-        // 1, 2
-        public void addItem (); // prendi da un repo e passa all' altro repo
-        public void removeItem (); // rimuovi da myList repo
-        // 3
-        //public boolean checkId (int TraktId); // ciclo for di id con tutti gli elementi della lista
-
-        // 4. Cambiare funzioni
-        public void getMovie (int id);
-        // 4.1 serverCall()
-        // 4.2 getDataFromMylist (id)
-
+        public void setWatchedStatus (boolean status);
 
 
     }

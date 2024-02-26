@@ -12,9 +12,20 @@ import java.util.List;
 // 1. Metodo - passa Id a repository
 // 2. Metodo - passa Dto a Fragment (in callback)
 
+
+// 5°STEP
+// 1. funzione checkId
+// 2. funzione generica getMovie
+//          - private callServer
+//          - private getFromPrefs
+
+// 3. setWatched/ isWatched; stessa cosa su repository
+
+
 // TODO
 //  1- EmptyStates - come su Popular
-//  2 - 5°STEP - salva elementi su repository
+//  2 - - salva elementi su repository
+//  4. METODI INTERNI: -> spostare su repository con cache
 
 
 public class DetailsPresenter implements DetailsContract.Presenter {
@@ -24,12 +35,11 @@ public class DetailsPresenter implements DetailsContract.Presenter {
     private final DetailsContract.View view;
     private final DetailsRepo detailsRepository = DetailsRepo.getIstance();
 
+    // 5°STEP - pref list
+    private final MylistRepository prefsRepository = MylistRepository.getInstance();
 
-    //     TODO 5°STEP MYLIST
-    private final MylistRepository mylistRepository = MylistRepository.getInstance();
-
-
-    //     TODO 5°STEP MYLIST
+    // -> serve per salvare i dati scaricati dal server,
+    //    per poter fare addItem
     DetailsDto detailsDto = new DetailsDto();
 
 
@@ -39,34 +49,62 @@ public class DetailsPresenter implements DetailsContract.Presenter {
     }
 
 
-    // 3. CONTRACT METHODS
+    // 3. CONTRACT
 
-
-    // Click icona Add:
+    // 3.1 add to repo
     @Override
     public void addItem() {
-        mylistRepository.addToPref(detailsDto);
-
+        prefsRepository.addToPref(detailsDto);
     }
 
 
-    // Click icona aggiungi:
+    // 3.2 remove prof repo
     @Override
-    public void removeItem() {
-
+    public void removeItem(int traktId) {
+        prefsRepository.removeFromPreflist(traktId);
     }
 
 
+    // 3.3
+    @Override
+    public void getMovie(int traktId) {
+        // check se
+        boolean isIdIntoPref = checkMovieId(traktId);
+
+        if (isIdIntoPref) {
+            getDetailsFromPrefs(traktId);
+        } else {
+            getDetailsFromServer(traktId);
+        }
+    }
 
 
+    // 3.4 funzione check - per FavoriteButton
+    @Override
+    public boolean checkMovieId(int traktId) {
+        int inputId = traktId;
 
-    // METODI INTERNI:
-    // 1.server
-    // 2.mylist
-    // 3.check id
+        List<MylistDto> prefList = prefsRepository.getPrefList();
+        int prefListSize = prefsRepository.getPrefList().size();
 
-    // 1. Server
-    private void updateDetailsFromServer(int traktId) {
+        for (int i = 0; i < prefListSize; i++) {
+            MylistDto myListDto = prefList.get(i);
+            int idDaControllare = myListDto.getDetailsDto().getIds().getTrakt();
+            if (inputId == idDaControllare) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    //  METODI INTERNI: ->  todo spostare su repository
+    // 1 fromServer
+    // 2.fromPrefs
+
+    // 1. server
+    private void getDetailsFromServer(int traktId) {
+
         // 1. passa id a call
         detailsRepository.setTraktMovieId(traktId);
 
@@ -90,50 +128,55 @@ public class DetailsPresenter implements DetailsContract.Presenter {
             });
     }
 
-    /*
-    // 2. Mylist - non serve
-    private void updateDetailsFromMylist(int traktId) {
-        // ottieni elemento da
-        mylistRepository.getMyPrefList().get(traktId);
+
+    // prefs
+    private void getDetailsFromPrefs (int traktId){
+        MylistDto prefDto = prefsRepository.getMovie(traktId);
+
+        view.updateUi(prefDto.getDetailsDto());
     }
 
-     */
 
 
-    // 3. Id check OK
+
+    // WATCHED
+    @Override
+    public void setWatchedStatus(boolean status) {
+
+
+
+        // 1 set
+        prefsRepository.setMovie(prefDto);
+        // 2 update quello che ho settato
+        view.updateUi(prefDto.getDetailsDto());
+    }
+
+
+
+
+}
+
+
+
+
+
+// 2. eliminare
+    /*
     //    ritorno valore solo se id corrisponde
-    public DetailsDto getMovieFromMylist(int id) {
-        int inputId = id;
+    public DetailsDto getCheckedMovie(int traktId) {
+        int inputId = traktId;
 
-        List<MylistDto> mylist = mylistRepository.getPrefList();
-        int mylistSize = mylistRepository.getPrefList().size();
+        List<MylistDto> prefList = mylistRepository.getPrefList();
+        int prefListSize = mylistRepository.getPrefList().size();
 
-        for (int i = 0; i < mylistSize; i++) {
-            MylistDto myListDto = mylist.get(i);
-            int idDaControllare = myListDto.getDetailsDto().getIds().getTrakt();
+        for (int i = 0; i < prefListSize; i++) {
+            MylistDto dto = prefList.get(i);
+            int idDaControllare = dto.getDetailsDto().getIds().getTrakt();
             if (inputId == idDaControllare) {
-                return myListDto.getDetailsDto(); // ritorna details
+                return dto.getDetailsDto(); // ritorna details
             }
         }
         return null; // ritorno null se non trovo niente
     }
 
-
-    // METODO SCEGLI OK
-    @Override
-    public void getMovie ( int id){
-        if (getMovieFromMylist(id)==null) {
-            updateDetailsFromServer(id);
-        } else {
-            DetailsDto movieFromMylist = getMovieFromMylist(id);
-            view.updateUi(movieFromMylist);
-        }
-    }
-
-
-
-
-    }
-
-
-
+     */

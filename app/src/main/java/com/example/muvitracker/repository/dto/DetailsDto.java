@@ -66,35 +66,39 @@ import java.util.List;
 
 public class DetailsDto implements Serializable {
 
+    // *watched status - aggiunto da me
+    //private boolean watched;
+
     // movie
-    //MovieDto movie; -> posso usare??
-    String title;
-    int year;
-    Ids ids;
+    private String title = "";
+    private int year;
+    private Ids ids;
+
 
     // altro
-    String tagline;
-    String overview;
-    String released;
-    int runtime;
-    String country;
+    private String tagline;
+    private String overview;
+    private String released;
+    private int runtime;
+    private String country;
 
     @SerializedName("updated_at")
-    String updatedAt;
+    private String updatedAt;
 
     //trailer = null
-    String homepage;
-    String status;
-    float rating;
-    int votes;
+    private String homepage;
+    private String status;
+    private float rating;
+    private int votes;
 
     @SerializedName("comment_count")
-    int commentCount;
+    private int commentCount;
 
-    String language;
-    List<String> availableTranslations;
-    List<String> genres;
-    String certification;
+    private String language;
+    private List<String> availableTranslations;
+    private List<String> genres;
+    private String certification;
+
 
     // Image URL - metodo che prende url da (OMDb id == IMDb id)
     // == movieDto
