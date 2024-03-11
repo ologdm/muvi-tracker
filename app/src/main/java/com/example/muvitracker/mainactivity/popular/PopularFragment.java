@@ -181,6 +181,7 @@ public class PopularFragment extends Fragment implements PopularContract.View {
             DetailsFragment.create(movieId));
     }
 
+
     ///fgf
 
 
