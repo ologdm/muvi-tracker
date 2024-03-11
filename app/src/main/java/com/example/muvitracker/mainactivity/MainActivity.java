@@ -9,9 +9,13 @@ import android.widget.TextView;
 
 import com.example.muvitracker.R;
 import com.example.muvitracker.mainactivity.boxoffice.BoxofficeFragment;
+import com.example.muvitracker.mainactivity.mylist.PrefsFragment;
 import com.example.muvitracker.mainactivity.popular.PopularFragment;
+import com.example.muvitracker.mainactivity.search.SearchFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+
+
 //          1°STEP-> inizio
 // 1. test Api data, RV semplice in Activity
 // 2. Button Navigation semplice
@@ -26,6 +30,7 @@ import com.google.android.material.navigation.NavigationBarView;
 //                         funzionamento al click
 //
 
+
 // TODO
 //    1 Search
 //    2 Mylist
@@ -34,10 +39,10 @@ import com.google.android.material.navigation.NavigationBarView;
 public class MainActivity extends AppCompatActivity {
 
     // 0. COSTANTI
-    private final String POPULAR = "Popular";
-    private final String BOX_OFFICE = "Box Office";
-    private final String MY_LIST = "My List";
-    private final String SEARCH = "Search";
+    private final String POPULAR_TEXT = "Popular";
+    private final String BOX_OFFICE_TEXT = "Box Office";
+    private final String MY_LIST_TEXT = "My List";
+    private final String SEARCH_TEXT = "Search";
 
 
     // 1. ATTRIBUTI
@@ -62,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
 
         // 3.2 Default HomePage -> Popular
         navigator.replaceFragment(this, new PopularFragment());
-        testoCategoria.setText(POPULAR);
+        testoCategoria.setText(POPULAR_TEXT);
 
 
         // 3.3 Click Elemento
@@ -73,36 +78,40 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int itemId = item.getItemId();
 
+                // POPULAR
                 if (itemId == R.id.button1Popular) {
                     // new Fragment popular
                     navigator.replaceFragment(
                         MainActivity.this,
                         new PopularFragment());
-                    testoCategoria.setText(POPULAR);
+                    testoCategoria.setText(POPULAR_TEXT);
                     return true;
                 }
 
-                // OK
+                // BOXOFFICE
                 if (itemId == R.id.button2Boxoffice) {
                     navigator.replaceFragment(
                         MainActivity.this,
-                        new BoxofficeFragment());
-                    testoCategoria.setText(BOX_OFFICE);
+                        new BoxofficeFragment()
+                    );
+                    testoCategoria.setText(BOX_OFFICE_TEXT);
                     return true;
                 }
 
-
-
+                // SEARCH
                 if (itemId == R.id.button4Search) {
-                    testoCategoria.setText(SEARCH);
-                    // TODO 1
+                    navigator.replaceFragment(
+                        MainActivity.this,
+                        new SearchFragment()
+                    );
+                    testoCategoria.setText(SEARCH_TEXT);
                     return true;
                 }
 
-
+                // MYLIST - da fare
                 if (itemId == R.id.button3MyList) {
-                    testoCategoria.setText(MY_LIST);
-                    // TODO 2
+                    testoCategoria.setText(MY_LIST_TEXT);
+                    navigator.replaceFragment(MainActivity.this,new PrefsFragment());
                     return true;
                 }
 
@@ -111,8 +120,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-    }
 
+    }
 
 
 }

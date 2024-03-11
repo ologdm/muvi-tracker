@@ -1,10 +1,12 @@
 package com.example.muvitracker.mainactivity.details;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,7 +16,7 @@ import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.example.muvitracker.R;
-import com.example.muvitracker.repository.dto.DetailsDto;
+import com.example.muvitracker.repo.dto.DetailsDto;
 
 //      3°STEP-> inizio
 // 1. Details film si apre grazie al IdFilm,
@@ -23,61 +25,76 @@ import com.example.muvitracker.repository.dto.DetailsDto;
 // 4. Aggiorna caselle view solo quando ho i dati
 // 5. back Button
 
+//      5°STEP - aggiungi elemento a Mylist
+// 1. add /remove OK
+// 2. checkId in presenter e prefRepo OK
+// 3 gestione cambio icona ->
+//               1.apertura  Details OK
+//               2. setClick OK
+// 4 aggiungere watched checkbox
+//              (oppure disegno diverso)
+
 
 // TODO
 //      1 -> metodi contract - mettere caricamento prima di apertura fragment -> su presenter
 //      2 -> arrotondare valori rating(float)
-//      3 -> metodo updateDto() chiamato su presenter -> si puo eliminare??
+//      3 -> cache-ing elementi aperti su ram (poi room)
 
+
+// -> ScrollView non scrolla!!! -> debug -> non devo vincolarla in lunghezza OK
 
 
 public class DetailsFragment extends Fragment implements DetailsContract.View {
 
+
     // 1. ATTRIBUTI
-    // 1.1 Dto
-    private int movieId;
-    private DetailsDto detailsDto = new DetailsDto();
+
+    // 1.1
+    private int traktMovieId;
 
     // 1.2 Views
     private TextView title;
     private ImageView image;
     private TextView released;
-    private TextView runtime;
+    private TextView runtimeFilm;
     private TextView country;
     private TextView rating;
     private TextView overview;
-    private Button buttonBack;
+    private ImageButton buttonBack;
 
-    // 1.3
-    // ??? perchè final
+    ImageButton likeButton;
+    private CheckBox watchedCheckbox;
+
     private final DetailsPresenter presenter = new DetailsPresenter(this);
 
 
     // 2. COSTRUTTORE
-    // 2.1 Costruttore privato
-    //     dobbiamo sempre avere un Id
+
+    // 2.1 Costruttore privato -> perché dobbiamo sempre avere un Id
     private DetailsFragment() {
     }
 
     // 2.2 Factory
-    //     crea Fragment con Id - SetArguments -> usare
-    public static DetailsFragment create(int id) {
+    // crea Fragment con Id - SetArguments -> usare
+    public static DetailsFragment create(int traktId) {
         DetailsFragment detailsFragment = new DetailsFragment();
         Bundle bundle = new Bundle();
-        bundle.putInt("key_id", id);
+        bundle.putInt("key_id", traktId);
         detailsFragment.setArguments(bundle);
         return detailsFragment;
     }
 
 
     // 3. FUNZIONI FRAGMENT
-    // 3.1 Creazione
+
+    // 3.1 Crea
     @Nullable
     @Override
     public View onCreateView(
         @NonNull LayoutInflater inflater,
         @Nullable ViewGroup container,
-        @Nullable Bundle savedInstanceState) {
+        @Nullable Bundle savedInstanceState
+    ) {
         return inflater.inflate(R.layout.fragment_details, container, false);
     }
 
@@ -86,62 +103,71 @@ public class DetailsFragment extends Fragment implements DetailsContract.View {
     @Override
     public void onViewCreated(
         @NonNull View view,
-        @Nullable Bundle savedInstanceState) {
+        @Nullable Bundle savedInstanceState
+    ) {
 
-        // 1 Assegnazione View
+
+        // assegnazione
         title = view.findViewById(R.id.titoloTitle);  //string
         image = view.findViewById(R.id.imageFilm); // glide
         released = view.findViewById(R.id.uscitaReleased); // string
-        runtime = view.findViewById(R.id.durataRuntime); // int
+        runtimeFilm = view.findViewById(R.id.durataRuntime); // int
         country = view.findViewById(R.id.paeseCountry); // string
         rating = view.findViewById(R.id.rating); // float
         overview = view.findViewById(R.id.descrizioneOverview); // string
-
         buttonBack = view.findViewById(R.id.buttonBack);
 
+        likeButton = view.findViewById(R.id.likedButton);
+        watchedCheckbox = view.findViewById(R.id.watchedCheckbox);
 
-        // 2. Get Arguments
+
+        // get arguments - assegnazione id
         Bundle bundle = getArguments();
         if (bundle != null) {
-            movieId = bundle.getInt("key_id");
+            traktMovieId = bundle.getInt("key_id");
         }
-        // 3. Passa Id
-        presenter.passIdToCall(movieId);
-
-        // 4. Update Data
-        presenter.getDataFromCall();
 
 
-        // 5. BackButton
+        // back
         buttonBack.setOnClickListener(v -> {
             // torna indietro nello stack
-            // metodo dell'activity (meglio consiglio eugi)
+            // !!! metodo dell'activity (meglio consiglio eugi)
             requireActivity().onBackPressed();
         });
 
+
+        // load data ( da cache o server)
+        presenter.getMovie(traktMovieId);
+
+
+        // (eugi)
+        //  click like icon
+        likeButton.setOnClickListener(v -> {
+            presenter.toggleFavourite();
+        });
+
+
+        // TODO (5°STEP) - 2. click watched
+        // visibilità checkbox + scritta -> appari se premi like
+        watchedCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            // funzione contiene set
+            // e ri-aggiornamento da repo (non serve)
+            presenter.updateWatched(isChecked);
+        });
     }
 
 
+    // 4. METODO CONTRACT - aggiornamento Ui
 
-    // 4. METODO CONTRACT
-
-    // 4.1 Aggiorna Dto
-    // TODO 3 - chiamato su presenter
-    @Override
-    public void updateDetailsDto(DetailsDto detailsDto) {
-        this.detailsDto = detailsDto;
-        //System.out.println("dto");
-    }
-
-
-    // 4.2 Aggiorna Views
+    // 4.1 aggiorna views
     // !!! devo eseguire .setText() solo quando ho la risposta dal server
     @Override
-    public void updateUi() {
+    public void updateUi(DetailsDto detailsDto) {
+
         title.setText(detailsDto.getTitle());
         released.setText(detailsDto.getReleased());
         // ??? come fare +"min" TODO 2
-        runtime.setText(String.valueOf(detailsDto.getRuntime()) + " min");
+        runtimeFilm.setText(String.valueOf(detailsDto.getRuntime()) + " min");
         country.setText(detailsDto.getCountry());
         // ??? come fare +"min" TODO 2
         rating.setText(String.valueOf(detailsDto.getRating()) + " stars");
@@ -152,10 +178,34 @@ public class DetailsFragment extends Fragment implements DetailsContract.View {
             .load(detailsDto.getImageUrl())  //Url
             .into(image);
 
+        updateFavoriteIcon(detailsDto.isLiked());
+        updateWatchedCheckbox(detailsDto.isWatched());
     }
 
 
-    // TODO 1
+    // cambia l'icona in base allo state preferito dal presenter
+    @Override
+    public void updateFavoriteIcon(boolean isFavourite) {
+        // !!! CAPITAL_CASE - solo per variabile 'final static', qua c'e context che e dell'istanza
+        final Drawable iconFilled = getContext().getDrawable(R.drawable.baseline_favorite_24);
+        final Drawable iconEmpty = getContext().getDrawable(R.drawable.baseline_favorite_border_24);
+        if (isFavourite) {
+            likeButton.setImageDrawable(iconFilled); // icona piena
+        } else {
+            likeButton.setImageDrawable(iconEmpty); // icona vuota
+        }
+    }
+
+
+    // lo uso per
+    @Override
+    public void updateWatchedCheckbox(boolean isWatched) {
+        watchedCheckbox.setChecked(isWatched);
+    }
 
 }
+
+
+
+
 

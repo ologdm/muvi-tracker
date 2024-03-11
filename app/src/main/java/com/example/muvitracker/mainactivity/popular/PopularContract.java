@@ -3,7 +3,7 @@ package com.example.muvitracker.mainactivity.popular;
 import androidx.annotation.NonNull;
 
 import com.example.muvitracker.utils.Visibility;
-import com.example.muvitracker.repository.dto.MovieDto;
+import com.example.muvitracker.repo.dto.PopularDto;
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ public interface PopularContract {
         //  2°STEP - POPULAR + BOXOFFICE + EMPTY STATES
 
         @NonNull
-        public void updateUi (List<MovieDto> list);
+        public void updateUi (List<PopularDto> list);
 
         @NonNull
         public void setProgressBar(Visibility visibility);

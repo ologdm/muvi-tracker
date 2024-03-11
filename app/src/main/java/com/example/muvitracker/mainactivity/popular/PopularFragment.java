@@ -20,7 +20,7 @@ import com.example.muvitracker.mainactivity.MainNavigator;
 import com.example.muvitracker.mainactivity.details.DetailsFragment;
 import com.example.muvitracker.utils.UiUtils;
 import com.example.muvitracker.utils.Visibility;
-import com.example.muvitracker.repository.dto.MovieDto;
+import com.example.muvitracker.repo.dto.PopularDto;
 
 import java.util.List;
 
@@ -38,6 +38,10 @@ import java.util.List;
 // 2. metodo Click VH() -> startDetailsFragment()
 //                      -> chiama funzione -> @Presenter-> @Fragment MVP
 // 3.setErrorPage() -> implementato setErrorMessage personalizzzato (da presenter)
+
+// TODO
+//      1. Funzione Per gestione stati in serverCallAndUpdateUi() di ErrorPage e Progressar
+//      2. Metodi specifici start"Tipo"Fragment()-> tutti su Navigator
 
 
 public class PopularFragment extends Fragment implements PopularContract.View {
@@ -127,7 +131,7 @@ public class PopularFragment extends Fragment implements PopularContract.View {
 
     // 3.1 Caricamento Dati
     @Override
-    public void updateUi(List<MovieDto> list) {
+    public void updateUi(List<PopularDto> list) {
         adapter.updateList(list);
         setRvVisibility(Visibility.SHOW);
 
@@ -172,6 +176,7 @@ public class PopularFragment extends Fragment implements PopularContract.View {
     }
 
 
+
     //          3°STEP
     // 3.5  Crea DetailsFragment + pass Id
     @Override
@@ -180,7 +185,7 @@ public class PopularFragment extends Fragment implements PopularContract.View {
             requireActivity(),
             DetailsFragment.create(movieId));
     }
-
+    // TODO 2
 
     ///fgf
 

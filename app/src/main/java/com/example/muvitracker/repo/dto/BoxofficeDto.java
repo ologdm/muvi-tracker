@@ -1,4 +1,4 @@
-package com.example.muvitracker.repository.dto;
+package com.example.muvitracker.repo.dto;
 
 
 // revenue + datamodelmovie
@@ -30,7 +30,7 @@ public class BoxofficeDto {
 
     // Attributi
     int revenue;  // specifico boxoffice (incassi)
-    MovieDto movie; // dati standard
+    PopularDto movie; // dati standard
 
 
     // Image URL - metodo che prende url da (OMDb id == IMDb id)
@@ -44,7 +44,7 @@ public class BoxofficeDto {
     public int getRevenue() {
         return revenue;
     }
-    public MovieDto getMovie() {
+    public PopularDto getMovie() {
         return movie;
     }
 
@@ -53,7 +53,7 @@ public class BoxofficeDto {
     public void setRevenue(int revenue) {
         this.revenue = revenue;
     }
-    public void setMovie(MovieDto movie) {
+    public void setMovie(PopularDto movie) {
         this.movie = movie;
     }
 

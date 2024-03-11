@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.muvitracker.R;
-import com.example.muvitracker.repository.dto.MovieDto;
+import com.example.muvitracker.repo.dto.PopularDto;
 import com.example.muvitracker.utils.CallbackVH;
 
 import java.util.ArrayList;
@@ -47,7 +47,7 @@ public class PopularAdapter extends RecyclerView.Adapter {
 
     // 1. ATTRIBUTI
 
-    private List<MovieDto> popularList = new ArrayList<>();
+    private List<PopularDto> popularList = new ArrayList<>();
 
 
     // 2. COSTRUTTORE vuoto
@@ -69,7 +69,7 @@ public class PopularAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         // 1 prendo dato singolo da lista e lo gestisco
-        MovieDto popularDto = popularList.get(position);
+        PopularDto popularDto = popularList.get(position);
 
         // 2 identifico pezzi view nel VH
         TextView titoloVH = holder.itemView.findViewById(R.id.titoloVH);
@@ -109,7 +109,7 @@ public class PopularAdapter extends RecyclerView.Adapter {
 
     // 4. MY METHODS
     // 4.1 Aggiorna Lista da mostrare
-    public void updateList(List<MovieDto> list) {
+    public void updateList(List<PopularDto> list) {
         this.popularList = list;
         notifyDataSetChanged();
     }

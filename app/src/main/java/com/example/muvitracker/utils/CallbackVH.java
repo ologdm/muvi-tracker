@@ -1,5 +1,5 @@
 package com.example.muvitracker.utils;
 
 public interface CallbackVH {
-    public void esegui (int movieId);
+    public void esegui (int traktMovieId);
 }

@@ -1,7 +1,7 @@
 package com.example.muvitracker.mainactivity.boxoffice;
 
-import com.example.muvitracker.repository.BoxofficeRepo;
-import com.example.muvitracker.repository.dto.BoxofficeDto;
+import com.example.muvitracker.repo.BoxofficeRepo;
+import com.example.muvitracker.repo.dto.BoxofficeDto;
 import com.example.muvitracker.utils.MyRetrofitListCallback;
 import com.example.muvitracker.utils.UiUtils;
 import com.example.muvitracker.utils.Visibility;

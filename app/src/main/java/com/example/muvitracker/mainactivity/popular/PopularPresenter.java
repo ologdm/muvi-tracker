@@ -3,8 +3,8 @@ package com.example.muvitracker.mainactivity.popular;
 import com.example.muvitracker.utils.UiUtils;
 import com.example.muvitracker.utils.Visibility;
 import com.example.muvitracker.utils.MyRetrofitListCallback;
-import com.example.muvitracker.repository.PopularRepo;
-import com.example.muvitracker.repository.dto.MovieDto;
+import com.example.muvitracker.repo.PopularRepo;
+import com.example.muvitracker.repo.dto.PopularDto;
 
 import java.io.IOException;
 import java.util.List;
@@ -64,13 +64,11 @@ public class PopularPresenter implements PopularContract.Presenter {
             view.setProgressBar(Visibility.SHOW);
         }
 
-
         repositoryPopular.callPopular(
-            new MyRetrofitListCallback<MovieDto>() {
-
+            new MyRetrofitListCallback<PopularDto>() {
 
             @Override
-            public void onSuccess(List<MovieDto> list) {
+            public void onSuccess(List<PopularDto> list) {
                 view.updateUi(list);
 
                 // EmptyStates 2 - successo
@@ -78,7 +76,6 @@ public class PopularPresenter implements PopularContract.Presenter {
                 // ??? corretto mettere null?
                 view.setErrorPage(Visibility.HIDE, null);
             }
-
 
             @Override
             public void onError(Throwable throwable) {
