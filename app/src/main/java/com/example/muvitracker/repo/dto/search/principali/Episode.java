@@ -1,6 +1,6 @@
-package com.example.muvitracker.repository.dto.search.principali;
+package com.example.muvitracker.repo.dto.search.principali;
 
-import com.example.muvitracker.repository.dto.search.secondarie.Ids;
+import com.example.muvitracker.repo.dto.search.secondarie.Ids;
 
 
 public class Episode {

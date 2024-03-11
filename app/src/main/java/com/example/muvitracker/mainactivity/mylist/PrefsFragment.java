@@ -2,7 +2,6 @@ package com.example.muvitracker.mainactivity.mylist;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -13,23 +12,22 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.muvitracker.R;
 import com.example.muvitracker.mainactivity.MainNavigator;
-import com.example.muvitracker.mainactivity.details.DetailsFragment;
-import com.example.muvitracker.utils.CallbackCheckbox;
-import com.example.muvitracker.utils.CallbackVH;
+import com.example.muvitracker.repo.dto.DetailsDto;
+import com.example.muvitracker.utils.CallbackLiked;
 
 import java.util.List;
 
 
 // StartDetails - funzione Semplificata, spostata su navigator
 
-public class MylistFragment extends Fragment implements MylistContract.View {
+public class PrefsFragment extends Fragment implements PrefsContract.View {
 
 
     // 1. ATTRIBUTI
     RecyclerView recyclerView;
-    MylistAdapter adapter = new MylistAdapter();
+    PrefsAdapter adapter = new PrefsAdapter();
 
-    MylistPresenter presenter = new MylistPresenter(this);
+    PrefsPresenter presenter = new PrefsPresenter(this);
     MainNavigator navigator = new MainNavigator();
 
     // 2. COSTRUTTORE no
@@ -45,7 +43,7 @@ public class MylistFragment extends Fragment implements MylistContract.View {
         @Nullable ViewGroup container,
         @Nullable Bundle savedInstanceState
     ) {
-        return inflater.inflate(R.layout.fragment_mylist, container, false);
+        return inflater.inflate(R.layout.fragment_prefs, container, false);
     }
 
 
@@ -60,6 +58,8 @@ public class MylistFragment extends Fragment implements MylistContract.View {
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
 
+        //adapter = new PrefsAdapter(/*this.requireContext()*/);
+
 
         // Click VH
         // Funzione Semplificata
@@ -71,10 +71,20 @@ public class MylistFragment extends Fragment implements MylistContract.View {
         // Click Checkbox - watched
         adapter.setCallbackCheckbox(listAdapter -> {
             presenter.setList(listAdapter);
+            //presenter.loadData();
         });
 
 
-        presenter.loadData();
+        // TODO Click liked
+        adapter.setCallbackLiked(dto -> {
+            // aggiorno repo
+            presenter.toggleFavorite(dto);
+            // aggiorno Ui
+            //presenter.loadData();
+        });
+
+
+        presenter.loadData(); // contiene view.updateUi
 
     }
 
@@ -82,10 +92,9 @@ public class MylistFragment extends Fragment implements MylistContract.View {
     // 4. CONTRACT
     // 4.1
     @Override
-    public void updateUi(List<MylistDto> myList) {
-        adapter.updateList(myList);
+    public void updateUi(List<DetailsDto> prefsList) {
+        adapter.updateList(prefsList);
     }
-
 
 
 }

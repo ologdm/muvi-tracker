@@ -1,7 +1,7 @@
-package com.example.muvitracker.repository.dto.search.principali;
+package com.example.muvitracker.repo.dto.search.principali;
 
-import com.example.muvitracker.repository.dto.search.secondarie.ListIds;
-import com.example.muvitracker.repository.dto.search.secondarie.User;
+import com.example.muvitracker.repo.dto.search.secondarie.ListIds;
+import com.example.muvitracker.repo.dto.search.secondarie.User;
 
 
 

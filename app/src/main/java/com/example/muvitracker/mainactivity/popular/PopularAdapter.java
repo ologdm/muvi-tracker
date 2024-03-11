@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.muvitracker.R;
-import com.example.muvitracker.repository.dto.PopularDto;
+import com.example.muvitracker.repo.dto.PopularDto;
 import com.example.muvitracker.utils.CallbackVH;
 
 import java.util.ArrayList;

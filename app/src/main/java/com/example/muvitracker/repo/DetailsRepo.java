@@ -1,6 +1,6 @@
-package com.example.muvitracker.repository;
+package com.example.muvitracker.repo;
 
-import com.example.muvitracker.repository.dto.DetailsDto;
+import com.example.muvitracker.repo.dto.DetailsDto;
 import com.example.muvitracker.utils.MyRetrofit;
 import com.example.muvitracker.utils.MyRetrofitCallback;
 
@@ -20,10 +20,6 @@ import retrofit2.Retrofit;
 
 public class DetailsRepo {
 
-    // ATTRIBUTO
-    // 1.1
-    int traktMovieId;
-
     // 1.2
     private static DetailsRepo istance;
     private DetailsRepo() {}
@@ -38,16 +34,6 @@ public class DetailsRepo {
 
     // 2. METODI
 
-    // 2.1 Getter/Setter Id
-    public int getTraktMovieId() {
-        return traktMovieId;
-    }
-    public void setTraktMovieId(int traktMovieId) {
-        this.traktMovieId = traktMovieId;
-    }
-
-
-
 
     // 2.2 Retrofit
     Retrofit retrofit = MyRetrofit.getRetrofit();
@@ -55,7 +41,7 @@ public class DetailsRepo {
     TraktApi traktApi = retrofit.create(TraktApi.class);
 
 
-    public void callDetailsApi(MyRetrofitCallback<DetailsDto> myRetrofitCallback) {
+    public void callDetailsApi(int traktMovieId, MyRetrofitCallback<DetailsDto> myRetrofitCallback) {
 
         Call<DetailsDto> detailsCall = traktApi.getDetailsDto(traktMovieId);
 

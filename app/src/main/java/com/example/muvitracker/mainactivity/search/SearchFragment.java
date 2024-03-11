@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.muvitracker.R;
 import com.example.muvitracker.mainactivity.MainNavigator;
 import com.example.muvitracker.mainactivity.details.DetailsFragment;
-import com.example.muvitracker.repository.dto.search.SearchDto;
+import com.example.muvitracker.repo.dto.search.SearchDto;
 
 import java.util.List;
 

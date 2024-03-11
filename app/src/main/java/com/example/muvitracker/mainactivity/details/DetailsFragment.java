@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -17,7 +16,7 @@ import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.example.muvitracker.R;
-import com.example.muvitracker.repository.dto.DetailsDto;
+import com.example.muvitracker.repo.dto.DetailsDto;
 
 //      3°STEP-> inizio
 // 1. Details film si apre grazie al IdFilm,
@@ -63,18 +62,10 @@ public class DetailsFragment extends Fragment implements DetailsContract.View {
     private TextView overview;
     private ImageButton buttonBack;
 
-
-    //  AddIcon + Checkbox  (5°STEP)
-    ImageButton addIcon; // OK
+    ImageButton likeButton;
     private CheckBox watchedCheckbox;
 
-
-    // 1.3
-    // ??? perchè final
     private final DetailsPresenter presenter = new DetailsPresenter(this);
-    //MainNavigator navigator = new MainNavigator();
-
-
 
 
     // 2. COSTRUTTORE
@@ -84,7 +75,7 @@ public class DetailsFragment extends Fragment implements DetailsContract.View {
     }
 
     // 2.2 Factory
-    //     crea Fragment con Id - SetArguments -> usare
+    // crea Fragment con Id - SetArguments -> usare
     public static DetailsFragment create(int traktId) {
         DetailsFragment detailsFragment = new DetailsFragment();
         Bundle bundle = new Bundle();
@@ -102,7 +93,8 @@ public class DetailsFragment extends Fragment implements DetailsContract.View {
     public View onCreateView(
         @NonNull LayoutInflater inflater,
         @Nullable ViewGroup container,
-        @Nullable Bundle savedInstanceState) {
+        @Nullable Bundle savedInstanceState
+    ) {
         return inflater.inflate(R.layout.fragment_details, container, false);
     }
 
@@ -114,11 +106,8 @@ public class DetailsFragment extends Fragment implements DetailsContract.View {
         @Nullable Bundle savedInstanceState
     ) {
 
-        Drawable FAVORITE_DRAW = getContext().getDrawable(R.drawable.baseline_favorite_24);
-        Drawable FAVORITE_BORDER_DRAW = getContext().getDrawable(R.drawable.baseline_favorite_border_24);
 
-
-        // Assegnazione
+        // assegnazione
         title = view.findViewById(R.id.titoloTitle);  //string
         image = view.findViewById(R.id.imageFilm); // glide
         released = view.findViewById(R.id.uscitaReleased); // string
@@ -128,61 +117,18 @@ public class DetailsFragment extends Fragment implements DetailsContract.View {
         overview = view.findViewById(R.id.descrizioneOverview); // string
         buttonBack = view.findViewById(R.id.buttonBack);
 
-        // addIcon + watched
-        addIcon = view.findViewById(R.id.addToMylistButton);
-
-        watchedCheckbox = view.findViewById(R.id.checkBox);
+        likeButton = view.findViewById(R.id.likedButton);
+        watchedCheckbox = view.findViewById(R.id.watchedCheckbox);
 
 
-        // Get Arguments - assegnazione Id
+        // get arguments - assegnazione id
         Bundle bundle = getArguments();
         if (bundle != null) {
             traktMovieId = bundle.getInt("key_id");
         }
 
-        //   TODO (5°STEP) - 1. addButton
-        //  - gestione addIcon drawable status
-        // 1. checkId
-        boolean isIdIntoPref = presenter.checkMovieId(traktMovieId);
-        // 2.
-        if (isIdIntoPref){
-            addIcon.setImageDrawable(FAVORITE_DRAW); // icona piena
-        } else {
-            addIcon.setImageDrawable(FAVORITE_BORDER_DRAW); // icona vuota
-        }
 
-
-        //  click addIcon
-        addIcon.setOnClickListener(v -> {
-
-            if (!isIdIntoPref) {
-                presenter.addItem();
-                addIcon.setImageDrawable(FAVORITE_DRAW); // cambia in piena
-            } else {
-                presenter.removeItem(traktMovieId);
-                addIcon.setImageDrawable(FAVORITE_BORDER_DRAW); // cambia in vuota
-            }
-
-        });
-
-
-
-        // TODO (5°STEP) - 2. click watched
-
-        // visibilità checkbox + scritta -> appari se premi like
-
-        //
-        watchedCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            // funzione contiene set e ri-aggiornamento da repo
-            presenter.setWatchedStatus(isChecked);
-        });
-
-
-
-
-
-
-        // 3. BackButton
+        // back
         buttonBack.setOnClickListener(v -> {
             // torna indietro nello stack
             // !!! metodo dell'activity (meglio consiglio eugi)
@@ -190,14 +136,30 @@ public class DetailsFragment extends Fragment implements DetailsContract.View {
         });
 
 
-        // Load Data ( da cache o server) OK
+        // load data ( da cache o server)
         presenter.getMovie(traktMovieId);
+
+
+        // (eugi)
+        //  click like icon
+        likeButton.setOnClickListener(v -> {
+            presenter.toggleFavourite();
+        });
+
+
+        // TODO (5°STEP) - 2. click watched
+        // visibilità checkbox + scritta -> appari se premi like
+        watchedCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            // funzione contiene set
+            // e ri-aggiornamento da repo (non serve)
+            presenter.updateWatched(isChecked);
+        });
     }
 
 
-    // 4. METODO CONTRACT
+    // 4. METODO CONTRACT - aggiornamento Ui
 
-    // 4.1 Aggiorna Dto e Views
+    // 4.1 aggiorna views
     // !!! devo eseguire .setText() solo quando ho la risposta dal server
     @Override
     public void updateUi(DetailsDto detailsDto) {
@@ -216,10 +178,30 @@ public class DetailsFragment extends Fragment implements DetailsContract.View {
             .load(detailsDto.getImageUrl())  //Url
             .into(image);
 
+        updateFavoriteIcon(detailsDto.isLiked());
+        updateWatchedCheckbox(detailsDto.isWatched());
     }
 
 
-    // TODO 1
+    // cambia l'icona in base allo state preferito dal presenter
+    @Override
+    public void updateFavoriteIcon(boolean isFavourite) {
+        // !!! CAPITAL_CASE - solo per variabile 'final static', qua c'e context che e dell'istanza
+        final Drawable iconFilled = getContext().getDrawable(R.drawable.baseline_favorite_24);
+        final Drawable iconEmpty = getContext().getDrawable(R.drawable.baseline_favorite_border_24);
+        if (isFavourite) {
+            likeButton.setImageDrawable(iconFilled); // icona piena
+        } else {
+            likeButton.setImageDrawable(iconEmpty); // icona vuota
+        }
+    }
+
+
+    // lo uso per
+    @Override
+    public void updateWatchedCheckbox(boolean isWatched) {
+        watchedCheckbox.setChecked(isWatched);
+    }
 
 }
 

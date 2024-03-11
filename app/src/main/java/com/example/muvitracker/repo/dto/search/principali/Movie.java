@@ -1,19 +1,21 @@
-package com.example.muvitracker.repository.dto.search.principali;
+package com.example.muvitracker.repo.dto.search.principali;
 
-import com.example.muvitracker.repository.dto.search.secondarie.Ids;
+import com.example.muvitracker.repo.dto.search.secondarie.Ids;
 
-public class Show {
 
-    // Attributi (3)
+public class Movie {
+
+    // atttributi (3)
     private String title;
     private int year;
-    private Ids ids;
+    private Ids ids; // in secondarie
 
 
     // Image URL - metodo che prende url da (OMDb id == IMDb id)
     public String getImageUrl() {
         return "http://img.omdbapi.com/" + "?apikey=ef6d3d4c" + "&i=" + ids.getImdb();
     }
+
 
     // getters
     public String getTitle() {

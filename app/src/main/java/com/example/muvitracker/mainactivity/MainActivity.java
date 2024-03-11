@@ -9,10 +9,9 @@ import android.widget.TextView;
 
 import com.example.muvitracker.R;
 import com.example.muvitracker.mainactivity.boxoffice.BoxofficeFragment;
-import com.example.muvitracker.mainactivity.mylist.MylistFragment;
+import com.example.muvitracker.mainactivity.mylist.PrefsFragment;
 import com.example.muvitracker.mainactivity.popular.PopularFragment;
 import com.example.muvitracker.mainactivity.search.SearchFragment;
-import com.example.muvitracker.repository.SearchRepo;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
@@ -40,10 +39,10 @@ import com.google.android.material.navigation.NavigationBarView;
 public class MainActivity extends AppCompatActivity {
 
     // 0. COSTANTI
-    private final String POPULAR = "Popular";
-    private final String BOX_OFFICE = "Box Office";
-    private final String MY_LIST = "My List";
-    private final String SEARCH = "Search";
+    private final String POPULAR_TEXT = "Popular";
+    private final String BOX_OFFICE_TEXT = "Box Office";
+    private final String MY_LIST_TEXT = "My List";
+    private final String SEARCH_TEXT = "Search";
 
 
     // 1. ATTRIBUTI
@@ -68,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
 
         // 3.2 Default HomePage -> Popular
         navigator.replaceFragment(this, new PopularFragment());
-        testoCategoria.setText(POPULAR);
+        testoCategoria.setText(POPULAR_TEXT);
 
 
         // 3.3 Click Elemento
@@ -85,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
                     navigator.replaceFragment(
                         MainActivity.this,
                         new PopularFragment());
-                    testoCategoria.setText(POPULAR);
+                    testoCategoria.setText(POPULAR_TEXT);
                     return true;
                 }
 
@@ -95,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
                         MainActivity.this,
                         new BoxofficeFragment()
                     );
-                    testoCategoria.setText(BOX_OFFICE);
+                    testoCategoria.setText(BOX_OFFICE_TEXT);
                     return true;
                 }
 
@@ -105,14 +104,14 @@ public class MainActivity extends AppCompatActivity {
                         MainActivity.this,
                         new SearchFragment()
                     );
-                    testoCategoria.setText(SEARCH);
+                    testoCategoria.setText(SEARCH_TEXT);
                     return true;
                 }
 
                 // MYLIST - da fare
                 if (itemId == R.id.button3MyList) {
-                    testoCategoria.setText(MY_LIST);
-                    navigator.replaceFragment(MainActivity.this,new MylistFragment());
+                    testoCategoria.setText(MY_LIST_TEXT);
+                    navigator.replaceFragment(MainActivity.this,new PrefsFragment());
                     return true;
                 }
 

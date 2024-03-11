@@ -1,6 +1,6 @@
 package com.example.muvitracker.mainactivity.search;
 
-import com.example.muvitracker.repository.dto.search.SearchDto;
+import com.example.muvitracker.repo.dto.search.SearchDto;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.example.muvitracker.repository.dto;
+package com.example.muvitracker.repo.dto;
 
 
 // DTO = data transfer object

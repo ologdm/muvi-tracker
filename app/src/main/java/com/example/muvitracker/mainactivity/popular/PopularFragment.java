@@ -20,7 +20,7 @@ import com.example.muvitracker.mainactivity.MainNavigator;
 import com.example.muvitracker.mainactivity.details.DetailsFragment;
 import com.example.muvitracker.utils.UiUtils;
 import com.example.muvitracker.utils.Visibility;
-import com.example.muvitracker.repository.dto.PopularDto;
+import com.example.muvitracker.repo.dto.PopularDto;
 
 import java.util.List;
 

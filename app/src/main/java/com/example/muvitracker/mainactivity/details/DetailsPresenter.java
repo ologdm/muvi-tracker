@@ -1,9 +1,8 @@
 package com.example.muvitracker.mainactivity.details;
 
-import com.example.muvitracker.mainactivity.mylist.MylistDto;
-import com.example.muvitracker.mainactivity.mylist.MylistRepository;
-import com.example.muvitracker.repository.DetailsRepo;
-import com.example.muvitracker.repository.dto.DetailsDto;
+import com.example.muvitracker.mainactivity.mylist.PrefRepo;
+import com.example.muvitracker.repo.DetailsRepo;
+import com.example.muvitracker.repo.dto.DetailsDto;
 import com.example.muvitracker.utils.MyRetrofitCallback;
 
 import java.util.List;
@@ -19,7 +18,11 @@ import java.util.List;
 //          - private callServer
 //          - private getFromPrefs
 
-// 3. setWatched/ isWatched; stessa cosa su repository
+// 3. setWatched/ isWatched;
+//      - dto unificato details
+//      - caso1 solo watched checkbox: salva solo in presenter,
+//      - caso2 watched checkbox + addItem : salva dal presenter in repository
+
 
 
 // TODO
@@ -33,14 +36,14 @@ public class DetailsPresenter implements DetailsContract.Presenter {
     // 1. ATTRIBUTI
     // 1.1
     private final DetailsContract.View view;
-    private final DetailsRepo detailsRepository = DetailsRepo.getIstance();
+    private final DetailsRepo detailsRepo = DetailsRepo.getIstance();
 
     // 5°STEP - pref list
-    private final MylistRepository prefsRepository = MylistRepository.getInstance();
+    private final PrefRepo prefsRepo = PrefRepo.getInstance();
 
-    // -> serve per salvare i dati scaricati dal server,
-    //    per poter fare addItem
-    DetailsDto detailsDto = new DetailsDto();
+    DetailsDto presenterDto = new DetailsDto();
+
+    boolean checkId;
 
 
     // 2. COSTRUTTORE
@@ -49,47 +52,16 @@ public class DetailsPresenter implements DetailsContract.Presenter {
     }
 
 
-    // 3. CONTRACT
-
-    // 3.1 add to repo
-    @Override
-    public void addItem() {
-        prefsRepository.addToPref(detailsDto);
-    }
-
-
-    // 3.2 remove prof repo
-    @Override
-    public void removeItem(int traktId) {
-        prefsRepository.removeFromPreflist(traktId);
-    }
-
-
-    // 3.3
-    @Override
-    public void getMovie(int traktId) {
-        // check se
-        boolean isIdIntoPref = checkMovieId(traktId);
-
-        if (isIdIntoPref) {
-            getDetailsFromPrefs(traktId);
-        } else {
-            getDetailsFromServer(traktId);
-        }
-    }
-
-
-    // 3.4 funzione check - per FavoriteButton
-    @Override
-    public boolean checkMovieId(int traktId) {
+    private boolean checkMovieId(int traktId) {
         int inputId = traktId;
 
-        List<MylistDto> prefList = prefsRepository.getPrefList();
-        int prefListSize = prefsRepository.getPrefList().size();
+        // pref list
+        List<DetailsDto> prefList = prefsRepo.getPrefList();
+        int prefListSize = prefsRepo.getPrefList().size();
 
         for (int i = 0; i < prefListSize; i++) {
-            MylistDto myListDto = prefList.get(i);
-            int idDaControllare = myListDto.getDetailsDto().getIds().getTrakt();
+            DetailsDto prefDto = prefList.get(i);
+            int idDaControllare = prefDto.getIds().getTrakt();
             if (inputId == idDaControllare) {
                 return true;
             }
@@ -98,26 +70,59 @@ public class DetailsPresenter implements DetailsContract.Presenter {
     }
 
 
+    public void load() {
+        // TODO loading
+        // repository.getData(id) {
+        //    // success, hide loading, show data
+
+        //    // error, hide loading, show error
+        // }
+    }
+
+
+
+    // 3.3
+    // TODO fare una callback unica success error sia per server che cache
+    @Override
+    public void getMovie(int traktId) {
+
+        boolean isIdIntoPref = checkMovieId(traktId);
+
+        // TODO spostare in repository 6°STEP
+        if (isIdIntoPref) {
+            getItemFromPrefs(traktId);
+        } else {
+            getItemFromServer(traktId);
+        }
+    }
+
+
+    // 3.4 funzione check
+    // - per favorite button
+
+
+
+
+
+
+
+
     //  METODI INTERNI: ->  todo spostare su repository
     // 1 fromServer
     // 2.fromPrefs
 
     // 1. server
-    private void getDetailsFromServer(int traktId) {
-
-        // 1. passa id a call
-        detailsRepository.setTraktMovieId(traktId);
-
+    private void getItemFromServer(int traktId) {
         // 2. chiamata al server
-        detailsRepository.callDetailsApi(
+        detailsRepo.callDetailsApi(
+            traktId,
             new MyRetrofitCallback<DetailsDto>() {
                 @Override
-                public void onSuccess(DetailsDto obj) {
-                    // 3.1 - aggiorno dto e views
-                    // !!! devo chiamare quando ho i dati nella Callback
-                    view.updateUi(obj);
-                    detailsDto = obj;
-
+                public void onSuccess(DetailsDto dto) {
+                    // repo -> presenter
+                    presenterDto = dto;
+                    // presenter -> fragment
+                    view.updateUi(presenterDto);
                 }
 
                 @Override
@@ -130,53 +135,44 @@ public class DetailsPresenter implements DetailsContract.Presenter {
 
 
     // prefs
-    private void getDetailsFromPrefs (int traktId){
-        MylistDto prefDto = prefsRepository.getMovie(traktId);
-
-        view.updateUi(prefDto.getDetailsDto());
+    private void getItemFromPrefs(int traktId){
+        // repo -> presenter
+        presenterDto = prefsRepo.getMovie(traktId);
+        // presenter -> fragment
+        view.updateUi(presenterDto);
+        //view.
     }
 
 
 
 
-    // WATCHED
+    // (eugi)
+    // gestisce cambio stato del liked, e dice alla ui di aggiornarsi con il nuovo stato
+    // delego la logica del cambio stata a repository
     @Override
-    public void setWatchedStatus(boolean status) {
-
-
-
-        // 1 set
-        prefsRepository.setMovie(prefDto);
-        // 2 update quello che ho settato
-        view.updateUi(prefDto.getDetailsDto());
+    public void toggleFavourite() {
+        // 1 prendo stato aggiornato da repo
+        // !! perche repo gestisce il cambio stato
+        boolean isLiked = prefsRepo.toggleFavouriteItem(presenterDto);
+        // 2 aggiorno dto locale
+        presenterDto.setLiked(isLiked);
+        // 3 aggiorno view da dto locale
+        view.updateFavoriteIcon(isLiked);
     }
 
 
+    // WATCHED (dima)
+    // tutte le azioni
+    @Override
+    public void updateWatched(boolean isWatched) {
+        // update presenter dto
+        presenterDto.setWatched(isWatched);
+        // update repo element
+        prefsRepo.updateWatchedItem(presenterDto);
+
+    }
 
 
 }
 
 
-
-
-
-// 2. eliminare
-    /*
-    //    ritorno valore solo se id corrisponde
-    public DetailsDto getCheckedMovie(int traktId) {
-        int inputId = traktId;
-
-        List<MylistDto> prefList = mylistRepository.getPrefList();
-        int prefListSize = mylistRepository.getPrefList().size();
-
-        for (int i = 0; i < prefListSize; i++) {
-            MylistDto dto = prefList.get(i);
-            int idDaControllare = dto.getDetailsDto().getIds().getTrakt();
-            if (inputId == idDaControllare) {
-                return dto.getDetailsDto(); // ritorna details
-            }
-        }
-        return null; // ritorno null se non trovo niente
-    }
-
-     */

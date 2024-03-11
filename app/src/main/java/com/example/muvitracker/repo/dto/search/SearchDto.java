@@ -1,4 +1,4 @@
-package com.example.muvitracker.repository.dto.search;
+package com.example.muvitracker.repo.dto.search;
 
 
 // JSON COMPLETO SEARCH ELEMENT ->
@@ -12,8 +12,8 @@ package com.example.muvitracker.repository.dto.search;
 //  5. list(type, score, list(*,*,...., ids, user)
 
 
-import com.example.muvitracker.repository.dto.search.principali.Movie;
-import com.example.muvitracker.repository.dto.search.principali.Show;
+import com.example.muvitracker.repo.dto.search.principali.Movie;
+import com.example.muvitracker.repo.dto.search.principali.Show;
 
 
 

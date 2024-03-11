@@ -1,4 +1,4 @@
-package com.example.muvitracker.repository.dto.search.secondarie;
+package com.example.muvitracker.repo.dto.search.secondarie;
 
 public class User {
 

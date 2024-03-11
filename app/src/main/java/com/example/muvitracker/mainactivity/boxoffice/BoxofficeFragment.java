@@ -18,7 +18,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.example.muvitracker.R;
 import com.example.muvitracker.mainactivity.MainNavigator;
 import com.example.muvitracker.mainactivity.details.DetailsFragment;
-import com.example.muvitracker.repository.dto.BoxofficeDto;
+import com.example.muvitracker.repo.dto.BoxofficeDto;
 import com.example.muvitracker.utils.UiUtils;
 import com.example.muvitracker.utils.Visibility;
 

@@ -1,6 +1,6 @@
-package com.example.muvitracker.repository;
+package com.example.muvitracker.repo;
 
-import com.example.muvitracker.repository.dto.PopularDto;
+import com.example.muvitracker.repo.dto.PopularDto;
 import com.example.muvitracker.utils.MyRetrofit;
 import com.example.muvitracker.utils.MyRetrofitListCallback;
 

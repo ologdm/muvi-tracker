@@ -1,6 +1,6 @@
 package com.example.muvitracker.mainactivity.search;
 
-import com.example.muvitracker.repository.SearchRepo;
+import com.example.muvitracker.repo.SearchRepo;
 import com.example.muvitracker.utils.MyRetrofitListCallback;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.example.muvitracker.repository;
+package com.example.muvitracker.repo;
 
 // *** https://trakt.docs.apiary.io/#introduction/create-an-app
 
@@ -20,10 +20,10 @@ package com.example.muvitracker.repository;
 //-> /movies/tron-legacy-2010?extended=full
 
 
-import com.example.muvitracker.repository.dto.BoxofficeDto;
-import com.example.muvitracker.repository.dto.DetailsDto;
-import com.example.muvitracker.repository.dto.PopularDto;
-import com.example.muvitracker.repository.dto.search.SearchDto;
+import com.example.muvitracker.repo.dto.BoxofficeDto;
+import com.example.muvitracker.repo.dto.DetailsDto;
+import com.example.muvitracker.repo.dto.PopularDto;
+import com.example.muvitracker.repo.dto.search.SearchDto;
 
 import java.util.List;
 

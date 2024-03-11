@@ -1,4 +1,4 @@
-package com.example.muvitracker.repository.dto;
+package com.example.muvitracker.repo.dto;
 
 
 // JSON Details - Trakt Summary -> https://trakt.docs.apiary.io/#reference/sync/update-favorite-item/get-a-movie
@@ -63,12 +63,15 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.List;
 
+// utilizzato in Details e Prefs
 
 public class DetailsDto implements Serializable {
 
-    // *watched status - aggiunto da me
-    //private boolean watched;
+    // *watched status - parametro di prefList
+    private boolean watched;
+    private boolean liked;
 
+    // JSON
     // movie
     private String title = "";
     private int year;
@@ -100,7 +103,7 @@ public class DetailsDto implements Serializable {
     private String certification;
 
 
-    // Image URL - metodo che prende url da (OMDb id == IMDb id)
+    // ImageUrl - metodo che prende url da (OMDb id == IMDb id)
     // == movieDto
     public String getImageUrl() {
         return "http://img.omdbapi.com/" +"?apikey=ef6d3d4c" + "&i=" + ids.getImdb();
@@ -108,6 +111,16 @@ public class DetailsDto implements Serializable {
 
 
     // SETTERS
+
+
+    public void setLiked(boolean liked) {
+        this.liked = liked;
+    }
+
+    public void setWatched(boolean watched) {
+        this.watched = watched;
+    }
+
     public void setTitle(String title) {
         this.title = title;
     }
@@ -165,8 +178,17 @@ public class DetailsDto implements Serializable {
     }
 
 
-
     // GETTERS
+
+
+    public boolean isLiked() {
+        return liked;
+    }
+
+    public boolean isWatched() {
+        return watched;
+    }
+
     public String getTitle() {
         return title;
     }
@@ -224,7 +246,6 @@ public class DetailsDto implements Serializable {
     }
 
 
-
     // Inner Class 'Ids'
     public static class Ids {
         int trakt;
@@ -259,9 +280,5 @@ public class DetailsDto implements Serializable {
             this.tmdb = tmdb;
         }
     }
-
-
-
-
 
 }
