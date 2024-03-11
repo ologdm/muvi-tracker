@@ -35,7 +35,9 @@ public class PrefRepo {
 
     // 2 LISTA get set
     public void setPrefList(List<DetailsDto> list) {
-        prefList = list;
+        // !!! copia lista quando passo su repository
+        List<DetailsDto> lista = new ArrayList<>(list);
+        prefList = lista;
     }
 
     public List<DetailsDto> getPrefList() {

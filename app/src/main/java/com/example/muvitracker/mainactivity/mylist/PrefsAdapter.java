@@ -104,6 +104,8 @@ public class PrefsAdapter extends RecyclerView.Adapter {
                 dto.setWatched(isChecked);
 
                 // 5.3 passo lista aggiornata con callback -> a repository
+                //faccio copia
+
                 callbackCheckbox.play(adapterList);
 
                 // TODO debugging - fare chech se su details si aggiorna
@@ -143,7 +145,10 @@ public class PrefsAdapter extends RecyclerView.Adapter {
         // elimina tutti elementi lista vecchia
         // aggiunge tutti gli elementi dell'altra lista a questa
         // aggiunge in fondo.
+
+        // copia, ma cambio dati (il riferimento si conserva) // **altro caso copia istanza nuova, nuovo riferimento
         this.adapterList.clear();
+        //System.out.println(prefList.toString());
         this.adapterList.addAll(prefList);
 
 
@@ -179,8 +184,6 @@ public class PrefsAdapter extends RecyclerView.Adapter {
 
 
     // TODO aggiorna icone (su onBin)
-
-
     public void updateFavoriteIcon(
         ImageButton likedButton,
         boolean isLiked,
