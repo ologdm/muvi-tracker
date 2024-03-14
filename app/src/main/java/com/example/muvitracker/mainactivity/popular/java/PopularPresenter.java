@@ -1,4 +1,4 @@
-package com.example.muvitracker.mainactivity.popular;
+package com.example.muvitracker.mainactivity.popular.java;
 
 import com.example.muvitracker.utils.UiUtils;
 import com.example.muvitracker.utils.Visibility;
@@ -35,6 +35,7 @@ public class PopularPresenter implements PopularContract.Presenter {
 
     // 1. ATTRIBUTI
     private PopularContract.View view;
+
     private PopularRepo repositoryPopular = PopularRepo.getIstance();
 
 

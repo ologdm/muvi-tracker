@@ -69,7 +69,7 @@ public class BoxofficeFragment extends Fragment implements BoxofficeContract.Vie
 
         progressBar = view.findViewById(R.id.progressBar);
         retryButton = view.findViewById(R.id.retryButton);
-        tvErrorMessage = view.findViewById(R.id.noInternetText);
+        tvErrorMessage = view.findViewById(R.id.errorMessageTextview);
 
         // 3. SwipeRefresh
         swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);

@@ -1,4 +1,4 @@
-package com.example.muvitracker.mainactivity.popular;
+package com.example.muvitracker.mainactivity.popular.java;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -54,7 +54,7 @@ public class PopularFragment extends Fragment implements PopularContract.View {
     // 1.2 Empty states, include_layout
     private ProgressBar progressBar;
     private Button retryButton;
-    private TextView tvErrorMessage;
+    private TextView errorMessage;
 
     // 1.3 Refresh
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -88,14 +88,13 @@ public class PopularFragment extends Fragment implements PopularContract.View {
         // 1. Rv
         recyclerView = view.findViewById(R.id.popularFragmentRV);
         recyclerView.setAdapter(adapter);
-        //recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
         recyclerView.setLayoutManager(new GridLayoutManager(requireActivity(), 3));
 
 
         // 2. Empty States OK
         progressBar = view.findViewById(R.id.progressBar);
         retryButton = view.findViewById(R.id.retryButton);
-        tvErrorMessage = view.findViewById(R.id.noInternetText);
+        errorMessage = view.findViewById(R.id.errorMessageTextview);
 
 
         // 3. SwipeRefresh OK
@@ -154,18 +153,19 @@ public class PopularFragment extends Fragment implements PopularContract.View {
     @Override
     public void setErrorPage(Visibility visibility, String errorMsg) {
         // 1 Visibility
-        UiUtils.setDoubleViewVisibility(retryButton, tvErrorMessage, visibility);
+        UiUtils.setDoubleViewVisibility(retryButton, errorMessage, visibility);
 
         // 2. Caso2 - fail
         swipeRefreshLayout.setRefreshing(false);
 
         //          3°STEP
         // 3. Set ErrorMessage
-        tvErrorMessage.setText(errorMsg);
+        errorMessage.setText(errorMsg);
     }
 
 
     // 3.4 RView
+    // parametro Visibilitylo creato io
     @Override
     public void setRvVisibility(Visibility visibility) {
         if (visibility == Visibility.SHOW) {
@@ -174,7 +174,6 @@ public class PopularFragment extends Fragment implements PopularContract.View {
             recyclerView.setVisibility(View.GONE);
         }
     }
-
 
 
     //          3°STEP
@@ -188,8 +187,6 @@ public class PopularFragment extends Fragment implements PopularContract.View {
     // TODO 2
 
     ///fgf
-
-
 
 
 }

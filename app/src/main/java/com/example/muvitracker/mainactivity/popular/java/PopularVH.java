@@ -1,4 +1,4 @@
-package com.example.muvitracker.mainactivity.popular;
+package com.example.muvitracker.mainactivity.popular.java;
 
 import android.view.View;
 
@@ -7,13 +7,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 
+
 public class PopularVH extends RecyclerView.ViewHolder {
+
 
     public PopularVH(@NonNull View itemView) {
         super(itemView);
     }
-
-
-
-
 }

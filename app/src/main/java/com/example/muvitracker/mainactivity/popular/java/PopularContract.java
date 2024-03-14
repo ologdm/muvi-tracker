@@ -1,4 +1,4 @@
-package com.example.muvitracker.mainactivity.popular;
+package com.example.muvitracker.mainactivity.popular.java;
 
 import androidx.annotation.NonNull;
 

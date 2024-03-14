@@ -10,28 +10,26 @@
     <com.google.android.material.appbar.AppBarLayout
             app:layout_constraintBottom_toTopOf="@+id/bottomNavigation"
             android:id="@+id/appBarLayout"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginBottom="550dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintHorizontal_bias="0.0">
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintVertical_bias="0.0">
 
         <com.google.android.material.appbar.MaterialToolbar
                 android:layout_width="wrap_content"
-                android:layout_height="44dp"
+                android:layout_height="50dp"
                 app:title="Muvi Tracker "
-                android:textStyle="bold"
-                android:layout_marginStart="0dp" />
+                android:textStyle="italic" />
 
         <TextView
                 android:id="@+id/testoCategoria"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
-                android:paddingStart="20dp"
-                android:paddingTop="10dp"
+
                 android:hint="mostra categoria" />
 
 

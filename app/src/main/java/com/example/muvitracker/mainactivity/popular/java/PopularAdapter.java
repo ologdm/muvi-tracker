@@ -1,4 +1,4 @@
-package com.example.muvitracker.mainactivity.popular;
+package com.example.muvitracker.mainactivity.popular.java;
 
 import android.view.LayoutInflater;
 import android.view.View;
