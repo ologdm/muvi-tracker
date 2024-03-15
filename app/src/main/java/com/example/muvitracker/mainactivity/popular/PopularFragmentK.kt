@@ -89,8 +89,8 @@ class PopularFragmentK : Fragment(), PopularContractK.View {
         // caso error - in caso .setErrorPage(nointernet)
 
 
-        // OK
-        adapter.setCallbackVH { movieId: Int ->
+        // OK - movieId lo lascio solo per chiarezza
+        adapter.setCallbackVH { movieId ->
             presenter.onVHolderCLick(movieId)
         }
 
@@ -115,6 +115,7 @@ class PopularFragmentK : Fragment(), PopularContractK.View {
 
     // OK
     override fun emptyStatesFlow(emptyStates: EmptyStatesEnum) {
+        // chiamo funzione gestione stati
         EmptyStatesManagement.emptyStatesFlow(
             emptyStates,
             recyclerView,
@@ -123,93 +124,16 @@ class PopularFragmentK : Fragment(), PopularContractK.View {
             errorMessage
         )
 
-        // TODO verificare se funziona solo qua
-        swipeRefreshLayout.isRefreshing = false
-
-    }
-
-
-}
-
-
-// OLD, moved to
-/*
-// EMPTY STATES
-override fun emptyStatesFlow(emptyStates: EmptyStatesEnum) {
-
-    // TODO("chiamare solo funzione gestione da utils ")
-    // emptyStatesFlow(emptyStates: EmptyStatesEnum, progress, errorPage, rv)
-
-    when (emptyStates) {
-
-        EmptyStatesEnum.ON_START -> {
-            setRvVisibility(Visibilita.SHOW)
-            setProgressBar(Visibilita.SHOW)
-            setErrorPage(Visibilita.HIDE)
-            // oppure UiUtilsK.setSingleView(progressBar,Visibilita.SHOW)
+        // stop refreshing solo in questi 3 stati
+        when (emptyStates) {
+            EmptyStatesEnum.ON_SUCCESS,
+            EmptyStatesEnum.ON_ERROR_IO,
+            EmptyStatesEnum.ON_ERROR_OTHER
+            -> swipeRefreshLayout.isRefreshing = false
+            else -> {}
         }
 
-        EmptyStatesEnum.ON_FORCE_REFRESH -> {
-            setRvVisibility(Visibilita.SHOW)
-            setProgressBar(Visibilita.HIDE)
-            setErrorPage(Visibilita.HIDE) // errorMsg = "" default
-        }
-
-        EmptyStatesEnum.ON_SUCCESS -> {
-            setRvVisibility(Visibilita.SHOW)
-            setProgressBar(Visibilita.HIDE)
-            setErrorPage(Visibilita.HIDE)
-        }
-
-        EmptyStatesEnum.ON_ERROR_IO -> {
-            setRvVisibility(Visibilita.HIDE)
-            setProgressBar(Visibilita.HIDE)
-            setErrorPage(Visibilita.SHOW, NO_INTERNET_MSG)
-        }
-
-        EmptyStatesEnum.ON_ERROR_OTHER -> {
-            setRvVisibility(Visibilita.HIDE)
-            setProgressBar(Visibilita.HIDE)
-            setErrorPage(Visibilita.SHOW, OTHER_ERROR_MSG)
-        }
 
     }
 }
 
-
-// EMPTY STATES - PRIVATE
-private fun setProgressBar(visibilita: Visibilita) {
-    progressBar.visibility =
-        if (visibilita == Visibilita.SHOW) View.VISIBLE
-        else View.GONE
-}
-
-
-private fun setErrorPage(visibilita: Visibilita, errorMsg: String = "") {
-    retryButton.visibility =
-        if (visibilita == Visibilita.SHOW) View.VISIBLE
-        else View.GONE
-
-    errorMessage.visibility =
-        if (visibilita == Visibilita.SHOW) View.VISIBLE
-        else View.GONE
-
-    errorMessage.setText(errorMsg)
-}
-
-
-private fun setRvVisibility(visibilita: Visibilita) {
-
-    recyclerView.visibility =
-        if (visibilita == Visibilita.SHOW) View.VISIBLE
-        else View.GONE
-
-}
-
-
-companion object {
-    const val NO_INTERNET_MSG = "no internet connection PROVA"
-    const val OTHER_ERROR_MSG = "something went wrong"
-}
-
- */

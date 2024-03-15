@@ -1,9 +1,9 @@
 package com.example.muvitracker.mainactivity.details;
 
 import com.example.muvitracker.mainactivity.mylist.PrefRepo;
-import com.example.muvitracker.repo.DetailsRepo;
+import com.example.muvitracker.repo.java.DetailsRepo;
 import com.example.muvitracker.repo.dto.DetailsDto;
-import com.example.muvitracker.utils.MyRetrofitCallback;
+import com.example.muvitracker.utils.java.MyRetrofitCallback;
 
 import java.util.List;
 

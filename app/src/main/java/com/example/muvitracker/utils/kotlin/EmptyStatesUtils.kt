@@ -40,6 +40,8 @@ object EmptyStatesManagement {
         errorMsgTextview: TextView
     ) {
 
+
+        // when e esaustivo, vuole tutti i casi
         when (emptyStates) {
 
             EmptyStatesEnum.ON_START -> {

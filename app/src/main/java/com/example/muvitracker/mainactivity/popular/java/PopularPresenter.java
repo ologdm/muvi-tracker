@@ -1,9 +1,9 @@
 package com.example.muvitracker.mainactivity.popular.java;
 
-import com.example.muvitracker.utils.UiUtils;
-import com.example.muvitracker.utils.Visibility;
-import com.example.muvitracker.utils.MyRetrofitListCallback;
-import com.example.muvitracker.repo.PopularRepo;
+import com.example.muvitracker.utils.java.UiUtils;
+import com.example.muvitracker.utils.java.Visibility;
+import com.example.muvitracker.utils.java.MyRetrofitListCallback;
+import com.example.muvitracker.repo.java.PopularRepo;
 import com.example.muvitracker.repo.dto.PopularDto;
 
 import java.io.IOException;

@@ -1,10 +1,10 @@
-package com.example.muvitracker.mainactivity.boxoffice;
+package com.example.muvitracker.mainactivity.boxoffice.java;
 
-import com.example.muvitracker.repo.BoxofficeRepo;
+import com.example.muvitracker.repo.java.BoxofficeRepo;
 import com.example.muvitracker.repo.dto.BoxofficeDto;
-import com.example.muvitracker.utils.MyRetrofitListCallback;
-import com.example.muvitracker.utils.UiUtils;
-import com.example.muvitracker.utils.Visibility;
+import com.example.muvitracker.utils.java.MyRetrofitListCallback;
+import com.example.muvitracker.utils.java.UiUtils;
+import com.example.muvitracker.utils.java.Visibility;
 
 import java.io.IOException;
 import java.util.List;

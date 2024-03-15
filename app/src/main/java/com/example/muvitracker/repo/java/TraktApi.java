@@ -1,4 +1,4 @@
-package com.example.muvitracker.repo;
+package com.example.muvitracker.repo.java;
 
 // *** https://trakt.docs.apiary.io/#introduction/create-an-app
 

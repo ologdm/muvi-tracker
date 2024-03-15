@@ -1,11 +1,8 @@
-package com.example.muvitracker.utils;
+package com.example.muvitracker.utils.java;
 
 import android.view.View;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-
-import javax.security.auth.callback.Callback;
 
 
 // funzione per progress bar

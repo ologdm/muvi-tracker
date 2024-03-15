@@ -17,9 +17,10 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.muvitracker.R;
 import com.example.muvitracker.mainactivity.MainNavigator;
+import com.example.muvitracker.mainactivity.MainNavigatorK;
 import com.example.muvitracker.mainactivity.details.DetailsFragment;
-import com.example.muvitracker.utils.UiUtils;
-import com.example.muvitracker.utils.Visibility;
+import com.example.muvitracker.utils.java.UiUtils;
+import com.example.muvitracker.utils.java.Visibility;
 import com.example.muvitracker.repo.dto.PopularDto;
 
 import java.util.List;
@@ -64,6 +65,7 @@ public class PopularFragment extends Fragment implements PopularContract.View {
 
 
     // 1.5 3°STEP OK
+    // navigator nuovo
     private MainNavigator navigator = new MainNavigator();
 
 
@@ -180,6 +182,8 @@ public class PopularFragment extends Fragment implements PopularContract.View {
     // 3.5  Crea DetailsFragment + pass Id
     @Override
     public void startDetailsFragment(int movieId) {
+
+        // navigator nuovo
         navigator.addToBackstackFragment(
             requireActivity(),
             DetailsFragment.create(movieId));

@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.muvitracker.R;
 import com.example.muvitracker.mainactivity.MainNavigator;
 import com.example.muvitracker.repo.dto.DetailsDto;
-import com.example.muvitracker.utils.CallbackLiked;
 
 import java.util.List;
 

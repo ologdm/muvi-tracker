@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.muvitracker.R
-import com.example.muvitracker.mainactivity.boxoffice.BoxofficeFragment
+import com.example.muvitracker.mainactivity.boxoffice.java.BoxofficeFragment
 import com.example.muvitracker.mainactivity.mylist.PrefsFragment
 import com.example.muvitracker.mainactivity.popular.java.PopularFragment
 import com.example.muvitracker.mainactivity.search.SearchFragment
@@ -71,7 +71,9 @@ class MainActivityK() : AppCompatActivity() {
                 }
 
                 if (itemId == R.id.button2Boxoffice) {
-                    navigator.replaceFragment(this@MainActivityK, BoxofficeFragment())
+                    navigator.replaceFragment(this@MainActivityK,
+                        BoxofficeFragment()
+                    )
                     testoCategoria.setText(BOX_OFFICE_TEXT)
 
                     return@OnItemSelectedListener true

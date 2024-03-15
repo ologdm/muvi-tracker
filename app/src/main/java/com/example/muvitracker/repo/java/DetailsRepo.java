@@ -1,8 +1,8 @@
-package com.example.muvitracker.repo;
+package com.example.muvitracker.repo.java;
 
 import com.example.muvitracker.repo.dto.DetailsDto;
-import com.example.muvitracker.utils.MyRetrofit;
-import com.example.muvitracker.utils.MyRetrofitCallback;
+import com.example.muvitracker.utils.java.MyRetrofit;
+import com.example.muvitracker.utils.java.MyRetrofitCallback;
 
 import retrofit2.Call;
 import retrofit2.Callback;

@@ -1,4 +1,4 @@
-package com.example.muvitracker.utils;
+package com.example.muvitracker.utils.java;
 
 public enum Visibility {
     SHOW,

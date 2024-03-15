@@ -1,4 +1,4 @@
-package com.example.muvitracker.mainactivity.boxoffice;
+package com.example.muvitracker.mainactivity.boxoffice.java;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.muvitracker.R;
 import com.example.muvitracker.repo.dto.BoxofficeDto;
-import com.example.muvitracker.utils.CallbackVH;
+import com.example.muvitracker.utils.java.CallbackVH;
 
 import java.util.ArrayList;
 import java.util.List;

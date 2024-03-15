@@ -1,4 +1,4 @@
-package com.example.muvitracker.mainactivity.boxoffice;
+package com.example.muvitracker.mainactivity.boxoffice.java;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -19,8 +19,8 @@ import com.example.muvitracker.R;
 import com.example.muvitracker.mainactivity.MainNavigator;
 import com.example.muvitracker.mainactivity.details.DetailsFragment;
 import com.example.muvitracker.repo.dto.BoxofficeDto;
-import com.example.muvitracker.utils.UiUtils;
-import com.example.muvitracker.utils.Visibility;
+import com.example.muvitracker.utils.java.UiUtils;
+import com.example.muvitracker.utils.java.Visibility;
 
 import java.util.List;
 

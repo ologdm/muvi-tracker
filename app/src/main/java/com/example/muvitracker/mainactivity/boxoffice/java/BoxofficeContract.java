@@ -1,7 +1,7 @@
-package com.example.muvitracker.mainactivity.boxoffice;
+package com.example.muvitracker.mainactivity.boxoffice.java;
 
 import com.example.muvitracker.repo.dto.BoxofficeDto;
-import com.example.muvitracker.utils.Visibility;
+import com.example.muvitracker.utils.java.Visibility;
 
 import java.util.List;
 

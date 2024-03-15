@@ -2,7 +2,7 @@ package com.example.muvitracker.mainactivity.popular.java;
 
 import androidx.annotation.NonNull;
 
-import com.example.muvitracker.utils.Visibility;
+import com.example.muvitracker.utils.java.Visibility;
 import com.example.muvitracker.repo.dto.PopularDto;
 
 import java.util.List;

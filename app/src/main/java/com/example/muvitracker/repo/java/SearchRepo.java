@@ -1,8 +1,8 @@
-package com.example.muvitracker.repo;
+package com.example.muvitracker.repo.java;
 
 import com.example.muvitracker.repo.dto.search.SearchDto;
-import com.example.muvitracker.utils.MyRetrofit;
-import com.example.muvitracker.utils.MyRetrofitListCallback;
+import com.example.muvitracker.utils.java.MyRetrofit;
+import com.example.muvitracker.utils.java.MyRetrofitListCallback;
 
 import java.util.List;
 

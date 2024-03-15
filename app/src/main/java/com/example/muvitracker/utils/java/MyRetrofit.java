@@ -1,4 +1,4 @@
-package com.example.muvitracker.utils;
+package com.example.muvitracker.utils.java;
 
 import java.io.IOException;
 

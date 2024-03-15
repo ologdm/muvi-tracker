@@ -1,6 +1,5 @@
 package com.example.muvitracker.mainactivity.popular
 
-import com.example.muvitracker.repo.PopularRepoK
 import com.example.muvitracker.repository.dto.PopularDtoK
 import com.example.muvitracker.utils.kotlin.EmptyStatesEnum
 import com.example.muvitracker.utils.kotlin.RetrofitListCallback
