@@ -18,7 +18,7 @@
 
 
         <activity
-                android:name=".mainactivity.MainActivity"
+                android:name=".mainactivity.kotlin.MainActivityK"
                 android:exported="true"
                 android:windowSoftInputMode="adjustNothing">
             <intent-filter>

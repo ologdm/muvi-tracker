@@ -20,10 +20,10 @@ package com.example.muvitracker.repo.java;
 //-> /movies/tron-legacy-2010?extended=full
 
 
-import com.example.muvitracker.repo.dto.BoxofficeDto;
-import com.example.muvitracker.repo.dto.DetailsDto;
-import com.example.muvitracker.repo.dto.PopularDto;
-import com.example.muvitracker.repo.dto.search.SearchDto;
+import com.example.muvitracker.repo.java.dto.BoxofficeDto;
+import com.example.muvitracker.repo.java.dto.DetailsDto;
+import com.example.muvitracker.repo.java.dto.PopularDto;
+import com.example.muvitracker.repo.java.dto.search.SearchDto;
 
 import java.util.List;
 
