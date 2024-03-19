@@ -32,6 +32,8 @@ object EmptyStatesManagement {
      *  1 success
      *  2 error
      */
+
+    // versione RV
     fun emptyStatesFlow(
         emptyStates: EmptyStatesEnum,
         recycleView: RecyclerView,
@@ -76,6 +78,52 @@ object EmptyStatesManagement {
 
         }
     }
+
+
+    // versione senza RV
+    fun emptyStatesFlow(
+        emptyStates: EmptyStatesEnum,
+        progressBar: View,
+        retryButton: Button,
+        errorMsgTextview: TextView
+    ) {
+
+
+        // when e esaustivo, vuole tutti i casi
+        when (emptyStates) {
+
+            EmptyStatesEnum.ON_START -> {
+                setProgressBar(progressBar, Visibility.SHOW)
+                setErrorPage(retryButton, errorMsgTextview, Visibility.HIDE)
+            }
+
+            EmptyStatesEnum.ON_FORCE_REFRESH -> {
+                setProgressBar(progressBar, Visibility.HIDE)
+                setErrorPage(retryButton, errorMsgTextview, Visibility.HIDE)
+            }
+
+            EmptyStatesEnum.ON_SUCCESS -> {
+                setProgressBar(progressBar, Visibility.HIDE)
+                setErrorPage(retryButton, errorMsgTextview, Visibility.HIDE)
+            }
+
+            EmptyStatesEnum.ON_ERROR_IO -> {
+                setProgressBar(progressBar, Visibility.HIDE)
+                setErrorPage(retryButton, errorMsgTextview, Visibility.SHOW, NO_INTERNET_MSG)
+            }
+
+            EmptyStatesEnum.ON_ERROR_OTHER -> {
+                setProgressBar(progressBar, Visibility.HIDE)
+                setErrorPage(retryButton, errorMsgTextview, Visibility.SHOW, OTHER_ERROR_MSG)
+            }
+
+        }
+    }
+
+
+
+
+
 
     /** funzioni private -> utilizzate dentro
      *
@@ -140,6 +188,13 @@ enum class EmptyStatesEnum {
 private enum class Visibility {
     SHOW,
     HIDE
+}
+
+interface EmptyStatesCallback {
+    fun OnStart()
+    fun onSuccess ()
+    fun onErrorIO ()
+    fun onErrorOther ()
 }
 
 

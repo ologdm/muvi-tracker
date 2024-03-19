@@ -1,7 +1,7 @@
 package com.example.muvitracker.repo.java;
 
-import com.example.muvitracker.repo.java.dto.DetailsDto;
 
+import com.example.muvitracker.repo.java.dto.DetailsDto;
 import java.util.ArrayList;
 import java.util.List;
 

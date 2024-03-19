@@ -52,8 +52,8 @@ class PopuAdapter : RecyclerView.Adapter<PopuVH>() {
         val imageVH: ImageView = holder.itemView.findViewById(R.id.imageVH)
 
         // 3 set testo OK
-        titoloVH.setText(dto.title)
-        annoVH.setText(dto.year.toString()) // conversione automatica
+        titoloVH.text = dto.title
+        annoVH.text = dto.year.toString() // conversione automatica
 
         // 4 set immagine con glide OK
         Glide.with(holder.itemView.context)

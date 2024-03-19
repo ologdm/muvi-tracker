@@ -1,4 +1,4 @@
-package com.example.muvitracker.mainactivity.kotlin.details
+package com.example.muvitracker.mainactivity.kotlin.deta
 
 import com.example.muvitracker.repo.kotlin.TraktApiK
 import com.example.muvitracker.repo.kotlin.dto.DetaDto
@@ -9,19 +9,21 @@ import retrofit2.Callback
 import retrofit2.HttpException
 import retrofit2.Response
 
+// chiama il server e passa dati a repo
 
-object DetaRepo {
+
+object NetworkDS {
 
 
     // crea retrofit
-    val retrofit = MyRetrofit.createMuviTrackerRetrofit()
+    private val retrofit = MyRetrofit.createMuviTrackerRetrofit()
 
 
     // crea api
-    val traktApi = retrofit.create(TraktApiK::class.java)
+    private val traktApi = retrofit.create(TraktApiK::class.java)
 
 
-    fun callDetalServer(inputMovieId: Int, myCall: RetrofitCallbackK<DetaDto>) {
+    fun callDetaServer(inputMovieId: Int, myCall: RetrofitCallbackK<DetaDto>) {
 
         val call: Call<DetaDto> = traktApi.getDetailsOfDto(traktMovieId = inputMovieId) // movieId
 
@@ -58,27 +60,6 @@ object DetaRepo {
     }
 
 
+
+
 }
-
-// TODO: DETA REPO
-// 1° step
-// scarica i dati al click oggetto
-
-
-// 2° step
-// aggiungi locale e repo
-
-
-// 3° step
-// aggiungi logica (vedere sotto)
-
-
-// repo -> decide da dove prendere info e inviarla al fragment
-//   - locale shared prefs poi scarica e aggiorna
-//   - scarica da server direttamente
-
-
-// locale - implementazione shared prefs
-
-// server - chiamata a retrofit
-

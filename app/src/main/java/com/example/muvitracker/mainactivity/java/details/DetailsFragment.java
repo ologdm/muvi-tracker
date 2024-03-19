@@ -55,11 +55,13 @@ public class DetailsFragment extends Fragment implements DetailsContract.View {
     // 1.2 Views
     private TextView title;
     private ImageView image;
+
     private TextView released;
     private TextView runtimeFilm;
     private TextView country;
     private TextView rating;
     private TextView overview;
+
     private ImageButton buttonBack;
 
     ImageButton likeButton;
@@ -127,6 +129,9 @@ public class DetailsFragment extends Fragment implements DetailsContract.View {
             traktMovieId = bundle.getInt("key_id");
         }
 
+        // load data ( da cache o server)
+        presenter.getMovie(traktMovieId);
+
 
         // back
         buttonBack.setOnClickListener(v -> {
@@ -136,8 +141,6 @@ public class DetailsFragment extends Fragment implements DetailsContract.View {
         });
 
 
-        // load data ( da cache o server)
-        presenter.getMovie(traktMovieId);
 
 
         // (eugi)

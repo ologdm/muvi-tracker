@@ -37,12 +37,20 @@ data class DetaDto(
     val certification: String
 ) {
 
+    // elementi controllo prefList
+    var liked: Boolean = false
+    var watched: Boolean = false
 
+    fun getImageUrl(): String {
+        return "http://img.omdbapi.com/" + "?apikey=ef6d3d4c" + "&i=${ids.imdb}";
+    }
+
+    // serve mettere valori default??
     data class Ids(
-        val trakt: Int,
-        val slug: String,
-        val imdb: String, // utilizzata per immagini
-        val tmdb: Int
+        val trakt: Int = 0,
+        val slug: String = "",
+        val imdb: String = "", // utilizzata per immagini
+        val tmdb: Int = 0
     )
 
 }
