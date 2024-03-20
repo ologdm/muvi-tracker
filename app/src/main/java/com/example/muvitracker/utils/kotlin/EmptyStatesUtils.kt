@@ -4,11 +4,23 @@ import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.muvitracker.repo.kotlin.dto.DetaDto
 
 /** contiene:
- * - Management
- * - EmptyStates -Enum
- * - Visibilita - Enum
+ * - EmptyStatesManagement class
+ *              - emptyStatesFlow rv e frame
+ *              - fun setProgressBar
+ *              - setErrorPage
+ *              - setFrameVisibility
+ *
+ * EmptyStates enum
+ *
+ * Visibility enum
+ *
+ * EmptyStatesCallback interface - programmazione assincrona
+ *      > passa stati al presenter
+ *      > onSuccess (passa dato)
+ *
  *
  */
 
@@ -17,7 +29,7 @@ import androidx.recyclerview.widget.RecyclerView
 object EmptyStatesManagement {
 
     // non serve privato
-    const val NO_INTERNET_MSG = "no internet connection PROVA"
+    const val NO_INTERNET_MSG = "no internet connection, swipe down"
     const val OTHER_ERROR_MSG = "something went wrong"
 
 
@@ -28,9 +40,9 @@ object EmptyStatesManagement {
      *  - RecycleView
      *
      *  stati:
-     *  2 iniziali
-     *  1 success
-     *  2 error
+     *  due iniziali
+     *  un success
+     *  due error
      */
 
     // versione RV
@@ -41,19 +53,17 @@ object EmptyStatesManagement {
         retryButton: Button,
         errorMsgTextview: TextView
     ) {
-
-
         // when e esaustivo, vuole tutti i casi
         when (emptyStates) {
 
             EmptyStatesEnum.ON_START -> {
-                setRvVisibility(recycleView, Visibility.SHOW)
+                setRvVisibility(recycleView, Visibility.HIDE)
                 setProgressBar(progressBar, Visibility.SHOW)
                 setErrorPage(retryButton, errorMsgTextview, Visibility.HIDE)
             }
 
             EmptyStatesEnum.ON_FORCE_REFRESH -> {
-                setRvVisibility(recycleView, Visibility.SHOW)
+                setRvVisibility(recycleView, Visibility.HIDE)
                 setProgressBar(progressBar, Visibility.HIDE)
                 setErrorPage(retryButton, errorMsgTextview, Visibility.HIDE)
             }
@@ -80,39 +90,43 @@ object EmptyStatesManagement {
     }
 
 
-    // versione senza RV
+    // versione FrameLayout OK
     fun emptyStatesFlow(
         emptyStates: EmptyStatesEnum,
+        frame: View,
         progressBar: View,
         retryButton: Button,
         errorMsgTextview: TextView
     ) {
-
-
         // when e esaustivo, vuole tutti i casi
         when (emptyStates) {
 
             EmptyStatesEnum.ON_START -> {
+                setFrameVisibility(frame, Visibility.HIDE)
                 setProgressBar(progressBar, Visibility.SHOW)
                 setErrorPage(retryButton, errorMsgTextview, Visibility.HIDE)
             }
 
             EmptyStatesEnum.ON_FORCE_REFRESH -> {
+                setFrameVisibility(frame, Visibility.HIDE)
                 setProgressBar(progressBar, Visibility.HIDE)
                 setErrorPage(retryButton, errorMsgTextview, Visibility.HIDE)
             }
 
             EmptyStatesEnum.ON_SUCCESS -> {
+                setFrameVisibility(frame, Visibility.SHOW)
                 setProgressBar(progressBar, Visibility.HIDE)
                 setErrorPage(retryButton, errorMsgTextview, Visibility.HIDE)
             }
 
             EmptyStatesEnum.ON_ERROR_IO -> {
+                setFrameVisibility(frame, Visibility.HIDE)
                 setProgressBar(progressBar, Visibility.HIDE)
                 setErrorPage(retryButton, errorMsgTextview, Visibility.SHOW, NO_INTERNET_MSG)
             }
 
             EmptyStatesEnum.ON_ERROR_OTHER -> {
+                setFrameVisibility(frame, Visibility.HIDE)
                 setProgressBar(progressBar, Visibility.HIDE)
                 setErrorPage(retryButton, errorMsgTextview, Visibility.SHOW, OTHER_ERROR_MSG)
             }
@@ -173,6 +187,19 @@ object EmptyStatesManagement {
 
     }
 
+
+    private fun setFrameVisibility(
+        frame: View,
+        visibilita: Visibility
+    ) {
+
+       frame.visibility =
+            if (visibilita == Visibility.SHOW) View.VISIBLE
+            else View.GONE
+
+    }
+
+
 }
 
 
@@ -190,9 +217,10 @@ private enum class Visibility {
     HIDE
 }
 
+
 interface EmptyStatesCallback {
     fun OnStart()
-    fun onSuccess ()
+    fun onSuccess (detaDto: DetaDto)
     fun onErrorIO ()
     fun onErrorOther ()
 }

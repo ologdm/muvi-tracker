@@ -12,10 +12,6 @@ class BoxoPresenter(
 ) : BoxoContract.Presenter {
 
 
-    private val boxoRepository = BoxoRepo
-
-
-
     // CONTRACT METHODS
 
     // chiamata OK

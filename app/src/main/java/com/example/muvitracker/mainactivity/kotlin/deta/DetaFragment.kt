@@ -1,16 +1,17 @@
 package com.example.muvitracker.mainactivity.kotlin.deta
 
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.CheckBox
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.bumptech.glide.Glide
 import com.example.muvitracker.R
 import com.example.muvitracker.repo.kotlin.dto.DetaDto
@@ -41,25 +42,18 @@ class DetaFragment : Fragment(), DetaContract.View {
     private lateinit var likedButton: ImageButton
     private lateinit var watchedCkBox: CheckBox
 
-    // TODO: empty states + swipeRefresh
-
+    // empty states + swipeRefresh OK
+    private lateinit var frameLayout: View
+    private lateinit var progressBar: ProgressBar
+    private lateinit var retryButton: Button
+    private lateinit var errorMsgTextview: TextView
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
     // altro
     private val presenter = DetaPresenter(this) // vuole una classe che implementa view, quindi this
 
 
     // COSTRUTTORE - default privato
-    companion object {
-        // implemento  costruttore factory -
-        // costruttore deve poter essere chiamato da CLassBlueprint
-        fun create(): DetaFragment {
-            val fragment = DetaFragment
-
-            TODO("finire mettendo i bundle")
-
-        }
-
-    }
 
 
     // creazione OK
@@ -86,41 +80,62 @@ class DetaFragment : Fragment(), DetaContract.View {
         overview = view.findViewById(R.id.descrizioneOverview) // string
 
         buttonBack = view.findViewById(R.id.buttonBack)
+
         likedButton = view.findViewById(R.id.likedButton)
         watchedCkBox = view.findViewById(R.id.watchedCheckbox)
 
+        frameLayout = view.findViewById(R.id.detailsFrameLayout)
+        progressBar = view.findViewById(R.id.progressBar)
+        retryButton = view.findViewById(R.id.retryButton)
+        errorMsgTextview = view.findViewById(R.id.errorMessageTextview)
+
+        // swipe OK
+        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout)
+
+        swipeRefreshLayout.setOnRefreshListener {
+            presenter.getMovie(traktMovieId, forceRefresh = true)
+
+            //println("XXX_D_FRAGM_START_SWIPE_REFRESH") ridondante
+        }
 
         // TODO: empty states + swipeRefresh - view binding
 
-        // TODO : get bundle
+        //  OK
+        val bundle = arguments
+        if (bundle != null) {
+            traktMovieId = bundle.getInt(TRAKT_ID_KEY)
 
-        // TODO: icone
+            println("XXX_D_FRAGM_GET_BUNDLE")
+        }
 
+        buttonBack.setOnClickListener {  // OK
+            requireActivity().onBackPressed()
+
+            println("XXX_D_FRAGMBACK_CLICK")
+        }
 
         // LOGICA GET
+        // OK
         presenter.getMovie(traktMovieId, forceRefresh = false) // inputId creazione
 
 
         // LOGICA SET
-        buttonBack.setOnClickListener {  // OK
-            requireActivity().onBackPressed()
-        }
 
         // OK
         likedButton.setOnClickListener {
             presenter.toggleFavorite()
             // toggle -> update -> set icona view
+
+            println("XXX_D_FRAGM_LIKED_CLICK")
         }
 
         // OK
         watchedCkBox.setOnCheckedChangeListener { buttonView,
                                                   isChecked ->
-
             presenter.updateWatched(isChecked)
+
+            println("XXX_D_FRAGM_WATCHED CLICK")
         }
-
-
-
 
 
     }
@@ -147,39 +162,81 @@ class DetaFragment : Fragment(), DetaContract.View {
             .load(detaDto.getImageUrl())
             .into(image)
 
+        println("XXX_D_FRAGM_UPDATEUI")
         updateFavoriteIcon(detaDto.liked) // isliked
         updateWatchedCheckbox(detaDto.watched) // isWatched
 
+
     }
 
-
+    // OK
     private fun updateFavoriteIcon(isFavorite: Boolean) {
-        val iconFilled =context?.getDrawable(R.drawable.baseline_favorite_24)
-        val iconEmpty =context?.getDrawable(R.drawable.baseline_favorite_border_24)
+        val iconFilled = context?.getDrawable(R.drawable.baseline_favorite_24)
+        val iconEmpty = context?.getDrawable(R.drawable.baseline_favorite_border_24)
 
         if (isFavorite)
             likedButton.setImageDrawable(iconFilled)
         else
             likedButton.setImageDrawable(iconEmpty)
 
+        println("XXX_D_FRAGM_LIKED_BTN_SET")
 
-        // da dto presenter
+        // da presenterDto
     }
 
+    // OK
     private fun updateWatchedCheckbox(isWatched: Boolean) {
         watchedCkBox.isChecked = isWatched
 
-        // da dto presenter
+        println("XXX_D_FRAGM_WATCHED_ CKBOX")
+        // da presenterDto
     }
 
 
+    // OK
     override fun emptyStatesFlow(emptyStates: EmptyStatesEnum) {
-        /*
+
         EmptyStatesManagement.emptyStatesFlow(
             emptyStates,
+            frameLayout,
+            progressBar,
+            retryButton,
+            errorMsgTextview
         )
 
-         */
+        //println("XXX_D_FRAGM_E_STATES")
+
+        when (emptyStates) {
+            EmptyStatesEnum.ON_SUCCESS,
+            EmptyStatesEnum.ON_ERROR_IO,
+            EmptyStatesEnum.ON_ERROR_OTHER
+            -> swipeRefreshLayout.isRefreshing = false
+            else -> {}
+        }
+    }
+
+
+    // OK
+    companion object {
+        // Details Factory OK
+
+        const val TRAKT_ID_KEY = "traktId_key"
+
+        // implemento  costruttore factory -
+        // costruttore deve poter essere chiamato da CLassBlueprint
+
+
+        fun create(traktId: Int): DetaFragment {
+            val detaFragment = DetaFragment()
+
+            val bundle = Bundle()
+            bundle.putInt(TRAKT_ID_KEY, traktId)
+            detaFragment.arguments =
+                bundle  // arguments - quando voglio passare elementi alla creazione
+
+            return detaFragment
+        }
+
     }
 
 

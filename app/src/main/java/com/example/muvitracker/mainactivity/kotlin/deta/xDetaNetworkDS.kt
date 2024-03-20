@@ -12,7 +12,7 @@ import retrofit2.Response
 // chiama il server e passa dati a repo
 
 
-object NetworkDS {
+object xDetaNetworkDS {
 
 
     // crea retrofit

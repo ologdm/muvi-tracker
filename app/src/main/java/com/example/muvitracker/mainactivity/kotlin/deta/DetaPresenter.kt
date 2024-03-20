@@ -6,16 +6,35 @@ import com.example.muvitracker.utils.kotlin.EmptyStatesEnum
 
 
 /**
+ *
+ * fatto tutti alle 16:34 20 mar
+ *
  *  GET
- *  getMovie():
- *      1) aggiorna presenterDto,
- *      2) gestisce empty states, con stati callback
- *      chiamata server(onStart, onSuccess, onErrorIO, onErrorOther
+ *  -getMovie(): OK
+ *      > getMovie da repo
+ *      - wrapperESCallback() - solo per getMovie OK
+ *          > stati (onStart, onSuccess, onErrorIO, onErrorOther)
+ *          > gestisce empty states
+ *          > (onSuccess) - aggiorna presenter e Ui
+ *
  *
  * SET
+ * -toggleFavorite() OK
+ *          > send to repo (the dto to modify),
+ *          > get from repo
+ *          > updateUi
+ *
+ * -updateWatched() OK
+ *          > modify dto state and create copy
+ *          > send copy to repo
+ *          > update presenterDto with copy
+ *          > updateUi
  *
  *
  */
+
+// copy: val-val, solo quando modifico
+// !! con if() vabene
 
 
 class DetaPresenter(
@@ -24,87 +43,114 @@ class DetaPresenter(
 
 
     // ATTRIBUTI
-    // dto
-    private lateinit var presenterDto: DetaDto // elemento usato per mostrare elementi su Fragment
 
-    // repo
-    private val detaRepo = DetaRepo //
+    private var presenterDto: DetaDto? = null
+
+
 
 
     //CONTRACT METHODS
 
     // 1. GET OK
+
     override fun getMovie(movieId: Int, forceRefresh: Boolean) {
 
         // copia da repo
-        presenterDto = detaRepo
-            .getMovie(
-                movieId,
-                object : EmptyStatesCallback { // solo per la fase server
-                    override fun OnStart() {
-                        if (forceRefresh)
-                            view.emptyStatesFlow(EmptyStatesEnum.ON_FORCE_REFRESH)
-                        else
-                            view.emptyStatesFlow(EmptyStatesEnum.ON_START)
-                    }
+        DetaRepo.getMovie(
+            movieId,
+            wrapperESCallback(forceRefresh) // aggiorno dto da call
+        )
+    }
 
-                    override fun onSuccess() {
-                        view.emptyStatesFlow(EmptyStatesEnum.ON_SUCCESS)
-                    }
 
-                    override fun onErrorIO() {
-                        view.emptyStatesFlow(EmptyStatesEnum.ON_ERROR_IO)
-                    }
+    // solo per getMovie OK
+    private fun wrapperESCallback(forceRefresh: Boolean): EmptyStatesCallback {
 
-                    override fun onErrorOther() {
-                        view.emptyStatesFlow(EmptyStatesEnum.ON_ERROR_OTHER)
-                    }
+        return object : EmptyStatesCallback {
+
+            override fun OnStart() {
+                if (forceRefresh) {
+                    view.emptyStatesFlow(EmptyStatesEnum.ON_FORCE_REFRESH)
+                    println("XXX_PRES_EMPTY STATE FORCE REFRESH")
+                } else {
+                    view.emptyStatesFlow(EmptyStatesEnum.ON_START)
+                    println("XXX_PRES_EMPTY STATE START")
                 }
-            )
-            .copy() // >> dataclass ha copy() incorporato
+            }
+
+            override fun onSuccess(detaDto: DetaDto) {
+                view.emptyStatesFlow(EmptyStatesEnum.ON_SUCCESS)
+
+                // update presenter and ui
+                presenterDto = detaDto.copy()
+                updateUi()
+
+                println("XXX_PRES_EMPTY STATE SUCCESS")
+
+            }
+
+            override fun onErrorIO() {
+                view.emptyStatesFlow(EmptyStatesEnum.ON_ERROR_IO)
+                println("XXX_PRES_ES_ERROR IO")
+            }
+
+            override fun onErrorOther() {
+                view.emptyStatesFlow(EmptyStatesEnum.ON_ERROR_OTHER)
+
+                println("XXX_PRES_ES_ERROR OTHER")
+            }
+
+        }
+    }
 
 
-        // aggiorna da presenter
-        view.updateUi(presenterDto)
-
+    // OK
+    private fun updateUi() {
+        if (presenterDto != null) {
+            view.updateUi(presenterDto!!)
+        }
     }
 
 
     // 2. SET
 
-    // chiama al click su Icon
+    // OK
     override fun toggleFavorite() {
-        // delego il lavoro logico a repo
-        detaRepo.toggleFavoriteOnDB(presenterDto)
 
-        // aggiorno da db
-        updateDtoPresenterAndUi()
+        if (presenterDto != null) {
+            // send to repo
+            DetaRepo.toggleFavoriteOnDB(presenterDto!!) // delego il lavoro logico a repo
+            // get from repo
+            presenterDto = DetaRepo.getLocalItem(presenterDto!!.ids.trakt)
+        }
 
+        updateUi()
+        println("XXX_PRES_TOGGLE")
     }
 
 
+    // OK
     override fun updateWatched(watchedStatus: Boolean) {
-        //cambio stato
-        presenterDto.watched = watchedStatus
 
-        // invio elemento cambiato
-        detaRepo.updateWatchedOnDB(presenterDto)
+        //cambio stato + copy
+        val modifiedDto = presenterDto?.copy(watched = watchedStatus)
 
-        // aggiorno da db
-        updateDtoPresenterAndUi()
-    }
+        // OK
+        if (modifiedDto != null) {
+            // send to repo
+            DetaRepo.updateWatchedOnDB(modifiedDto)
+            // update presenterDto
+            presenterDto = modifiedDto
+        }
 
+        updateUi()
 
-    // interno
-    private fun updateDtoPresenterAndUi() {
-        // salva copia elemento
-        presenterDto = detaRepo
-            .getLocalItem(presenterDto.ids.trakt)
-            .copy()
-
-        // aggionaUi con dati nuovi
-        view.updateUi(presenterDto)
+        println("XXX_PRES_WATCHED")
     }
 
 
 }
+
+
+
+

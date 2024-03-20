@@ -4,8 +4,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/frameEmptyStates"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="10dp">
+        android:layout_height="match_parent">
 
 
     <!-- visibile su xml, nascosto a programma -->
@@ -13,7 +12,7 @@
             android:id="@+id/progressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
+            android:layout_gravity="center"
             android:visibility="gone"
             tools:visibility="visible"/>
 
@@ -30,9 +29,9 @@
             android:id="@+id/errorMessageTextview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="no internet connection"
+            android:text="custom error text"
             android:textSize="15sp"
-            android:layout_gravity="bottom"
+            android:layout_gravity="top|center"
             android:visibility="gone"
             tools:visibility="visible"/>
 

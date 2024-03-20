@@ -48,12 +48,12 @@ object PopuRepo {
                     * not nullable e garantito da if sopra */
                     callbackPresenter.onSuccess(response.body()!!)
 
-                    println("XXX_REPO_SUCCESS")
+                    println("XXX_POPU_REPO_SUCCESS")
                 } else {
                     println("Request failed with code: ${response.code()}")
                     callbackPresenter.onError(HttpException(response))
 
-                    println("XXX_REPO_ERROR1")
+                    println("XXX_POPU_REPO_ERROR1")
                 }
             }
 
@@ -63,7 +63,7 @@ object PopuRepo {
             ) {
                 callbackPresenter.onError(t)
 
-                println("XXX_REPO_ERROR2")
+                println("XXX_POPU_REPO_ERROR2")
             }
 
         })

@@ -49,25 +49,20 @@ public class DetailsFragment extends Fragment implements DetailsContract.View {
 
     // 1. ATTRIBUTI
 
+    private final DetailsPresenter presenter = new DetailsPresenter(this);
+    ImageButton likeButton;
     // 1.1
     private int traktMovieId;
-
     // 1.2 Views
     private TextView title;
     private ImageView image;
-
     private TextView released;
     private TextView runtimeFilm;
     private TextView country;
     private TextView rating;
     private TextView overview;
-
     private ImageButton buttonBack;
-
-    ImageButton likeButton;
     private CheckBox watchedCheckbox;
-
-    private final DetailsPresenter presenter = new DetailsPresenter(this);
 
 
     // 2. COSTRUTTORE

@@ -5,6 +5,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import com.example.muvitracker.R
 import com.example.muvitracker.mainactivity.java.details.DetailsFragment
+import com.example.muvitracker.mainactivity.kotlin.deta.DetaFragment
 
 // kotlin
 // supportFragmentManager - senza() perche e un getter, metodo implicito
@@ -47,7 +48,8 @@ class MainNavigatorK {
     ) {
         val manager = fragmentActivity.supportFragmentManager
         manager.beginTransaction()
-            .replace(R.id.frameLayout, DetailsFragment.create(traktMovieId))
+            .replace(R.id.frameLayout, DetaFragment.create(traktMovieId))
+            .addToBackStack(null)
             .commit()
     }
 

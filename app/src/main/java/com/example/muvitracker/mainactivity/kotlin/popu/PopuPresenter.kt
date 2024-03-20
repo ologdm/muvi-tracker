@@ -14,7 +14,7 @@ class PopuPresenter(
 
 
     // ATTRIBUTI OK
-    private val popuRepository = PopuRepo
+    //PopuRepo - object, no istanza
 
 
     // CONTRACT METHODS
@@ -32,6 +32,7 @@ class PopuPresenter(
 
                 override fun onSuccess(serverList: List<PopuDto>) {
                     view.UpdateUi(serverList)
+
 
                     view.emptyStatesFlow(EmptyStatesEnum.ON_SUCCESS)
                 }

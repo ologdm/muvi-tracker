@@ -12,6 +12,12 @@ import com.google.gson.annotations.SerializedName
 
 // OK
 data class DetaDto(
+
+    // elementi controllo prefList
+    val liked: Boolean = false,
+    var watched: Boolean = false,
+
+
     val title: String,
     val year: Int,
     val ids: Ids,
@@ -32,14 +38,12 @@ data class DetaDto(
     @SerializedName("comment_count")
     val commentCount: Int,
     val language: String,
-    val availableTranslations: List<String>,
+    val availableTranslations: List<String>?,
     val genres: List<String>,
     val certification: String
 ) {
 
-    // elementi controllo prefList
-    var liked: Boolean = false
-    var watched: Boolean = false
+
 
     fun getImageUrl(): String {
         return "http://img.omdbapi.com/" + "?apikey=ef6d3d4c" + "&i=${ids.imdb}";

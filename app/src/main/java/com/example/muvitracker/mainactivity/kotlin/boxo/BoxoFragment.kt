@@ -120,7 +120,10 @@ class BoxoFragment : Fragment(), BoxoContract.View {
 
     // OK
     override fun startDetailsFragment(traktMovieId: Int) {
-        navigator.startDetailsFragmentAndAddToBackstack(requireActivity(), traktMovieId)
+        navigator.startDetailsFragmentAndAddToBackstack(
+            requireActivity(),
+            traktMovieId
+        )
     }
 
 }

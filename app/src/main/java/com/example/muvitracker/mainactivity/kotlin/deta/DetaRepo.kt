@@ -6,18 +6,32 @@ import com.example.muvitracker.utils.kotlin.RetrofitCallbackK
 import java.io.IOException
 
 
-
 /**
  * repo gestisce logica flusso dati, non salva
-
- *
- * 1° GET FUNZIONI:
- * getMovie() - sceglie tra DB e Server,
- *  getLocalItem () - da DB
- *  getNetworkItemAndAddToLocal() - scarica e add a DB(success); gestisce empty states
  *
  *
- * 2° SET FUNZIONI:
+ *  1° GET FUNZIONI:
+ *  -getMovie() OK
+ *      > sceglie tra DB e Server
+ *      - getNetworkItemAndAddToLocal() -> assincrona, scarica e addDB+callback to presenter (success);
+ *                                         gestisce empty states
+ *
+ *      - getLocalItem ()               -> assincorna, con callback EmptyStatesCallback
+ *
+ *
+ *  -getLocalItem ()  OK                -> sincrona - direttamente da DB
+ *
+ *
+ *
+ *
+ *
+ *  2° SET FUNZIONI:
+ *  -toggleFavoriteOnDB() OK
+ *              > change liked on dto and create copy
+ *              > updateDb
+ *
+ *  -updateWatchedOnDB() OK
+ *              > updateDb
  *
  *
  */
@@ -27,34 +41,32 @@ object DetaRepo {
 
 
     // istanze di local e server
-    private val localDS = LocalDS
-    private val networkDS = NetworkDS
+    private val localDS = xDetaLocalDS
+    private val networkDS = xDetaNetworkDS
 
 
     // ########################################################
     // GET FUNZIONI
 
-    fun getMovie(movieId: Int, callES: EmptyStatesCallback): DetaDto {
+
+    fun getMovie(movieId: Int, callES: EmptyStatesCallback) {
         // 1 TODO: carica dati da shared in RAM (solo una volta)
 
         var index = localDS.getItemIndex(movieId)
 
+        // branch dell if assincrono non puo avere - return classico, return è  sempre sincrono
         if (index != -1) { // se trova index -> getDB
 
-            return getLocalItem(movieId)  // OK
+            getLocalItem(movieId, callES)
 
-            // TODO: aggiornare esistente
+            println("XXX_REPO_GET_DB")
 
         } else {
             getNetworkItemAndAddToLocal(movieId, callES)
 
-            return getLocalItem(movieId)
+            println("XXX_REPO_GET_SERVER")
         }
-
-
     }
-
-
 
 
     // METODI PRIVATI
@@ -67,22 +79,35 @@ object DetaRepo {
             override fun onSuccess(serverItem: DetaDto) {
                 localDS.createItem(serverItem) // add DB
 
-                callES.onSuccess() // empty states
+                callES.onSuccess(serverItem) //passo tu presenter
+
+                println("XXX_REPO_SERVER_SUCCESS")
             }
 
             override fun onError(throwable: Throwable) {
-                if (throwable is IOException)
-                    callES.onErrorIO() // empty states
-                else
-                    callES.onErrorOther() // empty states
-
+                if (throwable is IOException) {
+                    callES.onErrorIO()
+                    println("XXX_REPO_SERVER_ERROR1")
+                } else {
+                    callES.onErrorOther()
+                    println("XXX_REPO_SERVER_ERROR2")
+                }
             }
         })
     }
 
     // OK
-    fun getLocalItem (movieId: Int): DetaDto {
+    private fun getLocalItem(movieId: Int, callES: EmptyStatesCallback) {
+        val databaseDto = localDS.readItem(movieId)
+        callES.onSuccess(databaseDto)
+        // println ok success
+
+    }
+
+
+    fun getLocalItem(movieId: Int): DetaDto {
         return localDS.readItem(movieId)
+        // println su presenter
     }
 
 
@@ -90,40 +115,32 @@ object DetaRepo {
     // SET FUNZIONI
 
     // OK
-    fun toggleFavoriteOnDB (inputDto :DetaDto){
-        // >> se l'ho aperto, e gia su DB
+    fun toggleFavoriteOnDB(inputDto: DetaDto) {
+        // !!! se l'ho aperto, e gia su DB !!!
 
-        // inversione stato
-        inputDto.liked = !inputDto.liked
+        val dtoModificato = inputDto.copy(liked = !inputDto.liked)
+        localDS.updateItem(dtoModificato)
 
-        // db
-        localDS.updateItem(inputDto) // db poi crea copia
+        //inputDto =
+        //localDS.updateItem(inputDto)
+
+        println("XXX_REPO_TOGGLE_UPDATE_DB")
     }
+
 
     // OK
-    fun updateWatchedOnDB (inputDto: DetaDto){
+    fun updateWatchedOnDB(inputDto: DetaDto) {
 
-        localDS.updateItem(inputDto) // db poi crea copia
+        localDS.updateItem(inputDto)
+
+        println("XXX_REPO_WATCHED_UPDATE_DB")
 
     }
-
-
-
-
-
-
-
-
 
 
 }
 
 
-
-
-// repo -> decide da dove prendere info e inviarla al fragment
-//   - locale shared prefs poi scarica e aggiorna
-//   - scarica da server direttamente
 
 
 

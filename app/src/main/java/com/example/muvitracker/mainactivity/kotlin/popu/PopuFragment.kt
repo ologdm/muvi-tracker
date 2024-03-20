@@ -89,7 +89,6 @@ class PopuFragment
         // caso error - in caso .setErrorPage(nointernet)
 
 
-
         // OK - movieId lo lascio solo per chiarezza
         adapter.setCallbackVH { movieId ->
             presenter.onVHolderCLick(movieId)
@@ -141,7 +140,11 @@ class PopuFragment
 
     // OK
     override fun startDetailsFragment(movieId: Int) {
-        navigator.startDetailsFragmentAndAddToBackstack(requireActivity(), movieId)
+        navigator.startDetailsFragmentAndAddToBackstack(
+            requireActivity(),
+            movieId
+        )
+        println("XXX_ START FRAGMENT FROM POPU, movieId: $movieId")
     }
 }
 

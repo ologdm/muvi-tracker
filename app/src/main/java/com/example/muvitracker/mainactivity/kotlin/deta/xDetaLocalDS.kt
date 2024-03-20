@@ -17,10 +17,10 @@ import com.example.muvitracker.repo.kotlin.dto.DetaDto
 // 2° step sharedPrefs
 
 
-object LocalDS {
+object xDetaLocalDS {
 
     // ATTRIBUTI
-    val localList = mutableListOf<DetaDto>()
+    private val localList = mutableListOf<DetaDto>()
 
 
     // METODI CRUD
@@ -29,15 +29,10 @@ object LocalDS {
 
     // 1. OK
     fun createItem(dto: DetaDto) {
-        // check se elemento presente,
-        // ma comunque dovrebbe essere gia gestito a livello di repo
-        var index = getItemIndex(dto)
+        
 
-        // se elemento non in list, aggiungi in coda
-        if (index != -1) {
             localList.add(dto)
-        }
-
+        println("XXX_DB_CREATE_ITEM")
 
         saveListInShared() // aggiorno locale
     }
@@ -46,8 +41,10 @@ object LocalDS {
     fun readItem(movieId: Int): DetaDto {
         var index = getItemIndex(movieId)
 
+        println("XXX_DB_READ_ITEM")
         return localList.get(index)
     }
+
 
     // 3. TODO
     fun updateItem(dto: DetaDto) {
@@ -55,11 +52,10 @@ object LocalDS {
         var index = getItemIndex(dto)
 
         if (index != -1) {
-            var localDto = localList.get(index)
-
-            // sovrascrivo con copia valore nuovo
-            localDto = dto.copy()
+            localList.set(index,dto)
+            // copy ssu repo, dove vaod a cambiare stato
         }
+        println("XXX_DB_READ_ITEM")
 
         saveListInShared() // aggiorno locale
     }
