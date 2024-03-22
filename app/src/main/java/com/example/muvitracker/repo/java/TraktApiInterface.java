@@ -35,7 +35,7 @@ import retrofit2.http.Query;
 // @GET("movies/boxoffice") - le annotazioni sono metadati
 
 
-public interface TraktApi {
+public interface TraktApiInterface {
 
 
     //              1°STEP

@@ -5,9 +5,9 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.muvitracker.R
 import com.example.muvitracker.mainactivity.kotlin.boxo.BoxoFragment
-import com.example.muvitracker.mainactivity.java.mylist.PrefsFragment
 import com.example.muvitracker.mainactivity.kotlin.popu.PopuFragment
 import com.example.muvitracker.mainactivity.java.search.SearchFragment
+import com.example.muvitracker.mainactivity.kotlin.prefs.PrefsFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationBarView
 
@@ -84,8 +84,8 @@ class MainActivityK() : AppCompatActivity() {
 
                 if (itemId == R.id.button3MyList) {
                     navigator.replaceFragment(this@MainActivityK,
-                        PrefsFragment()
-                    )
+                        PrefsFragment())
+                    
                     testoCategoria.setText(MY_LIST_TEXT)
 
                     return@OnItemSelectedListener true

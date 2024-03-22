@@ -11,7 +11,7 @@ import java.util.List;
 // 4.
 
 
-public class PrefRepo {
+public class MylistRepo {
 
     // 1. ATTRIBUTI
 
@@ -20,14 +20,14 @@ public class PrefRepo {
 
 
     // 1.2 singleton
-    private static PrefRepo istance;
+    private static MylistRepo istance;
 
-    private PrefRepo() {
+    private MylistRepo() {
     }
 
-    public static PrefRepo getInstance() {
+    public static MylistRepo getInstance() {
         if (istance == null) {
-            istance = new PrefRepo();
+            istance = new MylistRepo();
         }
         return istance;
     }

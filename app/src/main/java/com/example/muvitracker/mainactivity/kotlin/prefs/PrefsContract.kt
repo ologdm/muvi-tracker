@@ -1,17 +1,21 @@
 package com.example.muvitracker.mainactivity.kotlin.prefs
 
 import com.example.muvitracker.repo.kotlin.dto.DetaDto
-import com.example.muvitracker.utils.kotlin.EmptyStatesEnum
 
 interface PrefsContract {
 
     interface View {
 
-        fun undateUi(list :List<DetaDto>)
+        // GET
+        fun updateUi(list :List<DetaDto>)
 
+        // SET
+        // liked watched - callbacks
+
+
+        // altro
         fun startDetailsFragment(movieId: Int)
 
-        fun emptyStatesFlow(emptyStates: EmptyStatesEnum)
 
 
 
@@ -20,7 +24,20 @@ interface PrefsContract {
 
     interface Presenter{
 
+
+        // GET
+        fun getPrefsList()
+
+
+        // SET
+        fun toggleFovoriteItem(dtoToTogggle: DetaDto)
+
+        fun updateWatchedItem (updatedDto: DetaDto)
+
+
+        // altro
         fun onVHolderClick (movieId: Int)
+
 
     }
 

@@ -5,9 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.muvitracker.R
+import com.example.muvitracker.mainactivity.kotlin.MainNavigatorK
 import com.example.muvitracker.repo.kotlin.dto.DetaDto
-import com.example.muvitracker.utils.kotlin.EmptyStatesEnum
 
 
 class PrefsFragment() : Fragment(), PrefsContract.View {
@@ -15,7 +17,11 @@ class PrefsFragment() : Fragment(), PrefsContract.View {
 
     // ATTRIBUTI
 
-    //private val
+    private lateinit var recyclerView: RecyclerView
+
+    private val adapter = PrefsAdapter()
+    private val presenter = PrefsPresenter(this)
+    private val navigator = MainNavigatorK()
 
 
     // FRAGMENT METHODS
@@ -32,21 +38,57 @@ class PrefsFragment() : Fragment(), PrefsContract.View {
 
     // logica
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        recyclerView = view.findViewById(R.id.mylistRV)
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(requireContext()) // ok
+
+
+        adapter.setCallbackVH { movieId ->
+            presenter.onVHolderClick(movieId)
+            // .> poi startDetails()
+        }
+
+
+        // OK
+        adapter.setCallbackLiked {dtoToToggle ->
+            presenter.toggleFovoriteItem(dtoToToggle)
+            presenter.getPrefsList()
+        }
+
+
+        // OK
+        adapter.setCallbackWatched {updatedDto ->
+            presenter.updateWatchedItem(updatedDto)
+            presenter.getPrefsList()
+        }
+
+
+        // GET OK
+        presenter.getPrefsList()
 
 
     }
 
 
-    // CONTRACT METHODS
-    override fun undateUi(list: List<DetaDto>) {
-        TODO("Not yet implemented")
+
+
+    // CONTRACT
+
+    // OK
+    override fun updateUi(list: List<DetaDto>) {
+        adapter.updateList(list)
     }
 
+
+    // OK
     override fun startDetailsFragment(movieId: Int) {
-        TODO("Not yet implemented")
+        navigator.startDetailsFragmentAndAddToBackstack(
+            requireActivity(),
+            movieId
+        )
     }
 
-    override fun emptyStatesFlow(emptyStates: EmptyStatesEnum) {
-        TODO("Not yet implemented")
-    }
+
+
+
 }

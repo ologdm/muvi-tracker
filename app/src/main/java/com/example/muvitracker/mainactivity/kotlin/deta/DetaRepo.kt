@@ -41,8 +41,8 @@ object DetaRepo {
 
 
     // istanze di local e server
-    private val localDS = xDetaLocalDS
-    private val networkDS = xDetaNetworkDS
+    //eliminate, sono object
+
 
 
     // ########################################################
@@ -52,7 +52,7 @@ object DetaRepo {
     fun getMovie(movieId: Int, callES: EmptyStatesCallback) {
         // 1 TODO: carica dati da shared in RAM (solo una volta)
 
-        var index = localDS.getItemIndex(movieId)
+        var index = xDetaLocalDS.getItemIndex(movieId)
 
         // branch dell if assincrono non puo avere - return classico, return è  sempre sincrono
         if (index != -1) { // se trova index -> getDB
@@ -74,10 +74,10 @@ object DetaRepo {
     private fun getNetworkItemAndAddToLocal(movieId: Int, callES: EmptyStatesCallback) {
         callES.OnStart() // empty states
 
-        networkDS.callDetaServer(movieId, object : RetrofitCallbackK<DetaDto> {
+        xDetaNetworkDS.callDetaServer(movieId, object : RetrofitCallbackK<DetaDto> {
 
             override fun onSuccess(serverItem: DetaDto) {
-                localDS.createItem(serverItem) // add DB
+                xDetaLocalDS.createItem(serverItem) // add DB
 
                 callES.onSuccess(serverItem) //passo tu presenter
 
@@ -98,7 +98,7 @@ object DetaRepo {
 
     // OK
     private fun getLocalItem(movieId: Int, callES: EmptyStatesCallback) {
-        val databaseDto = localDS.readItem(movieId)
+        val databaseDto = xDetaLocalDS.readItem(movieId)
         callES.onSuccess(databaseDto)
         // println ok success
 
@@ -106,7 +106,7 @@ object DetaRepo {
 
 
     fun getLocalItem(movieId: Int): DetaDto {
-        return localDS.readItem(movieId)
+        return xDetaLocalDS.readItem(movieId)
         // println su presenter
     }
 
@@ -119,7 +119,7 @@ object DetaRepo {
         // !!! se l'ho aperto, e gia su DB !!!
 
         val dtoModificato = inputDto.copy(liked = !inputDto.liked)
-        localDS.updateItem(dtoModificato)
+        xDetaLocalDS.updateItem(dtoModificato)
 
         //inputDto =
         //localDS.updateItem(inputDto)
@@ -131,7 +131,7 @@ object DetaRepo {
     // OK
     fun updateWatchedOnDB(inputDto: DetaDto) {
 
-        localDS.updateItem(inputDto)
+        xDetaLocalDS.updateItem(inputDto)
 
         println("XXX_REPO_WATCHED_UPDATE_DB")
 

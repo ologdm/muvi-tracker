@@ -52,7 +52,7 @@ public class SearchRepo {
     Retrofit retrofit = MyRetrofit.getRetrofit();
 
     // 2.Crea Api
-    TraktApi traktApi = retrofit.create(TraktApi.class);
+    TraktApiInterface traktApi = retrofit.create(TraktApiInterface.class);
 
     // 3. Call necessaria
     public void chiamataSearch(MyRetrofitListCallback callback) {

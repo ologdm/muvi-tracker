@@ -1,21 +1,21 @@
 package com.example.muvitracker.mainactivity.java.mylist;
 
-import com.example.muvitracker.repo.java.PrefRepo;
+import com.example.muvitracker.repo.java.MylistRepo;
 import com.example.muvitracker.repo.java.dto.DetailsDto;
 
 import java.util.List;
 
 
-public class PrefsPresenter implements PrefsContract.Presenter {
+public class MylistPresenter implements MylistContract.Presenter {
 
 
     // 1 ATTRIBUTI
-    private PrefRepo prefRepository = PrefRepo.getInstance();
-    private PrefsContract.View view;
+    private MylistRepo mylistRepository = MylistRepo.getInstance();
+    private MylistContract.View view;
 
 
     // 2. COSTRUTTORE
-    public PrefsPresenter(PrefsContract.View view) {
+    public MylistPresenter(MylistContract.View view) {
         this.view = view;
     }
 
@@ -25,7 +25,7 @@ public class PrefsPresenter implements PrefsContract.Presenter {
     // 3.1 carica dati: repository->adapter
     @Override
     public void loadData() {
-        view.updateUi(prefRepository.getPrefList());
+        view.updateUi(mylistRepository.getPrefList());
     }
 
 
@@ -42,7 +42,7 @@ public class PrefsPresenter implements PrefsContract.Presenter {
     // aggiorno
     @Override
     public void toggleFavorite(DetailsDto dto) {
-        prefRepository.toggleFavouriteItem(dto);
+        mylistRepository.toggleFavouriteItem(dto);
         // passo il click, che innescherà il cambio stato
         System.out.println("test toggleLiked");
         loadData();
@@ -51,7 +51,7 @@ public class PrefsPresenter implements PrefsContract.Presenter {
     // la uso per checkbox - > passo lista aggiornata
     @Override
     public void setList(List<DetailsDto> prefList) {
-        prefRepository.setPrefList(prefList);
+        mylistRepository.setPrefList(prefList);
         loadData();
     }
 

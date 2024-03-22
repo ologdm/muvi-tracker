@@ -38,7 +38,7 @@ public class DetailsRepo {
     // 2.2 Retrofit
     Retrofit retrofit = MyRetrofit.getRetrofit();
 
-    TraktApi traktApi = retrofit.create(TraktApi.class);
+    TraktApiInterface traktApi = retrofit.create(TraktApiInterface.class);
 
 
     public void callDetailsApi(int traktMovieId, MyRetrofitCallback<DetailsDto> myRetrofitCallback) {

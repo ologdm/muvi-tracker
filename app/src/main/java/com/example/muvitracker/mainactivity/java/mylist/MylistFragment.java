@@ -19,14 +19,14 @@ import java.util.List;
 
 // StartDetails - funzione Semplificata, spostata su navigator
 
-public class PrefsFragment extends Fragment implements PrefsContract.View {
+public class MylistFragment extends Fragment implements MylistContract.View {
 
 
     // 1. ATTRIBUTI
     RecyclerView recyclerView;
-    PrefsAdapter adapter = new PrefsAdapter();
+    MylistAdapter adapter = new MylistAdapter();
 
-    PrefsPresenter presenter = new PrefsPresenter(this);
+    MylistPresenter presenter = new MylistPresenter(this);
     MainNavigator navigator = new MainNavigator();
 
     // 2. COSTRUTTORE no
@@ -74,7 +74,7 @@ public class PrefsFragment extends Fragment implements PrefsContract.View {
         });
 
 
-        // TODO Click liked
+        // Click liked
         adapter.setCallbackLiked(dto -> {
             // aggiorno repo
             presenter.toggleFavorite(dto);

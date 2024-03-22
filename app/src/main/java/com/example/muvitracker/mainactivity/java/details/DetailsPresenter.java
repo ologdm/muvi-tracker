@@ -1,6 +1,6 @@
 package com.example.muvitracker.mainactivity.java.details;
 
-import com.example.muvitracker.repo.java.PrefRepo;
+import com.example.muvitracker.repo.java.MylistRepo;
 import com.example.muvitracker.repo.java.DetailsRepo;
 import com.example.muvitracker.repo.java.dto.DetailsDto;
 import com.example.muvitracker.utils.java.MyRetrofitCallback;
@@ -39,7 +39,7 @@ public class DetailsPresenter implements DetailsContract.Presenter {
     private final DetailsRepo detailsRepo = DetailsRepo.getIstance();
 
     // 5°STEP - pref list
-    private final PrefRepo prefsRepo = PrefRepo.getInstance();
+    private final MylistRepo prefsRepo = MylistRepo.getInstance();
 
     DetailsDto presenterDto = new DetailsDto();
 

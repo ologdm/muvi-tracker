@@ -54,7 +54,7 @@ public class BoxofficeRepo {
     Retrofit retrofit = MyRetrofit.getRetrofit();
 
     // 2.2 Creo Api
-    TraktApi traktApi = retrofit.create(TraktApi.class);
+    TraktApiInterface traktApi = retrofit.create(TraktApiInterface.class);
 
     // 2.3 Chiamata BoxofficeApi
     public void callBoxoffice(MyRetrofitListCallback<BoxofficeDto> callback) {

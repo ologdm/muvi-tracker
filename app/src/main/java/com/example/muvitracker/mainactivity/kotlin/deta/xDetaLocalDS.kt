@@ -46,7 +46,7 @@ object xDetaLocalDS {
     }
 
 
-    // 3. TODO
+    // 3.
     fun updateItem(dto: DetaDto) {
 
         var index = getItemIndex(dto)
@@ -68,14 +68,17 @@ object xDetaLocalDS {
     }
 
 
-    // METODO - IN LOCALE TODO
+    // METODO - IN LOCALE
 
     private fun saveListInShared() {
         // shared = localList
         // TODO: ad ogni modifica CRUD
     }
 
-    private fun loadListFromShared() {
+
+    // caricamento iniziale, utilizzare su
+    fun loadListFromShared() : MutableList<DetaDto> {
+        return localList
         // localList = shared
         // TODO: solo apertura
     }

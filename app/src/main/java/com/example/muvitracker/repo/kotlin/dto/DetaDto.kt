@@ -23,24 +23,24 @@ data class DetaDto(
     val ids: Ids,
 
     // altro
-    val tagline: String,
+    val tagline: String?,
     val overview: String,
     val released: String,
     val runtime: Int,
     val country: String,
     @SerializedName("updated_at")
-    val updatedAt: String,
+    val updatedAt: String?,
     //trailer = null
-    val homepage: String,
-    val status: String,
+    val homepage: String?,
+    val status: String?,
     val rating: Float,
-    val votes: Int,
+    val votes: Int?,
     @SerializedName("comment_count")
-    val commentCount: Int,
-    val language: String,
+    val commentCount: Int?,
+    val language: String?,
     val availableTranslations: List<String>?,
-    val genres: List<String>,
-    val certification: String
+    val genres: List<String>?,
+    val certification: String?
 ) {
 
 

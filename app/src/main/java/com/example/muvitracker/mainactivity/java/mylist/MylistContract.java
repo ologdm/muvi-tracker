@@ -5,7 +5,7 @@ import com.example.muvitracker.repo.java.dto.DetailsDto;
 
 import java.util.List;
 
-public interface PrefsContract {
+public interface MylistContract {
 
     public interface View {
 

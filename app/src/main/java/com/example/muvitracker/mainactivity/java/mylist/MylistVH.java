@@ -5,10 +5,10 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class PrefsVH extends RecyclerView.ViewHolder {
+public class MylistVH extends RecyclerView.ViewHolder {
 
 
-    public PrefsVH(@NonNull View itemView) {
+    public MylistVH(@NonNull View itemView) {
         super(itemView);
     }
 }

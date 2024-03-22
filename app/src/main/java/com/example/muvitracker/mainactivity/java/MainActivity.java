@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.muvitracker.R;
 import com.example.muvitracker.mainactivity.java.boxoffice.BoxofficeFragment;
-import com.example.muvitracker.mainactivity.java.mylist.PrefsFragment;
+import com.example.muvitracker.mainactivity.java.mylist.MylistFragment;
 import com.example.muvitracker.mainactivity.java.popular.PopularFragment;
 import com.example.muvitracker.mainactivity.java.search.SearchFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
                     // MYLIST - da fare
                     if (itemId == R.id.button3MyList) {
                         testoCategoria.setText(MY_LIST_TEXT);
-                        navigator.replaceFragment(MainActivity.this, new PrefsFragment());
+                        navigator.replaceFragment(MainActivity.this, new MylistFragment());
                         return true;
                     }
 

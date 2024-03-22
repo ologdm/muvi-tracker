@@ -28,7 +28,7 @@ import java.util.List;
 // 3. checkboxClick -> callback
 
 
-public class PrefsAdapter extends RecyclerView.Adapter {
+public class MylistAdapter extends RecyclerView.Adapter {
 
 
     List<DetailsDto> adapterList = new ArrayList<>();
@@ -45,7 +45,7 @@ public class PrefsAdapter extends RecyclerView.Adapter {
 
         View view = inflater.inflate(R.layout.vh_prefs, parent, false);
 
-        return new PrefsVH(view);
+        return new MylistVH(view);
     }
 
 
@@ -61,7 +61,7 @@ public class PrefsAdapter extends RecyclerView.Adapter {
         ImageButton likedButton = holder.itemView.findViewById(R.id.likedButton); // D
 
 
-        // TODO FAVORITE
+        // favorite
         Context context = holder.itemView.getContext();
 
         final Drawable iconFilled = context.getDrawable(R.drawable.baseline_favorite_24);
@@ -108,7 +108,7 @@ public class PrefsAdapter extends RecyclerView.Adapter {
 
                 callbackCheckbox.play(adapterList);
 
-                // TODO debugging - fare chech se su details si aggiorna
+                // debugging - fare chech se su details si aggiorna OK
             }
         });
 
@@ -183,7 +183,7 @@ public class PrefsAdapter extends RecyclerView.Adapter {
     }
 
 
-    // TODO aggiorna icone (su onBin)
+    // aggiorna icone (su onBin)
     public void updateFavoriteIcon(
         ImageButton likedButton,
         boolean isLiked,
