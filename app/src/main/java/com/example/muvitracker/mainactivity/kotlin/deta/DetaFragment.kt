@@ -37,6 +37,7 @@ class DetaFragment : Fragment(), DetaContract.View {
     private lateinit var rating: TextView
     private lateinit var overview: TextView
 
+
     private lateinit var buttonBack: ImageButton
 
     private lateinit var likedButton: ImageButton
@@ -62,7 +63,7 @@ class DetaFragment : Fragment(), DetaContract.View {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_details, container, false)
+        return inflater.inflate(R.layout.fragm_deta, container, false)
     }
 
 
@@ -70,27 +71,27 @@ class DetaFragment : Fragment(), DetaContract.View {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         // inizializzazione OK
-        title = view.findViewById(R.id.titoloTitle) //string
-        image = view.findViewById(R.id.imageFilm) // glide
+        title = view.findViewById(R.id.title) //string
+        image = view.findViewById(R.id.image) // glide
 
-        released = view.findViewById(R.id.uscitaReleased) // string
-        runtimeFilm = view.findViewById(R.id.durataRuntime) // int
-        country = view.findViewById(R.id.paeseCountry) // string
+        released = view.findViewById(R.id.released) // string
+        runtimeFilm = view.findViewById(R.id.runtime) // int
+        country = view.findViewById(R.id.country) // string
         rating = view.findViewById(R.id.rating) // float
-        overview = view.findViewById(R.id.descrizioneOverview) // string
+        overview = view.findViewById(R.id.overview) // string
 
         buttonBack = view.findViewById(R.id.buttonBack)
 
         likedButton = view.findViewById(R.id.likedButton)
-        watchedCkBox = view.findViewById(R.id.watchedCheckbox)
+        watchedCkBox = view.findViewById(R.id.watchedCkbox)
 
-        frameLayout = view.findViewById(R.id.detailsFrameLayout)
+        frameLayout = view.findViewById(R.id.frameLayout)
         progressBar = view.findViewById(R.id.progressBar)
         retryButton = view.findViewById(R.id.retryButton)
-        errorMsgTextview = view.findViewById(R.id.errorMessageTextview)
+        errorMsgTextview = view.findViewById(R.id.errorMsgTextview)
 
         // swipe OK
-        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout)
+        swipeRefreshLayout = view.findViewById(R.id.swipeToRefresh)
 
         swipeRefreshLayout.setOnRefreshListener {
             presenter.getMovie(traktMovieId, forceRefresh = true)
@@ -133,7 +134,6 @@ class DetaFragment : Fragment(), DetaContract.View {
         watchedCkBox.setOnCheckedChangeListener { buttonView,
                                                   isChecked ->
             presenter.updateWatched(isChecked)
-
             println("XXX_D_FRAGM_WATCHED CLICK")
         }
 
@@ -193,7 +193,7 @@ class DetaFragment : Fragment(), DetaContract.View {
     }
 
 
-    // OK
+    //OK
     override fun emptyStatesFlow(emptyStates: EmptyStatesEnum) {
 
         EmptyStatesManagement.emptyStatesFlow(
@@ -214,6 +214,8 @@ class DetaFragment : Fragment(), DetaContract.View {
             else -> {}
         }
     }
+
+
 
 
     // OK

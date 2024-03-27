@@ -1,9 +1,9 @@
 package com.example.muvitracker.mainactivity.kotlin.deta
 
-import com.example.muvitracker.repo.kotlin.TraktApiK
+import com.example.muvitracker.repo.kotlin.TraktApi
 import com.example.muvitracker.repo.kotlin.dto.DetaDto
 import com.example.muvitracker.utils.kotlin.MyRetrofit
-import com.example.muvitracker.utils.kotlin.RetrofitCallbackK
+import com.example.muvitracker.utils.kotlin.RetrofitCallback
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.HttpException
@@ -20,10 +20,10 @@ object xDetaNetworkDS {
 
 
     // crea api
-    private val traktApi = retrofit.create(TraktApiK::class.java)
+    private val traktApi = retrofit.create(TraktApi::class.java)
 
 
-    fun callDetaServer(inputMovieId: Int, myCall: RetrofitCallbackK<DetaDto>) {
+    fun callDetaServer(inputMovieId: Int, myCall: RetrofitCallback<DetaDto>) {
 
         val call: Call<DetaDto> = traktApi.getDetailsOfDto(traktMovieId = inputMovieId) // movieId
 

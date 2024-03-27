@@ -55,7 +55,7 @@ public class BoxofficeFragment extends Fragment implements BoxofficeContract.Vie
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_boxoffice, container, false);
+        return inflater.inflate(R.layout.fragm_boxo, container, false);
     }
 
     // 2.2 Logica
@@ -69,10 +69,10 @@ public class BoxofficeFragment extends Fragment implements BoxofficeContract.Vie
 
         progressBar = view.findViewById(R.id.progressBar);
         retryButton = view.findViewById(R.id.retryButton);
-        tvErrorMessage = view.findViewById(R.id.errorMessageTextview);
+        tvErrorMessage = view.findViewById(R.id.errorMsgTextview);
 
         // 3. SwipeRefresh
-        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout = view.findViewById(R.id.swipeToRefresh);
         swipeRefreshLayout.setOnRefreshListener(() -> {
 
             presenter.serverCallAndUpdateUi(true);

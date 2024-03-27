@@ -1,53 +1,72 @@
 package com.example.muvitracker.mainactivity.kotlin.popu
 
+import android.content.Context
 import com.example.muvitracker.repo.kotlin.dto.PopuDto
-import com.example.muvitracker.utils.kotlin.EmptyStatesEnum
-import com.example.muvitracker.utils.kotlin.RetrofitListCallback
-import java.io.IOException
+import com.example.muvitracker.utils.kotlin.EmptyStatesCallbackList
+import com.example.muvitracker.utils.kotlin.EmptyStatesEnumNew
 
+
+/**
+ *
+ * METODI:
+ * getMovieAndUpdateUi
+ *              > ES stati
+ *              > on success
+ *
+
+ *
+ * onVHolderCLick
+ *
+ */
 
 class PopuPresenter(
-
-    private val view: PopuContract.View // view nel costruttore, posso inserire chi implementa view
+    private val view: PopuContract.View, // view nel costruttore, posso inserire chi implementa view
+    private val context: Context
 
 ) : PopuContract.Presenter {
 
 
     // ATTRIBUTI OK
-    //PopuRepo - object, no istanza
+    // context - nel costruttore OK
+    val popuRepo: PopuRepo = PopuRepo.getInstance(context)
 
 
     // CONTRACT METHODS
     // 2.1 OK
-    override fun serverCallAndUpdate(forceRefresh: Boolean) {
-
-        if (forceRefresh)
-            view.emptyStatesFlow(EmptyStatesEnum.ON_FORCE_REFRESH)
-        else
-            view.emptyStatesFlow(EmptyStatesEnum.ON_START)
+    override fun getMovieAndUpdateUi(forceRefresh: Boolean) {
 
 
-        PopuRepo.callPopuServer(
-            object : RetrofitListCallback<PopuDto> {
-
-                override fun onSuccess(serverList: List<PopuDto>) {
-                    view.UpdateUi(serverList)
-
-
-                    view.emptyStatesFlow(EmptyStatesEnum.ON_SUCCESS)
+        popuRepo.getMovieList(object : EmptyStatesCallbackList<PopuDto> {
+            override fun OnStart() {
+                if (forceRefresh) {
+                    view.emptyStatesFlow(EmptyStatesEnumNew.ON_FORCE_REFRESH)
+                    println("XXX_POPU_FRAGM_FORCE REFRESH")
+                } else {
+                    view.emptyStatesFlow(EmptyStatesEnumNew.ON_START)
+                    println("XXX_POPU_FRAGM_START")
                 }
+            }
+
+            override fun onSuccess(list: List<PopuDto>) {
+
+                view.UpdateUi(list) // server list
+                view.emptyStatesFlow(EmptyStatesEnumNew.ON_SUCCESS)
+                println("XXX_POPU_FRAGM_SUCCESS")
+            }
+
+            override fun onErrorIO() {
+                view.emptyStatesFlow(EmptyStatesEnumNew.ON_ERROR_IO)
+                println("XXX_POPU_FRAGM_ERROR IO")
+            }
+
+            override fun onErrorOther() {
+                view.emptyStatesFlow(EmptyStatesEnumNew.ON_ERROR_OTHER)
+                println("XXX_POPU_FRAGM_ERROR OTHER")
+            }
 
 
-                override fun onError(throwable: Throwable) {
+        })
 
-                    throwable.printStackTrace()
-
-                    if (throwable is IOException)
-                        view.emptyStatesFlow(EmptyStatesEnum.ON_ERROR_IO)
-                    else
-                        view.emptyStatesFlow(EmptyStatesEnum.ON_ERROR_OTHER)
-                }
-            })
     }
 
 

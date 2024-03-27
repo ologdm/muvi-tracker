@@ -4,7 +4,6 @@ import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.muvitracker.repo.kotlin.dto.DetaDto
 
 /** contiene:
  * - EmptyStatesManagement class
@@ -137,8 +136,6 @@ object EmptyStatesManagement {
 
 
 
-
-
     /** funzioni private -> utilizzate dentro
      *
      */
@@ -212,15 +209,24 @@ enum class EmptyStatesEnum {
 }
 
 
+
 private enum class Visibility {
     SHOW,
     HIDE
 }
 
 
-interface EmptyStatesCallback {
+interface EmptyStatesCallback <T> {
     fun OnStart()
-    fun onSuccess (detaDto: DetaDto)
+    fun onSuccess (obj:T)
+    fun onErrorIO ()
+    fun onErrorOther ()
+}
+
+
+interface EmptyStatesCallbackList <T> {
+    fun OnStart()
+    fun onSuccess (list: List<T>)
     fun onErrorIO ()
     fun onErrorOther ()
 }

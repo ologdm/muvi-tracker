@@ -1,9 +1,9 @@
 package com.example.muvitracker.mainactivity.kotlin.boxo
 
-import com.example.muvitracker.repo.kotlin.TraktApiK
+import com.example.muvitracker.repo.kotlin.TraktApi
 import com.example.muvitracker.repo.kotlin.dto.BoxoDto
 import com.example.muvitracker.utils.kotlin.MyRetrofit
-import com.example.muvitracker.utils.kotlin.RetrofitListCallback
+import com.example.muvitracker.utils.kotlin.RetrofitCallbackList
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.HttpException
@@ -26,10 +26,10 @@ object BoxoRepo {
     private val retrofit = MyRetrofit.createMuviTrackerRetrofit() // istanza retrofit
 
 
-    private val traktApi = retrofit.create(TraktApiK::class.java) // crea istanza da classe java
+    private val traktApi = retrofit.create(TraktApi::class.java) // crea istanza da classe java
 
 
-    fun callBoxoServer(callbackPresenter: RetrofitListCallback<BoxoDto>) {
+    fun callBoxoServer(callbackPresenter: RetrofitCallbackList<BoxoDto>) {
 
         // definisco call da api
         val call: Call<List<BoxoDto>> = traktApi.getBoxofficeMovies()

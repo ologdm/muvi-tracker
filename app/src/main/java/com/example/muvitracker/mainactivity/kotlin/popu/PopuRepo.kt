@@ -1,13 +1,10 @@
 package com.example.muvitracker.mainactivity.kotlin.popu
 
-import com.example.muvitracker.repo.kotlin.TraktApiK
+import android.content.Context
 import com.example.muvitracker.repo.kotlin.dto.PopuDto
-import com.example.muvitracker.utils.kotlin.MyRetrofit
-import com.example.muvitracker.utils.kotlin.RetrofitListCallback
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.HttpException
-import retrofit2.Response
+import com.example.muvitracker.utils.kotlin.EmptyStatesCallbackList
+import com.example.muvitracker.utils.kotlin.RetrofitCallbackList
+import java.io.IOException
 
 /*
 // koltin
@@ -16,59 +13,100 @@ import retrofit2.Response
 
  */
 
-// TODO: (esercizio eugi) usare 2 callback-lambda stile kotlin al posto di RetrofitListCallback<T>
+
+/**
+ *
+ * invio dati da locale poi da server
+ *
+ * FUNZIONI:
+ *  1) fun getMovieList() OK
+ *          > callback ES
+ *              > success: locale passa lista
+ *              > success: server passa lista e salva su db
+ *
+ *
+ *  2) fun getCacheList() OK
+ *                  > return lista in db
+ *
+ *
+ *  3) Singleton OK
+ *     fun getInstance(context)
+ *
+ */
+
+// cache - immagini e altri file temporanei, no istanze, liste
+// storage - chache su disco, shared, db
+
+/* appunti singleton:
+   x ?: y(par:Par) {...}  - operatore elvis, controlla se x è null
+   synchronized - evita conflitti in multithreading
+   */
 
 
-object PopuRepo {
+class PopuRepo
+private constructor(
+    private val context: Context // dichiarazione context
+) {
+
+    // ATTRIBUTI
+    private val popuLocalDS = xPopuLocalDS.getInstance(context)
 
 
-    private val retrofit = MyRetrofit.createMuviTrackerRetrofit()
-    /*
-    val retrofit: Retrofit = createMuviTrackerRetrofit() ==> alternativa global function
-    val retrofit = Retrofit.Builder().createMuviTrackerRetrof() ==> alternativa extended function
-     */
+    // METODI
 
-    private val traktApi: TraktApiK = retrofit.create(TraktApiK::class.java)
+    // 1
+    fun getMovieList(callES: EmptyStatesCallbackList<PopuDto>) {
 
+        callES.onSuccess(getCacheList()) // TODO 1 carica da locale
+        println("XXX_POPU_REPO_SUCCESS LOCAL")
 
-    fun callPopuServer(callbackPresenter: RetrofitListCallback<PopuDto>) {
+        callES.OnStart() // ES
 
-        val call = traktApi.getPopularMovies()
+        xPopuNetworkDS.callPopuServer(object : RetrofitCallbackList<PopuDto> {
 
-        call.enqueue(object : Callback<List<PopuDto>> {
+            override fun onSuccess(serverList: List<PopuDto>) {
 
-            override fun onResponse(
-                call: Call<List<PopuDto>>,
-                response: Response<List<PopuDto>>
-            ) {
+                callES.onSuccess(serverList) // TODO 2 carica da server
 
-                if (response.isSuccessful) {
-                    /*!! - not-null assertion operator, non sarà mai nullo
-                    * response.body() nullable, quindi devo mettere !!
-                    * not nullable e garantito da if sopra */
-                    callbackPresenter.onSuccess(response.body()!!)
+                popuLocalDS.saveListInLocal(serverList) // TODO 2 save
 
-                    println("XXX_POPU_REPO_SUCCESS")
+                println("XXX_POPU_REPO_SUCCESS_NETWORK")
+            }
+
+            override fun onError(throwable: Throwable) {
+                if (throwable is IOException) {
+                    throwable.printStackTrace()
+                    callES.onErrorIO() // ES
+
                 } else {
-                    println("Request failed with code: ${response.code()}")
-                    callbackPresenter.onError(HttpException(response))
-
-                    println("XXX_POPU_REPO_ERROR1")
+                    throwable.printStackTrace()
+                    callES.onErrorOther() // ES
                 }
             }
-
-            override fun onFailure(
-                call: Call<List<PopuDto>>,
-                t: Throwable
-            ) {
-                callbackPresenter.onError(t)
-
-                println("XXX_POPU_REPO_ERROR2")
-            }
-
         })
+    }
 
 
+    // 2. solo da db
+    fun getCacheList(): List<PopuDto> {
+        println("XXX_POPU_REPO_GET CACHE LIST")
+        return popuLocalDS.loadFromLocal()
+    }
+
+
+    // Singleton OK
+    companion object {
+        private var instance: PopuRepo? = null
+
+        fun getInstance(context: Context): PopuRepo {
+            instance ?: synchronized(this) {
+                instance ?: PopuRepo(context.applicationContext)
+                    .also {
+                        instance = it
+                    }
+            }
+            return instance!!
+        }
     }
 
 

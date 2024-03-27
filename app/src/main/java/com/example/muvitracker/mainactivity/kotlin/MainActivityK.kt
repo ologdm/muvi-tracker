@@ -1,13 +1,20 @@
 package com.example.muvitracker.mainactivity.kotlin
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import android.widget.TextView
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.example.muvitracker.R
 import com.example.muvitracker.mainactivity.kotlin.boxo.BoxoFragment
 import com.example.muvitracker.mainactivity.kotlin.popu.PopuFragment
-import com.example.muvitracker.mainactivity.java.search.SearchFragment
 import com.example.muvitracker.mainactivity.kotlin.prefs.PrefsFragment
+import com.example.muvitracker.mainactivity.kotlin.sear.SearFragment
+import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationBarView
 
@@ -26,6 +33,7 @@ class MainActivityK() : AppCompatActivity() {
     //TODO (vedere Kotlin Proprieties)
     private lateinit var testoCategoria: TextView
     private lateinit var bottomNavigationView: BottomNavigationView
+    private lateinit var appBarLayout: AppBarLayout
 
     // COSTANTI
     private val POPULAR_TEXT = "popular"
@@ -45,6 +53,7 @@ class MainActivityK() : AppCompatActivity() {
         // inizializzo view
         testoCategoria = findViewById(R.id.testoCategoria)
         bottomNavigationView = findViewById(R.id.bottomNavigation)
+        appBarLayout = findViewById(R.id.appBarLayout) // TODO
 
 
         // homepage default - popular
@@ -83,17 +92,20 @@ class MainActivityK() : AppCompatActivity() {
                 }
 
                 if (itemId == R.id.button3MyList) {
-                    navigator.replaceFragment(this@MainActivityK,
-                        PrefsFragment())
-                    
+                    navigator.replaceFragment(
+                        this@MainActivityK,
+                        PrefsFragment()
+                    )
+
                     testoCategoria.setText(MY_LIST_TEXT)
 
                     return@OnItemSelectedListener true
                 }
 
                 if (itemId == R.id.button4Search) {
-                    navigator.replaceFragment(this@MainActivityK,
-                        SearchFragment()
+                    navigator.replaceFragment(
+                        this@MainActivityK,
+                        SearFragment()
                     )
                     testoCategoria.setText(SEARCH_TEXT)
 
@@ -104,6 +116,63 @@ class MainActivityK() : AppCompatActivity() {
                 return@OnItemSelectedListener false // Non reagisco al false -> torno al padre
 
             })
+    }
+
+        /* TODO
+        appBarLayout.setOnClickListener {
+            reqPermissLauncher.launch(Manifest.permission.CAMERA)
+
+        }
 
     }
+
+         */
+
+
+    /* CAMERA PERMISSION
+    // 1) dipendenza a manifest
+
+    // classe anonima per
+    val reqPermissLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
+
+            if (isGranted) {
+                Log.i("Permission: ", "Granted")
+            } else {
+                Log.i("Permission: ", "Denied")
+            }
+        }
+
+
+    private fun requestPermiss() {
+        when {
+            // 1init - permesso dato. utilizzo
+            ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.CAMERA
+            ) == PackageManager.PERMISSION_GRANTED -> {
+                // 1fine - Permission is already granted
+                // allow to use the camera
+            }
+
+            // 2init - richiesta
+            ActivityCompat.shouldShowRequestPermissionRationale(
+                this,
+                Manifest.permission.CAMERA
+            ) -> {
+                // 2fine - Additional rationale should be displayed
+            }
+
+            // 3init
+            else -> {
+                // 3fine permission has not been asket yet
+            }
+
+
+        }
+
+     */
+
+
 }
+

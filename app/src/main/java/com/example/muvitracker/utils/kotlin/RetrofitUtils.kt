@@ -15,14 +15,14 @@ import retrofit2.converter.gson.GsonConverterFactory
 // INTERFACCE
 
 // liste
-interface RetrofitListCallback<T> {
+interface RetrofitCallbackList<T> {
     fun onSuccess(serverList: List<T>);
     fun onError(throwable: Throwable)
 }
 
 
 // singolo
-interface RetrofitCallbackK<T> {
+interface RetrofitCallback<T> {
     fun onSuccess(serverItem: T);
     fun onError(throwable: Throwable)
 }

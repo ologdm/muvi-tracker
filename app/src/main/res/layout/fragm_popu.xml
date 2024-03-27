@@ -4,28 +4,26 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/swipeRefreshLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
 
-    <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/popularFragmentRV"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipeToRefresh"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent">
 
 
-</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+        <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/popularFragmentRV"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 
     <include
             layout="@layout/empty_states"
             android:layout_height="match_parent"
-            android:layout_width="match_parent"
-
-/>
-
+            android:layout_width="match_parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,7 +2,7 @@ package com.example.muvitracker.mainactivity.kotlin.boxo
 
 import com.example.muvitracker.repo.kotlin.dto.BoxoDto
 import com.example.muvitracker.utils.kotlin.EmptyStatesEnum
-import com.example.muvitracker.utils.kotlin.RetrofitListCallback
+import com.example.muvitracker.utils.kotlin.RetrofitCallbackList
 import java.io.IOException
 
 class BoxoPresenter(
@@ -23,7 +23,7 @@ class BoxoPresenter(
         else
             view.emptyStatesManagment(EmptyStatesEnum.ON_START)
 
-        BoxoRepo.callBoxoServer(object : RetrofitListCallback<BoxoDto> {
+        BoxoRepo.callBoxoServer(object : RetrofitCallbackList<BoxoDto> {
 
             // success
             override fun onSuccess(serverList: List<BoxoDto>) {

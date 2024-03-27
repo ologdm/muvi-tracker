@@ -59,7 +59,7 @@ public class PopularAdapter extends RecyclerView.Adapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.vh_popular_grid, parent, false);
+        View view = inflater.inflate(R.layout.vh_popu, parent, false);
         PopularVH popularViewholder = new PopularVH(view);
         return popularViewholder;
     }
@@ -72,8 +72,8 @@ public class PopularAdapter extends RecyclerView.Adapter {
         PopularDto popularDto = popularList.get(position);
 
         // 2 identifico pezzi view nel VH
-        TextView titoloVH = holder.itemView.findViewById(R.id.titoloVH);
-        TextView annoVH = holder.itemView.findViewById(R.id.annoVH);
+        TextView titoloVH = holder.itemView.findViewById(R.id.titleVH);
+        TextView annoVH = holder.itemView.findViewById(R.id.yearVH);
 
         ImageView posterVH = holder.itemView.findViewById(R.id.imageVH);
 

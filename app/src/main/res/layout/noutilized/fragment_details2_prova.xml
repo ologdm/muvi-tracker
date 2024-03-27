@@ -40,7 +40,7 @@
 
             <!-- 1° titolo film-->
             <TextView
-                    android:id="@+id/titoloTitle"
+                    android:id="@+id/title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Titolo Filmmmm mmm mmm mmm"
@@ -58,7 +58,7 @@
 
                 <!-- 2.1 immagine 2/3 -->
                 <ImageView
-                        android:id="@+id/imageFilm"
+                        android:id="@+id/image"
                         android:layout_width="200dp"
                         android:layout_height="300dp"
                         android:layout_marginEnd="15dp"
@@ -77,7 +77,7 @@
                             android:text="Uscita:" />
 
                     <TextView
-                            android:id="@+id/uscitaReleased"
+                            android:id="@+id/released"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:hint="testo" />
@@ -90,7 +90,7 @@
                             android:layout_marginTop="10dp" />
 
                     <TextView
-                            android:id="@+id/durataRuntime"
+                            android:id="@+id/runtime"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:hint="testo" />
@@ -103,7 +103,7 @@
                             android:layout_marginTop="10dp" />
 
                     <TextView
-                            android:id="@+id/paeseCountry"
+                            android:id="@+id/country"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:hint="testo" />
@@ -134,7 +134,7 @@
                     android:layout_marginBottom="10dp" />
 
             <TextView
-                    android:id="@+id/descrizioneOverview"
+                    android:id="@+id/overview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:hint=" ''''PROVA''' Prova radotto dall'inglese-La notte oscura dell'anima è una fase di purificazione passiva dello spirito nello sviluppo mistico, come descritta dal mistico e poeta spagnolo del XVI secolo San Giovanni della Croce nel suo trattato Notte oscura, un commento al suo poema con lo stesso nome." />

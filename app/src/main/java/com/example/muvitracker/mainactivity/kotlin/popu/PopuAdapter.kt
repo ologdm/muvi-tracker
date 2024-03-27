@@ -29,7 +29,7 @@ class PopuAdapter : RecyclerView.Adapter<PopuVH>() {
     // 1. OK
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PopuVH {
         val layoutInflater: LayoutInflater = LayoutInflater.from(parent.context)
-        val view: View = layoutInflater.inflate(R.layout.vh_popular_grid, parent, false)
+        val view: View = layoutInflater.inflate(R.layout.vh_popu, parent, false)
         return PopuVH(view)
     }
 
@@ -47,8 +47,8 @@ class PopuAdapter : RecyclerView.Adapter<PopuVH>() {
         val dto: PopuDto = adapterList.get(position)
 
         // 2 identifica views OK
-        val titoloVH: TextView = holder.itemView.findViewById(R.id.titoloVH)
-        val annoVH: TextView = holder.itemView.findViewById(R.id.annoVH)
+        val titoloVH: TextView = holder.itemView.findViewById(R.id.titleVH)
+        val annoVH: TextView = holder.itemView.findViewById(R.id.yearVH)
         val imageVH: ImageView = holder.itemView.findViewById(R.id.imageVH)
 
         // 3 set testo OK

@@ -16,7 +16,7 @@
 
 
     <TextView
-            android:id="@+id/titoloVH"
+            android:id="@+id/titleVH"
             android:hint="titolo"
             android:layout_width="60dp"
             android:layout_height="wrap_content"
@@ -25,7 +25,7 @@
             app:layout_constraintTop_toBottomOf="@+id/imageVH" />
 
     <TextView
-            android:id="@+id/annoVH"
+            android:id="@+id/yearVH"
             android:hint="anno"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

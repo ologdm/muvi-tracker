@@ -2,6 +2,7 @@ package com.example.muvitracker.mainactivity.kotlin.popu
 
 import com.example.muvitracker.repo.kotlin.dto.PopuDto
 import com.example.muvitracker.utils.kotlin.EmptyStatesEnum
+import com.example.muvitracker.utils.kotlin.EmptyStatesEnumNew
 
 interface PopuContract {
 
@@ -12,7 +13,8 @@ interface PopuContract {
 
         fun startDetailsFragment(movieId: Int)
 
-        fun emptyStatesFlow(emptyStates: EmptyStatesEnum)
+        //fun emptyStatesFlow(emptyStates: EmptyStatesEnum)
+        fun emptyStatesFlow(emptyStates: EmptyStatesEnumNew)
 
 
     }
@@ -20,7 +22,7 @@ interface PopuContract {
 
     interface Presenter {
 
-        fun serverCallAndUpdate(forceRefresh: Boolean)
+        fun getMovieAndUpdateUi(forceRefresh: Boolean)
 
         fun onVHolderCLick(movieId: Int)
     }

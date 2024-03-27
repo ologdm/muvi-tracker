@@ -22,7 +22,7 @@ class BoxoAdapter : RecyclerView.Adapter <BoxoVH>() {
     // crea vh OK
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BoxoVH {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val view = layoutInflater.inflate(R.layout.vh_boxoffice_grid,parent,false)
+        val view = layoutInflater.inflate(R.layout.vh_boxo,parent,false)
         return BoxoVH(view)
     }
 
@@ -37,8 +37,8 @@ class BoxoAdapter : RecyclerView.Adapter <BoxoVH>() {
         val dto : BoxoDto = adapterList.get(position)
 
         // inizializzaz interni vh OK
-        val titoloVH: TextView = holder.itemview.findViewById(R.id.titoloVH)
-        val annoVH : TextView = holder.itemview.findViewById(R.id.annoVH)
+        val titoloVH: TextView = holder.itemview.findViewById(R.id.titleVH)
+        val annoVH : TextView = holder.itemview.findViewById(R.id.yearVH)
         val imageVH :ImageView = holder.itemview.findViewById(R.id.imageVH)
 
         // set elementi da dto OK

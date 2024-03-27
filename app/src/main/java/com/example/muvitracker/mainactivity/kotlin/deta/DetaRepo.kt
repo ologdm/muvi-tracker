@@ -2,7 +2,7 @@ package com.example.muvitracker.mainactivity.kotlin.deta
 
 import com.example.muvitracker.repo.kotlin.dto.DetaDto
 import com.example.muvitracker.utils.kotlin.EmptyStatesCallback
-import com.example.muvitracker.utils.kotlin.RetrofitCallbackK
+import com.example.muvitracker.utils.kotlin.RetrofitCallback
 import java.io.IOException
 
 
@@ -13,13 +13,13 @@ import java.io.IOException
  *  1° GET FUNZIONI:
  *  -getMovie() OK
  *      > sceglie tra DB e Server
- *      - getNetworkItemAndAddToLocal() -> assincrona, scarica e addDB+callback to presenter (success);
+ *      - getNetworkItemAndAddToLocal()  > assincrona, scarica e addDB+callback to presenter (success);
  *                                         gestisce empty states
  *
- *      - getLocalItem ()               -> assincorna, con callback EmptyStatesCallback
+ *      - getLocalItem ()                > assincorna, con callback EmptyStatesCallback
  *
  *
- *  -getLocalItem ()  OK                -> sincrona - direttamente da DB
+ *  -getLocalItem ()  OK                 > sincrona - direttamente da DB
  *
  *
  *
@@ -44,12 +44,11 @@ object DetaRepo {
     //eliminate, sono object
 
 
-
     // ########################################################
     // GET FUNZIONI
 
 
-    fun getMovie(movieId: Int, callES: EmptyStatesCallback) {
+    fun getMovie(movieId: Int, callES: EmptyStatesCallback<DetaDto>) {
         // 1 TODO: carica dati da shared in RAM (solo una volta)
 
         var index = xDetaLocalDS.getItemIndex(movieId)
@@ -71,10 +70,10 @@ object DetaRepo {
 
     // METODI PRIVATI
     // OK
-    private fun getNetworkItemAndAddToLocal(movieId: Int, callES: EmptyStatesCallback) {
+    private fun getNetworkItemAndAddToLocal(movieId: Int, callES: EmptyStatesCallback<DetaDto>) {
         callES.OnStart() // empty states
 
-        xDetaNetworkDS.callDetaServer(movieId, object : RetrofitCallbackK<DetaDto> {
+        xDetaNetworkDS.callDetaServer(movieId, object : RetrofitCallback<DetaDto> {
 
             override fun onSuccess(serverItem: DetaDto) {
                 xDetaLocalDS.createItem(serverItem) // add DB
@@ -97,7 +96,7 @@ object DetaRepo {
     }
 
     // OK
-    private fun getLocalItem(movieId: Int, callES: EmptyStatesCallback) {
+    private fun getLocalItem(movieId: Int, callES: EmptyStatesCallback<DetaDto>) {
         val databaseDto = xDetaLocalDS.readItem(movieId)
         callES.onSuccess(databaseDto)
         // println ok success

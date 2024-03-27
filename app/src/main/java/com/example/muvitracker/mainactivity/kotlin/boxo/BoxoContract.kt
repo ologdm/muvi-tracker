@@ -17,7 +17,7 @@ interface BoxoContract {
 
     interface Presenter {
 
-        fun onVHolderClick(traktMovieId: Int)  // ex onVHolderClick
+        fun onVHolderClick(traktMovieId: Int)
 
         fun serverCallAndUpdateUi(forceRefresh: Boolean)
 

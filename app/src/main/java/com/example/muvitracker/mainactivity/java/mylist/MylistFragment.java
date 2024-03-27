@@ -42,7 +42,7 @@ public class MylistFragment extends Fragment implements MylistContract.View {
         @Nullable ViewGroup container,
         @Nullable Bundle savedInstanceState
     ) {
-        return inflater.inflate(R.layout.fragment_prefs, container, false);
+        return inflater.inflate(R.layout.fragm_prefs, container, false);
     }
 
 

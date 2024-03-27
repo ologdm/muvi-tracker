@@ -45,7 +45,7 @@ class BoxoFragment : Fragment(), BoxoContract.View {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_boxoffice, container, false)
+        return inflater.inflate(R.layout.fragm_boxo, container, false)
     }
 
 
@@ -60,9 +60,9 @@ class BoxoFragment : Fragment(), BoxoContract.View {
         // TODO
         progressBar = view.findViewById(R.id.progressBar)
         retryButton = view.findViewById(R.id.retryButton)
-        errorMsgTextview = view.findViewById(R.id.errorMessageTextview)
+        errorMsgTextview = view.findViewById(R.id.errorMsgTextview)
 
-        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout)
+        swipeRefreshLayout = view.findViewById(R.id.swipeToRefresh)
 
         swipeRefreshLayout.setOnRefreshListener { // ()->Unit, interfaccia parametro vuoto
 

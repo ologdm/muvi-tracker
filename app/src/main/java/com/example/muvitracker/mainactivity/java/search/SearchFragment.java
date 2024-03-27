@@ -55,7 +55,7 @@ public class SearchFragment extends Fragment implements SearchContract.View {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_search, container, false);
+        return inflater.inflate(R.layout.fragm_sear, container, false);
     }
 
 
@@ -69,7 +69,7 @@ public class SearchFragment extends Fragment implements SearchContract.View {
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new GridLayoutManager(requireContext(),3));
 
-        searchEt = view.findViewById(R.id.searchEt);
+        searchEt = view.findViewById(R.id.searchEditText);
         searchButton = view.findViewById(R.id.searchImageButton);
 
         searchButton.setOnClickListener(new View.OnClickListener() {

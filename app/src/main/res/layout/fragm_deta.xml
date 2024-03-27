@@ -1,22 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/swipeRefreshLayout"
+        android:id="@+id/swipeToRefresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
     <FrameLayout
-            android:id="@+id/detailsFrameLayout"
+            android:id="@+id/frameLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
 
-    <androidx.core.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
+        <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
 
             <LinearLayout
@@ -57,14 +55,14 @@
 
                 <!-- 1° titolo film-->
                 <TextView
-                        android:id="@+id/titoloTitle"
+                        android:id="@+id/title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Titolo Filmmmm mmm mmm mmm"
                         android:textSize="30dp"
                         android:layout_marginEnd="30dp"
                         android:layout_marginTop="30dp"
-                        android:layout_marginBottom="30dp" />
+                        android:layout_marginBottom="30dp"
+                        tools:hint="Titolo Filmmmm mmm mmm mmm" />
 
                 <!-- 2° split imagine / info orizzontale -->
                 <LinearLayout
@@ -75,11 +73,11 @@
 
                     <!-- 2.1 immagine 2/3 -->
                     <ImageView
-                            android:id="@+id/imageFilm"
+                            android:id="@+id/image"
                             android:layout_width="200dp"
                             android:layout_height="300dp"
                             android:layout_marginEnd="15dp"
-                            android:background="@android:color/holo_red_light" />
+                            tools:background="@android:color/holo_red_light" />
 
 
                     <!-- 2.2 info vicino ad immagine -->
@@ -91,26 +89,26 @@
                         <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Uscita:" />
+                                android:text="Released:" />
 
                         <TextView
-                                android:id="@+id/uscitaReleased"
+                                android:id="@+id/released"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:hint="testo" />
+                                tools:hint="testo" />
 
 
                         <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Durata:"
+                                android:text="Runtime:"
                                 android:layout_marginTop="10dp" />
 
                         <TextView
-                                android:id="@+id/durataRuntime"
+                                android:id="@+id/runtime"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:hint="testo" />
+                                tools:hint="testo" />
 
 
                         <TextView
@@ -120,10 +118,10 @@
                                 android:layout_marginTop="10dp" />
 
                         <TextView
-                                android:id="@+id/paeseCountry"
+                                android:id="@+id/country"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:hint="testo" />
+                                tools:hint="testo" />
 
 
                         <TextView
@@ -139,7 +137,7 @@
                                 android:hint="testo" />
 
                         <CheckBox
-                                android:id="@+id/watchedCheckbox"
+                                android:id="@+id/watchedCkbox"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="watched"
@@ -159,21 +157,16 @@
                         android:layout_marginBottom="10dp" />
 
                 <TextView
-                        android:id="@+id/descrizioneOverview"
+                        android:id="@+id/overview"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:hint=" ''''PROVA''' Prova radotto dall'inglese-La notte oscura dell'anima è una fase di purificazione passiva dello spirito nello sviluppo mistico, come descritta dal mistico e poeta spagnolo del XVI secolo San Giovanni della Croce nel suo trattato Notte oscura, un commento al suo poema con lo stesso nome." />
+                        tools:hint=" ''''PROVA''' Prova radotto dall'inglese-La notte oscura dell'anima è una fase di purificazione passiva dello spirito nello sviluppo mistico, come descritta dal mistico e poeta spagnolo del XVI secolo San Giovanni della Croce nel suo trattato Notte oscura, un commento al suo poema con lo stesso nome." />
 
 
             </LinearLayout>
 
 
-
-
-
-
-
-</androidx.core.widget.NestedScrollView>
+        </androidx.core.widget.NestedScrollView>
 
         <include
                 layout="@layout/empty_states"
@@ -183,4 +176,4 @@
 
     </FrameLayout>
 
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

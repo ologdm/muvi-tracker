@@ -92,7 +92,7 @@ public class DetailsFragment extends Fragment implements DetailsContract.View {
         @Nullable ViewGroup container,
         @Nullable Bundle savedInstanceState
     ) {
-        return inflater.inflate(R.layout.fragment_details, container, false);
+        return inflater.inflate(R.layout.fragm_deta, container, false);
     }
 
 
@@ -105,17 +105,17 @@ public class DetailsFragment extends Fragment implements DetailsContract.View {
 
 
         // assegnazione
-        title = view.findViewById(R.id.titoloTitle);  //string
-        image = view.findViewById(R.id.imageFilm); // glide
-        released = view.findViewById(R.id.uscitaReleased); // string
-        runtimeFilm = view.findViewById(R.id.durataRuntime); // int
-        country = view.findViewById(R.id.paeseCountry); // string
+        title = view.findViewById(R.id.title);  //string
+        image = view.findViewById(R.id.image); // glide
+        released = view.findViewById(R.id.released); // string
+        runtimeFilm = view.findViewById(R.id.runtime); // int
+        country = view.findViewById(R.id.country); // string
         rating = view.findViewById(R.id.rating); // float
-        overview = view.findViewById(R.id.descrizioneOverview); // string
+        overview = view.findViewById(R.id.overview); // string
         buttonBack = view.findViewById(R.id.buttonBack);
 
         likeButton = view.findViewById(R.id.likedButton);
-        watchedCheckbox = view.findViewById(R.id.watchedCheckbox);
+        watchedCheckbox = view.findViewById(R.id.watchedCkbox);
 
 
         // get arguments - assegnazione id

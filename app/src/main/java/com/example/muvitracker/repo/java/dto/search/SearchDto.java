@@ -25,7 +25,7 @@ public class SearchDto {
     private String type;
     private Double score; // float
 
-    // 1,2
+    // 1,2 - i tipi che mi servono
     private Movie movie;
     private Show show;
 

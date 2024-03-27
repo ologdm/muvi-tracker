@@ -44,7 +44,7 @@ public class BoxofficeAdapter extends RecyclerView.Adapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View view = layoutInflater.inflate(R.layout.vh_boxoffice_grid,
+        View view = layoutInflater.inflate(R.layout.vh_boxo,
             parent, false);
         return new BoxofficeVH(view);
     }
@@ -55,8 +55,8 @@ public class BoxofficeAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         BoxofficeDto dto = boxofficeList.get(position);
 
-        TextView titoloVH = holder.itemView.findViewById(R.id.titoloVH);
-        TextView annoVH = holder.itemView.findViewById(R.id.annoVH);
+        TextView titoloVH = holder.itemView.findViewById(R.id.titleVH);
+        TextView annoVH = holder.itemView.findViewById(R.id.yearVH);
         ImageView posterVH = holder.itemView.findViewById(R.id.imageVH);
 
 

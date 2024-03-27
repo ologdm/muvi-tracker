@@ -64,9 +64,9 @@ class DetaPresenter(
 
 
     // solo per getMovie OK
-    private fun wrapperESCallback(forceRefresh: Boolean): EmptyStatesCallback {
+    private fun wrapperESCallback(forceRefresh: Boolean): EmptyStatesCallback <DetaDto> {
 
-        return object : EmptyStatesCallback {
+        return object : EmptyStatesCallback <DetaDto> {
 
             override fun OnStart() {
                 if (forceRefresh) {
@@ -78,11 +78,11 @@ class DetaPresenter(
                 }
             }
 
-            override fun onSuccess(detaDto: DetaDto) {
+            override fun onSuccess(obj: DetaDto) {
                 view.emptyStatesFlow(EmptyStatesEnum.ON_SUCCESS)
 
                 // update presenter and ui
-                presenterDto = detaDto.copy()
+                presenterDto = obj.copy()
                 updateUi()
 
                 println("XXX_PRES_EMPTY STATE SUCCESS")

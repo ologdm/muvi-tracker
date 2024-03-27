@@ -58,8 +58,8 @@ public class SearchAdapter extends RecyclerView.Adapter {
 
         // 2. Identificazione view vh
         ImageView imageVH = holder.itemView.findViewById(R.id.imageVH);
-        TextView titoloVH = holder.itemView.findViewById(R.id.titoloVH);
-        TextView annoVH = holder.itemView.findViewById(R.id.annoVH);
+        TextView titoloVH = holder.itemView.findViewById(R.id.titleVH);
+        TextView annoVH = holder.itemView.findViewById(R.id.yearVH);
         TextView typeObjectVH = holder.itemView.findViewById(R.id.typeObject);
 
 
@@ -78,6 +78,7 @@ public class SearchAdapter extends RecyclerView.Adapter {
 
             Glide.with(holder.itemView.getContext())
                 .load(dto.getMovie().getImageUrl())
+                .placeholder(R.drawable.baseline_favorite_border_24)
                 .into(imageVH);
 
         }

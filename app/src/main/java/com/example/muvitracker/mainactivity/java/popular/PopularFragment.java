@@ -76,7 +76,7 @@ public class PopularFragment extends Fragment implements PopularContract.View {
         @NonNull LayoutInflater inflater,
         @Nullable ViewGroup container,
         @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_popular, container, false);
+        return inflater.inflate(R.layout.fragm_popu, container, false);
     }
 
 
@@ -95,11 +95,11 @@ public class PopularFragment extends Fragment implements PopularContract.View {
         // 2. Empty States OK
         progressBar = view.findViewById(R.id.progressBar);
         retryButton = view.findViewById(R.id.retryButton);
-        errorMessage = view.findViewById(R.id.errorMessageTextview);
+        errorMessage = view.findViewById(R.id.errorMsgTextview);
 
 
         // 3. SwipeRefresh OK
-        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout = view.findViewById(R.id.swipeToRefresh);
         swipeRefreshLayout.setOnRefreshListener(() -> {
             presenter.serverCallAndUpdateUi(true);
         });
