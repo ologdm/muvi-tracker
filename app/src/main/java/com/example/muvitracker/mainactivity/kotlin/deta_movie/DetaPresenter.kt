@@ -1,5 +1,7 @@
-package com.example.muvitracker.mainactivity.kotlin.deta
+package com.example.muvitracker.mainactivity.kotlin.deta_movie
 
+import android.content.Context
+import com.example.muvitracker.mainactivity.kotlin.deta_movie.repo.DetaRepo
 import com.example.muvitracker.repo.kotlin.dto.DetaDto
 import com.example.muvitracker.utils.kotlin.EmptyStatesCallback
 import com.example.muvitracker.utils.kotlin.EmptyStatesEnum
@@ -33,20 +35,24 @@ import com.example.muvitracker.utils.kotlin.EmptyStatesEnum
  *
  */
 
+
 // copy: val-val, solo quando modifico
 // !! con if() vabene
 
 
 class DetaPresenter(
-    private val view: DetaContract.View
+
+    private val view: DetaContract.View,
+    private val context: Context
+
 ) : DetaContract.Presenter {
 
 
     // ATTRIBUTI
 
+    private val detaRepo = DetaRepo.getInstance(context)
+
     private var presenterDto: DetaDto? = null
-
-
 
 
     //CONTRACT METHODS
@@ -56,7 +62,7 @@ class DetaPresenter(
     override fun getMovie(movieId: Int, forceRefresh: Boolean) {
 
         // copia da repo
-        DetaRepo.getMovie(
+        detaRepo.getMovie(
             movieId,
             wrapperESCallback(forceRefresh) // aggiorno dto da call
         )
@@ -64,9 +70,9 @@ class DetaPresenter(
 
 
     // solo per getMovie OK
-    private fun wrapperESCallback(forceRefresh: Boolean): EmptyStatesCallback <DetaDto> {
+    private fun wrapperESCallback(forceRefresh: Boolean): EmptyStatesCallback<DetaDto> {
 
-        return object : EmptyStatesCallback <DetaDto> {
+        return object : EmptyStatesCallback<DetaDto> {
 
             override fun OnStart() {
                 if (forceRefresh) {
@@ -119,9 +125,9 @@ class DetaPresenter(
 
         if (presenterDto != null) {
             // send to repo
-            DetaRepo.toggleFavoriteOnDB(presenterDto!!) // delego il lavoro logico a repo
+            detaRepo.toggleFavoriteOnDB(presenterDto!!) // delego il lavoro logico a repo
             // get from repo
-            presenterDto = DetaRepo.getLocalItem(presenterDto!!.ids.trakt)
+            presenterDto = detaRepo.getLocalItem(presenterDto!!.ids.trakt)
         }
 
         updateUi()
@@ -138,7 +144,7 @@ class DetaPresenter(
         // OK
         if (modifiedDto != null) {
             // send to repo
-            DetaRepo.updateWatchedOnDB(modifiedDto)
+            detaRepo.updateWatchedOnDB(modifiedDto)
             // update presenterDto
             presenterDto = modifiedDto
         }

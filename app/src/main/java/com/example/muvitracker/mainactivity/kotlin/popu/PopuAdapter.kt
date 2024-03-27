@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.muvitracker.R
+import com.example.muvitracker.databinding.VhPopuBinding
 import com.example.muvitracker.repo.kotlin.dto.PopuDto
 
 
@@ -19,18 +20,28 @@ import com.example.muvitracker.repo.kotlin.dto.PopuDto
 class PopuAdapter : RecyclerView.Adapter<PopuVH>() {
 
 
-    // lista OK
+    // variante 1 val/mutablelist
     private val adapterList = mutableListOf<PopuDto>()
 
-    // variante
+    // variante 2 boxo
     // private var adapterList = listOf<PopularDtoK>()
 
 
+    // 1 dichiarazione lambda
+    //lateinit var callbackVH: ((Int) -> Unit) // non usare
+    private var callbackVH: ((Int) -> Unit)? = null // va bene
+
+
+    // METODI
     // 1. OK
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PopuVH {
-        val layoutInflater: LayoutInflater = LayoutInflater.from(parent.context)
-        val view: View = layoutInflater.inflate(R.layout.vh_popu, parent, false)
-        return PopuVH(view)
+        // definisco il mio binding
+        val binding = VhPopuBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
+        return PopuVH(binding)
     }
 
 
@@ -44,32 +55,34 @@ class PopuAdapter : RecyclerView.Adapter<PopuVH>() {
     override fun onBindViewHolder(holder: PopuVH, position: Int) {
 
         // 1 prendi elemento da mostrare OK
-        val dto: PopuDto = adapterList.get(position)
+        val dto: PopuDto = adapterList[position]
 
-        // 2 identifica views OK
+
+        /* 2 identifica views OK
         val titoloVH: TextView = holder.itemView.findViewById(R.id.titleVH)
         val annoVH: TextView = holder.itemView.findViewById(R.id.yearVH)
         val imageVH: ImageView = holder.itemView.findViewById(R.id.imageVH)
 
-        // 3 set testo OK
-        titoloVH.text = dto.title
-        annoVH.text = dto.year.toString() // conversione automatica
+         */
 
-        // 4 set immagine con glide OK
-        Glide.with(holder.itemView.context)
-            .load(dto.getImageUrl())
-            .into(imageVH)
+        with(holder.binding) {
+
+            titleVH.text = dto.title
+            yearVH.text = dto.year.toString() // conversione automatica
+
+            Glide.with(root.context)
+                .load(dto.getImageUrl())
+                .into(imageVH)
 
 
-        // callback view - implementazione, chiamata al click
-        holder.itemView.setOnClickListener {
+            // callback view - implementazione, chiamata al click
+            root.setOnClickListener {
+                // callbackVH - chiamata, implementazione su fragment
+                callbackVH?.invoke(dto.ids.trakt)
 
-            // callbackVH - chiamata, implementazione su fragment
-            callbackVH?.invoke(dto.ids.trakt)
-
-            // => callbackVH.invoke(dto.ids.trakt) // con lateinit non serve ?
+                // => callbackVH.invoke(dto.ids.trakt) // con lateinit non serve ?
+            }
         }
-
 
     }
 
@@ -77,10 +90,11 @@ class PopuAdapter : RecyclerView.Adapter<PopuVH>() {
     // OK
     fun updateList(inputList: List<PopuDto>) {
         // 1 variante - val mutable
-        adapterList.clear() // Rimuove tutti gli elementi dalla lista attuale
-        adapterList.addAll(inputList) // Aggiunge tutti gli elementi della nuova lista
+        adapterList.clear() // elimina elementi lista mutabile
+        adapterList.addAll(inputList) // aggiungi elementi alla lista
+        // senza clear, aggiungi elementi a quelli esistenti
 
-        notifyDataSetChanged() // molto importante
+        notifyDataSetChanged()
 
         //2 variante - var list
         //adapterList = inputList.toList() // sotituisco lista con copia lista passata
@@ -88,10 +102,6 @@ class PopuAdapter : RecyclerView.Adapter<PopuVH>() {
 
 
     // LAMBDA IMPLEMENTAZIONE OK
-    // 1 dichiarazione lambda
-    private var callbackVH: ((Int) -> Unit)? = null // va bene
-
-    //lateinit var callbackVH: ((Int) -> Unit) // non usare
 
 
     // 2 set lambda

@@ -51,11 +51,11 @@ class PrefsAdapter : RecyclerView.Adapter<PrefsVH>() {
     override fun onBindViewHolder(holder: PrefsVH, position: Int) {
         var onBindDto = adapterList.get(position)
 
-        var imageView: ImageView = holder.itemView.findViewById(R.id.imageVH)
+        val imageView: ImageView = holder.itemView.findViewById(R.id.imageVH)
         var titleAndYear: TextView = holder.itemView.findViewById(R.id.titleAndYear)
 
-        var checkBox: CheckBox = holder.itemView.findViewById(R.id.checkBox)
-        var likedButton: ImageButton = holder.itemView.findViewById(R.id.likedButton)
+        val watchedCkBox: CheckBox = holder.itemView.findViewById(R.id.checkBox)
+        val likedButton: ImageButton = holder.itemView.findViewById(R.id.likedButton)
 
 
         titleAndYear.text = "${onBindDto.title} ${onBindDto.year.toString()}"
@@ -78,10 +78,11 @@ class PrefsAdapter : RecyclerView.Adapter<PrefsVH>() {
         )
 
 
-
+        // clickVH -> apri details
         holder.itemView.setOnClickListener {
             callbackVH?.invoke(onBindDto.ids.trakt)
         }
+
 
         // implemento comportamento al click button
         likedButton.setOnClickListener {
@@ -95,15 +96,17 @@ class PrefsAdapter : RecyclerView.Adapter<PrefsVH>() {
 
 
         // set dto, passa dto a db, set checkbox
-        checkBox.setOnCheckedChangeListener { b, isChecked ->
-            if (onBindDto.watched != checkBox.isChecked) {
-                onBindDto.watched = isChecked
+        watchedCkBox.setOnCheckedChangeListener { b, isChecked ->
+            if (onBindDto.watched != watchedCkBox.isChecked) {
+                onBindDto = onBindDto.copy(watched = isChecked)
                 // serve copiare??
-                callbackWatched?.invoke(onBindDto.copy())
+                callbackWatched?.invoke(onBindDto)
+                watchedCkBox.isChecked = onBindDto.watched
             }
         }
 
-        checkBox.isChecked = onBindDto.watched
+        watchedCkBox.isChecked = onBindDto.watched
+
 
 
     }
@@ -160,7 +163,7 @@ class PrefsAdapter : RecyclerView.Adapter<PrefsVH>() {
     private var callbackWatched: ((dto: DetaDto) -> Unit)? = null
 
     fun setCallbackWatched(call: (updatedDto: DetaDto) -> Unit) {
-        callbackLiked = call
+        callbackWatched = call
     }
 
 

@@ -1,4 +1,4 @@
-package com.example.muvitracker.mainactivity.kotlin.deta
+package com.example.muvitracker.mainactivity.kotlin.deta_movie.repo
 
 import com.example.muvitracker.repo.kotlin.TraktApi
 import com.example.muvitracker.repo.kotlin.dto.DetaDto
@@ -12,7 +12,7 @@ import retrofit2.Response
 // chiama il server e passa dati a repo
 
 
-object xDetaNetworkDS {
+object DNetworkDS {
 
 
     // crea retrofit

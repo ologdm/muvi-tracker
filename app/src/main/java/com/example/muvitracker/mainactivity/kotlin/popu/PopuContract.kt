@@ -9,7 +9,7 @@ interface PopuContract {
 
     interface View {
 
-        fun UpdateUi(list: List<PopuDto>)
+        fun updateUi(list: List<PopuDto>)
 
         fun startDetailsFragment(movieId: Int)
 

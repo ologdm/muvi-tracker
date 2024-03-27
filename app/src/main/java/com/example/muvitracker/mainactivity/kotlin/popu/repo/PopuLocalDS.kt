@@ -1,4 +1,4 @@
-package com.example.muvitracker.mainactivity.kotlin.popu
+package com.example.muvitracker.mainactivity.kotlin.popu.repo
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -37,12 +37,11 @@ import com.google.gson.reflect.TypeToken
  */
 
 
-
 // singleton OK
 // attributi : context, gson, shared
 
 
-class xPopuLocalDS
+class PopuLocalDS
 private constructor(
     private val context: Context // vale come dichiarazione
 ) {
@@ -56,12 +55,12 @@ private constructor(
 
         @Volatile
         @SuppressLint("StaticFieldLeak")
-        private var instance: xPopuLocalDS? = null
+        private var instance: PopuLocalDS? = null
 
 
-        fun getInstance(context: Context): xPopuLocalDS {
+        fun getInstance(context: Context): PopuLocalDS {
             instance ?: synchronized(this) {
-                instance ?: xPopuLocalDS(context.applicationContext)
+                instance ?: PopuLocalDS(context.applicationContext)
                     .also {
                         instance = it
                     }

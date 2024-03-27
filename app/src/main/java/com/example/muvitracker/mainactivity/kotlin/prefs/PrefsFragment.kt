@@ -19,9 +19,11 @@ class PrefsFragment() : Fragment(), PrefsContract.View {
 
     private lateinit var recyclerView: RecyclerView
 
+    private lateinit var presenter :PrefsContract.Presenter
+
     private val adapter = PrefsAdapter()
-    private val presenter = PrefsPresenter(this)
     private val navigator = MainNavigatorK()
+
 
 
     // FRAGMENT METHODS
@@ -38,6 +40,9 @@ class PrefsFragment() : Fragment(), PrefsContract.View {
 
     // logica
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        val presenter = PrefsPresenter(this, requireContext())
+
         recyclerView = view.findViewById(R.id.mylistRV)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext()) // ok
@@ -52,19 +57,21 @@ class PrefsFragment() : Fragment(), PrefsContract.View {
         // OK
         adapter.setCallbackLiked {dtoToToggle ->
             presenter.toggleFovoriteItem(dtoToToggle)
-            presenter.getPrefsList()
+
+            presenter.getPrefsListAndUpdateUi()
         }
 
 
         // OK
         adapter.setCallbackWatched {updatedDto ->
             presenter.updateWatchedItem(updatedDto)
-            presenter.getPrefsList()
+
+            presenter.getPrefsListAndUpdateUi()
         }
 
 
-        // GET OK
-        presenter.getPrefsList()
+        // GET default OK
+        presenter.getPrefsListAndUpdateUi()
 
 
     }

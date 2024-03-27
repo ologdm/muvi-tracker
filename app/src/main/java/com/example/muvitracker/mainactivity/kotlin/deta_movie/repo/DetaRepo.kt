@@ -1,5 +1,7 @@
-package com.example.muvitracker.mainactivity.kotlin.deta
+package com.example.muvitracker.mainactivity.kotlin.deta_movie.repo
 
+import android.annotation.SuppressLint
+import android.content.Context
 import com.example.muvitracker.repo.kotlin.dto.DetaDto
 import com.example.muvitracker.utils.kotlin.EmptyStatesCallback
 import com.example.muvitracker.utils.kotlin.RetrofitCallback
@@ -37,11 +39,33 @@ import java.io.IOException
  */
 
 
-object DetaRepo {
+class DetaRepo(
+    private val context: Context
+) {
 
 
-    // istanze di local e server
-    //eliminate, sono object
+    companion object {
+
+        // SINGLETON
+        @Volatile
+        @SuppressLint("StaticFieldLeak")
+        private var instance: DetaRepo? = null
+
+        fun getInstance(context: Context): DetaRepo {
+            instance ?: synchronized(this) {
+                instance ?: DetaRepo(context.applicationContext)
+                    .also {
+                        instance = it
+                    }
+            }
+            return instance!!
+        }
+
+    }
+
+
+    // TODO: perche me lo accetta xDetaLocalDS ???
+    val detaLocalDS = DLocalDS.getInstance(context)
 
 
     // ########################################################
@@ -51,7 +75,7 @@ object DetaRepo {
     fun getMovie(movieId: Int, callES: EmptyStatesCallback<DetaDto>) {
         // 1 TODO: carica dati da shared in RAM (solo una volta)
 
-        var index = xDetaLocalDS.getItemIndex(movieId)
+        var index = detaLocalDS.getItemIndex(movieId)
 
         // branch dell if assincrono non puo avere - return classico, return è  sempre sincrono
         if (index != -1) { // se trova index -> getDB
@@ -73,10 +97,10 @@ object DetaRepo {
     private fun getNetworkItemAndAddToLocal(movieId: Int, callES: EmptyStatesCallback<DetaDto>) {
         callES.OnStart() // empty states
 
-        xDetaNetworkDS.callDetaServer(movieId, object : RetrofitCallback<DetaDto> {
+        DNetworkDS.callDetaServer(movieId, object : RetrofitCallback<DetaDto> {
 
             override fun onSuccess(serverItem: DetaDto) {
-                xDetaLocalDS.createItem(serverItem) // add DB
+                detaLocalDS.createItem(serverItem) // add DB
 
                 callES.onSuccess(serverItem) //passo tu presenter
 
@@ -97,7 +121,7 @@ object DetaRepo {
 
     // OK
     private fun getLocalItem(movieId: Int, callES: EmptyStatesCallback<DetaDto>) {
-        val databaseDto = xDetaLocalDS.readItem(movieId)
+        val databaseDto = detaLocalDS.readItem(movieId)
         callES.onSuccess(databaseDto)
         // println ok success
 
@@ -105,7 +129,7 @@ object DetaRepo {
 
 
     fun getLocalItem(movieId: Int): DetaDto {
-        return xDetaLocalDS.readItem(movieId)
+        return detaLocalDS.readItem(movieId)
         // println su presenter
     }
 
@@ -118,7 +142,7 @@ object DetaRepo {
         // !!! se l'ho aperto, e gia su DB !!!
 
         val dtoModificato = inputDto.copy(liked = !inputDto.liked)
-        xDetaLocalDS.updateItem(dtoModificato)
+        detaLocalDS.updateItem(dtoModificato)
 
         //inputDto =
         //localDS.updateItem(inputDto)
@@ -130,9 +154,10 @@ object DetaRepo {
     // OK
     fun updateWatchedOnDB(inputDto: DetaDto) {
 
-        xDetaLocalDS.updateItem(inputDto)
+        // invio dto modificato
+        detaLocalDS.updateItem(inputDto)
 
-        println("XXX_REPO_WATCHED_UPDATE_DB")
+        println("XXX_DETAREPO_WATCHEDUPDATEDB")
 
     }
 

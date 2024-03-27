@@ -1,5 +1,6 @@
 package com.example.muvitracker.mainactivity.kotlin.boxo
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -12,9 +13,13 @@ import com.example.muvitracker.repo.kotlin.dto.BoxoDto
 
 class BoxoAdapter : RecyclerView.Adapter <BoxoVH>() {
 
+    // variante 1 popular
+    // variante 2 - var/list
+    private var adapterList = listOf<BoxoDto>()
 
-    // TODO: lista privata
-    private val adapterList = mutableListOf<BoxoDto>()
+
+    // dichiaro lambda callback
+    var callbackVH : ((movieId:Int)->Unit)? = null
 
 
     // METODI ADAPTER
@@ -57,14 +62,10 @@ class BoxoAdapter : RecyclerView.Adapter <BoxoVH>() {
             // itemview funzione {chiama callback al click su oggetto}
             // par it - non utilizzato
 
-
             // chiama callbackVH -
             // passo elemento nella chiamata
             callbackVH?.invoke(dto.movie.ids.trakt)
-
-
         }
-
 
 
     }
@@ -72,22 +73,15 @@ class BoxoAdapter : RecyclerView.Adapter <BoxoVH>() {
 
 
     // update con copia OK
+    @SuppressLint("NotifyDataSetChanged")
     fun updateList (list: List<BoxoDto>){
-        adapterList.clear() // elimina elementi lista mutabile
-        adapterList.addAll(list) // aggiungi elementi alla lista
-        // senza clear, aggiungi elementi a quelli esistenti
-
+        adapterList= list.toList() // sotituisco lista con la  copia nuova istanza
         notifyDataSetChanged()
 
     }
 
 
-
-    // TODO: LAMBDA PER VH
-    // dichiaro lambda e la sua funzione set OK
-
-    var callbackVH : ((movieId:Int)->Unit)? = null
-
+    // lambda set
     fun setcallbackVH (call:(movieId:Int)->Unit){
         callbackVH=call
 

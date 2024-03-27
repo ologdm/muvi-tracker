@@ -1,4 +1,4 @@
-package com.example.muvitracker.mainactivity.kotlin.popu
+package com.example.muvitracker.mainactivity.kotlin.popu.repo
 
 import android.content.Context
 import com.example.muvitracker.repo.kotlin.dto.PopuDto
@@ -49,7 +49,7 @@ private constructor(
 ) {
 
     // ATTRIBUTI
-    private val popuLocalDS = xPopuLocalDS.getInstance(context)
+    private val popuLocalDS = PopuLocalDS.getInstance(context)
 
 
     // METODI
@@ -62,7 +62,7 @@ private constructor(
 
         callES.OnStart() // ES
 
-        xPopuNetworkDS.callPopuServer(object : RetrofitCallbackList<PopuDto> {
+        PopuNetworkDS.callPopuServer(object : RetrofitCallbackList<PopuDto> {
 
             override fun onSuccess(serverList: List<PopuDto>) {
 
@@ -88,7 +88,7 @@ private constructor(
 
 
     // 2. solo da db
-    fun getCacheList(): List<PopuDto> {
+    private fun getCacheList(): List<PopuDto> {
         println("XXX_POPU_REPO_GET CACHE LIST")
         return popuLocalDS.loadFromLocal()
     }

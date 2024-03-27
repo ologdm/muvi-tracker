@@ -1,6 +1,7 @@
 package com.example.muvitracker.mainactivity.kotlin.popu
 
 import android.content.Context
+import com.example.muvitracker.mainactivity.kotlin.popu.repo.PopuRepo
 import com.example.muvitracker.repo.kotlin.dto.PopuDto
 import com.example.muvitracker.utils.kotlin.EmptyStatesCallbackList
 import com.example.muvitracker.utils.kotlin.EmptyStatesEnumNew
@@ -28,7 +29,7 @@ class PopuPresenter(
 
     // ATTRIBUTI OK
     // context - nel costruttore OK
-    val popuRepo: PopuRepo = PopuRepo.getInstance(context)
+    private val popuRepo: PopuRepo = PopuRepo.getInstance(context)
 
 
     // CONTRACT METHODS
@@ -49,7 +50,7 @@ class PopuPresenter(
 
             override fun onSuccess(list: List<PopuDto>) {
 
-                view.UpdateUi(list) // server list
+                view.updateUi(list) // server list
                 view.emptyStatesFlow(EmptyStatesEnumNew.ON_SUCCESS)
                 println("XXX_POPU_FRAGM_SUCCESS")
             }

@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -14,11 +13,9 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.muvitracker.R
 import com.example.muvitracker.mainactivity.kotlin.MainNavigatorK
 import com.example.muvitracker.repo.kotlin.dto.BoxoDto
-import com.example.muvitracker.utils.kotlin.EmptyStatesEnum
-import com.example.muvitracker.utils.kotlin.EmptyStatesManagement
+import com.example.muvitracker.utils.kotlin.EmptyStatesEnumNew
+import com.example.muvitracker.utils.kotlin.EmptyStatesManagementNew
 
-
-// su main OK
 
 
 class BoxoFragment : Fragment(), BoxoContract.View {
@@ -27,16 +24,16 @@ class BoxoFragment : Fragment(), BoxoContract.View {
     private lateinit var recyclerView: RecyclerView
 
     private lateinit var progressBar: ProgressBar
-    private lateinit var retryButton: Button
     private lateinit var errorMsgTextview: TextView
 
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
-    // inizializzo
+    private lateinit var presenter:BoxoContract.Presenter // OK
 
+    // inizializzo
     private val adapter = BoxoAdapter()
-    private val presenter = BoxoPresenter(this) //richiede qualcuno che implementa Contract.View
     private val navigator = MainNavigatorK()
+
 
 
     // crea OK
@@ -53,77 +50,73 @@ class BoxoFragment : Fragment(), BoxoContract.View {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         //super.onViewCreated(view, savedInstanceState) // i paramentri gli passo al costruttore
 
-        recyclerView = view.findViewById(R.id.boxofficeFragmentRV)
+        val presenter = BoxoPresenter(this, requireContext())
+        //richiede qualcuno che implementa Contract.View
+
+
+        recyclerView = view.findViewById(R.id.recycleView)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = GridLayoutManager(requireContext(), 3)
 
-        // TODO
+        // es nuovo OK
         progressBar = view.findViewById(R.id.progressBar)
-        retryButton = view.findViewById(R.id.retryButton)
         errorMsgTextview = view.findViewById(R.id.errorMsgTextview)
 
         swipeRefreshLayout = view.findViewById(R.id.swipeToRefresh)
 
         swipeRefreshLayout.setOnRefreshListener { // ()->Unit, interfaccia parametro vuoto
-
             // implementazione OnRefreshListener
-            presenter.serverCallAndUpdateUi(forceRefresh = true)
+            presenter.getMovieAndUpdateUi(forceRefresh = true)
 
         }
 
-
-        presenter.serverCallAndUpdateUi(forceRefresh = false)
 
         adapter.setcallbackVH { movieId ->
             presenter.onVHolderClick(movieId)
         }
 
 
-        retryButton.setOnClickListener {
-            presenter.serverCallAndUpdateUi(forceRefresh = false)
-        }
+        presenter.getMovieAndUpdateUi(forceRefresh = false)
 
 
     }
 
 
-    // CONTRACTS METHODS
+    // CONTRACTS METHODS OK nuovo tutto
 
     override fun updateUi(list: List<BoxoDto>) {
         adapter.updateList(list)
     }
 
 
-    override fun emptyStatesManagment(emptyState: EmptyStatesEnum) {
+    override fun emptyStatesFlow(emptyStates: EmptyStatesEnumNew) {
 
-        //  set funzione gestione stati
-        EmptyStatesManagement.emptyStatesFlow(
-            emptyState,
-            recyclerView,
+        EmptyStatesManagementNew.emptyStatesFlow(
+            emptyStates,
             progressBar,
-            retryButton,
             errorMsgTextview
         )
 
-        // gestione swipe refresh -> fine
-
-        when (emptyState) {
-            EmptyStatesEnum.ON_SUCCESS,
-            EmptyStatesEnum.ON_ERROR_IO,
-            EmptyStatesEnum.ON_ERROR_OTHER
+        // stop refreshing solo in questi 3 stati
+        when (emptyStates) {
+            EmptyStatesEnumNew.ON_SUCCESS,
+            EmptyStatesEnumNew.ON_ERROR_IO,
+            EmptyStatesEnumNew.ON_ERROR_OTHER
             -> swipeRefreshLayout.isRefreshing = false
 
-            else -> {} // non fare nulla
+            else -> {}  // non fare nulla
         }
     }
 
 
-    // OK
-    override fun startDetailsFragment(traktMovieId: Int) {
+    // OK nuovo
+    override fun startDetailsFragment(movieId: Int) {
+
         navigator.startDetailsFragmentAndAddToBackstack(
             requireActivity(),
-            traktMovieId
+            movieId
         )
+        println("XXX_ START FRAGMENT FROM BOXO, movieId: $movieId")
     }
 
 }

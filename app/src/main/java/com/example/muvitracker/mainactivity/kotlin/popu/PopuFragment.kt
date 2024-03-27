@@ -4,13 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ProgressBar
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.muvitracker.R
+import com.example.muvitracker.databinding.FragmPopuBinding
 import com.example.muvitracker.mainactivity.kotlin.MainNavigatorK
 import com.example.muvitracker.repo.kotlin.dto.PopuDto
 import com.example.muvitracker.utils.kotlin.EmptyStatesEnumNew
@@ -28,20 +25,25 @@ class PopuFragment
     : Fragment(), PopuContract.View {
 
 
+    // binding dichiarazione OK
+    private var binding: FragmPopuBinding? = null
+
+
+    // TODO
+    //private lateinit var recyclerView: RecyclerView
+
+    //private lateinit var progressBar: ProgressBar
+    //private lateinit var errorMsgTextview: TextView
+    //private lateinit var swipeRefreshLayout: SwipeRefreshLayout
+
+
     // 1 ATTRIBUTI
     // 1.1 dichiaro
-    private lateinit var recyclerView: RecyclerView
-
-    private lateinit var progressBar: ProgressBar
-    private lateinit var errorMsgTextview: TextView
-
-    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
+    private lateinit var presenter: PopuContract.Presenter // sharedPrefs context OK
 
     // 1.2 inizializzo
     private val adapter = PopuAdapter()
     private val navigator = MainNavigatorK()
-
-    private lateinit var presenter: PopuContract.Presenter // TODO sharedPrefs context
 
 
     // 2 METODI FRAGMENT
@@ -52,7 +54,9 @@ class PopuFragment
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragm_popu, container, false)
+        //val view:View? = inflater.inflate(R.layout.fragm_popu, container, false)
+        binding = FragmPopuBinding.inflate(inflater, container, false) //
+        return binding?.root // richiama view da binding
     }
 
 
@@ -62,34 +66,21 @@ class PopuFragment
         savedInstanceState: Bundle?
     ) {
 
-        // TODO sharedPrefs context
+        // sharedPrefs context OK
         presenter = PopuPresenter(this, requireContext())
 
+        with(binding!!) {
 
-        // rv
-        recyclerView = view.findViewById(R.id.popularFragmentRV)
-        recyclerView.layoutManager = GridLayoutManager(requireContext(), 3)
-        recyclerView.adapter = adapter
-
-        // empty states TODO
-        progressBar = view.findViewById(R.id.progressBar)
-        errorMsgTextview = view.findViewById(R.id.errorMsgTextview)
+            recycleView.adapter = adapter
+            recycleView.layoutManager = GridLayoutManager(requireContext(), 3)
 
 
-        // swipe refresh
-        // 1)
-        swipeRefreshLayout = view.findViewById(R.id.swipeToRefresh)
-
-        swipeRefreshLayout.setOnRefreshListener {
-
-            presenter.getMovieAndUpdateUi(forceRefresh = true)
-            // nascondo progress bar - in presenter OK
+            swipeToRefresh.setOnRefreshListener {
+                presenter.getMovieAndUpdateUi(forceRefresh = true)
+                // poi nascondi caricamento di swipeRefresh
+                // (.isRefreshing = false) dove serve
+            }
         }
-
-        // 2) swipeRefreshLayout
-        // poi nascondi caricamento di swipeRefresh: .setRefreshing(false); '
-        // caso success - in .updateUi ()
-        // caso error - in caso .setErrorPage(nointernet)
 
 
         // OK - movieId lo lascio solo per chiarezza
@@ -108,7 +99,7 @@ class PopuFragment
     // CONTRACT METHOD - OK
 
     // OK
-    override fun UpdateUi(list: List<PopuDto>) {
+    override fun updateUi(list: List<PopuDto>) {
         adapter.updateList(list)
     }
 
@@ -118,8 +109,8 @@ class PopuFragment
         // chiamo funzione gestione stati
         EmptyStatesManagementNew.emptyStatesFlow(
             emptyStates,
-            progressBar,
-            errorMsgTextview
+            binding?.emptyStates!!.progressBar,
+            binding?.emptyStates!!.errorMsgTextview
         )
 
         // stop refreshing solo in questi 3 stati TODO OK
@@ -127,7 +118,7 @@ class PopuFragment
             EmptyStatesEnumNew.ON_SUCCESS,
             EmptyStatesEnumNew.ON_ERROR_IO,
             EmptyStatesEnumNew.ON_ERROR_OTHER
-            -> swipeRefreshLayout.isRefreshing = false
+            -> binding?.swipeToRefresh?.isRefreshing = false
 
             else -> {}  // non fare nulla
         }

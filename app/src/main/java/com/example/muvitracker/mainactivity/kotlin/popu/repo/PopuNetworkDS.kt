@@ -1,4 +1,4 @@
-package com.example.muvitracker.mainactivity.kotlin.popu
+package com.example.muvitracker.mainactivity.kotlin.popu.repo
 
 import com.example.muvitracker.repo.kotlin.TraktApi
 import com.example.muvitracker.repo.kotlin.dto.PopuDto
@@ -10,7 +10,7 @@ import retrofit2.HttpException
 import retrofit2.Response
 
 
-object xPopuNetworkDS {
+object PopuNetworkDS {
 
 
     private val retrofit = MyRetrofit.createMuviTrackerRetrofit()
@@ -24,7 +24,7 @@ object xPopuNetworkDS {
 
     fun callPopuServer(callbackPresenter: RetrofitCallbackList<PopuDto>) {
 
-        var call = traktApi.getPopularMovies()
+        val call = traktApi.getPopularMovies()
 
         call.enqueue(object : Callback<List<PopuDto>> {
 

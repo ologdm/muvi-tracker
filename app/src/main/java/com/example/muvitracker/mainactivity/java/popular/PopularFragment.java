@@ -87,7 +87,7 @@ public class PopularFragment extends Fragment implements PopularContract.View {
         //presenter = new PopularPresenter(this);
 
         // 1. Rv
-        recyclerView = view.findViewById(R.id.popularFragmentRV);
+        recyclerView = view.findViewById(R.id.recycleView);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new GridLayoutManager(requireActivity(), 3));
 

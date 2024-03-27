@@ -1,4 +1,4 @@
-package com.example.muvitracker.mainactivity.kotlin.deta
+package com.example.muvitracker.mainactivity.kotlin.deta_movie
 
 import com.example.muvitracker.repo.kotlin.dto.DetaDto
 import com.example.muvitracker.utils.kotlin.EmptyStatesEnum

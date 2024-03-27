@@ -63,7 +63,7 @@ public class BoxofficeFragment extends Fragment implements BoxofficeContract.Vie
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
         // 1. Identificazione
-        recyclerView = view.findViewById(R.id.boxofficeFragmentRV);
+        recyclerView = view.findViewById(R.id.recycleView);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 3));
 

@@ -1,5 +1,6 @@
 package com.example.muvitracker.mainactivity.kotlin.sear
 
+import com.example.muvitracker.mainactivity.kotlin.sear.repo.SearRepo
 import com.example.muvitracker.repo.kotlin.dto.search.SearDto
 import com.example.muvitracker.utils.kotlin.RetrofitCallbackList
 

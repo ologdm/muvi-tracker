@@ -1,4 +1,4 @@
-package com.example.muvitracker.mainactivity.kotlin.deta
+package com.example.muvitracker.mainactivity.kotlin.deta_movie
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -50,8 +50,6 @@ class DetaFragment : Fragment(), DetaContract.View {
     private lateinit var errorMsgTextview: TextView
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
-    // altro
-    private val presenter = DetaPresenter(this) // vuole una classe che implementa view, quindi this
 
 
     // COSTRUTTORE - default privato
@@ -69,6 +67,10 @@ class DetaFragment : Fragment(), DetaContract.View {
 
     // logica
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        // altro
+        val presenter = DetaPresenter(this, requireContext()) // vuole una classe che implementa view, quindi this
+
 
         // inizializzazione OK
         title = view.findViewById(R.id.title) //string

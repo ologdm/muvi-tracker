@@ -169,6 +169,7 @@
         </androidx.core.widget.NestedScrollView>
 
         <include
+                android:id="@+id/emptyStates"
                 layout="@layout/empty_states"
                 android:layout_height="match_parent"
                 android:layout_width="match_parent" />

@@ -1,20 +1,19 @@
-package com.example.muvitracker.mainactivity.kotlin.deta
-/*
+package com.example.muvitracker.mainactivity.kotlin.deta_movie
+
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.example.muvitracker.R
-import com.example.muvitracker.databinding.FragmentDetailsBinding
+import com.example.muvitracker.databinding.FragmDetaBinding
 import com.example.muvitracker.repo.kotlin.dto.DetaDto
 import com.example.muvitracker.utils.kotlin.EmptyStatesEnum
 import com.example.muvitracker.utils.kotlin.EmptyStatesManagement
 
 
-class DetaFragmentB : Fragment(), /* DetaContract.View*/  {
+class DetaFragmentB : Fragment(), DetaContract.View {
 
 
     //ATTRIBUTI OK
@@ -22,13 +21,11 @@ class DetaFragmentB : Fragment(), /* DetaContract.View*/  {
     // id
     private var traktMovieId: Int = 0
 
-    // FragmentDetailsBinding - inversione nome layout
-    private lateinit var _binding: FragmentDetailsBinding
-    private val binding get() = _binding
-    // incapsulamento, why???
 
-
-    private val presenter = DetaPresenter(this) // vuole una classe che implementa view, quindi this
+    // FragmDetaBinding - come nome layout
+    private var bindingBase: FragmDetaBinding? = null
+    private val binding
+        get() = bindingBase
 
 
     // METODI
@@ -39,14 +36,19 @@ class DetaFragmentB : Fragment(), /* DetaContract.View*/  {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentDetailsBinding.inflate(inflater, container, false)
-        return binding.root
+        bindingBase = FragmDetaBinding.inflate(inflater, container, false)
+        return binding!!.root
 
     }
 
 
     //
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        val presenter = DetaPresenter(
+            this,
+            requireContext()
+        ) // vuole una classe che implementa view, quindi this
 
 
         //  OK
@@ -57,51 +59,48 @@ class DetaFragmentB : Fragment(), /* DetaContract.View*/  {
         }
 
 
-        binding
-            .swipeToRefresh
-            .setOnRefreshListener {
+        with(binding!!) {
 
-                presenter.getMovie(traktMovieId, forceRefresh = true)
-                //println("XXX_D_FRAGM_START_SWIPE_REFRESH") ridondante
-            }
+            swipeToRefresh
+                .setOnRefreshListener {
+                    presenter.getMovie(traktMovieId, forceRefresh = true)
+                    //println("XXX_D_FRAGM_START_SWIPE_REFRESH") ridondante
+                }
 
 
-        // LOGICA GET OK
+
+
+            buttonBack
+                .setOnClickListener {
+                    requireActivity().onBackPressed()
+                    println("XXX_D_FRAGMBACK_CLICK")
+                }
+
+            likedButton
+                .setOnClickListener {
+                    presenter.toggleFavorite()
+                    // toggle -> update -> set icona view
+                    println("XXX_D_FRAGM_LIKED_CLICK")
+                }
+
+            watchedCkbox
+                .setOnCheckedChangeListener { buttonView, isChecked ->
+                    presenter.updateWatched(isChecked)
+                    println("XXX_D_FRAGM_WATCHED CLICK")
+                }
+        }
+
+
+        // Detault
         presenter.getMovie(traktMovieId, forceRefresh = false) // inputId creazione
-
-
-        // LOGICA SET OK
-
-        binding
-            .buttonBack
-            .setOnClickListener {
-                requireActivity().onBackPressed()
-                println("XXX_D_FRAGMBACK_CLICK")
-            }
-
-        binding
-            .likedButton
-            .setOnClickListener {
-                presenter.toggleFavorite()
-                // toggle -> update -> set icona view
-                println("XXX_D_FRAGM_LIKED_CLICK")
-            }
-
-        binding
-            .watchedCkbox
-            .setOnCheckedChangeListener { buttonView, isChecked ->
-                presenter.updateWatched(isChecked)
-                println("XXX_D_FRAGM_WATCHED CLICK")
-            }
-
 
     }
 
 
-    // serve??
+    // serve per evitare memory leak
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding
+        bindingBase = null
     }
 
 
@@ -113,7 +112,7 @@ class DetaFragmentB : Fragment(), /* DetaContract.View*/  {
         val stringaRuntime = "${detaDto.runtime.toString()} min"
         val stringaRating = "${detaDto.rating.toString()} stars"
 
-        with(binding) {
+        with(binding!!) {
             title.text = detaDto.title
 
             released.text = detaDto.released
@@ -129,14 +128,9 @@ class DetaFragmentB : Fragment(), /* DetaContract.View*/  {
 
 
         println("XXX_D_FRAGM_UPDATEUI")
-        //updateFavoriteIcon(detaDto.liked) // isliked
-        //updateWatchedCheckbox(detaDto.watched) // isWatched
+        updateFavoriteIcon(detaDto.liked) // isliked
+        updateWatchedCheckbox(detaDto.watched) // isWatched
 
-
-    }
-
-
-    override fun emptyStatesFlow(emptyStates: EmptyStatesEnum) {
 
     }
 
@@ -146,37 +140,39 @@ class DetaFragmentB : Fragment(), /* DetaContract.View*/  {
         val iconFilled = context?.getDrawable(R.drawable.baseline_favorite_24)
         val iconEmpty = context?.getDrawable(R.drawable.baseline_favorite_border_24)
 
-        if (isFavorite)
+        if (isFavorite) {
             binding
-                .likedButton.setImageDrawable(iconFilled)
-        else
+                ?.likedButton?.setImageDrawable(iconFilled)
+        } else {
             binding
-                .likedButton.setImageDrawable(iconEmpty)
+                ?.likedButton?.setImageDrawable(iconEmpty)
+        }
 
         println("XXX_D_FRAGM_LIKED_BTN_SET")
 
         // da presenterDto
     }
 
+
     // OK
     private fun updateWatchedCheckbox(isWatched: Boolean) {
-        binding.watchedCkbox.isChecked = isWatched
+        binding?.watchedCkbox?.isChecked = isWatched
 
         println("XXX_D_FRAGM_WATCHED_ CKBOX")
         // da presenterDto
     }
 
 
-    // TODO , empty state sdnon gli riconosce
+    // view bindding OK
 
     override fun emptyStatesFlow(emptyStates: EmptyStatesEnum) {
 
         EmptyStatesManagement.emptyStatesFlow(
             emptyStates,
-            binding.frameLayout,
-            binding.buttonBack
-            //binding.retryButton,
-            //binding.errorMsgTextview
+            binding?.frameLayout!!,
+            binding?.emptyStates!!.progressBar,
+            binding?.emptyStates!!.retryButton,
+            binding?.emptyStates!!.errorMsgTextview
         )
 
         //println("XXX_D_FRAGM_E_STATES")
@@ -185,7 +181,7 @@ class DetaFragmentB : Fragment(), /* DetaContract.View*/  {
             EmptyStatesEnum.ON_SUCCESS,
             EmptyStatesEnum.ON_ERROR_IO,
             EmptyStatesEnum.ON_ERROR_OTHER
-            -> binding.swipeToRefresh.isRefreshing = false
+            -> binding?.swipeToRefresh?.isRefreshing = false
 
             else -> {}
         }
@@ -194,14 +190,9 @@ class DetaFragmentB : Fragment(), /* DetaContract.View*/  {
 
     // OK
     companion object {
-        // Details Factory OK
 
-        const val TRAKT_ID_KEY = "traktId_key"
-
-        // implemento  costruttore factory -
+        // costruttore Details Factory -
         // costruttore deve poter essere chiamato da CLassBlueprint
-
-
         fun create(traktId: Int): DetaFragmentB {
             val detaFragment = DetaFragmentB()
 
@@ -213,14 +204,16 @@ class DetaFragmentB : Fragment(), /* DetaContract.View*/  {
             return detaFragment
         }
 
-    }
+        const val TRAKT_ID_KEY = "traktId_key"
 
+
+    }
 
 
 }
 
 
- */
+
 
 
 

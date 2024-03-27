@@ -1,4 +1,4 @@
-package com.example.muvitracker.mainactivity.kotlin.boxo
+package com.example.muvitracker.mainactivity.kotlin.boxo.repo
 
 import com.example.muvitracker.repo.kotlin.TraktApi
 import com.example.muvitracker.repo.kotlin.dto.BoxoDto
@@ -9,18 +9,7 @@ import retrofit2.Callback
 import retrofit2.HttpException
 import retrofit2.Response
 
-/*
-// crea retrofit
-// crea api da retrofit
-// definisco call da api
-// chiama enqueue
-//                  call.enqueue => object : DichiaroTipo {}
-//                  => poi dopo mi fa implementare i metodi dell'intefaccia
-
- */
-
-
-object BoxoRepo {
+object BoxoNetworkDS {
 
 
     private val retrofit = MyRetrofit.createMuviTrackerRetrofit() // istanza retrofit
@@ -31,10 +20,9 @@ object BoxoRepo {
 
     fun callBoxoServer(callbackPresenter: RetrofitCallbackList<BoxoDto>) {
 
-        // definisco call da api
         val call: Call<List<BoxoDto>> = traktApi.getBoxofficeMovies()
 
-        // chiamata
+
         call.enqueue(object : Callback<List<BoxoDto>> {
 
             override fun onResponse(
@@ -45,12 +33,13 @@ object BoxoRepo {
                     // !! - not-null assertion operator, non sarà mai nullo
                     callbackPresenter.onSuccess(response.body()!!)
 
-                    println("XXX_BOXO_REPO_SUCCESS")
+                    println("XXX_BOXO_NET_SUCCESS")
+
                 } else {
                     println("Request failed with code: ${response.code()}")
                     callbackPresenter.onError(HttpException(response))
 
-                    println("XXX_BOXO_REPO_ERROR1")
+                    println("XXX_BOXO__NET_REPO_ERROR1")
                 }
             }
 
@@ -60,11 +49,9 @@ object BoxoRepo {
             ) {
                 callbackPresenter.onError(t)
 
-                println("XXX_BOXO_REPO_ERROR2")
+                println("XXX_BOXO__NET_REPO_ERROR2")
             }
         })
 
     }
-
-
 }

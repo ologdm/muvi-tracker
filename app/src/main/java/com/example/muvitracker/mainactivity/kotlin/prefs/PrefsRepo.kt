@@ -1,7 +1,9 @@
 package com.example.muvitracker.mainactivity.kotlin.prefs
 
-import com.example.muvitracker.mainactivity.kotlin.deta.DetaRepo
-import com.example.muvitracker.mainactivity.kotlin.deta.xDetaLocalDS
+import android.annotation.SuppressLint
+import android.content.Context
+import com.example.muvitracker.mainactivity.kotlin.deta_movie.repo.DetaRepo
+import com.example.muvitracker.mainactivity.kotlin.deta_movie.repo.DLocalDS
 import com.example.muvitracker.repo.kotlin.dto.DetaDto
 
 
@@ -17,16 +19,40 @@ import com.example.muvitracker.repo.kotlin.dto.DetaDto
  */
 
 
-object PrefsRepo {
+class PrefsRepo(
+    val context: Context
+) {
+
+    companion object {
+
+        // singleton
+        @Volatile
+        @SuppressLint("StaticFieldLeak")
+        private var instance: PrefsRepo? = null
+
+
+        fun getInstance(context: Context): PrefsRepo {
+            instance ?: synchronized(this) {
+                instance ?: PrefsRepo(context.applicationContext)
+                    .also {
+                        instance = it
+                    }
+            }
+            return instance!!
+        }
+
+    }
+
+    val detaLocalDS = DLocalDS.getInstance(context)
+    val detaRepo = DetaRepo.getInstance(context)
+
 
     // GET
     fun filterPrefsFromDetails(): List<DetaDto> {
 
-        var filteredList = xDetaLocalDS
-            .loadListFromShared()
-            .filter {
+        var filteredList =
+            detaLocalDS.loadListFromShared().filter {
                 it.liked || it.watched
-
             }
         return filteredList
     }
@@ -35,7 +61,7 @@ object PrefsRepo {
     // SET
 
     fun toggleFavoriteOnDB(dtoToToggle: DetaDto) {
-        DetaRepo.toggleFavoriteOnDB(dtoToToggle)
+        detaRepo.toggleFavoriteOnDB(dtoToToggle)
         // logica aggiornamento su detaRepo
 
         println("XXX_PREFS_REPO_LIKED")
@@ -43,10 +69,10 @@ object PrefsRepo {
 
 
     fun updateWatchedOnDB(updatedDto: DetaDto) {
-        DetaRepo.toggleFavoriteOnDB(updatedDto)
+        detaRepo.updateWatchedOnDB(updatedDto)
         // solo agigornamento db
 
-        println("XXX_PREFS_REPO_WATCHED")
+        println("XXX_PREFSREPO_WATCHED")
     }
 
 

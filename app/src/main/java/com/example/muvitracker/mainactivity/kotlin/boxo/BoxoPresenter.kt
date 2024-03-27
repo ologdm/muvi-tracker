@@ -1,44 +1,52 @@
 package com.example.muvitracker.mainactivity.kotlin.boxo
 
+import android.content.Context
+import com.example.muvitracker.mainactivity.kotlin.boxo.repo.BoxoRepo
 import com.example.muvitracker.repo.kotlin.dto.BoxoDto
-import com.example.muvitracker.utils.kotlin.EmptyStatesEnum
-import com.example.muvitracker.utils.kotlin.RetrofitCallbackList
-import java.io.IOException
+import com.example.muvitracker.utils.kotlin.EmptyStatesCallbackList
+import com.example.muvitracker.utils.kotlin.EmptyStatesEnumNew
 
 class BoxoPresenter(
 
-    private val view: BoxoContract.View // costruttore view
+    private val view: BoxoContract.View, // costruttore view
+    private val context: Context
 
 ) : BoxoContract.Presenter {
+
+    // ATTRIBUTO
+    val boxoRepo = BoxoRepo.getInstance(context)
 
 
     // CONTRACT METHODS
 
-    // chiamata OK
-    // stati OK
-    override fun serverCallAndUpdateUi(forceRefresh: Boolean) {
+    override fun getMovieAndUpdateUi(forceRefresh: Boolean) {
 
-        if (forceRefresh)
-            view.emptyStatesManagment(EmptyStatesEnum.ON_FORCE_REFRESH)
-        else
-            view.emptyStatesManagment(EmptyStatesEnum.ON_START)
+        boxoRepo.getMovieList(object : EmptyStatesCallbackList<BoxoDto> {
 
-        BoxoRepo.callBoxoServer(object : RetrofitCallbackList<BoxoDto> {
-
-            // success
-            override fun onSuccess(serverList: List<BoxoDto>) {
-                view.updateUi(serverList)
-                view.emptyStatesManagment(EmptyStatesEnum.ON_SUCCESS)
+            override fun OnStart() {
+                if (forceRefresh) {
+                    view.emptyStatesFlow(EmptyStatesEnumNew.ON_FORCE_REFRESH)
+                    println("XXX_BOXO_FRAGM_FORCE REFRESH")
+                } else {
+                    view.emptyStatesFlow(EmptyStatesEnumNew.ON_START)
+                    println("XXX_BOXO_FRAGM_START")
+                }
             }
 
-            // error
-            override fun onError(throwable: Throwable) {
-                throwable.printStackTrace()
+            override fun onSuccess(list: List<BoxoDto>) {
+                view.updateUi(list) // server list
+                view.emptyStatesFlow(EmptyStatesEnumNew.ON_SUCCESS)
+                println("XXX_BOXO_FRAGM_SUCCESS")
+            }
 
-                if (throwable is IOException)
-                    view.emptyStatesManagment(EmptyStatesEnum.ON_ERROR_IO)
-                else
-                    view.emptyStatesManagment(EmptyStatesEnum.ON_ERROR_OTHER)
+            override fun onErrorIO() {
+                view.emptyStatesFlow(EmptyStatesEnumNew.ON_ERROR_IO)
+                println("XXX_BOXO_FRAGM_ERROR IO")
+            }
+
+            override fun onErrorOther() {
+                view.emptyStatesFlow(EmptyStatesEnumNew.ON_ERROR_OTHER)
+                println("XXX_BOXO_FRAGM_ERROR OTHER")
             }
         })
     }
@@ -48,7 +56,6 @@ class BoxoPresenter(
     override fun onVHolderClick(traktMovieId: Int) {
         view.startDetailsFragment(traktMovieId)
     }
-
 
 
 }

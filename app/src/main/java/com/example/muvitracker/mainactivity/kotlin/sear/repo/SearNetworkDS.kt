@@ -1,4 +1,4 @@
-package com.example.muvitracker.mainactivity.kotlin.sear
+package com.example.muvitracker.mainactivity.kotlin.sear.repo
 
 import com.example.muvitracker.repo.kotlin.TraktApi
 import com.example.muvitracker.repo.kotlin.dto.search.SearDto
@@ -9,7 +9,7 @@ import retrofit2.Callback
 import retrofit2.HttpException
 import retrofit2.Response
 
-object xSearNetworkDS {
+object SearNetworkDS {
 
 
     val retrofit = MyRetrofit.createMuviTrackerRetrofit()

@@ -26,7 +26,7 @@ interface PrefsContract {
 
 
         // GET
-        fun getPrefsList()
+        fun getPrefsListAndUpdateUi()
 
 
         // SET

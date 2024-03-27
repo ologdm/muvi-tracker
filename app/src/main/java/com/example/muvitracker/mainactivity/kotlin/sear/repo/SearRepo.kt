@@ -1,16 +1,14 @@
-package com.example.muvitracker.mainactivity.kotlin.sear
+package com.example.muvitracker.mainactivity.kotlin.sear.repo
 
 import com.example.muvitracker.repo.kotlin.dto.search.SearDto
-import com.example.muvitracker.utils.kotlin.EmptyStatesCallback
 import com.example.muvitracker.utils.kotlin.RetrofitCallbackList
-import java.util.Collections
 
 object SearRepo {
 
 
     fun getNetworkResult(queryText: String, callback: RetrofitCallbackList<SearDto>) {
 
-        xSearNetworkDS.getServer(
+        SearNetworkDS.getServer(
             queryText, object : RetrofitCallbackList<SearDto> {
 
                 override fun onSuccess(serverList: List<SearDto>) {

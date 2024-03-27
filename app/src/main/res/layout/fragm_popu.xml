@@ -12,7 +12,7 @@
 
 
         <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/popularFragmentRV"
+                android:id="@+id/recycleView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
@@ -21,6 +21,7 @@
 
 
     <include
+            android:id="@+id/emptyStates"
             layout="@layout/empty_states"
             android:layout_height="match_parent"
             android:layout_width="match_parent" />
