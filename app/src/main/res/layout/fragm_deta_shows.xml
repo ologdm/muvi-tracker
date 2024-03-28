@@ -146,6 +146,25 @@
 
                     </LinearLayout>
 
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="aired episodes:" />
+
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                tools:hint="episodi" />
+
+
+                    </LinearLayout>
+
 
                 </LinearLayout>
 
@@ -174,8 +193,7 @@
                 layout="@layout/empty_states"
                 android:layout_height="match_parent"
                 android:layout_width="match_parent"
-                tools:visibility="gone"
-                />
+                tools:visibility="gone" />
 
 
     </FrameLayout>
