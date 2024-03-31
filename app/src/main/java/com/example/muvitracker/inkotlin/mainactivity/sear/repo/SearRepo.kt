@@ -9,38 +9,24 @@ object SearRepo {
     fun getNetworkResult(queryText: String, callback: RetrofitCallbackList<SearDto>) {
 
         SearNetworkDS.getServer(
-            queryText, object : RetrofitCallbackList<SearDto> {
-
+            queryText,
+            object : RetrofitCallbackList<SearDto> {
                 override fun onSuccess(serverList: List<SearDto>) {
-                    callback.onSuccess(serverList.sortedByDescending { it.score })
-
+                    callback.onSuccess(sort(serverList))
                 }
 
                 override fun onError(throwable: Throwable) {
                     callback.onError(throwable)
-
                 }
             })
     }
 
-    fun sort(input: List<SearDto>): List<SearDto> {
-        // insertion sort
-        // quicksort
-        // merge sort
-        // bubble sort
 
+    // OK
+    // funzione per ordine decrescente score
+    fun sort(input: List<SearDto>): List<SearDto> {
         return input.sortedByDescending { it.score }
     }
-
-    /*
-        private fun orderResultsByScore(list: List<SearDto>)
-                : List<SearDto> {
-            //var orderedList = list.
-
-        }
-
-     */
-
 
 
 }

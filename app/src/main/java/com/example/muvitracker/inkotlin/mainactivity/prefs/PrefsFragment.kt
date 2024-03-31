@@ -8,8 +8,8 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.muvitracker.R
-import com.example.muvitracker.inkotlin.mainactivity.MainNavigatorK
-import com.example.muvitracker.inkotlin.repo.dto.DetaMovDto
+import com.example.muvitracker.inkotlin.mainactivity.MainNavigator
+import com.example.muvitracker.inkotlin.repo.dto.DetaDto
 
 
 class PrefsFragment() : Fragment(), PrefsContract.View {
@@ -22,7 +22,7 @@ class PrefsFragment() : Fragment(), PrefsContract.View {
     private lateinit var presenter : PrefsContract.Presenter
 
     private val adapter = PrefsAdapter()
-    private val navigator = MainNavigatorK()
+    private val navigator = MainNavigator()
 
 
 
@@ -82,7 +82,7 @@ class PrefsFragment() : Fragment(), PrefsContract.View {
     // CONTRACT
 
     // OK
-    override fun updateUi(list: List<DetaMovDto>) {
+    override fun updateUi(list: List<DetaDto>) {
         adapter.updateList(list)
     }
 

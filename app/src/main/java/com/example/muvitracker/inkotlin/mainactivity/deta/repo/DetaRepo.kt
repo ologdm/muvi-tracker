@@ -1,8 +1,7 @@
-package com.example.muvitracker.inkotlin.mainactivity.deta_movie.repo
+package com.example.muvitracker.inkotlin.mainactivity.deta.repo
 
-import android.annotation.SuppressLint
 import android.content.Context
-import com.example.muvitracker.inkotlin.repo.dto.DetaMovDto
+import com.example.muvitracker.inkotlin.repo.dto.DetaDto
 import com.example.muvitracker.myappunti.kotlin.EmptyStatesCallback
 import com.example.muvitracker.myappunti.kotlin.RetrofitCallback
 import java.io.IOException
@@ -43,50 +42,30 @@ class DetaRepo(
     private val context: Context
 ) {
 
-
     companion object {
-
-        // SINGLETON
-        @Volatile
-        @SuppressLint("StaticFieldLeak")
         private var instance: DetaRepo? = null
-
         fun getInstance(context: Context): DetaRepo {
-            instance ?: synchronized(this) {
-                instance ?: DetaRepo(context.applicationContext)
-                    .also {
-                        instance = it
-                    }
+            if (instance == null) {
+                instance = DetaRepo(context)
             }
             return instance!!
         }
-
     }
 
-
-    // TODO: perche me lo accetta xDetaLocalDS ???
     val detaLocalDS = DLocalDS.getInstance(context)
 
 
     // ########################################################
     // GET FUNZIONI
 
-
-    fun getMovie(movieId: Int, callES: EmptyStatesCallback<DetaMovDto>) {
-        // 1 TODO: carica dati da shared in RAM (solo una volta)
-
+    fun getMovie(movieId: Int, callES: EmptyStatesCallback<DetaDto>) {
         var index = detaLocalDS.getItemIndex(movieId)
 
-        // branch dell if assincrono non puo avere - return classico, return è  sempre sincrono
         if (index != -1) { // se trova index -> getDB
-
             getLocalItem(movieId, callES)
-
             println("XXX_REPO_GET_DB")
-
         } else {
             getNetworkItemAndAddToLocal(movieId, callES)
-
             println("XXX_REPO_GET_SERVER")
         }
     }
@@ -94,43 +73,40 @@ class DetaRepo(
 
     // METODI PRIVATI
     // OK
-    private fun getNetworkItemAndAddToLocal(movieId: Int, callES: EmptyStatesCallback<DetaMovDto>) {
+    private fun getNetworkItemAndAddToLocal(movieId: Int, callES: EmptyStatesCallback<DetaDto>) {
         callES.OnStart() // empty states
 
-        DNetworkDS.callDetaServer(movieId, object : RetrofitCallback<DetaMovDto> {
+        DNetworkDS.callDetaServer(
+            movieId,
+            object : RetrofitCallback<DetaDto> {
 
-            override fun onSuccess(serverItem: DetaMovDto) {
-                detaLocalDS.createItem(serverItem) // add DB
-
-                callES.onSuccess(serverItem) //passo tu presenter
-
-                println("XXX_REPO_SERVER_SUCCESS")
-            }
-
-            override fun onError(throwable: Throwable) {
-                if (throwable is IOException) {
-                    callES.onErrorIO()
-                    println("XXX_REPO_SERVER_ERROR1")
-                } else {
-                    callES.onErrorOther()
-                    println("XXX_REPO_SERVER_ERROR2")
+                override fun onSuccess(serverItem: DetaDto) {
+                    detaLocalDS.createItem(serverItem) // add DB
+                    callES.onSuccess(serverItem) //passo tu presenter
+                    println("XXX_REPO_SERVER_SUCCESS")
                 }
-            }
-        })
+
+                override fun onError(throwable: Throwable) {
+                    if (throwable is IOException) {
+                        callES.onErrorIO()
+                        println("XXX_REPO_SERVER_ERROR1")
+                    } else {
+                        callES.onErrorOther()
+                        println("XXX_REPO_SERVER_ERROR2")
+                    }
+                }
+            })
     }
 
     // OK
-    private fun getLocalItem(movieId: Int, callES: EmptyStatesCallback<DetaMovDto>) {
+    private fun getLocalItem(movieId: Int, callES: EmptyStatesCallback<DetaDto>) {
         val databaseDto = detaLocalDS.readItem(movieId)
         callES.onSuccess(databaseDto)
-        // println ok success
-
     }
 
 
-    fun getLocalItem(movieId: Int): DetaMovDto {
+    fun getLocalItem(movieId: Int): DetaDto {
         return detaLocalDS.readItem(movieId)
-        // println su presenter
     }
 
 
@@ -138,27 +114,21 @@ class DetaRepo(
     // SET FUNZIONI
 
     // OK
-    fun toggleFavoriteOnDB(inputDto: DetaMovDto) {
+    fun toggleFavoriteOnDB(inputDto: DetaDto) {
         // !!! se l'ho aperto, e gia su DB !!!
-
         val dtoModificato = inputDto.copy(liked = !inputDto.liked)
         detaLocalDS.updateItem(dtoModificato)
-
-        //inputDto =
-        //localDS.updateItem(inputDto)
 
         println("XXX_REPO_TOGGLE_UPDATE_DB")
     }
 
 
     // OK
-    fun updateWatchedOnDB(inputDto: DetaMovDto) {
-
+    fun updateWatchedOnDB(inputDto: DetaDto) {
         // invio dto modificato
         detaLocalDS.updateItem(inputDto)
 
         println("XXX_DETAREPO_WATCHEDUPDATEDB")
-
     }
 
 

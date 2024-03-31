@@ -1,4 +1,4 @@
-package com.example.muvitracker.inkotlin.mainactivity.deta_movie
+package com.example.muvitracker.inkotlin.mainactivity.deta
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,12 +14,12 @@ import androidx.fragment.app.Fragment
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.bumptech.glide.Glide
 import com.example.muvitracker.R
-import com.example.muvitracker.inkotlin.repo.dto.DetaMovDto
+import com.example.muvitracker.inkotlin.repo.dto.DetaDto
 import com.example.muvitracker.myappunti.kotlin.EmptyStatesEnum
 import com.example.muvitracker.myappunti.kotlin.EmptyStatesManagement
 
 
-class DetaFragment : Fragment(), DetaContract.View {
+class DetaFragmentOld : Fragment(), DetaContract.View {
 
 
     //ATTRIBUTI OK
@@ -145,7 +145,7 @@ class DetaFragment : Fragment(), DetaContract.View {
     // CONTRACT METHODS
 
     // GET - OK
-    override fun updateUi(detaDto: DetaMovDto) {
+    override fun updateUi(detaDto: DetaDto) {
 
         val stringaRuntime = "${detaDto.runtime.toString()} min"
         val stringaRating = "${detaDto.rating.toString()} stars"
@@ -230,8 +230,8 @@ class DetaFragment : Fragment(), DetaContract.View {
         // costruttore deve poter essere chiamato da CLassBlueprint
 
 
-        fun create(traktId: Int): DetaFragment {
-            val detaFragment = DetaFragment()
+        fun create(traktId: Int): DetaFragmentOld {
+            val detaFragment = DetaFragmentOld()
 
             val bundle = Bundle()
             bundle.putInt(TRAKT_ID_KEY, traktId)

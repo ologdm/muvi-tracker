@@ -12,7 +12,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.muvitracker.R
-import com.example.muvitracker.inkotlin.repo.dto.DetaMovDto
+import com.example.muvitracker.inkotlin.repo.dto.DetaDto
 
 /**
  *
@@ -28,7 +28,7 @@ import com.example.muvitracker.inkotlin.repo.dto.DetaMovDto
 class PrefsAdapter : RecyclerView.Adapter<PrefsVH>() {
 
     // OK
-    private val adapterList = mutableListOf<DetaMovDto>()
+    private val adapterList = mutableListOf<DetaDto>()
 
 
     // ADAPTER METHODS
@@ -112,7 +112,7 @@ class PrefsAdapter : RecyclerView.Adapter<PrefsVH>() {
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun updateList(inputList: List<DetaMovDto>) {
+    fun updateList(inputList: List<DetaDto>) {
         adapterList.clear()
         adapterList.addAll(inputList)
 
@@ -151,18 +151,18 @@ class PrefsAdapter : RecyclerView.Adapter<PrefsVH>() {
 
     // LIKED OK
     // devo passare -> il dto da modificare
-    private var callbackLiked: ((dto: DetaMovDto) -> Unit)? = null
+    private var callbackLiked: ((dto: DetaDto) -> Unit)? = null
 
-    fun setCallbackLiked(call: (dtoToToggle: DetaMovDto) -> Unit) {
+    fun setCallbackLiked(call: (dtoToToggle: DetaDto) -> Unit) {
         callbackLiked = call
     }
 
 
     // WATCHED OK
     // devo passare -> il dto modificato
-    private var callbackWatched: ((dto: DetaMovDto) -> Unit)? = null
+    private var callbackWatched: ((dto: DetaDto) -> Unit)? = null
 
-    fun setCallbackWatched(call: (updatedDto: DetaMovDto) -> Unit) {
+    fun setCallbackWatched(call: (updatedDto: DetaDto) -> Unit) {
         callbackWatched = call
     }
 

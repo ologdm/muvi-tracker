@@ -38,18 +38,11 @@ private constructor(
 
     // SINGLETON
     companion object {
-
-        @Volatile
-        @SuppressLint("StaticFieldLeak")
         private var instance: BoxoLocalDS? = null
 
-
         fun getInstance(context: Context): BoxoLocalDS {
-            instance ?: synchronized(this) {
-                instance ?: BoxoLocalDS(context.applicationContext)
-                    .also {
-                        instance = it
-                    }
+            if (instance==null) {
+                instance = BoxoLocalDS(context)
             }
             return instance!!
         }

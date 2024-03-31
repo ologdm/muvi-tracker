@@ -12,9 +12,7 @@ interface PopuContract {
 
         fun startDetailsFragment(movieId: Int)
 
-        //fun emptyStatesFlow(emptyStates: EmptyStatesEnum)
         fun emptyStatesFlow(emptyStates: EmptyStatesEnumNew)
-
 
     }
 

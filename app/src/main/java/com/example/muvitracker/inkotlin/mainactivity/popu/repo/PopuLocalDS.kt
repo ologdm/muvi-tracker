@@ -51,19 +51,12 @@ private constructor(
         context.getSharedPreferences("myPopuPrefs", Context.MODE_PRIVATE)
 
 
-    companion object { // Singleton personalizzato OK
-
-        @Volatile
-        @SuppressLint("StaticFieldLeak")
+    companion object {
         private var instance: PopuLocalDS? = null
 
-
         fun getInstance(context: Context): PopuLocalDS {
-            instance ?: synchronized(this) {
-                instance ?: PopuLocalDS(context.applicationContext)
-                    .also {
-                        instance = it
-                    }
+            if (instance == null) {
+                instance = PopuLocalDS(context)
             }
             return instance!!
         }

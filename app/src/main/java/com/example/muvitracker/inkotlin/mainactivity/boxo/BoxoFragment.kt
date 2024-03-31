@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.muvitracker.R
-import com.example.muvitracker.inkotlin.mainactivity.MainNavigatorK
+import com.example.muvitracker.inkotlin.mainactivity.MainNavigator
 import com.example.muvitracker.inkotlin.repo.dto.BoxoDto
 import com.example.muvitracker.myappunti.kotlin.EmptyStatesEnumNew
 import com.example.muvitracker.myappunti.kotlin.EmptyStatesManagementNew
@@ -32,7 +32,7 @@ class BoxoFragment : Fragment(), BoxoContract.View {
 
     // inizializzo
     private val adapter = BoxoAdapter()
-    private val navigator = MainNavigatorK()
+    private val navigator = MainNavigator()
 
 
 

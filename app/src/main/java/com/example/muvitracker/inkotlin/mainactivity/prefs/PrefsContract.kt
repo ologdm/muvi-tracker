@@ -1,13 +1,13 @@
 package com.example.muvitracker.inkotlin.mainactivity.prefs
 
-import com.example.muvitracker.inkotlin.repo.dto.DetaMovDto
+import com.example.muvitracker.inkotlin.repo.dto.DetaDto
 
 interface PrefsContract {
 
     interface View {
 
         // GET
-        fun updateUi(list :List<DetaMovDto>)
+        fun updateUi(list :List<DetaDto>)
 
         // SET
         // liked watched - callbacks
@@ -30,9 +30,9 @@ interface PrefsContract {
 
 
         // SET
-        fun toggleFovoriteItem(dtoToTogggle: DetaMovDto)
+        fun toggleFovoriteItem(dtoToTogggle: DetaDto)
 
-        fun updateWatchedItem (updatedDto: DetaMovDto)
+        fun updateWatchedItem (updatedDto: DetaDto)
 
 
         // altro

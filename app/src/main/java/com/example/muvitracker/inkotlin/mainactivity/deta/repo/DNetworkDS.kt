@@ -1,7 +1,7 @@
-package com.example.muvitracker.inkotlin.mainactivity.deta_movie.repo
+package com.example.muvitracker.inkotlin.mainactivity.deta.repo
 
 import com.example.muvitracker.inkotlin.repo.TraktApi
-import com.example.muvitracker.inkotlin.repo.dto.DetaMovDto
+import com.example.muvitracker.inkotlin.repo.dto.DetaDto
 import com.example.muvitracker.myappunti.kotlin.MyRetrofit
 import com.example.muvitracker.myappunti.kotlin.RetrofitCallback
 import retrofit2.Call
@@ -23,15 +23,15 @@ object DNetworkDS {
     private val traktApi = retrofit.create(TraktApi::class.java)
 
 
-    fun callDetaServer(inputMovieId: Int, myCall: RetrofitCallback<DetaMovDto>) {
+    fun callDetaServer(inputMovieId: Int, myCall: RetrofitCallback<DetaDto>) {
 
-        val call: Call<DetaMovDto> = traktApi.getDetailsOfDto(traktMovieId = inputMovieId) // movieId
+        val call: Call<DetaDto> = traktApi.getDetailsOfDto(traktMovieId = inputMovieId) // movieId
 
-        call.enqueue(object : Callback<DetaMovDto> {
+        call.enqueue(object : Callback<DetaDto> {
 
             override fun onResponse(
-                call: Call<DetaMovDto>,
-                response: Response<DetaMovDto>
+                call: Call<DetaDto>,
+                response: Response<DetaDto>
             ) {
                 if (response.isSuccessful) {
                     myCall.onSuccess(response.body()!!)
@@ -46,7 +46,7 @@ object DNetworkDS {
             }
 
             override fun onFailure(
-                call: Call<DetaMovDto>,
+                call: Call<DetaDto>,
                 t: Throwable
             ) {
                 myCall.onError(t)

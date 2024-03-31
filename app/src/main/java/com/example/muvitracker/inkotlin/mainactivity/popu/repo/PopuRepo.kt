@@ -99,11 +99,8 @@ private constructor(
         private var instance: PopuRepo? = null
 
         fun getInstance(context: Context): PopuRepo {
-            instance ?: synchronized(this) {
-                instance ?: PopuRepo(context.applicationContext)
-                    .also {
-                        instance = it
-                    }
+            if (instance==null){
+                instance=PopuRepo(context)
             }
             return instance!!
         }

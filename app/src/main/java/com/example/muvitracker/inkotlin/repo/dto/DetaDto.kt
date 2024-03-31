@@ -1,7 +1,5 @@
 package com.example.muvitracker.inkotlin.repo.dto
 
-import com.google.gson.annotations.SerializedName
-
 // serializable non e da implementare
 // parcelable solo per inviare dati in android (intent, tra fragment ecc)
 
@@ -11,29 +9,26 @@ import com.google.gson.annotations.SerializedName
 
 
 // OK
-data class DetaShowDto(
+data class DetaDto(
+
+    //val type: String = "", // valore standard
 
     // valori predefiniti costruttore
 
     // elementi controllo prefList
     val liked: Boolean = false,
-    var watched: Boolean = false,
+    val watched: Boolean = false,
 
 
-    // blocco = OK
     val title: String,
     val year: Int,
     val ids: Ids,
 
-    // altro - blocco OK
+    // altro used only 6, TODO aggiungere genres
     //val tagline: String = "",
     val overview: String = "",
-
-    //val released: String = "", // sostituito OK
-    @SerializedName("first_aired") val firstAired: String, // nuovo
-
+    val released: String = "",
     val runtime: Int = 0,
-
     val country: String? = "",
     //@SerializedName("updated_at")
     //val updatedAt: String = "",
@@ -46,19 +41,19 @@ data class DetaShowDto(
     //val commentCount: Int =0,
     //val language: String ="",
     //val availableTranslations: List<String> = listOf(),
-    //val genres: List<String> = listOf(),
+    val genres: List<String> = emptyList(),
     //val certification: String = ""
-    @SerializedName("aired_episodes") val airedEpisodes: Int // nuovo
-
-
 ) {
 
 
-    // OK show
+    fun getImageUrl(): String {
+        return "http://img.omdbapi.com/" + "?apikey=ef6d3d4c" + "&i=${ids.imdb}";
+    }
+
+    // serve mettere valori default??
     data class Ids(
         val trakt: Int = 0,
         val slug: String = "",
-        val tvdb: Int, // nuovo
         val imdb: String = "", // utilizzata per immagini
         val tmdb: Int = 0
     )

@@ -20,7 +20,7 @@ import com.google.android.material.navigation.NavigationBarView
 
 
 // OK
-class MainActivityK() : AppCompatActivity() {
+class MainActivity() : AppCompatActivity() {
 
 
     // Dichiarazione - OK -
@@ -37,7 +37,7 @@ class MainActivityK() : AppCompatActivity() {
 
 
     // ATTRIBUTI
-    val navigator = MainNavigatorK()
+    val navigator = MainNavigator()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,7 +67,7 @@ class MainActivityK() : AppCompatActivity() {
                 // paragono id con quelli esistenti
                 if (itemId == R.id.button1Popular) {
                     navigator.replaceFragment(
-                        this@MainActivityK,
+                        this@MainActivity,
                         PopuFragment() // di koltin
                     )
                     testoCategoria.setText(POPULAR_TEXT)
@@ -77,7 +77,7 @@ class MainActivityK() : AppCompatActivity() {
 
                 if (itemId == R.id.button2Boxoffice) {
                     navigator.replaceFragment(
-                        this@MainActivityK,
+                        this@MainActivity,
                         BoxoFragment()
                     )
                     testoCategoria.setText(BOX_OFFICE_TEXT)
@@ -87,7 +87,7 @@ class MainActivityK() : AppCompatActivity() {
 
                 if (itemId == R.id.button3MyList) {
                     navigator.replaceFragment(
-                        this@MainActivityK,
+                        this@MainActivity,
                         PrefsFragment()
                     )
 
@@ -98,7 +98,7 @@ class MainActivityK() : AppCompatActivity() {
 
                 if (itemId == R.id.button4Search) {
                     navigator.replaceFragment(
-                        this@MainActivityK,
+                        this@MainActivity,
                         SearFragment()
                     )
                     testoCategoria.setText(SEARCH_TEXT)

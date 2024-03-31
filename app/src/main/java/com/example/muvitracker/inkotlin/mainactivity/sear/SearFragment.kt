@@ -11,9 +11,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.muvitracker.databinding.FragmSearBinding
-import com.example.muvitracker.injava.mainactivity.details.DetailsFragment
-import com.example.muvitracker.inkotlin.mainactivity.MainNavigatorK
-import com.example.muvitracker.inkotlin.mainactivity.deta_movie.DetaFragmentB
+import com.example.muvitracker.inkotlin.mainactivity.MainNavigator
 import com.example.muvitracker.inkotlin.repo.dto.search.SearDto
 
 /** funzioni generali:
@@ -36,7 +34,7 @@ class SearFragment : Fragment(), SearContract.View {
     // ATTRIBUTI
     private val adapter = SearAdapter()
     private val presenter = SearPresenter(this)
-    val navigator = MainNavigatorK()
+    val navigator = MainNavigator()
 
 
     /* !!!!! binding OK
@@ -80,73 +78,49 @@ class SearFragment : Fragment(), SearContract.View {
             recycleView.layoutManager = GridLayoutManager(requireContext(), 3)
             recycleView.adapter = adapter
 
-
-            // setOnCLick
-            searchImageButton.setOnClickListener {
-                var queryRicerca = searchEditText.text.toString()
-
-                // TODO: chiama
-                presenter.getNetworkResult(queryRicerca)
-                // poi aggiornaUi
-            }
-
-
-
-            // Debouncing  OK ma potrebbe crashare
+            // Debouncing OK
             searchEditText.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(
                     s: CharSequence?, start: Int, count: Int, after: Int
                 ) { // non usare
                 }
+
                 override fun onTextChanged(
                     s: CharSequence?, start: Int, before: Int, count: Int
-                ) {
-                } // non usare
+                ) { // non usare
+                }
 
-                // !!! fun utilizzata debouncing OK
+                // fun per debouncing OK
                 override fun afterTextChanged(s: Editable?) {
                     // 1 annulla il runnable precedente per implementare il debouncing
                     if (searchRunnable != null) {
                         handler.removeCallbacks(searchRunnable!!)
                     }
-                    // permette di azionarlo solo se non nullo
+                    // 2 permette di azionarlo solo se non nullo
                     searchRunnable?.let {
                         handler.removeCallbacks(it)
                     }
 
-                    // 2 definisce un nuovo runnable che eseguirà la ricercaù
+                    // 3 definisce un nuovo runnable che eseguirà la ricercaù
                     searchRunnable = Runnable {
                         presenter.getNetworkResult(s.toString()) // scrive
                     }
 
-                    // 3 programma il nuovo runnable con un ritardo specificato per realizzare il debouncing
+                    // 4 programma il nuovo runnable con un ritardo specificato per realizzare il debouncing
                     handler.postDelayed(searchRunnable!!, DEBOUNCE_DELAY)
                 }
             })
-
-
         }
-
 
         adapter.setCallbackVH { movieId ->
             presenter.onVHolderClick(movieId)
         }
 
-
-
-        // *** TODO: with type, SHOW OK
-        adapter.setCallbackVHtype { movieId,type  ->
-            // passo direttamente a details
-            DetaFragmentB.createWithShow(movieId,type)
-        }
-
-
-
-
     }
 
 
-    // Debouncing - !!! serve per evitare error
+    // binding !!! - serve per evitare error memory leak
+    // se qualche attivita a vale rimane attiva, tipo chiamata internet
     override fun onDestroyView() {
         super.onDestroyView()
         bindingBase = null
@@ -154,11 +128,9 @@ class SearFragment : Fragment(), SearContract.View {
 
 
     // CONTRACT METHODS
-
     override fun updateUi(list: List<SearDto>) {
         adapter.updateList(list)
     }
-
 
     override fun startDetailsFragment(traktMovieId: Int) {
         navigator
@@ -166,10 +138,6 @@ class SearFragment : Fragment(), SearContract.View {
                 requireActivity(),
                 traktMovieId
             )
-
-
-        // TODO
-        //DetaFragmentB.createWithShow(traktMovieId, )
     }
 
 

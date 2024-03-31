@@ -1,4 +1,4 @@
-package com.example.muvitracker.inkotlin.mainactivity.deta_movie
+package com.example.muvitracker.inkotlin.mainactivity.deta
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,27 +8,32 @@ import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.example.muvitracker.R
 import com.example.muvitracker.databinding.FragmDetaBinding
-import com.example.muvitracker.inkotlin.repo.dto.DetaMovDto
+import com.example.muvitracker.inkotlin.repo.dto.DetaDto
 import com.example.muvitracker.myappunti.kotlin.EmptyStatesEnum
 import com.example.muvitracker.myappunti.kotlin.EmptyStatesManagement
 
+/* Consegna:
+ * - chips lista genere
+ * - immagine sopra zoom,
+ * - back button tondo, background
+ * - floating like button
+ *
+ *
+ */
 
-class DetaFragmentB : Fragment(), DetaContract.View {
 
+class DetaFragment : Fragment(), DetaContract.View {
 
     //ATTRIBUTI OK
 
-    // id
     private var traktMovieId: Int = 0
-    private var type: String = ""
 
-    private var bindingBase: FragmDetaBinding? = null // FragmDetaBinding - come nome layout
+    private var bindingBase: FragmDetaBinding? = null
     private val binding
         get() = bindingBase
 
 
     // METODI
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -38,10 +43,8 @@ class DetaFragmentB : Fragment(), DetaContract.View {
         return binding!!.root
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val presenter = DetaPresenter(this, requireContext())
-        // vuole una classe che implementa view, quindi this
 
         val bundle = arguments
         if (bundle != null) {
@@ -50,39 +53,34 @@ class DetaFragmentB : Fragment(), DetaContract.View {
         }
 
         with(binding!!) {
-
-            swipeToRefresh
-                .setOnRefreshListener {
+            swipeToRefresh.setOnRefreshListener {
                     presenter.getMovie(traktMovieId, forceRefresh = true)
                 }
 
-            buttonBack
-                .setOnClickListener {
+            buttonBack.setOnClickListener {
                     requireActivity().onBackPressed()
                     println("XXX_D_FRAGMBACK_CLICK")
                 }
 
-            likedButton
-                .setOnClickListener {
+            likedButton.setOnClickListener {
                     presenter.toggleFavorite()
                     // toggle -> update -> set icona view
                     println("XXX_D_FRAGM_LIKED_CLICK")
                 }
 
-            watchedCkbox
-                .setOnCheckedChangeListener { buttonView, isChecked ->
+            watchedCkbox.setOnCheckedChangeListener { buttonView, isChecked ->
                     presenter.updateWatched(isChecked)
                     println("XXX_D_FRAGM_WATCHED CLICK")
                 }
         }
 
         // Detault
+        // salva elemento poi mostra
         presenter.getMovie(traktMovieId, forceRefresh = false) // inputId creazione
-
     }
 
 
-    // serve per evitare memory leak
+    // per binding
     override fun onDestroyView() {
         super.onDestroyView()
         bindingBase = null
@@ -92,7 +90,7 @@ class DetaFragmentB : Fragment(), DetaContract.View {
 // CONTRACT METHODS
 
     // GET - OK
-    override fun updateUi(detaDto: DetaMovDto) {
+    override fun updateUi(detaDto: DetaDto) {
         val stringaRuntime = "${detaDto.runtime.toString()} min"
         val stringaRating = "${detaDto.rating.toString()} stars"
 
@@ -139,8 +137,7 @@ class DetaFragmentB : Fragment(), DetaContract.View {
     }
 
 
-    // view bindding OK
-
+    // TODO modificare con nuova
     override fun emptyStatesFlow(emptyStates: EmptyStatesEnum) {
         EmptyStatesManagement.emptyStatesFlow(
             emptyStates,
@@ -155,46 +152,24 @@ class DetaFragmentB : Fragment(), DetaContract.View {
             EmptyStatesEnum.ON_ERROR_IO,
             EmptyStatesEnum.ON_ERROR_OTHER
             -> binding?.swipeToRefresh?.isRefreshing = false
-
             else -> {}
         }
     }
 
 
-    // OK
     companion object {
 
-        fun create(traktId: Int): DetaFragmentB {
-            val detaFragment = DetaFragmentB()
+        fun create(traktId: Int): DetaFragment {
+            val detaFragment = DetaFragment()
             val bundle = Bundle()
             bundle.putInt(TRAKT_ID_KEY, traktId)
-
-            detaFragment.arguments =
-                bundle  // arguments - quando voglio passare elementi alla creazione
-
-            return detaFragment
-        }
-
-
-        // TODO SHOW
-        fun createWithShow(traktId: Int, type: String): DetaFragmentB {
-            val detaFragment = DetaFragmentB()
-
-            val bundle = Bundle()
-            bundle.putInt(TRAKT_ID_KEY, traktId)
-            bundle.putString(TYPE_KEY, type)
-
-            detaFragment.arguments = bundle
+            detaFragment.arguments = bundle  // arguments - quando voglio passare elementi alla creazione
 
             return detaFragment
         }
 
         const val TRAKT_ID_KEY = "traktId_key"
-        const val TYPE_KEY = "traktId_key"
-
-
     }
-
 
 }
 

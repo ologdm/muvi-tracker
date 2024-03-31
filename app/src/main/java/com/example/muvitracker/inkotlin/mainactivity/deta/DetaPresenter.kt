@@ -1,8 +1,8 @@
-package com.example.muvitracker.inkotlin.mainactivity.deta_movie
+package com.example.muvitracker.inkotlin.mainactivity.deta
 
 import android.content.Context
-import com.example.muvitracker.inkotlin.mainactivity.deta_movie.repo.DetaRepo
-import com.example.muvitracker.inkotlin.repo.dto.DetaMovDto
+import com.example.muvitracker.inkotlin.mainactivity.deta.repo.DetaRepo
+import com.example.muvitracker.inkotlin.repo.dto.DetaDto
 import com.example.muvitracker.myappunti.kotlin.EmptyStatesCallback
 import com.example.muvitracker.myappunti.kotlin.EmptyStatesEnum
 
@@ -41,26 +41,19 @@ import com.example.muvitracker.myappunti.kotlin.EmptyStatesEnum
 
 
 class DetaPresenter(
-
     private val view: DetaContract.View,
     private val context: Context
-
 ) : DetaContract.Presenter {
 
 
-    // ATTRIBUTI
-
     private val detaRepo = DetaRepo.getInstance(context)
-
-    private var presenterDto: DetaMovDto? = null
+    private var presenterDto: DetaDto? = null
 
 
     //CONTRACT METHODS
 
     // 1. GET OK
-
     override fun getMovie(movieId: Int, forceRefresh: Boolean) {
-
         // copia da repo
         detaRepo.getMovie(
             movieId,
@@ -70,9 +63,9 @@ class DetaPresenter(
 
 
     // solo per getMovie OK
-    private fun wrapperESCallback(forceRefresh: Boolean): EmptyStatesCallback<DetaMovDto> {
+    private fun wrapperESCallback(forceRefresh: Boolean): EmptyStatesCallback<DetaDto> {
 
-        return object : EmptyStatesCallback<DetaMovDto> {
+        return object : EmptyStatesCallback<DetaDto> {
 
             override fun OnStart() {
                 if (forceRefresh) {
@@ -84,15 +77,11 @@ class DetaPresenter(
                 }
             }
 
-            override fun onSuccess(obj: DetaMovDto) {
+            override fun onSuccess(obj: DetaDto) {
                 view.emptyStatesFlow(EmptyStatesEnum.ON_SUCCESS)
-
-                // update presenter and ui
-                presenterDto = obj.copy()
+                presenterDto = obj.copy() // update presenter and ui
                 updateUi()
-
                 println("XXX_PRES_EMPTY STATE SUCCESS")
-
             }
 
             override fun onErrorIO() {
@@ -102,10 +91,8 @@ class DetaPresenter(
 
             override fun onErrorOther() {
                 view.emptyStatesFlow(EmptyStatesEnum.ON_ERROR_OTHER)
-
                 println("XXX_PRES_ES_ERROR OTHER")
             }
-
         }
     }
 
@@ -119,17 +106,14 @@ class DetaPresenter(
 
 
     // 2. SET
-
     // OK
     override fun toggleFavorite() {
-
         if (presenterDto != null) {
             // send to repo
             detaRepo.toggleFavoriteOnDB(presenterDto!!) // delego il lavoro logico a repo
             // get from repo
             presenterDto = detaRepo.getLocalItem(presenterDto!!.ids.trakt)
         }
-
         updateUi()
         println("XXX_PRES_TOGGLE")
     }
@@ -137,7 +121,6 @@ class DetaPresenter(
 
     // OK
     override fun updateWatched(watchedStatus: Boolean) {
-
         //cambio stato + copy
         val modifiedDto = presenterDto?.copy(watched = watchedStatus)
 
@@ -148,12 +131,9 @@ class DetaPresenter(
             // update presenterDto
             presenterDto = modifiedDto
         }
-
         updateUi()
-
         println("XXX_PRES_WATCHED")
     }
-
 
 }
 

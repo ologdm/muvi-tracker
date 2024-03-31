@@ -32,11 +32,8 @@ private constructor(
         private var instance: BoxoRepo? = null
 
         fun getInstance(context: Context): BoxoRepo {
-            instance ?: synchronized(this) {
-                instance ?: BoxoRepo(context.applicationContext)
-                    .also {
-                        instance = it
-                    }
+            if (instance == null) {
+                instance = BoxoRepo(context)
             }
             return instance!!
         }

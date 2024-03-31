@@ -2,9 +2,9 @@ package com.example.muvitracker.inkotlin.mainactivity.prefs
 
 import android.annotation.SuppressLint
 import android.content.Context
-import com.example.muvitracker.inkotlin.mainactivity.deta_movie.repo.DetaRepo
-import com.example.muvitracker.inkotlin.mainactivity.deta_movie.repo.DLocalDS
-import com.example.muvitracker.inkotlin.repo.dto.DetaMovDto
+import com.example.muvitracker.inkotlin.mainactivity.deta.repo.DetaRepo
+import com.example.muvitracker.inkotlin.mainactivity.deta.repo.DLocalDS
+import com.example.muvitracker.inkotlin.repo.dto.DetaDto
 
 
 /**
@@ -48,7 +48,7 @@ class PrefsRepo(
 
 
     // GET
-    fun filterPrefsFromDetails(): List<DetaMovDto> {
+    fun filterPrefsFromDetails(): List<DetaDto> {
 
         var filteredList =
             detaLocalDS.loadListFromShared().filter {
@@ -60,7 +60,7 @@ class PrefsRepo(
 
     // SET
 
-    fun toggleFavoriteOnDB(dtoToToggle: DetaMovDto) {
+    fun toggleFavoriteOnDB(dtoToToggle: DetaDto) {
         detaRepo.toggleFavoriteOnDB(dtoToToggle)
         // logica aggiornamento su detaRepo
 
@@ -68,7 +68,7 @@ class PrefsRepo(
     }
 
 
-    fun updateWatchedOnDB(updatedDto: DetaMovDto) {
+    fun updateWatchedOnDB(updatedDto: DetaDto) {
         detaRepo.updateWatchedOnDB(updatedDto)
         // solo agigornamento db
 

@@ -15,17 +15,15 @@ import com.example.muvitracker.inkotlin.repo.dto.PopuDto
 
 class PopuAdapter : RecyclerView.Adapter<PopuVH>() {
 
-
+    // ATTRIBUTI
     // variante 1 val/mutablelist
     private val adapterList = mutableListOf<PopuDto>()
 
-    // variante 2 boxo
-    // private var adapterList = listOf<PopularDtoK>()
+    /* variante 2 boxo
+     * private var adapterList = listOf<PopularDtoK>()
+     */
 
-
-    // 1 dichiarazione lambda
-    //lateinit var callbackVH: ((Int) -> Unit) // non usare
-    private var callbackVH: ((Int) -> Unit)? = null // va bene
+    private var callbackVH: ((Int) -> Unit)? = null
 
 
     // METODI
@@ -50,38 +48,24 @@ class PopuAdapter : RecyclerView.Adapter<PopuVH>() {
     // 3. OK
     override fun onBindViewHolder(holder: PopuVH, position: Int) {
 
-        // 1 prendi elemento da mostrare OK
         val dto: PopuDto = adapterList[position]
 
-
-        /* 2 identifica views OK
-        val titoloVH: TextView = holder.itemView.findViewById(R.id.titleVH)
-        val annoVH: TextView = holder.itemView.findViewById(R.id.yearVH)
-        val imageVH: ImageView = holder.itemView.findViewById(R.id.imageVH)
-
-         */
-
         with(holder.binding) {
-
             titleVH.text = dto.title
-            yearVH.text = dto.year.toString() // conversione automatica
+            yearVH.text = dto.year.toString()
 
             Glide.with(root.context)
                 .load(dto.getImageUrl())
                 .into(imageVH)
 
-
-            // callback view - implementazione, chiamata al click
-            root.setOnClickListener {
-                // callbackVH - chiamata, implementazione su fragment
-                callbackVH?.invoke(dto.ids.trakt)
-
-                // => callbackVH.invoke(dto.ids.trakt) // con lateinit non serve ?
+            root.setOnClickListener { // callback view - implementazione, chiamata al click
+                callbackVH?.invoke(dto.ids.trakt) // callbackVH - chiamata, implementazione su fragment
             }
         }
-
     }
 
+
+    // ALTRI METODI
 
     // OK
     fun updateList(inputList: List<PopuDto>) {
@@ -97,15 +81,10 @@ class PopuAdapter : RecyclerView.Adapter<PopuVH>() {
     }
 
 
-    // LAMBDA IMPLEMENTAZIONE OK
-
-
-    // 2 set lambda
+    // OK
     fun setCallbackVH(call: (Int) -> Unit) {
         this.callbackVH = call
     }
-
-    // APPUNTI CALLBACK SOTTO ==> fatti bene
 
 }
 

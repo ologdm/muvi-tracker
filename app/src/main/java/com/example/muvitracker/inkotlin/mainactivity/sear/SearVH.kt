@@ -22,13 +22,8 @@ public class SearchVH extends RecyclerView.ViewHolder {
  */
 
 
-
 class SearVH(
-
     val binding: VhSearchBinding // 2. passo binding al figlio
-
 ) : RecyclerView.ViewHolder(
-
     binding.root // 1.binding del padre
-
 )
