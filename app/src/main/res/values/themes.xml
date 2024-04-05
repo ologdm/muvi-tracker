@@ -1,9 +1,23 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.MuviTracker" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+
+    <!-- Tema Applicazione => un tema per activity  -->
+    <style name="Theme.MuviTracker" parent="Theme.Material3.DayNight.NoActionBar">
+
+        <!-- personalizzo view con stile che definisco su stili -->
+        <item name="floatingActionButtonStyle">@style/FabStyle</item>
+        <!--   stile per tutti gli image button -->
+        <item name="imageButtonStyle">@style/RoundedImageButton</item>
+
+
     </style>
 
-    <style name="Theme.MuviTracker" parent="Base.Theme.MuviTracker" />
+    <!--    </style>-->
+    <!--     (eugi) senza parent, vale stringa; con parent, parent"" sovrascrive testo    -->
+    <!--    <style name="Theme.Material3.DayNight.NoActionBar.UlMioMTema" parent="">-->
+    <!--    </style>-->
+
+
+
+
+
 </resources>

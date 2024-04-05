@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+    <ImageButton
+            android:id="@+id/buttonBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/baseline_arrow_back_24"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_margin="10dp" />
+
+
+    <!-- cancellare -->
+    <ImageButton
+            android:elevation="4dp"
+            android:id="@+id/likedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/baseline_favorite_border_24"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floatingLikedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/baseline_favorite_border_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginBottom="25dp"
+            android:layout_marginEnd="25dp" />
+
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipeToRefresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+        <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent">
+
+
+            <LinearLayout
+                    android:id="@+id/insideScrollView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingBottom="80dp">
+
+
+                <ImageView
+                        android:id="@+id/imageHorizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="270dp"
+                        tools:layout_height="270dp"
+                        app:layout_constraintDimensionRatio="1.5"
+                        android:scaleType="centerCrop"
+                        tools:background="@android:color/holo_red_light"
+                        android:elevation="-4dp" />
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="20dp">
+
+
+                    <!-- 1° titolo film-->
+
+                    <!-- 2° split imagine / info orizzontale -->
+                    <TextView
+                            android:id="@+id/title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="40dp"
+                            android:paddingBottom="20dp"
+                            tools:hint="Titolo Filmmmm mmm mmm mmm (anno)"
+                            />
+
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+
+                        <!-- 2.1 immagine 2/3 -->
+
+
+                        <!-- 2.2 info vicino ad immagine -->
+
+                        <ImageView
+                                android:id="@+id/imageVertical"
+                                android:layout_width="200dp"
+                                android:layout_height="300dp"
+                                android:layout_marginEnd="15dp"
+                                tools:background="@android:color/holo_red_light" />
+
+                        <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical"
+                                android:paddingStart="20dp">
+
+                            <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Released:" />
+
+                            <TextView
+                                    android:id="@+id/released"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    tools:hint="testo" />
+
+
+                            <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Runtime:"
+                                    android:layout_marginTop="10dp" />
+
+                            <TextView
+                                    android:id="@+id/runtime"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    tools:hint="testo" />
+
+
+                            <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Country:"
+                                    android:layout_marginTop="10dp" />
+
+                            <TextView
+                                    android:id="@+id/country"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    tools:hint="testo" />
+
+
+                            <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Rating:"
+                                    android:layout_marginTop="10dp" />
+
+                            <TextView
+                                    android:id="@+id/rating"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:hint="testo" />
+
+                            <CheckBox
+                                    android:id="@+id/watchedCkbox"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Watched"
+                                    android:layout_marginTop="40dp"
+                                    android:textAlignment="textStart"
+                                    android:textSize="14dp" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="About show"
+                            android:layout_marginTop="30dp"
+                            android:layout_marginBottom="10dp" />
+
+                    <TextView
+                            android:id="@+id/overview"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            tools:hint=" ''''PROVA''' Prova radotto dall'inglese-La notte oscura dell'anima è una fase di purificazione passiva dello spirito nello sviluppo mistico, come descritta dal mistico e poeta spagnolo del XVI secolo San Giovanni della Croce nel suo trattato Notte oscura, un commento al suo poema con lo stesso nome."
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <include
+            android:id="@+id/emptyStates"
+            layout="@layout/empty_states"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

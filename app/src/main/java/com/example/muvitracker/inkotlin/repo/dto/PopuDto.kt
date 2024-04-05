@@ -18,7 +18,7 @@ data class PopuDto(
 
     // single expression
     fun getImageUrl(): String =
-        "http://img.omdbapi.com/" + "?apikey=ef6d3d4c" + "&i=${ids.imdb}"
+        "http://img.omdbapi.com/?apikey=ef6d3d4c&i=${ids.imdb}"
 
 
     data class Ids(

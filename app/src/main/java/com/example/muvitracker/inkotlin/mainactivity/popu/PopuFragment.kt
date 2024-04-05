@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.muvitracker.databinding.FragmPopuBinding
@@ -26,16 +27,13 @@ import com.example.muvitracker.myappunti.kotlin.EmptyStatesManagementNew
 
 
 
-class PopuFragment
-    : Fragment(), PopuContract.View {
+class PopuFragment : Fragment(), PopuContract.View {
 
 
     // 1 ATTRIBUTI
     private lateinit var presenter: PopuContract.Presenter // sharedPrefs context OK
-
     private val adapter = PopuAdapter()
     private val navigator = MainNavigator()
-
     private var binding: FragmPopuBinding? = null
 
 
@@ -62,7 +60,7 @@ class PopuFragment
 
         with(binding!!) {
             recycleView.adapter = adapter
-            recycleView.layoutManager = GridLayoutManager(requireContext(), 3)
+            recycleView.layoutManager = GridLayoutManager(requireContext(), 2)
 
             swipeToRefresh.setOnRefreshListener {
                 presenter.getMovieAndUpdateUi(forceRefresh = true)

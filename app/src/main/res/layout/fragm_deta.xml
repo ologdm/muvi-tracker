@@ -73,7 +73,7 @@
 
                     <!-- 2.1 immagine 2/3 -->
                     <ImageView
-                            android:id="@+id/image"
+                            android:id="@+id/imageVertical"
                             android:layout_width="200dp"
                             android:layout_height="300dp"
                             android:layout_marginEnd="15dp"

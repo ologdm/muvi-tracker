@@ -1,5 +1,6 @@
 package com.example.muvitracker.inkotlin.mainactivity.deta
 
+/*
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -74,7 +75,7 @@ class DetaFragmentOld : Fragment(), DetaContract.View {
 
         // inizializzazione OK
         title = view.findViewById(R.id.title) //string
-        image = view.findViewById(R.id.image) // glide
+        image = view.findViewById(R.id.imageVertical) // glide
 
         released = view.findViewById(R.id.released) // string
         runtimeFilm = view.findViewById(R.id.runtime) // int
@@ -245,4 +246,6 @@ class DetaFragmentOld : Fragment(), DetaContract.View {
 
 
 }
+
+ */
 

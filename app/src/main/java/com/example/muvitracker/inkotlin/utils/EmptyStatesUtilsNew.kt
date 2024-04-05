@@ -1,6 +1,7 @@
 package com.example.muvitracker.myappunti.kotlin
 
 import android.view.View
+import android.view.ViewGroup
 import android.widget.TextView
 
 /** contiene:
@@ -44,6 +45,7 @@ object EmptyStatesManagementNew {
      */
 
     // versione NUOVA - dati in locale
+    // per popu e boxo
     fun emptyStatesFlow(
         emptyStates: EmptyStatesEnumNew,
         progressBar: View,
@@ -80,6 +82,59 @@ object EmptyStatesManagementNew {
     }
 
 
+    // per Deta
+    // mostrarla solo quando success
+    fun emptyStatesFlow(
+        emptyStates: EmptyStatesEnumNew,
+        insideScrollView: ViewGroup,
+        progressBar: View,
+        errorMsgTextview: TextView
+    ) {
+        when (emptyStates) {
+
+            EmptyStatesEnumNew.ON_START -> {
+                setInsideScrollVisibility(insideScrollView,Visibility.HIDE)
+                setProgressBar(progressBar, Visibility.SHOW) // si, da mettere quello lineare
+                setErrorMsg(errorMsgTextview, Visibility.HIDE)
+            }
+
+            EmptyStatesEnumNew.ON_FORCE_REFRESH -> {
+                setInsideScrollVisibility(insideScrollView,Visibility.HIDE)
+                setProgressBar(progressBar, Visibility.HIDE) //no
+                setErrorMsg(errorMsgTextview, Visibility.HIDE)
+            }
+
+            EmptyStatesEnumNew.ON_SUCCESS -> {
+                setInsideScrollVisibility(insideScrollView,Visibility.SHOW)
+                setProgressBar(progressBar, Visibility.HIDE)
+                setErrorMsg(errorMsgTextview, Visibility.HIDE)
+            }
+
+            EmptyStatesEnumNew.ON_ERROR_IO -> {
+                setInsideScrollVisibility(insideScrollView,Visibility.HIDE)
+                setProgressBar(progressBar, Visibility.HIDE)
+                setErrorMsg(errorMsgTextview, Visibility.SHOW, NO_INTERNET_MSG)
+            }
+
+            EmptyStatesEnumNew.ON_ERROR_OTHER -> {
+                setInsideScrollVisibility(insideScrollView,Visibility.HIDE)
+                setProgressBar(progressBar, Visibility.HIDE)
+                setErrorMsg(errorMsgTextview, Visibility.SHOW, OTHER_ERROR_MSG)
+            }
+
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
     /** funzioni private -> utilizzate dentro
      *
      */
@@ -114,19 +169,17 @@ object EmptyStatesManagementNew {
     }
 
 
-    /* non serve
-    private fun setRvVisibility(
-        recycleview: RecyclerView,
+
+    private fun setInsideScrollVisibility(
+        insideScrollView: ViewGroup,
         visibilita: Visibility
     ) {
-
-        recycleview.visibility =
+        insideScrollView.visibility =
             if (visibilita == Visibility.SHOW) View.VISIBLE
             else View.GONE
-
     }
 
-     */
+
 
 
     private enum class Visibility {

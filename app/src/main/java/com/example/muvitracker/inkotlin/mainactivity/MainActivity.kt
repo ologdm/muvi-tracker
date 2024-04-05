@@ -24,16 +24,7 @@ class MainActivity() : AppCompatActivity() {
 
 
     // Dichiarazione - OK -
-    //TODO (vedere Kotlin Proprieties)
-    private lateinit var testoCategoria: TextView
     private lateinit var bottomNavigationView: BottomNavigationView
-    private lateinit var appBarLayout: AppBarLayout
-
-    // COSTANTI
-    private val POPULAR_TEXT = "popular"
-    private val BOX_OFFICE_TEXT = "box office"
-    private val MY_LIST_TEXT = "my list"
-    private val SEARCH_TEXT = "search"
 
 
     // ATTRIBUTI
@@ -44,18 +35,10 @@ class MainActivity() : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // inizializzo view
-        testoCategoria = findViewById(R.id.testoCategoria)
         bottomNavigationView = findViewById(R.id.bottomNavigation)
-        appBarLayout = findViewById(R.id.appBarLayout) // TODO
-
 
         // homepage default - popular
-        testoCategoria.setText(POPULAR_TEXT)
-        navigator.replaceFragment(
-            this,
-            PopuFragment() // di kotlin
-        )
+        navigator.replaceFragment(this, PopuFragment())
 
 
         // ha come return un booleano
@@ -70,8 +53,6 @@ class MainActivity() : AppCompatActivity() {
                         this@MainActivity,
                         PopuFragment() // di koltin
                     )
-                    testoCategoria.setText(POPULAR_TEXT)
-
                     return@OnItemSelectedListener true
                 }
 
@@ -80,8 +61,6 @@ class MainActivity() : AppCompatActivity() {
                         this@MainActivity,
                         BoxoFragment()
                     )
-                    testoCategoria.setText(BOX_OFFICE_TEXT)
-
                     return@OnItemSelectedListener true
                 }
 
@@ -90,9 +69,6 @@ class MainActivity() : AppCompatActivity() {
                         this@MainActivity,
                         PrefsFragment()
                     )
-
-                    testoCategoria.setText(MY_LIST_TEXT)
-
                     return@OnItemSelectedListener true
                 }
 
@@ -101,26 +77,25 @@ class MainActivity() : AppCompatActivity() {
                         this@MainActivity,
                         SearFragment()
                     )
-                    testoCategoria.setText(SEARCH_TEXT)
-
                     return@OnItemSelectedListener true
                 }
-
-
                 return@OnItemSelectedListener false // Non reagisco al false -> torno al padre
-
             })
     }
 
-        /* TODO
-        appBarLayout.setOnClickListener {
-            reqPermissLauncher.launch(Manifest.permission.CAMERA)
 
-        }
+
+
+    // eugi esempio
+    /* TODO
+    appBarLayout.setOnClickListener {
+        reqPermissLauncher.launch(Manifest.permission.CAMERA)
 
     }
 
-         */
+}
+
+     */
 
 
     /* CAMERA PERMISSION

@@ -55,9 +55,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         // 3.1 Attribuzione
-        testoCategoria = findViewById(R.id.testoCategoria);
         bottomNavigationView = findViewById(R.id.bottomNavigation);
 
 

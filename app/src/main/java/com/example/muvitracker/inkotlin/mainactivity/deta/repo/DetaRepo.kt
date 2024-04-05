@@ -8,10 +8,12 @@ import java.io.IOException
 
 
 /**
- * repo gestisce logica flusso dati, non salva
+ * - repo gestisce logica flusso dati, non salva
+ * - i film gli salvo solo la prima volta, no aggiornamento
  *
  *
  *  1° GET FUNZIONI:
+ *
  *  -getMovie() OK
  *      > sceglie tra DB e Server
  *      - getNetworkItemAndAddToLocal()  > assincrona, scarica e addDB+callback to presenter (success);
@@ -23,9 +25,6 @@ import java.io.IOException
  *  -getLocalItem ()  OK                 > sincrona - direttamente da DB
  *
  *
- *
- *
- *
  *  2° SET FUNZIONI:
  *  -toggleFavoriteOnDB() OK
  *              > change liked on dto and create copy
@@ -33,7 +32,6 @@ import java.io.IOException
  *
  *  -updateWatchedOnDB() OK
  *              > updateDb
- *
  *
  */
 
@@ -75,17 +73,14 @@ class DetaRepo(
     // OK
     private fun getNetworkItemAndAddToLocal(movieId: Int, callES: EmptyStatesCallback<DetaDto>) {
         callES.OnStart() // empty states
-
         DNetworkDS.callDetaServer(
             movieId,
             object : RetrofitCallback<DetaDto> {
-
                 override fun onSuccess(serverItem: DetaDto) {
                     detaLocalDS.createItem(serverItem) // add DB
                     callES.onSuccess(serverItem) //passo tu presenter
                     println("XXX_REPO_SERVER_SUCCESS")
                 }
-
                 override fun onError(throwable: Throwable) {
                     if (throwable is IOException) {
                         callES.onErrorIO()
@@ -118,20 +113,15 @@ class DetaRepo(
         // !!! se l'ho aperto, e gia su DB !!!
         val dtoModificato = inputDto.copy(liked = !inputDto.liked)
         detaLocalDS.updateItem(dtoModificato)
-
         println("XXX_REPO_TOGGLE_UPDATE_DB")
     }
-
 
     // OK
     fun updateWatchedOnDB(inputDto: DetaDto) {
         // invio dto modificato
         detaLocalDS.updateItem(inputDto)
-
         println("XXX_DETAREPO_WATCHEDUPDATEDB")
     }
-
-
 }
 
 

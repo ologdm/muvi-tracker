@@ -79,7 +79,6 @@ public class PopularAdapter extends RecyclerView.Adapter {
 
         // 3 Set Textview
         titoloVH.setText(popularDto.getTitle());
-        annoVH.setText(String.valueOf(popularDto.getYear()));  // convertire int in Stringa
 
         // 4 set Image
         Glide.with(holder.itemView.getContext())

@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">MuviTracker</string>
+    <string name="app_name" translatable="false">MuviTracker</string>
+
+
+    <string name="popular">Popular</string>
+
+
 </resources>

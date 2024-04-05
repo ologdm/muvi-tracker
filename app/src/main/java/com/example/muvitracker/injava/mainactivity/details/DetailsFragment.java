@@ -106,7 +106,7 @@ public class DetailsFragment extends Fragment implements DetailsContract.View {
 
         // assegnazione
         title = view.findViewById(R.id.title);  //string
-        image = view.findViewById(R.id.image); // glide
+        image = view.findViewById(R.id.imageVertical); // glide
         released = view.findViewById(R.id.released); // string
         runtimeFilm = view.findViewById(R.id.runtime); // int
         country = view.findViewById(R.id.country); // string
