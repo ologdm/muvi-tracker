@@ -6,11 +6,12 @@
         tools:layout_width="170dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_margin="10dp">
+        android:layout_marginHorizontal="8dp"
+        android:paddingBottom="16dp">
+
 
     <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/imageVH"
-            app:shapeAppearance="@style/RoundedShape"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintDimensionRatio="0.67"
@@ -19,22 +20,19 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toTopOf="@id/titleVH"
             app:layout_constraintEnd_toEndOf="parent"
-            tools:src="@tools:sample/avatars" />
+            tools:src="@tools:sample/avatars"
+            app:shapeAppearance="@style/RoundedShapeImage" />
 
 
     <TextView
             android:id="@+id/titleVH"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
-            tools:hint="titolo"
-            app:layout_constraintTop_toBottomOf="@id/imageVH"
-            android:layout_marginStart="4dp"
-            android:layout_marginEnd="4dp"
             tools:text="@tools:sample/cities"
+            app:layout_constraintTop_toBottomOf="@id/imageVH"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            style="@style/textStypePopu" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

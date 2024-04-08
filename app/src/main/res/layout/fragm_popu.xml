@@ -5,8 +5,7 @@
         android:id="@+id/swipeToRefresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-  <!--  android:theme="@style/Theme.AppCompat" ==> tema diverso  -->
-
+    <!--  android:theme="@style/Theme.AppCompat" ==> tema diverso  -->
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -15,17 +14,22 @@
 
         <TextView
                 android:id="@+id/toolbar"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toTopOf="@id/recycleView"
-                android:textSize="30sp"
-                android:paddingHorizontal="16dp"
+                android:textSize="24sp"
+                android:paddingHorizontal="20dp"
                 android:text="@string/popular"
                 app:layout_constraintHorizontal_bias="0"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent"
+                android:paddingVertical="8dp" />
 
+        <com.google.android.material.divider.MaterialDivider
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
 
         <androidx.recyclerview.widget.RecyclerView
@@ -34,8 +38,9 @@
                 app:layout_constraintTop_toBottomOf="@+id/toolbar"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_height="0dp"
-                android:padding="8dp"
-                android:clipToPadding="false"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="16dp"
+                android:clipToPadding="true"
                 tools:listitem="@layout/vh_popu" />
 
 

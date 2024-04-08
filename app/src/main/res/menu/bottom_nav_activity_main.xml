@@ -2,23 +2,23 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-            android:id="@+id/button1Popular"
-            android:title="Popular"
+            android:id="@+id/buttonPopular"
+            android:title="@string/popular"
             android:icon="@drawable/baseline_view_list_24"/>
 
     <item
-            android:id="@+id/button2Boxoffice"
-            android:title="Box Office"
+            android:id="@+id/buttonBoxoffice"
+            android:title="@string/box_office"
             android:icon="@drawable/baseline_view_list_24"/>
 
     <item
-            android:id="@+id/button3MyList"
-            android:title="My List"
+            android:id="@+id/buttonMyList"
+            android:title="@string/my_list"
             android:icon="@drawable/baseline_library_add_check_24" />
 
     <item
-            android:id="@+id/button4Search"
-            android:title="Search"
+            android:id="@+id/buttonSearch"
+            android:title="@string/search"
             android:icon="@drawable/baseline_search_24" />
 
 </menu>

@@ -57,7 +57,7 @@ class PopuAdapter : RecyclerView.Adapter<PopuVH>() {
         with(holder.binding) {
             //titleVH.text = "${dto.title} (${dto.year.toString()})"
             // titleVH.text = getString(R.string.title_with_year, dto.title, dto.year)
-            titleVH.text = "${dto.title} ${dto.year}"
+            titleVH.text = "${dto.title} (${dto.year})"
 
             /*
             Glide.with(root.context)

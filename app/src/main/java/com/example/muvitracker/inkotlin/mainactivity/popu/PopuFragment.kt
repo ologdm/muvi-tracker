@@ -4,14 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.muvitracker.databinding.FragmPopuBinding
 import com.example.muvitracker.inkotlin.mainactivity.MainNavigator
 import com.example.muvitracker.inkotlin.repo.dto.PopuDto
-import com.example.muvitracker.myappunti.kotlin.EmptyStatesEnumNew
-import com.example.muvitracker.myappunti.kotlin.EmptyStatesManagementNew
+import com.example.muvitracker.myappunti.kotlin.EmptyStatesEnum
+import com.example.muvitracker.myappunti.kotlin.EmptyStatesManagement
 
 /* kotlin
  * 1) R.layout.fragment_popular ==> .fragment_popular ==> package level propoerty
@@ -80,16 +79,14 @@ class PopuFragment : Fragment(), PopuContract.View {
 
 
     // CONTRACT METHOD - OK
-
     override fun updateUi(list: List<PopuDto>) {
         adapter.updateList(list)
     }
 
-
     // OK
-    override fun emptyStatesFlow(emptyStates: EmptyStatesEnumNew) {
+    override fun emptyStatesFlow(emptyStates: EmptyStatesEnum) {
         // chiamo funzione gestione stati
-        EmptyStatesManagementNew.emptyStatesFlow(
+        EmptyStatesManagement.emptyStatesFlow(
             emptyStates,
             binding?.emptyStates!!.progressBar,
             binding?.emptyStates!!.errorMsgTextview
@@ -97,9 +94,9 @@ class PopuFragment : Fragment(), PopuContract.View {
 
         // stop refreshing solo in questi 3 stati
         when (emptyStates) {
-            EmptyStatesEnumNew.ON_SUCCESS,
-            EmptyStatesEnumNew.ON_ERROR_IO,
-            EmptyStatesEnumNew.ON_ERROR_OTHER
+            EmptyStatesEnum.ON_SUCCESS,
+            EmptyStatesEnum.ON_ERROR_IO,
+            EmptyStatesEnum.ON_ERROR_OTHER
             -> binding?.swipeToRefresh?.isRefreshing = false
 
             else -> {}  // non fare nulla

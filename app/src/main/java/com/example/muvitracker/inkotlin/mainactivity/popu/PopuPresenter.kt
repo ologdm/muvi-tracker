@@ -4,7 +4,7 @@ import android.content.Context
 import com.example.muvitracker.inkotlin.mainactivity.popu.repo.PopuRepo
 import com.example.muvitracker.inkotlin.repo.dto.PopuDto
 import com.example.muvitracker.myappunti.kotlin.EmptyStatesCallbackList
-import com.example.muvitracker.myappunti.kotlin.EmptyStatesEnumNew
+import com.example.muvitracker.myappunti.kotlin.EmptyStatesEnum
 
 
 /**
@@ -40,10 +40,10 @@ class PopuPresenter(
         popuRepo.getMovieList(object : EmptyStatesCallbackList<PopuDto> {
             override fun OnStart() {
                 if (forceRefresh) {
-                    view.emptyStatesFlow(EmptyStatesEnumNew.ON_FORCE_REFRESH)
+                    view.emptyStatesFlow(EmptyStatesEnum.ON_FORCE_REFRESH)
                     println("XXX_POPU_FRAGM_FORCE REFRESH")
                 } else {
-                    view.emptyStatesFlow(EmptyStatesEnumNew.ON_START)
+                    view.emptyStatesFlow(EmptyStatesEnum.ON_START)
                     println("XXX_POPU_FRAGM_START")
                 }
             }
@@ -51,17 +51,17 @@ class PopuPresenter(
             override fun onSuccess(list: List<PopuDto>) {
 
                 view.updateUi(list) // server list
-                view.emptyStatesFlow(EmptyStatesEnumNew.ON_SUCCESS)
+                view.emptyStatesFlow(EmptyStatesEnum.ON_SUCCESS)
                 println("XXX_POPU_FRAGM_SUCCESS")
             }
 
             override fun onErrorIO() {
-                view.emptyStatesFlow(EmptyStatesEnumNew.ON_ERROR_IO)
+                view.emptyStatesFlow(EmptyStatesEnum.ON_ERROR_IO)
                 println("XXX_POPU_FRAGM_ERROR IO")
             }
 
             override fun onErrorOther() {
-                view.emptyStatesFlow(EmptyStatesEnumNew.ON_ERROR_OTHER)
+                view.emptyStatesFlow(EmptyStatesEnum.ON_ERROR_OTHER)
                 println("XXX_POPU_FRAGM_ERROR OTHER")
             }
 

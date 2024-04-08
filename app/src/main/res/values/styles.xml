@@ -4,30 +4,52 @@
 
     <!-- PER VIEWS  -->
 
-    <!-- 1. per imageButtonStyle -->
+    <!-- 1. per imageButtonStyle (tema) -->
     <style name="RoundedImageButton">
-        <item name="android:backgroundTint">@android:color/holo_blue_light</item>
         <item name="android:background">@drawable/baseline_circle_24</item>
         <item name="android:padding">8dp</item>
-        <item name="android:elevation">4dp</item>
+        <item name="android:elevation">8dp</item>
+        <item name="backgroundColor">@android:color/holo_green_light</item>
     </style>
 
-    <!-- 2.  -->
+    <!-- 2. ???  -->
     <style name="FabStyle" parent="Widget.MaterialComponents.FloatingActionButton">
         <!--        vuoto-->
     </style>
 
 
-    <!-- SHAPES  -->
-    <!-- 1. esempio con caratteristiche personalizzate - prese da "M3.Corner.Large" -->
-    <style name="RoundedShape">
-        <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">16dp</item>
+    <!-- image style -->
+    <style name="RoundedShapeImage" parent="ShapeAppearance.Material3.Corner.Large"/>
+
+    <style name="textStypePopu">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_marginHorizontal">12dp</item>
+        <item name="android:paddingTop">4dp</item>
     </style>
 
-    <!-- 2. stile preso da M3   -->
-    <style name="RoundedShape2" parent="ShapeAppearance.Material3.Corner.Large" />
+    <style name="textSizeDeta">
+        <item name="android:textSize">30sp</item>
 
+    </style>
+
+
+    
 
 
 </resources>
+
+
+
+
+        <!-- SHAPES  -->
+        <!-- 1. eugi esempio con caratteristiche personalizzate - prese da "M3.Corner.Large" -->
+        <!--    <style name="RoundedShape">-->
+        <!--        <item name="cornerFamily">rounded</item>-->
+        <!--        <item name="cornerSize">16dp</item>-->
+        <!--    </style>-->
+
+        <!-- 2. eugi stile preso da M3  -->
+        <!--    <style name="RoundedShape" parent="ShapeAppearance.Material3.Corner.Large" />-->
+        <!--    <style name="RoundedShape3" parent="ShapeAppearance.Material3.Corner.Medium" />-->
+        <!--    <style name="RoundedShape4" parent="ShapeAppearance.Material3.Corner.Small" />-->

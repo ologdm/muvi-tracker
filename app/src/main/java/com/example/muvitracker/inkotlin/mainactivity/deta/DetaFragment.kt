@@ -7,17 +7,17 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.example.muvitracker.R
-import com.example.muvitracker.databinding.FragmDetaFinaleBinding
+import com.example.muvitracker.databinding.FragmDetaBinding
 import com.example.muvitracker.inkotlin.repo.dto.DetaDto
-import com.example.muvitracker.myappunti.kotlin.EmptyStatesEnumNew
-import com.example.muvitracker.myappunti.kotlin.EmptyStatesManagementNew
+import com.example.muvitracker.myappunti.kotlin.EmptyStatesEnum
+import com.example.muvitracker.myappunti.kotlin.EmptyStatesManagement
+import com.google.android.material.chip.Chip
 
 /* Consegna:
  * - chips lista genere
  * - immagine sopra zoom,
  * - back button tondo, background
  * - floating like button
- *
  *
  */
 
@@ -28,7 +28,7 @@ class DetaFragment : Fragment(), DetaContract.View {
 
     private var traktMovieId: Int = 0
 
-    private var bindingBase: FragmDetaFinaleBinding? = null
+    private var bindingBase: FragmDetaBinding? = null
     private val binding
         get() = bindingBase
 
@@ -39,7 +39,7 @@ class DetaFragment : Fragment(), DetaContract.View {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        bindingBase = FragmDetaFinaleBinding.inflate(inflater, container, false)
+        bindingBase = FragmDetaBinding.inflate(inflater, container, false)
         return binding!!.root
     }
 
@@ -86,6 +86,11 @@ class DetaFragment : Fragment(), DetaContract.View {
 
         // Default - salva elemento poi mostra
         presenter.getMovie(traktMovieId, forceRefresh = false) // inputId creazione
+
+
+        // TODO chipGroup
+
+
     }
 
 
@@ -96,7 +101,7 @@ class DetaFragment : Fragment(), DetaContract.View {
     }
 
 
-// CONTRACT METHODS
+    // CONTRACT METHODS
     // GET - OK
     override fun updateUi(detaDto: DetaDto) {
         val stringaRuntime = "${detaDto.runtime.toString()} min"
@@ -121,11 +126,23 @@ class DetaFragment : Fragment(), DetaContract.View {
                 .into(imageHorizontal)
 
 
+            // TODO chip con binding OK
+            chipGroup.removeAllViews() // pulire quelli precedenti
+            detaDto.genres.forEach {
+                val chip = Chip(context).apply {
+                    text=it
+                }
+                chipGroup.addView(chip)
+            }
+
+
         }
 
         println("XXX_D_FRAGM_UPDATEUI")
         updateFavoriteIcon(detaDto.liked) // isliked
         updateWatchedCheckbox(detaDto.watched) // isWatched
+
+
     }
 
 
@@ -152,46 +169,41 @@ class DetaFragment : Fragment(), DetaContract.View {
     }
 
 
-    //
-
     // TODO  - nuovo enum
-    override fun emptyStatesFlow(emptyStatesEnum: EmptyStatesEnumNew) {
+    override fun emptyStatesFlow(emptyStatesEnum: EmptyStatesEnum) {
         with(binding!!) {
 
-            EmptyStatesManagementNew.emptyStatesFlow(
+            EmptyStatesManagement.emptyStatesFlow(
                 emptyStatesEnum,
                 insideScrollView,
                 emptyStates.progressBar,
                 emptyStates.errorMsgTextview
             )
             when (emptyStatesEnum) { // TODO OK
-                EmptyStatesEnumNew.ON_SUCCESS,
-                EmptyStatesEnumNew.ON_ERROR_IO,
-                EmptyStatesEnumNew.ON_ERROR_OTHER
+                EmptyStatesEnum.ON_SUCCESS,
+                EmptyStatesEnum.ON_ERROR_IO,
+                EmptyStatesEnum.ON_ERROR_OTHER
                 -> binding?.swipeToRefresh?.isRefreshing = false
+
                 else -> {}
             }
-
         }
     }
 
 
+    companion object {
+        fun create(traktId: Int): DetaFragment {
+            val detaFragment = DetaFragment()
+            val bundle = Bundle()
+            bundle.putInt(TRAKT_ID_KEY, traktId)
+            detaFragment.arguments =
+                bundle  // arguments - quando voglio passare elementi alla creazione
 
+            return detaFragment
+        }
 
-companion object {
-
-    fun create(traktId: Int): DetaFragment {
-        val detaFragment = DetaFragment()
-        val bundle = Bundle()
-        bundle.putInt(TRAKT_ID_KEY, traktId)
-        detaFragment.arguments =
-            bundle  // arguments - quando voglio passare elementi alla creazione
-
-        return detaFragment
+        const val TRAKT_ID_KEY = "traktId_key"
     }
-
-    const val TRAKT_ID_KEY = "traktId_key"
-}
 
 }
 

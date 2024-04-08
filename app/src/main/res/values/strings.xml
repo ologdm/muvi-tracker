@@ -2,7 +2,18 @@
     <string name="app_name" translatable="false">MuviTracker</string>
 
 
-    <string name="popular">Popular</string>
+    <string name="popular">popular</string>
+    <string name="box_office">box office</string>
+    <string name="my_list">my list</string>
+    <string name="search">search</string>
+
+    <string name="released">Released:</string>
+    <string name="runtime">Runtime:</string>
+    <string name="country">Country:</string>
+    <string name="rating">Rating:</string>
+    <string name="watched">Watched</string>
+    <string name="about_show">About show</string>
+    <string name="genres">Genres:</string>
 
 
 </resources>

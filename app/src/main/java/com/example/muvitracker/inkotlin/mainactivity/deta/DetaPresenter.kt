@@ -5,7 +5,6 @@ import com.example.muvitracker.inkotlin.mainactivity.deta.repo.DetaRepo
 import com.example.muvitracker.inkotlin.repo.dto.DetaDto
 import com.example.muvitracker.myappunti.kotlin.EmptyStatesCallback
 import com.example.muvitracker.myappunti.kotlin.EmptyStatesEnum
-import com.example.muvitracker.myappunti.kotlin.EmptyStatesEnumNew
 
 
 /**
@@ -70,28 +69,28 @@ class DetaPresenter(
 
             override fun OnStart() {
                 if (forceRefresh) {
-                    view.emptyStatesFlow(EmptyStatesEnumNew.ON_FORCE_REFRESH)
+                    view.emptyStatesFlow(EmptyStatesEnum.ON_FORCE_REFRESH)
                     println("XXX_PRES_EMPTY STATE FORCE REFRESH")
                 } else {
-                    view.emptyStatesFlow(EmptyStatesEnumNew.ON_START)
+                    view.emptyStatesFlow(EmptyStatesEnum.ON_START)
                     println("XXX_PRES_EMPTY STATE START")
                 }
             }
 
             override fun onSuccess(obj: DetaDto) {
-                view.emptyStatesFlow(EmptyStatesEnumNew.ON_SUCCESS)
+                view.emptyStatesFlow(EmptyStatesEnum.ON_SUCCESS)
                 presenterDto = obj.copy() // update presenter and ui
                 updateUi()
                 println("XXX_PRES_EMPTY STATE SUCCESS")
             }
 
             override fun onErrorIO() {
-                view.emptyStatesFlow(EmptyStatesEnumNew.ON_ERROR_IO)
+                view.emptyStatesFlow(EmptyStatesEnum.ON_ERROR_IO)
                 println("XXX_PRES_ES_ERROR IO")
             }
 
             override fun onErrorOther() {
-                view.emptyStatesFlow(EmptyStatesEnumNew.ON_ERROR_OTHER)
+                view.emptyStatesFlow(EmptyStatesEnum.ON_ERROR_OTHER)
                 println("XXX_PRES_ES_ERROR OTHER")
             }
         }

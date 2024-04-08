@@ -50,7 +50,7 @@ data class DetaDto(
         return "http://img.omdbapi.com/" + "?apikey=ef6d3d4c" + "&i=${ids.imdb}";
     }
 
-    // serve mettere valori default??
+
     data class Ids(
         val trakt: Int = 0,
         val slug: String = "",

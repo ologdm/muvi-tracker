@@ -30,15 +30,4 @@
 
 
 
-    <!-- retryButton da eliminare -->
-    <Button
-            android:id="@+id/retryButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Retry"
-            android:layout_gravity="center"
-            android:visibility="gone"
-            tools:visibility="gone" />
-
-
 </FrameLayout>

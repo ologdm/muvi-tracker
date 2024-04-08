@@ -1,7 +1,7 @@
 package com.example.muvitracker.inkotlin.mainactivity.popu
 
 import com.example.muvitracker.inkotlin.repo.dto.PopuDto
-import com.example.muvitracker.myappunti.kotlin.EmptyStatesEnumNew
+import com.example.muvitracker.myappunti.kotlin.EmptyStatesEnum
 
 interface PopuContract {
 
@@ -12,7 +12,7 @@ interface PopuContract {
 
         fun startDetailsFragment(movieId: Int)
 
-        fun emptyStatesFlow(emptyStates: EmptyStatesEnumNew)
+        fun emptyStatesFlow(emptyStates: EmptyStatesEnum)
 
     }
 

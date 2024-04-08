@@ -5,6 +5,26 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+
+
+<!--
+    <com.google.android.material.search.SearchView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="prova"
+            android:text="cosa"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+             -->
+
+    <com.google.android.material.search.SearchBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="cerca film"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+
+
     <EditText
             android:id="@+id/searchEditText"
             android:layout_width="match_parent"
@@ -21,6 +41,7 @@
             app:srcCompat="@drawable/baseline_search_24"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
 
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycleView"

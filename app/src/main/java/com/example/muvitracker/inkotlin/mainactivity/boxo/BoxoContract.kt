@@ -1,7 +1,7 @@
 package com.example.muvitracker.inkotlin.mainactivity.boxo
 
 import com.example.muvitracker.inkotlin.repo.dto.BoxoDto
-import com.example.muvitracker.myappunti.kotlin.EmptyStatesEnumNew
+import com.example.muvitracker.myappunti.kotlin.EmptyStatesEnum
 
 interface BoxoContract {
 
@@ -9,7 +9,7 @@ interface BoxoContract {
 
         fun updateUi(list: List<BoxoDto>)
 
-        fun emptyStatesFlow(emptyStates: EmptyStatesEnumNew) // OK nuovo
+        fun emptyStatesFlow(emptyStates: EmptyStatesEnum) // OK nuovo
 
         fun startDetailsFragment(movieId: Int) // OK nuovo
 

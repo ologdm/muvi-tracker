@@ -17,38 +17,30 @@ class BoxoAdapter : RecyclerView.Adapter <BoxoVH>() {
     // variante 2 - var/list
     private var adapterList = listOf<BoxoDto>()
 
-
-    // dichiaro lambda callback
     var callbackVH : ((movieId:Int)->Unit)? = null
 
 
     // METODI ADAPTER
-
-    // crea vh OK
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BoxoVH {
         val layoutInflater = LayoutInflater.from(parent.context)
         val view = layoutInflater.inflate(R.layout.vh_boxo,parent,false)
         return BoxoVH(view)
     }
 
-    // conta elementi da gestire OK
     override fun getItemCount(): Int {
        return adapterList.size
     }
 
-    // logica VH
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: BoxoVH, position: Int) {
-
         val dto : BoxoDto = adapterList.get(position)
 
         // inizializzaz interni vh OK
         val titoloVH: TextView = holder.itemview.findViewById(R.id.titleVH)
-        val annoVH : TextView = holder.itemview.findViewById(R.id.yearVH)
         val imageVH :ImageView = holder.itemview.findViewById(R.id.imageVH)
 
         // set elementi da dto OK
-        titoloVH.text = dto.movie.title
-        annoVH.text = dto.movie.year.toString() // toString obbligatorio per Int
+        titoloVH.text = "${dto.movie.title} (${dto.movie.year})"
 
         // GLide - utilizzare funzione context, load, into  OK
         Glide.with(holder.itemView.context)
@@ -58,33 +50,27 @@ class BoxoAdapter : RecyclerView.Adapter <BoxoVH>() {
 
         // click VH
         holder.itemview.setOnClickListener {  // view
-            // OnClickListener -> ()->Unit
-            // itemview funzione {chiama callback al click su oggetto}
-            // par it - non utilizzato
+            /* OnClickListener -> ()->Unit
+              itemview funzione {chiama callback al click su oggetto}
+              par it - non utilizzato
 
-            // chiama callbackVH -
-            // passo elemento nella chiamata
+              chiama callbackVH -
+              passo elemento nella chiamata
+             */
             callbackVH?.invoke(dto.movie.ids.trakt)
         }
-
-
     }
-
-
 
     // update con copia OK
     @SuppressLint("NotifyDataSetChanged")
     fun updateList (list: List<BoxoDto>){
         adapterList= list.toList() // sotituisco lista con la  copia nuova istanza
         notifyDataSetChanged()
-
     }
-
 
     // lambda set
     fun setcallbackVH (call:(movieId:Int)->Unit){
         callbackVH=call
-
     }
 
 
