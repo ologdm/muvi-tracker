@@ -1,4 +1,4 @@
-package com.example.muvitracker.inkotlin.mainactivity.popu
+package com.example.muvitracker.inkotlin.mainactivity.base
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
@@ -8,6 +8,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.muvitracker.R
 import com.example.muvitracker.databinding.VhPopuBinding
+import com.example.muvitracker.inkotlin.mainactivity.popu.PopuVh
 import com.example.muvitracker.inkotlin.repo.dto.PopuDto
 
 
@@ -16,7 +17,13 @@ import com.example.muvitracker.inkotlin.repo.dto.PopuDto
 // 2)
 
 
-class PopuAdapter : RecyclerView.Adapter<PopuVh>() {
+// TODO
+//  <T>
+//  VH unico
+//
+
+
+class BaseAdapter : RecyclerView.Adapter<BaseVh>() {
 
     // ATTRIBUTI
     // variante 1 val/mutablelist
@@ -103,6 +110,9 @@ class PopuAdapter : RecyclerView.Adapter<PopuVh>() {
     }
 
 }
+
+
+class x :RecyclerView.Adapter<>
 
 
 

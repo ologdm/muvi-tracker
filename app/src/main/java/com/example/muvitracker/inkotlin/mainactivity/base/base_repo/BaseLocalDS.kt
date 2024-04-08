@@ -40,7 +40,7 @@ import com.google.gson.reflect.TypeToken
 // attributi : context, gson, shared
 
 
-class PopuLocalDS
+class BaseLocalDS
 private constructor(
     private val context: Context // vale come dichiarazione
 ) {

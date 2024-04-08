@@ -1,7 +1,7 @@
 package com.example.muvitracker.inkotlin.mainactivity.popu
 
 import android.content.Context
-import com.example.muvitracker.inkotlin.mainactivity.popu.repo.PopuRepo
+import com.example.muvitracker.inkotlin.mainactivity.popu.repo.BaseRepo
 import com.example.muvitracker.inkotlin.repo.dto.PopuDto
 import com.example.muvitracker.myappunti.kotlin.EmptyStatesCallbackList
 import com.example.muvitracker.myappunti.kotlin.EmptyStatesEnum
@@ -29,7 +29,7 @@ class PopuPresenter(
 
     // ATTRIBUTI OK
     // context - nel costruttore OK
-    private val popuRepo: PopuRepo = PopuRepo.getInstance(context)
+    private val popuRepo: BaseRepo = PopuRepo.getInstance(context)
 
 
     // CONTRACT METHODS

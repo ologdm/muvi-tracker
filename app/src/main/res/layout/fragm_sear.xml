@@ -7,40 +7,23 @@
 
 
 
-<!--
-    <com.google.android.material.search.SearchView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="prova"
-            android:text="cosa"
-            app:layout_constraintBottom_toBottomOf="parent"/>
-             -->
-
-    <com.google.android.material.search.SearchBar
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="cerca film"
-            app:layout_constraintBottom_toBottomOf="parent"/>
-
-
-
-
-    <EditText
-            android:id="@+id/searchEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Search"
+    <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/searchEditTextLayout"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"/>
-
-    <ImageButton
-            android:id="@+id/searchImageButton"
-            android:layout_width="wrap_content"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/baseline_search_24"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_margin="8dp"
+            app:startIconDrawable="@drawable/baseline_search_24"
+            android:hint="@string/search">
+
+        <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/searchEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
 
     <androidx.recyclerview.widget.RecyclerView
@@ -48,10 +31,12 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/searchEditText"
+            app:layout_constraintTop_toBottomOf="@+id/searchEditTextLayout"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintVertical_bias="0.0"
+
+            tools:listitem="@layout/vh_search"/>
 
 
 

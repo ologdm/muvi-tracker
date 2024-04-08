@@ -43,7 +43,7 @@ import java.io.IOException
    */
 
 
-class PopuRepo
+class BaseRepo
 private constructor(
     private val context: Context // dichiarazione context
 ) {
