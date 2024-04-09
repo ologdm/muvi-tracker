@@ -3,20 +3,20 @@ package com.example.muvitracker.inkotlin.mainactivity.base
 import androidx.recyclerview.widget.RecyclerView
 import com.example.muvitracker.databinding.VhBaseBinding
 
-// koltin
-// perche il padre ha un costruttore che deve essere per forza invocato (come super in java)
+// costruttore figlio - passo binding
+// costruttore padre(richiede itemview) -> binding.root==itemview
 
-class BaseVh(
+class BaseVh(val binding: VhBaseBinding) : RecyclerView.ViewHolder(binding.root)
+// TODO classe base da passare su adaper
 
-    //itemView: View
-    val binding: VhBaseBinding
 
-) : RecyclerView.ViewHolder(
 
-    //itemView
-    binding.root
+/* IN JAVA
+public class BaseVh extends RecyclerView.ViewHolder {
 
-)
-
+    public BaseVh(VhBaseBinding binding) {
+        super(binding.getRoot());
+    }
+ */
 
 

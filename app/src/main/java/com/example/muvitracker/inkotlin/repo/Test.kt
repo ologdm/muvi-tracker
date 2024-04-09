@@ -24,6 +24,8 @@ data class Movie(
 // funzione estesa mapper per uninificare 2 dto(dati da json)
 // serve per non avere l'app troppo legata al dto json
 // perche basta modificare il mapper
+
+
 fun PopularDto.toDomain(): Movie {
     return Movie(
         title = title,
@@ -43,6 +45,9 @@ fun BoxOfficeDto.toDomain(): Movie {
     )
 }
 
+
+
+
 class Repository {
 
     fun getPopularMovie(): Movie {
@@ -56,3 +61,4 @@ class Repository {
     }
 
 }
+

@@ -51,11 +51,11 @@ private constructor(
 
 
     companion object {
-        private var instance: BaseLocalDS? = null
+        private var instance: PopuLocalDS? = null
 
-        fun getInstance(context: Context): BaseLocalDS {
+        fun getInstance(context: Context): PopuLocalDS {
             if (instance == null) {
-                instance = BaseLocalDS(context)
+                instance = PopuLocalDS(context)
             }
             return instance!!
         }

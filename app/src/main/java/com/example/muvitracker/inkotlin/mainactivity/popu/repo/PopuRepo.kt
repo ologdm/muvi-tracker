@@ -62,7 +62,7 @@ private constructor(
 
         callES.OnStart() // ES
 
-        BaseNetworkDS.callPopuServer(object : RetrofitCallbackList<PopuDto> {
+        PopuNetworkDS.callPopuServer(object : RetrofitCallbackList<PopuDto> {
 
             override fun onSuccess(serverList: List<PopuDto>) {
 
@@ -94,13 +94,15 @@ private constructor(
     }
 
 
+
+
     // Singleton OK
     companion object {
-        private var instance: BaseRepo? = null
+        private var instance: PopuRepo? = null
 
-        fun getInstance(context: Context): BaseRepo {
+        fun getInstance(context: Context): PopuRepo {
             if (instance==null){
-                instance=BaseRepo(context)
+                instance= PopuRepo(context)
             }
             return instance!!
         }

@@ -4,8 +4,15 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 
 
-// OK
-class BoxoVH (
-    val itemview : View
-        ) : RecyclerView.ViewHolder(itemview) {
+class BoxoVH (val itemview : View) : RecyclerView.ViewHolder(itemview) {
 }
+
+
+
+/* IN JAVA
+public class BoxofficeVH extends RecyclerView.ViewHolder {
+
+    public BoxofficeVH(@NonNull View itemView) {
+        super(itemView);
+    }
+ */

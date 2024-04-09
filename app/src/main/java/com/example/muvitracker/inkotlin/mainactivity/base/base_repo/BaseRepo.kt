@@ -1,6 +1,8 @@
 package com.example.muvitracker.inkotlin.mainactivity.popu.repo
 
 import android.content.Context
+import com.example.muvitracker.inkotlin.mainactivity.base.base_repo.MovieModel
+import com.example.muvitracker.inkotlin.mainactivity.base.base_repo.toDomain
 import com.example.muvitracker.inkotlin.repo.dto.PopuDto
 import com.example.muvitracker.myappunti.kotlin.EmptyStatesCallbackList
 import com.example.muvitracker.myappunti.kotlin.RetrofitCallbackList
@@ -62,7 +64,7 @@ private constructor(
 
         callES.OnStart() // ES
 
-        BaseNetworkDS.callPopuServer(object : RetrofitCallbackList<PopuDto> {
+        PopuNetworkDS.callPopuServer(object : RetrofitCallbackList<PopuDto> {
 
             override fun onSuccess(serverList: List<PopuDto>) {
 
@@ -99,12 +101,21 @@ private constructor(
         private var instance: BaseRepo? = null
 
         fun getInstance(context: Context): BaseRepo {
-            if (instance==null){
-                instance=BaseRepo(context)
+            if (instance == null) {
+                instance = BaseRepo(context)
             }
             return instance!!
         }
     }
+
+    lateinit var dto: PopuDto
+    lateinit var movieModel: MovieModel
+
+    fun prova(){
+       movieModel =dto.toDomain(dto)
+    }
+
+
 
 
 }

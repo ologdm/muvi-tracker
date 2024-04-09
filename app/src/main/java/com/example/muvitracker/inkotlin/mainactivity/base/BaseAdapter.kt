@@ -7,8 +7,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.muvitracker.R
+import com.example.muvitracker.databinding.VhBaseBinding
 import com.example.muvitracker.databinding.VhPopuBinding
+import com.example.muvitracker.inkotlin.mainactivity.base.base_repo.MovieModel
 import com.example.muvitracker.inkotlin.mainactivity.popu.PopuVh
+import com.example.muvitracker.inkotlin.repo.Movie
 import com.example.muvitracker.inkotlin.repo.dto.PopuDto
 
 
@@ -17,17 +20,18 @@ import com.example.muvitracker.inkotlin.repo.dto.PopuDto
 // 2)
 
 
-// TODO
-//  <T>
-//  VH unico
-//
+/**
+//  <BaseVh>
+//  MovieModel
+// si utilizzerà su PopuFragment e BoxoFragment
+*/
 
 
 class BaseAdapter : RecyclerView.Adapter<BaseVh>() {
 
     // ATTRIBUTI
-    // variante 1 val/mutablelist
-    private val adapterList = mutableListOf<PopuDto>()
+    // variante 1 val/mutablelist // TODO OK
+    private val adapterList = mutableListOf<MovieModel>()
 
     /* variante 2 boxo
      * private var adapterList = listOf<PopularDtoK>()
@@ -38,14 +42,14 @@ class BaseAdapter : RecyclerView.Adapter<BaseVh>() {
 
     // METODI
     // 1. OK
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PopuVh {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseVh {
         // definisco il mio binding
-        val binding = VhPopuBinding.inflate(
+        val binding = VhBaseBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
             false
         )
-        return PopuVh(binding)
+        return BaseVh(binding)
     }
 
 
@@ -57,9 +61,10 @@ class BaseAdapter : RecyclerView.Adapter<BaseVh>() {
 
     // 3. OK
     @SuppressLint("SetTextI18n")
-    override fun onBindViewHolder(holder: PopuVh, position: Int) {
+    override fun onBindViewHolder(holder: BaseVh, position: Int) {
 
-        val dto: PopuDto = adapterList[position]
+        // TODO  OK
+        val dto: MovieModel = adapterList[position]
 
         with(holder.binding) {
             //titleVH.text = "${dto.title} (${dto.year.toString()})"
@@ -90,8 +95,8 @@ class BaseAdapter : RecyclerView.Adapter<BaseVh>() {
 
     // ALTRI METODI
 
-    // OK
-    fun updateList(inputList: List<PopuDto>) {
+    // OK TODO
+    fun updateList(inputList: List<MovieModel>) {
         // 1 variante - val mutable
         adapterList.clear() // elimina elementi lista mutabile
         adapterList.addAll(inputList) // aggiungi elementi alla lista
@@ -110,11 +115,6 @@ class BaseAdapter : RecyclerView.Adapter<BaseVh>() {
     }
 
 }
-
-
-class x :RecyclerView.Adapter<>
-
-
 
 
 

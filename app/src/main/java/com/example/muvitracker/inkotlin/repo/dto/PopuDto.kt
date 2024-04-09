@@ -8,7 +8,6 @@ package com.example.muvitracker.inkotlin.repo.dto
 // valori default non servono
 
 
-// è uguale a MovieDto standard
 
 data class PopuDto(
     val title: String,
@@ -19,19 +18,9 @@ data class PopuDto(
     // single expression
     fun getImageUrl(): String =
         "http://img.omdbapi.com/?apikey=ef6d3d4c&i=${ids.imdb}"
-
-
-    data class Ids(
-        val trakt: Int = 0,
-        var slug: String = "",
-        val imdb: String = "",  // utilizzata per immagini
-        val tmdb: Int = 0
-    )
-
-
-
-
 }
+
+
 
 
 
