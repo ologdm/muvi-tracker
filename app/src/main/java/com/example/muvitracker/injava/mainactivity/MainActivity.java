@@ -38,6 +38,7 @@ import com.google.android.material.navigation.NavigationBarView;
 
 public class MainActivity extends AppCompatActivity {
 
+
     // COSTANTI
     private final String POPULAR_TEXT = "Popular";
     private final String BOX_OFFICE_TEXT = "Box Office";
