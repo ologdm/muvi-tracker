@@ -3,7 +3,6 @@ package com.example.muvitracker.myappunti.kotlin
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import com.example.muvitracker.inkotlin.repo.dto.BoxoDto
 
 /** contiene:
  * - EmptyStatesManagementNew class

@@ -1,8 +1,8 @@
 package com.example.muvitracker.inkotlin.repo
 
-import com.example.muvitracker.inkotlin.repo.dto.BoxoDto
+import com.example.muvitracker.inkotlin.repo.dto.base.BoxoDto
 import com.example.muvitracker.inkotlin.repo.dto.DetaDto
-import com.example.muvitracker.inkotlin.repo.dto.PopuDto
+import com.example.muvitracker.inkotlin.repo.dto.base.PopuDto
 import com.example.muvitracker.inkotlin.repo.dto.search.SearDto
 import retrofit2.Call
 import retrofit2.http.GET

@@ -1,5 +1,7 @@
 package com.example.muvitracker.inkotlin.repo.dto
 
+import com.example.muvitracker.inkotlin.repo.dto.support.Ids
+
 // serializable non e da implementare
 // parcelable solo per inviare dati in android (intent, tra fragment ecc)
 

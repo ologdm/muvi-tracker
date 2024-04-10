@@ -5,7 +5,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.example.muvitracker.R
-import com.example.muvitracker.inkotlin.mainactivity.deta.DetaFragment
+import com.example.muvitracker.inkotlin.mainactivity.details.DetaFragment
 
 
 class MainNavigator {

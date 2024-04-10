@@ -3,10 +3,10 @@ package com.example.muvitracker.inkotlin.mainactivity
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.muvitracker.R
-import com.example.muvitracker.inkotlin.mainactivity.boxo.BoxoFragment
-import com.example.muvitracker.inkotlin.mainactivity.popu.PopuFragment
+import com.example.muvitracker.inkotlin.mainactivity.base.boxo.BoxoFragment
+import com.example.muvitracker.inkotlin.mainactivity.base.popu.PopuFragment
 import com.example.muvitracker.inkotlin.mainactivity.prefs.PrefsFragment
-import com.example.muvitracker.inkotlin.mainactivity.sear.SearFragment
+import com.example.muvitracker.inkotlin.mainactivity.search.SearFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationBarView
 

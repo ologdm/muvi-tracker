@@ -2,8 +2,8 @@ package com.example.muvitracker.inkotlin.mainactivity.prefs
 
 import android.annotation.SuppressLint
 import android.content.Context
-import com.example.muvitracker.inkotlin.mainactivity.deta.repo.DetaRepo
-import com.example.muvitracker.inkotlin.mainactivity.deta.repo.DLocalDS
+import com.example.muvitracker.inkotlin.repo.details.DetaRepo
+import com.example.muvitracker.inkotlin.repo.details.DLocalDS
 import com.example.muvitracker.inkotlin.repo.dto.DetaDto
 
 
