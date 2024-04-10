@@ -1,17 +1,18 @@
 package com.example.muvitracker.inkotlin.mainactivity.base.boxo
 
 import android.content.Context
+import com.example.muvitracker.inkotlin.mainactivity.base.BaseContract
+import com.example.muvitracker.inkotlin.mainactivity.base.MovieModel
 import com.example.muvitracker.inkotlin.repo.boxo.BoxoRepo
-import com.example.muvitracker.inkotlin.repo.dto.base.BoxoDto
 import com.example.muvitracker.myappunti.kotlin.EmptyStatesCallbackList
 import com.example.muvitracker.myappunti.kotlin.EmptyStatesEnum
 
 class BoxoPresenter(
 
-    private val view: BoxoContract.View, // costruttore view
+    private val view: BaseContract.View, // costruttore view
     private val context: Context
 
-) : BoxoContract.Presenter {
+) : BaseContract.Presenter {
 
     // ATTRIBUTO
     val boxoRepo = BoxoRepo.getInstance(context)
@@ -21,7 +22,7 @@ class BoxoPresenter(
 
     override fun getMovieAndUpdateUi(forceRefresh: Boolean) {
 
-        boxoRepo.getMovieList(object : EmptyStatesCallbackList<BoxoDto> {
+        boxoRepo.getMovieList(object : EmptyStatesCallbackList<MovieModel> {
 
             override fun OnStart() {
                 if (forceRefresh) {
@@ -33,7 +34,7 @@ class BoxoPresenter(
                 }
             }
 
-            override fun onSuccess(list: List<BoxoDto>) {
+            override fun onSuccess(list: List<MovieModel>) {
                 view.updateUi(list) // server list
                 view.emptyStatesFlow(EmptyStatesEnum.ON_SUCCESS)
                 println("XXX_BOXO_FRAGM_SUCCESS")
@@ -53,8 +54,8 @@ class BoxoPresenter(
 
 
     // OK
-    override fun onVHolderClick(traktMovieId: Int) {
-        view.startDetailsFragment(traktMovieId)
+    override fun onVHolderClick(movieId: Int) {
+        view.startDetailsFragment(movieId)
     }
 
 

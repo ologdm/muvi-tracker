@@ -1,6 +1,8 @@
 package com.example.muvitracker.inkotlin.repo.boxo
 
 import android.content.Context
+import com.example.muvitracker.inkotlin.mainactivity.base.MovieModel
+import com.example.muvitracker.inkotlin.mainactivity.base.toDomainn
 import com.example.muvitracker.inkotlin.repo.dto.base.BoxoDto
 import com.example.muvitracker.myappunti.kotlin.EmptyStatesCallbackList
 import com.example.muvitracker.myappunti.kotlin.RetrofitCallbackList
@@ -43,16 +45,18 @@ private constructor(
     // METODI
 
     // 1 get local o server
-    fun getMovieList(callES: EmptyStatesCallbackList<BoxoDto>) {
+    fun getMovieList(callES: EmptyStatesCallbackList<MovieModel>) {
+
+        callES.onSuccess(getCacheList().toDomainn()) // 1 carica da locale + trasformo in MovieModel
+
         callES.OnStart() // ES
-        callES.onSuccess(getCacheList()) // TODO 1 carica da locale
         println("XXX_BOXO_REPO_SUCCESS LOCAL")
 
         BoxoNetworkDS.callBoxoServer(object : RetrofitCallbackList<BoxoDto> {
 
             override fun onSuccess(serverList: List<BoxoDto>) {
-                callES.onSuccess(serverList) // ES TODO 2 carica da server
-                boxoLocalDS.saveListInLocal(serverList) // TODO 2 save
+                callES.onSuccess(serverList.toDomainn()) // ES  2 carica da server + trasformo in MovieModel
+                boxoLocalDS.saveListInLocal(serverList) // 2 save
                 println("XXX_BOXO_REPO_SUCCESS_NETWORK")
             }
 

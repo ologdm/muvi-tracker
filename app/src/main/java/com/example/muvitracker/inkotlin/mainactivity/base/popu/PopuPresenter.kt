@@ -70,7 +70,7 @@ class PopuPresenter(
 
 
     // 2.2 OK
-    override fun onVHolderCLick(movieId: Int) {
+    override fun onVHolderClick(movieId: Int) {
         view.startDetailsFragment(movieId)
     }
 }

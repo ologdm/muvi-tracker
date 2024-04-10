@@ -20,7 +20,7 @@ interface BaseContract {
 
         fun getMovieAndUpdateUi(forceRefresh: Boolean)
 
-        fun onVHolderCLick(movieId: Int)
+        fun onVHolderClick(movieId: Int)
     }
 
 }

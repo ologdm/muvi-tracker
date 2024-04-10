@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.muvitracker.databinding.FragmPopuBinding
+import com.example.muvitracker.databinding.FragmBaseCategoryBinding
 import com.example.muvitracker.inkotlin.mainactivity.MainNavigator
 import com.example.muvitracker.inkotlin.mainactivity.base.BaseAdapter
 import com.example.muvitracker.inkotlin.mainactivity.base.MovieModel
@@ -29,15 +29,11 @@ import com.example.muvitracker.myappunti.kotlin.EmptyStatesManagement
 
 class PopuFragment : Fragment(), BaseContract.View {
 
-
-    // 1 ATTRIBUTI
     private lateinit var presenter: BaseContract.Presenter // sharedPrefs context OK
     private val adapter = BaseAdapter() // TODO
     private val navigator = MainNavigator()
-    private var binding: FragmPopuBinding? = null
+    private var binding: FragmBaseCategoryBinding? = null
 
-
-    // 2 METODI FRAGMENT
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,7 +41,7 @@ class PopuFragment : Fragment(), BaseContract.View {
         savedInstanceState: Bundle?
     ): View? {
         //val view:View? = inflater.inflate(R.layout.fragm_popu, container, false)
-        binding = FragmPopuBinding.inflate(inflater, container, false) //
+        binding = FragmBaseCategoryBinding.inflate(inflater, container, false) //
         return binding?.root // richiama view da binding
     }
 
@@ -62,7 +58,8 @@ class PopuFragment : Fragment(), BaseContract.View {
             recycleView.adapter = adapter
             recycleView.layoutManager = GridLayoutManager(requireContext(), 2)
 
-            swipeToRefresh.setOnRefreshListener {
+            swipeToRefresh.setOnRefreshListener {  // ()->Unit, interfaccia parametro vuoto
+                // implementazione OnRefreshListener
                 presenter.getMovieAndUpdateUi(forceRefresh = true)
                 // poi nascondi caricamento di swipeRefresh
                 // (.isRefreshing = false) dove serve
@@ -71,7 +68,7 @@ class PopuFragment : Fragment(), BaseContract.View {
 
         // OK - movieId lo lascio solo per chiarezza
         adapter.setCallbackVH { movieId ->
-            presenter.onVHolderCLick(movieId)
+            presenter.onVHolderClick(movieId)
         }
 
         presenter.getMovieAndUpdateUi(forceRefresh = false)
@@ -103,8 +100,6 @@ class PopuFragment : Fragment(), BaseContract.View {
             else -> {}  // non fare nulla
         }
     }
-
-
 
 
     // OK

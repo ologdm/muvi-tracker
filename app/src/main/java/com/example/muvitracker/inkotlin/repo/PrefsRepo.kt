@@ -1,4 +1,4 @@
-package com.example.muvitracker.inkotlin.mainactivity.prefs
+package com.example.muvitracker.inkotlin.repo
 
 import android.annotation.SuppressLint
 import android.content.Context
