@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:orientation="horizontal"
-        android:layout_marginBottom="10dp">
+        android:paddingBottom="8dp">
 
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/imageVH"
-            android:layout_width="100dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:background="@android:color/holo_blue_light" />
+            tools:background="@tools:sample/avatars"
+            app:shapeAppearance="@style/RoundedShapeImageLarge" />
 
 
     <!-- Titoli: -->
@@ -18,16 +20,27 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:padding="5dp">
+            android:paddingVertical="12dp"
+        android:paddingHorizontal="16dp">
 
         <TextView
-                android:id="@+id/titleAndYear"
+                android:id="@+id/titleVH"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Titolo Filmmmm mmm mmm mmm (anno) "
+                tools:text="@tools:sample/cities"
                 android:textSize="20sp"
                 android:textStyle="bold"
+/>
+
+        <TextView
+                android:id="@+id/yearVH"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="@tools:sample/us_zipcodes"
+                android:textSize="16sp"
+
                 android:layout_marginBottom="10dp" />
+
 
 
         <LinearLayout
@@ -39,17 +52,20 @@
                     android:id="@+id/likedButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/baseline_add_circle_24"
+                    app:srcCompat="@drawable/baseline_liked_border"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent" />
+                    android:layout_marginTop="4dp"
+                    android:padding="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:importantForAccessibility="no" />
 
             <CheckBox
                     android:id="@+id/checkBox"
-                    android:text="watched"
+                    android:text="@string/watched"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="30dp" />
+                    android:layout_marginStart="20dp" />
 
 
         </LinearLayout>
@@ -58,4 +74,4 @@
     </LinearLayout>
 
 
-</androidx.appcompat.widget.LinearLayoutCompat>
+</LinearLayout>

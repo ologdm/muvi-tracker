@@ -1,5 +1,7 @@
 package com.example.muvitracker.inkotlin.repo.dto
 
+import com.example.muvitracker.inkotlin.repo.dto.support.Ids
+
 // serializable non e da implementare
 // parcelable solo per inviare dati in android (intent, tra fragment ecc)
 
@@ -50,13 +52,7 @@ data class DetaDto(
         return "http://img.omdbapi.com/" + "?apikey=ef6d3d4c" + "&i=${ids.imdb}";
     }
 
-    // serve mettere valori default??
-    data class Ids(
-        val trakt: Int = 0,
-        val slug: String = "",
-        val imdb: String = "", // utilizzata per immagini
-        val tmdb: Int = 0
-    )
+
 
 }
 

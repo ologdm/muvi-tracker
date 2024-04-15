@@ -28,36 +28,8 @@ interface RetrofitCallback<T> {
 }
 
 
-// INCAPSULAMENTO CREAZIONE RETROFIT PER MUVI_TRACKER
 
-/* 1. Funzione Globale
-*     disponibile dapperutto, spam in namespace global
-
-fun createMuviTrackerRetrofit(): Retrofit {
-    val retrofit = Retrofit.Builder()
-        .baseUrl("https://api.trakt.tv/")
-        .addConverterFactory(GsonConverterFactory.create())
-        .callFactory(
-            OkHttpClient.Builder()
-                .addInterceptor(Interceptor { chain ->
-                    val newRequest = chain.request().newBuilder()
-                        .addHeader(
-                            "trakt-api-key",
-                            "d3dd937d16c8de9800f9ce30270ddc1d9939a2dafc0cd59f0a17b72a2a4208fd"
-                        )
-                        .build()
-                    chain.proceed(newRequest)
-                })
-                .build()
-        )
-        .build()
-    return retrofit
-}
- */
-
-
-
-// 2. con object
+// 1. con object
 // - piu corretto, no spam in namespace global
 object MyRetrofit {
 
@@ -83,6 +55,37 @@ object MyRetrofit {
     }
 
 }
+
+
+
+// INCAPSULAMENTO CREAZIONE RETROFIT PER MUVI_TRACKER
+
+/* 2. Funzione Globale
+*     disponibile dapperutto, spam in namespace global
+
+fun createMuviTrackerRetrofit(): Retrofit {
+    val retrofit = Retrofit.Builder()
+        .baseUrl("https://api.trakt.tv/")
+        .addConverterFactory(GsonConverterFactory.create())
+        .callFactory(
+            OkHttpClient.Builder()
+                .addInterceptor(Interceptor { chain ->
+                    val newRequest = chain.request().newBuilder()
+                        .addHeader(
+                            "trakt-api-key",
+                            "d3dd937d16c8de9800f9ce30270ddc1d9939a2dafc0cd59f0a17b72a2a4208fd"
+                        )
+                        .build()
+                    chain.proceed(newRequest)
+                })
+                .build()
+        )
+        .build()
+    return retrofit
+}
+ */
+
+
 
 
 // 3. Extended function

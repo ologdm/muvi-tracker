@@ -1,23 +1,24 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Tema Applicazione => un tema per activity  -->
-    <style name="Theme.MuviTracker" parent="Theme.Material3.DayNight.NoActionBar">
-
-        <!-- personalizzo view con stile che definisco su stili -->
-        <item name="floatingActionButtonStyle">@style/FabStyle</item>
-        <!--   stile per tutti gli image button -->
+    <style name="Theme.MuviTracker" parent="Theme.Material3.DynamicColors.DayNight">
+        <item name="windowNoTitle">true</item>
+        <item name="android:statusBarColor">?android:colorBackground</item>
+        <item name="android:navigationBarColor">?colorSurfaceContainer</item>
+        <item name="android:windowLightNavigationBar">@bool/light_icons</item>
+        <item name="android:windowLightStatusBar">@bool/light_icons</item>
         <item name="imageButtonStyle">@style/RoundedImageButton</item>
 
 
+        <!-- personalizzo view con stile => che definisco su style -->
     </style>
 
-    <!--    </style>-->
-    <!--     (eugi) senza parent, vale stringa; con parent, parent"" sovrascrive testo    -->
-    <!--    <style name="Theme.Material3.DayNight.NoActionBar.UlMioMTema" parent="">-->
-    <!--    </style>-->
 
 
-
+<!--     (eugi) senza parent, vale stringa; con parent, parent"" sovrascrive testo-->
+<!--            <style name="Theme.Material3.DayNight.NoActionBar.UlMioMTema" parent="">-->
+<!--            </style>-->
 
 
 </resources>
+

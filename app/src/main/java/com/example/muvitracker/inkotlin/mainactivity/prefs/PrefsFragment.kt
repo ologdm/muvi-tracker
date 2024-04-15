@@ -43,7 +43,7 @@ class PrefsFragment() : Fragment(), PrefsContract.View {
 
         val presenter = PrefsPresenter(this, requireContext())
 
-        recyclerView = view.findViewById(R.id.mylistRV)
+        recyclerView = view.findViewById(R.id.recycleView)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext()) // ok
 

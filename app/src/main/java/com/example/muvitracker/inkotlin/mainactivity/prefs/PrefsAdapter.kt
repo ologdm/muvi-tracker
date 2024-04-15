@@ -52,13 +52,15 @@ class PrefsAdapter : RecyclerView.Adapter<PrefsVH>() {
         var onBindDto = adapterList.get(position)
 
         val imageView: ImageView = holder.itemView.findViewById(R.id.imageVH)
-        var titleAndYear: TextView = holder.itemView.findViewById(R.id.titleAndYear)
+        var titleVH: TextView = holder.itemView.findViewById(R.id.titleVH)
+        var yearVH: TextView = holder.itemView.findViewById(R.id.yearVH)
 
         val watchedCkBox: CheckBox = holder.itemView.findViewById(R.id.checkBox)
         val likedButton: ImageButton = holder.itemView.findViewById(R.id.likedButton)
 
 
-        titleAndYear.text = "${onBindDto.title} ${onBindDto.year.toString()}"
+        titleVH.text = onBindDto.title
+        yearVH.text = onBindDto.year.toString()
 
         Glide
             .with(holder.itemView.context)
@@ -68,8 +70,8 @@ class PrefsAdapter : RecyclerView.Adapter<PrefsVH>() {
 
         // icons
         val context: Context = holder.itemView.context
-        val iconFilled = context.getDrawable(R.drawable.baseline_favorite_24)
-        val iconEmpty = context.getDrawable(R.drawable.baseline_favorite_border_24)
+        val iconFilled = context.getDrawable(R.drawable.baseline_liked)
+        val iconEmpty = context.getDrawable(R.drawable.baseline_liked_border)
 
         updateFavoriteIcon(likedButton,
             onBindDto.liked,

@@ -1,28 +1,19 @@
 package com.example.muvitracker.myappunti.kotlin
 
 import android.view.View
-import android.widget.Button
+import android.view.ViewGroup
 import android.widget.TextView
-import androidx.recyclerview.widget.RecyclerView
 
 /** contiene:
- * - EmptyStatesManagement class
- *              - emptyStatesFlow rv e frame
- *              - fun setProgressBar
- *              - setErrorPage
- *              - setFrameVisibility
+ * - EmptyStatesManagementNew class
+
  *
  * EmptyStates enum
  *
  * Visibility enum
- *
- * EmptyStatesCallback interface - programmazione assincrona
- *      > passa stati al presenter
- *      > onSuccess (passa dato)
- *
+
  *
  */
-
 
 
 object EmptyStatesManagement {
@@ -44,192 +35,178 @@ object EmptyStatesManagement {
      *  due error
      */
 
-    // versione RV
+
+    /** nuovo setup
+    ON_START,                 // local + start loading + no error
+    ON_FORCE_REFRESH,         // local, no loading, no error
+    ON_SUCCESS,               // server + stop loading + no error
+    ON_ERROR_IO,              // local + stop loading + error msg
+    ON_ERROR_OTHER            // local + stop loading + error msg
+     */
+
+    // versione NUOVA - dati in locale
+    // per popu e boxo
     fun emptyStatesFlow(
         emptyStates: EmptyStatesEnum,
-        recycleView: RecyclerView,
         progressBar: View,
-        retryButton: Button,
         errorMsgTextview: TextView
     ) {
-        // when e esaustivo, vuole tutti i casi
         when (emptyStates) {
 
             EmptyStatesEnum.ON_START -> {
-                setRvVisibility(recycleView, Visibility.HIDE)
-                setProgressBar(progressBar, Visibility.SHOW)
-                setErrorPage(retryButton, errorMsgTextview, Visibility.HIDE)
+                setProgressBar(progressBar, Visibility.SHOW) // si, da mettere quello lineare
+                setErrorMsg(errorMsgTextview, Visibility.HIDE)
             }
 
             EmptyStatesEnum.ON_FORCE_REFRESH -> {
-                setRvVisibility(recycleView, Visibility.HIDE)
-                setProgressBar(progressBar, Visibility.HIDE)
-                setErrorPage(retryButton, errorMsgTextview, Visibility.HIDE)
+                setProgressBar(progressBar, Visibility.HIDE) //no
+                setErrorMsg(errorMsgTextview, Visibility.HIDE)
             }
 
             EmptyStatesEnum.ON_SUCCESS -> {
-                setRvVisibility(recycleView, Visibility.SHOW)
                 setProgressBar(progressBar, Visibility.HIDE)
-                setErrorPage(retryButton, errorMsgTextview, Visibility.HIDE)
+                setErrorMsg(errorMsgTextview, Visibility.HIDE)
             }
 
             EmptyStatesEnum.ON_ERROR_IO -> {
-                setRvVisibility(recycleView, Visibility.HIDE)
                 setProgressBar(progressBar, Visibility.HIDE)
-                setErrorPage(retryButton, errorMsgTextview, Visibility.SHOW, NO_INTERNET_MSG)
+                setErrorMsg(errorMsgTextview, Visibility.SHOW, NO_INTERNET_MSG)
             }
 
             EmptyStatesEnum.ON_ERROR_OTHER -> {
-                setRvVisibility(recycleView, Visibility.HIDE)
                 setProgressBar(progressBar, Visibility.HIDE)
-                setErrorPage(retryButton, errorMsgTextview, Visibility.SHOW, OTHER_ERROR_MSG)
+                setErrorMsg(errorMsgTextview, Visibility.SHOW, OTHER_ERROR_MSG)
             }
 
         }
     }
 
 
-    // versione FrameLayout OK
+    // per Deta
+    // mostrarla solo quando success
     fun emptyStatesFlow(
         emptyStates: EmptyStatesEnum,
-        frame: View,
+        insideScrollView: ViewGroup,
         progressBar: View,
-        retryButton: Button,
         errorMsgTextview: TextView
     ) {
-        // when e esaustivo, vuole tutti i casi
         when (emptyStates) {
 
             EmptyStatesEnum.ON_START -> {
-                setFrameVisibility(frame, Visibility.HIDE)
-                setProgressBar(progressBar, Visibility.SHOW)
-                setErrorPage(retryButton, errorMsgTextview, Visibility.HIDE)
+                setInsideScrollVisibility(insideScrollView, Visibility.HIDE)
+                setProgressBar(progressBar, Visibility.SHOW) // si, da mettere quello lineare
+                setErrorMsg(errorMsgTextview, Visibility.HIDE)
             }
 
             EmptyStatesEnum.ON_FORCE_REFRESH -> {
-                setFrameVisibility(frame, Visibility.HIDE)
-                setProgressBar(progressBar, Visibility.HIDE)
-                setErrorPage(retryButton, errorMsgTextview, Visibility.HIDE)
+                setInsideScrollVisibility(insideScrollView, Visibility.HIDE)
+                setProgressBar(progressBar, Visibility.HIDE) //no
+                setErrorMsg(errorMsgTextview, Visibility.HIDE)
             }
 
             EmptyStatesEnum.ON_SUCCESS -> {
-                setFrameVisibility(frame, Visibility.SHOW)
+                setInsideScrollVisibility(insideScrollView, Visibility.SHOW)
                 setProgressBar(progressBar, Visibility.HIDE)
-                setErrorPage(retryButton, errorMsgTextview, Visibility.HIDE)
+                setErrorMsg(errorMsgTextview, Visibility.HIDE)
             }
 
             EmptyStatesEnum.ON_ERROR_IO -> {
-                setFrameVisibility(frame, Visibility.HIDE)
+                setInsideScrollVisibility(insideScrollView, Visibility.HIDE)
                 setProgressBar(progressBar, Visibility.HIDE)
-                setErrorPage(retryButton, errorMsgTextview, Visibility.SHOW, NO_INTERNET_MSG)
+                setErrorMsg(errorMsgTextview, Visibility.SHOW, NO_INTERNET_MSG)
             }
 
             EmptyStatesEnum.ON_ERROR_OTHER -> {
-                setFrameVisibility(frame, Visibility.HIDE)
+                setInsideScrollVisibility(insideScrollView, Visibility.HIDE)
                 setProgressBar(progressBar, Visibility.HIDE)
-                setErrorPage(retryButton, errorMsgTextview, Visibility.SHOW, OTHER_ERROR_MSG)
+                setErrorMsg(errorMsgTextview, Visibility.SHOW, OTHER_ERROR_MSG)
             }
 
         }
     }
-
-
 
 
     /** funzioni private -> utilizzate dentro
      *
      */
-    // 1. OK
+    // 1. OK nuovo
     private fun setProgressBar(
         progressBar: View,
         visibilita: Visibility
     ) {
 
         progressBar.visibility =
-            if (visibilita == Visibility.SHOW) View.VISIBLE
-            else View.GONE
+            if (visibilita == Visibility.SHOW)
+                View.VISIBLE
+            else
+                View.GONE
     }
 
-
-    // 2. OK
-    /**  setErrorPage - button e message sempre insieme */
-    private fun setErrorPage(
-        retryButton: Button,
-        errorMessageTextView: TextView,
+    // 2
+    private fun setErrorMsg(
+        errorMsgTextview: TextView,
         visibilita: Visibility,
         errorMsg: String = ""
     ) {
+        errorMsgTextview.visibility =
+            if (visibilita == Visibility.SHOW)
+                View.VISIBLE
+            else
+                View.GONE
 
-        retryButton.visibility =
-            if (visibilita == Visibility.SHOW) View.VISIBLE
-            else View.GONE
-
-        errorMessageTextView.visibility =
-            if (visibilita == Visibility.SHOW) View.VISIBLE
-            else View.GONE
-
-        errorMessageTextView.setText(errorMsg)
+        errorMsgTextview.setText(errorMsg)
     }
 
-
-    // 3. OK
-    private fun setRvVisibility(
-        recycleview: RecyclerView,
+    // 3
+    private fun setInsideScrollVisibility(
+        insideScrollView: ViewGroup,
         visibilita: Visibility
     ) {
-
-        recycleview.visibility =
+        insideScrollView.visibility =
             if (visibilita == Visibility.SHOW) View.VISIBLE
             else View.GONE
-
     }
 
 
-    private fun setFrameVisibility(
-        frame: View,
-        visibilita: Visibility
-    ) {
-
-       frame.visibility =
-            if (visibilita == Visibility.SHOW) View.VISIBLE
-            else View.GONE
-
+    private enum class Visibility {
+        SHOW,
+        HIDE
     }
-
 
 }
 
 
 enum class EmptyStatesEnum {
-    ON_START,
-    ON_FORCE_REFRESH,
-    ON_SUCCESS,
-    ON_ERROR_IO,
-    ON_ERROR_OTHER
+    ON_START, // local + start loading + no error
+    ON_FORCE_REFRESH, // local, no loading, no error
+    ON_SUCCESS, // server + stop loading + no error
+    ON_ERROR_IO, // local + stop loading + error msg
+    ON_ERROR_OTHER // // local + stop loading + error msg
 }
 
 
-
-private enum class Visibility {
-    SHOW,
-    HIDE
-}
-
-
-interface EmptyStatesCallback <T> {
+interface EmptyStatesCallbackList<T> {
     fun OnStart()
-    fun onSuccess (obj:T)
-    fun onErrorIO ()
-    fun onErrorOther ()
+    fun onSuccess(list: List<T>)
+    fun onErrorIO()
+    fun onErrorOther()
 }
 
 
-interface EmptyStatesCallbackList <T> {
+interface EmptyStatesCallback<T> {
     fun OnStart()
-    fun onSuccess (list: List<T>)
-    fun onErrorIO ()
-    fun onErrorOther ()
+    fun onSuccess(obj: T)
+    fun onErrorIO()
+    fun onErrorOther()
+
 }
+
+
+
+
+
+
+
 
 
 
