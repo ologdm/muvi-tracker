@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.example.muvitracker.R
-import com.example.muvitracker.databinding.FragmDetaBinding
+import com.example.muvitracker.databinding.FragmDetailsBinding
 import com.example.muvitracker.inkotlin.repo.dto.DetaDto
 import com.example.muvitracker.myappunti.kotlin.EmptyStatesEnum
 import com.example.muvitracker.myappunti.kotlin.EmptyStatesManagement
@@ -28,7 +28,7 @@ class DetaFragment : Fragment(), DetaContract.View {
 
     private var traktMovieId: Int = 0
 
-    private var bindingBase: FragmDetaBinding? = null
+    private var bindingBase: FragmDetailsBinding? = null
     private val binding
         get() = bindingBase
 
@@ -39,7 +39,7 @@ class DetaFragment : Fragment(), DetaContract.View {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        bindingBase = FragmDetaBinding.inflate(inflater, container, false)
+        bindingBase = FragmDetailsBinding.inflate(inflater, container, false)
         return binding!!.root
     }
 
@@ -148,8 +148,8 @@ class DetaFragment : Fragment(), DetaContract.View {
 
     // OK
     private fun updateFavoriteIcon(isFavorite: Boolean) {
-        val iconFilled = context?.getDrawable(R.drawable.baseline_favorite_24)
-        val iconEmpty = context?.getDrawable(R.drawable.baseline_favorite_border_24)
+        val iconFilled = context?.getDrawable(R.drawable.baseline_liked)
+        val iconEmpty = context?.getDrawable(R.drawable.baseline_liked_border)
 
         if (isFavorite) {
             binding

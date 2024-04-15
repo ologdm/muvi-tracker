@@ -1,9 +1,11 @@
 package com.example.muvitracker.inkotlin.mainactivity.search
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.muvitracker.R
 import com.example.muvitracker.databinding.VhSearchBinding
 import com.example.muvitracker.inkotlin.repo.dto.search.SearDto
 
@@ -40,19 +42,22 @@ class SearAdapter : RecyclerView.Adapter<SearVH>() {
     }
 
     // 3. OK
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: SearVH, position: Int) {
 
         val dto = adapterList[position] // syntactic sugar of list.get(index)
 
 
         with(holder.binding) {// prendo binding dal vh creato
-            typeObject.text = dto.type
+            typeObjectVH.text = dto.type
             scoreVH.text = dto.score.toString()
 
             if (dto.movie != null) {
-                titleVH.text = dto.movie.title
-                yearVH.text = dto.movie.year.toString()
-                Glide.with(holder.itemView.context).load(dto.movie.imageUrl()).into(imageVH)
+                titleVH.text = "${dto.movie.title} ${dto.movie.year.toString()}"
+                Glide.with(holder.itemView.context)
+                    .load(dto.movie.imageUrl())
+                    .placeholder(R.drawable.test)
+                    .into(imageVH)
             }
 
             // clickVH

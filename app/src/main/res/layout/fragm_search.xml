@@ -6,22 +6,24 @@
         android:layout_height="match_parent">
 
 
-
     <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/searchEditTextLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            app:startIconDrawable="@drawable/baseline_search_24"
+            app:startIconDrawable="@drawable/baseline_search_icon"
             android:hint="@string/search">
 
         <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/searchEditText"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:imeOptions="actionDone"
+                android:inputType="text"
+                />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -32,12 +34,10 @@
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/searchEditTextLayout"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintVertical_bias="0.0"
-
-            tools:listitem="@layout/vh_search"/>
-
+            android:paddingHorizontal="4dp"
+            android:paddingVertical="8dp"
+            tools:listitem="@layout/vh_search" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

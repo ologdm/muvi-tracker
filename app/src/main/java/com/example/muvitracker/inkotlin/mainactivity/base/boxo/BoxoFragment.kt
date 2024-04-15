@@ -42,7 +42,7 @@ class BoxoFragment : Fragment(), BaseContract.View {
 
         with(binding!!) {
 
-            toolbar.text = getString(R.string.popular)
+            toolbar.text = getString(R.string.box_office)
 
             recycleView.adapter = adapter
             recycleView.layoutManager = GridLayoutManager(

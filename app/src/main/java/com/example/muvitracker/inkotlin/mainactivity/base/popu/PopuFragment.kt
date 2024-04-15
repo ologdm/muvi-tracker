@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.muvitracker.R
 import com.example.muvitracker.databinding.FragmBaseCategoryBinding
 import com.example.muvitracker.inkotlin.mainactivity.MainNavigator
 import com.example.muvitracker.inkotlin.mainactivity.base.BaseAdapter
@@ -55,6 +56,7 @@ class PopuFragment : Fragment(), BaseContract.View {
         presenter = PopuPresenter(this, requireContext())
 
         with(binding!!) {
+            toolbar.text = getString(R.string.popular)
             recycleView.adapter = adapter
             recycleView.layoutManager = GridLayoutManager(requireContext(), 2)
 

@@ -70,8 +70,8 @@ class BaseAdapter : RecyclerView.Adapter<BaseVh>() {
             Glide.with(root.context)
                 .load(dto.getImageUrl())
                 .transition(DrawableTransitionOptions.withCrossFade())
-                .placeholder(R.drawable.glide_placeholder_test)
-                .error(R.drawable.glide_error_test)
+                .placeholder(R.drawable.glide_placeholder)
+                .error(R.drawable.glide_error)
                 .into(imageVH)
 
 

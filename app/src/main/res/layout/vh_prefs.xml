@@ -12,7 +12,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             tools:background="@tools:sample/avatars"
-            app:shapeAppearance="@style/RoundedShapeImage" />
+            app:shapeAppearance="@style/RoundedShapeImageLarge" />
 
 
     <!-- Titoli: -->
@@ -52,7 +52,7 @@
                     android:id="@+id/likedButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/baseline_favorite_border_24"
+                    app:srcCompat="@drawable/baseline_liked_border"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     android:layout_marginTop="4dp"

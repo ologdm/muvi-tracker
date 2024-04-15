@@ -21,7 +21,7 @@
             app:layout_constraintBottom_toTopOf="@id/titleVH"
             app:layout_constraintEnd_toEndOf="parent"
             tools:src="@tools:sample/avatars"
-            app:shapeAppearance="@style/RoundedShapeImage" />
+            app:shapeAppearance="@style/RoundedShapeImageLarge" />
 
 
     <TextView

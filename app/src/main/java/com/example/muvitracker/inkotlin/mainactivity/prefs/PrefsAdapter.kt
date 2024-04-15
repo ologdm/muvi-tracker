@@ -70,8 +70,8 @@ class PrefsAdapter : RecyclerView.Adapter<PrefsVH>() {
 
         // icons
         val context: Context = holder.itemView.context
-        val iconFilled = context.getDrawable(R.drawable.baseline_favorite_24)
-        val iconEmpty = context.getDrawable(R.drawable.baseline_favorite_border_24)
+        val iconFilled = context.getDrawable(R.drawable.baseline_liked)
+        val iconEmpty = context.getDrawable(R.drawable.baseline_liked_border)
 
         updateFavoriteIcon(likedButton,
             onBindDto.liked,

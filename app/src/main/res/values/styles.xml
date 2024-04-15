@@ -5,7 +5,7 @@
     <!-- 1. per imageButtonStyle -->
 
     <style name="RoundedImageButton">
-        <item name="android:background">@drawable/baseline_circle_24</item>
+        <item name="android:background">@drawable/baseline_circle</item>
         <item name="android:backgroundTint">?colorPrimary</item>
         <item name="android:tint">?colorOnPrimary</item>
         <item name="android:padding">8dp</item>
@@ -13,8 +13,8 @@
     </style>
 
 
-    <style name="RoundedShapeImage" parent="ShapeAppearance.Material3.Corner.Large" />
-
+    <style name="RoundedShapeImageLarge" parent="ShapeAppearance.Material3.Corner.Large" />
+    <style name="RoundedShapeImageMedium" parent="ShapeAppearance.Material3.Corner.Medium" />
 
     <!-- 2. Typografy style-->
     <style name="textStypePopu">

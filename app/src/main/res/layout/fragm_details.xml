@@ -12,7 +12,7 @@
             android:id="@+id/buttonBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/baseline_arrow_back_24"
+            app:srcCompat="@drawable/baseline_arrow_back"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_margin="16dp"
@@ -23,7 +23,7 @@
             android:id="@+id/floatingLikedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/baseline_favorite_border_24"
+            app:srcCompat="@drawable/baseline_liked_border"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginBottom="25dp"
@@ -95,7 +95,7 @@
                                 android:layout_marginEnd="15dp"
                                 tools:background="@tools:sample/avatars"
                                 android:importantForAccessibility="no"
-                                app:shapeAppearance="@style/RoundedShapeImage" />
+                                app:shapeAppearance="@style/RoundedShapeImageLarge" />
 
                         <LinearLayout
                                 android:layout_width="wrap_content"

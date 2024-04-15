@@ -12,6 +12,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+
         <TextView
                 android:id="@+id/toolbar"
                 android:layout_width="wrap_content"
@@ -21,7 +22,7 @@
                 app:layout_constraintBottom_toTopOf="@id/recycleView"
                 android:textSize="24sp"
                 android:paddingHorizontal="20dp"
-                tools:text="base category"
+                tools:hint="base category"
                 app:layout_constraintHorizontal_bias="0"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:paddingVertical="8dp" />
@@ -35,13 +36,13 @@
         <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycleView"
                 android:layout_width="match_parent"
+                android:layout_height="0dp"
                 app:layout_constraintTop_toBottomOf="@+id/toolbar"
                 app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_height="0dp"
                 android:paddingHorizontal="8dp"
                 android:paddingVertical="16dp"
                 android:clipToPadding="true"
-                tools:listitem="@layout/vh_popu" />
+                tools:listitem="@layout/vh_base" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
