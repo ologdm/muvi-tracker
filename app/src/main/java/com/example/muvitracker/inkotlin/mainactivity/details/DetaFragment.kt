@@ -12,12 +12,19 @@ import com.example.muvitracker.inkotlin.repo.dto.DetaDto
 import com.example.muvitracker.myappunti.kotlin.EmptyStatesEnum
 import com.example.muvitracker.myappunti.kotlin.EmptyStatesManagement
 import com.google.android.material.chip.Chip
+import java.math.BigDecimal
+import java.math.RoundingMode
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 /* Consegna:
- * - chips lista genere
- * - immagine sopra zoom,
- * - back button tondo, background
- * - floating like button
+ * - chips lista genere OK
+ * - immagine sopra zoom, OK
+ * - back button tondo, background OK
+ * - floating like button OK
+ * - date correzione OK
+ * - rating correzione OK
  *
  */
 
@@ -104,16 +111,16 @@ class DetaFragment : Fragment(), DetaContract.View {
     // CONTRACT METHODS
     // GET - OK
     override fun updateUi(detaDto: DetaDto) {
-        val stringaRuntime = "${detaDto.runtime.toString()} min"
-        val stringaRating = "${detaDto.rating.toString()} stars"
+        val ratingApross = approssimaDecimale(detaDto.rating)
 
         with(binding!!) {
             title.text = detaDto.title
 
-            released.text = detaDto.released
-            runtime.text = stringaRuntime
+            released.text = dateFormatter(detaDto.released)
+            //runtime.text = getString()
+            runtime.text = "${detaDto.runtime.toString()} min"
             country.text = detaDto.country
-            rating.text = stringaRating
+            rating.text = "${ratingApross.toString()} stars"
             overview.text = detaDto.overview
 
             // stessa vertical e horizontal
@@ -130,7 +137,7 @@ class DetaFragment : Fragment(), DetaContract.View {
             chipGroup.removeAllViews() // pulire quelli precedenti
             detaDto.genres.forEach {
                 val chip = Chip(context).apply {
-                    text=it
+                    text = it
                 }
                 chipGroup.addView(chip)
             }
@@ -204,6 +211,23 @@ class DetaFragment : Fragment(), DetaContract.View {
 
         const val TRAKT_ID_KEY = "traktId_key"
     }
+
+
+    private fun dateFormatter(data: String): String {
+        // style input
+        val formatterInput = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        // style output
+        val formatterOutput = DateTimeFormatter.ofPattern("MMM yyyy", Locale.ENGLISH)
+        // save input
+        val dataLocale = LocalDate.parse(data, formatterInput)
+        // modify to output
+        return dataLocale.format(formatterOutput)
+    }
+
+    fun approssimaDecimale(numero: Float, cifreDecimali: Int = 1): Float {
+        return BigDecimal(numero.toString()).setScale(cifreDecimali, RoundingMode.HALF_UP).toFloat()
+    }
+
 
 }
 
