@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.example.muvitracker.R
 import com.example.muvitracker.databinding.FragmDetailsBinding
-import com.example.muvitracker.inkotlin.repo.dto.DetaDto
+import com.example.muvitracker.inkotlin.model.dto.DetaDto
 import com.example.muvitracker.myappunti.kotlin.EmptyStatesEnum
 import com.example.muvitracker.myappunti.kotlin.EmptyStatesManagement
 import com.google.android.material.chip.Chip

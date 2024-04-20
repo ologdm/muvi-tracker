@@ -9,13 +9,12 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.muvitracker.databinding.FragmSearchBinding
 import com.example.muvitracker.inkotlin.mainactivity.MainNavigator
-import com.example.muvitracker.inkotlin.repo.dto.search.SearDto
+import com.example.muvitracker.inkotlin.model.dto.search.SearDto
 
 
 /** funzioni generali:

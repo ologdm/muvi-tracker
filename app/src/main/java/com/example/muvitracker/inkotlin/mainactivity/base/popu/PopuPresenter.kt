@@ -3,7 +3,7 @@ package com.example.muvitracker.inkotlin.mainactivity.base.popu
 import android.content.Context
 import com.example.muvitracker.inkotlin.mainactivity.base.MovieModel
 import com.example.muvitracker.inkotlin.mainactivity.base.BaseContract
-import com.example.muvitracker.inkotlin.repo.popu.PopuRepo
+import com.example.muvitracker.inkotlin.model.popu.PopuRepo
 import com.example.muvitracker.myappunti.kotlin.EmptyStatesCallbackList
 import com.example.muvitracker.myappunti.kotlin.EmptyStatesEnum
 

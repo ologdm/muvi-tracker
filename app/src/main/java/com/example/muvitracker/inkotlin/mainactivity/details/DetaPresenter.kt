@@ -1,8 +1,8 @@
 package com.example.muvitracker.inkotlin.mainactivity.details
 
 import android.content.Context
-import com.example.muvitracker.inkotlin.repo.details.DetaRepo
-import com.example.muvitracker.inkotlin.repo.dto.DetaDto
+import com.example.muvitracker.inkotlin.model.details.DetaRepo
+import com.example.muvitracker.inkotlin.model.dto.DetaDto
 import com.example.muvitracker.myappunti.kotlin.EmptyStatesCallback
 import com.example.muvitracker.myappunti.kotlin.EmptyStatesEnum
 

@@ -1,8 +1,8 @@
 package com.example.muvitracker.inkotlin.mainactivity.base
 
-import com.example.muvitracker.inkotlin.repo.dto.base.BoxoDto
-import com.example.muvitracker.inkotlin.repo.dto.base.PopuDto
-import com.example.muvitracker.inkotlin.repo.dto.support.Ids
+import com.example.muvitracker.inkotlin.model.dto.base.BoxoDto
+import com.example.muvitracker.inkotlin.model.dto.base.PopuDto
+import com.example.muvitracker.inkotlin.model.dto.support.Ids
 
 // 1. implemento movie model
 // 2. funzioni estese .toDomain() per PopuDto e BoxoDto
