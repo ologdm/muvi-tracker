@@ -1,4 +1,4 @@
-package com.example.muvitracker.inkotlin.model
+package com.example.muvitracker.myappunti
 
 // DTO (layer data)
 data class PopularDto(

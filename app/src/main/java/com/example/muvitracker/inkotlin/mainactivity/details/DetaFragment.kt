@@ -116,7 +116,7 @@ class DetaFragment : Fragment(), DetaContract.View {
         with(binding!!) {
             title.text = detaDto.title
 
-            released.text = dateFormatter(detaDto.released)
+            released.text = dateFormatter(detaDto.released?:"")
             //runtime.text = getString()
             runtime.text = "${detaDto.runtime.toString()} min"
             country.text = detaDto.country

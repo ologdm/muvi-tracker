@@ -3,8 +3,9 @@ package com.example.muvitracker.inkotlin.mainactivity
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.muvitracker.R
+import com.example.muvitracker.inkotlin.mainactivity.base.mvvmtest.PopuFragmentVM
 import com.example.muvitracker.inkotlin.mainactivity.base.boxo.BoxoFragment
-import com.example.muvitracker.inkotlin.mainactivity.base.popu.PopuFragment
+import com.example.muvitracker.inkotlin.mainactivity.base.mvvmtest.BoxoFragmentVM
 import com.example.muvitracker.inkotlin.mainactivity.prefs.PrefsFragment
 import com.example.muvitracker.inkotlin.mainactivity.search.SearFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -23,29 +24,15 @@ class MainActivity() : AppCompatActivity() {
     val navigator = MainNavigator()
 
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        /*
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            val insets: WindowInsets? = window.decorView.rootWindowInsets
-            if (insets != null) {
-                val displayCutout: DisplayCutout? = insets.displayCutout
-                if (displayCutout != null) {
-                    // Il dispositivo ha un notch/cutout
-                    // Puoi ottenere ulteriori dettagli come la posizione del notch qui
-                }
-            }
-        }
-         */
 
 
         bottomNavigationView = findViewById(R.id.bottomNavigation)
 
         // homepage default - popular
-        navigator.replaceFragment(this, PopuFragment())
+        navigator.replaceFragment(this, PopuFragmentVM())
 
         // ha come return un booleano
         bottomNavigationView.setOnItemSelectedListener(
@@ -56,7 +43,7 @@ class MainActivity() : AppCompatActivity() {
                 if (itemId == R.id.buttonPopular) {
                     navigator.replaceFragment(
                         this@MainActivity,
-                        PopuFragment() // di koltin
+                        PopuFragmentVM() // di koltin
                     )
                     return@OnItemSelectedListener true
                 }
@@ -64,7 +51,7 @@ class MainActivity() : AppCompatActivity() {
                 if (itemId == R.id.buttonBoxoffice) {
                     navigator.replaceFragment(
                         this@MainActivity,
-                        BoxoFragment()
+                        BoxoFragmentVM()
                     )
                     return@OnItemSelectedListener true
                 }
