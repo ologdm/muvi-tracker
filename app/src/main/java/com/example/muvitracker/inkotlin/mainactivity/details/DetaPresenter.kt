@@ -46,7 +46,7 @@ class DetaPresenter(
 ) : DetaContract.Presenter {
 
 
-    private val detaRepo = DetaRepo.getInstance(context)
+    private val repository = DetaRepo.getInstance(context)
     private var presenterDto: DetaDto? = null
 
 
@@ -55,7 +55,7 @@ class DetaPresenter(
     // 1. GET OK
     override fun getMovie(movieId: Int, forceRefresh: Boolean) {
         // copia da repo
-        detaRepo.getMovie(
+        repository.getMovie(
             movieId,
             wrapperESCallback(forceRefresh) // aggiorno dto da call
         )
@@ -110,9 +110,9 @@ class DetaPresenter(
     override fun toggleFavorite() {
         if (presenterDto != null) {
             // send to repo
-            detaRepo.toggleFavoriteOnDB(presenterDto!!) // delego il lavoro logico a repo
+            repository.toggleFavoriteOnDB(presenterDto!!) // delego il lavoro logico a repo
             // get from repo
-            presenterDto = detaRepo.getLocalItem(presenterDto!!.ids.trakt)
+            presenterDto = repository.getLocalItem(presenterDto!!.ids.trakt)
         }
         updateUi()
         println("XXX_PRES_TOGGLE")
@@ -127,7 +127,7 @@ class DetaPresenter(
         // OK
         if (modifiedDto != null) {
             // send to repo
-            detaRepo.updateWatchedOnDB(modifiedDto)
+            repository.updateWatchedOnDB(modifiedDto)
             // update presenterDto
             presenterDto = modifiedDto
         }

@@ -1,7 +1,7 @@
 package com.example.muvitracker.inkotlin.mainactivity.prefs
 
 import android.content.Context
-import com.example.muvitracker.inkotlin.model.PrefsRepo
+import com.example.muvitracker.inkotlin.model.prefs.PrefsRepo
 import com.example.muvitracker.inkotlin.model.dto.DetaDto
 
 

@@ -1,4 +1,4 @@
-package com.example.muvitracker.inkotlin.model
+package com.example.muvitracker.inkotlin.model.prefs
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -20,7 +20,7 @@ import com.example.muvitracker.inkotlin.model.dto.DetaDto
 
 
 class PrefsRepo(
-    val context: Context
+    private val context: Context
 ) {
 
     companion object {
@@ -43,8 +43,8 @@ class PrefsRepo(
 
     }
 
-    val detaLocalDS = DLocalDS.getInstance(context)
-    val detaRepo = DetaRepo.getInstance(context)
+    private val detaLocalDS = DLocalDS.getInstance(context)
+    private val detaRepo = DetaRepo.getInstance(context)
 
 
     // GET

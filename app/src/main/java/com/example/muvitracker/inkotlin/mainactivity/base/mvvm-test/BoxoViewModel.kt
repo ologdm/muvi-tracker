@@ -1,4 +1,4 @@
-package com.example.muvitracker.inkotlin.mainactivity.base.mvvmtest
+package com.example.muvitracker.inkotlin.mainactivity.base.`mvvm-test`
 
 import android.content.Context
 import androidx.lifecycle.MutableLiveData

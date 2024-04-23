@@ -3,11 +3,12 @@ package com.example.muvitracker.inkotlin.mainactivity
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.muvitracker.R
-import com.example.muvitracker.inkotlin.mainactivity.base.mvvmtest.PopuFragmentVM
-import com.example.muvitracker.inkotlin.mainactivity.base.boxo.BoxoFragment
-import com.example.muvitracker.inkotlin.mainactivity.base.mvvmtest.BoxoFragmentVM
+import com.example.muvitracker.inkotlin.mainactivity.base.`mvvm-test`.PopuFragmentVM
+import com.example.muvitracker.inkotlin.mainactivity.base.`mvvm-test`.BoxoFragmentVM
 import com.example.muvitracker.inkotlin.mainactivity.prefs.PrefsFragment
+import com.example.muvitracker.inkotlin.mainactivity.prefs.mvvm_test.PrefsFragmentVM
 import com.example.muvitracker.inkotlin.mainactivity.search.SearFragment
+import com.example.muvitracker.inkotlin.mainactivity.search.mvvm.SearFragmentVM
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationBarView
 
@@ -59,7 +60,7 @@ class MainActivity() : AppCompatActivity() {
                 if (itemId == R.id.buttonMyList) {
                     navigator.replaceFragment(
                         this@MainActivity,
-                        PrefsFragment()
+                        PrefsFragmentVM()
                     )
                     return@OnItemSelectedListener true
                 }
@@ -67,7 +68,7 @@ class MainActivity() : AppCompatActivity() {
                 if (itemId == R.id.buttonSearch) {
                     navigator.replaceFragment(
                         this@MainActivity,
-                        SearFragment()
+                        SearFragmentVM()
                     )
                     return@OnItemSelectedListener true
                 }
