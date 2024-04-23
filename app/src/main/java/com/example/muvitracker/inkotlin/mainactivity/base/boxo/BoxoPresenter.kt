@@ -2,19 +2,18 @@ package com.example.muvitracker.inkotlin.mainactivity.base.boxo
 
 import android.content.Context
 import com.example.muvitracker.inkotlin.mainactivity.base.BaseContract
-import com.example.muvitracker.inkotlin.mainactivity.base.MovieModel
-import com.example.muvitracker.inkotlin.repo.boxo.BoxoRepo
+import com.example.muvitracker.inkotlin.model.MovieModel
+import com.example.muvitracker.inkotlin.model.boxo.BoxoRepo
 import com.example.muvitracker.myappunti.kotlin.EmptyStatesCallbackList
 import com.example.muvitracker.myappunti.kotlin.EmptyStatesEnum
 
 class BoxoPresenter(
-
-    private val view: BaseContract.View, // costruttore view
+    private val view: BaseContract.View,
     private val context: Context
 
 ) : BaseContract.Presenter {
 
-    // ATTRIBUTO
+
     val boxoRepo = BoxoRepo.getInstance(context)
 
 
@@ -53,7 +52,6 @@ class BoxoPresenter(
     }
 
 
-    // OK
     override fun onVHolderClick(movieId: Int) {
         view.startDetailsFragment(movieId)
     }

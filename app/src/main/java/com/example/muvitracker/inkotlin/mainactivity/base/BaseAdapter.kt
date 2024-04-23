@@ -8,24 +8,21 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.muvitracker.R
 import com.example.muvitracker.databinding.VhBaseBinding
-
-
-// kotlin
-// 1) conversione automatica Int ==> annoVH.setText(dto.year.toString()) ==> //
-// 2)
+import com.example.muvitracker.inkotlin.model.MovieModel
 
 
 /**
-//  <BaseVh>
-//  MovieModel
-// si utilizzerà su PopuFragment e BoxoFragment
+ * refactoring:
+ *      si utilizzerà su PopuFragment e BoxoFragment
+ *      <BaseVh> unico
+ *      MovieModel unico
 */
 
 
 class BaseAdapter : RecyclerView.Adapter<BaseVh>() {
 
     // ATTRIBUTI
-    // variante 1 val/mutablelist // TODO OK
+    // variante 1 val/mutablelist // OK
     private val adapterList = mutableListOf<MovieModel>()
 
     /* variante 2 boxo
@@ -58,7 +55,7 @@ class BaseAdapter : RecyclerView.Adapter<BaseVh>() {
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: BaseVh, position: Int) {
 
-        // TODO  OK
+        // OK
         val dto: MovieModel = adapterList[position]
 
         with(holder.binding) {
@@ -84,7 +81,7 @@ class BaseAdapter : RecyclerView.Adapter<BaseVh>() {
 
     // ALTRI METODI
 
-    // OK TODO
+    // OK
     fun updateList(inputList: List<MovieModel>) {
         // 1 variante - val mutable
         adapterList.clear() // elimina elementi lista mutabile

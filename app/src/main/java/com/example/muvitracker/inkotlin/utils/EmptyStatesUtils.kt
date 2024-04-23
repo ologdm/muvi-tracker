@@ -5,16 +5,13 @@ import android.view.ViewGroup
 import android.widget.TextView
 
 /** contiene:
- * - EmptyStatesManagementNew class
-
+ * - EmptyStatesManagement class
+ * - EmptyStatesEnum
+ * - Visibility enum
  *
- * EmptyStates enum
- *
- * Visibility enum
-
- *
+ * - EmptyStatesCallbackList
+ * - EmptyStatesCallback
  */
-
 
 object EmptyStatesManagement {
 
@@ -23,26 +20,6 @@ object EmptyStatesManagement {
     const val OTHER_ERROR_MSG = "something went wrong"
 
 
-    // OK
-    /** elementi necessari:
-     *  - ProgressBar,
-     *  - ErrorPage,
-     *  - RecycleView
-     *
-     *  stati:
-     *  due iniziali
-     *  un success
-     *  due error
-     */
-
-
-    /** nuovo setup
-    ON_START,                 // local + start loading + no error
-    ON_FORCE_REFRESH,         // local, no loading, no error
-    ON_SUCCESS,               // server + stop loading + no error
-    ON_ERROR_IO,              // local + stop loading + error msg
-    ON_ERROR_OTHER            // local + stop loading + error msg
-     */
 
     // versione NUOVA - dati in locale
     // per popu e boxo

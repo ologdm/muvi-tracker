@@ -1,9 +1,9 @@
 package com.example.muvitracker.inkotlin.mainactivity.base.popu
 
 import android.content.Context
-import com.example.muvitracker.inkotlin.mainactivity.base.MovieModel
+import com.example.muvitracker.inkotlin.model.MovieModel
 import com.example.muvitracker.inkotlin.mainactivity.base.BaseContract
-import com.example.muvitracker.inkotlin.repo.popu.PopuRepo
+import com.example.muvitracker.inkotlin.model.popu.PopuRepo
 import com.example.muvitracker.myappunti.kotlin.EmptyStatesCallbackList
 import com.example.muvitracker.myappunti.kotlin.EmptyStatesEnum
 
@@ -20,14 +20,11 @@ import com.example.muvitracker.myappunti.kotlin.EmptyStatesEnum
  */
 
 class PopuPresenter(
-    private val view: BaseContract.View, // view nel costruttore, posso inserire chi implementa view
+    private val view: BaseContract.View,
     private val context: Context
-
 ) : BaseContract.Presenter {
 
 
-    // ATTRIBUTI OK
-    // TODO
     private val popuRepo: PopuRepo = PopuRepo.getInstance(context)
 
 
@@ -62,10 +59,7 @@ class PopuPresenter(
                 view.emptyStatesFlow(EmptyStatesEnum.ON_ERROR_OTHER)
                 println("XXX_POPU_FRAGM_ERROR OTHER")
             }
-
-
         })
-
     }
 
 
@@ -73,4 +67,5 @@ class PopuPresenter(
     override fun onVHolderClick(movieId: Int) {
         view.startDetailsFragment(movieId)
     }
+
 }

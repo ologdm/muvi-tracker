@@ -1,6 +1,6 @@
 package com.example.muvitracker.inkotlin.mainactivity.search
 
-import com.example.muvitracker.inkotlin.repo.dto.search.SearDto
+import com.example.muvitracker.inkotlin.model.dto.search.SearDto
 
 
 interface SearContract {

@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.muvitracker.R
 import com.example.muvitracker.inkotlin.mainactivity.MainNavigator
-import com.example.muvitracker.inkotlin.repo.dto.DetaDto
+import com.example.muvitracker.inkotlin.model.dto.DetaDto
 
 
 class PrefsFragment() : Fragment(), PrefsContract.View {

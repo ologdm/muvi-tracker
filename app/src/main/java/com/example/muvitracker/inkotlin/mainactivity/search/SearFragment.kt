@@ -9,31 +9,29 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.muvitracker.databinding.FragmSearchBinding
 import com.example.muvitracker.inkotlin.mainactivity.MainNavigator
-import com.example.muvitracker.inkotlin.repo.dto.search.SearDto
+import com.example.muvitracker.inkotlin.model.dto.search.SearDto
 
 
-/** funzioni generali:
- * 1. mostro solo movie ( hanno stessi dati), TODO show type ecc
- * 2. apro details da adapter
- * 3. db NO, mostro ogni volta solo la chiamata
- * 4. swipe to refresh NO
- * 5. view binding su adapter
- * 6. empty states NO
+/**
+ * funzioni generali:
+ *  1. mostro solo movie ( hanno stessi dati), TODO show type ecc
+ *  2. apro details da adapter
+ *  3. db NO, mostro ogni volta solo la chiamata
+ *  4. swipe to refresh NO
+ *  5. view binding su adapter
+ *  6. empty states NO
  *
- * 8. chiamo funzione ricerca debouncing   OK
- * 9. ordinare risultato in base allo score OK
+ *  7. chiamo funzione ricerca debouncing   OK
+ *  8. ordinare risultato in base allo score OK
  *
- * 10. tastiera:
- *        - da Manifest - "adjustNothing",
- *        - da Code - nascondi invio o scroll
- *
- *
+ *  9. gestione visibilità tastiera:
+ *        - da Manifest - "adjustNothing"
+ *        - xml layout - android:imeOptions="actionDone" + inputType="text"
  *
  */
 
@@ -51,6 +49,7 @@ class SearFragment : Fragment(), SearContract.View {
      * ( private val binding = _binding )  ==> cosi invece il val una volta fissato non cambia al cambiare di var
      * custom getter , fa riferimento al var
      */
+
     private var bindingBase: FragmSearchBinding? = null
 
     // binding non cambia mai, quindi non c'e il rischio che varierà
@@ -126,27 +125,6 @@ class SearFragment : Fragment(), SearContract.View {
                 }
             })
 
-            // nascondi tastiera su invio (10.) TODO
-            /*
-            searchEditText.setOnEditorActionListener { v, actionId, event ->
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    hideKeyboard(v)
-                    true
-                } else {
-                    false
-                }
-            }
-
-             */
-
-            /*
-            recycleView.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
-            }
-            non funziona
-             */
-
-
-
         }
 
         adapter.setCallbackVH { movieId ->
@@ -175,20 +153,6 @@ class SearFragment : Fragment(), SearContract.View {
                 requireActivity(),
                 traktMovieId
             )
-    }
-
-
-    // fun chiudi tastiera (10.) TODO
-    private fun hideKeyboard(view: View) {
-        // (as) - cast esplicito
-        val inputMethodManager = requireContext()
-            .getSystemService(Context.INPUT_METHOD_SERVICE)
-                as InputMethodManager
-       /* inputMethodManager
-            .hideSoftInputFromWindow(view.windowToken, 0)
-
-        */
-        inputMethodManager.toggleSoftInput(0,0)
     }
 
 

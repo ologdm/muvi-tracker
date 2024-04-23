@@ -10,28 +10,29 @@ import com.example.muvitracker.R
 import com.example.muvitracker.databinding.FragmBaseCategoryBinding
 import com.example.muvitracker.inkotlin.mainactivity.MainNavigator
 import com.example.muvitracker.inkotlin.mainactivity.base.BaseAdapter
-import com.example.muvitracker.inkotlin.mainactivity.base.MovieModel
+import com.example.muvitracker.inkotlin.model.MovieModel
 import com.example.muvitracker.inkotlin.mainactivity.base.BaseContract
 import com.example.muvitracker.myappunti.kotlin.EmptyStatesEnum
 import com.example.muvitracker.myappunti.kotlin.EmptyStatesManagement
 
-/* kotlin
+/* kotlin appunti
  * 1) R.layout.fragment_popular ==> .fragment_popular ==> package level propoerty
  * 2) recyclerView.layoutManager ==> .layoutManager ==> syntethic extension property
  * 3) setter -   x.setElemento(y) ==> istanza.elemento = y
  */
 
-/**
+
+/*
  * caching con shared prefs
  * binding
- * empty states ridotto
+ * empty states
  */
 
 
 class PopuFragment : Fragment(), BaseContract.View {
 
     private lateinit var presenter: BaseContract.Presenter // sharedPrefs context OK
-    private val adapter = BaseAdapter() // TODO
+    private val adapter = BaseAdapter()
     private val navigator = MainNavigator()
     private var binding: FragmBaseCategoryBinding? = null
 
@@ -76,6 +77,12 @@ class PopuFragment : Fragment(), BaseContract.View {
         presenter.getMovieAndUpdateUi(forceRefresh = false)
 
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
+    }
+
 
 
     // CONTRACT METHOD - OK

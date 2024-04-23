@@ -12,7 +12,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.muvitracker.R
-import com.example.muvitracker.inkotlin.repo.dto.DetaDto
+import com.example.muvitracker.inkotlin.model.dto.DetaDto
 
 /**
  *
@@ -46,7 +46,7 @@ class PrefsAdapter : RecyclerView.Adapter<PrefsVH>() {
         return adapterList.size
     }
 
-    //
+
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: PrefsVH, position: Int) {
         var onBindDto = adapterList.get(position)
@@ -73,29 +73,25 @@ class PrefsAdapter : RecyclerView.Adapter<PrefsVH>() {
         val iconFilled = context.getDrawable(R.drawable.baseline_liked)
         val iconEmpty = context.getDrawable(R.drawable.baseline_liked_border)
 
-        updateFavoriteIcon(likedButton,
+        updateFavoriteIcon(
+            likedButton,
             onBindDto.liked,
             iconFilled,
             iconEmpty
         )
-
 
         // clickVH -> apri details
         holder.itemView.setOnClickListener {
             callbackVH?.invoke(onBindDto.ids.trakt)
         }
 
-
         // implemento comportamento al click button
         likedButton.setOnClickListener {
             callbackLiked?.invoke(onBindDto)
             // copia nellla repo
 
-            updateFavoriteIcon(likedButton,onBindDto.liked,iconFilled,iconEmpty)
+            updateFavoriteIcon(likedButton, onBindDto.liked, iconFilled, iconEmpty)
         }
-
-
-
 
         // set dto, passa dto a db, set checkbox
         watchedCkBox.setOnCheckedChangeListener { b, isChecked ->
@@ -106,11 +102,7 @@ class PrefsAdapter : RecyclerView.Adapter<PrefsVH>() {
                 watchedCkBox.isChecked = onBindDto.watched
             }
         }
-
         watchedCkBox.isChecked = onBindDto.watched
-
-
-
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -120,11 +112,6 @@ class PrefsAdapter : RecyclerView.Adapter<PrefsVH>() {
 
         notifyDataSetChanged()
     }
-
-
-    //val context :Context = holder.itemView.context
-    //val iconFilled  = context.getDrawable(R.drawable.baseline_favorite_24)
-    //val iconEmpty  = context.getDrawable(R.drawable.baseline_favorite_border_24)
 
 
     //OK
@@ -167,6 +154,5 @@ class PrefsAdapter : RecyclerView.Adapter<PrefsVH>() {
     fun setCallbackWatched(call: (updatedDto: DetaDto) -> Unit) {
         callbackWatched = call
     }
-
 
 }

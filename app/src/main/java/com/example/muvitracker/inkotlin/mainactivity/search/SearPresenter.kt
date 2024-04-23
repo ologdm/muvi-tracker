@@ -1,7 +1,7 @@
 package com.example.muvitracker.inkotlin.mainactivity.search
 
-import com.example.muvitracker.inkotlin.repo.search.SearRepo
-import com.example.muvitracker.inkotlin.repo.dto.search.SearDto
+import com.example.muvitracker.inkotlin.model.search.SearRepo
+import com.example.muvitracker.inkotlin.model.dto.search.SearDto
 import com.example.muvitracker.myappunti.kotlin.RetrofitCallbackList
 import java.io.IOException
 

@@ -1,6 +1,8 @@
 package com.example.muvitracker.inkotlin.mainactivity.base
 
+import com.example.muvitracker.inkotlin.model.MovieModel
 import com.example.muvitracker.myappunti.kotlin.EmptyStatesEnum
+
 
 interface BaseContract {
 

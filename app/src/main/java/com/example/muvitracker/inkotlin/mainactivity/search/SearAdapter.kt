@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.muvitracker.R
 import com.example.muvitracker.databinding.VhSearchBinding
-import com.example.muvitracker.inkotlin.repo.dto.search.SearDto
+import com.example.muvitracker.inkotlin.model.dto.search.SearDto
 
 /** Dto - 1 tipi attualmente:
  * - movie

@@ -1,6 +1,6 @@
 package com.example.muvitracker.inkotlin.mainactivity.details
 
-import com.example.muvitracker.inkotlin.repo.dto.DetaDto
+import com.example.muvitracker.inkotlin.model.dto.DetaDto
 import com.example.muvitracker.myappunti.kotlin.EmptyStatesEnum
 
 
@@ -11,7 +11,7 @@ interface DetaContract {
         // 1°GET
         fun updateUi(detaDto: DetaDto) //aggiorna ui con dto presenter
 
-        fun emptyStatesFlow(emptyStates: EmptyStatesEnum)
+        fun handleEmptyStates(emptyStates: EmptyStatesEnum)
 
 
         // private

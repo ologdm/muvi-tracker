@@ -5,8 +5,8 @@ import com.example.muvitracker.databinding.VhBaseBinding
 
 class BaseVh(val binding: VhBaseBinding) : RecyclerView.ViewHolder(binding.root)
 
-
-
+// costruttore figlio - passo binding
+// costruttore padre(richiede itemview) -> binding.root==itemview
 
 /* IN JAVA
 public class BaseVh extends RecyclerView.ViewHolder {
@@ -16,7 +16,6 @@ public class BaseVh extends RecyclerView.ViewHolder {
     }
  */
 
-// costruttore figlio - passo binding
-// costruttore padre(richiede itemview) -> binding.root==itemview
+
 
 
