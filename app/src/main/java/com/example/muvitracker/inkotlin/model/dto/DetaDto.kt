@@ -26,7 +26,7 @@ data class DetaDto(
     val year: Int,
     val ids: Ids,
 
-    // altro used only 6, TODO aggiungere genres
+    // altro used only 6
     //val tagline: String = "",
     val overview: String = "",
     val released: String = "",
@@ -47,13 +47,9 @@ data class DetaDto(
     //val certification: String = ""
 ) {
 
-
     fun getImageUrl(): String {
         return "http://img.omdbapi.com/" + "?apikey=ef6d3d4c" + "&i=${ids.imdb}";
     }
-
-
-
 }
 
 

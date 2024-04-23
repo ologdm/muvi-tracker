@@ -23,7 +23,7 @@ class PopuFragmentVM : Fragment() {
     private val navigator = MainNavigator()
     private var binding: FragmBaseCategoryBinding? = null
 
-    // TODO dichiaro Vmodel OK
+    // Vmodel OK
     lateinit var popuViewModel: PopuViewModel
 
 
@@ -43,11 +43,11 @@ class PopuFragmentVM : Fragment() {
         savedInstanceState: Bundle?
     ) {
 
-        // TODO inizializzo VModel OK
+        // Vmodel OK
         //popuViewModel = ViewModelProvider(this).get(PopuViewModel::class.java)
         popuViewModel =ViewModelProvider(this, PopuVMFactory(requireContext())).get(PopuViewModel::class.java)
 
-        // TODO observer
+        // Vmodel OK
         popuViewModel.popuList.observe(viewLifecycleOwner, Observer {
             it?.let { adapter.updateList(it) }
         })
@@ -63,11 +63,11 @@ class PopuFragmentVM : Fragment() {
             recycleView.adapter = adapter
             recycleView.layoutManager = GridLayoutManager(requireContext(), 2)
 
-            // TODO
+            // Vmodel OK
             // presenter.getMovieAndUpdateUi(forceRefresh = false)
             popuViewModel.getMovie(isRefresh = false)
 
-            // TODO
+            // Vmodel OK
             swipeToRefresh.setOnRefreshListener {
                 // presenter.getMovieAndUpdateUi(forceRefresh = true)
                 popuViewModel.getMovie(isRefresh = true)
@@ -75,7 +75,7 @@ class PopuFragmentVM : Fragment() {
         }
 
 
-        // TODO OK
+        // Vmodel OK
         adapter.setCallbackVH { movieId ->
             // presenter.onVHolderClick(movieId)
             // senza passaggio intermedio da presenter

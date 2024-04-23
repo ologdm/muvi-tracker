@@ -1,21 +1,18 @@
 package com.example.muvitracker.inkotlin.model.boxo
 
 import android.content.Context
-import com.example.muvitracker.inkotlin.mainactivity.base.MovieModel
-import com.example.muvitracker.inkotlin.mainactivity.base.toDomainn
+import com.example.muvitracker.inkotlin.model.MovieModel
 import com.example.muvitracker.inkotlin.model.dto.base.BoxoDto
+import com.example.muvitracker.inkotlin.model.toDomainn
 import com.example.muvitracker.myappunti.kotlin.EmptyStatesCallbackList
 import com.example.muvitracker.myappunti.kotlin.RetrofitCallbackList
 import java.io.IOException
 
-
 /**
  *
- *
- * FUNZIONI
- * 1) getMovieList -> get local and/or server
- * 2) getCacheList()
- *
+ * FUNZIONI:
+ *      1) getMovieList -> get local and/or server
+ *      2) private getCacheList()
  *
  */
 
@@ -80,23 +77,6 @@ private constructor(
 
         return boxoLocalDS.loadFromLocal()
     }
-
-
-    /* 3
-    private fun getServerList (){
-        xBoxoNetworkDS.callBoxoServer(object :RetrofitCallbackList<BoxoDto>{
-            override fun onSuccess(serverList: List<BoxoDto>) {
-
-            }
-
-            override fun onError(throwable: Throwable) {
-
-            }
-
-        })
-    }
-
-     */
 
 
 }

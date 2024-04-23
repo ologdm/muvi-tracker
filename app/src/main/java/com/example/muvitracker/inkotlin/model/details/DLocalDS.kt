@@ -54,7 +54,6 @@ private constructor(
 
         // CONSTANTE
         private const val DETA_MOVIE_LIST_01 = "chiavelistaMovie_01"
-        // TODO fare details shows
     }
 
 

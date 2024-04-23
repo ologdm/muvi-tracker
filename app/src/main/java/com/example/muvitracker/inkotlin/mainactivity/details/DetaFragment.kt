@@ -18,21 +18,19 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
-/* Consegna:
- * - chips lista genere OK
- * - immagine sopra zoom, OK
- * - back button tondo, background OK
- * - floating like button OK
- * - date correzione OK
- * - rating correzione OK
- *
+/**
+ *  fragment binding - onCreate/onDestroy
+ *  swipe to refresh
+ *  handleEmptyStates
+ *  chips - chipGroup
+ *  data -   fun datafortmatter
+ *  rating - fun approssimaDecimale
  */
 
 
 class DetaFragment : Fragment(), DetaContract.View {
 
-    //ATTRIBUTI OK
-
+    //ATTRIBUTI
     private var traktMovieId: Int = 0
 
     private var bindingBase: FragmDetailsBinding? = null
@@ -49,6 +47,7 @@ class DetaFragment : Fragment(), DetaContract.View {
         bindingBase = FragmDetailsBinding.inflate(inflater, container, false)
         return binding!!.root
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val presenter = DetaPresenter(this, requireContext())
@@ -70,14 +69,6 @@ class DetaFragment : Fragment(), DetaContract.View {
                 println("XXX_D_FRAGMBACK_CLICK")
             }
 
-            /*
-            likedButton.setOnClickListener {
-                    presenter.toggleFavorite()
-                    // toggle -> update -> set icona view
-                    println("XXX_D_FRAGM_LIKED_CLICK")
-                }
-
-             */
 
             floatingLikedButton.setOnClickListener {
                 presenter.toggleFavorite()
@@ -93,9 +84,6 @@ class DetaFragment : Fragment(), DetaContract.View {
 
         // Default - salva elemento poi mostra
         presenter.getMovie(traktMovieId, forceRefresh = false) // inputId creazione
-
-
-        // TODO chipGroup
 
 
     }
@@ -133,7 +121,7 @@ class DetaFragment : Fragment(), DetaContract.View {
                 .into(imageHorizontal)
 
 
-            // TODO chip con binding OK
+            // chip con binding OK
             chipGroup.removeAllViews() // pulire quelli precedenti
             detaDto.genres.forEach {
                 val chip = Chip(context).apply {
@@ -148,7 +136,6 @@ class DetaFragment : Fragment(), DetaContract.View {
         println("XXX_D_FRAGM_UPDATEUI")
         updateFavoriteIcon(detaDto.liked) // isliked
         updateWatchedCheckbox(detaDto.watched) // isWatched
-
 
     }
 
@@ -176,8 +163,8 @@ class DetaFragment : Fragment(), DetaContract.View {
     }
 
 
-    // TODO  - nuovo enum
-    override fun emptyStatesFlow(emptyStatesEnum: EmptyStatesEnum) {
+    // nuovo enum OK
+    override fun handleEmptyStates(emptyStatesEnum: EmptyStatesEnum) {
         with(binding!!) {
 
             EmptyStatesManagement.emptyStatesFlow(
@@ -186,7 +173,7 @@ class DetaFragment : Fragment(), DetaContract.View {
                 emptyStates.progressBar,
                 emptyStates.errorMsgTextview
             )
-            when (emptyStatesEnum) { // TODO OK
+            when (emptyStatesEnum) {
                 EmptyStatesEnum.ON_SUCCESS,
                 EmptyStatesEnum.ON_ERROR_IO,
                 EmptyStatesEnum.ON_ERROR_OTHER

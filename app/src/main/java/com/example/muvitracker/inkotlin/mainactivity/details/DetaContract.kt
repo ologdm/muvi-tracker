@@ -11,7 +11,7 @@ interface DetaContract {
         // 1°GET
         fun updateUi(detaDto: DetaDto) //aggiorna ui con dto presenter
 
-        fun emptyStatesFlow(emptyStates: EmptyStatesEnum)
+        fun handleEmptyStates(emptyStates: EmptyStatesEnum)
 
 
         // private

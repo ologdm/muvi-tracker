@@ -49,7 +49,7 @@ class DetaFragmentVM : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         println("TEST MVVM YYYYYYY")
-        // TODO viewModel Observer OK
+        // viewModel Observer OK
         viewModel = ViewModelProvider(this, DetaVMFactory(requireContext())).get(DetaViewModel::class.java)
 
         viewModel.viewModelDto.observe(viewLifecycleOwner, Observer {
@@ -182,7 +182,7 @@ class DetaFragmentVM : Fragment() {
                 emptyStates.progressBar,
                 emptyStates.errorMsgTextview
             )
-            when (emptyStatesEnum) { // TODO OK
+            when (emptyStatesEnum) {
                 EmptyStatesEnum.ON_SUCCESS,
                 EmptyStatesEnum.ON_ERROR_IO,
                 EmptyStatesEnum.ON_ERROR_OTHER

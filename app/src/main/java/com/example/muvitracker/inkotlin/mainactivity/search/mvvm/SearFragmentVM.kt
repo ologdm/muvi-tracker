@@ -18,55 +18,29 @@ import com.example.muvitracker.inkotlin.mainactivity.search.SearAdapter
 import com.example.muvitracker.inkotlin.utils.SearchVMFactory
 
 
-/** funzioni generali:
- * 1. mostro solo movie ( hanno stessi dati), TODO show type ecc
- * 2. apro details da adapter
- * 3. db NO, mostro ogni volta solo la chiamata
- * 4. swipe to refresh NO
- * 5. view binding su adapter
- * 6. empty states NO
- *
- * 8. chiamo funzione ricerca debouncing   OK
- * 9. ordinare risultato in base allo score OK
- *
- * 10. tastiera:
- *        - da Manifest - "adjustNothing",
- *        - TODO da Code - nascondi invio o scroll (avanzato, piu avanti)
- *
- *
- *
- */
-
-
 class SearFragmentVM : Fragment() {
 
     // ATTRIBUTI
     private val adapter = SearAdapter()
     val navigator = MainNavigator()
 
-    //    private val presenter = SearPresenter(this)
     private lateinit var viewModel: SearViewModel
 
-    /* !!!!! binding OK
-     * modo furbo per incapsulare una var in una val , ma che la seconda rifletta sempre la variazione della prima
-     * ( private val binding = _binding )  ==> cosi invece il val una volta fissato non cambia al cambiare di var
-     * custom getter , fa riferimento al var
-     */
+
     private var bindingBase: FragmSearchBinding? = null
 
-    // binding non cambia mai, quindi non c'e il rischio che varierà
     private val binding
-        get() = bindingBase // custom getter per bindingBase
+        get() = bindingBase
 
 
-    // Debouncing OK
+    // Debouncing
     val handler = Handler(Looper.getMainLooper()) // creazione Handler, classe android
     var searchRunnable: Runnable? = null // con interfaccia stile java
     val DEBOUNCE_DELAY: Long = 300L // Milliseconds
 
 
     // METODI
-    // crea
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -88,7 +62,7 @@ class SearFragmentVM : Fragment() {
             SearchVMFactory(requireContext())
         ).get(SearViewModel::class.java)
 
-        // aggiorna adapter
+
         viewModel.searchList.observe(viewLifecycleOwner, Observer {
             adapter.updateList(it)
         })
@@ -115,15 +89,7 @@ class SearFragmentVM : Fragment() {
 
                 // fun per Debouncing OK
                 override fun afterTextChanged(s: Editable?) {
-                    // 1. annulla il runnable precedente per implementare il debouncing
-                    /* (java style)
-                    if (searchRunnable != null) {
-                        handler.removeCallbacks(searchRunnable!!)
-                    }
-                     */
-
-                    // (kotlin style)
-                    // permette di azionarlo solo se non nullo
+                    // 1. permette di azionarlo solo se non nullo
                     searchRunnable?.let {
                         handler.removeCallbacks(it)
                     }

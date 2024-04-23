@@ -11,7 +11,7 @@ import com.example.muvitracker.databinding.FragmBaseCategoryBinding
 import com.example.muvitracker.inkotlin.mainactivity.MainNavigator
 import com.example.muvitracker.inkotlin.mainactivity.base.BaseAdapter
 import com.example.muvitracker.inkotlin.mainactivity.base.BaseContract
-import com.example.muvitracker.inkotlin.mainactivity.base.MovieModel
+import com.example.muvitracker.inkotlin.model.MovieModel
 import com.example.muvitracker.myappunti.kotlin.EmptyStatesEnum
 import com.example.muvitracker.myappunti.kotlin.EmptyStatesManagement
 
@@ -63,7 +63,13 @@ class BoxoFragment : Fragment(), BaseContract.View {
     }
 
 
-    // CONTRACTS METHODS OK nuovo tutto
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
+    }
+
+
+    // CONTRACTS METHODS OK
     override fun updateUi(list: List<MovieModel>) {
         adapter.updateList(list)
     }

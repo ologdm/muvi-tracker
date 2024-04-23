@@ -14,7 +14,7 @@ import com.example.muvitracker.inkotlin.mainactivity.search.mvvm.SearViewModel
 // details
 // prefs
 
-// TODO completa
+// completa
 class PopuVMFactory (private val context: Context) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {

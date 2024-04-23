@@ -1,8 +1,8 @@
 package com.example.muvitracker.inkotlin.model.popu
 
 import android.content.Context
-import com.example.muvitracker.inkotlin.mainactivity.base.MovieModel
-import com.example.muvitracker.inkotlin.mainactivity.base.toDomain
+import com.example.muvitracker.inkotlin.model.MovieModel
+import com.example.muvitracker.inkotlin.model.toDomain
 import com.example.muvitracker.inkotlin.model.dto.base.PopuDto
 import com.example.muvitracker.myappunti.kotlin.EmptyStatesCallbackList
 import com.example.muvitracker.myappunti.kotlin.RetrofitCallbackList
@@ -45,7 +45,7 @@ private constructor(
     // 1
     fun getMovieList(callES: EmptyStatesCallbackList<MovieModel>) {
 
-        // TODO !!! funzione conversione lista Dto a lista MovieModel
+        // !!! funzione conversione lista Dto a lista MovieModel
         callES.onSuccess(getCacheList().toDomain()) // 1 carica da locale
 
 
@@ -55,7 +55,7 @@ private constructor(
 
             override fun onSuccess(serverList: List<PopuDto>) {
 
-                // TODO conversione a Domain
+                // !!! conversione a Domain
                 callES.onSuccess(serverList.toDomain()) // 2 carica da server
 
                 popuLocalDS.saveListInLocal(serverList) // 2 save

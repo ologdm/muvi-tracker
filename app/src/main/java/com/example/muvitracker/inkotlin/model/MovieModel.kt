@@ -1,11 +1,13 @@
-package com.example.muvitracker.inkotlin.mainactivity.base
+package com.example.muvitracker.inkotlin.model
 
 import com.example.muvitracker.inkotlin.model.dto.base.BoxoDto
 import com.example.muvitracker.inkotlin.model.dto.base.PopuDto
 import com.example.muvitracker.inkotlin.model.dto.support.Ids
 
-// 1. implemento movie model
-// 2. funzioni estese .toDomain() per PopuDto e BoxoDto
+/**
+ * 1. implemento movie model
+ * 2. funzioni estese .toDomain() per PopuDto e BoxoDto
+ */
 
 
 // Classe business logic
@@ -21,32 +23,28 @@ data class MovieModel(
 
 // FUNZIONI estese
 
-
 // OK funzione per lista
-fun List<PopuDto>.toDomain ():List<MovieModel>{
+
+fun List<PopuDto>.toDomain(): List<MovieModel> {
     val listaModel = mutableListOf<MovieModel>()
     this.forEach {
-         listaModel.add(MovieModel(it.title,it.year,it.ids))
+        listaModel.add(MovieModel(it.title, it.year, it.ids))
     }
     return listaModel
 }
 
-
-// OK
 
 fun List<BoxoDto>.toDomainn(): List<MovieModel> {
     val listaModel = mutableListOf<MovieModel>()
 
     this.forEach {
-        listaModel.add(MovieModel(it.movie.title,it.movie.year,it.movie.ids))
+        listaModel.add(MovieModel(it.movie.title, it.movie.year, it.movie.ids))
     }
     return listaModel
 }
 
 
-
-
-// OK
+// singolo elemento -old
 /*
 fun PopuDto.toDomain(): MovieModel {
     return MovieModel(this.title, this.year, this.ids)

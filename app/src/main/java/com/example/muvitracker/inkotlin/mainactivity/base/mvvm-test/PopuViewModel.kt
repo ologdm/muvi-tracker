@@ -3,7 +3,7 @@ package com.example.muvitracker.inkotlin.mainactivity.base.`mvvm-test`
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.muvitracker.inkotlin.mainactivity.base.MovieModel
+import com.example.muvitracker.inkotlin.model.MovieModel
 import com.example.muvitracker.inkotlin.model.popu.PopuRepo
 import com.example.muvitracker.myappunti.kotlin.EmptyStatesCallbackList
 import com.example.muvitracker.myappunti.kotlin.EmptyStatesEnum
@@ -15,11 +15,11 @@ class PopuViewModel(
     val repository = PopuRepo.getInstance(context)
 
 
-    // DataLive - observable TODO
-    // 1. movieList - parametro UpdateUi
+    // DataLive - observable OK
+    // 1. movieList - parametro UpdateUi MVP OK
     val popuList = MutableLiveData<List<MovieModel>>()
 
-    // 2. stato empty states - Parametro Handle TODO
+    // 2. stato empty states - Parametro HandleES MVP OK
     val emptyState = MutableLiveData<EmptyStatesEnum>()
 
 

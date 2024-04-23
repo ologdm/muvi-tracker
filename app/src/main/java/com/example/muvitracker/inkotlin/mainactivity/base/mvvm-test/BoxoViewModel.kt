@@ -3,7 +3,7 @@ package com.example.muvitracker.inkotlin.mainactivity.base.`mvvm-test`
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.muvitracker.inkotlin.mainactivity.base.MovieModel
+import com.example.muvitracker.inkotlin.model.MovieModel
 import com.example.muvitracker.inkotlin.model.boxo.BoxoRepo
 import com.example.muvitracker.myappunti.kotlin.EmptyStatesCallbackList
 import com.example.muvitracker.myappunti.kotlin.EmptyStatesEnum
