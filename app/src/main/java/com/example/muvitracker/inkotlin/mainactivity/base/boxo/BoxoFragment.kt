@@ -78,8 +78,8 @@ class BoxoFragment : Fragment(), BaseContract.View {
     override fun emptyStatesFlow(emptyStates: EmptyStatesEnum) {
         EmptyStatesManagement.emptyStatesFlow(
             emptyStates,
-            binding?.emptyStates!!.progressBar,
-            binding?.emptyStates!!.errorMsgTextview
+            binding!!.progressBar,
+            binding!!.errorMsgTextview
         )
         when (emptyStates) {
             EmptyStatesEnum.ON_SUCCESS,

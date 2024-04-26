@@ -96,8 +96,8 @@ class PopuFragmentVM : Fragment() {
     private fun handleEmptyStates(emptyStates: EmptyStatesEnum) {
         EmptyStatesManagement.emptyStatesFlow(
             emptyStates,
-            binding?.emptyStates!!.progressBar,
-            binding?.emptyStates!!.errorMsgTextview
+            binding!!.progressBar,
+            binding!!.errorMsgTextview
         )
 
         // stop refreshing solo in questi 3 stati

@@ -77,8 +77,8 @@ class BoxoFragmentVM : Fragment() {
     private fun handleEmptyStates(emptyStates: EmptyStatesEnum) {
         EmptyStatesManagement.emptyStatesFlow(
             emptyStates,
-            binding?.emptyStates!!.progressBar,
-            binding?.emptyStates!!.errorMsgTextview
+            binding!!.progressBar,
+            binding!!.errorMsgTextview
         )
         when (emptyStates) {
             EmptyStatesEnum.ON_SUCCESS,

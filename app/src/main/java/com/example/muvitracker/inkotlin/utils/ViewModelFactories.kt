@@ -9,20 +9,19 @@ import com.example.muvitracker.inkotlin.mainactivity.details.mvvm_test.DetaViewM
 import com.example.muvitracker.inkotlin.mainactivity.prefs.mvvm_test.PrefsViewModel
 import com.example.muvitracker.inkotlin.mainactivity.search.mvvm.SearViewModel
 
-// -mvvm-test
-// base: popu e boxo
-// details
-// prefs
+/* mvvm-test
+* base: popu e boxo
+* details
+* prefs
+* search
+*/
 
-// completa
+
+
 class PopuVMFactory (private val context: Context) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(PopuViewModel::class.java)) {
-            @Suppress("UNCHECKED_CAST")
             return PopuViewModel(context) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }
 

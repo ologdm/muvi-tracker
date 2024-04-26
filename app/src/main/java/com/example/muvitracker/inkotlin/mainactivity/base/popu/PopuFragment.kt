@@ -95,8 +95,8 @@ class PopuFragment : Fragment(), BaseContract.View {
         // chiamo funzione gestione stati
         EmptyStatesManagement.emptyStatesFlow(
             emptyStates,
-            binding?.emptyStates!!.progressBar,
-            binding?.emptyStates!!.errorMsgTextview
+            binding!!.progressBar,
+            binding!!.errorMsgTextview
         )
 
         // stop refreshing solo in questi 3 stati

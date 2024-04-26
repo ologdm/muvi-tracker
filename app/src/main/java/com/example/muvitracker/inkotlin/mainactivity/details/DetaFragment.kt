@@ -170,8 +170,8 @@ class DetaFragment : Fragment(), DetaContract.View {
             EmptyStatesManagement.emptyStatesFlow(
                 emptyStatesEnum,
                 insideScrollView,
-                emptyStates.progressBar,
-                emptyStates.errorMsgTextview
+                progressBar,
+                errorMsgTextview
             )
             when (emptyStatesEnum) {
                 EmptyStatesEnum.ON_SUCCESS,
