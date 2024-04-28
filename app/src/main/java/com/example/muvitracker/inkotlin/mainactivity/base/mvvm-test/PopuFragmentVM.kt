@@ -94,7 +94,7 @@ class PopuFragmentVM : Fragment() {
 
 
     private fun handleEmptyStates(emptyStates: EmptyStatesEnum) {
-        EmptyStatesManagement.emptyStatesFlow(
+        EmptyStatesManagement(requireContext()).emptyStatesFlow(
             emptyStates,
             binding!!.progressBar,
             binding!!.errorMsgTextview

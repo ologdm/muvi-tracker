@@ -21,6 +21,7 @@
             android:text="@string/my_list"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@id/recycleView"
+            app:layout_constraintStart_toStartOf="parent"
             android:paddingVertical="8dp" />
 
 

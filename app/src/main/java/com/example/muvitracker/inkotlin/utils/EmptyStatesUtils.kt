@@ -1,8 +1,10 @@
 package com.example.muvitracker.myappunti.kotlin
 
+import android.content.Context
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import com.example.muvitracker.R
 
 /** contiene:
  * - EmptyStatesManagement class
@@ -13,12 +15,23 @@ import android.widget.TextView
  * - EmptyStatesCallback
  */
 
-object EmptyStatesManagement {
+class EmptyStatesManagement(private val context: Context) {
+
+    companion object {
+        var instance: EmptyStatesManagement? = null
+
+        fun getInstance(context: Context): EmptyStatesManagement {
+            if (instance == null) {
+                instance = EmptyStatesManagement(context)
+            }
+            return instance!!
+        }
+    }
+
 
     // non serve privato
-    const val NO_INTERNET_MSG = "no internet connection, swipe down"
-    const val OTHER_ERROR_MSG = "something went wrong"
-
+    val NO_INTERNET_MSG = context.getString(R.string.error_message_no_internet)
+    val OTHER_ERROR_MSG = context.getString(R.string.error_message_other)
 
 
     // versione NUOVA - dati in locale

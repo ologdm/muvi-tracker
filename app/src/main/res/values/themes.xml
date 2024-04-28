@@ -2,23 +2,29 @@
 
     <!-- Tema Applicazione => un tema per activity  -->
     <style name="Theme.MuviTracker" parent="Theme.Material3.DynamicColors.DayNight">
+
+        <!-- no toolbar -->
         <item name="windowNoTitle">true</item>
+
+        <!-- colore status + navigation bar, sfondo -->
         <item name="android:statusBarColor">?android:colorBackground</item>
         <item name="android:navigationBarColor">?colorSurfaceContainer</item>
-        <item name="android:windowLightNavigationBar">@bool/light_icons</item>
+
+        <!-- colore sfondo status + navigation bar, simboli -->
         <item name="android:windowLightStatusBar">@bool/light_icons</item>
+        <item name="android:windowLightNavigationBar">@bool/light_icons</item>
+
+        <!-- personalizzo view con stile => che definisco su style -->
         <item name="imageButtonStyle">@style/RoundedImageButton</item>
 
 
-        <!-- personalizzo view con stile => che definisco su style -->
     </style>
 
 
 
-<!--     (eugi) senza parent, vale stringa; con parent, parent"" sovrascrive testo-->
-<!--            <style name="Theme.Material3.DayNight.NoActionBar.UlMioMTema" parent="">-->
-<!--            </style>-->
-
-
 </resources>
+
+
+
+
 

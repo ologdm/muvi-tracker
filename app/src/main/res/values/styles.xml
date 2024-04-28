@@ -1,32 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-
-    <!-- 1. per imageButtonStyle -->
-
+    <!--per imageButtonStyle, applicato su temi -->
     <style name="RoundedImageButton">
         <item name="android:background">@drawable/baseline_circle</item>
-        <item name="android:backgroundTint">?colorPrimary</item>
-        <item name="android:tint">?colorOnPrimary</item>
+        <item name="android:backgroundTint">?attr/colorPrimaryContainer</item>
+        <item name="android:tint">?attr/colorOnPrimaryContainer</item>
         <item name="android:padding">8dp</item>
         <item name="android:elevation">8dp</item>
     </style>
 
-
+    <!-- per ShapeImageView, manuale -->
     <style name="RoundedShapeImageLarge" parent="ShapeAppearance.Material3.Corner.Large" />
     <style name="RoundedShapeImageMedium" parent="ShapeAppearance.Material3.Corner.Medium" />
 
-    <!-- 2. Typografy style-->
-    <style name="textStypePopu">
+
+    <!-- 1. GRAFICA PER LAYOUT   -->
+
+    <!--empty states, manuale-->
+    <style name="errorTextStyleES">
+        <item name="android:visibility">gone</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:elevation">4dp</item>
+        <item name="android:background">?attr/colorSurfaceContainer</item>
+        <item name="android:tint">?attr/colorOnSurface</item>
+    </style>
+
+    <!--base category -->
+    <style name="baseCategory_ToolbarStyle">
+        <item name="android:textSize">24sp</item>
+        <item name="android:paddingStart">20dp</item>
+        <item name="android:paddingEnd">20dp</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">8dp</item>
+    </style>
+
+    <style name="baseCategory_RVStyle">
+        <item name="android:paddingStart">8dp</item>
+        <item name="android:paddingEnd">16dp</item>
+        <item name="android:paddingTop">16dp</item>
+        <item name="android:paddingBottom">16dp</item>
+        <item name="android:clipToPadding">true</item>
+    </style>
+
+    <!--base vh -->
+    <style name="baseVh_Image">
+        <item name="android:scaleType">centerCrop</item>
+        <item name="shapeAppearance">@style/RoundedShapeImageLarge</item>
+    </style>
+
+
+
+
+
+    <!-- 2. TYPOGRAFY PER LAYOUT -->
+
+    <!--base vh -->
+    <style name="baseVh_TextStyle">
         <item name="android:textSize">18sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:paddingTop">4dp</item>
     </style>
 
-    <style name="textSizeDeta">
+    <!-- details, prova -->
+    <style name="detailsTextSize">
         <item name="android:textSize">30sp</item>
-
     </style>
+
+
 
 
 </resources>

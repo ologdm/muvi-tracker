@@ -93,7 +93,7 @@ class PopuFragment : Fragment(), BaseContract.View {
     // OK
     override fun emptyStatesFlow(emptyStates: EmptyStatesEnum) {
         // chiamo funzione gestione stati
-        EmptyStatesManagement.emptyStatesFlow(
+        EmptyStatesManagement(requireContext()).emptyStatesFlow(
             emptyStates,
             binding!!.progressBar,
             binding!!.errorMsgTextview

@@ -176,7 +176,7 @@ class DetaFragmentVM : Fragment() {
     private fun handleEmptyStates(emptyStatesEnum: EmptyStatesEnum) {
         with(binding!!) {
 
-            EmptyStatesManagement.emptyStatesFlow(
+            EmptyStatesManagement(requireContext()).emptyStatesFlow(
                 emptyStatesEnum,
                 insideScrollView,
                 progressBar,

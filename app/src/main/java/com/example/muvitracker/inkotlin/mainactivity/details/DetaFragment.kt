@@ -14,6 +14,7 @@ import com.example.muvitracker.myappunti.kotlin.EmptyStatesManagement
 import com.google.android.material.chip.Chip
 import java.math.BigDecimal
 import java.math.RoundingMode
+import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.Locale
@@ -104,14 +105,18 @@ class DetaFragment : Fragment(), DetaContract.View {
         with(binding!!) {
             title.text = detaDto.title
 
-            released.text = dateFormatter(detaDto.released?:"")
-            //runtime.text = getString()
-            runtime.text = "${detaDto.runtime.toString()} min"
+            released.text = dateFormatter(detaDto.released ?: "")
+//            runtime.text = detaDto.runtime.toString() + " min"
+            runtime.text = getString(
+                R.string.runtime_description,
+                detaDto.runtime.toString()
+            )
             country.text = detaDto.country
-            rating.text = "${ratingApross.toString()} stars"
+//            rating.text = "${ratingApross.toString()} stars"
+            rating.text = getString(R.string.rating_description, ratingApross.toString())
             overview.text = detaDto.overview
 
-            // stessa vertical e horizontal
+            // stessa vertical e horizontal - test OK
             Glide.with(requireContext())
                 .load(detaDto.getImageUrl())
                 .into(imageVertical)
@@ -119,7 +124,6 @@ class DetaFragment : Fragment(), DetaContract.View {
             Glide.with(requireContext())
                 .load(detaDto.getImageUrl())
                 .into(imageHorizontal)
-
 
             // chip con binding OK
             chipGroup.removeAllViews() // pulire quelli precedenti
@@ -129,14 +133,11 @@ class DetaFragment : Fragment(), DetaContract.View {
                 }
                 chipGroup.addView(chip)
             }
-
-
         }
-
-        println("XXX_D_FRAGM_UPDATEUI")
         updateFavoriteIcon(detaDto.liked) // isliked
         updateWatchedCheckbox(detaDto.watched) // isWatched
 
+        println("XXX_D_FRAGM_UPDATEUI")
     }
 
 
@@ -144,7 +145,6 @@ class DetaFragment : Fragment(), DetaContract.View {
     private fun updateFavoriteIcon(isFavorite: Boolean) {
         val iconFilled = context?.getDrawable(R.drawable.baseline_liked)
         val iconEmpty = context?.getDrawable(R.drawable.baseline_liked_border)
-
         if (isFavorite) {
             binding
                 ?.floatingLikedButton?.setImageDrawable(iconFilled)  // da presenterDto
@@ -167,7 +167,7 @@ class DetaFragment : Fragment(), DetaContract.View {
     override fun handleEmptyStates(emptyStatesEnum: EmptyStatesEnum) {
         with(binding!!) {
 
-            EmptyStatesManagement.emptyStatesFlow(
+            EmptyStatesManagement(requireContext()).emptyStatesFlow(
                 emptyStatesEnum,
                 insideScrollView,
                 progressBar,
@@ -200,16 +200,32 @@ class DetaFragment : Fragment(), DetaContract.View {
     }
 
 
+    // dateFormatter - sdk 26
+//    private fun dateFormatter(data: String): String {
+//        // style input
+//        val formatterInput = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+//        // style output
+//        val formatterOutput = DateTimeFormatter.ofPattern("MMM yyyy", Locale.ENGLISH)
+//        // save input
+//        val dataLocale = LocalDate.parse(data, formatterInput)
+//        // modify to output
+//        return dataLocale.format(formatterOutput)
+//    }
+
+
+    // dateFormatter - sdk 24 compatibile
     private fun dateFormatter(data: String): String {
-        // style input
-        val formatterInput = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-        // style output
-        val formatterOutput = DateTimeFormatter.ofPattern("MMM yyyy", Locale.ENGLISH)
-        // save input
-        val dataLocale = LocalDate.parse(data, formatterInput)
-        // modify to output
-        return dataLocale.format(formatterOutput)
+        // Input date format
+        val formatterInput = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
+        // Output date format
+        val formatterOutput = SimpleDateFormat("MMM yyyy", Locale.ENGLISH)
+
+        // Parse the input date string
+        val date = formatterInput.parse(data)
+        // Format to output string
+        return formatterOutput.format(date)
     }
+
 
     fun approssimaDecimale(numero: Float, cifreDecimali: Int = 1): Float {
         return BigDecimal(numero.toString()).setScale(cifreDecimali, RoundingMode.HALF_UP).toFloat()
