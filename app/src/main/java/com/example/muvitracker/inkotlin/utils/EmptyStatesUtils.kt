@@ -1,6 +1,5 @@
-package com.example.muvitracker.myappunti.kotlin
+package com.example.muvitracker.inkotlin.utils
 
-import android.content.Context
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
@@ -15,32 +14,17 @@ import com.example.muvitracker.R
  * - EmptyStatesCallback
  */
 
-class EmptyStatesManagement(private val context: Context) {
-
-    companion object {
-        var instance: EmptyStatesManagement? = null
-
-        fun getInstance(context: Context): EmptyStatesManagement {
-            if (instance == null) {
-                instance = EmptyStatesManagement(context)
-            }
-            return instance!!
-        }
-    }
+object EmptyStatesManagement {
 
 
-    // non serve privato
-    val NO_INTERNET_MSG = context.getString(R.string.error_message_no_internet)
-    val OTHER_ERROR_MSG = context.getString(R.string.error_message_other)
-
-
-    // versione NUOVA - dati in locale
+    // versione NUOVA - compatibile con caching
     // per popu e boxo
     fun emptyStatesFlow(
         emptyStates: EmptyStatesEnum,
         progressBar: View,
         errorMsgTextview: TextView
     ) {
+        val context  = progressBar.context // dove vive la view
         when (emptyStates) {
 
             EmptyStatesEnum.ON_START -> {
@@ -60,12 +44,12 @@ class EmptyStatesManagement(private val context: Context) {
 
             EmptyStatesEnum.ON_ERROR_IO -> {
                 setProgressBar(progressBar, Visibility.HIDE)
-                setErrorMsg(errorMsgTextview, Visibility.SHOW, NO_INTERNET_MSG)
+                setErrorMsg(errorMsgTextview, Visibility.SHOW, context.getString(R.string.error_message_no_internet))
             }
 
             EmptyStatesEnum.ON_ERROR_OTHER -> {
                 setProgressBar(progressBar, Visibility.HIDE)
-                setErrorMsg(errorMsgTextview, Visibility.SHOW, OTHER_ERROR_MSG)
+                setErrorMsg(errorMsgTextview, Visibility.SHOW, context.getString(R.string.error_message_other))
             }
 
         }
@@ -80,6 +64,7 @@ class EmptyStatesManagement(private val context: Context) {
         progressBar: View,
         errorMsgTextview: TextView
     ) {
+        val context  = progressBar.context // dove vive la view
         when (emptyStates) {
 
             EmptyStatesEnum.ON_START -> {
@@ -103,13 +88,13 @@ class EmptyStatesManagement(private val context: Context) {
             EmptyStatesEnum.ON_ERROR_IO -> {
                 setInsideScrollVisibility(insideScrollView, Visibility.HIDE)
                 setProgressBar(progressBar, Visibility.HIDE)
-                setErrorMsg(errorMsgTextview, Visibility.SHOW, NO_INTERNET_MSG)
+                setErrorMsg(errorMsgTextview, Visibility.SHOW, context.getString(R.string.error_message_no_internet))
             }
 
             EmptyStatesEnum.ON_ERROR_OTHER -> {
                 setInsideScrollVisibility(insideScrollView, Visibility.HIDE)
                 setProgressBar(progressBar, Visibility.HIDE)
-                setErrorMsg(errorMsgTextview, Visibility.SHOW, OTHER_ERROR_MSG)
+                setErrorMsg(errorMsgTextview, Visibility.SHOW, context.getString(R.string.error_message_other))
             }
 
         }

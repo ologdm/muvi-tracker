@@ -55,15 +55,18 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
-    // retrofit
+    // retrofit base
     implementation 'com.squareup.retrofit2:retrofit:2.10.0'
-    // convertitore GSON
+    // retrofit - convertitore GSON
     implementation group: 'com.squareup.retrofit2', name: 'converter-gson', version: '2.9.0'
 
-    // aggiunto step 2
+    // swipe refresh
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
 
+    // per viewmodels automatico
+    implementation "androidx.fragment:fragment-ktx:1.6.2"
 
+    // glide
     implementation 'com.github.bumptech.glide:glide:4.16.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
 

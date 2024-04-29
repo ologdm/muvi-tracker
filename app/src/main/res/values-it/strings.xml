@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="popular">popolari</string>
-    <string name="box_office">al cinema</string>
-    <string name="my_list">preferiti</string>
-    <string name="search">cerca</string>
+    <string name="popular">Popolari</string>
+    <string name="box_office">Al Cinema</string>
+    <string name="my_list">Preferiti</string>
+    <string name="search">Cerca</string>
 
     <string name="released">Data uscita:</string>
     <string name="runtime">Durata:</string>

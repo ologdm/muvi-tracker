@@ -12,13 +12,14 @@
 
     <!-- per ShapeImageView, manuale -->
     <style name="RoundedShapeImageLarge" parent="ShapeAppearance.Material3.Corner.Large" />
+
     <style name="RoundedShapeImageMedium" parent="ShapeAppearance.Material3.Corner.Medium" />
 
 
-    <!-- 1. GRAFICA PER LAYOUT   -->
+    <!-- GRAFICA PER LAYOUT   -->
 
     <!--empty states, manuale-->
-    <style name="errorTextStyleES">
+    <style name="ES_ErrorTextStyle">
         <item name="android:visibility">gone</item>
         <item name="android:textSize">16sp</item>
         <item name="android:elevation">4dp</item>
@@ -26,8 +27,15 @@
         <item name="android:tint">?attr/colorOnSurface</item>
     </style>
 
+    <style name="ES_ProgressBarStyle">
+        <item name="android:elevation">8dp</item>
+        <item name="android:visibility">gone</item>
+        <item name="android:indeterminate">true</item>
+    </style>
+
+
     <!--base category -->
-    <style name="baseCategory_ToolbarStyle">
+    <style name="BaseCategory_ToolbarStyle">
         <item name="android:textSize">24sp</item>
         <item name="android:paddingStart">20dp</item>
         <item name="android:paddingEnd">20dp</item>
@@ -35,7 +43,7 @@
         <item name="android:paddingBottom">8dp</item>
     </style>
 
-    <style name="baseCategory_RVStyle">
+    <style name="BaseCategory_RVStyle">
         <item name="android:paddingStart">8dp</item>
         <item name="android:paddingEnd">16dp</item>
         <item name="android:paddingTop">16dp</item>
@@ -43,30 +51,35 @@
         <item name="android:clipToPadding">true</item>
     </style>
 
+
     <!--base vh -->
-    <style name="baseVh_Image">
+    <style name="BaseVh_Image">
         <item name="android:scaleType">centerCrop</item>
         <item name="shapeAppearance">@style/RoundedShapeImageLarge</item>
     </style>
 
-
-
-
-
-    <!-- 2. TYPOGRAFY PER LAYOUT -->
-
+    <!-- TYPOGRAFY PER LAYOUT -->
     <!--base vh -->
-    <style name="baseVh_TextStyle">
+    <style name="BaseVh_TextTipografy">
         <item name="android:textSize">18sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:paddingTop">4dp</item>
     </style>
 
-    <!-- details, prova -->
-    <style name="detailsTextSize">
-        <item name="android:textSize">30sp</item>
+    <!--details-->
+    <style name="Details_TitleTypografy">
+        <item name="android:textSize">40sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:paddingBottom">20dp</item>
     </style>
 
+    <style name="Details_CategoryTypografy">
+        <item name="android:textStyle">bold</item>
+
+    </style>
+
+
+    <!--placeholders-->
 
 
 

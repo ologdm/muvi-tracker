@@ -58,7 +58,7 @@ object MyRetrofit {
 
 
 
-// INCAPSULAMENTO CREAZIONE RETROFIT PER MUVI_TRACKER
+// INCAPSULAMENTO CREAZIONE RETROFIT PER MUVI_TRACKER --> altri modi
 
 /* 2. Funzione Globale
 *     disponibile dapperutto, spam in namespace global

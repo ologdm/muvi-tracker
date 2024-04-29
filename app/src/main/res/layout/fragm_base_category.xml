@@ -21,7 +21,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toTopOf="@id/recycleView"
-                style="@style/baseCategory_ToolbarStyle"/>
+                style="@style/BaseCategory_ToolbarStyle"/>
 <!--        app:layout_constraintHorizontal_bias="0"  0-0.5-1 in base a posizione -->
 
 
@@ -37,9 +37,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/divider"
-                android:elevation="8dp"
-                android:visibility="gone"
-                android:indeterminate="true" />
+                style="@style/ES_ProgressBarStyle"/>
 
         <!--old-->
         <!--        <ProgressBar-->
@@ -62,7 +60,7 @@
                 app:layout_constraintTop_toBottomOf="@id/divider"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                style="@style/errorTextStyleES" />
+                style="@style/ES_ErrorTextStyle" />
 
 
         <androidx.recyclerview.widget.RecyclerView
@@ -71,8 +69,8 @@
                 android:layout_height="0dp"
                 app:layout_constraintTop_toBottomOf="@+id/divider"
                 app:layout_constraintBottom_toBottomOf="parent"
-                tools:listitem="@layout/vh_base"
-                style="@style/baseCategory_RVStyle"/>
+                tools:listitem="@layout/vh_movie"
+                style="@style/BaseCategory_RVStyle"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

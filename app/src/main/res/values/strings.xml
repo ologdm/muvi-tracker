@@ -2,10 +2,10 @@
     <string name="app_name" translatable="false">MuviTracker</string>
 
     <!--base -->
-    <string name="popular">popular</string>
-    <string name="box_office">box office</string>
-    <string name="my_list">my list</string>
-    <string name="search">search</string>
+    <string name="popular">Popular</string>
+    <string name="box_office">Box Office</string>
+    <string name="my_list">My List</string>
+    <string name="search">Search</string>
 
     <!--details -->
     <string name="released">Released:</string>
