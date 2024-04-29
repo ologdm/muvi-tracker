@@ -6,12 +6,49 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+    <!--    old -->
+    <!--    <ProgressBar-->
+    <!--            android:id="@+id/progressBar"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_gravity="center"-->
+    <!--            android:visibility="gone"-->
+    <!--            tools:visibility="visible"-->
+    <!--            app:layout_constraintStart_toStartOf="parent"-->
+    <!--            app:layout_constraintHorizontal_bias="0.5"-->
+    <!--            app:layout_constraintEnd_toEndOf="parent"-->
+    <!--            app:layout_constraintTop_toTopOf="parent"-->
+    <!--            app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--            app:layout_constraintVertical_bias="0.5" />-->
+
+
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/progressBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible"
+            style="@style/ES_ProgressBarStyle" />
+
+    <TextView
+            android:id="@+id/errorMsgTextview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|center"
+            tools:visibility="visible"
+            tools:hint="custom error text"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            style="@style/ES_ErrorTextStyle" />
+
 
     <ImageButton
-            android:elevation="4dp"
             android:id="@+id/buttonBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:elevation="4dp"
             app:srcCompat="@drawable/baseline_arrow_back"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -76,16 +113,13 @@
                             android:id="@+id/title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="40sp"
-                            android:textStyle="bold"
-                            android:paddingBottom="20dp"
-                            tools:hint="@tools:sample/lorem" />
+                            tools:hint="@tools:sample/lorem"
+                            style="@style/Details_TitleTypografy" />
 
                     <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            style="@style/textSizeDeta">
+                            android:orientation="horizontal">
 
 
                         <com.google.android.material.imageview.ShapeableImageView
@@ -107,8 +141,9 @@
                             <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:textStyle="bold"
-                                    android:text="@string/released" />
+                                    android:text="@string/released"
+                                    style="@style/Details_CategoryTypografy"
+                                    />
 
                             <TextView
                                     android:id="@+id/released"
@@ -122,7 +157,8 @@
                                     android:layout_height="wrap_content"
                                     android:text="@string/runtime"
                                     android:textStyle="bold"
-                                    android:layout_marginTop="10dp" />
+                                    android:layout_marginTop="10dp"
+                                    style="@style/Details_CategoryTypografy" />
 
                             <TextView
                                     android:id="@+id/runtime"
@@ -135,8 +171,8 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="@string/country"
-                                    android:textStyle="bold"
-                                    android:layout_marginTop="10dp" />
+                                    android:layout_marginTop="10dp"
+                                    style="@style/Details_CategoryTypografy" />
 
                             <TextView
                                     android:id="@+id/country"
@@ -148,9 +184,9 @@
                             <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:textStyle="bold"
                                     android:text="@string/rating"
-                                    android:layout_marginTop="10dp" />
+                                    android:layout_marginTop="10dp"
+                                    style="@style/Details_CategoryTypografy" />
 
                             <TextView
                                     android:id="@+id/rating"
@@ -158,14 +194,13 @@
                                     android:layout_height="wrap_content"
                                     android:hint="testo" />
 
+
                             <com.google.android.material.divider.MaterialDivider
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     app:layout_constraintTop_toBottomOf="@id/toolbar"
                                     android:layout_marginTop="24dp"
-
-                                    android:layout_marginBottom="16dp"/>
-
+                                    android:layout_marginBottom="16dp" />
 
 
                             <CheckBox
@@ -187,13 +222,13 @@
                             android:text="@string/about_show"
                             android:layout_marginTop="30dp"
                             android:layout_marginBottom="10dp"
-                            android:textStyle="bold" />
+                            style="@style/Details_CategoryTypografy" />
 
                     <TextView
                             android:id="@+id/overview"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            tools:hint=" ''''PROVA''' Prova radotto dall'inglese-La notte oscura dell'anima è una fase di purificazione passiva dello spirito nello sviluppo mistico, come descritta dal mistico e poeta spagnolo del XVI secolo San Giovanni della Croce nel suo trattato Notte oscura, un commento al suo poema con lo stesso nome."
+                            tools:hint="Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             android:layout_marginBottom="20dp" />
@@ -208,9 +243,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/genres"
-                            android:textStyle="bold"
                             android:paddingTop="16dp"
-                            android:paddingBottom="8dp"/>
+                            android:paddingBottom="8dp"
+                            style="@style/Details_CategoryTypografy"/>
 
                     <com.google.android.material.chip.ChipGroup
                             android:id="@+id/chipGroup"
@@ -218,22 +253,18 @@
                             android:layout_height="wrap_content"
                             app:singleSelection="false" />
 
-
                 </LinearLayout>
-
 
             </LinearLayout>
 
         </androidx.core.widget.NestedScrollView>
 
-
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    <include
-            android:id="@+id/emptyStates"
-            layout="@layout/empty_states"
-            android:layout_height="match_parent"
-            android:layout_width="match_parent" />
-
+    <!--    <include-->
+    <!--            android:id="@+id/emptyStates"-->
+    <!--            layout="@layout/empty_states"-->
+    <!--            android:layout_height="match_parent"-->
+    <!--            android:layout_width="match_parent" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,53 +5,81 @@
         android:id="@+id/swipeToRefresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    <!--  android:theme="@style/Theme.AppCompat" ==> tema diverso  -->
+    <!--  android:theme="@style/Theme.AppCompat" ==> esempio tema diverso  -->
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="0dp">
 
 
         <TextView
                 android:id="@+id/toolbar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                tools:hint="base category"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toTopOf="@id/recycleView"
-                android:textSize="24sp"
-                android:paddingHorizontal="20dp"
-                tools:hint="base category"
-                app:layout_constraintHorizontal_bias="0"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:paddingVertical="8dp" />
+                style="@style/BaseCategory_ToolbarStyle"/>
+<!--        app:layout_constraintHorizontal_bias="0"  0-0.5-1 in base a posizione -->
+
 
         <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/divider"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/toolbar" />
+
+
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+                android:id="@+id/progressBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/divider"
+                style="@style/ES_ProgressBarStyle"/>
+
+        <!--old-->
+        <!--        <ProgressBar-->
+        <!--                android:id="@+id/progressBar"-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                style="?android:attr/progressBarStyleHorizontal"-->
+        <!--                android:visibility="gone"-->
+        <!--                tools:visibility="visible"-->
+        <!--                android:elevation="8dp"-->
+        <!--                app:layout_constraintTop_toBottomOf="@id/divider" />-->
+
+        <TextView
+                android:id="@+id/errorMsgTextview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|center"
+                tools:visibility="visible"
+                tools:hint="custom error text"
+                app:layout_constraintTop_toBottomOf="@id/divider"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                style="@style/ES_ErrorTextStyle" />
 
 
         <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycleView"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                app:layout_constraintTop_toBottomOf="@+id/toolbar"
+                app:layout_constraintTop_toBottomOf="@+id/divider"
                 app:layout_constraintBottom_toBottomOf="parent"
-                android:paddingHorizontal="8dp"
-                android:paddingVertical="16dp"
-                android:clipToPadding="true"
-                tools:listitem="@layout/vh_base" />
+                tools:listitem="@layout/vh_movie"
+                style="@style/BaseCategory_RVStyle"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-    <include
-            android:id="@+id/emptyStates"
-            layout="@layout/empty_states"
-            android:layout_height="match_parent"
-            android:layout_width="match_parent" />
+    <!--old-->
+    <!--    <include-->
+    <!--            android:id="@+id/emptyStates"-->
+    <!--            layout="@layout/empty_states"-->
+    <!--            android:layout_height="match_parent"-->
+    <!--            android:layout_width="match_parent" />-->
 
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

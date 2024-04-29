@@ -1,8 +1,9 @@
-package com.example.muvitracker.myappunti.kotlin
+package com.example.muvitracker.inkotlin.utils
 
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import com.example.muvitracker.R
 
 /** contiene:
  * - EmptyStatesManagement class
@@ -15,19 +16,15 @@ import android.widget.TextView
 
 object EmptyStatesManagement {
 
-    // non serve privato
-    const val NO_INTERNET_MSG = "no internet connection, swipe down"
-    const val OTHER_ERROR_MSG = "something went wrong"
 
-
-
-    // versione NUOVA - dati in locale
+    // versione NUOVA - compatibile con caching
     // per popu e boxo
     fun emptyStatesFlow(
         emptyStates: EmptyStatesEnum,
         progressBar: View,
         errorMsgTextview: TextView
     ) {
+        val context  = progressBar.context // dove vive la view
         when (emptyStates) {
 
             EmptyStatesEnum.ON_START -> {
@@ -47,12 +44,12 @@ object EmptyStatesManagement {
 
             EmptyStatesEnum.ON_ERROR_IO -> {
                 setProgressBar(progressBar, Visibility.HIDE)
-                setErrorMsg(errorMsgTextview, Visibility.SHOW, NO_INTERNET_MSG)
+                setErrorMsg(errorMsgTextview, Visibility.SHOW, context.getString(R.string.error_message_no_internet))
             }
 
             EmptyStatesEnum.ON_ERROR_OTHER -> {
                 setProgressBar(progressBar, Visibility.HIDE)
-                setErrorMsg(errorMsgTextview, Visibility.SHOW, OTHER_ERROR_MSG)
+                setErrorMsg(errorMsgTextview, Visibility.SHOW, context.getString(R.string.error_message_other))
             }
 
         }
@@ -67,6 +64,7 @@ object EmptyStatesManagement {
         progressBar: View,
         errorMsgTextview: TextView
     ) {
+        val context  = progressBar.context // dove vive la view
         when (emptyStates) {
 
             EmptyStatesEnum.ON_START -> {
@@ -90,13 +88,13 @@ object EmptyStatesManagement {
             EmptyStatesEnum.ON_ERROR_IO -> {
                 setInsideScrollVisibility(insideScrollView, Visibility.HIDE)
                 setProgressBar(progressBar, Visibility.HIDE)
-                setErrorMsg(errorMsgTextview, Visibility.SHOW, NO_INTERNET_MSG)
+                setErrorMsg(errorMsgTextview, Visibility.SHOW, context.getString(R.string.error_message_no_internet))
             }
 
             EmptyStatesEnum.ON_ERROR_OTHER -> {
                 setInsideScrollVisibility(insideScrollView, Visibility.HIDE)
                 setProgressBar(progressBar, Visibility.HIDE)
-                setErrorMsg(errorMsgTextview, Visibility.SHOW, OTHER_ERROR_MSG)
+                setErrorMsg(errorMsgTextview, Visibility.SHOW, context.getString(R.string.error_message_other))
             }
 
         }

@@ -12,7 +12,8 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             tools:background="@tools:sample/avatars"
-            app:shapeAppearance="@style/RoundedShapeImageLarge" />
+            app:shapeAppearance="@style/RoundedShapeImageLarge"
+            android:background="?attr/colorOnSurface" />
 
 
     <!-- Titoli: -->
@@ -20,8 +21,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:paddingVertical="12dp"
-        android:paddingHorizontal="16dp">
+            android:paddingTop="12dp"
+            android:paddingHorizontal="16dp">
 
         <TextView
                 android:id="@+id/titleVH"
@@ -29,8 +30,7 @@
                 android:layout_height="wrap_content"
                 tools:text="@tools:sample/cities"
                 android:textSize="20sp"
-                android:textStyle="bold"
-/>
+                android:textStyle="bold" />
 
         <TextView
                 android:id="@+id/yearVH"
@@ -40,7 +40,6 @@
                 android:textSize="16sp"
 
                 android:layout_marginBottom="10dp" />
-
 
 
         <LinearLayout
@@ -56,7 +55,6 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     android:layout_marginTop="4dp"
-                    android:padding="8dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     android:importantForAccessibility="no" />
 

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="popular">popolari</string>
-    <string name="box_office">al cinema</string>
-    <string name="my_list">preferiti</string>
-    <string name="search">cerca</string>
+    <string name="popular">Popolari</string>
+    <string name="box_office">Al Cinema</string>
+    <string name="my_list">Preferiti</string>
+    <string name="search">Cerca</string>
 
     <string name="released">Data uscita:</string>
     <string name="runtime">Durata:</string>
@@ -13,5 +13,13 @@
     <string name="watched">Guardato</string>
     <string name="about_show">Descrizione</string>
     <string name="genres">Generi:</string>
+    <!--formattazione -->
+    <!--runtime_description: no -->
+    <string name="rating_description"> %1$s stelle</string>
+
+    <!--empty states -->
+    <string name="error_message_no_internet">nessuna connessione internet, scorri verso il basso</string>
+    <string name="error_message_other">qualcosa e andato storto :(</string>
+
 
 </resources>
