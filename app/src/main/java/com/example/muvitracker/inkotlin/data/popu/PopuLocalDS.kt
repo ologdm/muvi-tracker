@@ -2,14 +2,12 @@ package com.example.muvitracker.inkotlin.data.popu
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.example.muvitracker.inkotlin.data.dto.base.PopuDto
+import com.example.muvitracker.inkotlin.data.dto.suggestedmovie.PopuDto
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
-
 /**
  * ### SHARED PREFS MANAGMENT ###
- *
  *
  * id necessari shared prefs:
  *  1) "myPopuPrefs"   => id fase creazione prefs
@@ -22,27 +20,20 @@ import com.google.gson.reflect.TypeToken
  *  1) pr fun getJson
  *  2) pr fun getListFromJson
  *
- *
  * metodi get/set list: OK
  *  1) fun saveListInLocal
  *  2) fun loadFromLocal
- *
  *
  * null management: OK
  *             > loadFromLocal(), json null -> lista null
  *             > getListFromJson(), json null,
  *
- *
  */
-
-
-// singleton OK
-// attributi : context, gson, shared
 
 
 class PopuLocalDS
 private constructor(
-    private val context: Context // vale come dichiarazione
+    private val context: Context
 ) {
 
     private val gson = Gson()
@@ -89,7 +80,7 @@ private constructor(
 
     // METODI SET /GET  OK
 
-    // 2.1 salvo
+    // 2.1 salvo lista
     fun saveListInLocal(list: List<PopuDto>) {
 
         // 1 conversione lista -> json
@@ -102,7 +93,7 @@ private constructor(
     }
 
 
-    // 2.2 carico da prefs
+    // 2.2 carico lista  da prefs
     fun loadFromLocal(): List<PopuDto> {
 
         // 1 estrazione stringa da DB

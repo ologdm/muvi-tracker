@@ -1,7 +1,7 @@
 package com.example.muvitracker.inkotlin.data.popu
 
 import com.example.muvitracker.inkotlin.data.TraktApi
-import com.example.muvitracker.inkotlin.data.dto.base.PopuDto
+import com.example.muvitracker.inkotlin.data.dto.suggestedmovie.PopuDto
 import com.example.muvitracker.myappunti.kotlin.MyRetrofit
 import com.example.muvitracker.myappunti.kotlin.RetrofitCallbackList
 import retrofit2.Call

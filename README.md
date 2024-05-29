@@ -20,7 +20,7 @@ Movie tracking android application based on [Trakt API](https://trakt.docs.apiar
 - Min SDK level 24
 - Entirely written in [Kotlin](https://kotlinlang.org/) (previously Java)
 - MVP Architecture (also MVVM for test)
-- [Retrofit](https://github.com/square/retrofit) - - Construct the REST APIs
+- [Retrofit](https://github.com/square/retrofit) - Construct the REST APIs
 - [Gson](https://github.com/google/gson) - convert Java Objects into their JSON representation
 - SharedPreferences - Storage and Caching
 - [Glide](https://github.com/bumptech/glide) - Loading images 

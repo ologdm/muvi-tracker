@@ -2,8 +2,8 @@ package com.example.muvitracker.inkotlin.data.popu
 
 import android.content.Context
 import com.example.muvitracker.inkotlin.domain.MovieModel
-import com.example.muvitracker.inkotlin.data.dto.base.PopuDto
-import com.example.muvitracker.inkotlin.data.dto.base.toDomain
+import com.example.muvitracker.inkotlin.data.dto.suggestedmovie.PopuDto
+import com.example.muvitracker.inkotlin.data.dto.suggestedmovie.toDomain
 import com.example.muvitracker.inkotlin.utils.EmptyStatesCallbackList
 import com.example.muvitracker.myappunti.kotlin.RetrofitCallbackList
 import java.io.IOException

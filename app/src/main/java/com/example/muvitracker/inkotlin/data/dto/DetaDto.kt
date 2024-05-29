@@ -2,31 +2,21 @@ package com.example.muvitracker.inkotlin.data.dto
 
 import com.example.muvitracker.inkotlin.data.dto.support.Ids
 
-// serializable non e da implementare
-// parcelable solo per inviare dati in android (intent, tra fragment ecc)
 
-// solo getters
-
-// -> uso per Details e prefList
-
-
-// OK
 data class DetaDto(
 
-    //val type: String = "", // valore standard
 
-    // valori predefiniti costruttore
-
-    // elementi controllo prefList
+    // elementi controllo prefList TODO su Domain
     val liked: Boolean = false,
     val watched: Boolean = false,
 
 
+    // TODO  - creare domain per filtrare solo quelli utilizzati
     val title: String,
     val year: Int,
     val ids: Ids,
 
-    // altro used only 6
+    //  6 used
     //val tagline: String = "",
     val overview: String = "",
     val released: String = "",
@@ -47,24 +37,24 @@ data class DetaDto(
     //val certification: String = ""
 ) {
 
+    // TODO move to domain
     fun getImageUrl(): String {
         return "http://img.omdbapi.com/" + "?apikey=ef6d3d4c" + "&i=${ids.imdb}";
     }
 }
 
 
-// ####################################################
+
+// JSON Details ####################################################
+
+// Trakt Summary -> https://trakt.docs.apiary.io/#reference/movies/summary
+
+// API GET:  movies/id
+// id -> Trakt ID, Trakt slug, or IMDB ID Example: tron-legacy-2010.
+// id -> path
 
 
-// JSON Details - Trakt Summary -> https://trakt.docs.apiary.io/#reference/sync/update-favorite-item/get-a-movie
-
-// API GET:  https://private-anon-9505e163f3-trakt.apiary-mock.com/movies/ (id)
-// (id) --> Trakt ID, Trakt , or IMDB ID Example: tron-legacy-2010.
-
-// ** titolo: TRON: Legacy /-> slug - tron-legacy-2010
-
-// ######################################
-
+// 1.short
 /* /movies/tron-legacy-2010
 {
   "title": "TRON: Legacy",
@@ -79,7 +69,7 @@ data class DetaDto(
  */
 
 
-// #######################################
+// 2.extended
 /* /movies/tron-legacy-2010?extended=full
 {
     "title": "TRON: Legacy",

@@ -2,7 +2,7 @@ package com.example.muvitracker.inkotlin.data.boxo
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.example.muvitracker.inkotlin.data.dto.base.BoxoDto
+import com.example.muvitracker.inkotlin.data.dto.suggestedmovie.BoxoDto
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
@@ -27,13 +27,11 @@ private constructor(
     private val context: Context
 ) {
 
-    // ATTRIBUTI
     private val gson = Gson()
     private val boxoSharedPrefs: SharedPreferences =
         context.getSharedPreferences("myBoxoPrefs", Context.MODE_PRIVATE)
 
 
-    // SINGLETON
     companion object {
         private var instance: BoxoLocalDS? = null
 
@@ -44,7 +42,6 @@ private constructor(
             return instance!!
         }
 
-        // costante
         private const val BOXO_LIST_01 = "chiaveLista01"
     }
 

@@ -2,8 +2,8 @@ package com.example.muvitracker.inkotlin.data.boxo
 
 import android.content.Context
 import com.example.muvitracker.inkotlin.domain.MovieModel
-import com.example.muvitracker.inkotlin.data.dto.base.BoxoDto
-import com.example.muvitracker.inkotlin.data.dto.base.toDomain
+import com.example.muvitracker.inkotlin.data.dto.suggestedmovie.BoxoDto
+import com.example.muvitracker.inkotlin.data.dto.suggestedmovie.toDomain
 import com.example.muvitracker.inkotlin.utils.EmptyStatesCallbackList
 import com.example.muvitracker.myappunti.kotlin.RetrofitCallbackList
 import java.io.IOException
