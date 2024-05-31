@@ -1,6 +1,6 @@
 package com.example.muvitracker.inkotlin.domain.model
 
-import com.example.muvitracker.inkotlin.data.dto.support.Ids
+import com.example.muvitracker.inkotlin.data.dto.base.Ids
 
 /*
  *  to Domain()
@@ -9,7 +9,7 @@ import com.example.muvitracker.inkotlin.data.dto.support.Ids
  */
 
 
-data class MovieModel(
+data class MovieItem(
     val title: String,
     val year: Int,
     val ids: Ids,

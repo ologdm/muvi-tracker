@@ -50,8 +50,6 @@ object RetrofitUtils {
 //        return traktApi.getPopularMovies()
 //    }
 
-
-
 }
 
 
@@ -76,6 +74,30 @@ fun <T> Call<T>.startNetworkCall(onResponse: (IoResponse<T>) -> Unit) {
 
     })
 }
+
+
+// TODO generica
+//fun <T> Call<T>.startNetworkCallByQuery(
+//    queryText: String,
+//    onResponse: (IoResponse<T>) -> Unit
+//) {
+//    this.enqueue(object : Callback<T> {
+//        override fun onResponse(call: Call<T>, response: Response<T>) {
+//            if (response.isSuccessful) {
+//                onResponse(IoResponse.Success(response.body()!!))
+//            } else {
+//                val exception = HttpException(response)
+//                exception.printStackTrace()
+//                onResponse(IoResponse.OtherError)
+//            }
+//        }
+//
+//        override fun onFailure(call: Call<T>, t: Throwable) {
+//            t.printStackTrace()
+//            onResponse(IoResponse.NetworkError)
+//        }
+//    })
+//}
 
 
 

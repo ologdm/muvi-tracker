@@ -36,12 +36,12 @@ import java.io.IOException
  */
 
 
-class DetaRepo
+class OldDetaRepo
 private constructor(
     private val context: Context
 ) {
 
-    val detaLocalDS = DLocalDS.getInstance(context)
+    val detaLocalDS = DetaLocalDS.getInstance(context)
 
 
     // ########################################################
@@ -64,7 +64,7 @@ private constructor(
     // OK
     private fun getNetworkItemAndAddToLocal(movieId: Int, callES: EmptyStatesCallback<DetaDto>) {
         callES.OnStart() // empty states
-        DNetworkDS.callDetaServer(
+        OldDetaNetworkDS.callDetaServer(
             movieId,
             object : RetrofitCallback<DetaDto> {
                 override fun onSuccess(serverItem: DetaDto) {
@@ -117,10 +117,10 @@ private constructor(
 
 
     companion object {
-        private var instance: DetaRepo? = null
-        fun getInstance(context: Context): DetaRepo {
+        private var instance: OldDetaRepo? = null
+        fun getInstance(context: Context): OldDetaRepo {
             if (instance == null) {
-                instance = DetaRepo(context)
+                instance = OldDetaRepo(context)
             }
             return instance!!
         }

@@ -1,15 +1,15 @@
 package com.example.muvitracker.inkotlin.data.dto.search.Internal
 
-import com.example.muvitracker.inkotlin.data.dto.support.Ids
+import com.example.muvitracker.inkotlin.data.dto.base.Ids
 
 // OK
-data class Episode(
+data class EpisodeDto(
 
     val season: Int,
     val number: Int,
     val title: String,
     val ids: Ids,
-    val show: Show
+    val show: ShowDto
 
 ) {
 

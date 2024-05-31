@@ -3,7 +3,7 @@ package com.example.muvitracker.inkotlin.data.movies
 import android.content.Context
 import android.content.SharedPreferences
 import com.example.muvitracker.inkotlin.data.dto.BoxoDto
-import com.example.muvitracker.inkotlin.data.dto.PopuDto
+import com.example.muvitracker.inkotlin.data.dto.MovieDto
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
@@ -31,6 +31,8 @@ import com.google.gson.reflect.TypeToken
 // koltin news
 // inline - <refired T>
 
+// TODO convertire a Serializable
+
 class MoviesLocalDS
 private constructor(
     private val context: Context
@@ -47,19 +49,30 @@ private constructor(
         return gson.toJson(this)
     }
 
+    // (eugi)
     // 2. Json -> List
     // (to make it T, inline + reified is compulsory)
+//    private fun < T> getListFromJson(jsonString: String): List<T>? {
+//        try {
+//            val listType = object : TypeToken<List<T>>() {}.type
+//            val list = gson.fromJson<List<T>>(jsonString, listType)
+//            return list
+//        } catch (ex: Throwable) {
+//            ex.printStackTrace()
+//            return emptyList()
+//        }
+//    }
+
+    // funzionante - TODO modificare con serializable
     private inline fun <reified T> getListFromJson(jsonString: String): List<T>? {
-        // 1. configura il tipo di ritorno da json
-        val listType = object : TypeToken<List<T>>() {}.type
-        // 2. trasforma json in lista
-        val list: List<T> = gson.fromJson(jsonString, listType) ?: emptyList()
-        return list
+            val listType = object : TypeToken<List<T>>() {}.type
+            val list: List<T> = gson.fromJson(jsonString, listType) ?: emptyList()
+            return list
     }
 
 
     // SETTER -------------------------------
-    fun savePopularInLocal(list: List<PopuDto>) {
+    fun savePopularInLocal(list: List<MovieDto>) {
         // aggiungi lista a DB e converti a json
         sharedPrefefencesDB.edit()
             .putString(POPULAR_LIST_KEY, list.getJson())
@@ -74,9 +87,10 @@ private constructor(
 
 
     // GETTER -------------------------------
-    fun loadPopularFromLocal(): List<PopuDto> {
+    // !!! string "" sbagliata
+    fun loadPopularFromLocal(): List<MovieDto> {
         var jsonString = sharedPrefefencesDB.getString(POPULAR_LIST_KEY, null)
-        var localList = getListFromJson<PopuDto>(jsonString ?: "")   //string vuota -> default ""
+        var localList = getListFromJson<MovieDto>(jsonString ?: "")   //string vuota -> default ""
         return localList ?: emptyList()   //se stringaDb null => lista null
     }
 
@@ -103,6 +117,7 @@ private constructor(
 }
 
 
+// OLD
 //    // per popular
 //    private fun getListFromJson(jsonString: String): List<PopuDto>? {
 //        // 1 configura tipo di ritorno da json

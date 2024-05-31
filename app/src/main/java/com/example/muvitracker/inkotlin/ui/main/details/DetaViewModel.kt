@@ -3,7 +3,7 @@ package com.example.muvitracker.inkotlin.ui.main.details
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import com.example.muvitracker.inkotlin.data.details.DetaRepo
+import com.example.muvitracker.inkotlin.data.details.OldDetaRepo
 import com.example.muvitracker.inkotlin.data.dto.DetaDto
 import com.example.muvitracker.inkotlin.utils.EmptyStatesCallback
 import com.example.muvitracker.inkotlin.utils.EmptyStatesEnum
@@ -15,7 +15,7 @@ class DetaViewModel(
     private val application: Application
 ) : AndroidViewModel(application) {
 
-    private val repository = DetaRepo.getInstance(application)
+    private val repository = OldDetaRepo.getInstance(application)
 
     // Observable OK
     val viewModelDto = MutableLiveData<DetaDto>()

@@ -91,7 +91,7 @@ class PrefsFragmentVM() : Fragment() {
 
     // OK
     private fun startDetailsFragment(movieId: Int) {
-        navigator.startDetailsFragmentAndAddToBackstack(
+        navigator.startDetailsFragment(
             requireActivity(),
             movieId
         )

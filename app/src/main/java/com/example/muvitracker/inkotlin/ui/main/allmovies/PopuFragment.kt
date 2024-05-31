@@ -10,18 +10,19 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.muvitracker.R
 import com.example.muvitracker.databinding.FragmBaseCategoryBinding
 import com.example.muvitracker.inkotlin.ui.main.Navigator
-import com.example.muvitracker.inkotlin.ui.main.allmovies.base.MovieAdapter
-import com.example.muvitracker.inkotlin.utils.EmptyStatesEnum
-import com.example.muvitracker.inkotlin.utils.EmptyStatesManagement
+import com.example.muvitracker.inkotlin.ui.main.allmovies.base.MovieAdapter2
 import com.example.muvitracker.inkotlin.utils.statesFlow
 
 
 class PopuFragment : Fragment() {
 
     private var binding: FragmBaseCategoryBinding? = null
-    private val adapter = MovieAdapter()
     private val navigator = Navigator()
     private val viewModel by viewModels<PopuViewModel>()
+
+    private val adapter = MovieAdapter2(onClickCallback = { movieId ->
+        startDetailsFragment(movieId)
+    })
 
 
     override fun onCreateView(
@@ -40,7 +41,8 @@ class PopuFragment : Fragment() {
     ) {
 
         viewModel.stateContainer.observe(viewLifecycleOwner) {
-            adapter.updateList(it.dataList)
+
+            adapter.submitList(it.dataList)
 
             it.statesFlow(
                 progressBar = binding!!.progressBar,
@@ -58,39 +60,15 @@ class PopuFragment : Fragment() {
                 viewModel.loadMovies(isRefresh = true)
             }
         }
-
-        adapter.setCallbackVH { movieId ->
-            startDetailsFragment(movieId)
-        }
-
     }
 
 
+    // todo - eliminare funz
     private fun startDetailsFragment(movieId: Int) {
-        navigator.startDetailsFragmentAndAddToBackstack(
-            requireActivity(),
-            movieId
-        )
-//        println("XXX_ START FRAGMENT FROM POPU, movieId: $movieId")
+        navigator.startDetailsFragment(requireActivity(), movieId)
     }
 
 }
 
-
-//    private fun handleEmptyStates(emptyStates: EmptyStatesEnum) {
-//        EmptyStatesManagement.emptyStatesFlow(
-//            emptyStates,
-//            binding!!.progressBar,
-//            binding!!.errorMsgTextview
-//        )
-//        when (emptyStates) {
-//            EmptyStatesEnum.ON_SUCCESS,
-//            EmptyStatesEnum.ON_ERROR_IO,
-//            EmptyStatesEnum.ON_ERROR_OTHER
-//            -> binding?.swipeToRefresh?.isRefreshing = false
-//
-//            else -> {}  // non fare nulla
-//        }
-//    }
 
 

@@ -1,16 +1,16 @@
 package com.example.muvitracker.inkotlin.data.dto
 
-import com.example.muvitracker.inkotlin.domain.model.MovieModel
+import com.example.muvitracker.inkotlin.domain.model.MovieItem
 
 
 data class BoxoDto(
     val revenue: Int,
-    val movie: PopuDto
+    val movie: MovieDto
 )
 
 
-fun BoxoDto.toDomain(): MovieModel {
-    return MovieModel(this.movie.title, this.movie.year, this.movie.ids)
+fun BoxoDto.toDomain(): MovieItem {
+    return MovieItem(this.movie.title, this.movie.year, this.movie.ids)
 }
 
 

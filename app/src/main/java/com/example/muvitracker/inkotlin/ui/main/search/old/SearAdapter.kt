@@ -54,10 +54,10 @@ class SearAdapter : RecyclerView.Adapter<SearVH>() {
             typeObjectVH.text = dto.type
             scoreVH.text = approssimaDecimale(dto.score)
 
-            if (dto.movie != null) {
-                titleVH.text = "${dto.movie.title} ${dto.movie.year.toString()}"
+            if (dto.movieDto != null) {
+                titleVH.text = "${dto.movieDto.title} ${dto.movieDto.year}"
                 Glide.with(holder.itemView.context)
-                    .load(dto.movie.imageUrl())
+                    .load(dto.movieDto.imageUrl())
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .placeholder(R.drawable.glide_placeholder_search)
                     .error(R.drawable.glide_placeholder_search)
@@ -66,7 +66,7 @@ class SearAdapter : RecyclerView.Adapter<SearVH>() {
 
             // clickVH
             root.setOnClickListener {
-                callbackVH?.invoke(dto.movie?.ids?.trakt ?: return@setOnClickListener)
+                callbackVH?.invoke(dto.movieDto?.ids?.trakt ?: return@setOnClickListener)
                 // evis operator - esci da funzione
             }
         }

@@ -1,6 +1,6 @@
 package com.example.muvitracker.inkotlin.data.dto
 
-import com.example.muvitracker.inkotlin.data.dto.support.Ids
+import com.example.muvitracker.inkotlin.data.dto.base.Ids
 
 
 data class DetaDto(

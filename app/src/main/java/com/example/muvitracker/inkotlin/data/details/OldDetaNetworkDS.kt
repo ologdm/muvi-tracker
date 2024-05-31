@@ -9,7 +9,7 @@ import retrofit2.HttpException
 import retrofit2.Response
 
 
-object DNetworkDS {
+object OldDetaNetworkDS {
 
     private val traktApi = RetrofitUtils.traktApi
 

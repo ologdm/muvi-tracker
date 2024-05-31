@@ -64,7 +64,7 @@ class PrefsFragment() : Fragment(), PrefsContract.View {
     }
 
     override fun startDetailsFragment(movieId: Int) {
-        navigator.startDetailsFragmentAndAddToBackstack(
+        navigator.startDetailsFragment(
             requireActivity(),
             movieId
         )

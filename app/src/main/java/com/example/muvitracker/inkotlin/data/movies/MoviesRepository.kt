@@ -2,7 +2,7 @@ package com.example.muvitracker.inkotlin.data.movies
 
 import android.content.Context
 import com.example.muvitracker.inkotlin.data.RetrofitUtils
-import com.example.muvitracker.inkotlin.domain.model.MovieModel
+import com.example.muvitracker.inkotlin.domain.model.MovieItem
 import com.example.muvitracker.inkotlin.data.dto.toDomain
 import com.example.muvitracker.inkotlin.data.startNetworkCall
 import com.example.muvitracker.inkotlin.utils.IoResponse
@@ -22,7 +22,7 @@ private constructor(
 
 
     // POPULAR ----------------------------------
-    fun getPopularMovies(onResponse: (IoResponse<List<MovieModel>>) -> Unit) {
+    fun getPopularMovies(onResponse: (IoResponse<List<MovieItem>>) -> Unit) {
         onResponse(getPopularCache())
 
         api.getPopularMovies().startNetworkCall { retrofitResponse ->
@@ -38,7 +38,7 @@ private constructor(
     }
 
 
-    private fun getPopularCache(): IoResponse.Success<List<MovieModel>> {
+    private fun getPopularCache(): IoResponse.Success<List<MovieItem>> {
         // !! non ho un IoResponse da trasformare, ma solo da creare uno nuovo
         val mappedList = moviesLocalDS.loadPopularFromLocal().map { popuDto ->
             popuDto.toDomain()
@@ -48,7 +48,7 @@ private constructor(
 
 
     // BOXO ---------------------------------------
-    fun getBoxoMovies(onResponse: (IoResponse<List<MovieModel>>) -> Unit) {
+    fun getBoxoMovies(onResponse: (IoResponse<List<MovieItem>>) -> Unit) {
         onResponse(getBoxoCache())
 
         api.getBoxofficeMovies().startNetworkCall { retrofitResponse ->
@@ -65,7 +65,7 @@ private constructor(
     }
 
 
-    private fun getBoxoCache(): IoResponse.Success<List<MovieModel>> {
+    private fun getBoxoCache(): IoResponse.Success<List<MovieItem>> {
         val mapperList = moviesLocalDS.loadBoxoFromLocal().map { boxoDto ->
             boxoDto.toDomain()
         }

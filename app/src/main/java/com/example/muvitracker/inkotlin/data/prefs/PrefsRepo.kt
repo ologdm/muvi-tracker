@@ -1,9 +1,8 @@
 package com.example.muvitracker.inkotlin.data.prefs
 
-import android.annotation.SuppressLint
 import android.content.Context
-import com.example.muvitracker.inkotlin.data.details.DetaRepo
-import com.example.muvitracker.inkotlin.data.details.DLocalDS
+import com.example.muvitracker.inkotlin.data.details.OldDetaRepo
+import com.example.muvitracker.inkotlin.data.details.DetaLocalDS
 import com.example.muvitracker.inkotlin.data.dto.DetaDto
 
 
@@ -24,8 +23,8 @@ private constructor(
     private val context: Context
 ) {
 
-    private val detaLocalDS = DLocalDS.getInstance(context)
-    private val detaRepo = DetaRepo.getInstance(context)
+    private val detaLocalDS = DetaLocalDS.getInstance(context)
+    private val oldDetaRepo = OldDetaRepo.getInstance(context)
 
 
     // GET
@@ -41,7 +40,7 @@ private constructor(
 
     // SET
     fun toggleFavoriteOnDB(dtoToToggle: DetaDto) {
-        detaRepo.toggleFavoriteOnDB(dtoToToggle)
+        oldDetaRepo.toggleFavoriteOnDB(dtoToToggle)
         // logica aggiornamento su detaRepo
 
         println("XXX_PREFS_REPO_LIKED")
@@ -49,7 +48,7 @@ private constructor(
 
 
     fun updateWatchedOnDB(updatedDto: DetaDto) {
-        detaRepo.updateWatchedOnDB(updatedDto)
+        oldDetaRepo.updateWatchedOnDB(updatedDto)
         // solo agigornamento db
 
         println("XXX_PREFSREPO_WATCHED")

@@ -1,5 +1,5 @@
 package com.example.muvitracker.inkotlin.domain.model
 
-data class DetailModel(
+data class DetailsItem(
     val id :Int
 )

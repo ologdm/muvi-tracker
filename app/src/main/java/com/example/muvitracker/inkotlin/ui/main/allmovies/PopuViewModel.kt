@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.example.muvitracker.inkotlin.data.movies.MoviesRepository
-import com.example.muvitracker.inkotlin.domain.model.MovieModel
+import com.example.muvitracker.inkotlin.domain.model.MovieItem
 import com.example.muvitracker.inkotlin.utils.IoResponse
 import com.example.muvitracker.inkotlin.utils.StateContainer
 
@@ -12,7 +12,7 @@ class PopuViewModel(
     private val application: Application
 ) : AndroidViewModel(application) {
 
-    var stateContainer = MutableLiveData<StateContainer<MovieModel>>()
+    var stateContainer = MutableLiveData<StateContainer<MovieItem>>()
     private val repository = MoviesRepository.getInstance(application)
 
 

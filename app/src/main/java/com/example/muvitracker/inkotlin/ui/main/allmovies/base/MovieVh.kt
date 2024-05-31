@@ -1,20 +1,31 @@
 package com.example.muvitracker.inkotlin.ui.main.allmovies.base
 
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.example.muvitracker.R
 import com.example.muvitracker.databinding.VhMovieBinding
+import com.example.muvitracker.inkotlin.domain.model.MovieItem
 
-class MovieVh(val binding: VhMovieBinding) : RecyclerView.ViewHolder(binding.root)
+class MovieVh(
+    val binding: VhMovieBinding
+) : RecyclerView.ViewHolder(binding.root) {
 
-// costruttore figlio - passo binding
-// costruttore padre(richiede itemview) -> binding.root==itemview
+    // PRONTA
+    fun bind (movie :MovieItem){
+        binding.titleVH.text = "${movie.title} (${movie.year})"
 
-/* IN JAVA
-public class BaseVh extends RecyclerView.ViewHolder {
-
-    public MovieVh(VhBaseBinding binding) {
-        super(binding.getRoot());
+        Glide.with(binding.root.context)
+            .load(movie.getImageUrl())
+            .transition(DrawableTransitionOptions.withCrossFade(500))
+            .placeholder(R.drawable.glide_placeholder_base)
+            .error(R.drawable.glide_placeholder_base)
+            .into(binding.imageVH)
     }
- */
+
+}
+
+
 
 
 

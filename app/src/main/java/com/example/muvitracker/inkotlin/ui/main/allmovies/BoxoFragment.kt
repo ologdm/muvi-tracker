@@ -4,27 +4,25 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.muvitracker.R
 import com.example.muvitracker.databinding.FragmBaseCategoryBinding
 import com.example.muvitracker.inkotlin.ui.main.Navigator
-import com.example.muvitracker.inkotlin.ui.main.allmovies.base.MovieAdapter
+import com.example.muvitracker.inkotlin.ui.main.allmovies.base.MovieAdapter2
 import com.example.muvitracker.inkotlin.utils.statesFlow
-import com.google.android.material.progressindicator.LinearProgressIndicator
 
 
 class BoxoFragment : Fragment() {
 
-    private val adapter = MovieAdapter()
-    private val navigator = Navigator()
     private var binding: FragmBaseCategoryBinding? = null
-
-
     private val viewModel by viewModels<BoxoViewModel>()
+    private val navigator = Navigator()
 
+    private val adapter = MovieAdapter2(onClickCallback = {movieId->
+        startDetailsFragment(movieId)
+    })
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,10 +39,10 @@ class BoxoFragment : Fragment() {
         savedInstanceState: Bundle?
     ) {
 
-        viewModel.stateContainer.observe(viewLifecycleOwner) {
-            adapter.updateList(it.dataList)
+        viewModel.stateContainer.observe(viewLifecycleOwner) {state->
+            adapter.submitList(state.dataList)
 
-            it.statesFlow(
+            state.statesFlow(
                 progressBar = binding!!.progressBar,
                 errorMsg = binding!!.errorMsgTextview,
                 null
@@ -57,18 +55,16 @@ class BoxoFragment : Fragment() {
             recycleView.layoutManager = GridLayoutManager(requireContext(), 2)
 
             swipeToRefresh.setOnRefreshListener {
-                viewModel.loadMovies(isRefresh = true) // refresdh
+                viewModel.loadMovies(isRefresh = true)
             }
         }
 
-        adapter.setCallbackVH { movieId ->
-            startDetailsFragment(movieId)
-        }
+
     }
 
 
     private fun startDetailsFragment(movieId: Int) {
-        navigator.startDetailsFragmentAndAddToBackstack(
+        navigator.startDetailsFragment(
             requireActivity(),
             movieId
         )
@@ -77,21 +73,3 @@ class BoxoFragment : Fragment() {
 
 }
 
-
-
-
-//    private fun handleEmptyStates(emptyStates: EmptyStatesEnum) {
-//        EmptyStatesManagement.emptyStatesFlow(
-//            emptyStates,
-//            binding!!.progressBar,
-//            binding!!.errorMsgTextview
-//        )
-//        when (emptyStates) {
-//            EmptyStatesEnum.ON_SUCCESS,
-//            EmptyStatesEnum.ON_ERROR_IO,
-//            EmptyStatesEnum.ON_ERROR_OTHER
-//            -> binding?.swipeToRefresh?.isRefreshing = false
-//
-//            else -> {}
-//        }
-//    }

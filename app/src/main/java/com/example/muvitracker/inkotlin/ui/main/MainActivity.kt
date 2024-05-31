@@ -6,7 +6,7 @@ import com.example.muvitracker.R
 import com.example.muvitracker.inkotlin.ui.main.allmovies.BoxoFragment
 import com.example.muvitracker.inkotlin.ui.main.allmovies.PopuFragment
 import com.example.muvitracker.inkotlin.ui.main.prefs.PrefsFragmentVM
-import com.example.muvitracker.inkotlin.ui.main.search.mvvm.SearFragmentVM
+import com.example.muvitracker.inkotlin.ui.main.search.SearFragmentVM
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationBarView
 

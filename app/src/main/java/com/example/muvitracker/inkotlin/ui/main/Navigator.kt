@@ -13,7 +13,7 @@ class Navigator {
 
     // specifiche
 
-    fun startDetailsFragmentAndAddToBackstack(
+    fun startDetailsFragment(
         fragmentActivity: FragmentActivity,
         traktMovieId: Int
     ) {

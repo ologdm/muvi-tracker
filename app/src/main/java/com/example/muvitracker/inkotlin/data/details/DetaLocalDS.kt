@@ -29,7 +29,7 @@ import com.google.gson.reflect.TypeToken
 // save/load shared
 
 
-class DLocalDS
+class DetaLocalDS
 private constructor(
     private val context: Context
 ) {
@@ -43,11 +43,11 @@ private constructor(
 
 
     companion object {
-        private var instance: DLocalDS? = null
+        private var instance: DetaLocalDS? = null
 
-        fun getInstance(context: Context): DLocalDS {
+        fun getInstance(context: Context): DetaLocalDS {
             if (instance == null) {
-                instance = DLocalDS(context)
+                instance = DetaLocalDS(context)
             }
             return instance!!
         }

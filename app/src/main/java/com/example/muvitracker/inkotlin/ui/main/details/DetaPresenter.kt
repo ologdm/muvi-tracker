@@ -1,7 +1,7 @@
 package com.example.muvitracker.inkotlin.ui.main.details
 
 import android.content.Context
-import com.example.muvitracker.inkotlin.data.details.DetaRepo
+import com.example.muvitracker.inkotlin.data.details.OldDetaRepo
 import com.example.muvitracker.inkotlin.data.dto.DetaDto
 import com.example.muvitracker.inkotlin.utils.EmptyStatesCallback
 import com.example.muvitracker.inkotlin.utils.EmptyStatesEnum
@@ -36,7 +36,7 @@ class DetaPresenter(
     private val context: Context
 ) : DetaContract.Presenter {
 
-    private val repository = DetaRepo.getInstance(context)
+    private val repository = OldDetaRepo.getInstance(context)
     private var presenterDto: DetaDto? = null
 
 

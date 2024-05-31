@@ -1,24 +1,28 @@
 package com.example.muvitracker.inkotlin.data.dto
 
-import com.example.muvitracker.inkotlin.data.dto.support.Ids
-import com.example.muvitracker.inkotlin.domain.model.MovieModel
+import com.example.muvitracker.inkotlin.data.dto.base.Ids
+import com.example.muvitracker.inkotlin.domain.model.MovieItem
 
-
-data class PopuDto(
+// Popular
+data class MovieDto(
     val title: String,
     val year: Int,
     val ids: Ids
-)
+){
+    fun imageUrl(): String = "http://img.omdbapi.com/?apikey=ef6d3d4c&i=${ids.imdb}"
+}
 
-fun PopuDto.toDomain(): MovieModel {
-    return MovieModel(this.title, this.year, this.ids)
+
+fun MovieDto.toDomain(): MovieItem {
+    return MovieItem(this.title, this.year, this.ids)
 }
 
 
 
 
-//  JSON Popular ##################################################
 
+
+//  JSON Popular ##################################################
 
 /* Popular (lista standard Movie)
 

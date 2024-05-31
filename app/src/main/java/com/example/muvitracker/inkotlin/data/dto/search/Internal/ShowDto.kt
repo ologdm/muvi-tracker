@@ -1,10 +1,10 @@
 package com.example.muvitracker.inkotlin.data.dto.search.Internal
 
-import com.example.muvitracker.inkotlin.data.dto.support.Ids
+import com.example.muvitracker.inkotlin.data.dto.base.Ids
 
 
 // OK
-data class Show(
+data class ShowDto(
 
     val title: String,
     val year: Int,
