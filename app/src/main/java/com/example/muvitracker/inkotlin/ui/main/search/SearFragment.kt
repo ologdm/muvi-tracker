@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.muvitracker.databinding.FragmSearchBinding
 import com.example.muvitracker.inkotlin.data.dto.search.SearDto
-import com.example.muvitracker.inkotlin.ui.main.MainNavigator
+import com.example.muvitracker.inkotlin.ui.main.Navigator
 
 
 /**
@@ -39,7 +39,7 @@ class SearFragment : Fragment(), SearContract.View {
     // ATTRIBUTI
     private val adapter = SearAdapter()
     private val presenter = SearPresenter(this)
-    val navigator = MainNavigator()
+    val navigator = Navigator()
 
     /* !!!!! binding OK
      * modo furbo per incapsulare una var in una val , ma che la seconda rifletta sempre la variazione della prima

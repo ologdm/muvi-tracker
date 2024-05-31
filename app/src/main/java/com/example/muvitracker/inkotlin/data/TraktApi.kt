@@ -1,8 +1,8 @@
 package com.example.muvitracker.inkotlin.data
 
-import com.example.muvitracker.inkotlin.data.dto.suggestedmovie.BoxoDto
+import com.example.muvitracker.inkotlin.data.dto.BoxoDto
 import com.example.muvitracker.inkotlin.data.dto.DetaDto
-import com.example.muvitracker.inkotlin.data.dto.suggestedmovie.PopuDto
+import com.example.muvitracker.inkotlin.data.dto.PopuDto
 import com.example.muvitracker.inkotlin.data.dto.search.SearDto
 import retrofit2.Call
 import retrofit2.http.GET

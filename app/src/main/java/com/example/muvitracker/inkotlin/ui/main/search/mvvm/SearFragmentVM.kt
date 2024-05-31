@@ -13,7 +13,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.muvitracker.databinding.FragmSearchBinding
-import com.example.muvitracker.inkotlin.ui.main.MainNavigator
+import com.example.muvitracker.inkotlin.ui.main.Navigator
 import com.example.muvitracker.inkotlin.ui.main.search.SearAdapter
 
 
@@ -21,7 +21,7 @@ class SearFragmentVM : Fragment() {
 
     // ATTRIBUTI
     private val adapter = SearAdapter()
-    val navigator = MainNavigator()
+    val navigator = Navigator()
 
     private var bindingBase: FragmSearchBinding? = null
 

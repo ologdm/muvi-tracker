@@ -3,19 +3,20 @@ package com.example.muvitracker.inkotlin.ui.main
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.muvitracker.R
-import com.example.muvitracker.inkotlin.ui.main.boxo.BoxoFragment
-import com.example.muvitracker.inkotlin.ui.main.popu.PopuFragment
-import com.example.muvitracker.inkotlin.ui.main.prefs.PrefsFragment
-import com.example.muvitracker.inkotlin.ui.main.search.SearFragment
+import com.example.muvitracker.inkotlin.ui.main.allmovies.BoxoFragment
+import com.example.muvitracker.inkotlin.ui.main.allmovies.PopuFragment
+import com.example.muvitracker.inkotlin.ui.main.prefs.PrefsFragmentVM
+import com.example.muvitracker.inkotlin.ui.main.search.mvvm.SearFragmentVM
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationBarView
 
+// MVVM OK
 
-// OK
+
 class MainActivity() : AppCompatActivity() {
 
     private lateinit var bottomNavigationView: BottomNavigationView
-    val navigator = MainNavigator()
+    val navigator = Navigator()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,48 +26,42 @@ class MainActivity() : AppCompatActivity() {
         bottomNavigationView = findViewById(R.id.bottomNavigation)
 
         // homepage default - popular
-//        navigator.replaceFragment(this, PopuFragmentVM()) // MVVM
         navigator.replaceFragment(this, PopuFragment())
 
 
         // ha come return un booleano
         bottomNavigationView.setOnItemSelectedListener(
             NavigationBarView.OnItemSelectedListener { item ->
-                val itemId = item.itemId // prelevo item dove clicko
+                val clickedId = item.itemId
 
-                // paragono id con quelli esistenti
-                if (itemId == R.id.buttonPopular) {
+                if (clickedId == R.id.buttonPopular) {
                     navigator.replaceFragment(
                         this@MainActivity,
-//                        PopuFragmentVM() // MVVM
-                        PopuFragment() // di koltin
+                        PopuFragment()
                     )
                     return@OnItemSelectedListener true
                 }
 
-                if (itemId == R.id.buttonBoxoffice) {
+                if (clickedId == R.id.buttonBoxoffice) {
                     navigator.replaceFragment(
                         this@MainActivity,
-//                        BoxoFragmentVM() // MVVM
                         BoxoFragment()
                     )
                     return@OnItemSelectedListener true
                 }
 
-                if (itemId == R.id.buttonMyList) {
+                if (clickedId == R.id.buttonMyList) {
                     navigator.replaceFragment(
                         this@MainActivity,
-//                        PrefsFragmentVM() // MVVM
-                        PrefsFragment()
+                        PrefsFragmentVM()
                     )
                     return@OnItemSelectedListener true
                 }
 
-                if (itemId == R.id.buttonSearch) {
+                if (clickedId == R.id.buttonSearch) {
                     navigator.replaceFragment(
                         this@MainActivity,
-//                        SearFragmentVM() // MVVM
-                        SearFragment()
+                        SearFragmentVM()
                     )
                     return@OnItemSelectedListener true
                 }

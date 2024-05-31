@@ -1,6 +1,7 @@
 package com.example.muvitracker.inkotlin.data.dto.search.Internal
 
-import com.example.muvitracker.inkotlin.data.dto.search.secondarie.Ids
+import com.example.muvitracker.inkotlin.data.dto.support.Ids
+
 
 // OK
 data class Show(

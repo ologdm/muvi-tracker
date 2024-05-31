@@ -5,22 +5,26 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.muvitracker.R
-import com.example.muvitracker.inkotlin.data.dto.DetaDto
 import com.example.muvitracker.inkotlin.ui.main.Navigator
 
 
-class PrefsFragment() : Fragment(), PrefsContract.View {
+class PrefsFragmentVM() : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
-    private lateinit var presenter: PrefsContract.Presenter
     private val adapter = PrefsAdapter()
     private val navigator = Navigator()
 
+//    private lateinit var presenter: PrefsContract.Presenter
+    private val viewModel by viewModels<PrefsViewModel>()
+
 
     // FRAGMENT METHODS
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -32,42 +36,66 @@ class PrefsFragment() : Fragment(), PrefsContract.View {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        presenter = PrefsPresenter(this, requireContext())
-
         recyclerView = view.findViewById(R.id.recycleView)
         recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        recyclerView.layoutManager = LinearLayoutManager(requireContext()) // ok
+
+
+//        val presenter = PrefsPresenter(this, requireContext())
+
+
+        viewModel.preftList.observe(viewLifecycleOwner, Observer {
+            adapter.updateList(it)
+        })
+
 
         adapter.setCallbackVH { movieId ->
-            presenter.onVHolderClick(movieId)
-            // > poi startDetails()
+//            presenter.onVHolderClick(movieId)
+            startDetailsFragment(movieId)
         }
+
+
 
         adapter.setCallbackLiked { dtoToToggle ->
-            presenter.toggleFovoriteItem(dtoToToggle)
-            presenter.loadPrefsListAndUpdateUi()
+//            presenter.toggleFovoriteItem(dtoToToggle)
+//            presenter.getPrefsListAndUpdateUi()
+            viewModel.toggleFovoriteItem(dtoToToggle)
+            viewModel.updatePrefList()
         }
+
+
 
         adapter.setCallbackWatched { updatedDto ->
-            presenter.updateWatchedItem(updatedDto)
-            presenter.loadPrefsListAndUpdateUi()
+//            presenter.updateWatchedItem(updatedDto)
+//            presenter.getPrefsListAndUpdateUi()
+            viewModel.updateWatchedItem(updatedDto)
+            viewModel.updatePrefList()
         }
 
+
         // GET default OK
-        presenter.loadPrefsListAndUpdateUi()
+//        presenter.getPrefsListAndUpdateUi()
+        viewModel.updatePrefList()
+
+
     }
 
 
-    // CONTRACT
-    override fun updateUi(list: List<DetaDto>) {
-        adapter.updateList(list)
-    }
+    // CONTRACT -> PRIVATE
 
-    override fun startDetailsFragment(movieId: Int) {
+//    // eliminare
+//    private fun updateUi(list: List<DetaDto>) {
+//        adapter.updateList(list)
+//    }
+
+
+    // OK
+    private fun startDetailsFragment(movieId: Int) {
         navigator.startDetailsFragmentAndAddToBackstack(
             requireActivity(),
             movieId
         )
     }
+
 
 }

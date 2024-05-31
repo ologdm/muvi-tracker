@@ -1,26 +1,17 @@
 package com.example.muvitracker.inkotlin.data.details
 
-import com.example.muvitracker.inkotlin.data.TraktApi
+import com.example.muvitracker.inkotlin.data.RetrofitUtils
 import com.example.muvitracker.inkotlin.data.dto.DetaDto
-import com.example.muvitracker.myappunti.kotlin.MyRetrofit
 import com.example.muvitracker.myappunti.kotlin.RetrofitCallback
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.HttpException
 import retrofit2.Response
 
-// chiama il server e passa dati a repo
-
 
 object DNetworkDS {
 
-
-    // crea retrofit
-    private val retrofit = MyRetrofit.createMuviTrackerRetrofit()
-
-
-    // crea api
-    private val traktApi = retrofit.create(TraktApi::class.java)
+    private val traktApi = RetrofitUtils.traktApi
 
 
     fun callDetaServer(inputMovieId: Int, myCall: RetrofitCallback<DetaDto>) {
