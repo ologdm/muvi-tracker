@@ -1,46 +1,23 @@
 package com.example.muvitracker.inkotlin.data.search
 
-import com.example.muvitracker.inkotlin.data.dto.search.SearDto
+import com.example.muvitracker.inkotlin.data.dto.SearchDto
 import com.example.muvitracker.inkotlin.utils.IoResponse
+import com.example.muvitracker.inkotlin.utils.ioMapper
 
 object SearRepo {
 
-    // senza
-    fun getNetworkResult(queryText: String, onResponse: (IoResponse<List<SearDto>>) -> Unit) {
+    // TODO fare anche toDomain
+
+    fun getNetworkResult(queryText: String, onResponse: (IoResponse<List<SearchDto>>) -> Unit) {
 
         SearNetworkDS.getServer(
             queryText = queryText,
             onResponse = { retrofitResponse ->
-
-                var list: List<SearDto>? = when (retrofitResponse){
-                    is IoResponse.Success ->retrofitResponse.dataValue
-                    else -> null
+                val mappedIo = retrofitResponse.ioMapper { list ->
+                    val sortedList = list.sortedByDescending { it.score }
+                    sortedList
                 }
-                list
-                onResponse(retrofitResponse) // solo bypass dati
-                // TODO mapper e ordina
+                onResponse(mappedIo)
             })
     }
-
-
-    // funzione per ordine decrescente score
-    private fun sort(input: List<SearDto>): List<SearDto> {
-        return input.sortedByDescending { it.score }
-    }
-
 }
-
-
-
-//        OldSearNetworkDS.getServer(
-//            queryText,
-//            object : RetrofitCallbackList<SearDto> {
-//                override fun onSuccess(serverList: List<SearDto>) {
-//                    callback.onSuccess(sort(serverList))
-//                }
-//
-//                override fun onError(throwable: Throwable) {
-//                    callback.onError(throwable)
-//                }
-//            })
-

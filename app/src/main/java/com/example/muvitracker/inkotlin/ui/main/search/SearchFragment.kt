@@ -33,23 +33,22 @@ import com.example.muvitracker.inkotlin.ui.main.Navigator
  */
 
 
-class SearFragmentVM : Fragment() {
+class SearchFragment : Fragment() {
 
     private var bindingBase: FragmSearchBinding? = null
     private val binding
         get() = bindingBase
     val navigator = Navigator()
-    private val viewModel by viewModels<SearViewModel>()
+    private val viewModel by viewModels<SearchViewModel>()
 
     // Debouncing
     val handler = Handler(Looper.getMainLooper())
     var searchRunnable: Runnable? = null
     val DEBOUNCE_DELAY: Long = 300L
 
-//    private val adapter = SearAdapter2(onClickCallback = { movieId ->
-//        startDetailsFragment(movieId)
-//    })
-    private val adapter = SearAdapter()
+    private val adapter = SearchAdapter(onClickCallback = { movieId ->
+        startDetailsFragment(movieId)
+    })
 
 
     override fun onCreateView(
@@ -67,9 +66,9 @@ class SearFragmentVM : Fragment() {
         savedInstanceState: Bundle?
     ) {
         viewModel.searchList.observe(viewLifecycleOwner, Observer { searchList ->
-//            adapter.submitList(searchList)
-            adapter.updateList(searchList)
+            adapter.submitList(searchList)
         })
+
 
         with(binding!!) {
             recycleView.layoutManager = GridLayoutManager(requireContext(), 3)
@@ -101,10 +100,6 @@ class SearFragmentVM : Fragment() {
                     }
                 }
             })
-        }
-
-        adapter.setCallbackVH { movieId ->
-            startDetailsFragment(movieId)
         }
 
     }

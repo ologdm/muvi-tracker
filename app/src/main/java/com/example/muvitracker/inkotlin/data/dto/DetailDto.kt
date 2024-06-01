@@ -3,7 +3,7 @@ package com.example.muvitracker.inkotlin.data.dto
 import com.example.muvitracker.inkotlin.data.dto.base.Ids
 
 
-data class DetaDto(
+data class DetailDto(
 
 
     // elementi controllo prefList TODO su Domain
@@ -38,7 +38,7 @@ data class DetaDto(
 ) {
 
     // TODO move to domain
-    fun getImageUrl(): String {
+    fun imageUrl(): String {
         return "http://img.omdbapi.com/" + "?apikey=ef6d3d4c" + "&i=${ids.imdb}";
     }
 }

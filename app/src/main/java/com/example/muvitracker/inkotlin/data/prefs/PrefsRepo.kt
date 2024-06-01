@@ -1,9 +1,9 @@
 package com.example.muvitracker.inkotlin.data.prefs
 
 import android.content.Context
-import com.example.muvitracker.inkotlin.data.details.OldDetaRepo
-import com.example.muvitracker.inkotlin.data.details.DetaLocalDS
-import com.example.muvitracker.inkotlin.data.dto.DetaDto
+import com.example.muvitracker.inkotlin.data.detail.OldDetaRepo
+import com.example.muvitracker.inkotlin.data.detail.DetailLocalDS
+import com.example.muvitracker.inkotlin.data.dto.DetailDto
 
 
 /**
@@ -23,15 +23,15 @@ private constructor(
     private val context: Context
 ) {
 
-    private val detaLocalDS = DetaLocalDS.getInstance(context)
+    private val detailLocalDS = DetailLocalDS.getInstance(context)
     private val oldDetaRepo = OldDetaRepo.getInstance(context)
 
 
     // GET
-    fun filterPrefsFromDetails(): List<DetaDto> {
+    fun filterPrefsFromDetails(): List<DetailDto> {
 
         var filteredList =
-            detaLocalDS.loadListFromShared().filter {
+            detailLocalDS.loadListFromShared().filter {
                 it.liked || it.watched
             }
         return filteredList
@@ -39,7 +39,7 @@ private constructor(
 
 
     // SET
-    fun toggleFavoriteOnDB(dtoToToggle: DetaDto) {
+    fun toggleFavoriteOnDB(dtoToToggle: DetailDto) {
         oldDetaRepo.toggleFavoriteOnDB(dtoToToggle)
         // logica aggiornamento su detaRepo
 
@@ -47,7 +47,7 @@ private constructor(
     }
 
 
-    fun updateWatchedOnDB(updatedDto: DetaDto) {
+    fun updateWatchedOnDB(updatedDto: DetailDto) {
         oldDetaRepo.updateWatchedOnDB(updatedDto)
         // solo agigornamento db
 

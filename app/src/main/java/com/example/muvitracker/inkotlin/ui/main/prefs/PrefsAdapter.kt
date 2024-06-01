@@ -12,7 +12,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.muvitracker.R
-import com.example.muvitracker.inkotlin.data.dto.DetaDto
+import com.example.muvitracker.inkotlin.data.dto.DetailDto
 
 /**
  *
@@ -28,12 +28,12 @@ import com.example.muvitracker.inkotlin.data.dto.DetaDto
 class PrefsAdapter : RecyclerView.Adapter<PrefsVH>() {
 
     // lista
-    private val adapterList = mutableListOf<DetaDto>()
+    private val adapterList = mutableListOf<DetailDto>()
 
     // callbacks necessarie
     private var callbackVH: ((movieId: Int) -> Unit)? = null
-    private var callbackLiked: ((dto: DetaDto) -> Unit)? = null
-    private var callbackWatched: ((dto: DetaDto) -> Unit)? = null
+    private var callbackLiked: ((dto: DetailDto) -> Unit)? = null
+    private var callbackWatched: ((dto: DetailDto) -> Unit)? = null
 
     // ADAPTER METHODS
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PrefsVH {
@@ -64,7 +64,7 @@ class PrefsAdapter : RecyclerView.Adapter<PrefsVH>() {
 
         Glide
             .with(holder.itemView.context)
-            .load(onBindDto.getImageUrl())
+            .load(onBindDto.imageUrl())
             .into(imageView)
 
         // icons
@@ -107,7 +107,7 @@ class PrefsAdapter : RecyclerView.Adapter<PrefsVH>() {
 
     // UPDATE FUNCTIONS
     @SuppressLint("NotifyDataSetChanged")
-    fun updateList(inputList: List<DetaDto>) {
+    fun updateList(inputList: List<DetailDto>) {
         adapterList.clear()
         adapterList.addAll(inputList)
         notifyDataSetChanged()
@@ -131,11 +131,11 @@ class PrefsAdapter : RecyclerView.Adapter<PrefsVH>() {
         callbackVH = call
     }
 
-    fun setCallbackLiked(call: (dtoToToggle: DetaDto) -> Unit) {
+    fun setCallbackLiked(call: (dtoToToggle: DetailDto) -> Unit) {
         callbackLiked = call
     }
 
-    fun setCallbackWatched(call: (updatedDto: DetaDto) -> Unit) {
+    fun setCallbackWatched(call: (updatedDto: DetailDto) -> Unit) {
         callbackWatched = call
     }
 

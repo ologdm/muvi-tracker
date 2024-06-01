@@ -61,8 +61,8 @@ fun <T> Call<T>.startNetworkCall(onResponse: (IoResponse<T>) -> Unit) {
             if (response.isSuccessful) {
                 onResponse(IoResponse.Success(response.body()!!))
             } else {
-                val exception = HttpException(response)
-                exception.printStackTrace()
+                val httpException = HttpException(response)
+                httpException.printStackTrace()
                 onResponse(IoResponse.OtherError)
             }
         }

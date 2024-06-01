@@ -1,7 +1,7 @@
-package com.example.muvitracker.inkotlin.data.details
+package com.example.muvitracker.inkotlin.data.detail
 
 import android.content.Context
-import com.example.muvitracker.inkotlin.data.dto.DetaDto
+import com.example.muvitracker.inkotlin.data.dto.DetailDto
 import com.example.muvitracker.inkotlin.utils.EmptyStatesCallback
 import com.example.muvitracker.myappunti.kotlin.RetrofitCallback
 import java.io.IOException
@@ -36,19 +36,19 @@ import java.io.IOException
  */
 
 
-class DetaRepository
+class OldDetaRepo
 private constructor(
     private val context: Context
 ) {
 
-    val detaLocalDS = DetaLocalDS.getInstance(context)
+    val detailLocalDS = DetailLocalDS.getInstance(context)
 
 
     // ########################################################
     // GET FUNZIONI
 
-    fun getMovie(movieId: Int, callES: EmptyStatesCallback<DetaDto>) {
-        var index = detaLocalDS.getItemIndex(movieId)
+    fun getMovie(movieId: Int, callES: EmptyStatesCallback<DetailDto>) {
+        var index = detailLocalDS.getItemIndex(movieId)
 
         if (index != -1) { // se trova index -> getDB
             getLocalItem(movieId, callES)
@@ -62,13 +62,13 @@ private constructor(
 
     // METODI PRIVATI
     // OK
-    private fun getNetworkItemAndAddToLocal(movieId: Int, callES: EmptyStatesCallback<DetaDto>) {
+    private fun getNetworkItemAndAddToLocal(movieId: Int, callES: EmptyStatesCallback<DetailDto>) {
         callES.OnStart() // empty states
         OldDetaNetworkDS.callDetaServer(
             movieId,
-            object : RetrofitCallback<DetaDto> {
-                override fun onSuccess(serverItem: DetaDto) {
-                    detaLocalDS.createItem(serverItem) // add DB
+            object : RetrofitCallback<DetailDto> {
+                override fun onSuccess(serverItem: DetailDto) {
+                    detailLocalDS.createItem(serverItem) // add DB
                     callES.onSuccess(serverItem) //passo tu presenter
                     println("XXX_REPO_SERVER_SUCCESS")
                 }
@@ -86,14 +86,14 @@ private constructor(
     }
 
     // OK
-    private fun getLocalItem(movieId: Int, callES: EmptyStatesCallback<DetaDto>) {
-        val databaseDto = detaLocalDS.readItem(movieId)
+    private fun getLocalItem(movieId: Int, callES: EmptyStatesCallback<DetailDto>) {
+        val databaseDto = detailLocalDS.readItem(movieId)
         callES.onSuccess(databaseDto)
     }
 
 
-    fun getLocalItem(movieId: Int): DetaDto {
-        return detaLocalDS.readItem(movieId)
+    fun getLocalItem(movieId: Int): DetailDto {
+        return detailLocalDS.readItem(movieId)
     }
 
 
@@ -101,26 +101,26 @@ private constructor(
     // SET FUNZIONI
 
     // OK
-    fun toggleFavoriteOnDB(inputDto: DetaDto) {
+    fun toggleFavoriteOnDB(inputDto: DetailDto) {
         // !!! se l'ho aperto, e gia su DB !!!
         val dtoModificato = inputDto.copy(liked = !inputDto.liked)
-        detaLocalDS.updateItem(dtoModificato)
+        detailLocalDS.updateItem(dtoModificato)
         println("XXX_REPO_TOGGLE_UPDATE_DB")
     }
 
     // OK
-    fun updateWatchedOnDB(inputDto: DetaDto) {
+    fun updateWatchedOnDB(inputDto: DetailDto) {
         // invio dto modificato
-        detaLocalDS.updateItem(inputDto)
+        detailLocalDS.updateItem(inputDto)
         println("XXX_DETAREPO_WATCHEDUPDATEDB")
     }
 
 
     companion object {
-        private var instance: DetaRepository? = null
-        fun getInstance(context: Context): DetaRepository {
+        private var instance: OldDetaRepo? = null
+        fun getInstance(context: Context): OldDetaRepo {
             if (instance == null) {
-                instance = DetaRepository(context)
+                instance = OldDetaRepo(context)
             }
             return instance!!
         }

@@ -1,6 +1,4 @@
-package com.example.muvitracker.inkotlin.data.dto.search.Internal
-
-import com.example.muvitracker.inkotlin.data.dto.base.Ids
+package com.example.muvitracker.inkotlin.data.dto.base
 
 // OK
 data class EpisodeDto(

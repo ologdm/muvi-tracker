@@ -1,6 +1,6 @@
-package com.example.muvitracker.inkotlin.ui.main.details
+package com.example.muvitracker.inkotlin.ui.main.details.old
 
-import com.example.muvitracker.inkotlin.data.dto.DetaDto
+import com.example.muvitracker.inkotlin.data.dto.DetailDto
 import com.example.muvitracker.inkotlin.utils.EmptyStatesEnum
 
 
@@ -9,7 +9,7 @@ interface DetaContract {
     interface View {
 
         // 1°LOAD
-        fun updateUi(detaDto: DetaDto) //aggiorna ui con dto presenter
+        fun updateUi(detailDto: DetailDto) //aggiorna ui con dto presenter
 
         fun handleEmptyStates(emptyStates: EmptyStatesEnum)
 

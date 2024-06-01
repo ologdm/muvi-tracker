@@ -16,7 +16,7 @@ class MovieVh(
         binding.titleVH.text = "${movie.title} (${movie.year})"
 
         Glide.with(binding.root.context)
-            .load(movie.getImageUrl())
+            .load(movie.imageUrl())
             .transition(DrawableTransitionOptions.withCrossFade(500))
             .placeholder(R.drawable.glide_placeholder_base)
             .error(R.drawable.glide_placeholder_base)

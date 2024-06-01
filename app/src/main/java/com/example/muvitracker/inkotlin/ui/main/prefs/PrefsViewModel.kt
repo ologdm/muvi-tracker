@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.example.muvitracker.inkotlin.data.prefs.PrefsRepo
-import com.example.muvitracker.inkotlin.data.dto.DetaDto
+import com.example.muvitracker.inkotlin.data.dto.DetailDto
 
 class PrefsViewModel(
     private val application: Application
@@ -12,7 +12,7 @@ class PrefsViewModel(
 
     private val repository = PrefsRepo.getInstance(application)
 
-    val preftList = MutableLiveData<List<DetaDto>>()
+    val preftList = MutableLiveData<List<DetailDto>>()
 
 
     // load elements
@@ -22,12 +22,12 @@ class PrefsViewModel(
 
 
     // toggle liked, set watched
-    fun toggleFovoriteItem(dtoToToggle: DetaDto) {
+    fun toggleFovoriteItem(dtoToToggle: DetailDto) {
         repository.toggleFavoriteOnDB(dtoToToggle)
     }
 
     // passare e modificare
-    fun updateWatchedItem(updatedDto: DetaDto) {
+    fun updateWatchedItem(updatedDto: DetailDto) {
         repository.updateWatchedOnDB(updatedDto)
     }
 

@@ -3,6 +3,7 @@ package com.example.muvitracker.inkotlin.data.movies
 import android.content.Context
 import com.example.muvitracker.inkotlin.data.RetrofitUtils
 import com.example.muvitracker.inkotlin.domain.model.MovieItem
+import com.example.muvitracker.inkotlin.data.dto.base.toDomain
 import com.example.muvitracker.inkotlin.data.dto.toDomain
 import com.example.muvitracker.inkotlin.data.startNetworkCall
 import com.example.muvitracker.inkotlin.utils.IoResponse
@@ -15,7 +16,6 @@ private constructor(
 ) {
 
     private val moviesLocalDS = MoviesLocalDS.getInstance(context)
-//    private val boxoLocalDS = BoxoLocalDS.getInstance(context)
 
     private val api = RetrofitUtils.traktApi
     // TODO -vmodificare con hilt, devo solo pigliare la call

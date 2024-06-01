@@ -1,6 +1,5 @@
-package com.example.muvitracker.inkotlin.data.dto
+package com.example.muvitracker.inkotlin.data.dto.base
 
-import com.example.muvitracker.inkotlin.data.dto.base.Ids
 import com.example.muvitracker.inkotlin.domain.model.MovieItem
 
 // Popular

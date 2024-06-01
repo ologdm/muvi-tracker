@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.muvitracker.R
 import com.example.muvitracker.databinding.FragmBaseCategoryBinding
 import com.example.muvitracker.inkotlin.ui.main.Navigator
-import com.example.muvitracker.inkotlin.ui.main.allmovies.base.MovieAdapter2
+import com.example.muvitracker.inkotlin.ui.main.allmovies.base.MovieAdapter
 import com.example.muvitracker.inkotlin.utils.statesFlow
 
 
@@ -20,7 +20,7 @@ class BoxoFragment : Fragment() {
     private val viewModel by viewModels<BoxoViewModel>()
     private val navigator = Navigator()
 
-    private val adapter = MovieAdapter2(onClickCallback = {movieId->
+    private val adapter = MovieAdapter(onClickCallback = { movieId->
         startDetailsFragment(movieId)
     })
 

@@ -1,5 +1,6 @@
 package com.example.muvitracker.inkotlin.data.dto
 
+import com.example.muvitracker.inkotlin.data.dto.base.MovieDto
 import com.example.muvitracker.inkotlin.domain.model.MovieItem
 
 

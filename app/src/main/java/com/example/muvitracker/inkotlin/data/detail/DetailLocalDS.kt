@@ -1,8 +1,8 @@
-package com.example.muvitracker.inkotlin.data.details
+package com.example.muvitracker.inkotlin.data.detail
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.example.muvitracker.inkotlin.data.dto.DetaDto
+import com.example.muvitracker.inkotlin.data.dto.DetailDto
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
@@ -29,7 +29,7 @@ import com.google.gson.reflect.TypeToken
 // save/load shared
 
 
-class DetaLocalDS
+class DetailLocalDS
 private constructor(
     private val context: Context
 ) {
@@ -39,15 +39,15 @@ private constructor(
     val detaSharedPreferences: SharedPreferences =
         context.getSharedPreferences("myDetaList", Context.MODE_PRIVATE)
 
-    private val localList = mutableListOf<DetaDto>()
+    private val localList = mutableListOf<DetailDto>()
 
 
     companion object {
-        private var instance: DetaLocalDS? = null
+        private var instance: DetailLocalDS? = null
 
-        fun getInstance(context: Context): DetaLocalDS {
+        fun getInstance(context: Context): DetailLocalDS {
             if (instance == null) {
-                instance = DetaLocalDS(context)
+                instance = DetailLocalDS(context)
             }
             return instance!!
         }
@@ -62,7 +62,7 @@ private constructor(
 
 
     // 1. OK
-    fun createItem(dto: DetaDto) {
+    fun createItem(dto: DetailDto) {
         localList.add(dto)
         println("XXX_DB_CREATE_ITEM")
 
@@ -71,7 +71,7 @@ private constructor(
 
 
     // 2. OK
-    fun readItem(movieId: Int): DetaDto {
+    fun readItem(movieId: Int): DetailDto {
         var index = getItemIndex(movieId)
 
         loadListFromShared()
@@ -81,7 +81,7 @@ private constructor(
 
 
     // 3.
-    fun updateItem(dto: DetaDto) {
+    fun updateItem(dto: DetailDto) {
         var index = getItemIndex(dto)
 
         if (index != -1) {
@@ -102,7 +102,7 @@ private constructor(
 
     // METODI CHECK_ID: INDEX OK
 
-    fun getItemIndex(inputDto: DetaDto): Int {
+    fun getItemIndex(inputDto: DetailDto): Int {
         var index = -1
         for (i in localList.indices) {
             val localDto = localList.get(i)
@@ -132,17 +132,17 @@ private constructor(
     // 1 Conversione
 
     // OK
-    fun getJson(list: List<DetaDto>): String {
+    fun getJson(list: List<DetailDto>): String {
         var jsonString = gson.toJson(list) ?: ""
         return jsonString
     }
 
     // OK
-    fun getListFromJson(jsonString: String): List<DetaDto> {
+    fun getListFromJson(jsonString: String): List<DetailDto> {
         // get il tipe token corretto
-        var listType = object : TypeToken<List<DetaDto>>() {}.type
+        var listType = object : TypeToken<List<DetailDto>>() {}.type
         // converti
-        var transformedList: List<DetaDto> = gson.fromJson(jsonString, listType) ?: listOf()
+        var transformedList: List<DetailDto> = gson.fromJson(jsonString, listType) ?: listOf()
         return transformedList
         // con gestione caso return null
     }
@@ -166,7 +166,7 @@ private constructor(
     }
 
 
-    fun loadListFromShared(): List<DetaDto> {
+    fun loadListFromShared(): List<DetailDto> {
         // pesca json
         val json = detaSharedPreferences.getString(DETA_MOVIE_LIST_01, null) ?: ""
 

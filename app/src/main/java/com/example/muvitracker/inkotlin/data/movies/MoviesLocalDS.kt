@@ -3,7 +3,7 @@ package com.example.muvitracker.inkotlin.data.movies
 import android.content.Context
 import android.content.SharedPreferences
 import com.example.muvitracker.inkotlin.data.dto.BoxoDto
-import com.example.muvitracker.inkotlin.data.dto.MovieDto
+import com.example.muvitracker.inkotlin.data.dto.base.MovieDto
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 

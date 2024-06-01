@@ -3,90 +3,40 @@ package com.example.muvitracker.inkotlin.ui.main.details
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import com.example.muvitracker.inkotlin.data.details.OldDetaRepo
-import com.example.muvitracker.inkotlin.data.dto.DetaDto
-import com.example.muvitracker.inkotlin.utils.EmptyStatesCallback
-import com.example.muvitracker.inkotlin.utils.EmptyStatesEnum
+import com.example.muvitracker.inkotlin.data.detail.DetailRepository
+import com.example.muvitracker.inkotlin.data.dto.DetailDto
+import com.example.muvitracker.inkotlin.utils.StateContainer
 
-// context == aplpication
-// context - viene impleemtnato da application, activity e service
+// context == application
+// context viene implementato da application, activity e service
 
 class DetaViewModel(
     private val application: Application
 ) : AndroidViewModel(application) {
 
-    private val repository = OldDetaRepo.getInstance(application)
-
-    // Observable OK
-    val viewModelDto = MutableLiveData<DetaDto>()
-    val emptyState = MutableLiveData<EmptyStatesEnum>()
+    private val repository = DetailRepository.getInstance(application)
+    val stateContainer = MutableLiveData<StateContainer<DetailDto>>()
 
 
-    // GET MOVIE OK
-    fun getMovie(movieId: Int, forceRefresh: Boolean) {
-        // copia da repo
-        repository.getMovie(movieId, wrapperESCallback(forceRefresh)) // aggiorno dto da call
-    }
+    fun loadDetail() {
 
-    private fun wrapperESCallback(forceRefresh: Boolean): EmptyStatesCallback<DetaDto> {
-
-        return object : EmptyStatesCallback<DetaDto> {
-
-            override fun OnStart() {
-                if (forceRefresh) {
-                    //view.emptyStatesFlow(EmptyStatesEnum.ON_FORCE_REFRESH)
-                    emptyState.value = EmptyStatesEnum.ON_FORCE_REFRESH
-
-                } else {
-                    //view.emptyStatesFlow(EmptyStatesEnum.ON_START)
-                    emptyState.value = EmptyStatesEnum.ON_START
-
-                }
-            }
-
-            override fun onSuccess(obj: DetaDto) {
-                //view.emptyStatesFlow(EmptyStatesEnum.ON_SUCCESS)
-                emptyState.value = EmptyStatesEnum.ON_SUCCESS
-                //updateUi()
-                viewModelDto.value = obj
-
-
-            }
-
-            override fun onErrorIO() {
-                //view.emptyStatesFlow(EmptyStatesEnum.ON_ERROR_IO)
-                emptyState.value = EmptyStatesEnum.ON_ERROR_IO
-
-            }
-
-            override fun onErrorOther() {
-                //view.emptyStatesFlow(EmptyStatesEnum.ON_ERROR_OTHER)
-                emptyState.value = EmptyStatesEnum.ON_ERROR_OTHER
-
-            }
-        }
     }
 
 
     fun toggleFavorite() {
-        // set dto attuale a repo
-        repository.toggleFavoriteOnDB(viewModelDto.value!!)
-        // get quello aggiornato
-        viewModelDto.value = repository.getLocalItem(viewModelDto.value!!.ids.trakt)
+        repository.toggleFavoriteOnDB(viewModelDto.value!!)     // set dto attuale a repo
+        viewModelDto.value =
+            repository.getLocalItem(viewModelDto.value!!.ids.trakt)    // get quello aggiornato
     }
 
-    fun updateWatched(watchedStatus: Boolean) {
-        //cambio stato + copy
-        val modifiedDto = viewModelDto.value?.copy(watched = watchedStatus)
 
-        // OK
+    fun updateWatched(watchedStatus: Boolean) {
+        val modifiedDto = viewModelDto.value?.copy(watched = watchedStatus)    //cambio stato + copy
+
         if (modifiedDto != null) {
-            // send modified dto to repo
-            repository.updateWatchedOnDB(modifiedDto)
-            // get quello aggiornato
-            viewModelDto.value = modifiedDto
+            repository.updateWatchedOnDB(modifiedDto)    // send modified dto to repo
+            viewModelDto.value = modifiedDto     // get quello aggiornato
         }
-        println("XXX_PRES_WATCHED")
     }
 
 

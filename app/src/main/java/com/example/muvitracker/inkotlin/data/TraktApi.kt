@@ -1,9 +1,9 @@
 package com.example.muvitracker.inkotlin.data
 
 import com.example.muvitracker.inkotlin.data.dto.BoxoDto
-import com.example.muvitracker.inkotlin.data.dto.DetaDto
-import com.example.muvitracker.inkotlin.data.dto.MovieDto
-import com.example.muvitracker.inkotlin.data.dto.search.SearDto
+import com.example.muvitracker.inkotlin.data.dto.DetailDto
+import com.example.muvitracker.inkotlin.data.dto.base.MovieDto
+import com.example.muvitracker.inkotlin.data.dto.SearchDto
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -23,12 +23,12 @@ interface TraktApi {
 
 
     @GET("movies/{movie_id}?extended=full")  // con path mobile
-    fun getDetailsOfDto(@Path("movie_id") traktMovieId: Int)
-            : Call<DetaDto>
+    fun getMovieDetails(@Path("movie_id") movieId: Int)
+            : Call<DetailDto>
 
 
     @GET("search/movie")  // con query mobile
     fun getSearch(@Query("query") searchString: String)
-            : Call<List<SearDto>>
+            : Call<List<SearchDto>>
 
 }

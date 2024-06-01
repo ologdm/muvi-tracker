@@ -1,7 +1,7 @@
-package com.example.muvitracker.inkotlin.data.details
+package com.example.muvitracker.inkotlin.data.detail
 
 import com.example.muvitracker.inkotlin.data.RetrofitUtils
-import com.example.muvitracker.inkotlin.data.dto.DetaDto
+import com.example.muvitracker.inkotlin.data.dto.DetailDto
 import com.example.muvitracker.myappunti.kotlin.RetrofitCallback
 import retrofit2.Call
 import retrofit2.Callback
@@ -14,15 +14,15 @@ object OldDetaNetworkDS {
     private val traktApi = RetrofitUtils.traktApi
 
 
-    fun callDetaServer(inputMovieId: Int, myCall: RetrofitCallback<DetaDto>) {
+    fun callDetaServer(inputMovieId: Int, myCall: RetrofitCallback<DetailDto>) {
 
-        val call: Call<DetaDto> = traktApi.getDetailsOfDto(traktMovieId = inputMovieId) // movieId
+        val call: Call<DetailDto> = traktApi.getMovieDetails(movieId = inputMovieId) // movieId
 
-        call.enqueue(object : Callback<DetaDto> {
+        call.enqueue(object : Callback<DetailDto> {
 
             override fun onResponse(
-                call: Call<DetaDto>,
-                response: Response<DetaDto>
+                call: Call<DetailDto>,
+                response: Response<DetailDto>
             ) {
                 if (response.isSuccessful) {
                     myCall.onSuccess(response.body()!!)
@@ -37,7 +37,7 @@ object OldDetaNetworkDS {
             }
 
             override fun onFailure(
-                call: Call<DetaDto>,
+                call: Call<DetailDto>,
                 t: Throwable
             ) {
                 myCall.onError(t)

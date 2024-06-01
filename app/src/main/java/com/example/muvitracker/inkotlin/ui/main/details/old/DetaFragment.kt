@@ -1,4 +1,4 @@
-package com.example.muvitracker.inkotlin.ui.main.details
+package com.example.muvitracker.inkotlin.ui.main.details.old
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,7 +9,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.muvitracker.R
 import com.example.muvitracker.databinding.FragmDetailsBinding
-import com.example.muvitracker.inkotlin.data.dto.DetaDto
+import com.example.muvitracker.inkotlin.data.dto.DetailDto
 import com.example.muvitracker.inkotlin.utils.EmptyStatesEnum
 import com.example.muvitracker.inkotlin.utils.EmptyStatesManagement
 import com.google.android.material.chip.Chip
@@ -96,43 +96,43 @@ class DetaFragment : Fragment(), DetaContract.View {
 
     // CONTRACT METHODS
     // GET - OK
-    override fun updateUi(detaDto: DetaDto) {
-        val ratingApross = approssimaDecimale(detaDto.rating)
+    override fun updateUi(detailDto: DetailDto) {
+        val ratingApross = approssimaDecimale(detailDto.rating)
 
         with(binding!!) {
-            title.text = detaDto.title
-            released.text = dateFormatter(detaDto.released ?: "")
+            title.text = detailDto.title
+            released.text = dateFormatter(detailDto.released ?: "")
 //            runtime.text = detaDto.runtime.toString() + " min"
-            runtime.text = getString(R.string.runtime_description, detaDto.runtime.toString())
-            country.text = detaDto.country
+            runtime.text = getString(R.string.runtime_description, detailDto.runtime.toString())
+            country.text = detailDto.country
 //            rating.text = "${ratingApross.toString()} stars"
             rating.text = getString(R.string.rating_description, ratingApross.toString())
-            overview.text = detaDto.overview
+            overview.text = detailDto.overview
 
             // stessa vertical e horizontal - test OK
             Glide.with(requireContext())
-                .load(detaDto.getImageUrl())
+                .load(detailDto.imageUrl())
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .placeholder(R.drawable.glide_placeholder_base)
                 .into(imageVertical)
 
             Glide.with(requireContext())
-                .load(detaDto.getImageUrl())
+                .load(detailDto.imageUrl())
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .placeholder(R.drawable.glide_placeholder_base)
                 .into(imageHorizontal)
 
             // chip con binding OK
             chipGroup.removeAllViews() // pulire quelli precedenti
-            detaDto.genres.forEach {
+            detailDto.genres.forEach {
                 val chip = Chip(context).apply {
                     text = it
                 }
                 chipGroup.addView(chip)
             }
         }
-        updateFavoriteIcon(detaDto.liked) // isliked
-        updateWatchedCheckbox(detaDto.watched) // isWatched
+        updateFavoriteIcon(detailDto.liked) // isliked
+        updateWatchedCheckbox(detailDto.watched) // isWatched
 
         println("XXX_D_FRAGM_UPDATEUI")
     }

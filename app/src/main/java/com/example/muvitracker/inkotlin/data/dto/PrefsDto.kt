@@ -6,6 +6,6 @@ data class PrefsDto(
 
     val liked: Boolean,
     val watched :Boolean,
-    val detaDto: DetaDto
+    val detailDto: DetailDto
 
 )

@@ -1,4 +1,4 @@
-package com.example.muvitracker.inkotlin.data.dto.search.Internal
+package com.example.muvitracker.inkotlin.data.dto.base
 
 import com.example.muvitracker.inkotlin.data.dto.base.Ids
 

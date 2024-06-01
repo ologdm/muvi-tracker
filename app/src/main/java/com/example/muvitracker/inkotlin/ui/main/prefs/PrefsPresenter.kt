@@ -2,7 +2,7 @@ package com.example.muvitracker.inkotlin.ui.main.prefs
 
 import android.content.Context
 import com.example.muvitracker.inkotlin.data.prefs.PrefsRepo
-import com.example.muvitracker.inkotlin.data.dto.DetaDto
+import com.example.muvitracker.inkotlin.data.dto.DetailDto
 
 class PrefsPresenter(
     private val view: PrefsContract.View,
@@ -23,12 +23,12 @@ class PrefsPresenter(
 
     // SET
     // solo passare
-    override fun toggleFovoriteItem(dtoToToggle: DetaDto) {
+    override fun toggleFovoriteItem(dtoToToggle: DetailDto) {
         prefsRepo.toggleFavoriteOnDB(dtoToToggle)
     }
 
     // passare e modificare
-    override fun updateWatchedItem(updatedDto: DetaDto) {
+    override fun updateWatchedItem(updatedDto: DetailDto) {
         prefsRepo.updateWatchedOnDB(updatedDto)
     }
 

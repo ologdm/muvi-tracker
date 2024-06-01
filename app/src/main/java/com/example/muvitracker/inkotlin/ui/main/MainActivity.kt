@@ -6,7 +6,7 @@ import com.example.muvitracker.R
 import com.example.muvitracker.inkotlin.ui.main.allmovies.BoxoFragment
 import com.example.muvitracker.inkotlin.ui.main.allmovies.PopuFragment
 import com.example.muvitracker.inkotlin.ui.main.prefs.PrefsFragmentVM
-import com.example.muvitracker.inkotlin.ui.main.search.SearFragmentVM
+import com.example.muvitracker.inkotlin.ui.main.search.SearchFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationBarView
 
@@ -61,7 +61,7 @@ class MainActivity() : AppCompatActivity() {
                 if (clickedId == R.id.buttonSearch) {
                     navigator.replaceFragment(
                         this@MainActivity,
-                        SearFragmentVM()
+                        SearchFragment()
                     )
                     return@OnItemSelectedListener true
                 }

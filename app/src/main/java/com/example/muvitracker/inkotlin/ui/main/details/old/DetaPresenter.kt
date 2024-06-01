@@ -1,8 +1,8 @@
-package com.example.muvitracker.inkotlin.ui.main.details
+package com.example.muvitracker.inkotlin.ui.main.details.old
 
 import android.content.Context
-import com.example.muvitracker.inkotlin.data.details.OldDetaRepo
-import com.example.muvitracker.inkotlin.data.dto.DetaDto
+import com.example.muvitracker.inkotlin.data.detail.OldDetaRepo
+import com.example.muvitracker.inkotlin.data.dto.DetailDto
 import com.example.muvitracker.inkotlin.utils.EmptyStatesCallback
 import com.example.muvitracker.inkotlin.utils.EmptyStatesEnum
 
@@ -37,7 +37,7 @@ class DetaPresenter(
 ) : DetaContract.Presenter {
 
     private val repository = OldDetaRepo.getInstance(context)
-    private var presenterDto: DetaDto? = null
+    private var presenterDto: DetailDto? = null
 
 
     //CONTRACT METHODS
@@ -52,9 +52,9 @@ class DetaPresenter(
     }
 
     // solo per getMovie OK
-    private fun wrapperESCallback(forceRefresh: Boolean): EmptyStatesCallback<DetaDto> {
+    private fun wrapperESCallback(forceRefresh: Boolean): EmptyStatesCallback<DetailDto> {
 
-        return object : EmptyStatesCallback<DetaDto> {
+        return object : EmptyStatesCallback<DetailDto> {
             override fun OnStart() {
                 if (forceRefresh) {
                     view.handleEmptyStates(EmptyStatesEnum.ON_FORCE_REFRESH)
@@ -65,7 +65,7 @@ class DetaPresenter(
                 }
             }
 
-            override fun onSuccess(obj: DetaDto) {
+            override fun onSuccess(obj: DetailDto) {
                 view.handleEmptyStates(EmptyStatesEnum.ON_SUCCESS)
                 presenterDto = obj.copy() // update presenter and ui
                 updateUi()

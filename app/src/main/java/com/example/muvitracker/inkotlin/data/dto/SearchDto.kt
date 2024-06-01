@@ -1,19 +1,19 @@
-package com.example.muvitracker.inkotlin.data.dto.search
+package com.example.muvitracker.inkotlin.data.dto
 
 
-import com.example.muvitracker.inkotlin.data.dto.MovieDto
-import com.example.muvitracker.inkotlin.data.dto.search.Internal.EpisodeDto
-import com.example.muvitracker.inkotlin.data.dto.search.Internal.ShowDto
+import com.example.muvitracker.inkotlin.data.dto.base.EpisodeDto
+import com.example.muvitracker.inkotlin.data.dto.base.MovieDto
+import com.example.muvitracker.inkotlin.data.dto.base.ShowDto
 
 // can be: movie || show || episode
 
-data class SearDto(
+data class SearchDto(
     val type: String,
     val score: Double,
 
-    val movieDto: MovieDto?, // == popular
-    val showDto: ShowDto?, // K
-    val episodeDto: EpisodeDto? // K
+    val movie: MovieDto?, // == popular
+    val show: ShowDto?, // K
+    val episode: EpisodeDto? // K
 )
 
 

@@ -10,12 +10,10 @@ import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.example.muvitracker.R
 import com.example.muvitracker.databinding.FragmDetailsBinding
-import com.example.muvitracker.inkotlin.data.dto.DetaDto
-import com.example.muvitracker.inkotlin.utils.EmptyStatesEnum
-import com.example.muvitracker.inkotlin.utils.EmptyStatesManagement
+import com.example.muvitracker.inkotlin.data.dto.DetailDto
+import com.example.muvitracker.inkotlin.utils.dateFormatterInMMMyyy
+import com.example.muvitracker.inkotlin.utils.firstDecimalApproxToString
 import com.google.android.material.chip.Chip
-import java.text.SimpleDateFormat
-import java.util.Locale
 
 
 class DetaFragmentVM : Fragment() {
@@ -25,13 +23,9 @@ class DetaFragmentVM : Fragment() {
     private var bindingBase: FragmDetailsBinding? = null
     private val binding
         get() = bindingBase
-
-    //    lateinit var viewModel:DetaViewModel // java style
-    // by - creare l'istanza lazy, cioe solo quando verrà usata la prima volta
     private val viewModel by viewModels<DetaViewModel>()
 
 
-    // METODI
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -43,30 +37,24 @@ class DetaFragmentVM : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        println("TEST MVVM YYYYYYY")
-        // viewModel inizializzazione  - java style,
-        // con kotlin è automatico, non serve
-//        viewModel = ViewModelProvider(this, DetaVMFactory(requireContext())).get(DetaViewModel::class.java)
-
-
         viewModel.viewModelDto.observe(viewLifecycleOwner, Observer {
-            updateUi(it) // aggiorno tutta la ui
+            updateUi(it)
         })
 
         viewModel.emptyState.observe(viewLifecycleOwner, Observer {
-            handleEmptyStates(it) // aggiorna stato ES
+//            handleEmptyStates(it)
         })
 
+        // ARGUMENTS
         val bundle = arguments
         if (bundle != null) {
             traktMovieId = bundle.getInt(TRAKT_ID_KEY)
-            println("XXX_D_FRAGM_GET_BUNDLE")
         }
 
         with(binding!!) {
 
             swipeToRefresh.setOnRefreshListener {
-                viewModel.getMovie(traktMovieId, forceRefresh = true)
+                viewModel.loadMovie(traktMovieId, forceRefresh = true)
             }
 
             buttonBack.setOnClickListener {
@@ -82,101 +70,100 @@ class DetaFragmentVM : Fragment() {
             }
         }
 
-        // Default - salva elemento poi mostra
-        viewModel.getMovie(traktMovieId, forceRefresh = false)
+        // Default - saves item then shows
+        viewModel.loadMovie(traktMovieId, forceRefresh = false)
     }
 
 
-    // per binding
     override fun onDestroyView() {
         super.onDestroyView()
         bindingBase = null
     }
 
 
-    // CONTRACT METHODS -> PRIVATE
-    // GET - OK
-    private fun updateUi(detaDto: DetaDto) {
-        val ratingApross = approssimaDecimale(detaDto.rating)
+
+    private fun updateUi(detailDto: DetailDto) {
+        val ratingApproximation = detailDto.rating.firstDecimalApproxToString()
 
         with(binding!!) {
-            title.text = detaDto.title
-            released.text = dateFormatter(detaDto.released ?: "")
-//            runtime.text = "${detaDto.runtime.toString()} min"
-            runtime.text = getString(R.string.runtime_description, detaDto.runtime.toString())
-            country.text = detaDto.country
-//            rating.text = "${ratingApross.toString()} stars"
-            rating.text = getString(R.string.rating_description, ratingApross.toString())
-            overview.text = detaDto.overview
+            title.text = detailDto.title
+            released.text = detailDto.released.dateFormatterInMMMyyy() // conversion
 
-            // stessa vertical e horizontal
+            runtime.text = getString(R.string.runtime_description, detailDto.runtime.toString())  // string
+            country.text = detailDto.country
+
+            rating.text = getString(R.string.rating_description, ratingApproximation) // conversion + string
+            overview.text = detailDto.overview
+
+//            runtime.text = "${detaDto.runtime.toString()} min"
+//            rating.text = "${ratingApross.toString()} stars"
+
+            // same image vertical & horizontal
             Glide.with(requireContext())
-                .load(detaDto.getImageUrl())
+                .load(detailDto.imageUrl())
                 .into(imageVertical)
 
             Glide.with(requireContext())
-                .load(detaDto.getImageUrl())
+                .load(detailDto.imageUrl())
                 .into(imageHorizontal)
 
-            // chip con binding OK
+
             chipGroup.removeAllViews() // pulire quelli precedenti
-            detaDto.genres.forEach {
+            detailDto.genres.forEach {
                 val chip = Chip(context).apply {
                     text = it
                 }
                 chipGroup.addView(chip)
             }
         }
-        updateFavoriteIcon(detaDto.liked) // isliked
-        updateWatchedCheckbox(detaDto.watched) // isWatched
 
-        println("XXX_D_FRAGM_UPDATEUI")
+        updateFavoriteIcon(detailDto.liked)
+        updateWatchedCheckbox(detailDto.watched)
+
     }
 
 
-    // OK
+    // used on fun updateUi()
     private fun updateFavoriteIcon(isFavorite: Boolean) {
         val iconFilled = context?.getDrawable(R.drawable.baseline_liked)
         val iconEmpty = context?.getDrawable(R.drawable.baseline_liked_border)
 
+        // get state from viewmodel
         if (isFavorite) {
             binding
-                ?.floatingLikedButton?.setImageDrawable(iconFilled)  // da presenterDto
+                ?.floatingLikedButton?.setImageDrawable(iconFilled)
         } else {
             binding
-                ?.floatingLikedButton?.setImageDrawable(iconEmpty)  // da presenterDto
+                ?.floatingLikedButton?.setImageDrawable(iconEmpty)
         }
-        println("XXX_D_FRAGM_LIKED_BTN_SET")
+
     }
 
-
-    // OK
+    // used on fun updateUi()
     private fun updateWatchedCheckbox(isWatched: Boolean) {
-        binding?.watchedCkbox?.isChecked = isWatched    // da presenterDto
-        println("XXX_D_FRAGM_WATCHED_ CKBOX")
+        binding?.watchedCkbox?.isChecked = isWatched
     }
 
 
-    // nuovo enum = OK
-    private fun handleEmptyStates(emptyStatesEnum: EmptyStatesEnum) {
-        with(binding!!) {
-
-            EmptyStatesManagement.emptyStatesFlow(
-                emptyStatesEnum,
-                insideScrollView,
-                progressBar,
-                errorMsgTextview
-            )
-            when (emptyStatesEnum) {
-                EmptyStatesEnum.ON_SUCCESS,
-                EmptyStatesEnum.ON_ERROR_IO,
-                EmptyStatesEnum.ON_ERROR_OTHER
-                -> binding?.swipeToRefresh?.isRefreshing = false
-
-                else -> {}
-            }
-        }
-    }
+//    private fun handleEmptyStates(emptyStatesEnum: EmptyStatesEnum) {
+//        with(binding!!) {
+//
+//            EmptyStatesManagement.emptyStatesFlow(
+//                emptyStatesEnum,
+//                insideScrollView,
+//                progressBar,
+//                errorMsgTextview
+//            )
+//            when (emptyStatesEnum) {
+//                EmptyStatesEnum.ON_SUCCESS,
+//                EmptyStatesEnum.ON_ERROR_IO,
+//                EmptyStatesEnum.ON_ERROR_OTHER
+//                -> binding?.swipeToRefresh?.isRefreshing = false
+//
+//                else -> {}
+//            }
+//        }
+//    }
 
 
     companion object {
@@ -194,38 +181,7 @@ class DetaFragmentVM : Fragment() {
     }
 
 
-    // dateFormatter - sdk 26
-//    private fun dateFormatter(data: String): String {
-//        // style input
-//        val formatterInput = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-//        // style output
-//        val formatterOutput = DateTimeFormatter.ofPattern("MMM yyyy", Locale.ENGLISH)
-//        // save input
-//        val dataLocale = LocalDate.parse(data, formatterInput)
-//        // modify to output
-//        return dataLocale.format(formatterOutput)
-//    }
 
-
-    // dateFormatter - sdk 24 compatibile
-    private fun dateFormatter(data: String): String {
-        // Input date format
-        val formatterInput = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
-        // Output date format
-        val formatterOutput = SimpleDateFormat("MMM yyyy", Locale.ENGLISH)
-
-        // Parse the input date string
-        val date = formatterInput.parse(data)
-        // Format to output string
-        return formatterOutput.format(date)
-    }
-
-
-    fun approssimaDecimale(numero: Float): String {
-        return String.format("%.1f",numero)
-        // % - numero
-        // .1f - numero decimali
-    }
 
 
 
