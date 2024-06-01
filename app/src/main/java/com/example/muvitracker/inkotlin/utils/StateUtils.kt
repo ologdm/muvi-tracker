@@ -9,7 +9,7 @@ import com.example.muvitracker.R
 // OK
 data class StateContainer<T>(
     val dataList: List<T> = emptyList(),
-    val data: T? = null, // details // null management
+    var data: T? = null, // details // null management
     val isLoading: Boolean = false,
     val isRefresh: Boolean = false,
     val isNetworkError: Boolean = false,

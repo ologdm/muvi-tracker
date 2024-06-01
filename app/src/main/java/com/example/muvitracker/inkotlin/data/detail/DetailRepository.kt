@@ -2,9 +2,7 @@ package com.example.muvitracker.inkotlin.data.detail
 
 import android.content.Context
 import com.example.muvitracker.inkotlin.data.dto.DetailDto
-import com.example.muvitracker.inkotlin.utils.EmptyStatesCallback
-import com.example.muvitracker.myappunti.kotlin.RetrofitCallback
-import java.io.IOException
+import com.example.muvitracker.inkotlin.utils.IoResponse
 
 /**
  * - repo gestisce logica flusso dati, non salva
@@ -14,7 +12,7 @@ import java.io.IOException
  *  1° GET FUNZIONI:
  *
  *  -getMovie() OK
- *      > sceglie tra DB e Server
+ *      > sceglie tra DB o Server
  *      - getNetworkItemAndAddToLocal()  > assincrona, scarica e addDB+callback to presenter (success);
  *                                         gestisce empty states
  *
@@ -34,81 +32,96 @@ import java.io.IOException
  *
  */
 
+// TODO giugno
+//  1. IoResponse, Container
+//  2. domain
+// -
+// -
 
 class DetailRepository
 private constructor(
     private val context: Context
 ) {
-    val detailLocalDS = DetailLocalDS.getInstance(context)
+
+    private val localDS = DetailLocalDS.getInstance(context)
 
 
     // GET
-    fun getMovie(movieId: Int, callES: EmptyStatesCallback<DetailDto>) {
-        var index = detailLocalDS.getItemIndex(movieId)
+    // TODO IoResponse
+    fun getMovie(
+        movieId: Int,
+        onResponse: (IoResponse<DetailDto>) -> Unit
+    ) {
+        // ==
+        var index = localDS.getItemIndex(movieId)    // cerca index su Locale
 
-        if (index != -1) { // se trova index -> getDB
-            getLocalItem(movieId, callES)
+        if (index != -1) {                                // se trova index -> getDB
+//            getLocalItem(movieId, callES)
+            getMovieFromLocal(movieId, onResponse)
         } else {
-            getNetworkItemAndAddToLocal(movieId, callES)
+//            getNetworkItemAndAddToLocal(movieId, callES)
+            getMovieNetworkAndAddLocalDS(movieId, onResponse)
         }
     }
 
 
-    // METODI PRIVATI
-    private fun getNetworkItemAndAddToLocal(movieId: Int, callES: EmptyStatesCallback<DetailDto>) {
-        callES.OnStart() // empty states
-        OldDetaNetworkDS.callDetaServer(
+    // network
+    // TODO IoResponse
+    private fun getMovieNetworkAndAddLocalDS(
+        movieId: Int,
+        onResponse: (IoResponse<DetailDto>) -> Unit
+    ) {
+
+        DetailNetworkDS.callDetailServer(
             movieId,
-            object : RetrofitCallback<DetailDto> {
-                override fun onSuccess(serverItem: DetailDto) {
-                    detailLocalDS.createItem(serverItem) // add DB
-                    callES.onSuccess(serverItem) //passo tu presenter
-                    println("XXX_REPO_SERVER_SUCCESS")
-                }
+            onResponse = { retrofitResponse ->
+                // 1. data bypass
+                onResponse(retrofitResponse)
 
-                override fun onError(throwable: Throwable) {
-                    if (throwable is IOException) {
-                        callES.onErrorIO()
-                        println("XXX_REPO_SERVER_ERROR1")
-                    } else {
-                        callES.onErrorOther()
-                        println("XXX_REPO_SERVER_ERROR2")
-                    }
+                // success - save net data on db
+                if (retrofitResponse is IoResponse.Success){
+                    localDS.createItem(retrofitResponse.dataValue)
                 }
-            })
+            }
+        )
     }
 
 
-    private fun getLocalItem(movieId: Int, callES: EmptyStatesCallback<DetailDto>) {
-        val databaseDto = detailLocalDS.readItem(movieId)
-        callES.onSuccess(databaseDto)
+    // interno
+    // TODO IoResponse OK
+    private fun getMovieFromLocal(
+        movieId: Int,
+        onResponse: (IoResponse<DetailDto>) -> Unit
+    ) {
+        val databaseDto = localDS.readItem(movieId)
+//        callES.onSuccess(databaseDto)
+        onResponse(IoResponse.Success(databaseDto)) // TODO create new IoResponse
     }
 
-    // per viewmodel
-    fun getLocalItem(movieId: Int): DetailDto {
-        return detailLocalDS.readItem(movieId)
+
+    // viewmodel
+    // (per moodifica stato dto)
+    fun getMovieFromLocal(movieId: Int): DetailDto {
+        return localDS.readItem(movieId)
     }
 
 
     // ########################################################
     // SET FUNZIONI
-
-    // OK
+    // TODO ==
     fun toggleFavoriteOnDB(inputDto: DetailDto) {
         // !!! se l'ho aperto, e gia su DB !!!
         val dtoModificato = inputDto.copy(liked = !inputDto.liked)
-        detailLocalDS.updateItem(dtoModificato)
-        println("XXX_REPO_TOGGLE_UPDATE_DB")
+        localDS.updateItem(dtoModificato)
     }
 
-    // OK
+    // TODO ==
     fun updateWatchedOnDB(inputDto: DetailDto) {
-        // invio dto modificato
-        detailLocalDS.updateItem(inputDto)
-        println("XXX_DETAREPO_WATCHEDUPDATEDB")
+        localDS.updateItem(inputDto)        // invio dto modificato
     }
 
 
+    // SINGLETON OK
     companion object {
         private var instance: DetailRepository? = null
         fun getInstance(context: Context): DetailRepository {

@@ -8,12 +8,11 @@ import retrofit2.Callback
 import retrofit2.HttpException
 import retrofit2.Response
 
-
+// OK IoResponse
 object DetailNetworkDS {
 
     private val traktApi = RetrofitUtils.traktApi
 
-//        myCall: RetrofitCallback<DetailDto>
 
     fun callDetailServer(
         movieId: Int,
@@ -28,12 +27,12 @@ object DetailNetworkDS {
             ) {
                 if (response.isSuccessful) {
 //                    myCall.onSuccess(response.body()!!)
-                    onResponse(IoResponse.Success(response.body()!!))
+                    onResponse(IoResponse.Success(response.body()!!))  // 1
                 } else {
 //                    myCall.onError(HttpException(response))
                     val httpException = HttpException(response)
                     httpException.printStackTrace()
-                    onResponse(IoResponse.OtherError)
+                    onResponse(IoResponse.OtherError) // 2
                 }
             }
 
@@ -43,10 +42,10 @@ object DetailNetworkDS {
             ) {
 //                myCall.onError(t)
                 t.printStackTrace()
-                onResponse(IoResponse.NetworkError)
+                onResponse(IoResponse.NetworkError) // 3
             }
         })
     }
-
-
 }
+
+//        myCall: RetrofitCallback<DetailDto>

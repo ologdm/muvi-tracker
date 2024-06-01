@@ -2,7 +2,9 @@ package com.example.muvitracker.inkotlin.data.detail
 
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.lifecycle.MutableLiveData
 import com.example.muvitracker.inkotlin.data.dto.DetailDto
+import com.example.muvitracker.inkotlin.domain.model.DetailItem
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
@@ -19,8 +21,6 @@ import com.google.gson.reflect.TypeToken
  *
  */
 
-// 1° step solo RAM
-// 2° step sharedPrefs
 
 // conversione
 // 1. getJson
@@ -41,10 +41,12 @@ private constructor(
 
     private val localList = mutableListOf<DetailDto>()
 
+    //    private val localList2 = mutableListOf<DetailItem>()
+//    private val liveData = MutableLiveData<DetailDto>()
+
 
     companion object {
         private var instance: DetailLocalDS? = null
-
         fun getInstance(context: Context): DetailLocalDS {
             if (instance == null) {
                 instance = DetailLocalDS(context)
@@ -52,20 +54,15 @@ private constructor(
             return instance!!
         }
 
-        // CONSTANTE
         private const val DETA_MOVIE_LIST_01 = "chiavelistaMovie_01"
     }
 
 
     // METODI CRUD
     // create, read, update, delete
-
-
     // 1. OK
     fun createItem(dto: DetailDto) {
         localList.add(dto)
-        println("XXX_DB_CREATE_ITEM")
-
         saveListInShared() // aggiorno locale
     }
 
@@ -73,9 +70,7 @@ private constructor(
     // 2. OK
     fun readItem(movieId: Int): DetailDto {
         var index = getItemIndex(movieId)
-
         loadListFromShared()
-        println("XXX_DB_READ_ITEM")
         return localList.get(index)
     }
 
@@ -88,8 +83,6 @@ private constructor(
             localList.set(index, dto)
             // copy ssu repo, dove vaod a cambiare stato
         }
-        println("XXX_DB_READ_ITEM")
-
         saveListInShared() // aggiorno locale
     }
 
@@ -101,9 +94,9 @@ private constructor(
 
 
     // METODI CHECK_ID: INDEX OK
-
     fun getItemIndex(inputDto: DetailDto): Int {
         var index = -1
+
         for (i in localList.indices) {
             val localDto = localList.get(i)
             if (localDto.ids.trakt == inputDto.ids.trakt) {
@@ -116,6 +109,7 @@ private constructor(
 
     fun getItemIndex(inputId: Int): Int {
         var index = -1
+
         for (i in localList.indices) {
             val localDto = localList.get(i)
             if (localDto.ids.trakt == inputId) {
@@ -128,16 +122,13 @@ private constructor(
 
 
     // SHARED PREFERENCES
-
     // 1 Conversione
-
-    // OK
     fun getJson(list: List<DetailDto>): String {
         var jsonString = gson.toJson(list) ?: ""
         return jsonString
     }
 
-    // OK
+
     fun getListFromJson(jsonString: String): List<DetailDto> {
         // get il tipe token corretto
         var listType = object : TypeToken<List<DetailDto>>() {}.type
@@ -149,36 +140,23 @@ private constructor(
 
 
     // 2 Set/Get OK
-
-
     private fun saveListInShared() {
         var json: String = getJson(localList)
 
-        println("XXX_DLOCAL_ getJson")
-
-        // DETA_MOVIE_LIST_01 - punto d'ingresso
-        detaSharedPreferences
+        detaSharedPreferences                    // DETA_MOVIE_LIST_01 - punto d'ingresso
             .edit()
             .putString(DETA_MOVIE_LIST_01, json)
             .apply()
-
-        println("XXX_DLOCAL_ SAVE SHARED LIST")
     }
 
 
     fun loadListFromShared(): List<DetailDto> {
         // pesca json
         val json = detaSharedPreferences.getString(DETA_MOVIE_LIST_01, null) ?: ""
-
-        // converti json in lista
-
-        val list = getListFromJson(json)
-
+        val list = getListFromJson(json)         // converti json in lista
         localList.clear()
         localList.addAll(list)
-
         return localList.toList() // copia
     }
-
 
 }

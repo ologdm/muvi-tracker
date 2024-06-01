@@ -37,13 +37,20 @@ class DetaFragmentVM : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        viewModel.viewModelDto.observe(viewLifecycleOwner, Observer {
-            updateUi(it)
+//        viewModel.viewModelDto.observe(viewLifecycleOwner, Observer {
+//            updateUi(it)
+//        })
+//        viewModel.emptyState.observe(viewLifecycleOwner, Observer {
+////            handleEmptyStates(it)
+//        })
+
+        viewModel.stateContainer.observe(viewLifecycleOwner, Observer { state ->
+            state.data?.let {
+                updateUi(it)
+            }
+
         })
 
-        viewModel.emptyState.observe(viewLifecycleOwner, Observer {
-//            handleEmptyStates(it)
-        })
 
         // ARGUMENTS
         val bundle = arguments
@@ -53,9 +60,9 @@ class DetaFragmentVM : Fragment() {
 
         with(binding!!) {
 
-            swipeToRefresh.setOnRefreshListener {
-                viewModel.loadMovie(traktMovieId, forceRefresh = true)
-            }
+//            swipeToRefresh.setOnRefreshListener {
+//                viewModel.loadMovie(traktMovieId, forceRefresh = true)
+//            }
 
             buttonBack.setOnClickListener {
                 requireActivity().onBackPressed()
@@ -71,7 +78,7 @@ class DetaFragmentVM : Fragment() {
         }
 
         // Default - saves item then shows
-        viewModel.loadMovie(traktMovieId, forceRefresh = false)
+        viewModel.loadDetail(traktMovieId, forceRefresh = false)
     }
 
 
@@ -81,7 +88,6 @@ class DetaFragmentVM : Fragment() {
     }
 
 
-
     private fun updateUi(detailDto: DetailDto) {
         val ratingApproximation = detailDto.rating.firstDecimalApproxToString()
 
@@ -89,10 +95,12 @@ class DetaFragmentVM : Fragment() {
             title.text = detailDto.title
             released.text = detailDto.released.dateFormatterInMMMyyy() // conversion
 
-            runtime.text = getString(R.string.runtime_description, detailDto.runtime.toString())  // string
+            runtime.text =
+                getString(R.string.runtime_description, detailDto.runtime.toString())  // string
             country.text = detailDto.country
 
-            rating.text = getString(R.string.rating_description, ratingApproximation) // conversion + string
+            rating.text =
+                getString(R.string.rating_description, ratingApproximation) // conversion + string
             overview.text = detailDto.overview
 
 //            runtime.text = "${detaDto.runtime.toString()} min"
@@ -179,11 +187,6 @@ class DetaFragmentVM : Fragment() {
 
         const val TRAKT_ID_KEY = "traktId_key"
     }
-
-
-
-
-
 
 
 }
