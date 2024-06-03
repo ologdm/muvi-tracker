@@ -20,7 +20,7 @@
             app:layout_constraintBottom_toTopOf="@id/title"
             app:layout_constraintEnd_toEndOf="parent"
             tools:src="@tools:sample/avatars"
-            style="@style/BaseVh_Image"/>
+            style="@style/Image_BaseVH"/>
 
 
     <TextView
@@ -32,7 +32,7 @@
             app:layout_constraintTop_toBottomOf="@id/image"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            style="@style/BaseVh_TextTipografy" />
+            style="@style/TextView_Tipography_BaseVH" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

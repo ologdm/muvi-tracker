@@ -61,7 +61,6 @@ dependencies {
     // kotlin serialization
     implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.0-RC'
 
-
     // retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.10.0'
     // TODO eliminare gson di java
@@ -72,13 +71,12 @@ dependencies {
     // swipe refresh
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
 
-    // per viewmodels automatico
+    // kotlin viewmodels
     implementation "androidx.fragment:fragment-ktx:1.7.1"
 
     // glide
     implementation 'com.github.bumptech.glide:glide:4.16.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
-
 
 }
 

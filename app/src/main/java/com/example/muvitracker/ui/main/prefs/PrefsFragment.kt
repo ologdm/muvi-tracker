@@ -52,8 +52,8 @@ class PrefsFragment() : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         binding?.run {
-            recycleView.adapter = adapter
-            recycleView.layoutManager = LinearLayoutManager(requireContext())
+            recyclerView.adapter = adapter
+            recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
             viewModel.preftList.observe(viewLifecycleOwner, Observer { list ->
                 adapter.submitList(list)

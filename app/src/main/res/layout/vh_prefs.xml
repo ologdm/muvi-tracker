@@ -12,7 +12,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             tools:background="@tools:sample/avatars"
-            app:shapeAppearance="@style/RoundedShapeImageLarge"
+            app:shapeAppearance="@style/ImageLarge_RoundedShape"
             android:background="?attr/colorOnSurface" />
 
 
@@ -59,7 +59,7 @@
                     android:importantForAccessibility="no" />
 
             <CheckBox
-                    android:id="@+id/checkBox"
+                    android:id="@+id/watchedCheckBox"
                     android:text="@string/watched"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

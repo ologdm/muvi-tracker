@@ -15,18 +15,18 @@ class SearchVH(
     fun bind(item: SearchDto) {
 
         binding.run {
-            typeObjectVH.text = item.type
-            scoreVH.text = item.score.firstDecimalApproxToString()
+            typeObject.text = item.type
+            score.text = item.score.firstDecimalApproxToString()
 
             if (item.type == "movie") { // mostra solo i movie, senza
-                titleVH.text = "${item.movie?.title} ${item.movie?.year.toString()}"
+                title.text = "${item.movie?.title} ${item.movie?.year.toString()}"
 
                 Glide.with(root.context)
                     .load(item.movie?.imageUrl())
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .placeholder(R.drawable.glide_placeholder_search)
                     .error(R.drawable.glide_placeholder_search)
-                    .into(imageVH)
+                    .into(image)
             }
         }
     }

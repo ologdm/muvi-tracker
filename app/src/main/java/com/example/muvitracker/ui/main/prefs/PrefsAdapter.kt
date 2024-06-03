@@ -46,7 +46,7 @@ class PrefsAdapter : RecyclerView.Adapter<PrefsVH>() {
         var titleVH: TextView = holder.itemView.findViewById(R.id.title)
         var yearVH: TextView = holder.itemView.findViewById(R.id.year)
 
-        val watchedCkBox: CheckBox = holder.itemView.findViewById(R.id.checkBox)
+        val watchedCkBox: CheckBox = holder.itemView.findViewById(R.id.watchedCheckBox)
         val likedButton: ImageButton = holder.itemView.findViewById(R.id.likedButton)
 
         titleVH.text = onBindDto.title

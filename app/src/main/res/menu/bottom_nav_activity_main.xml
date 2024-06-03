@@ -4,21 +4,21 @@
     <item
             android:id="@+id/buttonPopular"
             android:title="@string/popular"
-            android:icon="@drawable/baseline_view_list_icon"/>
+            android:icon="@drawable/bottom_nav_base_list_icon"/>
 
     <item
             android:id="@+id/buttonBoxoffice"
             android:title="@string/box_office"
-            android:icon="@drawable/baseline_view_list_icon"/>
+            android:icon="@drawable/bottom_nav_base_list_icon"/>
 
     <item
             android:id="@+id/buttonMyList"
             android:title="@string/my_list"
-            android:icon="@drawable/baseline_mylist_icon" />
+            android:icon="@drawable/bottom_nav_prefs_icon" />
 
     <item
             android:id="@+id/buttonSearch"
             android:title="@string/search"
-            android:icon="@drawable/baseline_search_icon" />
+            android:icon="@drawable/bottom_nav_search_icon" />
 
 </menu>

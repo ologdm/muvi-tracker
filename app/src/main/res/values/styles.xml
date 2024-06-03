@@ -2,7 +2,7 @@
 <resources>
 
     <!--per imageButtonStyle, applicato su temi -->
-    <style name="RoundedImageButton">
+    <style name="ImageButton_Rounded">
         <item name="android:background">@drawable/baseline_circle</item>
         <item name="android:backgroundTint">?attr/colorPrimaryContainer</item>
         <item name="android:tint">?attr/colorOnPrimaryContainer</item>
@@ -11,15 +11,15 @@
     </style>
 
     <!-- per ShapeImageView, manuale -->
-    <style name="RoundedShapeImageLarge" parent="ShapeAppearance.Material3.Corner.Large" />
+    <style name="ImageLarge_RoundedShape" parent="ShapeAppearance.Material3.Corner.Large" />
 
-    <style name="RoundedShapeImageMedium" parent="ShapeAppearance.Material3.Corner.Medium" />
+    <style name="ImageMedium_RoundedShape" parent="ShapeAppearance.Material3.Corner.Medium" />
 
 
     <!-- GRAFICA PER LAYOUT   -->
 
     <!--empty states, manuale-->
-    <style name="ES_ErrorTextStyle">
+    <style name="ErrorText_ES">
         <item name="android:visibility">gone</item>
         <item name="android:textSize">16sp</item>
         <item name="android:elevation">4dp</item>
@@ -27,7 +27,7 @@
         <item name="android:tint">?attr/colorOnSurface</item>
     </style>
 
-    <style name="ES_ProgressBarStyle">
+    <style name="ProgressBar_ES">
         <item name="android:elevation">8dp</item>
         <item name="android:visibility">gone</item>
         <item name="android:indeterminate">true</item>
@@ -35,7 +35,7 @@
 
 
     <!--base category -->
-    <style name="BaseCategory_ToolbarStyle">
+    <style name="Toolbar_BaseCategory">
         <item name="android:textSize">24sp</item>
         <item name="android:paddingStart">20dp</item>
         <item name="android:paddingEnd">20dp</item>
@@ -43,7 +43,7 @@
         <item name="android:paddingBottom">8dp</item>
     </style>
 
-    <style name="BaseCategory_RVStyle">
+    <style name="RecyclerView_BaseCategory">
         <item name="android:paddingStart">8dp</item>
         <item name="android:paddingEnd">16dp</item>
         <item name="android:paddingTop">16dp</item>
@@ -53,33 +53,30 @@
 
 
     <!--base vh -->
-    <style name="BaseVh_Image">
+    <style name="Image_BaseVH">
         <item name="android:scaleType">centerCrop</item>
-        <item name="shapeAppearance">@style/RoundedShapeImageLarge</item>
+        <item name="shapeAppearance">@style/ImageLarge_RoundedShape</item>
     </style>
 
     <!-- TYPOGRAFY PER LAYOUT -->
     <!--base vh -->
-    <style name="BaseVh_TextTipografy">
+    <style name="TextView_Tipography_BaseVH">
         <item name="android:textSize">18sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:paddingTop">4dp</item>
     </style>
 
     <!--details-->
-    <style name="Details_TitleTypografy">
+    <style name="Title_Typography_Detail">
         <item name="android:textSize">40sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:paddingBottom">20dp</item>
     </style>
 
-    <style name="Details_CategoryTypografy">
+    <style name="Categories_Typography_Detail">
         <item name="android:textStyle">bold</item>
 
     </style>
-
-
-    <!--placeholders-->
 
 
 

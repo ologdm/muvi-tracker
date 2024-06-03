@@ -13,14 +13,14 @@ class MovieVh(
 
     // PRONTA
     fun bind (movie :MovieItem){
-        binding.titleVH.text = "${movie.title} (${movie.year})"
+        binding.title.text = "${movie.title} (${movie.year})"
 
         Glide.with(binding.root.context)
             .load(movie.imageUrl())
             .transition(DrawableTransitionOptions.withCrossFade(500))
             .placeholder(R.drawable.glide_placeholder_base)
             .error(R.drawable.glide_placeholder_base)
-            .into(binding.imageVH)
+            .into(binding.image)
     }
 
 }

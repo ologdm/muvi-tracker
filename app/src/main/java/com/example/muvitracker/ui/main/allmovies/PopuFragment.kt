@@ -46,15 +46,15 @@ class PopuFragment : Fragment() {
 
             it.statesFlow(
                 progressBar = binding!!.progressBar,
-                errorMsg = binding!!.errorMsgTextview,
+                errorMsg = binding!!.errorTextView,
                 null
             )
         }
 
         with(binding!!) {
             toolbar.text = getString(R.string.popular)
-            recycleView.adapter = adapter
-            recycleView.layoutManager = GridLayoutManager(requireContext(), 2)
+            recyclerView.adapter = adapter
+            recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
 
             swipeToRefresh.setOnRefreshListener {
                 viewModel.loadMovies(isRefresh = true)

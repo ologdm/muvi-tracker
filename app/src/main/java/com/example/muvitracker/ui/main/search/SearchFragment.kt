@@ -60,8 +60,8 @@ class SearchFragment : Fragment() {
 
 
         with(binding!!) {
-            recycleView.layoutManager = GridLayoutManager(requireContext(), 3)
-            recycleView.adapter = adapter
+            recyclerView.layoutManager = GridLayoutManager(requireContext(), 3)
+            recyclerView.adapter = adapter
 
             searchEditText.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged( // non usare

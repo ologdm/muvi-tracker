@@ -21,7 +21,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toTopOf="@id/title"
             tools:src="@tools:sample/avatars"
-            app:shapeAppearance="@style/RoundedShapeImageMedium"/>
+            app:shapeAppearance="@style/ImageMedium_RoundedShape"/>
 
 
     <TextView
@@ -35,7 +35,7 @@
 
 
     <TextView
-            android:id="@+id/typeObjectVH"
+            android:id="@+id/typeObject"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="8sp"
@@ -45,12 +45,12 @@
 
 
     <TextView
-            android:id="@+id/scoreVH"
+            android:id="@+id/score"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="8sp"
             tools:hint="score"
-            app:layout_constraintTop_toBottomOf="@id/typeObjectVH"
+            app:layout_constraintTop_toBottomOf="@id/typeObject"
             android:layout_marginHorizontal="4dp"
             app:layout_constraintBottom_toBottomOf="parent" />
 

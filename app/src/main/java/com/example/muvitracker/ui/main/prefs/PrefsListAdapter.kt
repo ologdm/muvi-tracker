@@ -77,15 +77,15 @@ class PrefsListAdapter(
             }
 
             // set dto, passa dto a db, set checkbox
-            checkBox.setOnCheckedChangeListener { b, isChecked ->
-                if (dto.watched != checkBox.isChecked) {
+            watchedCheckBox.setOnCheckedChangeListener { b, isChecked ->
+                if (dto.watched != watchedCheckBox.isChecked) {
                     dto = dto.copy(watched = isChecked)
                     // serve copiare??
                     onClickWatched.invoke(dto)
-                    checkBox.isChecked = dto.watched
+                    watchedCheckBox.isChecked = dto.watched
                 }
             }
-            checkBox.isChecked = dto.watched
+            watchedCheckBox.isChecked = dto.watched
         }
     }
 
