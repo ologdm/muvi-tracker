@@ -1,6 +1,5 @@
 package com.example.muvitracker.data.detail
 
-import com.example.muvitracker.data.RetrofitUtils
 import com.example.muvitracker.data.dto.DetailDto
 import com.example.muvitracker.utils.IoResponse
 import retrofit2.Call
@@ -47,5 +46,3 @@ object DetailNetworkDS {
         })
     }
 }
-
-//        myCall: RetrofitCallback<DetailDto>

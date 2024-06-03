@@ -4,7 +4,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.muvitracker.databinding.VhPrefsBinding
 
 
-class PrefsVHnuovo(
+class PrefsVH2(
     val binding: VhPrefsBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 }

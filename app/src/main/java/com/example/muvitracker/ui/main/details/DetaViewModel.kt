@@ -8,8 +8,6 @@ import com.example.muvitracker.data.dto.DetailDto
 import com.example.muvitracker.utils.IoResponse
 import com.example.muvitracker.utils.StateContainer
 
-// context == application
-// context viene implementato da application, activity e service
 
 class DetaViewModel(
     private val application: Application

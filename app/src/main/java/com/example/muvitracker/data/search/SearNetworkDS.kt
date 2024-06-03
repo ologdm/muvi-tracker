@@ -1,6 +1,5 @@
 package com.example.muvitracker.data.search
 
-import com.example.muvitracker.data.RetrofitUtils
 import com.example.muvitracker.data.dto.SearchDto
 import com.example.muvitracker.utils.IoResponse
 import retrofit2.Call
@@ -8,8 +7,8 @@ import retrofit2.Callback
 import retrofit2.HttpException
 import retrofit2.Response
 
-object SearNetworkDS {
 
+object SearNetworkDS {
     val traktApi = com.example.muvitracker.data.RetrofitUtils.traktApi
 
 

@@ -13,11 +13,11 @@ import com.example.muvitracker.data.dto.DetailDto
 import com.example.muvitracker.databinding.VhPrefsBinding
 
 
-class PrefsListAdapter(
+class PrefsAdapter2(
     private val onClickVH: (movieId:Int) -> Unit,
     private val onCLickLiked: (DetailDto) -> Unit,
     private val onClickWatched: (DetailDto) -> Unit
-) : ListAdapter<DetailDto, PrefsVHnuovo>(PrefsListAdapter) {
+) : ListAdapter<DetailDto, PrefsVH2>(PrefsAdapter2) {
 
     companion object : DiffUtil.ItemCallback<DetailDto>() {
         override fun areItemsTheSame(oldItem: DetailDto, newItem: DetailDto): Boolean {
@@ -30,14 +30,14 @@ class PrefsListAdapter(
     }
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PrefsVHnuovo {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PrefsVH2 {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = VhPrefsBinding.inflate(layoutInflater, parent, false)
-        return PrefsVHnuovo(binding)
+        return PrefsVH2(binding)
     }
 
 
-    override fun onBindViewHolder(holder: PrefsVHnuovo, position: Int) {
+    override fun onBindViewHolder(holder: PrefsVH2, position: Int) {
         var dto = getItem(position)
 
 

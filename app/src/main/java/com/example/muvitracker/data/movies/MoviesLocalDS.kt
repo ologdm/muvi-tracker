@@ -7,29 +7,16 @@ import com.example.muvitracker.data.dto.base.MovieDto
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
-/**
- * ### SHARED PREFS MANAGMENT ###
- * id necessari shared prefs:
- *  - "myMoviesPrefs"   => id fase creazione prefs
- *  - "chiaveLista01" => id popu list
- *  - "chiaveLista02" => id boxo list
- *
- * FUNZIONI:
- * conversion:
- *  1) pr fun getJson
- *  2) pr fun getListFromJson
- *
- * metodi get/set list:
- *  1) fun saveListInLocal
- *  2) fun loadFromLocal
- *
+/*
  * null management:
  *     > loadFromLocal(), json null -> lista null
  *     > getListFromJson(), json null,
+ *
+ * koltin news
+ * inline - <refired T>
  */
 
-// koltin news
-// inline - <refired T>
+
 
 // TODO convertire a Serializable
 

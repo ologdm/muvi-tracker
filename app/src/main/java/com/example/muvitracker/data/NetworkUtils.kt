@@ -11,10 +11,6 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 
-/**
- *  - API da retrofit OK
- *  - funzione enqueue generica OK
- */
 
 object RetrofitUtils {
 

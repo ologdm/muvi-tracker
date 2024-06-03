@@ -8,6 +8,7 @@ import com.example.muvitracker.domain.model.MovieItem
 import com.example.muvitracker.utils.IoResponse
 import com.example.muvitracker.utils.StateContainer
 
+
 class PopuViewModel(
     private val application: Application
 ) : AndroidViewModel(application) {

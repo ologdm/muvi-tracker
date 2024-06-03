@@ -4,39 +4,6 @@ import android.content.Context
 import com.example.muvitracker.data.dto.DetailDto
 import com.example.muvitracker.utils.IoResponse
 
-/**
- * - repo gestisce logica flusso dati, non salva
- * - i film gli salvo solo la prima volta, no aggiornamento
- *
- *
- *  1° GET FUNZIONI:
- *
- *  -getMovie() OK
- *      > sceglie tra DB o Server
- *      - getNetworkItemAndAddToLocal()  > assincrona, scarica e addDB+callback to presenter (success);
- *                                         gestisce empty states
- *
- *      - getLocalItem ()                > assincorna, con callback EmptyStatesCallback
- *
- *
- *  -getLocalItem ()  OK                 > sincrona - direttamente da DB
- *
- *
- *  2° SET FUNZIONI:
- *  -toggleFavoriteOnDB() OK
- *              > change liked on dto and create copy
- *              > updateDb
- *
- *  -updateWatchedOnDB() OK
- *              > updateDb
- *
- */
-
-// TODO giugno
-//  1. IoResponse, Container
-//  2. domain
-// -
-// -
 
 class DetailRepository
 private constructor(
@@ -56,10 +23,8 @@ private constructor(
         var index = localDS.getItemIndex(movieId)    // cerca index su Locale
 
         if (index != -1) {                                // se trova index -> getDB
-//            getLocalItem(movieId, callES)
             getMovieFromLocal(movieId, onResponse)
         } else {
-//            getNetworkItemAndAddToLocal(movieId, callES)
             getMovieNetworkAndAddLocalDS(movieId, onResponse)
         }
     }

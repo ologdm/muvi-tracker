@@ -8,9 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.muvitracker.R
-import com.example.muvitracker.databinding.FragmDetailBinding
 import com.example.muvitracker.databinding.FragmPrefsBinding
 import com.example.muvitracker.ui.main.Navigator
 
@@ -26,7 +24,7 @@ class PrefsFragment() : Fragment() {
 
 
     //    private val adapter = PrefsAdapter()
-    private val adapter = PrefsListAdapter(
+    private val adapter = PrefsAdapter2(
         onClickVH = { movieId ->
             startDetailsFragment(movieId)
         },
