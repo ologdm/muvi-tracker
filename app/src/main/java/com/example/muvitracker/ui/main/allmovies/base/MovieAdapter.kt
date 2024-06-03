@@ -9,7 +9,7 @@ import com.example.muvitracker.domain.model.MovieItem
 
 
 class MovieAdapter(
-    private val onClickCallback: (Int) -> Unit,
+    private val onClickVH: (Int) -> Unit,
 ) : ListAdapter<MovieItem, MovieVh>(MovieAdapter) {
 
     companion object : DiffUtil.ItemCallback<MovieItem>() { // nome object - se stesso
@@ -36,7 +36,7 @@ class MovieAdapter(
         holder.bind(item)
 
         holder.itemView.setOnClickListener {
-            onClickCallback(item.ids.trakt)
+            onClickVH(item.ids.trakt)
         }
 
     }

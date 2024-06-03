@@ -6,7 +6,6 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.example.muvitracker.R
 import com.example.muvitracker.ui.main.details.DetaFragment
-import com.example.muvitracker.ui.main.allmovies.PopuFragment
 
 
 class Navigator {

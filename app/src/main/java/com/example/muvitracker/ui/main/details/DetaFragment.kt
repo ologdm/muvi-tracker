@@ -9,8 +9,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.example.muvitracker.R
-import com.example.muvitracker.databinding.FragmDetailsBinding
 import com.example.muvitracker.data.dto.DetailDto
+import com.example.muvitracker.databinding.FragmDetailBinding
 import com.example.muvitracker.utils.dateFormatterInMMMyyy
 import com.example.muvitracker.utils.firstDecimalApproxToString
 import com.google.android.material.chip.Chip
@@ -20,7 +20,7 @@ class DetaFragment : Fragment() {
 
     private var traktMovieId: Int = 0
 
-    private var bindingBase: FragmDetailsBinding? = null
+    private var bindingBase: FragmDetailBinding? = null
     private val binding
         get() = bindingBase
     private val viewModel by viewModels<DetaViewModel>()
@@ -31,7 +31,7 @@ class DetaFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        bindingBase = FragmDetailsBinding.inflate(inflater, container, false)
+        bindingBase = FragmDetailBinding.inflate(inflater, container, false)
         return binding!!.root
     }
 
@@ -96,8 +96,6 @@ class DetaFragment : Fragment() {
                 getString(R.string.rating_description, ratingApproximation) // conversion + string
             overview.text = detailDto.overview
 
-//            runtime.text = "${detaDto.runtime.toString()} min"
-//            rating.text = "${ratingApross.toString()} stars"
 
             // same image vertical & horizontal
             Glide.with(requireContext())
@@ -173,7 +171,7 @@ class DetaFragment : Fragment() {
             val bundle = Bundle()
             bundle.putInt(TRAKT_ID_KEY, traktId)
             detaFragment.arguments =
-                bundle  // arguments - quando voglio passare elementi alla creazione
+                bundle
 
             return detaFragment
         }

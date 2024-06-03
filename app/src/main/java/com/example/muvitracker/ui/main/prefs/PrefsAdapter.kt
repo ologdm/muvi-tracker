@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.ImageButton
@@ -17,10 +18,9 @@ import com.example.muvitracker.data.dto.DetailDto
 
 class PrefsAdapter : RecyclerView.Adapter<PrefsVH>() {
 
-    // lista
+
     private val adapterList = mutableListOf<DetailDto>()
 
-    // callbacks necessarie
     private var callbackVH: ((movieId: Int) -> Unit)? = null
     private var callbackLiked: ((dto: DetailDto) -> Unit)? = null
     private var callbackWatched: ((dto: DetailDto) -> Unit)? = null
@@ -42,9 +42,9 @@ class PrefsAdapter : RecyclerView.Adapter<PrefsVH>() {
     override fun onBindViewHolder(holder: PrefsVH, position: Int) {
         var onBindDto = adapterList.get(position)
 
-        val imageView: ImageView = holder.itemView.findViewById(R.id.imageVH)
-        var titleVH: TextView = holder.itemView.findViewById(R.id.titleVH)
-        var yearVH: TextView = holder.itemView.findViewById(R.id.yearVH)
+        val imageView: ImageView = holder.itemView.findViewById(R.id.image)
+        var titleVH: TextView = holder.itemView.findViewById(R.id.title)
+        var yearVH: TextView = holder.itemView.findViewById(R.id.year)
 
         val watchedCkBox: CheckBox = holder.itemView.findViewById(R.id.checkBox)
         val likedButton: ImageButton = holder.itemView.findViewById(R.id.likedButton)
@@ -129,4 +129,10 @@ class PrefsAdapter : RecyclerView.Adapter<PrefsVH>() {
         callbackWatched = call
     }
 
+}
+
+
+class PrefsVH(
+     val itemView: View
+) : RecyclerView.ViewHolder(itemView) {
 }

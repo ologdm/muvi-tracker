@@ -20,7 +20,7 @@ class PopuFragment : Fragment() {
     private val navigator = Navigator()
     private val viewModel by viewModels<PopuViewModel>()
 
-    private val adapter = MovieAdapter(onClickCallback = { movieId ->
+    private val adapter = MovieAdapter(onClickVH = { movieId ->
         startDetailsFragment(movieId)
     })
 

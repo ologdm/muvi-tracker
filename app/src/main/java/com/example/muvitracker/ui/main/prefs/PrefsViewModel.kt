@@ -13,6 +13,10 @@ class PrefsViewModel(
     private val repository = PrefsRepo.getInstance(application)
     val preftList = MutableLiveData<List<DetailDto>>()
 
+    init {
+        updatePrefList()
+    }
+
 
     fun updatePrefList() {
         preftList.value = repository.filterPrefsFromDetails()

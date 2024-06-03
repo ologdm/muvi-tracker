@@ -20,7 +20,7 @@ class BoxoFragment : Fragment() {
     private val viewModel by viewModels<BoxoViewModel>()
     private val navigator = Navigator()
 
-    private val adapter = MovieAdapter(onClickCallback = { movieId->
+    private val adapter = MovieAdapter(onClickVH = { movieId->
         startDetailsFragment(movieId)
     })
 
