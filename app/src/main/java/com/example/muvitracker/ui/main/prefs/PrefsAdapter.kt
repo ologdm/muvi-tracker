@@ -14,16 +14,6 @@ import com.bumptech.glide.Glide
 import com.example.muvitracker.R
 import com.example.muvitracker.data.dto.DetailDto
 
-/**
- *
- * updateList()
- * updateFavoriteIcon()
- *
- * callbackVH
- * callbackLiked
- * callbackWatched
- */
-
 
 class PrefsAdapter : RecyclerView.Adapter<PrefsVH>() {
 

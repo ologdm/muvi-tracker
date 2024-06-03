@@ -8,7 +8,7 @@ import com.example.muvitracker.databinding.VhSearchBinding
 import com.example.muvitracker.data.dto.SearchDto
 import com.example.muvitracker.utils.firstDecimalApproxToString
 
-class SearchVh(
+class SearchVH(
     val binding: VhSearchBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 

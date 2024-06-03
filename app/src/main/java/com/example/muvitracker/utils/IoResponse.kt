@@ -1,12 +1,6 @@
 package com.example.muvitracker.utils
 
 
-/*
- * TODO
- *  IoResponse OK
- *  Mapper (per quando serve) OK
- *
- */
 
 
 sealed interface IoResponse<out T> {

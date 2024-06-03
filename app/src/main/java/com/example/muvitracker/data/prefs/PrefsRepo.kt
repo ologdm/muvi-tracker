@@ -6,17 +6,6 @@ import com.example.muvitracker.data.detail.DetailRepository
 import com.example.muvitracker.data.dto.DetailDto
 
 
-/**
- * GET
- * - filterPrefsFromDetails()
- *                  > filtra elementi da DetailsDB
- *
- * SET
- * - toggleFavoriteOnDB
- * - updateWatchedOnDB
- *
- */
-
 
 class PrefsRepo
 private constructor(

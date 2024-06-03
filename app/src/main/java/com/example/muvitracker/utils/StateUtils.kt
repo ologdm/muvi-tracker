@@ -6,7 +6,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import com.example.muvitracker.R
 
-// OK
+
 data class StateContainer<T>(
     val dataList: List<T> = emptyList(),
     var data: T? = null, // details // null management

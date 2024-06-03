@@ -16,7 +16,7 @@ import com.example.muvitracker.utils.firstDecimalApproxToString
 import com.google.android.material.chip.Chip
 
 
-class DetaFragmentVM : Fragment() {
+class DetaFragment : Fragment() {
 
     private var traktMovieId: Int = 0
 
@@ -37,13 +37,6 @@ class DetaFragmentVM : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-//        viewModel.viewModelDto.observe(viewLifecycleOwner, Observer {
-//            updateUi(it)
-//        })
-//        viewModel.emptyState.observe(viewLifecycleOwner, Observer {
-////            handleEmptyStates(it)
-//        })
-
         viewModel.stateContainer.observe(viewLifecycleOwner, Observer { state ->
             state.data?.let {
                 updateUi(it)
@@ -60,9 +53,9 @@ class DetaFragmentVM : Fragment() {
 
         with(binding!!) {
 
-//            swipeToRefresh.setOnRefreshListener {
-//                viewModel.loadMovie(traktMovieId, forceRefresh = true)
-//            }
+            swipeToRefresh.setOnRefreshListener {
+                viewModel.loadDetail(traktMovieId, forceRefresh = true)
+            }
 
             buttonBack.setOnClickListener {
                 requireActivity().onBackPressed()
@@ -175,8 +168,8 @@ class DetaFragmentVM : Fragment() {
 
 
     companion object {
-        fun create(traktId: Int): DetaFragmentVM {
-            val detaFragment = DetaFragmentVM()
+        fun create(traktId: Int): DetaFragment {
+            val detaFragment = DetaFragment()
             val bundle = Bundle()
             bundle.putInt(TRAKT_ID_KEY, traktId)
             detaFragment.arguments =

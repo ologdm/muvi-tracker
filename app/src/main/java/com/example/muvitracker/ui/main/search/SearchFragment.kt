@@ -15,19 +15,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.muvitracker.databinding.FragmSearchBinding
 import com.example.muvitracker.ui.main.Navigator
 
-/**
- *  funzioni generali:
- *  1. mostro solo movie ( hanno stessi dati), TODO show type ecc
- *  2. apro details da adapter
- *  3. db NO, mostro ogni volta solo la chiamata
- *  4. swipe to refresh NO
- *  5. view binding su adapter
- *  6. empty states NO
- *
- *  7. chiamo funzione ricerca debouncing   OK
- *  8. ordinare risultato in base allo score OK
- *
- *  9. gestione visibilità tastiera:
+/*
+ *  gestione visibilità tastiera:
  *    - da Manifest - "adjustNothing"
  *    - xml layout - android:imeOptions="actionDone" + inputType="text"
  */
@@ -101,7 +90,6 @@ class SearchFragment : Fragment() {
                 }
             })
         }
-
     }
 
 
@@ -111,7 +99,6 @@ class SearchFragment : Fragment() {
     }
 
 
-    //    // OTHER METHODS
     private fun startDetailsFragment(movieId: Int) {
         navigator.startDetailsFragment(requireActivity(), movieId)
     }

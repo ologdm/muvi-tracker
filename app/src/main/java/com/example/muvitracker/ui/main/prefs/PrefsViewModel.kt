@@ -11,22 +11,17 @@ class PrefsViewModel(
 ) : AndroidViewModel(application) {
 
     private val repository = PrefsRepo.getInstance(application)
-
     val preftList = MutableLiveData<List<DetailDto>>()
 
 
-    // load elements
     fun updatePrefList() {
         preftList.value = repository.filterPrefsFromDetails()
     }
 
-
-    // toggle liked, set watched
     fun toggleFovoriteItem(dtoToToggle: DetailDto) {
         repository.toggleFavoriteOnDB(dtoToToggle)
     }
 
-    // passare e modificare
     fun updateWatchedItem(updatedDto: DetailDto) {
         repository.updateWatchedOnDB(updatedDto)
     }
