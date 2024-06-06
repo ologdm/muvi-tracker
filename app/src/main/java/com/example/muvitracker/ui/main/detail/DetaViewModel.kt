@@ -1,10 +1,11 @@
-package com.example.muvitracker.ui.main.details
+package com.example.muvitracker.ui.main.detail
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.example.muvitracker.data.detail.DetailRepository
-import com.example.muvitracker.data.dto.DetailDto
+import com.example.muvitracker.data.prefs.PrefsRepository
+import com.example.muvitracker.domain.model.DetailMovie
 import com.example.muvitracker.utils.IoResponse
 import com.example.muvitracker.utils.StateContainer
 
@@ -13,17 +14,20 @@ class DetaViewModel(
     private val application: Application
 ) : AndroidViewModel(application) {
 
-    private val repository = DetailRepository.getInstance(application)
+    private val detailRepository = DetailRepository.getInstance(application)
+    private val prefsRepository = PrefsRepository.getInstance(application)
 
-    val stateContainer = MutableLiveData<StateContainer<DetailDto>>()
+
+    val stateContainer = MutableLiveData<StateContainer<DetailMovie>>()
 
 
-    // TODO new ES
-    fun loadDetail(movieId: Int, forceRefresh: Boolean) {
+    // load from detailRepository, gia DetailMovie (deve contenere info e stati)
+    // aggiorno viewmodel con dato nuovo
+    fun loadDetail(movieId: Int) {
 
-        repository.getMovieFromLocal(movieId) // carica subito
+//       ???? detailRepository.getMovieFromLocal(movieId) // fun diretta Local : DetailMovie
 
-        repository.getMovie(
+        detailRepository.getDetailMovie( // cerca su local poi scarica da internet
             movieId,
             onResponse = { repoRespopnse ->
                 when (repoRespopnse) {

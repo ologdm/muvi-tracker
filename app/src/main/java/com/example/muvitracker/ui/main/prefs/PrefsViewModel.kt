@@ -3,14 +3,14 @@ package com.example.muvitracker.ui.main.prefs
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import com.example.muvitracker.data.prefs.PrefsRepo
+import com.example.muvitracker.data.prefs.PrefsRepository
 import com.example.muvitracker.data.dto.DetailDto
 
 class PrefsViewModel(
     private val application: Application
 ) : AndroidViewModel(application) {
 
-    private val repository = PrefsRepo.getInstance(application)
+    private val repository = PrefsRepository.getInstance(application)
     val preftList = MutableLiveData<List<DetailDto>>()
 
     init {

@@ -4,26 +4,44 @@ import com.example.muvitracker.data.detail.DetailEntity
 import com.example.muvitracker.data.dto.base.Ids
 
 
-data class DetailDto(
+data class OldDetailDto(
 
-    val liked: Boolean,
-    val watched: Boolean,
+    // eliminare
+//    val liked: Boolean = false,
+//    val watched: Boolean = false,
 
     val title: String,
     val year: Int,
     val ids: Ids,
-
-    // val default per elementi che possono mancare
+    //val tagline: String = "",
     val overview: String = "",
     val released: String = "",
     val runtime: Int = 0,
     val country: String? = "",
+    //@SerializedName("updated_at")
+    //val updatedAt: String = "",
+    //trailer = null
+    //val homepage: String = "",
+    //val status: String = "",
     val rating: Float = 0F,
+    //val votes: Int =0,
+    //@SerializedName("comment_count")
+    //val commentCount: Int =0,
+    //val language: String ="",
+    //val availableTranslations: List<String> = listOf(),
     val genres: List<String> = emptyList(),
-)
+    //val certification: String = ""
+) {
+
+    // TODO move to domain
+    fun imageUrl(): String {
+        return "http://img.omdbapi.com/" + "?apikey=ef6d3d4c" + "&i=${ids.imdb}";
+    }
+}
 
 
-fun DetailDto.toEntity(): DetailEntity {
+// OK
+fun OldDetailDto.toEntity(): DetailEntity {
     return DetailEntity(
         title = title,
         year = year,
@@ -36,6 +54,9 @@ fun DetailDto.toEntity(): DetailEntity {
         genres = genres
     )
 }
+
+
+
 
 
 /*

@@ -7,7 +7,7 @@ import com.example.muvitracker.data.dto.DetailDto
 
 
 
-class PrefsRepo
+class PrefsRepository
 private constructor(
     private val context: Context
 ) {
@@ -45,11 +45,11 @@ private constructor(
 
     // singleton
     companion object {
-        private var instance: PrefsRepo? = null
+        private var instance: PrefsRepository? = null
 
-        fun getInstance(context: Context): PrefsRepo {
+        fun getInstance(context: Context): PrefsRepository {
             if (instance == null) {
-                instance = PrefsRepo(context)
+                instance = PrefsRepository(context)
             }
             return instance!!
         }

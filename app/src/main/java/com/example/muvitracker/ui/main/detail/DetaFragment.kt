@@ -1,4 +1,4 @@
-package com.example.muvitracker.ui.main.details
+package com.example.muvitracker.ui.main.detail
 
 import android.os.Bundle
 import android.view.LayoutInflater
