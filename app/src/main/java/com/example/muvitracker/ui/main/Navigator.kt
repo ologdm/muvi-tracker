@@ -5,7 +5,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.example.muvitracker.R
-import com.example.muvitracker.ui.main.detail.DetaFragment
+import com.example.muvitracker.ui.main.detail.DetailFragment
 
 
 class Navigator {
@@ -29,7 +29,7 @@ class Navigator {
     ) {
         val manager = fragmentActivity.supportFragmentManager
         manager.beginTransaction()
-            .replace(R.id.frameLayout, DetaFragment.create(traktMovieId)) // MVVM
+            .replace(R.id.frameLayout, DetailFragment.create(traktMovieId)) // MVVM
             .addToBackStack(null)
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
             .commit()

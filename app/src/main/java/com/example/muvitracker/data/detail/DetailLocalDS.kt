@@ -23,8 +23,8 @@ class DetailLocalDS
 private constructor(
     private val context: Context
 ) {
-    val gson = Gson()
-    val detaSharedPreferences: SharedPreferences =
+    private val gson = Gson()
+    private val sharedPreferences: SharedPreferences =
         context.getSharedPreferences("detail_cache", Context.MODE_PRIVATE)
 
 
@@ -35,9 +35,9 @@ private constructor(
 
         liveData.value = loadListFromShared() // first update
 
-        detaSharedPreferences.registerOnSharedPreferenceChangeListener { _, key ->
+        sharedPreferences.registerOnSharedPreferenceChangeListener { _, key ->
             // viene chiamata quando il valore (interno JSON) di qualsiasi "key" cambia
-            if (key == DETAIL_CACHELIST_KEY_01) {
+            if (key == DETAIL_KEY_01) {
                 liveData.value =
                     loadListFromShared() // update onChange JSON contenuto nella key rispettiva
             }
@@ -47,7 +47,7 @@ private constructor(
 
 
     private fun loadListFromShared(): List<DetailEntity> {
-        val json = detaSharedPreferences.getString(DETAIL_CACHELIST_KEY_01, null) ?: ""
+        val json = sharedPreferences.getString(DETAIL_KEY_01, null) ?: ""
         return getListFromJson(json) // conversione
     }
 
@@ -64,60 +64,45 @@ private constructor(
 
 // SET ####################################################################
 
-    fun saveNewItemInSharedList(item: DetailEntity) {
-        // TODO checkID, serve??
 
-        //prendere lista attuale
-        val updatedList = loadListFromShared().toMutableList()
-        updatedList.add(item)
+    // OK
+    fun addOrUpdateItem(inputItem: DetailEntity) {
+        val sharedList = loadListFromShared().toMutableList()
+        val index = sharedList.indexOfFirst { sharedEntity ->
+            sharedEntity.ids.trakt == inputItem.ids.trakt
+        } // return indice condizione o -1
 
+        if (index == -1) {
+            sharedList.add(inputItem)
+        } else {
+            sharedList[index] = inputItem
+        }
+
+        saveListInSharedPreferences(sharedList)
+
+    }
+
+
+    private fun saveListInSharedPreferences(updatedList: List<DetailEntity>) {
         // update shared list
-        detaSharedPreferences.edit()
-            .putString(DETAIL_CACHELIST_KEY_01, getJson(updatedList))
+        sharedPreferences.edit()
+            .putString(DETAIL_KEY_01, getJson(updatedList))
             .apply()
     }
 
 
+    // old
     private fun getJson(list: List<DetailEntity>): String {
-        var jsonString = gson.toJson(list) ?: ""
-        return jsonString
+        return gson.toJson(list) ?: ""
     }
+// new
+//    private fun List<DetailEntity>.toJson(): String {
+//        return this.toJson() ?: ""
+//    }
+//
 
 
-// METODI CHECK_ID: INDEX OK ####################################################################
-
-    // return index o -1
-    private fun getItemIndex(inputItem: DetailEntity): Int {
-        val list = loadListFromShared()
-
-        var index = -1
-        for (i in list.indices) {
-            val cachedItem = list.get(i)
-            if (cachedItem.ids.trakt == inputItem.ids.trakt) {
-                index = i
-                break
-            }
-        }
-        return index
-    }
-
-
-    fun getItemIndex(inputId: Int): Int {
-        val list = loadListFromShared()
-
-        var index = -1
-        for (i in list.indices) {
-            val cachedItem = list.get(i)
-            if (cachedItem.ids.trakt == inputId) {
-                index = i
-                break
-            }
-        }
-        return index
-    }
-
-
-    // ####################################################################
+// ####################################################################
     companion object {
         private var instance: DetailLocalDS? = null
         fun getInstance(context: Context): DetailLocalDS {
@@ -127,61 +112,8 @@ private constructor(
             return instance!!
         }
 
-        private const val DETAIL_CACHELIST_KEY_01 = "detail_cachelist_key_01"
+        private const val DETAIL_KEY_01 = "detail_key_01"
     }
 }
 
 
-// NON SERVONO
-
-//    fun readItem(movieId: Int): DetailDto {
-//        var index = getItemIndex(movieId)
-//        loadListFromShared()
-//        return localList.get(index)
-//    }
-//
-// TODO
-//    fun updateItem(dto: DetailDto) {
-//        var index = getItemIndex(dto)
-//
-//        if (index != -1) {
-//            localList.set(index, dto)
-//            // copy ssu repo, dove vaod a cambiare stato
-//        }
-//        saveListInShared() // aggiorno locale
-//    }
-//
-
-//    private fun deleteItem(movieId: Int) {
-//        saveListInShared() // aggiorno locale
-//    }
-
-//##############################################################
-
-// METODI CHECK_ID: INDEX OK
-//private fun getItemIndex(inputDto: DetailDto): Int {
-//    var index = -1
-//
-//    for (i in localList.indices) {
-//        val localDto = localList.get(i)
-//        if (localDto.ids.trakt == inputDto.ids.trakt) {
-//            index = i
-//            break // esci dal ciclo
-//        }
-//    }
-//    return index
-//}
-//
-//
-//fun getItemIndex(inputId: Int): Int {
-//    var index = -1
-//
-//    for (i in localList.indices) {
-//        val localDto = localList.get(i)
-//        if (localDto.ids.trakt == inputId) {
-//            index = i
-//            break
-//        }
-//    }
-//    return index
-//}

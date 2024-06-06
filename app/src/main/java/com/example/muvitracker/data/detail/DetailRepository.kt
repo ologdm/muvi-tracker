@@ -2,19 +2,25 @@ package com.example.muvitracker.data.detail
 
 import android.content.Context
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.map
 import com.example.muvitracker.data.dto.DetailDto
 import com.example.muvitracker.data.dto.toEntity
+import com.example.muvitracker.data.prefs.PrefsLocalDS
+import com.example.muvitracker.domain.model.DetailMovie
 import com.example.muvitracker.utils.IoResponse
 import com.example.muvitracker.utils.combineLatest
 import com.example.muvitracker.utils.ioMapper
 
 
 // NUOVA REPOSITORY
-// 1 getMovie  - combine (val db e val network) e osservali entrambi,
-//
-// 2 getNetwork + aggiorna db
-// 3
-// 4
+
+// koltin notes
+//  list.find {condizione} -> restituisce Elemento or null
+
+// livedata
+// combineLast (1,2,combiner) -> return crea 3, ogni cambiam 1o2 3 cambierà di nuovo
+// concat (1,2) -> return crea live di (1 o 2), viene mostrato il piu recente tra i 2
 
 
 class DetailRepository
@@ -22,92 +28,110 @@ private constructor(
     private val context: Context
 ) {
     private val detailsLocalDS = DetailLocalDS.getInstance(context)
+    private val prefsLocalDS = PrefsLocalDS.getInstance(context)
 
 
-    // GET ###########################################################################
+// GET ###########################################################################
+
+
+    // 1. cerca su db se c'e - livedata
+    // 2. cerca su network - livedata
+    // 3. osserva i 2 valori concat()
     fun getDetailMovie(
         movieId: Int,
-        onResponse: (IoResponse<DetailDto>) -> Unit
-    ) {
-        // cerca su db se c'e - livedata
-        // cerca su network - livedata
-        // osserva i 2 valori
+    ): LiveData<IoResponse<DetailMovie>> {
 
-        // trova elemento da 2 liste Live o return null
+        // 1. trova elemento in live - local detail e prefs | o return null
         val localLiveData = combineLatest(
             detailsLocalDS.getLivedataList(),
-            detailsLocalDS.getLivedataList(),
+            prefsLocalDS.getLivedataList(),
             combiner = { detailEntities, prefsEntities ->
-                val movie = detailEntities.find { detailEntity ->
-
+                // trova elemento in detail se c'e, else null
+                val movieEntity = detailEntities.find { detailEntity ->
+                    movieId == detailEntity.ids.trakt
                 }
+                // trova elemento in prefs se c'e | else null
+                val prefsEntity = prefsEntities.find { prefsEntity ->
+                    movieId == prefsEntity.movieId
+                }
+                val detailMovie = movieEntity?.toDomain(prefsEntity)
+                detailMovie //Livedata<DetailMovie>
+            }).map { detailMovie ->   //Livedata<IoResponse<DetailMovie>>
+//            // (dima)
+//            val mapped = IoResponse.Success(detailMovie) as IoResponse<DetailMovie?>
+//            mapped
+            // (eugi)
+            IoResponse.success(detailMovie)
+        } // fine localLiveData
 
-            })
 
-    }
-
-
-    // network
-    private fun getMovieNetworkAndAddLocalDS(
-        movieId: Int,
-        onResponse: (IoResponse<DetailEntity>) -> Unit
-    ) {
-
-        DetailNetworkDS.callDetailServer(
+        // 2. livedata da internet
+        val networkLivedata = MutableLiveData<IoResponse<DetailMovie>>()
+        getNetworkResultAndAddToLocal(
             movieId,
-            onResponse = { retrofitResponse ->
-
-                val ioMapper = retrofitResponse.ioMapper { dto ->
-                    dto.toEntity() // return (R type)
-                }
-                onResponse(ioMapper)
-                //  NOonResponse(retrofitResponse)
-
-                // success - save net data on db
-                if (retrofitResponse is IoResponse.Success) {
-                    detailsLocalDS.saveNewItemInSharedList(retrofitResponse.dataValue)
-                }
+            onResponse = {
+                networkLivedata.value = it
             }
-        )
     }
+    )
+
+    // 3.  combina i due livedata e mostra il piu recente
+    return
+}
 
 
-    // interno
-    // TODO IoResponse OK
-    private fun getMovieFromLocal(
-        movieId: Int,
-        onResponse: (IoResponse<DetailDto>) -> Unit
-    ) {
-        val databaseDto = detailsLocalDS.readItem(movieId)
-//        callES.onSuccess(databaseDto)
-        onResponse(IoResponse.Success(databaseDto)) // TODO create new IoResponse
-    }
+
+
+// network Call
+//
+private fun getNetworkResultAndAddToLocal(
+    movieId: Int,
+    onResponse: (IoResponse<DetailEntity>) -> Unit
+) {
+
+
+
+    DetailNetworkDS.callDetailServer(
+        movieId,
+        onResponse = { retrofitResponse ->
+            val ioMapper = retrofitResponse.ioMapper { dto ->
+                dto.toEntity()
+            }
+            onResponse(ioMapper) // ##
+
+            // Success, aggiungi anche a db
+            if (retrofitResponse is IoResponse.Success) {
+                detailsLocalDS.addOrUpdateItem(retrofitResponse.dataValue.toEntity())
+            }
+        }
+    )
+}
 
 
 // SET ###########################################################################
 
-    // TODO ==
-    fun toggleFavoriteOnDB(inputDto: DetailDto) {
-        // !!! se l'ho aperto, e gia su DB !!!
+// TODO ==
+fun toggleFavoriteOnDB(inputDto: DetailDto) {
+    // !!! se l'ho aperto, e gia su DB !!!
 
-    }
+}
 
-    // TODO ==
-    fun updateWatchedOnDB(inputDto: DetailDto) {
-        // invio dto modificato
+// TODO ==
+fun updateWatchedOnDB(inputDto: DetailDto) {
+    // invio dto modificato
 
-    }
+}
 
 
-    companion object {
-        private var instance: DetailRepository? = null
-        fun getInstance(context: Context): DetailRepository {
-            if (instance == null) {
-                instance = DetailRepository(context)
-            }
-            return instance!!
+companion object {
+    private var instance: DetailRepository? = null
+    fun getInstance(context: Context): DetailRepository {
+        if (instance == null) {
+            instance = DetailRepository(context)
         }
+        return instance!!
     }
+}
 
 }
 
@@ -125,14 +149,14 @@ private constructor(
 //}
 
 
-//// TODO ==
+////
 //fun toggleFavoriteOnDB(inputDto: DetailDto) {
 //    // !!! se l'ho aperto, e gia su DB !!!
 //    val dtoModificato = inputDto.copy(liked = !inputDto.liked)
 //    detailsLocalDS.updateItem(dtoModificato)
 //}
 //
-//// TODO ==
+////
 //fun updateWatchedOnDB(inputDto: DetailDto) {
 //    detailsLocalDS.updateItem(inputDto)        // invio dto modificato
 //}
@@ -144,6 +168,13 @@ private constructor(
 //        return detailsLocalDS.readItem(movieId)
 //    }
 
-
+//private fun getMovieFromLocal(
+//        movieId: Int,
+//        onResponse: (IoResponse<DetailDto>) -> Unit
+//    ) {
+//        val databaseDto = detailsLocalDS.readItem(movieId)
+////        callES.onSuccess(databaseDto)
+//        onResponse(IoResponse.Success(databaseDto))
+//    }
 
 

@@ -4,11 +4,17 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 
 
+
+
+
+// (combina livedata1 e livedata2)
 // source1 = 1, source2 = "abc" --- 1, "abc"
 // source1 = 2 --- 2, "abc
 // source1 = 50 --- 50, "abc"
 // source2 = "hello" --- 50, "hello"
 
+// result - valore combinato livedata3
+// cambiamento - se 1 o 2 cambia, aggiorna 3
 
 fun <T1 : Any, T2 : Any, R : Any?> combineLatest(  // operator
     source1: LiveData<T1>,
@@ -31,7 +37,11 @@ fun <T1 : Any, T2 : Any, R : Any?> combineLatest(  // operator
 
 
 
-// concatena i valori di entrambi i livedata in un singolo livedata
+// (concatena i 2 valori livedata) -> mostra tra i 2 il piu recente
+// source1 |  10   20         50
+// source2 |           30 40
+// result  |  10   20  30 40  50
+
 fun <T : Any> concat( // operator
     source1: LiveData<T>,
     source2: LiveData<T>,

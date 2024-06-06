@@ -10,7 +10,7 @@ import com.example.muvitracker.utils.IoResponse
 import com.example.muvitracker.utils.StateContainer
 
 
-class DetaViewModel(
+class DetailViewModel(
     private val application: Application
 ) : AndroidViewModel(application) {
 

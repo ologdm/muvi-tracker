@@ -16,14 +16,14 @@ import com.example.muvitracker.utils.firstDecimalApproxToString
 import com.google.android.material.chip.Chip
 
 
-class DetaFragment : Fragment() {
+class DetailFragment : Fragment() {
 
     private var traktMovieId: Int = 0
 
     private var bindingBase: FragmDetailBinding? = null
     private val binding
         get() = bindingBase
-    private val viewModel by viewModels<DetaViewModel>()
+    private val viewModel by viewModels<DetailViewModel>()
 
 
     override fun onCreateView(
@@ -166,14 +166,14 @@ class DetaFragment : Fragment() {
 
 
     companion object {
-        fun create(traktId: Int): DetaFragment {
-            val detaFragment = DetaFragment()
+        fun create(traktId: Int): DetailFragment {
+            val detailFragment = DetailFragment()
             val bundle = Bundle()
             bundle.putInt(TRAKT_ID_KEY, traktId)
-            detaFragment.arguments =
+            detailFragment.arguments =
                 bundle
 
-            return detaFragment
+            return detailFragment
         }
 
         const val TRAKT_ID_KEY = "traktId_key"
