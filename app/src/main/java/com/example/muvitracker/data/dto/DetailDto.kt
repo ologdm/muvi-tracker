@@ -2,6 +2,8 @@ package com.example.muvitracker.data.dto
 
 import com.example.muvitracker.data.detail.DetailEntity
 import com.example.muvitracker.data.dto.base.Ids
+import com.example.muvitracker.data.prefs.PrefsEntity
+import com.example.muvitracker.domain.model.DetailMovie
 
 
 data class DetailDto(
@@ -34,6 +36,23 @@ fun DetailDto.toEntity(): DetailEntity {
         country = country ?: "",
         rating = rating,
         genres = genres
+    )
+}
+
+// ZZ
+fun DetailDto.toDomain(prefsEntity: PrefsEntity?): DetailMovie {
+    return DetailMovie(
+        title = title,
+        year = year,
+        ids = ids,
+        overview = overview,
+        released = released,
+        runtime = runtime,
+        country = country ?: "",
+        rating = rating,
+        genres = genres,
+        liked = prefsEntity?.liked ?: false ,
+        watched = prefsEntity?.watched ?: false
     )
 }
 

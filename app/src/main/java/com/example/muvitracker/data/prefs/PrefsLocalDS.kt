@@ -8,70 +8,83 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
 
-// ha tutte le funzioni
-// uguale a DetailLocalDS
-
-
 class PrefsLocalDS(
     val context: Context
 ) {
-
     private val gson = Gson()
     private val sharedPreferences: SharedPreferences =
         context.getSharedPreferences("prefs_cache", Context.MODE_PRIVATE)
 
 
-    // GET ######################################################  OK
-    // ok
-    fun getLivedataList()
-            : LiveData<List<PrefsEntity>> {
-        val livedata = MutableLiveData<List<PrefsEntity>>()
-        livedata.value = getSharedList()
-        // TODO aggiungere listener al cambiamento Shared
-        return livedata
+    // GET ###################################################### ZZ modificato e synchronized
+    private val prefsChangeListener =
+        SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
+            if (key == PREFS_KEY_01) {
+                liveDataList.postValue(loadSharedList())
+            }
+        }
+
+
+    val liveDataList: MutableLiveData<List<PrefsEntity>> by lazy {
+        MutableLiveData<List<PrefsEntity>>().also {
+            it.value = loadSharedList()
+            sharedPreferences.registerOnSharedPreferenceChangeListener(prefsChangeListener)
+        }
     }
 
-    // ok
-    private fun getSharedList()
-            : List<PrefsEntity> {
+
+    private fun loadSharedList(): List<PrefsEntity> {
         val json =
-            sharedPreferences.getString(PREFS_KEY_01, "") ?: "" //?: per rendere String nonNull
+            sharedPreferences.getString(PREFS_KEY_01, "").orEmpty()
         return getListFromJson(json)
     }
 
-    // ok
-    private fun getListFromJson(jsonString: String)
-            : List<PrefsEntity> {
-        var listType =
-            object : TypeToken<List<PrefsEntity>>() {}.type
-        var transformedList: List<PrefsEntity> = gson.fromJson(jsonString, listType) ?: emptyList()
-        return transformedList
+
+    private fun getListFromJson(jsonString: String): List<PrefsEntity> {
+        var listType = object : TypeToken<List<PrefsEntity>>() {}.type
+        return gson.fromJson(jsonString, listType) ?: emptyList()
     }
 
 
-    // SET ###################################################### OK
-
-    // ok
-    fun addOrSetItem(inputEntity: PrefsEntity) {
-        val sharedList = getSharedList().toMutableList()
-
-        val index = sharedList.indexOfFirst { sharedEntity ->
-            inputEntity.movieId == sharedEntity.movieId
-        }  // return index or -1
-
-        if (index == -1) {
-            sharedList.add(inputEntity)
-        } else {
-            sharedList[index] = inputEntity
+    // SET ###################################################### ZZ
+    fun toggleFavoriteOnDB(id: Int) {
+        synchronized(this) {
+            val cache = loadSharedList().toMutableList()
+            val index = cache.indexOfFirst { it.movieId == id }
+            if (index != -1) {
+                val current = cache[index]
+                cache.set(index, current.copy(liked = !current.liked))
+            } else {
+                cache.add(PrefsEntity(liked = true, watched = false, movieId = id))
+            }
+            saveListInShared(cache)
         }
-
     }
 
-    // ok
-    fun saveListInSharedPreferences(list: List<PrefsEntity>) {
-        sharedPreferences.edit()
-            .putString(PREFS_KEY_01, getJson(list))
-            .apply()
+
+    fun updateWatchedOnDB(id: Int, watched: Boolean) {
+        synchronized(this) {
+            val cache = loadSharedList().toMutableList()
+            val index = cache.indexOfFirst { it.movieId == id }
+            if (index != -1) {
+                val current = cache[index]
+                cache.set(index, current.copy(watched = watched))
+            } else {
+                cache.add(PrefsEntity(liked = false, watched = watched, movieId = id))
+            }
+            saveListInShared(cache)
+        }
+    }
+
+
+// ########################################################################### ZZ
+
+    fun saveListInShared(list: List<PrefsEntity>) {
+        synchronized(this) {
+            sharedPreferences.edit()
+                .putString(PREFS_KEY_01, getJson(list))
+                .apply()
+        }
     }
 
 
@@ -80,18 +93,17 @@ class PrefsLocalDS(
     }
 
 
+    // ###########################################################################
     companion object {
-        private var instance: PrefsLocalDS? = null
+        private const val PREFS_KEY_01 = "prefs_key_01"
 
+        private var instance: PrefsLocalDS? = null
         fun getInstance(context: Context): PrefsLocalDS {
             if (instance == null) {
                 instance = PrefsLocalDS(context)
             }
             return instance!!
         }
-
-        private const val PREFS_KEY_01 = "prefs_key_01"
     }
-
 
 }

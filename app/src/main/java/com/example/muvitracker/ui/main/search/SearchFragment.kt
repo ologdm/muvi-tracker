@@ -24,9 +24,10 @@ import com.example.muvitracker.ui.main.Navigator
 
 class SearchFragment : Fragment() {
 
-    private var bindingBase: FragmSearchBinding? = null
+    private var _binding: FragmSearchBinding? = null
     private val binding
-        get() = bindingBase
+        get() = _binding
+
     val navigator = Navigator()
     private val viewModel by viewModels<SearchViewModel>()
 
@@ -45,8 +46,8 @@ class SearchFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        bindingBase = FragmSearchBinding.inflate(inflater, container, false)
-        return bindingBase?.root
+        _binding = FragmSearchBinding.inflate(inflater, container, false)
+        return _binding?.root
     }
 
 
@@ -95,7 +96,7 @@ class SearchFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        bindingBase = null
+        _binding = null
     }
 
 

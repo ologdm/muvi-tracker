@@ -8,33 +8,28 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.muvitracker.R
 import com.example.muvitracker.databinding.FragmPrefsBinding
 import com.example.muvitracker.ui.main.Navigator
 
 
 class PrefsFragment() : Fragment() {
 
-    private var bindingBase: FragmPrefsBinding? = null
+    private var _binding: FragmPrefsBinding? = null
     private val binding
-        get() = bindingBase
-
+        get() = _binding
     private val viewModel by viewModels<PrefsViewModel>()
     private val navigator = Navigator()
 
 
-    //    private val adapter = PrefsAdapter()
-    private val adapter = PrefsAdapter2(
+    private val adapter = PrefsAdapter(
         onClickVH = { movieId ->
             startDetailsFragment(movieId)
         },
-        onCLickLiked = { dto -> // check funziona
-            viewModel.toggleFovoriteItem(dtoToToggle = dto)
-            viewModel.updatePrefList()
+        onCLickLiked = { item ->
+            viewModel.toggleFovoriteItem(itemToToggle = item)
         },
-        onClickWatched = { dto -> // check funziona
-            viewModel.updateWatchedItem(updatedDto = dto)
-            viewModel.updatePrefList()
+        onClickWatched = { item, watched ->
+            viewModel.updateWatchedItem(updatedItem = item, watched)
         }
     )
 
@@ -43,21 +38,24 @@ class PrefsFragment() : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragm_prefs, container, false)
+        _binding = FragmPrefsBinding.inflate(inflater, container, false)
+        return binding?.root
     }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        binding?.recyclerView?.adapter = adapter
+        binding?.recyclerView?.layoutManager = LinearLayoutManager(requireContext())
 
-        binding?.run {
-            recyclerView.adapter = adapter
-            recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        viewModel.preftList.observe(viewLifecycleOwner, Observer { list ->
+            adapter.submitList(list)
+        })
+    }
 
-            viewModel.preftList.observe(viewLifecycleOwner, Observer { list ->
-                adapter.submitList(list)
-            })
-        }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 
@@ -70,18 +68,3 @@ class PrefsFragment() : Fragment() {
 
 }
 
-
-//            adapter.setCallbackVH { movieId ->
-//                startDetailsFragment(movieId)
-//            }
-
-//            adapter.setCallbackLiked { dtoToToggle ->
-//                viewModel.toggleFovoriteItem(dtoToToggle)
-//                viewModel.updatePrefList()
-//            }
-//
-//            adapter.setCallbackWatched { updatedDto ->
-//                viewModel.updateWatchedItem(updatedDto)
-//                viewModel.updatePrefList()
-//            }
-//        }

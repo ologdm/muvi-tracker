@@ -29,7 +29,7 @@ class Navigator {
     ) {
         val manager = fragmentActivity.supportFragmentManager
         manager.beginTransaction()
-            .replace(R.id.frameLayout, DetailFragment.create(traktMovieId)) // MVVM
+            .replace(R.id.frameLayout, DetailFragment.create(traktMovieId))
             .addToBackStack(null)
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
             .commit()

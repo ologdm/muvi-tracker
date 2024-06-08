@@ -28,30 +28,30 @@ private constructor(
         context.getSharedPreferences("detail_cache", Context.MODE_PRIVATE)
 
 
-// GET DATA ####################################################################
+// GET DATA #################################################################### ZZ
 
+    // ZZ
     fun getLivedataList(): MutableLiveData<List<DetailEntity>> {
         val liveData = MutableLiveData<List<DetailEntity>>()
-
-        liveData.value = loadListFromShared() // first update
+        liveData.value = loadSharedList() // first update
 
         sharedPreferences.registerOnSharedPreferenceChangeListener { _, key ->
             // viene chiamata quando il valore (interno JSON) di qualsiasi "key" cambia
             if (key == DETAIL_KEY_01) {
                 liveData.value =
-                    loadListFromShared() // update onChange JSON contenuto nella key rispettiva
+                    loadSharedList() // update onChange JSON contenuto nella key rispettiva
             }
         }
         return liveData
     }
 
-
-    private fun loadListFromShared(): List<DetailEntity> {
+    // ZZ
+    private fun loadSharedList(): List<DetailEntity> {
         val json = sharedPreferences.getString(DETAIL_KEY_01, null) ?: ""
         return getListFromJson(json) // conversione
     }
 
-
+    // ZZ
     private fun getListFromJson(jsonString: String): List<DetailEntity> {
         var listType =
             object : TypeToken<List<DetailEntity>>() {}.type          // get il tipe token corretto
@@ -65,33 +65,34 @@ private constructor(
 // SET ####################################################################
 
 
-    // OK
-    fun addOrUpdateItem(inputItem: DetailEntity) {
-        val sharedList = loadListFromShared().toMutableList()
-        val index = sharedList.indexOfFirst { sharedEntity ->
-            sharedEntity.ids.trakt == inputItem.ids.trakt
+    // ZZ
+    fun addOrUpdateItem(inputEntity: DetailEntity) {
+        val currentSharedList = loadSharedList().toMutableList()
+        val index = currentSharedList.indexOfFirst { sharedEntity ->
+            sharedEntity.ids.trakt == inputEntity.ids.trakt
         } // return indice condizione o -1
 
         if (index == -1) {
-            sharedList.add(inputItem)
+            currentSharedList.add(inputEntity)
         } else {
-            sharedList[index] = inputItem
+            currentSharedList[index] = inputEntity
         }
 
-        saveListInSharedPreferences(sharedList)
+        saveListInSharedPreferences(currentSharedList)
 
     }
 
-
+    // ZZ
     private fun saveListInSharedPreferences(updatedList: List<DetailEntity>) {
         // update shared list
-        sharedPreferences.edit()
+        sharedPreferences
+            .edit()
             .putString(DETAIL_KEY_01, getJson(updatedList))
             .apply()
     }
 
 
-    // old
+    // old ZZ
     private fun getJson(list: List<DetailEntity>): String {
         return gson.toJson(list) ?: ""
     }

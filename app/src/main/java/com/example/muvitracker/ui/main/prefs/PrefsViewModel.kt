@@ -5,29 +5,23 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.example.muvitracker.data.prefs.PrefsRepository
 import com.example.muvitracker.data.dto.DetailDto
+import com.example.muvitracker.domain.model.DetailMovie
 
 class PrefsViewModel(
     private val application: Application
 ) : AndroidViewModel(application) {
 
-    private val repository = PrefsRepository.getInstance(application)
-    val preftList = MutableLiveData<List<DetailDto>>()
+    private val prefsRepository = PrefsRepository.getInstance(application)
+    val preftList = prefsRepository.getList()
 
-    init {
-        updatePrefList()
+
+    fun toggleFovoriteItem(itemToToggle: DetailMovie) {
+        prefsRepository.toggleFavoriteOnDB(itemToToggle.ids.trakt)
     }
 
 
-    fun updatePrefList() {
-        preftList.value = repository.filterPrefsFromDetails()
-    }
-
-    fun toggleFovoriteItem(dtoToToggle: DetailDto) {
-        repository.toggleFavoriteOnDB(dtoToToggle)
-    }
-
-    fun updateWatchedItem(updatedDto: DetailDto) {
-        repository.updateWatchedOnDB(updatedDto)
+    fun updateWatchedItem(updatedItem: DetailMovie, watched: Boolean) {
+        prefsRepository.updateWatchedOnDB(updatedItem.ids.trakt, watched)
     }
 
 

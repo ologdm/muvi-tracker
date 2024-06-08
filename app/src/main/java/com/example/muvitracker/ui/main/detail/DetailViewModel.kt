@@ -2,7 +2,8 @@ package com.example.muvitracker.ui.main.detail
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.map
 import com.example.muvitracker.data.detail.DetailRepository
 import com.example.muvitracker.data.prefs.PrefsRepository
 import com.example.muvitracker.domain.model.DetailMovie
@@ -18,52 +19,38 @@ class DetailViewModel(
     private val prefsRepository = PrefsRepository.getInstance(application)
 
 
-    val stateContainer = MutableLiveData<StateContainer<DetailMovie>>()
+// GET ###############################################################
 
-
-    // load from detailRepository, gia DetailMovie (deve contenere info e stati)
-    // aggiorno viewmodel con dato nuovo
-    fun loadDetail(movieId: Int) {
-
-//       ???? detailRepository.getMovieFromLocal(movieId) // fun diretta Local : DetailMovie
-
-        detailRepository.getDetailMovie( // cerca su local poi scarica da internet
-            movieId,
-            onResponse = { repoRespopnse ->
+    fun getStateContainer(movieId: Int): LiveData<StateContainer<DetailMovie>> {
+        return detailRepository.getDetailMovie(movieId)
+            .map { repoRespopnse ->
                 when (repoRespopnse) {
                     is IoResponse.Success -> {
-                        stateContainer.value = StateContainer(data = repoRespopnse.dataValue)
+                        StateContainer(data = repoRespopnse.dataValue)
                     }
 
                     is IoResponse.NetworkError -> {
-                        stateContainer.value = StateContainer(isNetworkError = true)
+                        StateContainer(isNetworkError = true)
                     }
 
                     is IoResponse.OtherError -> {
-                        stateContainer.value = StateContainer(isOtherError = true)
+                        StateContainer(isOtherError = true)
                     }
 
                 }
-            })
+            }
     }
 
 
-    fun toggleFavorite() {
-        repository.toggleFavoriteOnDB(stateContainer.value?.data!!)     // set dto attuale a repo
-        stateContainer.value?.data =
-            repository.getMovieFromLocal(stateContainer.value?.data?.ids!!.trakt)    // get quello aggiornato
+    // SET ############################################################
+    fun toggleFavorite(id: Int) {
+        prefsRepository.toggleFavoriteOnDB(id)
     }
 
-
-    fun updateWatched(watchedStatus: Boolean) {
-        val modifiedDto =
-            stateContainer.value?.data?.copy(watched = watchedStatus)    //cambio stato + copy
-
-        if (modifiedDto != null) {
-            repository.updateWatchedOnDB(modifiedDto)    // send modified dto to repo
-            stateContainer.value?.data = modifiedDto     // get quello aggiornato
-        }
+    fun updateWatched(id: Int, watched: Boolean) {
+        prefsRepository.updateWatchedOnDB(id, watched)
     }
 
 
 }
+

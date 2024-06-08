@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.muvitracker.R
 import com.example.muvitracker.databinding.FragmBaseCategoryBinding
+import com.example.muvitracker.databinding.FragmDetailBinding
 import com.example.muvitracker.ui.main.Navigator
 import com.example.muvitracker.ui.main.allmovies.base.MovieAdapter
 import com.example.muvitracker.utils.statesFlow
@@ -16,7 +17,10 @@ import com.example.muvitracker.utils.statesFlow
 
 class BoxoFragment : Fragment() {
 
-    private var binding: FragmBaseCategoryBinding? = null
+    private var _binding: FragmBaseCategoryBinding? = null
+    private val binding
+        get() = _binding
+
     private val viewModel by viewModels<BoxoViewModel>()
     private val navigator = Navigator()
 
@@ -29,7 +33,7 @@ class BoxoFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmBaseCategoryBinding.inflate(inflater, container, false)
+        _binding = FragmBaseCategoryBinding.inflate(inflater, container, false)
         return binding?.root
     }
 
@@ -60,6 +64,11 @@ class BoxoFragment : Fragment() {
         }
 
 
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 

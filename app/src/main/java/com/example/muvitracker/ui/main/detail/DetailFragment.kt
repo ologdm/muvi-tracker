@@ -6,11 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.example.muvitracker.R
-import com.example.muvitracker.data.dto.DetailDto
 import com.example.muvitracker.databinding.FragmDetailBinding
+import com.example.muvitracker.domain.model.DetailMovie
 import com.example.muvitracker.utils.dateFormatterInMMMyyy
 import com.example.muvitracker.utils.firstDecimalApproxToString
 import com.google.android.material.chip.Chip
@@ -18,11 +17,11 @@ import com.google.android.material.chip.Chip
 
 class DetailFragment : Fragment() {
 
-    private var traktMovieId: Int = 0
+    private var currentMovieId: Int = 0
 
-    private var bindingBase: FragmDetailBinding? = null
+    private var _binding: FragmDetailBinding? = null
     private val binding
-        get() = bindingBase
+        get() = _binding
     private val viewModel by viewModels<DetailViewModel>()
 
 
@@ -31,84 +30,75 @@ class DetailFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        bindingBase = FragmDetailBinding.inflate(inflater, container, false)
+        _binding = FragmDetailBinding.inflate(inflater, container, false)
         return binding!!.root
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
-        viewModel.stateContainer.observe(viewLifecycleOwner, Observer { state ->
-            state.data?.let {
-                updateUi(it)
-            }
-
-        })
-
-
-        // ARGUMENTS
         val bundle = arguments
         if (bundle != null) {
-            traktMovieId = bundle.getInt(TRAKT_ID_KEY)
+            currentMovieId = bundle.getInt(TRAKT_ID_KEY)
         }
 
-        with(binding!!) {
-
-            swipeToRefresh.setOnRefreshListener {
-                viewModel.loadDetail(traktMovieId, forceRefresh = true)
+        viewModel.getStateContainer(movieId = currentMovieId)
+            .observe(viewLifecycleOwner) { stateContainer ->
+                stateContainer.data?.let { detailMovie ->
+                    updateUi(detailMovie)
+                }
             }
 
+        // ZZ
+        with(binding!!) {
             buttonBack.setOnClickListener {
                 requireActivity().onBackPressed()
             }
 
             floatingLikedButton.setOnClickListener {
-                viewModel.toggleFavorite()
+                viewModel.toggleFavorite(currentMovieId)
             }
 
-            watchedCkbox.setOnCheckedChangeListener { buttonView, isChecked ->
-                viewModel.updateWatched(isChecked)
+            watchedCkbox.setOnCheckedChangeListener { _, isChecked ->
+                viewModel.updateWatched(currentMovieId, isChecked)
             }
+
+            // TODO
+//            swipeToRefresh.setOnRefreshListener {
+//                viewModel.loadDetail(currentMovieId, forceRefresh = true)
+//            }
         }
-
-        // Default - saves item then shows
-        viewModel.loadDetail(traktMovieId, forceRefresh = false)
     }
 
 
     override fun onDestroyView() {
         super.onDestroyView()
-        bindingBase = null
+        _binding = null
     }
 
 
-    private fun updateUi(detailDto: DetailDto) {
-        val ratingApproximation = detailDto.rating.firstDecimalApproxToString()
-
+    // ################################################################### ZZ
+    private fun updateUi(detailmovie: DetailMovie) {
         with(binding!!) {
-            title.text = detailDto.title
-            released.text = detailDto.released.dateFormatterInMMMyyy() // conversion
+            val ratingApproximation = detailmovie.rating.firstDecimalApproxToString()
 
+            title.text = detailmovie.title
+            released.text = detailmovie.released.dateFormatterInMMMyyy() // conversion
             runtime.text =
-                getString(R.string.runtime_description, detailDto.runtime.toString())  // string
-            country.text = detailDto.country
-
+                getString(R.string.runtime_description, detailmovie.runtime.toString())  // string
+            country.text = detailmovie.country
             rating.text =
                 getString(R.string.rating_description, ratingApproximation) // conversion + string
-            overview.text = detailDto.overview
+            overview.text = detailmovie.overview
 
-
-            // same image vertical & horizontal
             Glide.with(requireContext())
-                .load(detailDto.imageUrl())
+                .load(detailmovie.imageUrl())
                 .into(imageVertical)
-
             Glide.with(requireContext())
-                .load(detailDto.imageUrl())
+                .load(detailmovie.imageUrl())
                 .into(imageHorizontal)
 
-
             chipGroup.removeAllViews() // pulire quelli precedenti
-            detailDto.genres.forEach {
+            detailmovie.genres.forEach {
                 val chip = Chip(context).apply {
                     text = it
                 }
@@ -116,75 +106,53 @@ class DetailFragment : Fragment() {
             }
         }
 
-        updateFavoriteIcon(detailDto.liked)
-        updateWatchedCheckbox(detailDto.watched)
-
+        updateFavoriteIcon(detailmovie.liked)
+        updateWatchedCheckbox(detailmovie.watched)
     }
 
 
-    // used on fun updateUi()
+    // ################################################################### ZZ
+    // used on updateUi()
     private fun updateFavoriteIcon(isFavorite: Boolean) {
         val iconFilled = context?.getDrawable(R.drawable.baseline_liked)
         val iconEmpty = context?.getDrawable(R.drawable.baseline_liked_border)
 
-        // get state from viewmodel
-        if (isFavorite) {
-            binding
-                ?.floatingLikedButton?.setImageDrawable(iconFilled)
-        } else {
-            binding
-                ?.floatingLikedButton?.setImageDrawable(iconEmpty)
-        }
-
+        binding?.floatingLikedButton?.setImageDrawable(if (isFavorite) iconFilled else iconEmpty)
     }
 
-    // used on fun updateUi()
+    // used on updateUi()
     private fun updateWatchedCheckbox(isWatched: Boolean) {
-        binding?.watchedCkbox?.isChecked = isWatched
+        binding?.watchedCkbox?.setOnCheckedChangeListener(null) // ok
+        binding?.watchedCkbox?.isChecked = isWatched // ok
+        binding?.watchedCkbox?.setOnCheckedChangeListener { _, isChecked ->
+            viewModel.updateWatched(currentMovieId, isChecked)
+        }
     }
 
 
-//    private fun handleEmptyStates(emptyStatesEnum: EmptyStatesEnum) {
-//        with(binding!!) {
-//
-//            EmptyStatesManagement.emptyStatesFlow(
-//                emptyStatesEnum,
-//                insideScrollView,
-//                progressBar,
-//                errorMsgTextview
-//            )
-//            when (emptyStatesEnum) {
-//                EmptyStatesEnum.ON_SUCCESS,
-//                EmptyStatesEnum.ON_ERROR_IO,
-//                EmptyStatesEnum.ON_ERROR_OTHER
-//                -> binding?.swipeToRefresh?.isRefreshing = false
-//
-//                else -> {}
-//            }
-//        }
-//    }
-
-
+    // ###################################################################
     companion object {
+        const val TRAKT_ID_KEY = "traktId_key"
+
         fun create(traktId: Int): DetailFragment {
             val detailFragment = DetailFragment()
             val bundle = Bundle()
             bundle.putInt(TRAKT_ID_KEY, traktId)
-            detailFragment.arguments =
-                bundle
-
+            detailFragment.arguments = bundle
             return detailFragment
         }
-
-        const val TRAKT_ID_KEY = "traktId_key"
     }
-
 
 }
 
 
-
-
+// TODO salvare su viewmodel
+//        viewModel.stateContainer.observe(viewLifecycleOwner, Observer { state ->
+//            state.data?.let {
+//                updateUi(it)
+//            }
+//
+//        })
 
 
 

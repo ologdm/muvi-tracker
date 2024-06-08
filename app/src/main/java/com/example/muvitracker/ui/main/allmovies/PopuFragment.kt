@@ -16,7 +16,12 @@ import com.example.muvitracker.utils.statesFlow
 
 class PopuFragment : Fragment() {
 
-    private var binding: FragmBaseCategoryBinding? = null
+
+    private var _binding: FragmBaseCategoryBinding? = null
+    private val binding
+        get() = _binding
+
+
     private val navigator = Navigator()
     private val viewModel by viewModels<PopuViewModel>()
 
@@ -30,7 +35,7 @@ class PopuFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmBaseCategoryBinding.inflate(inflater, container, false)
+        _binding = FragmBaseCategoryBinding.inflate(inflater, container, false)
         return binding?.root
     }
 
@@ -41,7 +46,6 @@ class PopuFragment : Fragment() {
     ) {
 
         viewModel.stateContainer.observe(viewLifecycleOwner) {
-
             adapter.submitList(it.dataList)
 
             it.statesFlow(
@@ -60,6 +64,11 @@ class PopuFragment : Fragment() {
                 viewModel.loadMovies(isRefresh = true)
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 
