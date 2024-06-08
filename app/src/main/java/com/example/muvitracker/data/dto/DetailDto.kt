@@ -7,21 +7,29 @@ import com.example.muvitracker.domain.model.DetailMovie
 
 
 data class DetailDto(
-
-    val liked: Boolean,
-    val watched: Boolean,
-
     val title: String,
     val year: Int,
     val ids: Ids,
 
     // val default per elementi che possono mancare
+//    val tagline: String = "",
     val overview: String = "",
     val released: String = "",
     val runtime: Int = 0,
     val country: String? = "",
+//    @SerializedName("updated_at")
+//    val updatedAt: String = "",
+//    trailer = null
+//    val homepage: String = "",
+//    val status: String = "",
     val rating: Float = 0F,
+//    val votes: Int =0,
+//    @SerializedName("comment_count")
+//    val commentCount: Int =0,
+//    val language: String ="",
+//    val availableTranslations: List<String> = listOf(),
     val genres: List<String> = emptyList(),
+//    val certification: String = ""
 )
 
 

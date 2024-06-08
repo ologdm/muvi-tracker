@@ -25,13 +25,11 @@ object DetailNetworkDS {
                 response: Response<DetailDto>
             ) {
                 if (response.isSuccessful) {
-//                    myCall.onSuccess(response.body()!!)
-                    onResponse(IoResponse.Success(response.body()!!))  // 1
+                    onResponse(IoResponse.Success(response.body()!!))
                 } else {
-//                    myCall.onError(HttpException(response))
                     val httpException = HttpException(response)
                     httpException.printStackTrace()
-                    onResponse(IoResponse.OtherError) // 2
+                    onResponse(IoResponse.OtherError)
                 }
             }
 
@@ -39,9 +37,8 @@ object DetailNetworkDS {
                 call: Call<DetailDto>,
                 t: Throwable
             ) {
-//                myCall.onError(t)
                 t.printStackTrace()
-                onResponse(IoResponse.NetworkError) // 3
+                onResponse(IoResponse.NetworkError)
             }
         })
     }

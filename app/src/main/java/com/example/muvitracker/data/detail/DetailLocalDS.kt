@@ -8,7 +8,7 @@ import com.google.gson.reflect.TypeToken
 
 /*
  * GET - con Livedata read automatico || update e delete non necessario
- * getLivedataList() : MUtableLiveData
+ * getLivedataList() : MutableLiveData
  * readCacheList() : List<DetailEntity>
  * ListFromJson() - conversione
  *
@@ -28,9 +28,8 @@ private constructor(
         context.getSharedPreferences("detail_cache", Context.MODE_PRIVATE)
 
 
-// GET DATA #################################################################### ZZ
+// GET ####################################################################
 
-    // ZZ
     fun getLivedataList(): MutableLiveData<List<DetailEntity>> {
         val liveData = MutableLiveData<List<DetailEntity>>()
         liveData.value = loadSharedList() // first update
@@ -45,27 +44,19 @@ private constructor(
         return liveData
     }
 
-    // ZZ
     private fun loadSharedList(): List<DetailEntity> {
         val json = sharedPreferences.getString(DETAIL_KEY_01, null) ?: ""
         return getListFromJson(json) // conversione
     }
 
-    // ZZ
     private fun getListFromJson(jsonString: String): List<DetailEntity> {
-        var listType =
-            object : TypeToken<List<DetailEntity>>() {}.type          // get il tipe token corretto
-        var transformedList: List<DetailEntity> =
-            gson.fromJson(jsonString, listType) ?: listOf()        // converti
-        return transformedList
-        // con gestione caso return null
+        val listType = object : TypeToken<List<DetailEntity>>() {}.type
+        return gson.fromJson(jsonString, listType) ?: listOf()
     }
 
 
 // SET ####################################################################
 
-
-    // ZZ
     fun addOrUpdateItem(inputEntity: DetailEntity) {
         val currentSharedList = loadSharedList().toMutableList()
         val index = currentSharedList.indexOfFirst { sharedEntity ->
@@ -82,7 +73,7 @@ private constructor(
 
     }
 
-    // ZZ
+
     private fun saveListInSharedPreferences(updatedList: List<DetailEntity>) {
         // update shared list
         sharedPreferences
@@ -92,18 +83,12 @@ private constructor(
     }
 
 
-    // old ZZ
     private fun getJson(list: List<DetailEntity>): String {
         return gson.toJson(list) ?: ""
     }
-// new
-//    private fun List<DetailEntity>.toJson(): String {
-//        return this.toJson() ?: ""
-//    }
-//
 
 
-// ####################################################################
+    // ####################################################################
     companion object {
         private var instance: DetailLocalDS? = null
         fun getInstance(context: Context): DetailLocalDS {

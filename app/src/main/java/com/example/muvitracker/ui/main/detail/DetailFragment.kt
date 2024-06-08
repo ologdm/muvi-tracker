@@ -111,8 +111,7 @@ class DetailFragment : Fragment() {
     }
 
 
-    // ################################################################### ZZ
-    // used on updateUi()
+    // icons update #############################################################
     private fun updateFavoriteIcon(isFavorite: Boolean) {
         val iconFilled = context?.getDrawable(R.drawable.baseline_liked)
         val iconEmpty = context?.getDrawable(R.drawable.baseline_liked_border)
@@ -120,7 +119,6 @@ class DetailFragment : Fragment() {
         binding?.floatingLikedButton?.setImageDrawable(if (isFavorite) iconFilled else iconEmpty)
     }
 
-    // used on updateUi()
     private fun updateWatchedCheckbox(isWatched: Boolean) {
         binding?.watchedCkbox?.setOnCheckedChangeListener(null) // ok
         binding?.watchedCkbox?.isChecked = isWatched // ok

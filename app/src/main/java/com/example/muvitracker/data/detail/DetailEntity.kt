@@ -4,8 +4,6 @@ import com.example.muvitracker.data.dto.base.Ids
 import com.example.muvitracker.data.prefs.PrefsEntity
 import com.example.muvitracker.domain.model.DetailMovie
 
-
-// solo dati detailDto necessari
 data class DetailEntity(
     val title: String,
     val year: Int,

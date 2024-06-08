@@ -16,15 +16,6 @@ import com.example.muvitracker.utils.concat
 import com.example.muvitracker.utils.ioMapper
 
 
-// NUOVA REPOSITORY
-
-// koltin notes
-//  list.find {condizione} -> restituisce Elemento or null
-
-// livedata
-// combineLast (1,2,combiner) -> return crea 3, ogni cambiam 1o2 3 cambierà di nuovo
-// concat (1,2) -> return crea live di (1 o 2), viene mostrato il piu recente tra i 2
-
 
 class DetailRepository
 private constructor(
@@ -69,9 +60,8 @@ private constructor(
             onResponse = {
                 networkLivedata.value = it
             })
+
         // 3.  combina 1 e 2 livedata , poi mostra il piu recente
-
-
         return concat(
             localLiveData,
             networkLivedata
