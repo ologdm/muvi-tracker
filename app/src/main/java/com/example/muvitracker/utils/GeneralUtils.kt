@@ -10,8 +10,8 @@ fun Double.firstDecimalApproxToString(): String {
 
 fun Float.firstDecimalApproxToString(): String {
     return String.format("%.1f", this)
-    // % - numero
-    // .1f - numero decimali
+    // % - numbers
+    // .1f - decimal
 }
 
 

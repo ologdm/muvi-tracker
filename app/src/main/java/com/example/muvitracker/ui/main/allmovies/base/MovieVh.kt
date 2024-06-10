@@ -11,7 +11,7 @@ class MovieVh(
     val binding: VhMovieBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    // PRONTA
+
     fun bind (movie : Movie){
         binding.title.text = "${movie.title} (${movie.year})"
 

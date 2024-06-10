@@ -31,10 +31,9 @@ private constructor(
 
 
     // GETTER ###########################################################################
-// TODO OK
+
     fun getPopularLivedataList(): LiveData<List<Movie>> {
         val livedata = MutableLiveData<List<Movie>>()
-
         livedata.value = loadPopularFromShared()
         sharedPrefefences.registerOnSharedPreferenceChangeListener { _, key ->
             if (key == POPULAR_LIST_KEY) {
@@ -45,32 +44,39 @@ private constructor(
     }
 
 
-    // TODO OK
     private fun loadPopularFromShared(): List<Movie> {
         val jsonString = sharedPrefefences.getString(POPULAR_LIST_KEY, null)
         return getListFromJson<Movie>(jsonString ?: "").orEmpty() // TODO string ""
     }
 
 
-    fun loadBoxoFromShared(): List<BoxoDto> {
+    fun getBoxoLivedataList(): LiveData<List<Movie>> {
+        val livedata = MutableLiveData<List<Movie>>()
+        livedata.value = loadBoxoFromShared()
+        sharedPrefefences.registerOnSharedPreferenceChangeListener { _, key ->
+            if (key == BOXOFFICE_LIST_KEY) {
+                livedata.value = loadBoxoFromShared()
+            }
+        }
+        return livedata
+    }
+
+
+    fun loadBoxoFromShared(): List<Movie> {
         var jsonString = sharedPrefefences.getString(BOXOFFICE_LIST_KEY, null)
-        return getListFromJson<BoxoDto>(jsonString ?: "").orEmpty()
+        return getListFromJson<Movie>(jsonString ?: "").orEmpty()
     }
 
 
     // SET ###########################################################################
 
-    // TODO OK
-    @SuppressLint("ApplySharedPref")
     fun savePopularInLocal(list: List<Movie>) {
         sharedPrefefences.edit()
             .putString(POPULAR_LIST_KEY, list.getJson())
             .commit()
     }
 
-
-    @SuppressLint("ApplySharedPref")
-    fun saveBoxoInLocal(list: List<BoxoDto>) {
+    fun saveBoxoInLocal(list: List<Movie>) {
         sharedPrefefences.edit()
             .putString(BOXOFFICE_LIST_KEY, list.getJson())
             .commit()
@@ -79,14 +85,14 @@ private constructor(
 
     // CONVERTERS ##################################################################
 
-    // TODO ZZ kotlin style
+    // TODO kotlin style
     private inline fun <reified T> getListFromJson(jsonString: String): List<T>? {
         val listType = object : TypeToken<List<T>>() {}.type
         val list: List<T> = gson.fromJson(jsonString, listType) ?: emptyList()
         return list
     }
 
-    // TODO ZZ kotlin style
+    // TODO kotlin style
     private fun <T> List<T>.getJson(): String {
         return gson.toJson(this)
     }

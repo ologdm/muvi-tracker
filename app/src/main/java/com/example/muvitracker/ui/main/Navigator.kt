@@ -10,7 +10,6 @@ import com.example.muvitracker.ui.main.detail.DetailFragment
 
 class Navigator {
 
-
     fun replaceFragment(
         fragmentActivity: FragmentActivity,
         fragment: Fragment
@@ -34,6 +33,4 @@ class Navigator {
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
             .commit()
     }
-
-
 }

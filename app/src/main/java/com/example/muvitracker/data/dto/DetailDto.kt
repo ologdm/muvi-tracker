@@ -11,7 +11,7 @@ data class DetailDto(
     val year: Int,
     val ids: Ids,
 
-    // val default per elementi che possono mancare
+// default value for the attributes that can be null
 //    val tagline: String = "",
     val overview: String = "",
     val released: String = "",
@@ -47,7 +47,7 @@ fun DetailDto.toEntity(): DetailEntity {
     )
 }
 
-// ZZ
+
 fun DetailDto.toDomain(prefsEntity: PrefsEntity?): DetailMovie {
     return DetailMovie(
         title = title,

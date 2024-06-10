@@ -17,75 +17,35 @@ class PopularViewModel(
 
     private val movieRepository = MoviesRepository.getInstance(application)
 
-    //    var stateContainer = MutableLiveData<StateContainer<Movie>>()
-    var loading = MutableLiveData<Boolean>()
 
-
-    fun getMovies(isRefresh: Boolean): LiveData<StateContainer<List<Movie>>> {
-        loading.value = !isRefresh // if refresh, no loading bar
-
+    fun getMovies(): LiveData<StateContainer<List<Movie>>> {
         return movieRepository.getPopularMovies().map { response ->
             when (response) {
                 is IoResponse.Success -> {
-                    loading.value = false
-                    StateContainer(data = response.dataValue)
+                    StateContainer(
+                        isLoading = false,
+                        data = response.dataValue
+                    )
                 }
 
                 IoResponse.NetworkError -> {
-                    loading.value = false
                     StateContainer(
+                        isLoading = false,
                         isNetworkError = true,
                         data = movieRepository.getPopularCache()
                     )
                 }
 
                 IoResponse.OtherError -> {
-                    loading.value = false
-                    StateContainer(isOtherError = true)
+                    StateContainer(
+                        isLoading = false,
+                        isOtherError = true,
+                        data = movieRepository.getPopularCache()
+                    )
                 }
             }
         }
     }
-
 }
-
-
-//    fun loadMovies(isRefresh: Boolean) {
-//        if (isRefresh) {
-//            stateContainer.value = StateContainer(isRefresh = true)
-//        } else {
-//            stateContainer.value = StateContainer(isLoading = true)
-//        }
-//
-//        repository.getPopularMovies { response ->
-//            when (response) {
-//                is IoResponse.Success -> {
-//                    stateContainer.value = StateContainer(dataList = response.dataValue)
-//                }
-//
-//                is IoResponse.NetworkError -> {
-//                    stateContainer.value = StateContainer(isNetworkError = true)
-//                }
-//
-//                is IoResponse.OtherError -> {
-//                    stateContainer.value = StateContainer(isOtherError = true)
-//                }
-//            }
-//        }
-//    }
-
-
-//    return movieRepository.getPopularMovies()
-//    .map { response ->
-//        when (response) {
-//            is IoResponse.Success -> {
-//                StateContainer(dataList = response.dataValue)
-//            }
-//
-//            IoResponse.NetworkError -> {StateContainer(isNetworkError = true)}
-//            IoResponse.OtherError -> {StateContainer(isOtherError = true)}
-//        }
-//    }
-//}
 
 

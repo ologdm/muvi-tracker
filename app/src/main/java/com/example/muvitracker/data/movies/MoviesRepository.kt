@@ -24,15 +24,13 @@ private constructor(
 
     // POPULAR ################################################################################
 
-
-    // TODO
     fun getPopularMovies(): LiveData<IoResponse<List<Movie>>> {
         // 1
         val localLivedata = MutableLiveData<IoResponse<List<Movie>>>()
         val localMovies = moviesLocalDS.getPopularLivedataList().value.orEmpty()
         localLivedata.value = IoResponse.success(localMovies)
 
-        // 2 ZZ
+        // 2
         val networkLivedata = MutableLiveData<IoResponse<List<Movie>>>()
         api.getPopularMovies().startNetworkCall { retrofitResponse ->
             val ioMapper = retrofitResponse.ioMapper { listDto ->
@@ -40,21 +38,15 @@ private constructor(
                 moviesLocalDS.savePopularInLocal(mapperList) // SALVA IN LOCALE
                 mapperList
             }
-            networkLivedata.value = ioMapper // AGGIORNO LIVEDATA OK
-            println()
+            networkLivedata.value = ioMapper
         }
-
-
-        // 3. ok funziona?????????
+        // 3
         return concat(
             localLivedata,
             networkLivedata
         ).distinctUntilChanged()
-        // bloccca aggiornamento es? no || se risposta server == db, legge da db, non si riaggiorna IoResponse
     }
 
-
-    // TODO
     fun getPopularCache(): List<Movie> {
         return moviesLocalDS.getPopularLivedataList().value.orEmpty()
     }
@@ -62,28 +54,30 @@ private constructor(
 
     // BOXOFFICE #######################################################################################
 
-    fun getBoxoMovies(onResponse: (IoResponse<List<Movie>>) -> Unit) {
-        onResponse(getBoxoCache())
+    fun getBoxoMovies(): LiveData<IoResponse<List<Movie>>> {
+        val localLivedata = MutableLiveData<IoResponse<List<Movie>>>()
+        val localMovies = moviesLocalDS.getBoxoLivedataList().value.orEmpty()
+        localLivedata.value = IoResponse.success(localMovies)
 
-        api.getBoxofficeMovies().startNetworkCall { retrofitResponse ->
-            val mappedIo = retrofitResponse.ioMapper { list ->
-                moviesLocalDS.saveBoxoInLocal(list) // salva in locale dto // TODO check
-
-                val mappedList = list.map { dto ->
-                    dto.toDomain()
-                }
-                mappedList
+        val networkLivedata = MutableLiveData<IoResponse<List<Movie>>>()
+        api.getBoxoMovies().startNetworkCall { retrofitResponse ->
+            val ioMapper = retrofitResponse.ioMapper { listDto ->
+                val mapperList = listDto.map { it.toDomain() }
+                moviesLocalDS.saveBoxoInLocal(mapperList) // save on db
+                mapperList
             }
-            onResponse(mappedIo)
+            networkLivedata.value = ioMapper
         }
+
+        return concat(
+            localLivedata,
+            networkLivedata
+        ).distinctUntilChanged()
     }
 
 
-    private fun getBoxoCache(): IoResponse.Success<List<Movie>> {
-        val mapperList = moviesLocalDS.loadBoxoFromShared().map { boxoDto ->
-            boxoDto.toDomain()
-        }
-        return IoResponse.Success(mapperList)
+    fun getBoxoCache(): List<Movie> {
+        return moviesLocalDS.getBoxoLivedataList().value.orEmpty()
     }
 
 
@@ -97,61 +91,3 @@ private constructor(
         }
     }
 }
-
-
-// before test
-// ZZ TODO
-//fun getPopularMovies(onResponse: (IoResponse<List<Movie>>) -> Unit) {
-//    // 1. fetch data from cache
-//    val cachedData = getPopularCache()
-//    onResponse(cachedData)
-//    println("XXX SUCCESS CACHE REPOSITORY")
-//
-//    //2.
-//    onResponse(IoResponse.Loading)
-//
-//    // 3. fetch data from network
-//    api.getPopularMovies().startNetworkCall { retrofitResponse ->
-//        val mappedIo = retrofitResponse.ioMapper { list ->
-//            moviesLocalDS.savePopularInLocal(list) // save to local cache
-//            val mappedList = list.map { dto ->
-//                dto.toDomain()
-//            }
-//            mappedList// !!! forma finale che deve avere R (List<MovieModel>), la definisco qua
-//        }
-//        onResponse(mappedIo) // forma corretta già definita
-//    }
-//}
-//
-//// ZZ TODO
-//fun getPopularCache(): IoResponse.Success<List<Movie>> {
-//    // !! non ho un IoResponse da trasformare, ma solo da creare uno nuovo
-//    val mappedList = moviesLocalDS.loadPopularFromShared().map { popuDto ->
-//        popuDto.toDomain()
-//    }
-//    return IoResponse.Success(mappedList)
-//}
-
-
-// old
-//    fun getPopularMovies(onResponse: (IoResponse<List<MovieItem>>) -> Unit) {
-//        onResponse(getPopularCache())
-//
-//        api.getPopularMovies().startNetworkCall { retrofitResponse ->
-//            val mappedIo = retrofitResponse.ioMapper { list ->
-//                moviesLocalDS.savePopularInLocal(list) // salva in locale
-//                val mappedList = list.map { dto ->
-//                    dto.toDomain()
-//                }
-//                mappedList// !!! forma finale che deve avere R (List<MovieModel>), la definisco qua
-//            }
-//            onResponse(mappedIo) // forma corretta già definita
-//        }
-//    }
-
-
-
-
-
-
-

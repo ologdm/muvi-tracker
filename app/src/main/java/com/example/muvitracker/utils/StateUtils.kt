@@ -8,81 +8,54 @@ import com.example.muvitracker.R
 
 
 data class StateContainer<T>(
+    val isLoading: Boolean = false,
     val isNetworkError: Boolean = false,
     val isOtherError: Boolean = false,
-    val dataList: List<T> = emptyList(),
-    val data: T? = null // details // null management
+    val data: T? = null
 )
 
 
 fun <T> StateContainer<T>.statesFlow(
-//    progressBar: ProgressBar,
+    progressBar: ProgressBar,
     errorMsg: TextView,
-    insideScrollView: ViewGroup? = null,
-//    view: View? = null,  todo test con view
 ) {
     val context = errorMsg.context
 
     when {
-        isNetworkError -> { // OK
-//            progressBar.visibility = View.GONE
-            errorMsg.visibility = View.VISIBLE
-            errorMsg.text = context.getString(R.string.error_message_no_internet)
-//            insideScrollView?.visibility = View.GONE
-            println("XXX  ES NET ERROR")
-        }
-
-        isOtherError -> { // OK == network, different msg
-//            progressBar.visibility = View.GONE
-            errorMsg.visibility = View.VISIBLE
-            errorMsg.text = context.getString(R.string.error_message_other)
-//            insideScrollView?.visibility = View.GONE
-            println("XXX  ES OTHER ERROR")
-        }
-
-        else -> { // implicit success OK
-//            progressBar.visibility = View.GONE
-            errorMsg.visibility = View.GONE
-//            insideScrollView?.visibility = View.VISIBLE
-            println("XXX ES SUCCESS(ELSE)")
-        }
-    }
-}
-
-fun Boolean.loading(progressBar: ProgressBar) {
-    when (this) {
-        true -> {
+        isLoading -> { // OK
             progressBar.visibility = View.VISIBLE
+            errorMsg.visibility = View.GONE
+            println("XXX  ES LOADING")
         }
 
-        false -> {
-            progressBar.visibility = View.GONE
-        }
-    }
-}
-
-
-//isLoading -> { // OK
-//    progressBar.visibility = View.VISIBLE
-//    errorMsg.visibility = View.GONE
-//    insideScrollView?.visibility = View.GONE
-//    println("XXX  ES LOADING")
-//}
-//
-//isRefresh -> { // OK
+        //isRefresh -> { // OK
 //    progressBar.visibility = View.GONE
 //    errorMsg.visibility = View.GONE
 //    insideScrollView?.visibility = View.GONE
 //    println("XXX  ES REFRESH")
 //}
 
-/* OK
-// per entrambe fatto check OK
-// controllo su:
-// - progress bar
-// - error message
-// - viewGroup o view (only for details) -> if null don't do nothing (ck eugi)
-// (View padre di Viewgroup e tutte le view)
- */
+        isNetworkError -> {
+            progressBar.visibility = View.GONE
+            errorMsg.visibility = View.VISIBLE
+            errorMsg.text = context.getString(R.string.error_message_no_internet)
+            println("XXX  ES NET ERROR")
+        }
+
+        isOtherError -> {
+            progressBar.visibility = View.GONE
+            errorMsg.visibility = View.VISIBLE
+            errorMsg.text = context.getString(R.string.error_message_other)
+            println("XXX  ES OTHER ERROR")
+        }
+
+        else -> { // implicit success
+            progressBar.visibility = View.GONE
+            errorMsg.visibility = View.GONE
+            println("XXX ES SUCCESS(ELSE)")
+        }
+    }
+}
+
 
 

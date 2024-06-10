@@ -17,7 +17,6 @@ fun BoxoDto.toDomain(): Movie {
 
 
 //  JSON BoxOffice #########################################################################
-
 /* revenue + dto movie
   {
     "revenue": 48464322,

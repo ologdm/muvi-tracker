@@ -30,7 +30,6 @@ class PrefsFragment() : Fragment() {
         },
         onLongClickVH = { movieId ->
             startDeleteAlertDialog(movieId)
-//            startTestPopupMenu(requireView(), movieId)
         },
         onCLickLiked = { item ->
             viewModel.toggleFovoriteItem(itemToToggle = item)
@@ -67,6 +66,8 @@ class PrefsFragment() : Fragment() {
     }
 
 
+    // #######################################################################################
+
     private fun startDetailsFragment(movieId: Int) {
         navigator.startDetailsFragment(
             requireActivity(),
@@ -87,27 +88,6 @@ class PrefsFragment() : Fragment() {
             }
             .show()
     }
-
-
-    // TODO for movies
-//    private fun startTestPopupMenu(anchor: View, movieId: Int) {
-//        val popup = PopupMenu(requireContext(), anchor)
-//        popup.menuInflater.inflate(R.menu.liked_watched__movielist_menu, popup.menu)
-//        popup.setOnMenuItemClickListener { menuItem ->
-//            when (menuItem.itemId) {
-//                R.id.action_likedItem -> {
-//                    true
-//                }
-//
-//                R.id.action_watchedItem ->{
-//                    true
-//                }
-//
-//                else -> false
-//            }
-//        }
-//        popup.show()
-//    }
 
 }
 

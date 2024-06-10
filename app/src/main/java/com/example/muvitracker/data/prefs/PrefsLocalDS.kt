@@ -16,7 +16,6 @@ class PrefsLocalDS(
         context.getSharedPreferences("prefs_cache", Context.MODE_PRIVATE)
 
 
-    // ZZ modified and synchronized
     // GET ######################################################
 
     private val prefsChangeListener =
@@ -26,27 +25,12 @@ class PrefsLocalDS(
             }
         }
 
-
     val liveDataList: MutableLiveData<List<PrefsEntity>> by lazy {
         MutableLiveData<List<PrefsEntity>>().also {
             it.value = loadSharedList()
             sharedPreferences.registerOnSharedPreferenceChangeListener(prefsChangeListener)
         }
     }
-
-
-// synchronization problems
-//    fun getLivedataList(): MutableLiveData<List<PrefsEntity>> {
-//        val livedata = MutableLiveData<List<PrefsEntity>>()
-//        livedata.value = loadSharedList()
-//
-//        sharedPreferences.registerOnSharedPreferenceChangeListener { _, key ->
-//            if (key == PREFS_KEY_01) {
-//                livedata.value = loadSharedList()
-//            }
-//        }
-//        return livedata
-//    }
 
 
     private fun loadSharedList(): List<PrefsEntity> {
@@ -64,7 +48,7 @@ class PrefsLocalDS(
 
     // SET ######################################################
     fun toggleFavoriteOnDB(movieId: Int) {
-        synchronized(this) { // TODO - test not necessary
+        synchronized(this) {
             val cache = loadSharedList().toMutableList()
             val index = cache.indexOfFirst { it.movieId == movieId }
             if (index != -1) {
@@ -93,7 +77,6 @@ class PrefsLocalDS(
     }
 
 
-
     fun deleteItemFromDB(movieId: Int) {
         synchronized(this) {
             val cache = loadSharedList().toMutableList()
@@ -111,10 +94,10 @@ class PrefsLocalDS(
 
     @SuppressLint("ApplySharedPref")
     fun saveListInShared(list: List<PrefsEntity>) {
-        synchronized(this) { // TODO - test not necessary
+        synchronized(this) {
             sharedPreferences.edit()
                 .putString(PREFS_KEY_01, getJson(list))
-                .commit() // Modificato
+                .commit()
         }
     }
 

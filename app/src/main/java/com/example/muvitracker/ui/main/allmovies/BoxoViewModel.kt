@@ -2,7 +2,9 @@ package com.example.muvitracker.ui.main.allmovies
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.map
 import com.example.muvitracker.data.movies.MoviesRepository
 import com.example.muvitracker.domain.model.base.Movie
 import com.example.muvitracker.utils.IoResponse
@@ -13,30 +15,34 @@ class BoxoViewModel(
     private val application: Application,
 ) : AndroidViewModel(application) {
 
-    private val repository = MoviesRepository.getInstance(application)
-    val stateContainer = MutableLiveData<StateContainer<Movie>>()
-
-    // mettere dopo istanze
-    init {
-        loadMovies(isRefresh = false)
-    }
+    private val movieRepository = MoviesRepository.getInstance(application)
 
 
-    fun loadMovies(isRefresh: Boolean) {
-        repository.getBoxoMovies { response ->
+    fun getMovies(): LiveData<StateContainer<List<Movie>>> {
+        return movieRepository.getPopularMovies().map { response ->
             when (response) {
                 is IoResponse.Success -> {
-                    stateContainer.value = StateContainer(dataList = response.dataValue)
+                    StateContainer(
+                        isLoading = false,
+                        data = response.dataValue
+                    )
                 }
 
-                is IoResponse.NetworkError -> {
-                    stateContainer.value = StateContainer(isNetworkError = true)
+                IoResponse.NetworkError -> {
+                    StateContainer(
+                        isLoading = false,
+                        isNetworkError = true,
+                        data = movieRepository.getPopularCache()
+                    )
                 }
 
-                is IoResponse.OtherError -> {
-                    stateContainer.value = StateContainer(isOtherError = true)
+                IoResponse.OtherError -> {
+                    StateContainer(
+                        isLoading = false,
+                        isOtherError = true,
+                        data = movieRepository.getPopularCache()
+                    )
                 }
-
             }
         }
     }

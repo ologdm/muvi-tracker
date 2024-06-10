@@ -8,8 +8,8 @@ sealed interface IoResponse<out T> {
 
 
     companion object {
-        // se mi serve il tipo generico <IoResponse<T>> uso questa funzione,
-        // se mi serve il tipo specific <IoResponse.Success<T>> uso il costruttore
+        // for generic type - use this function <IoResponse<T>>
+        // for specific type <IoResponse.Success<T>> using the constructor
         fun <T> success(dataValue: T): IoResponse<T> {
             return Success(dataValue)
         }

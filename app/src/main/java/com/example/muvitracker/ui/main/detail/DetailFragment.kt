@@ -47,12 +47,10 @@ class DetailFragment : Fragment() {
                 stateContainer.data?.let { detailMovie ->
                     updateUi(detailMovie)
                 }
-//                stateContainer.statesFlow(
-//                    binding!!.progressBar,
-//                    binding!!.errorTextView,
-//                    binding!!.insideScrollView,
-//                )
-
+                stateContainer.statesFlow(
+                    binding!!.progressBar,
+                    binding!!.errorTextView,
+                )
             }
 
         with(binding!!) {
@@ -67,11 +65,6 @@ class DetailFragment : Fragment() {
             watchedCkbox.setOnCheckedChangeListener { _, isChecked ->
                 viewModel.updateWatched(currentMovieId, isChecked)
             }
-
-            // TODO
-//            swipeToRefresh.setOnRefreshListener {
-//                viewModel.loadDetail(currentMovieId, forceRefresh = true)
-//            }
         }
     }
 
@@ -82,7 +75,7 @@ class DetailFragment : Fragment() {
     }
 
 
-    // ################################################################### ZZ
+    // ###################################################################
     private fun updateUi(detailmovie: DetailMovie) {
         with(binding!!) {
             val ratingApproximation = detailmovie.rating.firstDecimalApproxToString()
@@ -103,7 +96,7 @@ class DetailFragment : Fragment() {
                 .load(detailmovie.imageUrl())
                 .into(imageHorizontal)
 
-            chipGroup.removeAllViews() // pulire quelli precedenti
+            chipGroup.removeAllViews() // clean old
             detailmovie.genres.forEach {
                 val chip = Chip(context).apply {
                     text = it
@@ -117,7 +110,6 @@ class DetailFragment : Fragment() {
     }
 
 
-    // icons update #############################################################
     private fun updateFavoriteIcon(isFavorite: Boolean) {
         val iconFilled = context?.getDrawable(R.drawable.baseline_liked)
         val iconEmpty = context?.getDrawable(R.drawable.baseline_liked_border)
@@ -134,7 +126,6 @@ class DetailFragment : Fragment() {
     }
 
 
-    // ###################################################################
     companion object {
         const val TRAKT_ID_KEY = "traktId_key"
 

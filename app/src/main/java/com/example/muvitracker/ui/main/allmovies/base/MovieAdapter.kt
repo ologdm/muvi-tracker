@@ -12,13 +12,13 @@ class MovieAdapter(
     private val onClickVH: (Int) -> Unit,
 ) : ListAdapter<Movie, MovieVh>(MovieAdapter) {
 
-    companion object : DiffUtil.ItemCallback<Movie>() { // nome object - se stesso
+    companion object : DiffUtil.ItemCallback<Movie>() {
         override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean {
-            return oldItem.ids.trakt == newItem.ids.trakt // (stesso elemento)
+            return oldItem.ids.trakt == newItem.ids.trakt
         }
 
         override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean {
-            return oldItem == newItem // dataclass, quindi vale come equals (contenuto)
+            return oldItem == newItem
         }
     }
 

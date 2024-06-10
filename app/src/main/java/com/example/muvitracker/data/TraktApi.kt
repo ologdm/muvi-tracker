@@ -18,16 +18,16 @@ interface TraktApi {
 
 
     @GET("movies/boxoffice")
-    fun getBoxofficeMovies()
+    fun getBoxoMovies()
             : Call<List<BoxoDto>>
 
 
-    @GET("movies/{movie_id}?extended=full")  // con path mobile
+    @GET("movies/{movie_id}?extended=full")  // with mobile path
     fun getMovieDetails(@Path("movie_id") movieId: Int)
             : Call<DetailDto>
 
 
-    @GET("search/movie")  // con query mobile
+    @GET("search/movie")  // with mobile query
     fun getSearch(@Query("query") searchString: String)
             : Call<List<SearchDto>>
 

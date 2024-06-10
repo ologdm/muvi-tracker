@@ -16,12 +16,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.muvitracker.databinding.FragmSearchBinding
 import com.example.muvitracker.ui.main.Navigator
 
-/*
- *  keyboard visibility management:
- *    - Manifest - ("adjustNothing")
- *    - xml layout - (android:imeOptions="actionDone") + (inputType="text")
- */
-
 
 class SearchFragment : Fragment() {
 
@@ -67,20 +61,19 @@ class SearchFragment : Fragment() {
             recyclerView.adapter = adapter
 
             searchEditText.doAfterTextChanged { s ->  // kotlin abbreviated method
-                    searchRunnable
-                        ?.let {// 1. cancel the previous runnable to implement debouncing
-                            handler.removeCallbacks(it)
-                        }
-                    searchRunnable =
-                        Runnable { // 2. defines a new runnable that will perform the search
-                            viewModel.updateSearch(s.toString()) // ###
-                        }
-
-                    searchRunnable
-                        ?.let {// 3. schedule the new runnable with a specified delay to perform the debouncing
-                            handler.postDelayed(it, DEBOUNCE_DELAY)
-                        }
-                }
+                searchRunnable
+                    ?.let {// 1. cancel the previous runnable to implement debouncing
+                        handler.removeCallbacks(it)
+                    }
+                searchRunnable =
+                    Runnable { // 2. defines a new runnable that will perform the search
+                        viewModel.updateSearch(s.toString()) // ###
+                    }
+                searchRunnable
+                    ?.let {// 3. schedule the new runnable with a specified delay to perform the debouncing
+                        handler.postDelayed(it, DEBOUNCE_DELAY)
+                    }
+            }
         }
     }
 

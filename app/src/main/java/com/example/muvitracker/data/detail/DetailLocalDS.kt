@@ -33,7 +33,7 @@ private constructor(
 
     private fun loadSharedList(): List<DetailEntity> {
         val json = sharedPreferences.getString(DETAIL_KEY_01, null) ?: ""
-        return getListFromJson(json) // conversion
+        return getListFromJson(json)
     }
 
     private fun getListFromJson(jsonString: String): List<DetailEntity> {

@@ -13,7 +13,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 
 object RetrofitUtils {
-
     private val retrofit = Retrofit.Builder()
         .baseUrl("https://api.trakt.tv/")
         .addConverterFactory(GsonConverterFactory.create())

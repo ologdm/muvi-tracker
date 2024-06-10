@@ -41,29 +41,21 @@ class BoxoFragment : Fragment() {
         view: View,
         savedInstanceState: Bundle?
     ) {
-
-        viewModel.stateContainer.observe(viewLifecycleOwner) {state->
-            adapter.submitList(state.dataList)
-
-//            state.statesFlow(
-//                progressBar = binding!!.progressBar,
-//                errorMsg = binding!!.errorTextView,
-//                null
-//            )
+        viewModel.getMovies().observe(viewLifecycleOwner) {state->
+            adapter.submitList(state.data)
+            state.statesFlow(
+                progressBar = binding!!.progressBar,
+                errorMsg = binding!!.errorTextView
+            )
         }
 
         with(binding!!) {
             toolbar.text = getString(R.string.box_office)
             recyclerView.adapter = adapter
             recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
-
-            swipeToRefresh.setOnRefreshListener {
-                viewModel.loadMovies(isRefresh = true)
-            }
         }
-
-
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
@@ -76,7 +68,6 @@ class BoxoFragment : Fragment() {
             requireActivity(),
             movieId
         )
-//        println("XXX_ START FRAGMENT FROM BOXO, movieId: $movieId")
     }
 
 }

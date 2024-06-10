@@ -19,8 +19,6 @@ class DetailViewModel(
     private val prefsRepository = PrefsRepository.getInstance(application)
 
 
-// GET ###############################################################
-
     fun getStateContainer(movieId: Int): LiveData<StateContainer<DetailMovie>> {
         return detailRepository.getDetailMovie(movieId)
             .map { repoRespopnse ->
@@ -41,10 +39,10 @@ class DetailViewModel(
     }
 
 
-    // SET ############################################################
     fun toggleFavorite(id: Int) {
         prefsRepository.toggleFavoriteOnDB(id)
     }
+
 
     fun updateWatched(id: Int, watched: Boolean) {
         prefsRepository.updateWatchedOnDB(id, watched)

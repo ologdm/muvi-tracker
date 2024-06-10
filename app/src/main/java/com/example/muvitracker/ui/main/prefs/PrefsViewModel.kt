@@ -11,11 +11,9 @@ class PrefsViewModel(
 
     private val prefsRepository = PrefsRepository.getInstance(application)
 
-    // GET ################################################################
+
     val preftList = prefsRepository.getList()
 
-
-    // SET ################################################################
     fun toggleFovoriteItem(itemToToggle: DetailMovie) {
         prefsRepository.toggleFavoriteOnDB(itemToToggle.ids.trakt) // bypass
     }

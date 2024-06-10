@@ -21,7 +21,6 @@ class PrefsRepository(
         return combineLatest(
             detailLocalDS.getLivedataList(),
             prefsLocalDS.liveDataList
-//            prefsLocalDS.getLivedataList()
         ) { detailList, prefsList ->
             prefsList.mapNotNull { prefsItem ->
                 val detailItem = detailList.find { detailEntity ->

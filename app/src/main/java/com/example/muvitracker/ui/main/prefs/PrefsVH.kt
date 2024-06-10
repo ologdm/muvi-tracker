@@ -13,7 +13,6 @@ class PrefsVH(
 
     fun bind(currentItem: DetailMovie) {
         binding.run {
-
             title.text = currentItem.title
             year.text = currentItem.year.toString()
 
@@ -22,8 +21,5 @@ class PrefsVH(
                 .load(currentItem.imageUrl())
                 .into(image)
         }
-
     }
-
-
 }

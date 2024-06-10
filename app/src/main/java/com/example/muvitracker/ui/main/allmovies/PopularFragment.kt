@@ -11,17 +11,14 @@ import com.example.muvitracker.R
 import com.example.muvitracker.databinding.FragmBaseCategoryBinding
 import com.example.muvitracker.ui.main.Navigator
 import com.example.muvitracker.ui.main.allmovies.base.MovieAdapter
-import com.example.muvitracker.utils.loading
 import com.example.muvitracker.utils.statesFlow
 
 
 class PopularFragment : Fragment() {
 
-
     private var _binding: FragmBaseCategoryBinding? = null
     private val binding
         get() = _binding
-
 
     private val navigator = Navigator()
     private val viewModel by viewModels<PopularViewModel>()
@@ -45,36 +42,22 @@ class PopularFragment : Fragment() {
         view: View,
         savedInstanceState: Bundle?
     ) {
-
-        viewModel.getMovies(false).observe(viewLifecycleOwner) {state->
+        viewModel.getMovies().observe(viewLifecycleOwner) { state ->
             adapter.submitList(state.data)
             state.statesFlow(
+                progressBar = binding!!.progressBar,
                 errorMsg = binding!!.errorTextView,
-                null
             )
-            println("XXX OBSERVING STATE: $state") // debuging
+            println("XXX OBSERVING STATE: $state")
         }
-
-        viewModel.loading.observe(viewLifecycleOwner){
-            it.loading(
-                binding!!.progressBar
-            )
-        }
-
 
         with(binding!!) {
             toolbar.text = getString(R.string.popular)
             recyclerView.adapter = adapter
             recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
-
-            swipeToRefresh.setOnRefreshListener {
-                viewModel.getMovies(isRefresh = true)
-            }
         }
-
-
-//        viewModel.loadMovies(isRefresh = false)
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
@@ -82,7 +65,6 @@ class PopularFragment : Fragment() {
     }
 
 
-    // todo - eliminare funz
     private fun startDetailsFragment(movieId: Int) {
         navigator.startDetailsFragment(requireActivity(), movieId)
     }
