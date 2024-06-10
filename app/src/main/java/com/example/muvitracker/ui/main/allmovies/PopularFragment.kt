@@ -11,6 +11,7 @@ import com.example.muvitracker.R
 import com.example.muvitracker.databinding.FragmBaseCategoryBinding
 import com.example.muvitracker.ui.main.Navigator
 import com.example.muvitracker.ui.main.allmovies.base.MovieAdapter
+import com.example.muvitracker.utils.loading
 import com.example.muvitracker.utils.statesFlow
 
 
@@ -45,16 +46,21 @@ class PopularFragment : Fragment() {
         savedInstanceState: Bundle?
     ) {
 
-        viewModel.stateContainer.observe(viewLifecycleOwner) {
-            adapter.submitList(it.dataList)
-
-            it.statesFlow(
-                progressBar = binding!!.progressBar,
+        viewModel.getMovies(false).observe(viewLifecycleOwner) {state->
+            adapter.submitList(state.data)
+            state.statesFlow(
                 errorMsg = binding!!.errorTextView,
                 null
             )
-            println("XXX OBSERVING STATE: $it") // debuging
+            println("XXX OBSERVING STATE: $state") // debuging
         }
+
+        viewModel.loading.observe(viewLifecycleOwner){
+            it.loading(
+                binding!!.progressBar
+            )
+        }
+
 
         with(binding!!) {
             toolbar.text = getString(R.string.popular)
@@ -62,7 +68,7 @@ class PopularFragment : Fragment() {
             recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
 
             swipeToRefresh.setOnRefreshListener {
-                viewModel.loadMovies(isRefresh = true)
+                viewModel.getMovies(isRefresh = true)
             }
         }
 

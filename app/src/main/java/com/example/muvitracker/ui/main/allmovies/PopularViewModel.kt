@@ -2,7 +2,9 @@ package com.example.muvitracker.ui.main.allmovies
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.map
 import com.example.muvitracker.data.movies.MoviesRepository
 import com.example.muvitracker.domain.model.base.Movie
 import com.example.muvitracker.utils.IoResponse
@@ -13,60 +15,39 @@ class PopularViewModel(
     private val application: Application
 ) : AndroidViewModel(application) {
 
-    var stateContainer = MutableLiveData<StateContainer<Movie>>()
-    var loading = MutableLiveData<StateContainer<Movie>>()
-    private val repository = MoviesRepository.getInstance(application)
+    private val movieRepository = MoviesRepository.getInstance(application)
+
+    //    var stateContainer = MutableLiveData<StateContainer<Movie>>()
+    var loading = MutableLiveData<Boolean>()
 
 
-    // mettere dopo istanze altrimenti crasha
-    init {
-        loadMovies(isRefresh = false)
-    }
+    fun getMovies(isRefresh: Boolean): LiveData<StateContainer<List<Movie>>> {
+        loading.value = !isRefresh // if refresh, no loading bar
 
-
-    fun loadMovies(isRefresh: Boolean) {
-        if (isRefresh) {
-            stateContainer.value = StateContainer(isRefresh = true)
-            println("XXX IS REFRESH")
-        } else {
-            stateContainer.value = StateContainer(isLoading = true)
-            println("XXX LOADING")
-        }
-
-
-        repository.getPopularMovies { response ->
+        return movieRepository.getPopularMovies().map { response ->
             when (response) {
                 is IoResponse.Success -> {
-                    stateContainer.value = StateContainer(dataList = response.dataValue)
-                    println("XXX SUCCESS")
+                    loading.value = false
+                    StateContainer(data = response.dataValue)
                 }
 
-                // ZZ TODO
-                is IoResponse.NetworkError -> {
-                    val cacheData = repository.getPopularCache()
-                    stateContainer.value = if (cacheData.dataValue.isNotEmpty()) {
-                        StateContainer(dataList = cacheData.dataValue, isNetworkError = true)
-                    } else {
-                        StateContainer(isNetworkError = true)
-                    }
-                    println("XXX NETWORK ERROR")
+                IoResponse.NetworkError -> {
+                    loading.value = false
+                    StateContainer(
+                        isNetworkError = true,
+                        data = movieRepository.getPopularCache()
+                    )
                 }
 
-                // ZZ TODO
-                is IoResponse.OtherError -> {
-                    val cacheData = repository.getPopularCache()
-                    stateContainer.value = if (cacheData.dataValue.isNotEmpty()) {
-                        StateContainer(dataList = cacheData.dataValue, isOtherError = true)
-                    } else {
-                        StateContainer(isOtherError = true)
-                    }
-                    println("XXX OTHER ERROR")
+                IoResponse.OtherError -> {
+                    loading.value = false
+                    StateContainer(isOtherError = true)
                 }
-
-                is IoResponse.Loading -> stateContainer.value = StateContainer(isLoading = true)
             }
         }
     }
+
+}
 
 
 //    fun loadMovies(isRefresh: Boolean) {
@@ -93,6 +74,18 @@ class PopularViewModel(
 //        }
 //    }
 
-}
+
+//    return movieRepository.getPopularMovies()
+//    .map { response ->
+//        when (response) {
+//            is IoResponse.Success -> {
+//                StateContainer(dataList = response.dataValue)
+//            }
+//
+//            IoResponse.NetworkError -> {StateContainer(isNetworkError = true)}
+//            IoResponse.OtherError -> {StateContainer(isOtherError = true)}
+//        }
+//    }
+//}
 
 

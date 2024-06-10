@@ -36,8 +36,6 @@ class DetailViewModel(
                     is IoResponse.OtherError -> {
                         StateContainer(isOtherError = true)
                     }
-
-                    IoResponse.Loading -> TODO()
                 }
             }
     }

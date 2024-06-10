@@ -45,11 +45,11 @@ class BoxoFragment : Fragment() {
         viewModel.stateContainer.observe(viewLifecycleOwner) {state->
             adapter.submitList(state.dataList)
 
-            state.statesFlow(
-                progressBar = binding!!.progressBar,
-                errorMsg = binding!!.errorTextView,
-                null
-            )
+//            state.statesFlow(
+//                progressBar = binding!!.progressBar,
+//                errorMsg = binding!!.errorTextView,
+//                null
+//            )
         }
 
         with(binding!!) {

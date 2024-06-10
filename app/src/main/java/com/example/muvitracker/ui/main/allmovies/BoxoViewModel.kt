@@ -23,11 +23,6 @@ class BoxoViewModel(
 
 
     fun loadMovies(isRefresh: Boolean) {
-        if (isRefresh) {
-            stateContainer.value = StateContainer(isRefresh = true)
-        } else {
-            stateContainer.value = StateContainer(isLoading = true) // si puo eliminare?
-        }
         repository.getBoxoMovies { response ->
             when (response) {
                 is IoResponse.Success -> {
@@ -42,7 +37,6 @@ class BoxoViewModel(
                     stateContainer.value = StateContainer(isOtherError = true)
                 }
 
-                IoResponse.Loading -> TODO()
             }
         }
     }

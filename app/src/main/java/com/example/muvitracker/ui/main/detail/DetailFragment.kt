@@ -47,11 +47,11 @@ class DetailFragment : Fragment() {
                 stateContainer.data?.let { detailMovie ->
                     updateUi(detailMovie)
                 }
-                stateContainer.statesFlow(
-                    binding!!.progressBar,
-                    binding!!.errorTextView,
-                    binding!!.insideScrollView,
-                )
+//                stateContainer.statesFlow(
+//                    binding!!.progressBar,
+//                    binding!!.errorTextView,
+//                    binding!!.insideScrollView,
+//                )
 
             }
 

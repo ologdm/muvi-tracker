@@ -37,7 +37,7 @@ private constructor(
 
         livedata.value = loadPopularFromShared()
         sharedPrefefences.registerOnSharedPreferenceChangeListener { _, key ->
-            if (key== POPULAR_LIST_KEY){
+            if (key == POPULAR_LIST_KEY) {
                 livedata.value = loadPopularFromShared()
             }
         }
@@ -46,7 +46,7 @@ private constructor(
 
 
     // TODO OK
-    fun loadPopularFromShared(): List<Movie> {
+    private fun loadPopularFromShared(): List<Movie> {
         val jsonString = sharedPrefefences.getString(POPULAR_LIST_KEY, null)
         return getListFromJson<Movie>(jsonString ?: "").orEmpty() // TODO string ""
     }
