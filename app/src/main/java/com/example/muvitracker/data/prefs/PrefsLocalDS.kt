@@ -1,8 +1,8 @@
 package com.example.muvitracker.data.prefs
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -16,7 +16,9 @@ class PrefsLocalDS(
         context.getSharedPreferences("prefs_cache", Context.MODE_PRIVATE)
 
 
-    // GET ###################################################### ZZ modificato e synchronized
+    // ZZ modified and synchronized
+    // GET ######################################################
+
     private val prefsChangeListener =
         SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
             if (key == PREFS_KEY_01) {
@@ -33,6 +35,20 @@ class PrefsLocalDS(
     }
 
 
+// synchronization problems
+//    fun getLivedataList(): MutableLiveData<List<PrefsEntity>> {
+//        val livedata = MutableLiveData<List<PrefsEntity>>()
+//        livedata.value = loadSharedList()
+//
+//        sharedPreferences.registerOnSharedPreferenceChangeListener { _, key ->
+//            if (key == PREFS_KEY_01) {
+//                livedata.value = loadSharedList()
+//            }
+//        }
+//        return livedata
+//    }
+
+
     private fun loadSharedList(): List<PrefsEntity> {
         val json =
             sharedPreferences.getString(PREFS_KEY_01, "").orEmpty()
@@ -46,44 +62,59 @@ class PrefsLocalDS(
     }
 
 
-    // SET ###################################################### ZZ
-    fun toggleFavoriteOnDB(id: Int) {
-        synchronized(this) {
+    // SET ######################################################
+    fun toggleFavoriteOnDB(movieId: Int) {
+        synchronized(this) { // TODO - test not necessary
             val cache = loadSharedList().toMutableList()
-            val index = cache.indexOfFirst { it.movieId == id }
+            val index = cache.indexOfFirst { it.movieId == movieId }
             if (index != -1) {
                 val current = cache[index]
                 cache.set(index, current.copy(liked = !current.liked))
             } else {
-                cache.add(PrefsEntity(liked = true, watched = false, movieId = id))
+                cache.add(PrefsEntity(liked = true, watched = false, movieId = movieId))
             }
             saveListInShared(cache)
         }
     }
 
 
-    fun updateWatchedOnDB(id: Int, watched: Boolean) {
-        synchronized(this) {
+    fun updateWatchedOnDB(movieId: Int, watched: Boolean) {
+        synchronized(this) { // TODO - test not necessary
             val cache = loadSharedList().toMutableList()
-            val index = cache.indexOfFirst { it.movieId == id }
+            val index = cache.indexOfFirst { it.movieId == movieId }
             if (index != -1) {
                 val current = cache[index]
                 cache.set(index, current.copy(watched = watched))
             } else {
-                cache.add(PrefsEntity(liked = false, watched = watched, movieId = id))
+                cache.add(PrefsEntity(liked = false, watched = watched, movieId = movieId))
             }
             saveListInShared(cache)
         }
     }
 
 
-// ########################################################################### ZZ
 
-    fun saveListInShared(list: List<PrefsEntity>) {
+    fun deleteItemFromDB(movieId: Int) {
         synchronized(this) {
+            val cache = loadSharedList().toMutableList()
+            val index = cache.indexOfFirst { it.movieId == movieId }
+            if (index != -1) {
+                val current = cache[index]
+                cache.removeAt(index)
+            }
+            saveListInShared(cache)
+        }
+    }
+
+
+// ###########################################################################
+
+    @SuppressLint("ApplySharedPref")
+    fun saveListInShared(list: List<PrefsEntity>) {
+        synchronized(this) { // TODO - test not necessary
             sharedPreferences.edit()
                 .putString(PREFS_KEY_01, getJson(list))
-                .commit()
+                .commit() // Modificato
         }
     }
 

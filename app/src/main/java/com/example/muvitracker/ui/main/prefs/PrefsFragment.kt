@@ -4,12 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.muvitracker.R
 import com.example.muvitracker.databinding.FragmPrefsBinding
 import com.example.muvitracker.ui.main.Navigator
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 
 class PrefsFragment() : Fragment() {
@@ -25,6 +28,10 @@ class PrefsFragment() : Fragment() {
         onClickVH = { movieId ->
             startDetailsFragment(movieId)
         },
+        onLongClickVH = { movieId ->
+            startDeleteAlertDialog(movieId)
+//            startTestPopupMenu(requireView(), movieId)
+        },
         onCLickLiked = { item ->
             viewModel.toggleFovoriteItem(itemToToggle = item)
         },
@@ -32,6 +39,7 @@ class PrefsFragment() : Fragment() {
             viewModel.updateWatchedItem(updatedItem = item, watched)
         }
     )
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -65,6 +73,41 @@ class PrefsFragment() : Fragment() {
             movieId
         )
     }
+
+
+    private fun startDeleteAlertDialog(movieId: Int) {
+        MaterialAlertDialogBuilder(requireContext())
+            .setMessage("Discard movie")
+            .setPositiveButton("Yes") { dialog, _ ->
+                viewModel.deleteItem(movieId)
+                dialog.dismiss()
+            }
+            .setNegativeButton("No") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
+    }
+
+
+    // TODO for movies
+//    private fun startTestPopupMenu(anchor: View, movieId: Int) {
+//        val popup = PopupMenu(requireContext(), anchor)
+//        popup.menuInflater.inflate(R.menu.liked_watched__movielist_menu, popup.menu)
+//        popup.setOnMenuItemClickListener { menuItem ->
+//            when (menuItem.itemId) {
+//                R.id.action_likedItem -> {
+//                    true
+//                }
+//
+//                R.id.action_watchedItem ->{
+//                    true
+//                }
+//
+//                else -> false
+//            }
+//        }
+//        popup.show()
+//    }
 
 }
 

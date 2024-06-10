@@ -16,13 +16,14 @@ import com.example.muvitracker.domain.model.DetailMovie
 
 class PrefsAdapter(
     private val onClickVH: (movieId: Int) -> Unit,
+    private val onLongClickVH: (movieId: Int) -> Unit,
     private val onCLickLiked: (DetailMovie) -> Unit,
     private val onClickWatched: (DetailMovie, Boolean) -> Unit
 ) : ListAdapter<DetailMovie, PrefsVH>(PrefsAdapter) {
 
     companion object : DiffUtil.ItemCallback<DetailMovie>() {
         override fun areItemsTheSame(oldItem: DetailMovie, newItem: DetailMovie): Boolean {
-            return oldItem.ids.trakt == oldItem.ids.trakt
+            return oldItem.ids.trakt == newItem.ids.trakt
         }
 
         override fun areContentsTheSame(oldItem: DetailMovie, newItem: DetailMovie): Boolean {
@@ -66,12 +67,17 @@ class PrefsAdapter(
             holder.itemView.setOnClickListener {
                 onClickVH.invoke(currentItem.ids.trakt)
             }
-        }
 
+            holder.itemView.setOnLongClickListener {
+                onLongClickVH.invoke(currentItem.ids.trakt)
+                true
+            }
+        }
     }
 
+    // ################################################################################
 
-    fun updateFavoriteIcon(
+    private fun updateFavoriteIcon(
         likedButton: ImageButton,
         isLiked: Boolean,
         iconFilled: Drawable?,

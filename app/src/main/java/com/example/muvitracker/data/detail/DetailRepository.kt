@@ -36,7 +36,7 @@ private constructor(
         // 1. finds element in live - local detail and prefs | or return null
         val localLiveData = combineLatest(
             detailsLocalDS.getLivedataList(),
-            prefsLocalDS.liveDataList, // TODO test
+            prefsLocalDS.liveDataList,
             combiner = { detailEntities, prefsEntities ->
                 // find element in detail - if there is, else null
                 val movieEntity = detailEntities.find { detailEntity ->
@@ -82,7 +82,6 @@ private constructor(
                     val prefsList = prefsLocalDS.liveDataList.value // TODO test
                     val prefsEntity = prefsList?.find { dto.ids.trakt == it.movieId }
                     dto.toDomain(prefsEntity)
-
                 }
                 onResponse(ioMapper) // ##
 

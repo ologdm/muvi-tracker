@@ -2,7 +2,6 @@ package com.example.muvitracker.data.prefs
 
 import android.content.Context
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.example.muvitracker.data.detail.DetailLocalDS
 import com.example.muvitracker.data.detail.toDomain
 import com.example.muvitracker.domain.model.DetailMovie
@@ -22,6 +21,7 @@ class PrefsRepository(
         return combineLatest(
             detailLocalDS.getLivedataList(),
             prefsLocalDS.liveDataList
+//            prefsLocalDS.getLivedataList()
         ) { detailList, prefsList ->
             prefsList.mapNotNull { prefsItem ->
                 val detailItem = detailList.find { detailEntity ->
@@ -44,6 +44,13 @@ class PrefsRepository(
         // only update on db
         prefsLocalDS.updateWatchedOnDB(id, watched) // bybass
     }
+
+
+    fun deleteItemOnDB(movieId: Int) {
+        prefsLocalDS.deleteItemFromDB(movieId) // bypass
+    }
+
+
 
 
     // ######################################################
