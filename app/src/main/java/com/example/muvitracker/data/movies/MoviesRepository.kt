@@ -47,7 +47,7 @@ private constructor(
     // ZZ TODO
     fun getPopularCache(): IoResponse.Success<List<Movie>> {
         // !! non ho un IoResponse da trasformare, ma solo da creare uno nuovo
-        val mappedList = moviesLocalDS.loadPopularFromLocal().map { popuDto ->
+        val mappedList = moviesLocalDS.loadPopularFromShared().map { popuDto ->
             popuDto.toDomain()
         }
         return IoResponse.Success(mappedList)
@@ -76,7 +76,7 @@ private constructor(
 
 
     private fun getBoxoCache(): IoResponse.Success<List<Movie>> {
-        val mapperList = moviesLocalDS.loadBoxoFromLocal().map { boxoDto ->
+        val mapperList = moviesLocalDS.loadBoxoFromShared().map { boxoDto ->
             boxoDto.toDomain()
         }
         return IoResponse.Success(mapperList)
