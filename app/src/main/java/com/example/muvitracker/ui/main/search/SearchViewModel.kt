@@ -2,23 +2,21 @@ package com.example.muvitracker.ui.main.search
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.muvitracker.data.dto.SearchDto
-import com.example.muvitracker.data.search.SearRepo
-import com.example.muvitracker.utils.IoResponse
+import androidx.lifecycle.switchMap
+import com.example.muvitracker.data.search.SearchRepository
 
 class SearchViewModel() : ViewModel() {
 
-    val searchList = MutableLiveData<List<SearchDto>>()
+    private val searchLivedata = MutableLiveData("")
 
+    fun state() = searchLivedata
+        .switchMap { queryText ->
+            SearchRepository.getNetworkResult(queryText)
+        }
 
-    fun loadNetworkResult(queryText: String) {
-        SearRepo.getNetworkResult(
-            queryText,
-            onResponse = { response ->
-                if (response is IoResponse.Success) {
-                    searchList.value = response.dataValue
-                }
-            })
+    fun updateSearch(text: String) {
+        searchLivedata.value = text
     }
 
 }
+

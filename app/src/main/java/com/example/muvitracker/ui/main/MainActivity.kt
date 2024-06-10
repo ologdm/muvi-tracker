@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.muvitracker.R
 import com.example.muvitracker.ui.main.allmovies.BoxoFragment
-import com.example.muvitracker.ui.main.allmovies.PopuFragment
+import com.example.muvitracker.ui.main.allmovies.PopularFragment
 import com.example.muvitracker.ui.main.prefs.PrefsFragment
 import com.example.muvitracker.ui.main.search.SearchFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -22,7 +22,7 @@ class MainActivity() : AppCompatActivity(R.layout.activity_main) {
 
         bottomNavigationView = findViewById(R.id.bottomNavigation)
 
-        navigator.replaceFragment(this, PopuFragment())
+        navigator.replaceFragment(this, PopularFragment())
 
         bottomNavigationView.setOnItemSelectedListener(
             NavigationBarView.OnItemSelectedListener { item ->
@@ -31,7 +31,7 @@ class MainActivity() : AppCompatActivity(R.layout.activity_main) {
                 if (clickedId == R.id.buttonPopular) {
                     navigator.replaceFragment(
                         this@MainActivity,
-                        PopuFragment()
+                        PopularFragment()
                     )
                     return@OnItemSelectedListener true
                 }

@@ -8,6 +8,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -16,9 +17,9 @@ import com.example.muvitracker.databinding.FragmSearchBinding
 import com.example.muvitracker.ui.main.Navigator
 
 /*
- *  gestione visibilità tastiera:
- *    - da Manifest - "adjustNothing"
- *    - xml layout - android:imeOptions="actionDone" + inputType="text"
+ *  keyboard visibility management:
+ *    - Manifest - ("adjustNothing")
+ *    - xml layout - (android:imeOptions="actionDone") + (inputType="text")
  */
 
 
@@ -28,15 +29,15 @@ class SearchFragment : Fragment() {
     private val binding
         get() = _binding
 
-    val navigator = Navigator()
+    private val navigator = Navigator()
     private val viewModel by viewModels<SearchViewModel>()
 
     // Debouncing
-    val handler = Handler(Looper.getMainLooper())
-    var searchRunnable: Runnable? = null
-    val DEBOUNCE_DELAY: Long = 300L
+    private val handler = Handler(Looper.getMainLooper())
+    private var searchRunnable: Runnable? = null
+    private val DEBOUNCE_DELAY: Long = 300L
 
-    private val adapter = SearchAdapter(onClickCallback = { movieId ->
+    private val adapter = SearchAdapter(onClickVH = { movieId ->
         startDetailsFragment(movieId)
     })
 
@@ -55,8 +56,9 @@ class SearchFragment : Fragment() {
         view: View,
         savedInstanceState: Bundle?
     ) {
-        viewModel.searchList.observe(viewLifecycleOwner, Observer { searchList ->
+        viewModel.state().observe(viewLifecycleOwner, Observer { searchList ->
             adapter.submitList(searchList)
+            println("XXX SEARC FRAGMENT OBSERVING STATE: $searchList")
         })
 
 
@@ -64,32 +66,21 @@ class SearchFragment : Fragment() {
             recyclerView.layoutManager = GridLayoutManager(requireContext(), 3)
             recyclerView.adapter = adapter
 
-            searchEditText.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged( // non usare
-                    s: CharSequence?, start: Int, count: Int, after: Int
-                ) {
-                }
+            searchEditText.doAfterTextChanged { s ->  // kotlin abbreviated method
+                    searchRunnable
+                        ?.let {// 1. cancel the previous runnable to implement debouncing
+                            handler.removeCallbacks(it)
+                        }
+                    searchRunnable =
+                        Runnable { // 2. defines a new runnable that will perform the search
+                            viewModel.updateSearch(s.toString()) // ###
+                        }
 
-                override fun onTextChanged(
-                    s: CharSequence?, start: Int, before: Int, count: Int
-                ) {
+                    searchRunnable
+                        ?.let {// 3. schedule the new runnable with a specified delay to perform the debouncing
+                            handler.postDelayed(it, DEBOUNCE_DELAY)
+                        }
                 }
-
-                override fun afterTextChanged(s: Editable?) {
-                    // 1. annulla il runnable precedente per implementare il debouncing
-                    searchRunnable?.let {
-                        handler.removeCallbacks(it)
-                    }
-                    // 2. definisce un nuovo runnable che eseguirà la ricerca
-                    searchRunnable = Runnable {
-                        viewModel.loadNetworkResult(s.toString())
-                    }
-                    // 3. programma il nuovo runnable con un ritardo specificato per realizzare il debouncing
-                    searchRunnable?.let {
-                        handler.postDelayed(it, DEBOUNCE_DELAY)
-                    }
-                }
-            })
         }
     }
 

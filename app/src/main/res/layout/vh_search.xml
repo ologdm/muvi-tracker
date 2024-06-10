@@ -35,7 +35,7 @@
 
 
     <TextView
-            android:id="@+id/typeObject"
+            android:id="@+id/typeItem"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="8sp"
@@ -50,7 +50,7 @@
             android:layout_height="wrap_content"
             android:textSize="8sp"
             tools:hint="score"
-            app:layout_constraintTop_toBottomOf="@id/typeObject"
+            app:layout_constraintTop_toBottomOf="@id/typeItem"
             android:layout_marginHorizontal="4dp"
             app:layout_constraintBottom_toBottomOf="parent" />
 

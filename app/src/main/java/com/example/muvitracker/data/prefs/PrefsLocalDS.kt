@@ -83,7 +83,7 @@ class PrefsLocalDS(
         synchronized(this) {
             sharedPreferences.edit()
                 .putString(PREFS_KEY_01, getJson(list))
-                .apply()
+                .commit()
         }
     }
 

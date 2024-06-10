@@ -5,29 +5,40 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.example.muvitracker.databinding.VhSearchBinding
-import com.example.muvitracker.data.dto.SearchDto
+import com.example.muvitracker.domain.model.SearchResult
+
+// predisposition to integrate the series
 
 
 class SearchAdapter(
-    private var onClickCallback: (Int) -> Unit,
-) : ListAdapter<SearchDto, SearchVH>(SearchAdapter) {
+    private var onClickVH: (Int) -> Unit,
+) : ListAdapter<SearchResult, SearchVH>(SearchAdapter) {
 
+    companion object : DiffUtil.ItemCallback<SearchResult>() {
+        override fun areItemsTheSame(oldItem: SearchResult, newItem: SearchResult): Boolean {
+            return when {
+                oldItem is SearchResult.MovieItem && newItem is SearchResult.MovieItem -> {
+                    oldItem.movie.ids.trakt == newItem.movie.ids.trakt
+                }
 
-    companion object : DiffUtil.ItemCallback<SearchDto>() {
-        override fun areItemsTheSame(oldItem: SearchDto, newItem: SearchDto): Boolean {
-            return oldItem.movie?.ids?.trakt ==
-                    newItem.movie?.ids?.trakt
+                oldItem is SearchResult.ShowItem && newItem is SearchResult.ShowItem -> {
+                    oldItem.show.ids.trakt == newItem.show.ids.trakt
+                }
+
+                else -> false
+            }
         }
 
-        override fun areContentsTheSame(oldItem: SearchDto, newItem: SearchDto): Boolean {
+        override fun areContentsTheSame(oldItem: SearchResult, newItem: SearchResult): Boolean {
             return oldItem == newItem
         }
     }
 
+    // ########################################################################
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchVH {
-        val binding = VhSearchBinding
-            .inflate(LayoutInflater.from(parent.context), parent, false)
+        val inflater = LayoutInflater.from(parent.context)
+        val binding = VhSearchBinding.inflate(inflater, parent, false)
         return SearchVH(binding)
     }
 
@@ -38,8 +49,13 @@ class SearchAdapter(
         holder.bind(item) // update on VH
 
         holder.itemView.setOnClickListener {
-            onClickCallback.invoke(item.movie?.ids!!.trakt) // TODO check nullable
+            when (item) {
+                is SearchResult.MovieItem -> onClickVH(item.movie.ids.trakt)
+                is SearchResult.ShowItem -> onClickVH(item.show.ids.trakt)
+            }
         }
+
+
     }
 
 }

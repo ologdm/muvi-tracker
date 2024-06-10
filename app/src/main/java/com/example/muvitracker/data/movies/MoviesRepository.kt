@@ -1,8 +1,7 @@
 package com.example.muvitracker.data.movies
 
 import android.content.Context
-import com.example.muvitracker.data.RetrofitUtils
-import com.example.muvitracker.domain.model.MovieItem
+import com.example.muvitracker.domain.model.base.Movie
 import com.example.muvitracker.data.dto.base.toDomain
 import com.example.muvitracker.data.dto.toDomain
 import com.example.muvitracker.data.startNetworkCall
@@ -16,18 +15,26 @@ private constructor(
 ) {
 
     private val moviesLocalDS = MoviesLocalDS.getInstance(context)
-
     private val api = com.example.muvitracker.data.RetrofitUtils.traktApi
-    // TODO -vmodificare con hilt, devo solo pigliare la call
 
 
-    // POPULAR ----------------------------------
-    fun getPopularMovies(onResponse: (IoResponse<List<MovieItem>>) -> Unit) {
-        onResponse(getPopularCache())
+    // POPULAR ################################################################################
 
+
+    // ZZ TODO
+    fun getPopularMovies(onResponse: (IoResponse<List<Movie>>) -> Unit) {
+        // 1. fetch data from cache
+        val cachedData = getPopularCache()
+        onResponse(cachedData)
+        println("XXX SUCCESS CACHE REPOSITORY")
+
+        //2.
+        onResponse(IoResponse.Loading)
+
+        // 3. fetch data from network
         api.getPopularMovies().startNetworkCall { retrofitResponse ->
             val mappedIo = retrofitResponse.ioMapper { list ->
-                moviesLocalDS.savePopularInLocal(list) // salva in locale
+                moviesLocalDS.savePopularInLocal(list) // save to local cache
                 val mappedList = list.map { dto ->
                     dto.toDomain()
                 }
@@ -37,8 +44,8 @@ private constructor(
         }
     }
 
-
-    private fun getPopularCache(): IoResponse.Success<List<MovieItem>> {
+    // ZZ TODO
+    fun getPopularCache(): IoResponse.Success<List<Movie>> {
         // !! non ho un IoResponse da trasformare, ma solo da creare uno nuovo
         val mappedList = moviesLocalDS.loadPopularFromLocal().map { popuDto ->
             popuDto.toDomain()
@@ -47,8 +54,11 @@ private constructor(
     }
 
 
-    // BOXO ---------------------------------------
-    fun getBoxoMovies(onResponse: (IoResponse<List<MovieItem>>) -> Unit) {
+
+
+    // BOXOFFICE #######################################################################################
+
+    fun getBoxoMovies(onResponse: (IoResponse<List<Movie>>) -> Unit) {
         onResponse(getBoxoCache())
 
         api.getBoxofficeMovies().startNetworkCall { retrofitResponse ->
@@ -65,7 +75,7 @@ private constructor(
     }
 
 
-    private fun getBoxoCache(): IoResponse.Success<List<MovieItem>> {
+    private fun getBoxoCache(): IoResponse.Success<List<Movie>> {
         val mapperList = moviesLocalDS.loadBoxoFromLocal().map { boxoDto ->
             boxoDto.toDomain()
         }
@@ -84,7 +94,20 @@ private constructor(
     }
 }
 
-
+//    fun getPopularMovies(onResponse: (IoResponse<List<MovieItem>>) -> Unit) {
+//        onResponse(getPopularCache())
+//
+//        api.getPopularMovies().startNetworkCall { retrofitResponse ->
+//            val mappedIo = retrofitResponse.ioMapper { list ->
+//                moviesLocalDS.savePopularInLocal(list) // salva in locale
+//                val mappedList = list.map { dto ->
+//                    dto.toDomain()
+//                }
+//                mappedList// !!! forma finale che deve avere R (List<MovieModel>), la definisco qua
+//            }
+//            onResponse(mappedIo) // forma corretta già definita
+//        }
+//    }
 
 
 

@@ -8,12 +8,12 @@ import com.example.muvitracker.R
 
 
 data class StateContainer<T>(
-    val dataList: List<T> = emptyList(),
-    var data: T? = null, // details // null management
     val isLoading: Boolean = false,
     val isRefresh: Boolean = false,
     val isNetworkError: Boolean = false,
-    val isOtherError: Boolean = false
+    val isOtherError: Boolean = false,
+    val dataList: List<T> = emptyList(),
+    val data: T? = null // details // null management
 )
 
 /* OK
@@ -39,12 +39,14 @@ fun <T> StateContainer<T>.statesFlow(
             progressBar.visibility = View.VISIBLE
             errorMsg.visibility = View.GONE
             insideScrollView?.visibility = View.GONE
+            println("XXX  ES LOADING")
         }
 
         isRefresh -> { // OK
             progressBar.visibility = View.GONE
             errorMsg.visibility = View.GONE
             insideScrollView?.visibility = View.GONE
+            println("XXX  ES REFRESH")
         }
 
         isNetworkError -> { // OK
@@ -52,6 +54,7 @@ fun <T> StateContainer<T>.statesFlow(
             errorMsg.visibility = View.VISIBLE
             errorMsg.text = context.getString(R.string.error_message_no_internet)
             insideScrollView?.visibility = View.GONE
+            println("XXX  ES NET ERROR")
         }
 
         isOtherError -> { // OK == network, different msg
@@ -59,12 +62,14 @@ fun <T> StateContainer<T>.statesFlow(
             errorMsg.visibility = View.VISIBLE
             errorMsg.text = context.getString(R.string.error_message_other)
             insideScrollView?.visibility = View.GONE
+            println("XXX  ES OTHER ERROR")
         }
 
         else -> { // implicit success OK
             progressBar.visibility = View.GONE
             errorMsg.visibility = View.GONE
             insideScrollView?.visibility = View.VISIBLE
+            println("XXX ES SUCCESS(ELSE)")
         }
     }
 }

@@ -29,7 +29,7 @@
 
     <style name="ProgressBar_ES">
         <item name="android:elevation">8dp</item>
-        <item name="android:visibility">gone</item>
+        <item name="android:visibility">visible</item>
         <item name="android:indeterminate">true</item>
     </style>
 

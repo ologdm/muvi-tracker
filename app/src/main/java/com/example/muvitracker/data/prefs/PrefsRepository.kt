@@ -16,7 +16,7 @@ class PrefsRepository(
     private val detailLocalDS = DetailLocalDS.getInstance(context)
 
 
-    // GET ###################################################### ZZ
+    // GET ######################################################
 
     fun getList(): LiveData<List<DetailMovie>> {
         return combineLatest(
@@ -33,15 +33,15 @@ class PrefsRepository(
     }
 
 
-    // SET ###################################################### ZZ
+    // SET ######################################################
     fun toggleFavoriteOnDB(id: Int) {
-        // switch stato in local
+        // switch state on db
         prefsLocalDS.toggleFavoriteOnDB(id) // bypass
     }
 
 
     fun updateWatchedOnDB(id: Int, watched: Boolean) {
-        // solo update local
+        // only update on db
         prefsLocalDS.updateWatchedOnDB(id, watched) // bybass
     }
 

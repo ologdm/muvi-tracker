@@ -6,18 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
-/*
- * GET - con Livedata read automatico || update e delete non necessario
- * getLivedataList() : MutableLiveData
- * readCacheList() : List<DetailEntity>
- * ListFromJson() - conversione
- *
- * SET - create MutableList, setItem
- * saveNewItemInSharedList () - check id, poi aggiungi alla lista esistente
- *
- * solo lettura, unica modifica sharedPrefs ->
- */
-
 
 class DetailLocalDS
 private constructor(
@@ -35,10 +23,9 @@ private constructor(
         liveData.value = loadSharedList() // first update
 
         sharedPreferences.registerOnSharedPreferenceChangeListener { _, key ->
-            // viene chiamata quando il valore (interno JSON) di qualsiasi "key" cambia
+            // called when the (internal JSON) value of any "key" changes
             if (key == DETAIL_KEY_01) {
-                liveData.value =
-                    loadSharedList() // update onChange JSON contenuto nella key rispettiva
+                liveData.value = loadSharedList() // update onChange JSON content in its key
             }
         }
         return liveData
@@ -46,7 +33,7 @@ private constructor(
 
     private fun loadSharedList(): List<DetailEntity> {
         val json = sharedPreferences.getString(DETAIL_KEY_01, null) ?: ""
-        return getListFromJson(json) // conversione
+        return getListFromJson(json) // conversion
     }
 
     private fun getListFromJson(jsonString: String): List<DetailEntity> {
@@ -61,16 +48,14 @@ private constructor(
         val currentSharedList = loadSharedList().toMutableList()
         val index = currentSharedList.indexOfFirst { sharedEntity ->
             sharedEntity.ids.trakt == inputEntity.ids.trakt
-        } // return indice condizione o -1
+        } // return condition index or -1
 
         if (index == -1) {
             currentSharedList.add(inputEntity)
         } else {
             currentSharedList[index] = inputEntity
         }
-
         saveListInSharedPreferences(currentSharedList)
-
     }
 
 

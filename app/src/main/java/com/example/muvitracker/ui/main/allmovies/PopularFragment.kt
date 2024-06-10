@@ -14,7 +14,7 @@ import com.example.muvitracker.ui.main.allmovies.base.MovieAdapter
 import com.example.muvitracker.utils.statesFlow
 
 
-class PopuFragment : Fragment() {
+class PopularFragment : Fragment() {
 
 
     private var _binding: FragmBaseCategoryBinding? = null
@@ -23,7 +23,7 @@ class PopuFragment : Fragment() {
 
 
     private val navigator = Navigator()
-    private val viewModel by viewModels<PopuViewModel>()
+    private val viewModel by viewModels<PopularViewModel>()
 
     private val adapter = MovieAdapter(onClickVH = { movieId ->
         startDetailsFragment(movieId)
@@ -53,6 +53,7 @@ class PopuFragment : Fragment() {
                 errorMsg = binding!!.errorTextView,
                 null
             )
+            println("XXX OBSERVING STATE: $it") // debuging
         }
 
         with(binding!!) {
@@ -64,6 +65,9 @@ class PopuFragment : Fragment() {
                 viewModel.loadMovies(isRefresh = true)
             }
         }
+
+
+//        viewModel.loadMovies(isRefresh = false)
     }
 
     override fun onDestroyView() {

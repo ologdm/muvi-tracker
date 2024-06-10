@@ -12,6 +12,7 @@ import com.example.muvitracker.databinding.FragmDetailBinding
 import com.example.muvitracker.domain.model.DetailMovie
 import com.example.muvitracker.utils.dateFormatterInMMMyyy
 import com.example.muvitracker.utils.firstDecimalApproxToString
+import com.example.muvitracker.utils.statesFlow
 import com.google.android.material.chip.Chip
 
 
@@ -46,9 +47,14 @@ class DetailFragment : Fragment() {
                 stateContainer.data?.let { detailMovie ->
                     updateUi(detailMovie)
                 }
+                stateContainer.statesFlow(
+                    binding!!.progressBar,
+                    binding!!.errorTextView,
+                    binding!!.insideScrollView,
+                )
+
             }
 
-        // ZZ
         with(binding!!) {
             buttonBack.setOnClickListener {
                 requireActivity().onBackPressed()
@@ -143,14 +149,6 @@ class DetailFragment : Fragment() {
 
 }
 
-
-// TODO salvare su viewmodel
-//        viewModel.stateContainer.observe(viewLifecycleOwner, Observer { state ->
-//            state.data?.let {
-//                updateUi(it)
-//            }
-//
-//        })
 
 
 

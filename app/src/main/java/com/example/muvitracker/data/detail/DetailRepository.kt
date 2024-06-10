@@ -16,7 +16,6 @@ import com.example.muvitracker.utils.concat
 import com.example.muvitracker.utils.ioMapper
 
 
-
 class DetailRepository
 private constructor(
     private val context: Context
@@ -27,23 +26,23 @@ private constructor(
 
 // GET ###########################################################################
 
-    // 1. cerca su db se c'e - livedata
-    // 2. cerca su network - livedata
-    // 3. osserva i 2 valori concat()
+    // 1. search on db - livedata
+    // 2. search on network - livedata
+    // 3. observe the 2 values - concat()
     fun getDetailMovie(
         movieId: Int,
     ): LiveData<IoResponse<DetailMovie?>> {
 
-        // 1. trova elemento in live - local detail e prefs | o return null
+        // 1. finds element in live - local detail and prefs | or return null
         val localLiveData = combineLatest(
             detailsLocalDS.getLivedataList(),
             prefsLocalDS.liveDataList, // TODO test
             combiner = { detailEntities, prefsEntities ->
-                // trova elemento in detail se c'e, else null
+                // find element in detail - if there is, else null
                 val movieEntity = detailEntities.find { detailEntity ->
                     detailEntity.ids.trakt == movieId
                 }
-                // trova elemento in prefs se c'e | else null
+                // find element in prefs if there is | else null
                 val prefsEntity = prefsEntities.find { prefsEntity ->
                     prefsEntity.movieId == movieId
                 }
@@ -54,18 +53,18 @@ private constructor(
         } // fine localLiveData
 
 
-        // 2. livedata da internet
+        // 2. network livedata
         val networkLivedata = MutableLiveData<IoResponse<DetailMovie?>>()
         getNetworkResultAndAddToLocal(movieId,
             onResponse = {
                 networkLivedata.value = it
             })
 
-        // 3.  combina 1 e 2 livedata , poi mostra il piu recente
+        // 3. combine 1 and 2 livedata, then show the most recent one
         return concat(
             localLiveData,
             networkLivedata
-        ).distinctUntilChanged() // leggi solo se cambiano valori
+        ).distinctUntilChanged() // read only if values change
     }
 
 
@@ -87,7 +86,7 @@ private constructor(
                 }
                 onResponse(ioMapper) // ##
 
-                // 2. Success, aggiungi anche a db
+                // 2. Success, add also on db
                 if (retrofitResponse is IoResponse.Success) {
                     detailsLocalDS.addOrUpdateItem(retrofitResponse.dataValue.toEntity())
                 }

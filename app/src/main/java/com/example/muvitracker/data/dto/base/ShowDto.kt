@@ -1,15 +1,20 @@
 package com.example.muvitracker.data.dto.base
 
 import com.example.muvitracker.data.dto.base.Ids
+import com.example.muvitracker.domain.model.base.Show
 
 
-// OK
 data class ShowDto(
-
     val title: String,
     val year: Int,
-    val ids: Ids // classe K
-) {
+    val ids: Ids
+)
 
-    fun imageUrl(): String = "http://img.omdbapi.com/?apikey=ef6d3d4c&i=${ids.imdb}"
+
+fun ShowDto.toDomain(): Show {
+    return Show(
+        title = this.title,
+        year = this.year,
+        ids = this.ids
+    )
 }

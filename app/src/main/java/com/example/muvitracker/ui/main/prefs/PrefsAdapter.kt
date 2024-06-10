@@ -30,6 +30,7 @@ class PrefsAdapter(
         }
     }
 
+    // ################################################################################
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PrefsVH {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -49,9 +50,7 @@ class PrefsAdapter(
 
         holder.binding.run {
 
-            holder.itemView.setOnClickListener {
-                onClickVH.invoke(currentItem.ids.trakt)
-            }
+            updateFavoriteIcon(likedButton, currentItem.liked, iconFilled, iconEmpty)
 
             likedButton.setOnClickListener {
                 onCLickLiked.invoke(currentItem)
@@ -64,7 +63,9 @@ class PrefsAdapter(
                 onClickWatched.invoke(currentItem, isChecked)
             }
 
-            updateFavoriteIcon(likedButton, currentItem.liked, iconFilled, iconEmpty)
+            holder.itemView.setOnClickListener {
+                onClickVH.invoke(currentItem.ids.trakt)
+            }
         }
 
     }

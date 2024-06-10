@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.example.muvitracker.data.movies.MoviesRepository
-import com.example.muvitracker.domain.model.MovieItem
+import com.example.muvitracker.domain.model.base.Movie
 import com.example.muvitracker.utils.IoResponse
 import com.example.muvitracker.utils.StateContainer
 
@@ -14,7 +14,7 @@ class BoxoViewModel(
 ) : AndroidViewModel(application) {
 
     private val repository = MoviesRepository.getInstance(application)
-    val stateContainer = MutableLiveData<StateContainer<MovieItem>>()
+    val stateContainer = MutableLiveData<StateContainer<Movie>>()
 
     // mettere dopo istanze
     init {
@@ -41,6 +41,8 @@ class BoxoViewModel(
                 is IoResponse.OtherError -> {
                     stateContainer.value = StateContainer(isOtherError = true)
                 }
+
+                IoResponse.Loading -> TODO()
             }
         }
     }

@@ -6,6 +6,7 @@
     <string name="my_list">Preferiti</string>
     <string name="search">Cerca</string>
 
+
     <string name="released">Data uscita:</string>
     <string name="runtime">Durata:</string>
     <string name="country">Paese:</string>
@@ -13,13 +14,14 @@
     <string name="watched">Guardato</string>
     <string name="about_show">Descrizione</string>
     <string name="genres">Generi:</string>
-    <!--formattazione -->
-    <!--runtime_description: no -->
     <string name="rating_description"> %1$s stelle</string>
 
-    <!--empty states -->
+
     <string name="error_message_no_internet">nessuna connessione internet, scorri verso il basso</string>
     <string name="error_message_other">qualcosa e andato storto :(</string>
 
+
+    <string name="movie">film</string>
+    <string name="show">serie tv</string>
 
 </resources>

@@ -1,7 +1,7 @@
 package com.example.muvitracker.data.dto
 
 import com.example.muvitracker.data.dto.base.MovieDto
-import com.example.muvitracker.domain.model.MovieItem
+import com.example.muvitracker.domain.model.base.Movie
 
 
 data class BoxoDto(
@@ -10,8 +10,8 @@ data class BoxoDto(
 )
 
 
-fun BoxoDto.toDomain(): MovieItem {
-    return MovieItem(this.movie.title, this.movie.year, this.movie.ids)
+fun BoxoDto.toDomain(): Movie {
+    return Movie(this.movie.title, this.movie.year, this.movie.ids)
 }
 
 

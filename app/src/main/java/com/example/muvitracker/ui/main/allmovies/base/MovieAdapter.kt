@@ -5,19 +5,19 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.example.muvitracker.databinding.VhMovieBinding
-import com.example.muvitracker.domain.model.MovieItem
+import com.example.muvitracker.domain.model.base.Movie
 
 
 class MovieAdapter(
     private val onClickVH: (Int) -> Unit,
-) : ListAdapter<MovieItem, MovieVh>(MovieAdapter) {
+) : ListAdapter<Movie, MovieVh>(MovieAdapter) {
 
-    companion object : DiffUtil.ItemCallback<MovieItem>() { // nome object - se stesso
-        override fun areItemsTheSame(oldItem: MovieItem, newItem: MovieItem): Boolean {
+    companion object : DiffUtil.ItemCallback<Movie>() { // nome object - se stesso
+        override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean {
             return oldItem.ids.trakt == newItem.ids.trakt // (stesso elemento)
         }
 
-        override fun areContentsTheSame(oldItem: MovieItem, newItem: MovieItem): Boolean {
+        override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean {
             return oldItem == newItem // dataclass, quindi vale come equals (contenuto)
         }
     }
