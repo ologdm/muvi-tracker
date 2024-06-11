@@ -14,15 +14,16 @@ import com.example.muvitracker.ui.main.allmovies.base.MovieAdapter
 import com.example.muvitracker.utils.statesFlow
 import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
+
 class BoxoFragment : Fragment() {
 
     private var _binding: FragmBaseCategoryBinding? = null
     private val binding
         get() = _binding
 
-    private val viewModel by viewModels<BoxoViewModel>()
     private val navigator = Navigator()
+
+    private val viewModel by viewModels<BoxoViewModel>()
 
     private val adapter = MovieAdapter(onClickVH = { movieId->
         startDetailsFragment(movieId)

@@ -13,10 +13,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 
-@HiltViewModel
-class PopularViewModel
-@Inject constructor(
-
+class PopularViewModel(
     private val application: Application
 ) : AndroidViewModel(application) {
 
