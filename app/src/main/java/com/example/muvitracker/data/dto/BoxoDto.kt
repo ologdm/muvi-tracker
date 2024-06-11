@@ -12,9 +12,9 @@ data class BoxoDto(
 
 fun BoxoDto.toDomain(): Movie {
     return Movie(
-        this.movie.title,
-        this.movie.year,
-        this.movie.ids
+        movie.title,
+        movie.year,
+        movie.ids
     )
 }
 

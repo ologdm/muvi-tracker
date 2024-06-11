@@ -11,7 +11,7 @@ data class MovieDto(
 
 
 fun MovieDto.toDomain(): Movie {
-    return Movie(this.title, this.year, this.ids)
+    return Movie(title, year, ids)
 }
 
 // ###################################################################

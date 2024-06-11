@@ -51,7 +51,7 @@ private constructor(
     }
 
 
-    fun loadBoxoFromShared(): List<Movie> {
+    private fun loadBoxoFromShared(): List<Movie> {
         var jsonString = sharedPrefefences.getString(BOXOFFICE_LIST_KEY, null)
         return getListFromJson<Movie>(jsonString ?: "").orEmpty()
     }
