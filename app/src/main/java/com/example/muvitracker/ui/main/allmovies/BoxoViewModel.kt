@@ -19,7 +19,7 @@ class BoxoViewModel(
 
 
     fun getMovies(): LiveData<StateContainer<List<Movie>>> {
-        return movieRepository.getPopularMovies().map { response ->
+        return movieRepository.getBoxoMovies().map { response ->
             when (response) {
                 is IoResponse.Success -> {
                     StateContainer(
@@ -32,7 +32,7 @@ class BoxoViewModel(
                     StateContainer(
                         isLoading = false,
                         isNetworkError = true,
-                        data = movieRepository.getPopularCache()
+                        data = movieRepository.getBoxoCache()
                     )
                 }
 
@@ -40,7 +40,7 @@ class BoxoViewModel(
                     StateContainer(
                         isLoading = false,
                         isOtherError = true,
-                        data = movieRepository.getPopularCache()
+                        data = movieRepository.getBoxoCache()
                     )
                 }
             }

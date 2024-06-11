@@ -12,8 +12,9 @@ import com.example.muvitracker.databinding.FragmBaseCategoryBinding
 import com.example.muvitracker.ui.main.Navigator
 import com.example.muvitracker.ui.main.allmovies.base.MovieAdapter
 import com.example.muvitracker.utils.statesFlow
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class BoxoFragment : Fragment() {
 
     private var _binding: FragmBaseCategoryBinding? = null

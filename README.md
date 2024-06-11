@@ -4,10 +4,12 @@ Movie tracking android application based on [Trakt API](https://trakt.docs.apiar
 The app relies entirely on LiveData to update data, includes data caching for better performance, 
 and follows the principles of Clean Architecture.
 
+
 ## Features
 - Explore popular and box-office movies
 - Search any movie from Trakt database
 - My list: add a movie to favourites to see it later, and mark it as viewed when done
+
 
 ## Screenshots
 
@@ -17,6 +19,7 @@ and follows the principles of Clean Architecture.
   <img src="app/app-screenshots/favorite.png" width="24%"/>
   <img src="app/app-screenshots/search.png" width="24%"/>
 </div>
+
 
 ## Tech stack & open-source libraries
 - Min SDK level 24

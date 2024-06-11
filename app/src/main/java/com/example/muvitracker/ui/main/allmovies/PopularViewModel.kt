@@ -9,9 +9,14 @@ import com.example.muvitracker.data.movies.MoviesRepository
 import com.example.muvitracker.domain.model.base.Movie
 import com.example.muvitracker.utils.IoResponse
 import com.example.muvitracker.utils.StateContainer
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
 
-class PopularViewModel(
+@HiltViewModel
+class PopularViewModel
+@Inject constructor(
+
     private val application: Application
 ) : AndroidViewModel(application) {
 
