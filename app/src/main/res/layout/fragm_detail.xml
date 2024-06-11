@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/progressBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible"
+            style="@style/ProgressBar_ES" />
+
+    <TextView
+            android:id="@+id/errorTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|center"
+            tools:visibility="visible"
+            tools:hint="custom error text"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            style="@style/ErrorText_ES" />
+
+
+    <ImageButton
+            android:id="@+id/buttonBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:elevation="4dp"
+            app:srcCompat="@drawable/baseline_arrow_back"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_margin="16dp"
+            android:importantForAccessibility="no" />
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floatingLikedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/baseline_liked_border"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginBottom="25dp"
+            android:layout_marginEnd="25dp"
+            android:importantForAccessibility="no" />
+
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipeToRefresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+        <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent">
+
+
+            <LinearLayout
+                    android:id="@+id/insideScrollView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingBottom="80dp">
+
+
+                <ImageView
+                        android:id="@+id/imageHorizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="270dp"
+                        tools:layout_height="270dp"
+                        app:layout_constraintDimensionRatio="1.5"
+                        android:scaleType="centerCrop"
+                        tools:background="@tools:sample/avatars"
+                        android:elevation="-4dp"
+                        android:importantForAccessibility="no" />
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="20dp">
+
+
+                    <!-- 1° titolo film-->
+
+                    <!-- 2° split imagine / info orizzontale -->
+                    <TextView
+                            android:id="@+id/title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            tools:hint="@tools:sample/lorem"
+                            style="@style/Title_Typography_Detail" />
+
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+
+                        <com.google.android.material.imageview.ShapeableImageView
+                                android:id="@+id/imageVertical"
+                                android:layout_width="200dp"
+                                android:layout_height="300dp"
+                                android:layout_marginEnd="15dp"
+                                tools:background="@tools:sample/avatars"
+                                android:importantForAccessibility="no"
+                                app:shapeAppearance="@style/ImageLarge_RoundedShape" />
+
+                        <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical"
+                                android:paddingStart="20dp">
+
+
+                            <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/released"
+                                    style="@style/Categories_Typography_Detail"
+                                    />
+
+                            <TextView
+                                    android:id="@+id/released"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    tools:hint="testo" />
+
+
+                            <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/runtime"
+                                    android:textStyle="bold"
+                                    android:layout_marginTop="10dp"
+                                    style="@style/Categories_Typography_Detail" />
+
+                            <TextView
+                                    android:id="@+id/runtime"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    tools:hint="testo" />
+
+
+                            <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/country"
+                                    android:layout_marginTop="10dp"
+                                    style="@style/Categories_Typography_Detail" />
+
+                            <TextView
+                                    android:id="@+id/country"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    tools:hint="testo" />
+
+
+                            <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/rating"
+                                    android:layout_marginTop="10dp"
+                                    style="@style/Categories_Typography_Detail" />
+
+                            <TextView
+                                    android:id="@+id/rating"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:hint="testo" />
+
+
+                            <com.google.android.material.divider.MaterialDivider
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    app:layout_constraintTop_toBottomOf="@id/toolbar"
+                                    android:layout_marginTop="24dp"
+                                    android:layout_marginBottom="16dp" />
+
+
+                            <CheckBox
+                                    android:id="@+id/watchedCkbox"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/watched"
+                                    android:textAlignment="textStart"
+                                    android:textSize="13sp" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/about_show"
+                            android:layout_marginTop="30dp"
+                            android:layout_marginBottom="10dp"
+                            style="@style/Categories_Typography_Detail" />
+
+                    <TextView
+                            android:id="@+id/overview"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            tools:hint="Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            android:layout_marginBottom="20dp" />
+
+
+                    <com.google.android.material.divider.MaterialDivider
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toBottomOf="@id/toolbar" />
+
+                    <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/genres"
+                            android:paddingTop="16dp"
+                            android:paddingBottom="8dp"
+                            style="@style/Categories_Typography_Detail"/>
+
+                    <com.google.android.material.chip.ChipGroup
+                            android:id="@+id/chipGroup"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:singleSelection="false" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

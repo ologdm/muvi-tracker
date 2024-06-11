@@ -1,13 +1,15 @@
 <resources>
     <string name="app_name" translatable="false">MuviTracker</string>
 
-    <!--base -->
+
+    <!--base categories -->
     <string name="popular">Popular</string>
     <string name="box_office">Box Office</string>
     <string name="my_list">My List</string>
     <string name="search">Search</string>
 
-    <!--details -->
+
+    <!--detail -->
     <string name="released">Released:</string>
     <string name="runtime">Runtime:</string>
     <string name="country">Country:</string>
@@ -15,13 +17,19 @@
     <string name="watched">Watched</string>
     <string name="about_show">About show</string>
     <string name="genres">Genres:</string>
-    <!--formattazione -->
+    <!--detail formatting -->
     <string name="runtime_description" translatable="false">%1$s min</string>
     <string name="rating_description"> %1$s stars</string>
 
-    <!--empty states -->
+
+    <!--error messages -->
     <string name="error_message_no_internet">no internet connection, swipe down</string>
     <string name="error_message_other">something went wrong :(</string>
+
+
+    <!--search type -->
+    <string name="movie">movie</string>
+    <string name="show">show</string>
 
 
 </resources>

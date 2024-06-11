@@ -1,6 +1,8 @@
 # MuviTracker
 
-Movie tracking android application based on [Trakt API](https://trakt.docs.apiary.io/#)
+Movie tracking android application based on [Trakt API](https://trakt.docs.apiary.io/#).
+The app relies entirely on LiveData to update data, includes data caching for better performance, 
+and follows the principles of Clean Architecture.
 
 ## Features
 - Explore popular and box-office movies
@@ -19,15 +21,15 @@ Movie tracking android application based on [Trakt API](https://trakt.docs.apiar
 ## Tech stack & open-source libraries
 - Min SDK level 24
 - Entirely written in [Kotlin](https://kotlinlang.org/) (previously Java)
-- MVP Architecture (also MVVM for test)
-- [Retrofit](https://github.com/square/retrofit) - - Construct the REST APIs
+- MVVM Architecture (previously MVP)
+- [Retrofit](https://github.com/square/retrofit) - Construct the REST APIs
 - [Gson](https://github.com/google/gson) - convert Java Objects into their JSON representation
 - SharedPreferences - Storage and Caching
 - [Glide](https://github.com/bumptech/glide) - Loading images 
 - [Material Design 3](https://m3.material.io/)
 - Androidx
     - Swipe refresh layout
-    - Constratint layout
+    - Constraint layout
     - Appcompat
 
 

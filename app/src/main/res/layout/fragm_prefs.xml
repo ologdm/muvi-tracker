@@ -20,13 +20,13 @@
             android:paddingHorizontal="20dp"
             android:text="@string/my_list"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/recycleView"
+            app:layout_constraintBottom_toTopOf="@id/recyclerView"
             app:layout_constraintStart_toStartOf="parent"
             android:paddingVertical="8dp" />
 
 
     <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycleView"
+            android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"

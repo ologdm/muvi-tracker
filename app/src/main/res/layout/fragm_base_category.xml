@@ -20,9 +20,9 @@
                 tools:hint="base category"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/recycleView"
-                style="@style/BaseCategory_ToolbarStyle"/>
-<!--        app:layout_constraintHorizontal_bias="0"  0-0.5-1 in base a posizione -->
+                app:layout_constraintBottom_toTopOf="@id/recyclerView"
+                style="@style/Toolbar_BaseCategory" />
+        <!--        app:layout_constraintHorizontal_bias="0"  0-0.5-1 in base a posizione -->
 
 
         <com.google.android.material.divider.MaterialDivider
@@ -37,21 +37,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/divider"
-                style="@style/ES_ProgressBarStyle"/>
-
-        <!--old-->
-        <!--        <ProgressBar-->
-        <!--                android:id="@+id/progressBar"-->
-        <!--                android:layout_width="match_parent"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                style="?android:attr/progressBarStyleHorizontal"-->
-        <!--                android:visibility="gone"-->
-        <!--                tools:visibility="visible"-->
-        <!--                android:elevation="8dp"-->
-        <!--                app:layout_constraintTop_toBottomOf="@id/divider" />-->
+                style="@style/ProgressBar_ES" />
 
         <TextView
-                android:id="@+id/errorMsgTextview"
+                android:id="@+id/errorTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="top|center"
@@ -60,26 +49,19 @@
                 app:layout_constraintTop_toBottomOf="@id/divider"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                style="@style/ES_ErrorTextStyle" />
+                style="@style/ErrorText_ES" />
 
 
         <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycleView"
+                android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 app:layout_constraintTop_toBottomOf="@+id/divider"
                 app:layout_constraintBottom_toBottomOf="parent"
                 tools:listitem="@layout/vh_movie"
-                style="@style/BaseCategory_RVStyle"/>
+                style="@style/RecyclerView_BaseCategory" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <!--old-->
-    <!--    <include-->
-    <!--            android:id="@+id/emptyStates"-->
-    <!--            layout="@layout/empty_states"-->
-    <!--            android:layout_height="match_parent"-->
-    <!--            android:layout_width="match_parent" />-->
 
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

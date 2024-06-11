@@ -21,7 +21,7 @@
 
 
         <activity
-                android:name=".inkotlin.ui.mainactivity.MainActivity"
+                android:name=".ui.main.MainActivity"
                 android:exported="true"
                 android:windowSoftInputMode="adjustNothing">
             <intent-filter>
@@ -37,10 +37,10 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
 
-    <!--  area superiore schermo-->
-    <meta-data
-            android:name="android.max_aspect"
-            android:value="ratio_float" />
+    <!--  area superiore schermo, non funziona, da 16:9 a 2:1 -->
+<!--    <meta-data-->
+<!--            android:name="android.max_aspect"-->
+<!--            android:value="ratio_float" />-->
 
 
 </manifest>

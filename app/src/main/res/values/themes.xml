@@ -14,8 +14,9 @@
         <item name="android:windowLightStatusBar">@bool/light_icons</item>
         <item name="android:windowLightNavigationBar">@bool/light_icons</item>
 
+
         <!-- personalizzo view con stile => che definisco su style -->
-        <item name="imageButtonStyle">@style/RoundedImageButton</item>
+        <item name="imageButtonStyle">@style/ImageButton_Rounded</item>
 
 
     </style>
