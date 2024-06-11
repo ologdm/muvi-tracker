@@ -11,9 +11,12 @@ data class BoxoDto(
 
 
 fun BoxoDto.toDomain(): Movie {
-    return Movie(this.movie.title, this.movie.year, this.movie.ids)
+    return Movie(
+        movie.title,
+        movie.year,
+        movie.ids
+    )
 }
-
 
 
 //  JSON BoxOffice #########################################################################

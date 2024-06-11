@@ -3,7 +3,6 @@ package com.example.muvitracker.ui.main.allmovies
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
 import com.example.muvitracker.data.movies.MoviesRepository
 import com.example.muvitracker.domain.model.base.Movie
