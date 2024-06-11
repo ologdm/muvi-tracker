@@ -1,23 +1,12 @@
 package com.example.muvitracker.data.movies
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.muvitracker.data.dto.BoxoDto
 import com.example.muvitracker.domain.model.base.Movie
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-
-/*
- * TODO
- * inline - <refired T>
- * convertire a Serializable
- *
- */
-
-
 
 
 class MoviesLocalDS
