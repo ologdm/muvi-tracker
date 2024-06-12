@@ -3,37 +3,38 @@ package com.example.muvitracker.ui.main.search
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.muvitracker.databinding.FragmSearchBinding
 import com.example.muvitracker.ui.main.Navigator
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 
+@AndroidEntryPoint
 class SearchFragment : Fragment() {
 
     private var _binding: FragmSearchBinding? = null
     private val binding
         get() = _binding
 
-    private val navigator = Navigator()
     private val viewModel by viewModels<SearchViewModel>()
+
+    @Inject
+    lateinit var navigator: Navigator
+    private val adapter = SearchAdapter(onClickVH = { movieId ->
+        startDetailsFragment(movieId)
+    })
 
     // Debouncing
     private val handler = Handler(Looper.getMainLooper())
     private var searchRunnable: Runnable? = null
     private val DEBOUNCE_DELAY: Long = 300L
-
-    private val adapter = SearchAdapter(onClickVH = { movieId ->
-        startDetailsFragment(movieId)
-    })
 
 
     override fun onCreateView(
@@ -50,10 +51,10 @@ class SearchFragment : Fragment() {
         view: View,
         savedInstanceState: Bundle?
     ) {
-        viewModel.state().observe(viewLifecycleOwner, Observer { searchList ->
+        viewModel.state().observe(viewLifecycleOwner) { searchList ->
             adapter.submitList(searchList)
-            println("XXX SEARC FRAGMENT OBSERVING STATE: $searchList")
-        })
+            println("XXX SEARCH FRAGMENT OBSERVING STATE: $searchList")
+        }
 
 
         with(binding!!) {
@@ -85,7 +86,7 @@ class SearchFragment : Fragment() {
 
 
     private fun startDetailsFragment(movieId: Int) {
-        navigator.startDetailsFragment(requireActivity(), movieId)
+        navigator.startDetailsFragment(movieId)
     }
 
 }

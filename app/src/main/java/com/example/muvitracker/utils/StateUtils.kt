@@ -1,14 +1,12 @@
 package com.example.muvitracker.utils
 
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.TextView
 import com.example.muvitracker.R
 
 
 data class StateContainer<T>(
-    val isLoading: Boolean = false,
     val isNetworkError: Boolean = false,
     val isOtherError: Boolean = false,
     val data: T? = null
@@ -22,19 +20,6 @@ fun <T> StateContainer<T>.statesFlow(
     val context = errorMsg.context
 
     when {
-        isLoading -> { // OK
-            progressBar.visibility = View.VISIBLE
-            errorMsg.visibility = View.GONE
-            println("XXX  ES LOADING")
-        }
-
-        //isRefresh -> { // OK
-//    progressBar.visibility = View.GONE
-//    errorMsg.visibility = View.GONE
-//    insideScrollView?.visibility = View.GONE
-//    println("XXX  ES REFRESH")
-//}
-
         isNetworkError -> {
             progressBar.visibility = View.GONE
             errorMsg.visibility = View.VISIBLE

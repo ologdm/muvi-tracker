@@ -1,20 +1,18 @@
 package com.example.muvitracker.data.prefs
 
-import android.annotation.SuppressLint
-import android.content.Context
 import android.content.SharedPreferences
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import javax.inject.Inject
+import javax.inject.Singleton
 
 
-class PrefsLocalDS(
-    val context: Context
+@Singleton
+class PrefsLocalDS @Inject constructor(
+    private val gson: Gson,
+    private val sharedPreferences: SharedPreferences
 ) {
-    private val gson = Gson()
-    private val sharedPreferences: SharedPreferences =
-        context.getSharedPreferences("prefs_cache", Context.MODE_PRIVATE)
-
 
     // GET ######################################################
 
@@ -41,7 +39,7 @@ class PrefsLocalDS(
 
 
     private fun getListFromJson(jsonString: String): List<PrefsEntity> {
-        var listType = object : TypeToken<List<PrefsEntity>>() {}.type
+        val listType = object : TypeToken<List<PrefsEntity>>() {}.type
         return gson.fromJson(jsonString, listType) ?: emptyList()
     }
 
@@ -53,7 +51,7 @@ class PrefsLocalDS(
             val index = cache.indexOfFirst { it.movieId == movieId }
             if (index != -1) {
                 val current = cache[index]
-                cache.set(index, current.copy(liked = !current.liked))
+                cache[index] = current.copy(liked = !current.liked)
             } else {
                 cache.add(PrefsEntity(liked = true, watched = false, movieId = movieId))
             }
@@ -68,7 +66,7 @@ class PrefsLocalDS(
             val index = cache.indexOfFirst { it.movieId == movieId }
             if (index != -1) {
                 val current = cache[index]
-                cache.set(index, current.copy(watched = watched))
+                cache[index] = current.copy(watched = watched)
             } else {
                 cache.add(PrefsEntity(liked = false, watched = watched, movieId = movieId))
             }
@@ -82,7 +80,6 @@ class PrefsLocalDS(
             val cache = loadSharedList().toMutableList()
             val index = cache.indexOfFirst { it.movieId == movieId }
             if (index != -1) {
-                val current = cache[index]
                 cache.removeAt(index)
             }
             saveListInShared(cache)
@@ -92,8 +89,8 @@ class PrefsLocalDS(
 
 // ###########################################################################
 
-    @SuppressLint("ApplySharedPref")
-    fun saveListInShared(list: List<PrefsEntity>) {
+
+    private fun saveListInShared(list: List<PrefsEntity>) {
         synchronized(this) {
             sharedPreferences.edit()
                 .putString(PREFS_KEY_01, getJson(list))
@@ -107,17 +104,8 @@ class PrefsLocalDS(
     }
 
 
-    // ###########################################################################
     companion object {
         private const val PREFS_KEY_01 = "prefs_key_01"
-
-        private var instance: PrefsLocalDS? = null
-        fun getInstance(context: Context): PrefsLocalDS {
-            if (instance == null) {
-                instance = PrefsLocalDS(context)
-            }
-            return instance!!
-        }
     }
 
 }

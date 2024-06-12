@@ -16,7 +16,7 @@ fun Float.firstDecimalApproxToString(): String {
 
 
 // dateFormatter #########################
-// sdk 24 compatibile
+// sdk 24 compatible
 fun String.dateFormatterInMMMyyy(): String {
     val formatterInput = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)   // Input date format
     val formatterOutput = SimpleDateFormat("MMM yyyy", Locale.ENGLISH)    // Output date format

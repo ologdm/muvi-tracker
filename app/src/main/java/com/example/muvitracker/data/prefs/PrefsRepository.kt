@@ -1,23 +1,23 @@
 package com.example.muvitracker.data.prefs
 
-import android.content.Context
 import androidx.lifecycle.LiveData
 import com.example.muvitracker.data.detail.DetailLocalDS
 import com.example.muvitracker.data.detail.toDomain
 import com.example.muvitracker.domain.model.DetailMovie
+import com.example.muvitracker.domain.repo.PrefsRepo
 import com.example.muvitracker.utils.combineLatest
+import javax.inject.Inject
+import javax.inject.Singleton
 
-
-class PrefsRepository(
-    private val context: Context
-) {
-    private val prefsLocalDS = PrefsLocalDS.getInstance(context)
-    private val detailLocalDS = DetailLocalDS.getInstance(context)
-
+@Singleton
+class PrefsRepository @Inject constructor(
+    private val prefsLocalDS: PrefsLocalDS,
+    private val detailLocalDS: DetailLocalDS
+) : PrefsRepo {
 
     // GET ######################################################
 
-    fun getList(): LiveData<List<DetailMovie>> {
+    override fun getList(): LiveData<List<DetailMovie>> {
         return combineLatest(
             detailLocalDS.getLivedataList(),
             prefsLocalDS.liveDataList
@@ -33,33 +33,21 @@ class PrefsRepository(
 
 
     // SET ######################################################
-    fun toggleFavoriteOnDB(id: Int) {
+    override fun toggleFavoriteOnDB(id: Int) {
         // switch state on db
         prefsLocalDS.toggleFavoriteOnDB(id) // bypass
     }
 
 
-    fun updateWatchedOnDB(id: Int, watched: Boolean) {
+    override fun updateWatchedOnDB(id: Int, watched: Boolean) {
         // only update on db
-        prefsLocalDS.updateWatchedOnDB(id, watched) // bybass
+        prefsLocalDS.updateWatchedOnDB(id, watched) // bypass
     }
 
 
-    fun deleteItemOnDB(movieId: Int) {
+    override fun deleteItemOnDB(movieId: Int) {
         prefsLocalDS.deleteItemFromDB(movieId) // bypass
     }
 
 
-
-
-    // ######################################################
-    companion object {
-        private var instance: PrefsRepository? = null
-        fun getInstance(context: Context): PrefsRepository {
-            if (instance == null) {
-                instance = PrefsRepository(context)
-            }
-            return instance!!
-        }
-    }
 }

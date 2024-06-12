@@ -1,23 +1,20 @@
 package com.example.muvitracker.data.detail
 
-import android.content.Context
 import android.content.SharedPreferences
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import javax.inject.Inject
+import javax.inject.Singleton
 
 
-class DetailLocalDS
-private constructor(
-    private val context: Context
+@Singleton
+class DetailLocalDS @Inject constructor(
+    private val gson: Gson,
+    private val sharedPreferences: SharedPreferences
 ) {
-    private val gson = Gson()
-    private val sharedPreferences: SharedPreferences =
-        context.getSharedPreferences("detail_cache", Context.MODE_PRIVATE)
 
-
-// GET ####################################################################
-
+    // GET ####################################################################
     fun getLivedataList(): MutableLiveData<List<DetailEntity>> {
         val liveData = MutableLiveData<List<DetailEntity>>()
         liveData.value = loadSharedList() // first update
@@ -42,8 +39,7 @@ private constructor(
     }
 
 
-// SET ####################################################################
-
+    // SET ####################################################################
     fun addOrUpdateItem(inputEntity: DetailEntity) {
         val currentSharedList = loadSharedList().toMutableList()
         val index = currentSharedList.indexOfFirst { sharedEntity ->
@@ -73,16 +69,7 @@ private constructor(
     }
 
 
-    // ####################################################################
     companion object {
-        private var instance: DetailLocalDS? = null
-        fun getInstance(context: Context): DetailLocalDS {
-            if (instance == null) {
-                instance = DetailLocalDS(context)
-            }
-            return instance!!
-        }
-
         private const val DETAIL_KEY_01 = "detail_key_01"
     }
 }

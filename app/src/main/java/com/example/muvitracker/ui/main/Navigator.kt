@@ -6,12 +6,15 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.example.muvitracker.R
 import com.example.muvitracker.ui.main.detail.DetailFragment
+import javax.inject.Inject
 
 
-class Navigator {
+class Navigator @Inject constructor(
+    private val fragmentActivity: FragmentActivity
+) {
+
 
     fun replaceFragment(
-        fragmentActivity: FragmentActivity,
         fragment: Fragment
     ) {
         val manager: FragmentManager = fragmentActivity.supportFragmentManager
@@ -23,7 +26,6 @@ class Navigator {
 
 
     fun startDetailsFragment(
-        fragmentActivity: FragmentActivity,
         traktMovieId: Int
     ) {
         val manager = fragmentActivity.supportFragmentManager

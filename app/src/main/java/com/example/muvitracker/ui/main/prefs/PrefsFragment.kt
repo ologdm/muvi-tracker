@@ -4,25 +4,27 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.muvitracker.R
 import com.example.muvitracker.databinding.FragmPrefsBinding
 import com.example.muvitracker.ui.main.Navigator
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 
-class PrefsFragment() : Fragment() {
+@AndroidEntryPoint
+class PrefsFragment : Fragment() {
 
     private var _binding: FragmPrefsBinding? = null
     private val binding
         get() = _binding
-    private val viewModel by viewModels<PrefsViewModel>()
-    private val navigator = Navigator()
 
+    private val viewModel by viewModels<PrefsViewModel>()
+
+    @Inject
+    lateinit var navigator: Navigator
 
     private val adapter = PrefsAdapter(
         onClickVH = { movieId ->
@@ -54,9 +56,9 @@ class PrefsFragment() : Fragment() {
         binding?.recyclerView?.adapter = adapter
         binding?.recyclerView?.layoutManager = LinearLayoutManager(requireContext())
 
-        viewModel.preftList.observe(viewLifecycleOwner, Observer { list ->
+        viewModel.prefsList.observe(viewLifecycleOwner) { list ->
             adapter.submitList(list)
-        })
+        }
     }
 
 
@@ -70,7 +72,6 @@ class PrefsFragment() : Fragment() {
 
     private fun startDetailsFragment(movieId: Int) {
         navigator.startDetailsFragment(
-            requireActivity(),
             movieId
         )
     }
