@@ -78,30 +78,33 @@ class DetailFragment : Fragment() {
 
 
     // ###################################################################
-    private fun updateUi(detailmovie: DetailMovie) {
+    private fun updateUi(detailMovie: DetailMovie) {
         with(binding!!) {
-            val ratingApproximation = detailmovie.rating.firstDecimalApproxToString()
+            val ratingApproximation = detailMovie.rating.firstDecimalApproxToString()
 
-            title.text = detailmovie.title
-            released.text = detailmovie.released.dateFormatterInMMMyyy() // conversion
+            title.text = detailMovie.title
+            released.text = detailMovie.released.dateFormatterInMMMyyy() // conversion
             runtime.text =
-                getString(R.string.runtime_description, detailmovie.runtime.toString())  // string
-            country.text = detailmovie.country
+                getString(R.string.runtime_description, detailMovie.runtime.toString())  // string
+            country.text = detailMovie.country
             rating.text =
                 getString(R.string.rating_description, ratingApproximation) // conversion + string
-            overview.text = detailmovie.overview
+            overview.text = detailMovie.overview
 
             Glide.with(requireContext())
-                .load(detailmovie.imageUrl())
+                .load(detailMovie.imageUrl())
                 .transition(DrawableTransitionOptions.withCrossFade(500))
+                .placeholder(R.drawable.glide_placeholder_base)
+                .error(R.drawable.glide_placeholder_base)
                 .into(imageVertical)
             Glide.with(requireContext())
-                .load(detailmovie.imageUrl())
+                .load(detailMovie.imageUrl())
                 .transition(DrawableTransitionOptions.withCrossFade(500))
+                .placeholder(R.drawable.glide_placeholder_base)
                 .into(imageHorizontal)
 
             chipGroup.removeAllViews() // clean old
-            detailmovie.genres.forEach {
+            detailMovie.genres.forEach {
                 val chip = Chip(context).apply {
                     text = it
                 }
@@ -109,8 +112,8 @@ class DetailFragment : Fragment() {
             }
         }
 
-        updateFavoriteIcon(detailmovie.liked)
-        updateWatchedCheckbox(detailmovie.watched)
+        updateFavoriteIcon(detailMovie.liked)
+        updateWatchedCheckbox(detailMovie.watched)
     }
 
 

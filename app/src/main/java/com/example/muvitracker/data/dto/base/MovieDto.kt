@@ -14,6 +14,7 @@ fun MovieDto.toDomain(): Movie {
     return Movie(title, year, ids)
 }
 
+
 // ###################################################################
 // JSON Popular
  /* Popularity is calculated using the rating percentage and the number of ratings.

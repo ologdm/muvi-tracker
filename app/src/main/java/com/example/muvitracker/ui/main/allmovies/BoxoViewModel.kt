@@ -1,22 +1,19 @@
 package com.example.muvitracker.ui.main.allmovies
 
-import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
-import com.example.muvitracker.data.movies.MoviesRepository
 import com.example.muvitracker.domain.model.base.Movie
 import com.example.muvitracker.domain.repo.MoviesRepo
 import com.example.muvitracker.utils.IoResponse
 import com.example.muvitracker.utils.StateContainer
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 
 @HiltViewModel
 class BoxoViewModel @Inject constructor(
-    private val moviesRepository: MoviesRepository
+    private val moviesRepository: MoviesRepo
 ) : ViewModel() {
 
 //    private val movieRepository = MoviesRepository.getInstance(application) - getInstance?
@@ -27,14 +24,14 @@ class BoxoViewModel @Inject constructor(
             when (response) {
                 is IoResponse.Success -> {
                     StateContainer(
-                        isLoading = false,
+//                        isLoading = false,
                         data = response.dataValue
                     )
                 }
 
                 IoResponse.NetworkError -> {
                     StateContainer(
-                        isLoading = false,
+//                        isLoading = false,
                         isNetworkError = true,
                         data = moviesRepository.getBoxoCache()
                     )
@@ -42,7 +39,7 @@ class BoxoViewModel @Inject constructor(
 
                 IoResponse.OtherError -> {
                     StateContainer(
-                        isLoading = false,
+//                        isLoading = false,
                         isOtherError = true,
                         data = moviesRepository.getBoxoCache()
                     )

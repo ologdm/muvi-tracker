@@ -1,6 +1,5 @@
 package com.example.muvitracker.data.detail
 
-import android.content.Context
 import android.content.SharedPreferences
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
@@ -12,7 +11,7 @@ import javax.inject.Singleton
 @Singleton
 class DetailLocalDS @Inject constructor(
     private val gson: Gson,
-    private val sharedPreferences: SharedPreferences // provides, shared unico
+    private val sharedPreferences: SharedPreferences
 ) {
 
     // GET ####################################################################

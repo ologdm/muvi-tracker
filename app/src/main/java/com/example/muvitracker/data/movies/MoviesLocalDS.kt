@@ -1,5 +1,6 @@
 package com.example.muvitracker.data.movies
 
+import android.annotation.SuppressLint
 import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -51,19 +52,21 @@ class MoviesLocalDS @Inject constructor(
 
 
     private fun loadBoxoFromShared(): List<Movie> {
-        var jsonString = sharedPreferences.getString(BOXOFFICE_LIST_KEY, null)
+        val jsonString = sharedPreferences.getString(BOXOFFICE_LIST_KEY, null)
         return getListFromJson<Movie>(jsonString ?: "").orEmpty()
     }
 
 
     // SET ###########################################################################
 
+    @SuppressLint("ApplySharedPref")
     fun savePopularInLocal(list: List<Movie>) {
         sharedPreferences.edit()
             .putString(POPULAR_LIST_KEY, list.getJson())
             .commit()
     }
 
+    @SuppressLint("ApplySharedPref")
     fun saveBoxoInLocal(list: List<Movie>) {
         sharedPreferences.edit()
             .putString(BOXOFFICE_LIST_KEY, list.getJson())
@@ -74,7 +77,7 @@ class MoviesLocalDS @Inject constructor(
     // CONVERTERS ##################################################################
 
     // TODO kotlin style
-    private inline fun <reified T> getListFromJson(jsonString: String): List<T>? {
+    private inline fun <reified T> getListFromJson(jsonString: String): List<T> {
         val listType = object : TypeToken<List<T>>() {}.type
         val list: List<T> = gson.fromJson(jsonString, listType) ?: emptyList()
         return list

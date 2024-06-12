@@ -13,11 +13,12 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity() : AppCompatActivity(R.layout.activity_main) {
+class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
     private lateinit var bottomNavigationView: BottomNavigationView
+
     @Inject
-    lateinit var navigator :Navigator
+    lateinit var navigator: Navigator
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,7 +26,7 @@ class MainActivity() : AppCompatActivity(R.layout.activity_main) {
 
         bottomNavigationView = findViewById(R.id.bottomNavigation)
 
-        navigator.replaceFragment( PopularFragment())
+        navigator.replaceFragment(PopularFragment())
 
         bottomNavigationView.setOnItemSelectedListener(
             NavigationBarView.OnItemSelectedListener { item ->

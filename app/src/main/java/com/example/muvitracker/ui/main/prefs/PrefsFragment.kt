@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.muvitracker.databinding.FragmPrefsBinding
 import com.example.muvitracker.ui.main.Navigator
@@ -16,15 +15,16 @@ import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class PrefsFragment() : Fragment() {
+class PrefsFragment : Fragment() {
 
     private var _binding: FragmPrefsBinding? = null
     private val binding
         get() = _binding
 
     private val viewModel by viewModels<PrefsViewModel>()
+
     @Inject
-    lateinit var navigator :Navigator
+    lateinit var navigator: Navigator
 
     private val adapter = PrefsAdapter(
         onClickVH = { movieId ->
@@ -56,9 +56,9 @@ class PrefsFragment() : Fragment() {
         binding?.recyclerView?.adapter = adapter
         binding?.recyclerView?.layoutManager = LinearLayoutManager(requireContext())
 
-        viewModel.prefsList.observe(viewLifecycleOwner, Observer { list ->
+        viewModel.prefsList.observe(viewLifecycleOwner) { list ->
             adapter.submitList(list)
-        })
+        }
     }
 
 

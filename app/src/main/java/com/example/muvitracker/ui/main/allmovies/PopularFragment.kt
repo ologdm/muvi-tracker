@@ -46,6 +46,8 @@ class PopularFragment : Fragment() {
     ) {
         viewModel.getMovies().observe(viewLifecycleOwner) { state ->
             adapter.submitList(state.data)
+            binding!!.progressBar.visibility = View.VISIBLE
+
             state.statesFlow(
                 progressBar = binding!!.progressBar,
                 errorMsg = binding!!.errorTextView,

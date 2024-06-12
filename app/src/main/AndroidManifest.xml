@@ -41,10 +41,4 @@
 <!--    <uses-permission android:name="android.permission.CAMERA" />-->
 
 
-    <!--  area superiore schermo, non funziona, da 16:9 a 2:1 -->
-<!--    <meta-data-->
-<!--            android:name="android.max_aspect"-->
-<!--            android:value="ratio_float" />-->
-
-
 </manifest>

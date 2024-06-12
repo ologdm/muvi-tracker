@@ -3,14 +3,14 @@ package com.example.muvitracker.ui.main.search
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.switchMap
-import com.example.muvitracker.data.search.SearchRepository
+import com.example.muvitracker.domain.repo.SearchRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val searchRepository: SearchRepository
+    private val searchRepository: SearchRepo
 ) : ViewModel() {
 
     private val searchLivedata = MutableLiveData("")

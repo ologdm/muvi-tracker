@@ -5,7 +5,6 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Callback
@@ -16,20 +15,19 @@ import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 
-@Module //-> è una modulo
-@InstallIn(SingletonComponent::class) //-> installa nel modulo singleton component
+@Module
+@InstallIn(SingletonComponent::class)
 object RetrofitModule {
 
-    // TODO function that return TraktApi OK
-    @Provides //->genera un tipo
-    @Singleton //->nel modulo singleton
+    @Provides
+    @Singleton
     fun getApi(): TraktApi {
         val retrofit = Retrofit.Builder()
             .baseUrl("https://api.trakt.tv/")
             .addConverterFactory(GsonConverterFactory.create())
             .callFactory(
                 OkHttpClient.Builder()
-                    .addInterceptor(Interceptor { chain ->
+                    .addInterceptor { chain ->
                         val newRequest = chain.request().newBuilder()
                             .addHeader(
                                 "trakt-api-key",
@@ -37,19 +35,18 @@ object RetrofitModule {
                             )
                             .build()
                         chain.proceed(newRequest)
-                    })
+                    }
                     .build()
             )
             .build()
 
-//    val traktApi: TraktApi = retrofit.create(TraktApi::class.java)
         return retrofit.create(TraktApi::class.java)
-
     }
 }
 
 
-// EXTENSION FUNCTION
+// ######################################################################
+
 fun <T> Call<T>.startNetworkCall(onResponse: (IoResponse<T>) -> Unit) {
 
     this.enqueue(object : Callback<T> {

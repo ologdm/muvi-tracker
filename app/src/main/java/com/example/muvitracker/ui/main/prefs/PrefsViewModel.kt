@@ -1,14 +1,14 @@
 package com.example.muvitracker.ui.main.prefs
 
 import androidx.lifecycle.ViewModel
-import com.example.muvitracker.data.prefs.PrefsRepository
 import com.example.muvitracker.domain.model.DetailMovie
+import com.example.muvitracker.domain.repo.PrefsRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class PrefsViewModel @Inject constructor(
-    private val prefsRepository: PrefsRepository
+    private val prefsRepository: PrefsRepo
 ) : ViewModel() {
 
     val prefsList = prefsRepository.getList()
