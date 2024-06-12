@@ -14,21 +14,21 @@ import com.example.muvitracker.utils.IoResponse
 import com.example.muvitracker.utils.combineLatest
 import com.example.muvitracker.utils.concat
 import com.example.muvitracker.utils.ioMapper
+import javax.inject.Inject
+import javax.inject.Singleton
 
-
-class DetailRepository
-private constructor(
-    private val context: Context
+@Singleton
+class DetailRepository @Inject constructor(
+    private val detailLocalDS :DetailLocalDS,
+    private val detailNetworkDS: DetailNetworkDS,
+    private val prefsLocalDS: PrefsLocalDS
 ) {
-    private val detailsLocalDS = DetailLocalDS.getInstance(context)
-    private val prefsLocalDS = PrefsLocalDS.getInstance(context)
 
 
 // GET ###########################################################################
-
     fun getDetailMovie(movieId: Int): LiveData<IoResponse<DetailMovie?>> {
         val localLiveData = combineLatest(
-            detailsLocalDS.getLivedataList(),
+            detailLocalDS.getLivedataList(),
             prefsLocalDS.liveDataList,
             combiner = { detailEntities, prefsEntities ->
                 val movieEntity = detailEntities.find { detailEntity ->
@@ -61,7 +61,7 @@ private constructor(
         onResponse: (IoResponse<DetailMovie>) -> Unit
     ) {
 
-        DetailNetworkDS.callDetailServer(
+        detailNetworkDS.callDetailServer(
             movieId,
             onResponse = { retrofitResponse ->
                 // 1
@@ -74,22 +74,12 @@ private constructor(
 
                 // 2. Success, add also on db
                 if (retrofitResponse is IoResponse.Success) {
-                    detailsLocalDS.addOrUpdateItem(retrofitResponse.dataValue.toEntity())
+                    detailLocalDS.addOrUpdateItem(retrofitResponse.dataValue.toEntity())
                 }
             }
         )
     }
 
-
-    companion object {
-        private var instance: DetailRepository? = null
-        fun getInstance(context: Context): DetailRepository {
-            if (instance == null) {
-                instance = DetailRepository(context)
-            }
-            return instance!!
-        }
-    }
 
 }
 

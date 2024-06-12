@@ -1,24 +1,29 @@
 package com.example.muvitracker.ui.main.allmovies
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
+import android.content.Context
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
 import com.example.muvitracker.data.movies.MoviesRepository
 import com.example.muvitracker.domain.model.base.Movie
+import com.example.muvitracker.domain.repo.MoviesRepo
 import com.example.muvitracker.utils.IoResponse
 import com.example.muvitracker.utils.StateContainer
+import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
 
 
-class BoxoViewModel(
-    private val application: Application,
-) : AndroidViewModel(application) {
+@HiltViewModel
+class BoxoViewModel @Inject constructor(
+    private val moviesRepository: MoviesRepository
+) : ViewModel() {
 
-    private val movieRepository = MoviesRepository.getInstance(application)
+//    private val movieRepository = MoviesRepository.getInstance(application) - getInstance?
 
 
     fun getMovies(): LiveData<StateContainer<List<Movie>>> {
-        return movieRepository.getBoxoMovies().map { response ->
+        return moviesRepository.getBoxoMovies().map { response ->
             when (response) {
                 is IoResponse.Success -> {
                     StateContainer(
@@ -31,7 +36,7 @@ class BoxoViewModel(
                     StateContainer(
                         isLoading = false,
                         isNetworkError = true,
-                        data = movieRepository.getBoxoCache()
+                        data = moviesRepository.getBoxoCache()
                     )
                 }
 
@@ -39,7 +44,7 @@ class BoxoViewModel(
                     StateContainer(
                         isLoading = false,
                         isOtherError = true,
-                        data = movieRepository.getBoxoCache()
+                        data = moviesRepository.getBoxoCache()
                     )
                 }
             }

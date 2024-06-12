@@ -3,9 +3,10 @@
         xmlns:tools="http://schemas.android.com/tools">
 
 
-    <uses-feature
-            android:name="android.hardware.camera"
-            android:required="false" />
+<!--    <uses-feature-->
+<!--            android:name="android.hardware.camera"-->
+<!--            android:required="false" />-->
+
 
     <application
             android:allowBackup="true"
@@ -17,7 +18,8 @@
             android:supportsRtl="true"
             android:theme="@style/Theme.MuviTracker"
             tools:targetApi="31"
-            android:usesCleartextTraffic="true">
+            android:usesCleartextTraffic="true"
+            android:name=".App">
 
 
         <activity
@@ -33,9 +35,11 @@
 
     </application>
 
+
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.CAMERA" />
+<!--    <uses-permission android:name="android.permission.CAMERA" />-->
+
 
     <!--  area superiore schermo, non funziona, da 16:9 a 2:1 -->
 <!--    <meta-data-->

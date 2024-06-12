@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.muvitracker.R
 import com.example.muvitracker.databinding.FragmDetailBinding
 import com.example.muvitracker.domain.model.DetailMovie
@@ -14,15 +15,16 @@ import com.example.muvitracker.utils.dateFormatterInMMMyyy
 import com.example.muvitracker.utils.firstDecimalApproxToString
 import com.example.muvitracker.utils.statesFlow
 import com.google.android.material.chip.Chip
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class DetailFragment : Fragment() {
 
     private var currentMovieId: Int = 0
-
     private var _binding: FragmDetailBinding? = null
     private val binding
         get() = _binding
+
     private val viewModel by viewModels<DetailViewModel>()
 
 
@@ -91,9 +93,11 @@ class DetailFragment : Fragment() {
 
             Glide.with(requireContext())
                 .load(detailmovie.imageUrl())
+                .transition(DrawableTransitionOptions.withCrossFade(500))
                 .into(imageVertical)
             Glide.with(requireContext())
                 .load(detailmovie.imageUrl())
+                .transition(DrawableTransitionOptions.withCrossFade(500))
                 .into(imageHorizontal)
 
             chipGroup.removeAllViews() // clean old

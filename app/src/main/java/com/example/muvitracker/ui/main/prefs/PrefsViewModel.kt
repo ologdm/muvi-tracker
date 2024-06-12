@@ -1,18 +1,18 @@
 package com.example.muvitracker.ui.main.prefs
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
 import com.example.muvitracker.data.prefs.PrefsRepository
 import com.example.muvitracker.domain.model.DetailMovie
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class PrefsViewModel(
-    private val application: Application
-) : AndroidViewModel(application) {
+@HiltViewModel
+class PrefsViewModel @Inject constructor(
+    private val prefsRepository: PrefsRepository
+) : ViewModel() {
 
-    private val prefsRepository = PrefsRepository.getInstance(application)
+    val prefsList = prefsRepository.getList()
 
-
-    val preftList = prefsRepository.getList()
 
     fun toggleFovoriteItem(itemToToggle: DetailMovie) {
         prefsRepository.toggleFavoriteOnDB(itemToToggle.ids.trakt) // bypass

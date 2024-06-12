@@ -45,7 +45,7 @@
 
     <style name="RecyclerView_BaseCategory">
         <item name="android:paddingStart">8dp</item>
-        <item name="android:paddingEnd">16dp</item>
+        <item name="android:paddingEnd">8dp</item>
         <item name="android:paddingTop">16dp</item>
         <item name="android:paddingBottom">16dp</item>
         <item name="android:clipToPadding">true</item>

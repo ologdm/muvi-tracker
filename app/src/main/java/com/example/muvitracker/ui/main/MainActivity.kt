@@ -9,12 +9,15 @@ import com.example.muvitracker.ui.main.prefs.PrefsFragment
 import com.example.muvitracker.ui.main.search.SearchFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationBarView
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-
+@AndroidEntryPoint
 class MainActivity() : AppCompatActivity(R.layout.activity_main) {
 
     private lateinit var bottomNavigationView: BottomNavigationView
-    val navigator = Navigator()
+    @Inject
+    lateinit var navigator :Navigator
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,7 +25,7 @@ class MainActivity() : AppCompatActivity(R.layout.activity_main) {
 
         bottomNavigationView = findViewById(R.id.bottomNavigation)
 
-        navigator.replaceFragment(this, PopularFragment())
+        navigator.replaceFragment( PopularFragment())
 
         bottomNavigationView.setOnItemSelectedListener(
             NavigationBarView.OnItemSelectedListener { item ->
@@ -30,7 +33,6 @@ class MainActivity() : AppCompatActivity(R.layout.activity_main) {
 
                 if (clickedId == R.id.buttonPopular) {
                     navigator.replaceFragment(
-                        this@MainActivity,
                         PopularFragment()
                     )
                     return@OnItemSelectedListener true
@@ -38,7 +40,6 @@ class MainActivity() : AppCompatActivity(R.layout.activity_main) {
 
                 if (clickedId == R.id.buttonBoxoffice) {
                     navigator.replaceFragment(
-                        this@MainActivity,
                         BoxoFragment()
                     )
                     return@OnItemSelectedListener true
@@ -46,7 +47,6 @@ class MainActivity() : AppCompatActivity(R.layout.activity_main) {
 
                 if (clickedId == R.id.buttonMyList) {
                     navigator.replaceFragment(
-                        this@MainActivity,
                         PrefsFragment()
                     )
                     return@OnItemSelectedListener true
@@ -54,7 +54,6 @@ class MainActivity() : AppCompatActivity(R.layout.activity_main) {
 
                 if (clickedId == R.id.buttonSearch) {
                     navigator.replaceFragment(
-                        this@MainActivity,
                         SearchFragment()
                     )
                     return@OnItemSelectedListener true

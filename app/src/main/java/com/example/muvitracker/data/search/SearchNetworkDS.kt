@@ -1,6 +1,6 @@
 package com.example.muvitracker.data.search
 
-import com.example.muvitracker.data.RetrofitUtils
+import com.example.muvitracker.data.RetrofitModule
 import com.example.muvitracker.data.TraktApi
 import com.example.muvitracker.data.dto.SearchDto
 import com.example.muvitracker.utils.IoResponse
@@ -8,11 +8,14 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.HttpException
 import retrofit2.Response
+import javax.inject.Inject
+import javax.inject.Singleton
 
 
-object SearchNetworkDS {
-
-    private val traktApi: TraktApi = RetrofitUtils.traktApi
+@Singleton
+class SearchNetworkDS @Inject constructor(
+    private val traktApi: TraktApi
+) {
 
 
     fun getServer(

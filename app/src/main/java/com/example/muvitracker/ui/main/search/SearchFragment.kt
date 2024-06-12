@@ -15,25 +15,29 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.muvitracker.databinding.FragmSearchBinding
 import com.example.muvitracker.ui.main.Navigator
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 
+@AndroidEntryPoint
 class SearchFragment : Fragment() {
 
     private var _binding: FragmSearchBinding? = null
     private val binding
         get() = _binding
 
-    private val navigator = Navigator()
     private val viewModel by viewModels<SearchViewModel>()
+
+    @Inject
+    lateinit var navigator: Navigator
+    private val adapter = SearchAdapter(onClickVH = { movieId ->
+        startDetailsFragment(movieId)
+    })
 
     // Debouncing
     private val handler = Handler(Looper.getMainLooper())
     private var searchRunnable: Runnable? = null
     private val DEBOUNCE_DELAY: Long = 300L
-
-    private val adapter = SearchAdapter(onClickVH = { movieId ->
-        startDetailsFragment(movieId)
-    })
 
 
     override fun onCreateView(
@@ -85,7 +89,7 @@ class SearchFragment : Fragment() {
 
 
     private fun startDetailsFragment(movieId: Int) {
-        navigator.startDetailsFragment(requireActivity(), movieId)
+        navigator.startDetailsFragment(movieId)
     }
 
 }

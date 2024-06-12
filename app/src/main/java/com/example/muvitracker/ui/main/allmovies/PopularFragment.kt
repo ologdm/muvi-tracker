@@ -13,18 +13,18 @@ import com.example.muvitracker.ui.main.Navigator
 import com.example.muvitracker.ui.main.allmovies.base.MovieAdapter
 import com.example.muvitracker.utils.statesFlow
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-
+@AndroidEntryPoint
 class PopularFragment : Fragment() {
 
     private var _binding: FragmBaseCategoryBinding? = null
     private val binding
         get() = _binding
 
-    private val navigator = Navigator()
-
+    @Inject
+    lateinit var navigator :Navigator
     private val viewModel by viewModels<PopularViewModel>()
-
     private val adapter = MovieAdapter(onClickVH = { movieId ->
         startDetailsFragment(movieId)
     })
@@ -69,7 +69,6 @@ class PopularFragment : Fragment() {
 
     private fun startDetailsFragment(movieId: Int) {
         navigator.startDetailsFragment(
-            requireActivity(),
             movieId
         )
     }

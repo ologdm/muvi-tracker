@@ -6,14 +6,14 @@ import com.example.muvitracker.data.detail.DetailLocalDS
 import com.example.muvitracker.data.detail.toDomain
 import com.example.muvitracker.domain.model.DetailMovie
 import com.example.muvitracker.utils.combineLatest
+import javax.inject.Inject
 
 
-class PrefsRepository(
-    private val context: Context
+class PrefsRepository @Inject constructor(
+    private val prefsLocalDS: PrefsLocalDS,
+    private val detailLocalDS: DetailLocalDS
+
 ) {
-    private val prefsLocalDS = PrefsLocalDS.getInstance(context)
-    private val detailLocalDS = DetailLocalDS.getInstance(context)
-
 
     // GET ######################################################
 
@@ -50,16 +50,4 @@ class PrefsRepository(
     }
 
 
-
-
-    // ######################################################
-    companion object {
-        private var instance: PrefsRepository? = null
-        fun getInstance(context: Context): PrefsRepository {
-            if (instance == null) {
-                instance = PrefsRepository(context)
-            }
-            return instance!!
-        }
-    }
 }

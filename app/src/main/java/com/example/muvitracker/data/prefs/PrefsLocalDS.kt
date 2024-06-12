@@ -6,15 +6,13 @@ import android.content.SharedPreferences
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import javax.inject.Inject
 
 
-class PrefsLocalDS(
-    val context: Context
+class PrefsLocalDS @Inject constructor(
+    private val gson: Gson,
+    private val sharedPreferences: SharedPreferences
 ) {
-    private val gson = Gson()
-    private val sharedPreferences: SharedPreferences =
-        context.getSharedPreferences("prefs_cache", Context.MODE_PRIVATE)
-
 
     // GET ######################################################
 
@@ -92,7 +90,7 @@ class PrefsLocalDS(
 
 // ###########################################################################
 
-    @SuppressLint("ApplySharedPref")
+
     fun saveListInShared(list: List<PrefsEntity>) {
         synchronized(this) {
             sharedPreferences.edit()
@@ -107,17 +105,8 @@ class PrefsLocalDS(
     }
 
 
-    // ###########################################################################
     companion object {
         private const val PREFS_KEY_01 = "prefs_key_01"
-
-        private var instance: PrefsLocalDS? = null
-        fun getInstance(context: Context): PrefsLocalDS {
-            if (instance == null) {
-                instance = PrefsLocalDS(context)
-            }
-            return instance!!
-        }
     }
 
 }
