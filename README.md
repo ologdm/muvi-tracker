@@ -1,9 +1,8 @@
 # MuviTracker
 
 Movie tracking android application based on [Trakt API](https://trakt.docs.apiary.io/#).
-The app relies entirely on LiveData to update data, includes data caching for better performance, 
+The app is partially written in kotlin coroutines, use Dagger for DI, includes data caching for better performance 
 and follows the principles of Clean Architecture.
-
 
 ## Features
 - Explore popular and box-office movies
@@ -24,10 +23,13 @@ and follows the principles of Clean Architecture.
 ## Tech stack & open-source libraries
 - Min SDK level 24
 - Entirely written in [Kotlin](https://kotlinlang.org/) (previously Java)
+- [Kotlin Coroutines](https://github.com/Kotlin/kotlinx.coroutines)
+- [Dagger](https://github.com/google/dagger/)
 - MVVM Architecture (previously MVP)
 - [Retrofit](https://github.com/square/retrofit) - Construct the REST APIs
 - [Gson](https://github.com/google/gson) - convert Java Objects into their JSON representation
 - SharedPreferences - Storage and Caching
+- [Store 4](https://github.com/MobileNativeFoundation/Store) - Caching manager for coroutines
 - [Glide](https://github.com/bumptech/glide) - Loading images 
 - [Material Design 3](https://m3.material.io/)
 - Androidx
@@ -39,8 +41,6 @@ and follows the principles of Clean Architecture.
 
 ## What's next?
 
-- Dependency Injection using [Dagger](https://github.com/google/dagger)
-- [Coroutines](https://github.com/Kotlin/kotlinx.coroutines) for asynchronous programming
 - Pagination using androidx [Paging3](https://developer.android.com/topic/libraries/architecture/paging/v3-overview)
 - Animations and other graphic features
 - Features
