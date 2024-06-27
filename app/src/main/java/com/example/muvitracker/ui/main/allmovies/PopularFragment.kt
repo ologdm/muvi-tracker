@@ -23,7 +23,7 @@ class PopularFragment : Fragment() {
         get() = _binding
 
     @Inject
-    lateinit var navigator :Navigator
+    lateinit var navigator: Navigator
     private val viewModel by viewModels<PopularViewModel>()
     private val adapter = MovieAdapter(onClickVH = { movieId ->
         startDetailsFragment(movieId)
@@ -44,13 +44,12 @@ class PopularFragment : Fragment() {
         view: View,
         savedInstanceState: Bundle?
     ) {
-        viewModel.getMovies().observe(viewLifecycleOwner) { state ->
+        viewModel.state.observe(viewLifecycleOwner) { state ->
             adapter.submitList(state.data)
-            binding!!.progressBar.visibility = View.VISIBLE
 
             state.statesFlow(
-                progressBar = binding!!.progressBar,
-                errorMsg = binding!!.errorTextView,
+                null,
+                errorTextview = binding!!.errorTextView,
             )
             println("XXX OBSERVING STATE: $state")
         }

@@ -45,7 +45,6 @@ object RetrofitModule {
 }
 
 
-// ######################################################################
 
 fun <T> Call<T>.startNetworkCall(onResponse: (IoResponse<T>) -> Unit) {
 

@@ -25,6 +25,7 @@ class DetailRepository @Inject constructor(
     private val traktApi: TraktApi
 ) :DetailRepo {
 
+    // dammi il film specifico da listaDetails
     // GET ###########################################################################
     override fun getDetailMovie(movieId: Int): LiveData<IoResponse<DetailMovie?>> {
         val localLiveData = combineLatest(

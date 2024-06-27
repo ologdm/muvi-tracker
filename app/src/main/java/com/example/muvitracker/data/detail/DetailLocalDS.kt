@@ -40,6 +40,7 @@ class DetailLocalDS @Inject constructor(
 
 
     // SET ####################################################################
+
     fun addOrUpdateItem(inputEntity: DetailEntity) {
         val currentSharedList = loadSharedList().toMutableList()
         val index = currentSharedList.indexOfFirst { sharedEntity ->

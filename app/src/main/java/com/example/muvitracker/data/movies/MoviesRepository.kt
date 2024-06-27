@@ -11,69 +11,50 @@ import com.example.muvitracker.data.dto.toDomain
 import com.example.muvitracker.data.startNetworkCall
 import com.example.muvitracker.domain.repo.MoviesRepo
 import com.example.muvitracker.utils.IoResponse
+import com.example.muvitracker.utils.IoResponse2
 import com.example.muvitracker.utils.concat
 import com.example.muvitracker.utils.ioMapper
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
 
 
 @Singleton
 class MoviesRepository @Inject constructor(
-    private val moviesLocalDS: MoviesLocalDS,
     private val api: TraktApi,
-) :MoviesRepo {
+    private val moviesDS: MoviesDS
+) : MoviesRepo {
 
-    // POPULAR ################################################################################
-
-    override fun getPopularMovies(): LiveData<IoResponse<List<Movie>>> {
-        val localLivedata = MutableLiveData<IoResponse<List<Movie>>>()
-        val localMovies = moviesLocalDS.getPopularLivedataList().value.orEmpty()
-        localLivedata.value = IoResponse.success(localMovies)
-
-        val networkLivedata = MutableLiveData<IoResponse<List<Movie>>>()
-        api.getPopularMovies().startNetworkCall { retrofitResponse ->
-            val ioMapper = retrofitResponse.ioMapper { listDto ->
-                val mapperList = listDto.map { it.toDomain() }
-                moviesLocalDS.savePopularInLocal(mapperList) // SALVA IN LOCALE
-                mapperList
+    //coroutines ####################################################################
+    override
+    fun getPopularMoviesFLow(): Flow<IoResponse2<List<Movie>>> {
+        return moviesDS.getPopularStoreStream().map { response ->
+            response.ioMapper {
+                it.map {dto->
+                    dto.toDomain() }
             }
-            networkLivedata.value = ioMapper
         }
-
-        return concat(
-            localLivedata,
-            networkLivedata
-        ).distinctUntilChanged()
-    }
-
-    override fun getPopularCache(): List<Movie> {
-        return moviesLocalDS.getPopularLivedataList().value.orEmpty()
     }
 
 
-    // BOXOFFICE #######################################################################################
-    override fun getBoxoMovies(): LiveData<IoResponse<List<Movie>>> {
-        val localLivedata = MutableLiveData<IoResponse<List<Movie>>>()
-        val localMovies = moviesLocalDS.getBoxoLivedataList().value.orEmpty()
-        localLivedata.value = IoResponse.success(localMovies)
-
-        val networkLivedata = MutableLiveData<IoResponse<List<Movie>>>()
-        api.getBoxoMovies().startNetworkCall { retrofitResponse ->
-            val ioMapper = retrofitResponse.ioMapper { listDto ->
-                val mapperList = listDto.map { it.toDomain() }
-                moviesLocalDS.saveBoxoInLocal(mapperList) // save on db
-                mapperList
+    override
+    fun getBoxoMoviesFLow(): Flow<IoResponse2<List<Movie>>> {
+        return moviesDS.getBoxoStoreStream().map { response ->
+           println("XXX REPO BOXOFUN FLOW CHECK")
+            response.ioMapper {
+                it.map {dto->
+                    dto.toDomain() }
             }
-            networkLivedata.value = ioMapper
         }
-        return concat(
-            localLivedata,
-            networkLivedata
-        ).distinctUntilChanged()
     }
 
 
-    override fun getBoxoCache(): List<Movie> {
-        return moviesLocalDS.getBoxoLivedataList().value.orEmpty()
-    }
 }
+
+
+
+
+
+
+

@@ -7,40 +7,37 @@ import com.example.muvitracker.R
 
 
 data class StateContainer<T>(
-    val isNetworkError: Boolean = false,
-    val isOtherError: Boolean = false,
-    val data: T? = null
+    var isNetworkError: Boolean = false,
+    var isOtherError: Boolean = false,
+    var data: T? = null
 )
 
 
 fun <T> StateContainer<T>.statesFlow(
-    progressBar: ProgressBar,
-    errorMsg: TextView,
+    progressBar: ProgressBar?,
+    errorTextview: TextView,
 ) {
-    val context = errorMsg.context
+    val context = errorTextview.context
 
     when {
         isNetworkError -> {
-            progressBar.visibility = View.GONE
-            errorMsg.visibility = View.VISIBLE
-            errorMsg.text = context.getString(R.string.error_message_no_internet)
+            progressBar?.visibility = View.GONE
+            errorTextview.visibility = View.VISIBLE
+            errorTextview.text = context.getString(R.string.error_message_no_internet)
             println("XXX  ES NET ERROR")
         }
 
         isOtherError -> {
-            progressBar.visibility = View.GONE
-            errorMsg.visibility = View.VISIBLE
-            errorMsg.text = context.getString(R.string.error_message_other)
+            progressBar?.visibility = View.GONE
+            errorTextview.visibility = View.VISIBLE
+            errorTextview.text = context.getString(R.string.error_message_other)
             println("XXX  ES OTHER ERROR")
         }
 
         else -> { // implicit success
-            progressBar.visibility = View.GONE
-            errorMsg.visibility = View.GONE
+            progressBar?.visibility = View.GONE
+            errorTextview.visibility = View.GONE
             println("XXX ES SUCCESS(ELSE)")
         }
     }
 }
-
-
-
