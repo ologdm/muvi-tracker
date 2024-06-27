@@ -8,14 +8,18 @@ import com.example.muvitracker.data.startNetworkCall
 import com.example.muvitracker.domain.model.SearchResult
 import com.example.muvitracker.domain.repo.SearchRepo
 import com.example.muvitracker.utils.IoResponse
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.coroutines.cancellation.CancellationException
 
 
 @Singleton
 class SearchRepository @Inject constructor(
     private val traktApi: TraktApi
-) :SearchRepo {
+) : SearchRepo {
+
 
     override fun getNetworkResult(queryText: String): LiveData<List<SearchResult>> {
         val liveData = MutableLiveData<List<SearchResult>>()
@@ -34,7 +38,6 @@ class SearchRepository @Inject constructor(
             }
         return liveData
     }
-
 
 }
 

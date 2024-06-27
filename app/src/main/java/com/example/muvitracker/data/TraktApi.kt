@@ -12,29 +12,23 @@ import retrofit2.http.Query
 
 interface TraktApi {
 
-
+    // coroutines
     @GET("movies/popular")
-    fun getPopularMovies(): Call<List<MovieDto>>
-
+    suspend fun getPopularMoviesTest()
+            : List<MovieDto>
 
     @GET("movies/boxoffice")
-    fun getBoxoMovies()
-            : Call<List<BoxoDto>>
+    suspend fun getBoxoMoviesTest()
+            : List<BoxoDto>
 
-
+    // calls
     @GET("movies/{movie_id}?extended=full")  // with mobile path
     fun getMovieDetails(@Path("movie_id") movieId: Int)
             : Call<DetailDto>
 
-
     @GET("search/movie")  // with mobile query
     fun getSearch(@Query("query") searchString: String)
             : Call<List<SearchDto>>
-
-
-    // Coroutines ################################################
-    @GET("movies/popular")
-    suspend fun getPopularMoviesFun(): List<MovieDto>
 
 
 }

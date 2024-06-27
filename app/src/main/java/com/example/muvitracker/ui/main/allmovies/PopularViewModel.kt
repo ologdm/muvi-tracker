@@ -11,6 +11,7 @@ import com.example.muvitracker.utils.StateContainer
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.io.IOException
 import javax.inject.Inject
@@ -25,39 +26,35 @@ class PopularViewModel @Inject constructor(
     val state: LiveData<StateContainer<List<Movie>>> get() = _state //read only
 
     init {
-        getMoviesFlow()
+        loadMovies()
     }
 
 
     // coroutines ####################################################
-    private fun getMoviesFlow() {
+    private fun loadMovies() {
         viewModelScope.launch {
+            var maintainedData: List<Movie>? = null
             moviesRepository.getPopularMoviesFLow()
-                .catch { // prima di collectLatest
+                .catch {
                     it.printStackTrace()
                 }
-                .collectLatest { response ->
-                    var maintainedData: List<Movie>? = null
+                .map { response ->
                     when (response) {
                         is IoResponse2.Success -> {
-                            _state.value = StateContainer(data = response.dataValue)
                             maintainedData = response.dataValue
+                            StateContainer(data = response.dataValue)
                         }
 
                         is IoResponse2.Error -> {
                             if (response.t is IOException) {
-                                _state.value = StateContainer(
-                                    data = maintainedData,
-                                    isNetworkError = true
-                                    )
-                            } else if (response.t == Throwable()) {
-                                _state.value = StateContainer(
-                                    data = maintainedData,
-                                    isOtherError = true
-                                )
+                                StateContainer(data = maintainedData, isNetworkError = true)
+                            } else {
+                                StateContainer(data = maintainedData, isOtherError = true)
                             }
                         }
                     }
+                }.collectLatest {
+                    _state.value = it
                 }
         }
     }

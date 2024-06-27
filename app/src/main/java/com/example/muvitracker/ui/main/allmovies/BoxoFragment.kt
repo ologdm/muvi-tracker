@@ -45,12 +45,14 @@ class BoxoFragment : Fragment() {
         view: View,
         savedInstanceState: Bundle?
     ) {
-        viewModel.getMovies().observe(viewLifecycleOwner) {state->
+        viewModel.state.observe(viewLifecycleOwner) {state->
             adapter.submitList(state.data)
+
             state.statesFlow(
-                progressBar = binding!!.progressBar,
-                errorMsg = binding!!.errorTextView
+                null,
+                errorTextview = binding!!.errorTextView
             )
+            println("XXX OBSERVING STATE: $state")
         }
 
         with(binding!!) {

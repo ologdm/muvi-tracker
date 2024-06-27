@@ -44,25 +44,21 @@ class PopularFragment : Fragment() {
         view: View,
         savedInstanceState: Bundle?
     ) {
-
         viewModel.state.observe(viewLifecycleOwner) { state ->
             adapter.submitList(state.data)
-            binding!!.progressBar.visibility = View.VISIBLE
 
             state.statesFlow(
                 null,
-                errorMsg = binding!!.errorTextView,
+                errorTextview = binding!!.errorTextView,
             )
             println("XXX OBSERVING STATE: $state")
         }
-
 
         with(binding!!) {
             toolbar.text = getString(R.string.popular)
             recyclerView.adapter = adapter
             recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
         }
-
     }
 
 

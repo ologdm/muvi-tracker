@@ -4,7 +4,6 @@ package com.example.muvitracker.data.movies
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.distinctUntilChanged
-import com.dropbox.android.external.store4.StoreResponse
 import com.example.muvitracker.data.TraktApi
 import com.example.muvitracker.domain.model.base.Movie
 import com.example.muvitracker.data.dto.base.toDomain
@@ -23,99 +22,37 @@ import javax.inject.Singleton
 
 @Singleton
 class MoviesRepository @Inject constructor(
-    private val moviesLocalDS: MoviesLocalDS,
     private val api: TraktApi,
-    private val moviesDScoroutines: MoviesDScoroutines
+    private val moviesDS: MoviesDS
 ) : MoviesRepo {
 
-
-    // POPULAR ################################################################################
-
-    override fun getPopularMovies(): LiveData<IoResponse<List<Movie>>> {
-        val localLivedata = MutableLiveData<IoResponse<List<Movie>>>()
-        val localMovies = moviesLocalDS.getPopularLivedataList().value.orEmpty()
-        localLivedata.value = IoResponse.success(localMovies)
-
-        val networkLivedata = MutableLiveData<IoResponse<List<Movie>>>()
-        api.getPopularMovies().startNetworkCall { retrofitResponse ->
-            val ioMapper = retrofitResponse.ioMapper { listDto ->
-                val mapperList = listDto.map { it.toDomain() }
-                moviesLocalDS.savePopularInLocal(mapperList) // SALVA IN LOCALE
-                mapperList
-            }
-            networkLivedata.value = ioMapper
-        }
-
-        return concat(
-            localLivedata,
-            networkLivedata
-        ).distinctUntilChanged()
-    }
-
-
-    override fun getPopularCache(): List<Movie> {
-        return moviesLocalDS.getPopularLivedataList().value.orEmpty()
-    }
-
-
-    // BOXOFFICE #######################################################################################
-    override fun getBoxoMovies(): LiveData<IoResponse<List<Movie>>> {
-        val localLivedata = MutableLiveData<IoResponse<List<Movie>>>()
-        val localMovies = moviesLocalDS.getBoxoLivedataList().value.orEmpty()
-        localLivedata.value = IoResponse.success(localMovies)
-
-        val networkLivedata = MutableLiveData<IoResponse<List<Movie>>>()
-        api.getBoxoMovies().startNetworkCall { retrofitResponse ->
-            val ioMapper = retrofitResponse.ioMapper { listDto ->
-                val mapperList = listDto.map { it.toDomain() }
-                moviesLocalDS.saveBoxoInLocal(mapperList) // save on db
-                mapperList
-            }
-            networkLivedata.value = ioMapper
-        }
-        return concat(
-            localLivedata,
-            networkLivedata
-        ).distinctUntilChanged()
-    }
-
-
-    override fun getBoxoCache(): List<Movie> {
-        return moviesLocalDS.getBoxoLivedataList().value.orEmpty()
-    }
-
-
-    // IoResponse eliminato
-
     //coroutines ####################################################################
-    // OK
     override
     fun getPopularMoviesFLow(): Flow<IoResponse2<List<Movie>>> {
-        return moviesDScoroutines.getStoreStreamFlow().map { response ->
+        return moviesDS.getPopularStoreStream().map { response ->
             response.ioMapper {
                 it.map {dto->
                     dto.toDomain() }
             }
         }
     }
+
+
+    override
+    fun getBoxoMoviesFLow(): Flow<IoResponse2<List<Movie>>> {
+        return moviesDS.getBoxoStoreStream().map { response ->
+           println("XXX REPO BOXOFUN FLOW CHECK")
+            response.ioMapper {
+                it.map {dto->
+                    dto.toDomain() }
+            }
+        }
+    }
+
+
 }
 
 
-// 2 ------------------------
-//            when (response) {
-//                is StoreResponse.Data -> {
-//                    StoreResponse.Data(
-//                        response.value.map { it.toDomain() })
-//                }
-//                is StoreResponse.Loading -> {
-//                    StoreResponse.Loading(response.type)
-//                }
-//                is StoreResponse.Error -> {
-//                    StoreResponse.Error(response.)
-//                }
-//
-//                is StoreResponse.NoNewData -> TODO()
-//            }
 
 
 

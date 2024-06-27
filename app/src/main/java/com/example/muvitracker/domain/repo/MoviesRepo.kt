@@ -8,16 +8,6 @@ import com.example.muvitracker.utils.IoResponse2
 import kotlinx.coroutines.flow.Flow
 
 interface MoviesRepo {
-
-
-    fun getPopularMovies(): LiveData<IoResponse<List<Movie>>>
-
-    fun getPopularCache(): List<Movie>
-
-    fun getBoxoMovies(): LiveData<IoResponse<List<Movie>>>
-
-    fun getBoxoCache(): List<Movie>
-
     fun getPopularMoviesFLow(): Flow<IoResponse2<List<Movie>>>
-
+    fun getBoxoMoviesFLow(): Flow<IoResponse2<List<Movie>>>
 }

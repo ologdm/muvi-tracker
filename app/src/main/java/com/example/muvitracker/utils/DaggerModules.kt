@@ -26,7 +26,6 @@ class DaggerModules {
         return context.getSharedPreferences("all_app_cache", Context.MODE_PRIVATE)
     }
 
-    // per le classi senza
 
 
 }
