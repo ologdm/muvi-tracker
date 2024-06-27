@@ -4,6 +4,7 @@ package com.example.muvitracker.data.movies
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.distinctUntilChanged
+import com.dropbox.android.external.store4.StoreResponse
 import com.example.muvitracker.data.TraktApi
 import com.example.muvitracker.domain.model.base.Movie
 import com.example.muvitracker.data.dto.base.toDomain
@@ -11,8 +12,11 @@ import com.example.muvitracker.data.dto.toDomain
 import com.example.muvitracker.data.startNetworkCall
 import com.example.muvitracker.domain.repo.MoviesRepo
 import com.example.muvitracker.utils.IoResponse
+import com.example.muvitracker.utils.IoResponse2
 import com.example.muvitracker.utils.concat
 import com.example.muvitracker.utils.ioMapper
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -21,7 +25,9 @@ import javax.inject.Singleton
 class MoviesRepository @Inject constructor(
     private val moviesLocalDS: MoviesLocalDS,
     private val api: TraktApi,
-) :MoviesRepo {
+    private val moviesDScoroutines: MoviesDScoroutines
+) : MoviesRepo {
+
 
     // POPULAR ################################################################################
 
@@ -45,6 +51,7 @@ class MoviesRepository @Inject constructor(
             networkLivedata
         ).distinctUntilChanged()
     }
+
 
     override fun getPopularCache(): List<Movie> {
         return moviesLocalDS.getPopularLivedataList().value.orEmpty()
@@ -76,4 +83,41 @@ class MoviesRepository @Inject constructor(
     override fun getBoxoCache(): List<Movie> {
         return moviesLocalDS.getBoxoLivedataList().value.orEmpty()
     }
+
+
+    // IoResponse eliminato
+
+    //coroutines ####################################################################
+    // OK
+    override
+    fun getPopularMoviesFLow(): Flow<IoResponse2<List<Movie>>> {
+        return moviesDScoroutines.getStoreStreamFlow().map { response ->
+            response.ioMapper {
+                it.map {dto->
+                    dto.toDomain() }
+            }
+        }
+    }
 }
+
+
+// 2 ------------------------
+//            when (response) {
+//                is StoreResponse.Data -> {
+//                    StoreResponse.Data(
+//                        response.value.map { it.toDomain() })
+//                }
+//                is StoreResponse.Loading -> {
+//                    StoreResponse.Loading(response.type)
+//                }
+//                is StoreResponse.Error -> {
+//                    StoreResponse.Error(response.)
+//                }
+//
+//                is StoreResponse.NoNewData -> TODO()
+//            }
+
+
+
+
+

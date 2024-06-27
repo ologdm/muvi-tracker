@@ -45,7 +45,19 @@ object RetrofitModule {
 }
 
 
-// ######################################################################
+// TODO
+//fun <T> Call<T>.startNetworkCall(): IoResponse<T> {
+//    try {
+//        val networkResponse =
+//         IoResponse.Success()
+//    } catch (ex: Throwable) {
+//        ex.printStackTrace()
+//        IoResponse.NetworkError
+//    }
+//}
+
+
+// old ######################################################################
 
 fun <T> Call<T>.startNetworkCall(onResponse: (IoResponse<T>) -> Unit) {
 
