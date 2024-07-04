@@ -80,7 +80,8 @@ class DetailRepositoryTest @Inject constructor(
                         IoResponse2.Success(response.value)
                             .ioMapper {
                                 // TODO - non deve essere nullable
-                                val prefsEntities = prefsLocalDS.liveDataList.value
+//                                val prefsEntities = prefsLocalDS.liveDataList.value | old
+                                val prefsEntities = prefsLocalDS.getPrefsList()
                                 val prefsEntity =
                                     prefsEntities?.find { it.movieId == id } // trova solo se != 0
                                 it.toDomain(prefsEntity)//

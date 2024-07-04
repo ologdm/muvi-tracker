@@ -7,6 +7,7 @@ import com.example.muvitracker.domain.model.DetailMovie
 import com.example.muvitracker.domain.repo.PrefsRepo
 import com.example.muvitracker.utils.combineLatest
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -20,8 +21,12 @@ class PrefsRepository @Inject constructor(
     // GET ######################################################
 
 
-    override fun getListFLow(): Flow<List<DetailMovie>> {
+    override fun getListFLow(): MutableStateFlow<List<DetailMovie>> {
         TODO("Not yet implemented")
+    }
+
+    fun getPrefsMovie (){
+
     }
 
 
