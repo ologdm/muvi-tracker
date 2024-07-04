@@ -21,6 +21,11 @@ interface TraktApi {
     suspend fun getBoxoMoviesTest()
             : List<BoxoDto>
 
+    @GET("movies/{movie_id}?extended=full")
+    suspend fun getMovieDetailTest(@Path("movie_id") movieId: Int)
+            : DetailDto
+
+
     // calls
     @GET("movies/{movie_id}?extended=full")  // with mobile path
     fun getMovieDetails(@Path("movie_id") movieId: Int)

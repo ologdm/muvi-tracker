@@ -1,21 +1,22 @@
 package com.example.muvitracker.utils
 
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.TextView
 import com.example.muvitracker.R
 
 
 data class StateContainer<T>(
+    var data: T? = null,
     var isNetworkError: Boolean = false,
-    var isOtherError: Boolean = false,
-    var data: T? = null
+    var isOtherError: Boolean = false
 )
 
 
 fun <T> StateContainer<T>.statesFlow(
-    progressBar: ProgressBar?,
     errorTextview: TextView,
+    progressBar: ProgressBar?
 ) {
     val context = errorTextview.context
 
@@ -41,3 +42,4 @@ fun <T> StateContainer<T>.statesFlow(
         }
     }
 }
+

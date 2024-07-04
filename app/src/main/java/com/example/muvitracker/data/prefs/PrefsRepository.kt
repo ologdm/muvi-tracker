@@ -6,6 +6,7 @@ import com.example.muvitracker.data.detail.toDomain
 import com.example.muvitracker.domain.model.DetailMovie
 import com.example.muvitracker.domain.repo.PrefsRepo
 import com.example.muvitracker.utils.combineLatest
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -15,21 +16,14 @@ class PrefsRepository @Inject constructor(
     private val detailLocalDS: DetailLocalDS
 ) : PrefsRepo {
 
+
     // GET ######################################################
 
-    override fun getList(): LiveData<List<DetailMovie>> {
-        return combineLatest(
-            detailLocalDS.getLivedataList(),
-            prefsLocalDS.liveDataList
-        ) { detailList, prefsList ->
-            prefsList.mapNotNull { prefsItem ->
-                val detailItem = detailList.find { detailEntity ->
-                    detailEntity.ids.trakt == prefsItem.movieId
-                }
-                detailItem?.toDomain(prefsItem)
-            }
-        }
+
+    override fun getListFLow(): Flow<List<DetailMovie>> {
+        TODO("Not yet implemented")
     }
+
 
 
     // SET ######################################################
@@ -49,5 +43,20 @@ class PrefsRepository @Inject constructor(
         prefsLocalDS.deleteItemFromDB(movieId) // bypass
     }
 
+
+    //old
+//    override fun getList(): LiveData<List<DetailMovie>> {
+//        return combineLatest(
+//            detailLocalDS.getLivedataList(),
+//            prefsLocalDS.liveDataList
+//        ) { detailList, prefsList ->
+//            prefsList.mapNotNull { prefsItem ->
+//                val detailItem = detailList.find { detailEntity ->
+//                    detailEntity.ids.trakt == prefsItem.movieId
+//                }
+//                detailItem?.toDomain(prefsItem)
+//            }
+//        }
+//    }
 
 }
