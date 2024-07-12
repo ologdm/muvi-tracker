@@ -1,0 +1,13 @@
+
+// JSON Movie
+ /* Popularity is calculated using the rating percentage and the number of ratings.
+ {
+    "title": "The Dark Knight",
+    "year": 2008,
+    "ids": {
+      "trakt": 16,
+      "slug": "the-dark-knight-2008",
+      "imdb": "tt0468569",
+      "tmdb": 155
+    }
+ }

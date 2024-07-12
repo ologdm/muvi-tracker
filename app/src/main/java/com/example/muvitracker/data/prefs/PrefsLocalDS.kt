@@ -21,14 +21,13 @@ class PrefsLocalDS @Inject constructor(
     }
 
 
-    // channelFLow - > osservare SharedPrefs OK
-    fun getPrefsList(): Flow<List<PrefsEntity>> {
+    fun getPrefsListFlow(): Flow<List<PrefsEntity>> {
         return channelFlow {
             send(readSharedPreferences())
 
             val listener = SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
                 if (key == PREFS_KEY_01) {
-                    trySend(readSharedPreferences()) // rilegge dato ad ogni cambiamento
+                    trySend(readSharedPreferences())
                 }
             }
 
@@ -43,7 +42,7 @@ class PrefsLocalDS @Inject constructor(
     }
 
 
-    // READ/ SAVE LIST - OK
+    // READ/ SAVE LIST
     private fun readSharedPreferences(): List<PrefsEntity> {
         val json =
             sharedPreferences.getString(PREFS_KEY_01, "").orEmpty()
@@ -51,17 +50,15 @@ class PrefsLocalDS @Inject constructor(
     }
 
     private fun saveListInShared(list: List<PrefsEntity>) {
-        synchronized(this) {
             sharedPreferences.edit()
                 .putString(PREFS_KEY_01, getJson(list))
-                .commit() // or apply() ??
-        }
+                .commit()
+
     }
 
 
-    // SET ELEMENT ###################################################### OK
+    // SET SINGLE ELEMENT ######################################################
     fun toggleFavoriteOnDB(movieId: Int) {
-//        synchronized(this) {
             val cache = readSharedPreferences().toMutableList()
             val index = cache.indexOfFirst { it.movieId == movieId }
             if (index != -1) {
@@ -71,12 +68,10 @@ class PrefsLocalDS @Inject constructor(
                 cache.add(PrefsEntity(liked = true, watched = false, movieId = movieId))
             }
             saveListInShared(cache)
-//        }
     }
 
 
     fun updateWatchedOnDB(movieId: Int, watched: Boolean) {
-//        synchronized(this) { // TODO - test not necessary
             val cache = readSharedPreferences().toMutableList()
             val index = cache.indexOfFirst { it.movieId == movieId }
             if (index != -1) {
@@ -86,23 +81,18 @@ class PrefsLocalDS @Inject constructor(
                 cache.add(PrefsEntity(liked = false, watched = watched, movieId = movieId))
             }
             saveListInShared(cache)
-//        }
     }
 
 
     fun deleteItemFromDB(movieId: Int) {
-//        synchronized(this) {
             val cache = readSharedPreferences().toMutableList()
             val index = cache.indexOfFirst { it.movieId == movieId }
             if (index != -1) {
                 cache.removeAt(index)
             }
             saveListInShared(cache)
-//        }
     }
 
-
-// ###########################################################################
 
 
     // CONVERTERS ##################################################################
@@ -116,19 +106,6 @@ class PrefsLocalDS @Inject constructor(
     }
 
 
-    //    private val prefsChangeListener =
-//        SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
-//            if (key == PREFS_KEY_01) {
-//                liveDataList.postValue(loadSharedList())
-//            }
-//        }
-//
-//    val liveDataList: MutableLiveData<List<PrefsEntity>> by lazy {
-//        MutableLiveData<List<PrefsEntity>>().also {
-//            it.value = loadSharedList()
-//            sharedPreferences.registerOnSharedPreferenceChangeListener(prefsChangeListener)
-//        }
-//    }
 
 
 }

@@ -10,7 +10,7 @@ import com.dropbox.android.external.store4.StoreRequest
 import com.dropbox.android.external.store4.StoreResponse
 import com.example.muvitracker.data.TraktApi
 import com.example.muvitracker.data.dto.BoxoDto
-import com.example.muvitracker.data.dto.base.MovieDto
+import com.example.muvitracker.data.dto.basedto.MovieDto
 import com.example.muvitracker.utils.IoResponse2
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -92,6 +92,7 @@ class MoviesDS @Inject constructor(
                 }
             }
     }
+
 
     private fun getPopularFLow(): Flow<List<MovieDto>?> { // flow con listener cambiamenti su shared
         return channelFlow {

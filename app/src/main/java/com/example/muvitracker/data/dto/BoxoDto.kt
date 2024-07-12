@@ -1,6 +1,6 @@
 package com.example.muvitracker.data.dto
 
-import com.example.muvitracker.data.dto.base.MovieDto
+import com.example.muvitracker.data.dto.basedto.MovieDto
 import com.example.muvitracker.domain.model.base.Movie
 
 

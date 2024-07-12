@@ -1,18 +1,12 @@
 package com.example.muvitracker.data.movies
 
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.distinctUntilChanged
 import com.example.muvitracker.data.TraktApi
 import com.example.muvitracker.domain.model.base.Movie
-import com.example.muvitracker.data.dto.base.toDomain
+import com.example.muvitracker.data.dto.basedto.toDomain
 import com.example.muvitracker.data.dto.toDomain
-import com.example.muvitracker.data.startNetworkCall
 import com.example.muvitracker.domain.repo.MoviesRepo
-import com.example.muvitracker.utils.IoResponse
 import com.example.muvitracker.utils.IoResponse2
-import com.example.muvitracker.utils.concat
 import com.example.muvitracker.utils.ioMapper
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map

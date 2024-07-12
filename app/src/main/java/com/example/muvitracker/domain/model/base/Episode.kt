@@ -1,6 +1,6 @@
 package com.example.muvitracker.domain.model.base
 
-import com.example.muvitracker.data.dto.base.Ids
+import com.example.muvitracker.data.dto.basedto.Ids
 
 data class Episode(
     val season: Int,

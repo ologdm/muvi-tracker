@@ -1,6 +1,5 @@
 package com.example.muvitracker.data
 
-import com.example.muvitracker.data.detail.DetailRepository
 import com.example.muvitracker.data.movies.MoviesRepository
 import com.example.muvitracker.data.prefs.PrefsRepository
 import com.example.muvitracker.data.search.SearchRepository
@@ -25,11 +24,12 @@ class RepositoriesModule {
         return impl
     }
 
-    @Provides
-    @Singleton
-    fun providedDetailRepo(impl: DetailRepository): DetailRepo {
-        return impl
-    }
+//    @Provides
+//    @Singleton
+//    fun providedDetailRepo(impl: DetailRepository): DetailRepo {
+//        return impl
+//    }
+
 
     @Provides
     @Singleton

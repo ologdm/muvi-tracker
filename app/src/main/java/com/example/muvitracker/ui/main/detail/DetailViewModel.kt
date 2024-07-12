@@ -1,15 +1,11 @@
 package com.example.muvitracker.ui.main.detail
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import com.example.muvitracker.data.detail.DetailRepositoryTest
 import com.example.muvitracker.domain.model.DetailMovie
-import com.example.muvitracker.domain.repo.DetailRepo
 import com.example.muvitracker.domain.repo.PrefsRepo
-import com.example.muvitracker.utils.IoResponse
 import com.example.muvitracker.utils.IoResponse2
 import com.example.muvitracker.utils.StateContainer
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -36,7 +32,7 @@ class DetailViewModel @Inject constructor(
         var cachedMovie: DetailMovie? = null
 
         viewModelScope.launch {
-            detailRepositoryTest.detailMovieStreamFlow(movieId)
+            detailRepositoryTest.getSingleDetailMovieFlow(movieId)
                 .map { response ->
                     when (response) {
                         is IoResponse2.Success -> {
@@ -76,6 +72,7 @@ class DetailViewModel @Inject constructor(
     fun updateWatched(id: Int, watched: Boolean) {
         prefsRepository.updateWatchedOnDB(id, watched)
     }
+
 
 
 }

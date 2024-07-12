@@ -34,7 +34,7 @@ class PrefsFragment : Fragment() {
             startDeleteAlertDialog(movieId)
         },
         onCLickLiked = { item ->
-            viewModel.toggleFovoriteItem(itemToToggle = item)
+            viewModel.toggleFavoriteItem(itemToToggle = item)
         },
         onClickWatched = { item, watched ->
             viewModel.updateWatchedItem(updatedItem = item, watched)
