@@ -3,8 +3,9 @@ package com.example.muvitracker.ui.main.detail
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.muvitracker.data.detail.DetailRepositoryTest
+import com.example.muvitracker.data.detail.DetailRepository
 import com.example.muvitracker.domain.model.DetailMovie
+import com.example.muvitracker.domain.repo.DetailRepo
 import com.example.muvitracker.domain.repo.PrefsRepo
 import com.example.muvitracker.utils.IoResponse2
 import com.example.muvitracker.utils.StateContainer
@@ -17,22 +18,18 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DetailViewModel @Inject constructor(
-//    private val detailRepository: DetailRepo,
-    private val detailRepositoryTest: DetailRepositoryTest,
+    private val detailRepository: DetailRepo,
     private val prefsRepository: PrefsRepo
 ) : ViewModel() {
 
     val state = MutableLiveData<StateContainer<DetailMovie>>()
 
-
-
-    // flow
-    // response -> container
+    // flow -> livedata
     fun getStateContainer(movieId: Int) {
         var cachedMovie: DetailMovie? = null
 
         viewModelScope.launch {
-            detailRepositoryTest.getSingleDetailMovieFlow(movieId)
+            detailRepository.getSingleDetailMovieFlow(movieId)
                 .map { response ->
                     when (response) {
                         is IoResponse2.Success -> {
@@ -68,30 +65,8 @@ class DetailViewModel @Inject constructor(
         prefsRepository.toggleFavoriteOnDB(id)
     }
 
-
     fun updateWatched(id: Int, watched: Boolean) {
         prefsRepository.updateWatchedOnDB(id, watched)
     }
 
-
-
 }
-
-//    fun getStateContainer(movieId: Int): LiveData<StateContainer<DetailMovie>> {
-//        return detailRepository.getDetailMovie(movieId)
-//            .map { repoRespopnse ->
-//                when (repoRespopnse) {
-//                    is IoResponse.Success -> {
-//                        StateContainer(data = repoRespopnse.dataValue)
-//                    }
-//
-//                    is IoResponse.NetworkError -> {
-//                        StateContainer(isNetworkError = true)
-//                    }
-//
-//                    is IoResponse.OtherError -> {
-//                        StateContainer(isOtherError = true)
-//                    }
-//                }
-//            }
-//    }

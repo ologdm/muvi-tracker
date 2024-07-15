@@ -44,16 +44,6 @@ class DetailFragment : Fragment() {
             currentMovieId = bundle.getInt(TRAKT_ID_KEY)
         }
 
-//        viewModel.getStateContainer(movieId = currentMovieId)
-//            .observe(viewLifecycleOwner) { stateContainer ->
-//                stateContainer.data?.let { detailMovie ->
-//                    updateUi(detailMovie)
-//                }
-//                stateContainer.statesFlow(
-//                    binding!!.progressBar,
-//                    binding!!.errorTextView,
-//                )
-//            }
 
         viewModel.state.observe(viewLifecycleOwner) { stateContainer ->
             stateContainer.data?.let { detailMovie ->

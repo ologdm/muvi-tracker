@@ -1,6 +1,6 @@
 package com.example.muvitracker.data.prefs
 
-import com.example.muvitracker.data.detail.DetailRepositoryTest
+import com.example.muvitracker.data.detail.DetailRepository
 import com.example.muvitracker.data.detail.toDomain
 import com.example.muvitracker.domain.model.DetailMovie
 import com.example.muvitracker.domain.repo.PrefsRepo
@@ -12,13 +12,13 @@ import javax.inject.Singleton
 @Singleton
 class PrefsRepository @Inject constructor(
     private val prefsLocalDS: PrefsLocalDS,
-    private val detailRepositoryTest: DetailRepositoryTest
+    private val detailRepository: DetailRepository
 ) : PrefsRepo {
 
 
     // GET ######################################################
     override fun getListFLow(): Flow<List<DetailMovie>> {
-        val detailsList = detailRepositoryTest.getDetailListFlow()
+        val detailsList = detailRepository.getDetailListFlow()
         val prefsList = prefsLocalDS.getPrefsListFlow()
 
         return detailsList

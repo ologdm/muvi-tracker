@@ -22,14 +22,20 @@ interface TraktApi {
             : List<BoxoDto>
 
     @GET("movies/{movie_id}?extended=full")
-    suspend fun getMovieDetailTest(@Path("movie_Id") movieId: Int)
+    suspend fun getMovieDetailTest(@Path("movie_id") movieId: Int)
             : DetailDto
+
+    // coroutines
+    @GET("search/movie")  // with mobile query
+    suspend fun getSearchTest(@Query("query") searchString: String)
+            : List<SearchDto>
 
 
     // calls
-    @GET("search/movie")  // with mobile query
-    fun getSearch(@Query("query") searchString: String)
-            : Call<List<SearchDto>>
+//    @GET("search/movie")  // with mobile query
+//    fun getSearch(@Query("query") searchString: String)
+//            : Call<List<SearchDto>>
+
 
 
 }

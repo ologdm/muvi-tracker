@@ -31,7 +31,6 @@ import kotlin.coroutines.cancellation.CancellationException
 class MoviesDS @Inject constructor(
     private val gson: Gson, // provides
     private val sharedPreferences: SharedPreferences, // provides
-    private val traktApi: TraktApi // provides
 ) {
 
     companion object {
@@ -40,61 +39,8 @@ class MoviesDS @Inject constructor(
     }
 
 
-
-    // store builders #################################################################
-    private val popularStore: Store<Unit, List<MovieDto>> = StoreBuilder.from(
-        fetcher = Fetcher.ofResult {
-            try {
-                FetcherResult.Data(traktApi.getPopularMoviesTest())// suspend fun
-            } catch (ex: CancellationException) {
-                throw ex
-            } catch (ex: Throwable) {
-                FetcherResult.Error.Exception(ex)
-            }
-        },
-        sourceOfTruth = SourceOfTruth.of<Unit, List<MovieDto>, List<MovieDto>>(
-            reader = { getPopularFLow() }, // flow
-            writer = { _, data -> savePopularOnShared(data) } // suspend fun
-        )
-    ).disableCache()
-        .build()
-
-
-    private val boxoStore: Store<Unit, List<BoxoDto>> = StoreBuilder.from(
-        fetcher = Fetcher.ofResult {
-            try {
-                FetcherResult.Data(traktApi.getBoxoMoviesTest())
-            } catch (ex: CancellationException) {
-                throw ex
-            } catch (ex: Throwable) {
-                FetcherResult.Error.Exception(ex)
-            }
-        },
-        sourceOfTruth = SourceOfTruth.of<Unit, List<BoxoDto>, List<BoxoDto>>(
-            reader = { getBoxoFLow() },
-            writer = { _, data -> saveBoxoOnShared(data) }
-        )
-    ).disableCache()
-        .build()
-
-
-    // POPULAR ######################################################################
-    fun getPopularStoreStream(): Flow<IoResponse2<List<MovieDto>>> {
-        return popularStore.stream(StoreRequest.cached(Unit, refresh = true))
-            .filterNot { response ->
-                response is StoreResponse.Loading || response is StoreResponse.NoNewData
-            }.map { response ->
-                when (response) {
-                    is StoreResponse.Data -> IoResponse2.Success(response.value)
-                    is StoreResponse.Error.Exception -> IoResponse2.Error(response.error)
-                    is StoreResponse.Error.Message -> IoResponse2.Error(RuntimeException(response.message))// msg encapsulated into throwable
-                    is StoreResponse.Loading, is StoreResponse.NoNewData -> error("should be filtered upstream") // error - kotlin function
-                }
-            }
-    }
-
-
-    private fun getPopularFLow(): Flow<List<MovieDto>?> { // flow con listener cambiamenti su shared
+    // GET FLOW
+    fun getPopularFLow(): Flow<List<MovieDto>?> { // flow con listener cambiamenti su shared
         return channelFlow {
             send(readPopularShared())
 
@@ -111,40 +57,7 @@ class MoviesDS @Inject constructor(
         }
     }
 
-
-    private fun readPopularShared(): List<MovieDto>? {
-        val jsonString = sharedPreferences.getString(POPULAR_LIST_KEY, null) ?: return null
-        return getListFromJson<MovieDto>(jsonString)
-    }
-
-
-    private fun savePopularOnShared(list: List<MovieDto>) {
-        sharedPreferences.edit()
-            .putString(POPULAR_LIST_KEY, list.getJson())
-            .apply()
-    }
-
-
-    // BOXO ######################################################################
-    fun getBoxoStoreStream(): Flow<IoResponse2<List<BoxoDto>>> {
-        return boxoStore.stream(StoreRequest.cached(Unit, refresh = true))
-            .filterNot { response ->
-                response is StoreResponse.Loading || response is StoreResponse.NoNewData
-            }.map { response ->
-                when (response) {
-                    is StoreResponse.Data -> {
-                        println("XXX STATE DS STREAM: ${response.value}")
-                        IoResponse2.Success(response.value)
-                    }
-
-                    is StoreResponse.Error.Exception -> IoResponse2.Error(response.error)
-                    is StoreResponse.Error.Message -> IoResponse2.Error(RuntimeException(response.message))
-                    is StoreResponse.Loading, is StoreResponse.NoNewData -> error("should be filtered upstream")
-                }
-            }
-    }
-
-    private fun getBoxoFLow(): Flow<List<BoxoDto>?> {
+    fun getBoxoFLow(): Flow<List<BoxoDto>?> {
         return channelFlow {
             send(readBoxoShared())
 
@@ -162,13 +75,27 @@ class MoviesDS @Inject constructor(
     }
 
 
+    // READ - private
+    private fun readPopularShared(): List<MovieDto>? {
+        val jsonString = sharedPreferences.getString(POPULAR_LIST_KEY, null) ?: return null
+        return getListFromJson<MovieDto>(jsonString)
+    }
+
     private fun readBoxoShared(): List<BoxoDto>? {
         val jsonString = sharedPreferences.getString(BOXOFFICE_LIST_KEY, null) ?: return null
         return getListFromJson<BoxoDto>(jsonString)
     }
 
 
-    private fun saveBoxoOnShared(list: List<BoxoDto>) {
+    // SAVE
+    fun savePopularOnShared(list: List<MovieDto>) {
+        sharedPreferences.edit()
+            .putString(POPULAR_LIST_KEY, list.getJson())
+            .apply()
+    }
+
+
+    fun saveBoxoOnShared(list: List<BoxoDto>) {
         sharedPreferences.edit()
             .putString(BOXOFFICE_LIST_KEY, list.getJson())
             .apply()

@@ -35,7 +35,7 @@ class BoxoViewModel @Inject constructor(
     private fun loadMovies() {
         viewModelScope.launch {
             var maintainedData: List<Movie>? = null
-            moviesRepository.getBoxoMoviesFLow()
+            moviesRepository.getBoxoStoreStream()
                 .catch {
                     it.printStackTrace()
                 }

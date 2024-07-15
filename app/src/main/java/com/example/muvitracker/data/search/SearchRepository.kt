@@ -21,22 +21,40 @@ class SearchRepository @Inject constructor(
 ) : SearchRepo {
 
 
-    override fun getNetworkResult(queryText: String): LiveData<List<SearchResult>> {
-        val liveData = MutableLiveData<List<SearchResult>>()
+//    override fun getNetworkResult(queryText: String): LiveData<List<SearchResult>> {
+//        val liveData = MutableLiveData<List<SearchResult>>()
+//
+//        traktApi.getSearch(queryText)
+//            .startNetworkCall { retrofitResponse ->
+//                if (retrofitResponse is IoResponse.Success) {
+//                    val sortedList =
+//                        retrofitResponse.dataValue.sortedByDescending { dto ->
+//                            dto.score
+//                        }
+//                    liveData.value = sortedList.map { dto ->
+//                        dto.toDomain()
+//                    }
+//                }
+//            }
+//        return liveData
+//    }
 
-        traktApi.getSearch(queryText)
-            .startNetworkCall { retrofitResponse ->
-                if (retrofitResponse is IoResponse.Success) {
-                    val sortedList =
-                        retrofitResponse.dataValue.sortedByDescending { dto ->
-                            dto.score
-                        }
-                    liveData.value = sortedList.map { dto ->
-                        dto.toDomain()
-                    }
+
+    // coroutines
+    override
+    suspend fun getNetworkResultTest(queryText: String): List<SearchResult> {
+        try {
+            return traktApi.getSearchTest(queryText)
+                .sortedByDescending { dto -> dto.score }
+                .map { dto ->
+                    dto.toDomain()
                 }
-            }
-        return liveData
+        } catch (ex: CancellationException) {
+            throw ex
+        } catch (ex: Throwable) {
+            ex.printStackTrace()
+        }
+        return emptyList()
     }
 
 }

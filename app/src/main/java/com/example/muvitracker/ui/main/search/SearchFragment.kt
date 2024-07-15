@@ -51,11 +51,15 @@ class SearchFragment : Fragment() {
         view: View,
         savedInstanceState: Bundle?
     ) {
-        viewModel.state().observe(viewLifecycleOwner) { searchList ->
-            adapter.submitList(searchList)
-            println("XXX SEARCH FRAGMENT OBSERVING STATE: $searchList")
-        }
 
+//        viewModel.state().observe(viewLifecycleOwner) { searchList ->
+//            adapter.submitList(searchList)
+//            println("XXX SEARCH FRAGMENT OBSERVING STATE: $searchList")
+//        }
+        // TODO
+        viewModel.searchLivedataState.observe(viewLifecycleOwner){
+            adapter.submitList(it)
+        }
 
         with(binding!!) {
             recyclerView.layoutManager = GridLayoutManager(requireContext(), 3)
@@ -68,7 +72,9 @@ class SearchFragment : Fragment() {
                     }
                 searchRunnable =
                     Runnable { // 2. defines a new runnable that will perform the search
-                        viewModel.updateSearch(s.toString()) // ###
+//                        viewModel.updateSearch(s.toString()) // ###
+                        // TODO
+                        viewModel.updateSearch(s.toString())
                     }
                 searchRunnable
                     ?.let {// 3. schedule the new runnable with a specified delay to perform the debouncing
