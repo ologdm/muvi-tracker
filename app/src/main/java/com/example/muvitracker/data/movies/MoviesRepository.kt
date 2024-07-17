@@ -16,7 +16,6 @@ import com.example.muvitracker.data.dto.basedto.toDomain
 import com.example.muvitracker.data.dto.toDomain
 import com.example.muvitracker.domain.repo.MoviesRepo
 import com.example.muvitracker.utils.IoResponse2
-import com.example.muvitracker.utils.ioMapper
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filterNot
 import kotlinx.coroutines.flow.map
@@ -36,7 +35,7 @@ class MoviesRepository @Inject constructor(
     private val popularStore: Store<Unit, List<MovieDto>> = StoreBuilder.from(
         fetcher = Fetcher.ofResult {
             try {
-                FetcherResult.Data(traktApi.getPopularMoviesTest())// suspend fun
+                FetcherResult.Data(traktApi.getPopularMovies())// suspend fun
             } catch (ex: CancellationException) {
                 throw ex
             } catch (ex: Throwable) {
@@ -54,7 +53,7 @@ class MoviesRepository @Inject constructor(
     private val boxoStore: Store<Unit, List<BoxoDto>> = StoreBuilder.from(
         fetcher = Fetcher.ofResult {
             try {
-                FetcherResult.Data(traktApi.getBoxoMoviesTest())
+                FetcherResult.Data(traktApi.getBoxoMovies())
             } catch (ex: CancellationException) {
                 throw ex
             } catch (ex: Throwable) {

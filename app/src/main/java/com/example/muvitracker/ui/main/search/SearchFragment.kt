@@ -52,12 +52,7 @@ class SearchFragment : Fragment() {
         savedInstanceState: Bundle?
     ) {
 
-//        viewModel.state().observe(viewLifecycleOwner) { searchList ->
-//            adapter.submitList(searchList)
-//            println("XXX SEARCH FRAGMENT OBSERVING STATE: $searchList")
-//        }
-        // TODO
-        viewModel.searchLivedataState.observe(viewLifecycleOwner){
+        viewModel.searchState.observe(viewLifecycleOwner){
             adapter.submitList(it)
         }
 

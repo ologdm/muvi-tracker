@@ -36,7 +36,7 @@ class DetailRepository @Inject constructor(
     private val detailStore: Store<Int, DetailEntity> = StoreBuilder.from(
         fetcher = Fetcher.ofResult { key ->
             try {
-                FetcherResult.Data(traktApi.getMovieDetailTest(key))
+                FetcherResult.Data(traktApi.getMovieDetail(key))
             } catch (ex: CancellationException) {
                 throw ex
             } catch (ex: Throwable) {

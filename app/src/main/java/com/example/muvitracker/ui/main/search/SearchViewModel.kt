@@ -15,37 +15,14 @@ class SearchViewModel @Inject constructor(
     private val searchRepository: SearchRepo
 ) : ViewModel() {
 
-    // coroutines TODO
-    val searchLivedataState = MutableLiveData<List<SearchResult>>()
+    val searchState = MutableLiveData<List<SearchResult>>()
 
 
     fun updateSearch(text: String) {
         viewModelScope.launch {
-            searchLivedataState.value = searchRepository.getNetworkResultTest(text)
+            searchState.value = searchRepository.getNetworkResult(text)
         }
     }
 
 
-
 }
-
-
-//private val searchLivedata = MutableLiveData("")
-//
-//// update text
-//fun updateSearch(text: String) {
-//    searchLivedata.value = text
-//}
-//
-//
-//// create another livedata, 2nd is updated every time 1st changes
-//fun state() = searchLivedata
-//    .switchMap { queryText ->
-//        searchRepository.getNetworkResult(queryText)
-//    }
-//
-//fun state1(): LiveData<List<SearchResult>> {
-//    return searchLivedata.switchMap { queryText ->
-//        searchRepository.getNetworkResult(queryText)
-//    }
-//}

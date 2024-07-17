@@ -36,8 +36,6 @@ fun BoxoDto.toDomain(): Movie {
   },
  */
 
-// Returns the top 10 grossing movies in the U.S. box office last weekend. (10 con piu incassi)
-// Updated every Monday morning.
 
 
 
