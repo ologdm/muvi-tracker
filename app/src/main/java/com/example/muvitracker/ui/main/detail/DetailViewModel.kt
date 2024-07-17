@@ -1,14 +1,19 @@
 package com.example.muvitracker.ui.main.detail
 
-import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.map
+import androidx.lifecycle.viewModelScope
+import com.example.muvitracker.data.detail.DetailRepository
 import com.example.muvitracker.domain.model.DetailMovie
 import com.example.muvitracker.domain.repo.DetailRepo
 import com.example.muvitracker.domain.repo.PrefsRepo
-import com.example.muvitracker.utils.IoResponse
+import com.example.muvitracker.utils.IoResponse2
 import com.example.muvitracker.utils.StateContainer
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
+import java.io.IOException
 import javax.inject.Inject
 
 @HiltViewModel
@@ -17,24 +22,42 @@ class DetailViewModel @Inject constructor(
     private val prefsRepository: PrefsRepo
 ) : ViewModel() {
 
+    val state = MutableLiveData<StateContainer<DetailMovie>>()
 
-    fun getStateContainer(movieId: Int): LiveData<StateContainer<DetailMovie>> {
-        return detailRepository.getDetailMovie(movieId)
-            .map { repoRespopnse ->
-                when (repoRespopnse) {
-                    is IoResponse.Success -> {
-                        StateContainer(data = repoRespopnse.dataValue)
-                    }
+    // flow -> livedata
+    fun getStateContainer(movieId: Int) {
+        var cachedMovie: DetailMovie? = null
 
-                    is IoResponse.NetworkError -> {
-                        StateContainer(isNetworkError = true)
-                    }
+        viewModelScope.launch {
+            detailRepository.getSingleDetailMovieFlow(movieId)
+                .map { response ->
+                    when (response) {
+                        is IoResponse2.Success -> {
+                            println("ZZZ_VM_S${response.dataValue}")
+                            cachedMovie = response.dataValue
+                            StateContainer(data = response.dataValue)
+                        }
 
-                    is IoResponse.OtherError -> {
-                        StateContainer(isOtherError = true)
+                        is IoResponse2.Error -> {
+                            if (response.t is IOException) {
+                                println("ZZZ_VM_E1${response.t}")
+                                StateContainer(
+                                    data = cachedMovie,
+                                    isNetworkError = true
+                                )
+                            } else {
+                                println("ZZZ_VM_E2${response.t}")
+                                StateContainer(
+                                    data = cachedMovie,
+                                    isOtherError = true
+                                )
+                            }
+                        }
                     }
+                }.collectLatest { container ->
+                    state.value = container
                 }
-            }
+        }
     }
 
 
@@ -42,11 +65,8 @@ class DetailViewModel @Inject constructor(
         prefsRepository.toggleFavoriteOnDB(id)
     }
 
-
     fun updateWatched(id: Int, watched: Boolean) {
         prefsRepository.updateWatchedOnDB(id, watched)
     }
 
-
 }
-

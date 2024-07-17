@@ -1,7 +1,7 @@
 package com.example.muvitracker.data.dto
 
 import com.example.muvitracker.data.detail.DetailEntity
-import com.example.muvitracker.data.dto.base.Ids
+import com.example.muvitracker.data.dto.basedto.Ids
 import com.example.muvitracker.data.prefs.PrefsEntity
 import com.example.muvitracker.domain.model.DetailMovie
 

@@ -1,35 +1,37 @@
 package com.example.muvitracker.data.prefs
 
-import androidx.lifecycle.LiveData
-import com.example.muvitracker.data.detail.DetailLocalDS
+import com.example.muvitracker.data.detail.DetailRepository
 import com.example.muvitracker.data.detail.toDomain
 import com.example.muvitracker.domain.model.DetailMovie
 import com.example.muvitracker.domain.repo.PrefsRepo
-import com.example.muvitracker.utils.combineLatest
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class PrefsRepository @Inject constructor(
     private val prefsLocalDS: PrefsLocalDS,
-    private val detailLocalDS: DetailLocalDS
+    private val detailRepository: DetailRepository
 ) : PrefsRepo {
 
-    // GET ######################################################
 
-    override fun getList(): LiveData<List<DetailMovie>> {
-        return combineLatest(
-            detailLocalDS.getLivedataList(),
-            prefsLocalDS.liveDataList
-        ) { detailList, prefsList ->
-            prefsList.mapNotNull { prefsItem ->
-                val detailItem = detailList.find { detailEntity ->
-                    detailEntity.ids.trakt == prefsItem.movieId
+    // GET ######################################################
+    override fun getListFLow(): Flow<List<DetailMovie>> {
+        val detailsList = detailRepository.getDetailListFlow()
+        val prefsList = prefsLocalDS.getPrefsListFlow()
+
+        return detailsList
+            .combine(prefsList) { detailList, prefsList ->
+                prefsList.mapNotNull { prefsEntity ->
+                    val detailItem = detailList.find { detailEntity ->
+                        detailEntity.ids.trakt == prefsEntity.movieId
+                    }
+                    detailItem?.toDomain(prefsEntity)
                 }
-                detailItem?.toDomain(prefsItem)
             }
-        }
     }
+
 
 
     // SET ######################################################

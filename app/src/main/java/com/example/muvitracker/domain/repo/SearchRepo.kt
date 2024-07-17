@@ -5,5 +5,5 @@ import com.example.muvitracker.domain.model.SearchResult
 
 interface SearchRepo {
 
-    fun getNetworkResult(queryText: String): LiveData<List<SearchResult>>
+    suspend fun getNetworkResult(queryText: String): List<SearchResult>
 }

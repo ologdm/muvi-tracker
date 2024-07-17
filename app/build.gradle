@@ -5,8 +5,9 @@ plugins {
     // parcelize
     id 'kotlin-parcelize'
 
-    // hilt dagger
     id("kotlin-kapt")
+
+    // hilt dagger
     id("com.google.dagger.hilt.android")
 }
 
@@ -91,6 +92,28 @@ dependencies {
 
     // store library
     implementation "org.mobilenativefoundation.store:store4:4.0.7"
+
+
+    // db with room ################################################
+    implementation "androidx.room:room-runtime:2.6.1"
+    annotationProcessor "androidx.room:room-compiler:2.6.1"
+
+    // To use Kotlin annotation processing tool (kapt)
+    kapt "androidx.room:room-compiler:2.6.1"
+    // To use Kotlin Symbol Processing (KSP) TODO test
+//    ksp "androidx.room:room-compiler:2.6.1"
+
+    // optional - Paging 3 Integration TODO
+//    implementation "androidx.room:room-paging:$room_version"
+    // optional - Test helpers TODO
+//    testImplementation "androidx.room:room-testing:$room_version"
+
+
+
+
+
+
+
 
 
 

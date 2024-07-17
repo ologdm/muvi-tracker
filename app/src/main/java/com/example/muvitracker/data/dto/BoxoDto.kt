@@ -1,6 +1,6 @@
 package com.example.muvitracker.data.dto
 
-import com.example.muvitracker.data.dto.base.MovieDto
+import com.example.muvitracker.data.dto.basedto.MovieDto
 import com.example.muvitracker.domain.model.base.Movie
 
 
@@ -36,8 +36,6 @@ fun BoxoDto.toDomain(): Movie {
   },
  */
 
-// Returns the top 10 grossing movies in the U.S. box office last weekend. (10 con piu incassi)
-// Updated every Monday morning.
 
 
 

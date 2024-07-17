@@ -48,8 +48,8 @@ class PopularFragment : Fragment() {
             adapter.submitList(state.data)
 
             state.statesFlow(
-                null,
                 errorTextview = binding!!.errorTextView,
+                null
             )
             println("XXX OBSERVING STATE: $state")
         }

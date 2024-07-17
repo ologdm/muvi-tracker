@@ -1,4 +1,4 @@
-package com.example.muvitracker.data.dto.base
+package com.example.muvitracker.data.dto.basedto
 
 import com.example.muvitracker.domain.model.base.Episode
 

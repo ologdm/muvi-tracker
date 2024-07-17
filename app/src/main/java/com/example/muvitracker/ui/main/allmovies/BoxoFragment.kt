@@ -49,8 +49,8 @@ class BoxoFragment : Fragment() {
             adapter.submitList(state.data)
 
             state.statesFlow(
-                null,
-                errorTextview = binding!!.errorTextView
+                errorTextview = binding!!.errorTextView,
+                null
             )
             println("XXX OBSERVING STATE: $state")
         }

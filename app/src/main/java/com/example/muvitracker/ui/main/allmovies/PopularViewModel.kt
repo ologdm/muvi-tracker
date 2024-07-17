@@ -34,7 +34,7 @@ class PopularViewModel @Inject constructor(
     private fun loadMovies() {
         viewModelScope.launch {
             var maintainedData: List<Movie>? = null
-            moviesRepository.getPopularMoviesFLow()
+            moviesRepository.getPopularStoreStream()
                 .catch {
                     it.printStackTrace()
                 }

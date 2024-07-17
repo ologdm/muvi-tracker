@@ -1,9 +1,11 @@
 package com.example.muvitracker.data.prefs
 
 import android.content.SharedPreferences
-import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.channelFlow
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -14,40 +16,50 @@ class PrefsLocalDS @Inject constructor(
     private val sharedPreferences: SharedPreferences
 ) {
 
-    // GET ######################################################
+    companion object {
+        private const val PREFS_KEY_01 = "prefs_key_01"
+    }
 
-    private val prefsChangeListener =
-        SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
-            if (key == PREFS_KEY_01) {
-                liveDataList.postValue(loadSharedList())
+
+    fun getPrefsListFlow(): Flow<List<PrefsEntity>> {
+        return channelFlow {
+            send(readSharedPreferences())
+
+            val listener = SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
+                if (key == PREFS_KEY_01) {
+                    trySend(readSharedPreferences())
+                }
             }
-        }
 
-    val liveDataList: MutableLiveData<List<PrefsEntity>> by lazy {
-        MutableLiveData<List<PrefsEntity>>().also {
-            it.value = loadSharedList()
-            sharedPreferences.registerOnSharedPreferenceChangeListener(prefsChangeListener)
+            sharedPreferences
+                .registerOnSharedPreferenceChangeListener(listener)
+
+            awaitClose {
+                sharedPreferences
+                    .unregisterOnSharedPreferenceChangeListener(listener)
+            }
         }
     }
 
 
-    private fun loadSharedList(): List<PrefsEntity> {
+    // READ/ SAVE LIST
+    private fun readSharedPreferences(): List<PrefsEntity> {
         val json =
             sharedPreferences.getString(PREFS_KEY_01, "").orEmpty()
         return getListFromJson(json)
     }
 
+    private fun saveListInShared(list: List<PrefsEntity>) {
+            sharedPreferences.edit()
+                .putString(PREFS_KEY_01, getJson(list))
+                .commit()
 
-    private fun getListFromJson(jsonString: String): List<PrefsEntity> {
-        val listType = object : TypeToken<List<PrefsEntity>>() {}.type
-        return gson.fromJson(jsonString, listType) ?: emptyList()
     }
 
 
-    // SET ######################################################
+    // SET SINGLE ELEMENT ######################################################
     fun toggleFavoriteOnDB(movieId: Int) {
-        synchronized(this) {
-            val cache = loadSharedList().toMutableList()
+            val cache = readSharedPreferences().toMutableList()
             val index = cache.indexOfFirst { it.movieId == movieId }
             if (index != -1) {
                 val current = cache[index]
@@ -56,13 +68,11 @@ class PrefsLocalDS @Inject constructor(
                 cache.add(PrefsEntity(liked = true, watched = false, movieId = movieId))
             }
             saveListInShared(cache)
-        }
     }
 
 
     fun updateWatchedOnDB(movieId: Int, watched: Boolean) {
-        synchronized(this) { // TODO - test not necessary
-            val cache = loadSharedList().toMutableList()
+            val cache = readSharedPreferences().toMutableList()
             val index = cache.indexOfFirst { it.movieId == movieId }
             if (index != -1) {
                 val current = cache[index]
@@ -71,41 +81,34 @@ class PrefsLocalDS @Inject constructor(
                 cache.add(PrefsEntity(liked = false, watched = watched, movieId = movieId))
             }
             saveListInShared(cache)
-        }
     }
 
 
     fun deleteItemFromDB(movieId: Int) {
-        synchronized(this) {
-            val cache = loadSharedList().toMutableList()
+            val cache = readSharedPreferences().toMutableList()
             val index = cache.indexOfFirst { it.movieId == movieId }
             if (index != -1) {
                 cache.removeAt(index)
             }
             saveListInShared(cache)
-        }
     }
 
 
-// ###########################################################################
 
-
-    private fun saveListInShared(list: List<PrefsEntity>) {
-        synchronized(this) {
-            sharedPreferences.edit()
-                .putString(PREFS_KEY_01, getJson(list))
-                .commit()
-        }
+    // CONVERTERS ##################################################################
+    private fun getListFromJson(jsonString: String): List<PrefsEntity> {
+        val listType = object : TypeToken<List<PrefsEntity>>() {}.type
+        return gson.fromJson(jsonString, listType) ?: emptyList()
     }
-
 
     private fun getJson(list: List<PrefsEntity>): String {
         return gson.toJson(list) ?: ""
     }
 
 
-    companion object {
-        private const val PREFS_KEY_01 = "prefs_key_01"
-    }
+
 
 }
+
+
+

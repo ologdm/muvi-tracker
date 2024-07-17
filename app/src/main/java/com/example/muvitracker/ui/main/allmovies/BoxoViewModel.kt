@@ -7,7 +7,6 @@ import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import com.example.muvitracker.domain.model.base.Movie
 import com.example.muvitracker.domain.repo.MoviesRepo
-import com.example.muvitracker.utils.IoResponse
 import com.example.muvitracker.utils.IoResponse2
 import com.example.muvitracker.utils.StateContainer
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -35,7 +34,7 @@ class BoxoViewModel @Inject constructor(
     private fun loadMovies() {
         viewModelScope.launch {
             var maintainedData: List<Movie>? = null
-            moviesRepository.getBoxoMoviesFLow()
+            moviesRepository.getBoxoStoreStream()
                 .catch {
                     it.printStackTrace()
                 }
