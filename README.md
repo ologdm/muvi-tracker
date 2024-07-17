@@ -2,7 +2,7 @@
 
 Movie tracking android application based on [Trakt API](https://trakt.docs.apiary.io/#).
 
-The app is partially written in kotlin coroutines, use Dagger for DI, includes data caching for better performance 
+The app is written using kotlin coroutines and Dagger for DI, includes data caching for better performance 
 and follows the principles of Clean Architecture.
 
 ## Features
