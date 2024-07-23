@@ -1,27 +1,17 @@
 package com.example.muvitracker.utils
 
 
-sealed interface IoResponse<out T> {
-    data class Success<T>(val dataValue: T) : IoResponse<T>
-    data object NetworkError : IoResponse<Nothing>
-    data object OtherError : IoResponse<Nothing>
+sealed interface IoResponse2<out T> {
+    data class Success<T>(val dataValue: T) : IoResponse2<T>
+    data class Error(val t: Throwable) : IoResponse2<Nothing>
 
-
-    companion object {
-        // for generic type IoResponse<T> - use this function
-        // for specific type IoResponse.Success<T> - using the constructor
-        fun <T> success(dataValue: T): IoResponse<T> {
-            return Success(dataValue)
-        }
-    }
 }
 
 
-fun <T, R> IoResponse<T>.ioMapper(mapper: (T) -> R): IoResponse<R> {
+fun <T, R> IoResponse2<T>.ioMapper(mapper: (T) -> R): IoResponse2<R> {
     return when (this) {
-        is IoResponse.Success -> IoResponse.Success(mapper(dataValue))
-        is IoResponse.NetworkError -> this
-        is IoResponse.OtherError -> this
+        is IoResponse2.Success -> IoResponse2.Success(mapper(dataValue))
+        is IoResponse2.Error -> this
     }
 }
 

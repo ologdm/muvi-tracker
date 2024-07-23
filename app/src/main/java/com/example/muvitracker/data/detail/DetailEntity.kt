@@ -17,6 +17,7 @@ data class DetailEntity(
 )
 
 
+
 // (PrefsEntity?) - can be null as logic
 fun DetailEntity.toDomain(prefsEntity: PrefsEntity?): DetailMovie {
     return DetailMovie(
