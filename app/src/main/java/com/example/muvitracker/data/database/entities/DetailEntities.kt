@@ -1,25 +1,30 @@
-package com.example.muvitracker.data.detail
+package com.example.muvitracker.data.database.entities
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
+import com.example.muvitracker.data.database.ConvertersUtils
 import com.example.muvitracker.data.dto.basedto.Ids
-import com.example.muvitracker.data.prefs.PrefsEntity
 import com.example.muvitracker.domain.model.DetailMovie
 
-data class DetailEntity(
+
+@Entity(tableName = "DetailEntities")
+data class DetailEntityR(
+    @PrimaryKey val traktId: Int,
     val title: String,
     val year: Int,
-    val ids: Ids,
+    @TypeConverters(ConvertersUtils::class) val ids: Ids,
     val overview: String,
     val released: String,
     val runtime: Int,
     val country: String,
     val rating: Float,
-    val genres: List<String>,
+    @TypeConverters(ConvertersUtils::class) val genres: List<String>,
 )
 
 
-
 // (PrefsEntity?) - can be null as logic
-fun DetailEntity.toDomain(prefsEntity: PrefsEntity?): DetailMovie {
+fun DetailEntityR.toDomain(prefsEntity: PrefsEntityR?): DetailMovie {
     return DetailMovie(
         title = title,
         year = year,
@@ -33,8 +38,6 @@ fun DetailEntity.toDomain(prefsEntity: PrefsEntity?): DetailMovie {
 
         liked = prefsEntity?.liked ?: false,
         watched = prefsEntity?.watched ?: false,
-        addedDateTime = System.currentTimeMillis()
+        addedDateTime = prefsEntity?.addedDateTime
     )
 }
-
-

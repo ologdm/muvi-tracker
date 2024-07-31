@@ -7,7 +7,6 @@ data class PrefsEntity(
     val liked: Boolean,
     val watched: Boolean,
     val movieId: Int
-
 )
 
 

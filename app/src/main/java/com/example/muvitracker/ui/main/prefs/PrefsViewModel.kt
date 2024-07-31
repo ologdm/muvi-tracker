@@ -31,17 +31,22 @@ class PrefsViewModel @Inject constructor(
     }
 
 
-
-
     fun toggleFavoriteItem(itemToToggle: DetailMovie) {
-        prefsRepository.toggleFavoriteOnDB(itemToToggle.ids.trakt) // bypass
+        viewModelScope.launch {
+            prefsRepository.toggleFavoriteOnDB(itemToToggle.ids.trakt) // bypass
+        }
     }
 
     fun updateWatchedItem(updatedItem: DetailMovie, watched: Boolean) {
-        prefsRepository.updateWatchedOnDB(updatedItem.ids.trakt, watched) // bypass
+        viewModelScope.launch {
+            prefsRepository.updateWatchedOnDB(updatedItem.ids.trakt, watched) // bypass
+        }
     }
 
     fun deleteItem(movieId: Int) {
-        prefsRepository.deleteItemOnDB(movieId) // bypass
+        viewModelScope.launch {
+            prefsRepository.deleteItemOnDB(movieId) // bypass
+        }
     }
+
 }

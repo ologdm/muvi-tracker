@@ -10,6 +10,7 @@ import com.example.muvitracker.domain.repo.PrefsRepo
 import com.example.muvitracker.utils.IoResponse2
 import com.example.muvitracker.utils.StateContainer
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -41,6 +42,7 @@ class DetailViewModel @Inject constructor(
                         is IoResponse2.Error -> {
                             if (response.t is IOException) {
                                 println("ZZZ_VM_E1${response.t}")
+                                // non printare come stringa
                                 StateContainer(
                                     data = cachedMovie,
                                     isNetworkError = true
@@ -54,19 +56,32 @@ class DetailViewModel @Inject constructor(
                             }
                         }
                     }
-                }.collectLatest { container ->
+                }
+                .catch {
+                    // flow no try catch, direttamente catch -
+                    it.printStackTrace()
+                }
+                .collectLatest { container ->
                     state.value = container
                 }
         }
     }
 
 
+    // SET
     fun toggleFavorite(id: Int) {
-        prefsRepository.toggleFavoriteOnDB(id)
+        viewModelScope.launch {
+            prefsRepository.toggleFavoriteOnDB(id)
+        }
+
     }
 
+
     fun updateWatched(id: Int, watched: Boolean) {
-        prefsRepository.updateWatchedOnDB(id, watched)
+        viewModelScope.launch {
+            prefsRepository.updateWatchedOnDB(id, watched)
+        }
+
     }
 
 }

@@ -2,7 +2,9 @@ package com.example.muvitracker.utils
 
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.room.Room
 import com.example.muvitracker.data.TraktApi
+import com.example.muvitracker.data.database.MyDatabase
 import com.example.muvitracker.data.detail.DetailRepository
 import com.example.muvitracker.data.movies.MoviesRepository
 import com.example.muvitracker.data.prefs.PrefsRepository
@@ -33,6 +35,7 @@ class DaggerModules {
         return impl
     }
 
+
     @Provides
     @Singleton
     fun providedDetailRepo(impl: DetailRepository): DetailRepo {
@@ -59,6 +62,7 @@ class DaggerModules {
     fun provideGson(): Gson {
         return Gson()
     }
+
 
     @Provides
     @Singleton
@@ -92,6 +96,16 @@ class DaggerModules {
         return retrofit.create(TraktApi::class.java)
     }
 
+
+    @Provides
+    @Singleton
+    fun getMyDatabase(@ApplicationContext context: Context): MyDatabase {
+        return Room.databaseBuilder(
+            context,
+            MyDatabase::class.java,
+            "muvi-tracker-db"
+        ).build()
+    }
 
 
 }
