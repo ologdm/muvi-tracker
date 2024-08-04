@@ -83,39 +83,39 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
 
     // hilt dagger
-    implementation("com.google.dagger:hilt-android:2.51.1")
-    kapt("com.google.dagger:hilt-compiler:2.51.1")
+    def hilt_version = "2.51.1"
+    implementation("com.google.dagger:hilt-android:$hilt_version")
+    kapt("com.google.dagger:hilt-compiler:$hilt_version")
 
     // coroutines: base + android
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1")
+    def coroutines_version = "1.8.1"
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version")
 
     // store library
     implementation "org.mobilenativefoundation.store:store4:4.0.7"
 
 
     // db with room ################################################
-    implementation "androidx.room:room-ktx:2.6.1"
-    annotationProcessor "androidx.room:room-compiler:2.6.1"
+    def room_version = "2.6.1"
+    implementation "androidx.room:room-ktx:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
 
     // To use Kotlin annotation processing tool (kapt)
-    kapt "androidx.room:room-compiler:2.6.1"
+    kapt "androidx.room:room-compiler:$room_version"
     // To use Kotlin Symbol Processing (KSP) TODO test
-//    ksp "androidx.room:room-compiler:2.6.1"
+//    ksp "androidx.room:room-compiler:$room_version"
 
-    // optional - Paging 3 Integration TODO
+    // optional - Paging 3 Integration - only for loading elements from db
 //    implementation "androidx.room:room-paging:$room_version"
 
     // optional - Test helpers TODO
 //    testImplementation "androidx.room:room-testing:$room_version"
 
 
-
-
-
-
-
-
+    // paging3
+    def paging_version = "3.3.1"
+    implementation "androidx.paging:paging-runtime-ktx:$paging_version"
 
 
 }

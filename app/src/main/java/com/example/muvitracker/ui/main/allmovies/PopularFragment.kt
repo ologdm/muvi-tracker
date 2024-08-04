@@ -11,6 +11,7 @@ import com.example.muvitracker.R
 import com.example.muvitracker.databinding.FragmBaseCategoryBinding
 import com.example.muvitracker.ui.main.Navigator
 import com.example.muvitracker.ui.main.allmovies.base.MovieAdapter
+import com.example.muvitracker.ui.main.allmovies.base.MovieAdapterPag
 import com.example.muvitracker.utils.statesFlow
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -25,7 +26,11 @@ class PopularFragment : Fragment() {
     @Inject
     lateinit var navigator: Navigator
     private val viewModel by viewModels<PopularViewModel>()
-    private val adapter = MovieAdapter(onClickVH = { movieId ->
+
+//    private val adapter = MovieAdapter(onClickVH = { movieId ->
+//        startDetailsFragment(movieId)
+//    })
+    private val adapter = MovieAdapterPag(onClickVH = { movieId ->
         startDetailsFragment(movieId)
     })
 
@@ -44,15 +49,23 @@ class PopularFragment : Fragment() {
         view: View,
         savedInstanceState: Bundle?
     ) {
-        viewModel.state.observe(viewLifecycleOwner) { state ->
-            adapter.submitList(state.data)
+        // TODO
+//        viewModel.statePaging.observe(viewLifecycleOwner) { state ->
+////            adapter.submitList(state.data)
+//            adapter.submitData(lifecycle,)
+//
+//
+//            state.statesFlow(
+//                errorTextview = binding!!.errorTextView,
+//                null
+//            )
+//            println("XXX OBSERVING STATE: $state")
+//        }
 
-            state.statesFlow(
-                errorTextview = binding!!.errorTextView,
-                null
-            )
-            println("XXX OBSERVING STATE: $state")
+        viewModel.statePaging.observe(viewLifecycleOwner) {
+            adapter.submitData(lifecycle,it)
         }
+
 
         with(binding!!) {
             toolbar.text = getString(R.string.popular)

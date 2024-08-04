@@ -15,6 +15,15 @@ interface TraktApi {
     suspend fun getPopularMovies()
             : List<MovieDto>
 
+
+    // ?page={page}&limit={limit} - impostazione standard
+    @GET("movies/popular")
+    suspend fun getPopularMoviesPaging(
+        @Query("page") page: Int, // standard
+        @Query("limit") limit :Int // standard
+    ): List<MovieDto>
+
+
     @GET("movies/boxoffice")
     suspend fun getBoxoMovies()
             : List<BoxoDto>
