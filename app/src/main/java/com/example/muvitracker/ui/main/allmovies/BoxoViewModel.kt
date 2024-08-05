@@ -65,4 +65,40 @@ class BoxoViewModel @Inject constructor(
                 }
         }
     }
+
+
+    private fun loadMovies() {
+        viewModelScope.launch {
+            var maintainedData: List<Movie>? = null
+            moviesRepository.getBoxoStoreStream()
+                .catch {
+                    it.printStackTrace()
+                }
+                .map { response ->
+                    when (response) {
+                        is IoResponse2.Success -> {
+                            maintainedData = response.dataValue
+                            StateContainer(data = response.dataValue)
+                        }
+
+                        is IoResponse2.Error -> {
+                            if (response.t is IOException) {
+                                StateContainer(data = maintainedData, isNetworkError = true)
+                            } else {
+                                StateContainer(data = maintainedData, isOtherError = true)
+                            }
+                        }
+                    }
+                }.collectLatest {
+                    _state.value = it
+                }
+        }
+    }
+
+
+
+
+
+
+
 }
