@@ -11,7 +11,9 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.muvitracker.R
 import com.example.muvitracker.databinding.FragmBaseCategoryBinding
 import com.example.muvitracker.ui.main.Navigator
+import com.example.muvitracker.ui.main.allmovies.base.MovieAdapter
 import com.example.muvitracker.ui.main.allmovies.base.MoviePagingAdapter
+import com.example.muvitracker.utils.statesFlow
 import com.example.muvitracker.utils.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -26,7 +28,7 @@ class BoxoFragment : Fragment(R.layout.fragm_base_category) {
     @Inject
     lateinit var navigator: Navigator
 
-    private val adapter = MoviePagingAdapter(onClickVH = { movieId ->
+    private val adapter = MovieAdapter(onClickVH = { movieId ->
         startDetailsFragment(movieId)
     })
 
@@ -36,8 +38,14 @@ class BoxoFragment : Fragment(R.layout.fragm_base_category) {
         savedInstanceState: Bundle?
     ) {
 
+        viewModel.state.observe(viewLifecycleOwner){ stateContainer->
+            adapter.submitList(stateContainer.data)
 
-
+            stateContainer.statesFlow(
+                errorTextview = binding.errorTextView,
+                progressBar = binding.progressBar
+            )
+        }
 
         with(binding) {
             toolbar.text = getString(R.string.box_office)

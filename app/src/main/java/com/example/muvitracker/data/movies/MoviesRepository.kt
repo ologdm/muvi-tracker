@@ -30,6 +30,7 @@ class MoviesRepository @Inject constructor(
     private val database: MyDatabase
 ) : MoviesRepo {
 
+
     private val boxofficeDao = database.boxofficeDao()
 
     // OK
