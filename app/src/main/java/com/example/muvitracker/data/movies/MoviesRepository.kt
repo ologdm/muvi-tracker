@@ -53,7 +53,9 @@ class MoviesRepository @Inject constructor(
                 boxofficeDao.insertList(list.map { it.toEntity() })
             }
         )
-    ).build()
+    ).disableCache()
+        .build()
+
 
 
     override
