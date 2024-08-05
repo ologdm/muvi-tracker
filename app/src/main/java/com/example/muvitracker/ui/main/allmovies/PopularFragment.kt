@@ -1,73 +1,58 @@
 package com.example.muvitracker.ui.main.allmovies
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.muvitracker.R
 import com.example.muvitracker.databinding.FragmBaseCategoryBinding
 import com.example.muvitracker.ui.main.Navigator
-import com.example.muvitracker.ui.main.allmovies.base.MovieAdapter
-import com.example.muvitracker.ui.main.allmovies.base.MovieAdapterPag
-import com.example.muvitracker.utils.statesFlow
+import com.example.muvitracker.ui.main.allmovies.base.MoviePagingAdapter
+import com.example.muvitracker.utils.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@AndroidEntryPoint
-class PopularFragment : Fragment() {
 
-    private var _binding: FragmBaseCategoryBinding? = null
-    private val binding
-        get() = _binding
+@AndroidEntryPoint
+class PopularFragment : Fragment(R.layout.fragm_base_category) {
+
+    private val binding by viewBinding(FragmBaseCategoryBinding::bind)
+    private val viewModel by viewModels<PopularViewModel>()
 
     @Inject
     lateinit var navigator: Navigator
-    private val viewModel by viewModels<PopularViewModel>()
 
-//    private val adapter = MovieAdapter(onClickVH = { movieId ->
-//        startDetailsFragment(movieId)
-//    })
-    private val adapter = MovieAdapterPag(onClickVH = { movieId ->
+    private val adapter = MoviePagingAdapter(onClickVH = { movieId ->
         startDetailsFragment(movieId)
     })
-
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmBaseCategoryBinding.inflate(inflater, container, false)
-        return binding?.root
-    }
 
 
     override fun onViewCreated(
         view: View,
         savedInstanceState: Bundle?
     ) {
-        // TODO
-//        viewModel.statePaging.observe(viewLifecycleOwner) { state ->
-////            adapter.submitList(state.data)
-//            adapter.submitData(lifecycle,)
-//
-//
-//            state.statesFlow(
-//                errorTextview = binding!!.errorTextView,
-//                null
-//            )
-//            println("XXX OBSERVING STATE: $state")
-//        }
-
-        viewModel.statePaging.observe(viewLifecycleOwner) {
-            adapter.submitData(lifecycle,it)
+        // 1° coroutine - // TODO farla come extension function
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.statePaging.collect {
+                adapter.submitData(it)
+            }
         }
 
+        // 2° coroutine necessaria
+        viewLifecycleOwner.lifecycleScope.launch {
+            adapter.loadStateFlow.collect { loadState ->
+                binding.progressBar.isVisible = loadState.refresh is LoadState.Loading
+//                binding.retry.isVisible = loadState.refresh !is LoadState.Loading
+                binding.errorTextView.isVisible = loadState.refresh is LoadState.Error
+            }
+        }
 
-        with(binding!!) {
+        with(binding) {
             toolbar.text = getString(R.string.popular)
             recyclerView.adapter = adapter
             recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
@@ -75,16 +60,11 @@ class PopularFragment : Fragment() {
     }
 
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
-
     private fun startDetailsFragment(movieId: Int) {
         navigator.startDetailsFragment(
             movieId
         )
+        println("XXX_POPULAR_movieId: $movieId") // OK arriva
     }
 
 }

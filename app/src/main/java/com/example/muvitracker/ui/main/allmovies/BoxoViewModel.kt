@@ -3,8 +3,12 @@ package com.example.muvitracker.ui.main.allmovies
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.cachedIn
+import com.example.muvitracker.data.TraktApi
+import com.example.muvitracker.data.movies.BoxofficePagingSource
 import com.example.muvitracker.domain.model.base.Movie
 import com.example.muvitracker.domain.repo.MoviesRepo
 import com.example.muvitracker.utils.IoResponse2
@@ -32,9 +36,12 @@ class BoxoViewModel @Inject constructor(
 
 
     private fun loadMovies() {
+
         viewModelScope.launch {
             var maintainedData: List<Movie>? = null
-            moviesRepository.getBoxoStoreStream()
+
+            moviesRepository
+                .getBoxoStoreStream()
                 .catch {
                     it.printStackTrace()
                 }
@@ -58,6 +65,4 @@ class BoxoViewModel @Inject constructor(
                 }
         }
     }
-
-
 }

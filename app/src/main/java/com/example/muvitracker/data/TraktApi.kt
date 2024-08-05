@@ -11,22 +11,17 @@ import retrofit2.http.Query
 
 interface TraktApi {
 
-    @GET("movies/popular")
-    suspend fun getPopularMovies()
-            : List<MovieDto>
-
-
     // ?page={page}&limit={limit} - impostazione standard
     @GET("movies/popular")
-    suspend fun getPopularMoviesPaging(
+    suspend fun getPopularMovies(
         @Query("page") page: Int, // standard
-        @Query("limit") limit :Int // standard
+        @Query("limit") limit: Int // standard
     ): List<MovieDto>
 
 
-    @GET("movies/boxoffice")
-    suspend fun getBoxoMovies()
-            : List<BoxoDto>
+    @GET("movies/boxoffice") // no paging, only 10 results
+    suspend fun getBoxoMovies(): List<BoxoDto>
+
 
     @GET("movies/{movie_id}?extended=full")
     suspend fun getMovieDetail(@Path("movie_id") movieId: Int)

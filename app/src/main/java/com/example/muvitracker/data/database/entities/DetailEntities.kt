@@ -9,7 +9,7 @@ import com.example.muvitracker.domain.model.DetailMovie
 
 
 @Entity(tableName = "DetailEntities")
-data class DetailEntityR(
+data class DetailEntity(
     @PrimaryKey val traktId: Int,
     val title: String,
     val year: Int,
@@ -24,7 +24,7 @@ data class DetailEntityR(
 
 
 // (PrefsEntity?) - can be null as logic
-fun DetailEntityR.toDomain(prefsEntity: PrefsEntityR?): DetailMovie {
+fun DetailEntity.toDomain(prefsEntity: PrefsEntity?): DetailMovie {
     return DetailMovie(
         title = title,
         year = year,

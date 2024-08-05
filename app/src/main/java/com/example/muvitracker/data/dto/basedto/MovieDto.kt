@@ -10,7 +10,7 @@ data class MovieDto(
     val ids: Ids
 )
 
-// old
+
 fun MovieDto.toDomain(): Movie {
     return Movie(title, year, ids)
 }

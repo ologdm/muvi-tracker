@@ -1,10 +1,7 @@
 package com.example.muvitracker.data.dto
 
-import com.example.muvitracker.data.database.entities.DetailEntityR
-import com.example.muvitracker.data.detail.DetailEntity
+import com.example.muvitracker.data.database.entities.DetailEntity
 import com.example.muvitracker.data.dto.basedto.Ids
-import com.example.muvitracker.data.prefs.PrefsEntity
-import com.example.muvitracker.domain.model.DetailMovie
 
 
 data class DetailDto(
@@ -34,22 +31,8 @@ data class DetailDto(
 )
 
 
-fun DetailDto.toEntity(): DetailEntity {
+fun DetailDto.toEntityR(): DetailEntity {
     return DetailEntity(
-        title = title,
-        year = year,
-        ids = ids,
-        overview = overview,
-        released = released,
-        runtime = runtime,
-        country = country ?: "",
-        rating = rating,
-        genres = genres
-    )
-}
-
-fun DetailDto.toEntityR(): DetailEntityR {
-    return DetailEntityR(
         traktId = ids.trakt,
         title = title,
         year = year,
@@ -64,22 +47,6 @@ fun DetailDto.toEntityR(): DetailEntityR {
 }
 
 
-
-//fun DetailDto.toDomain(prefsEntity: PrefsEntity?): DetailMovie {
-//    return DetailMovie(
-//        title = title,
-//        year = year,
-//        ids = ids,
-//        overview = overview,
-//        released = released,
-//        runtime = runtime,
-//        country = country ?: "",
-//        rating = rating,
-//        genres = genres,
-//        liked = prefsEntity?.liked ?: false ,
-//        watched = prefsEntity?.watched ?: false
-//    )
-//}
 
 
 /*

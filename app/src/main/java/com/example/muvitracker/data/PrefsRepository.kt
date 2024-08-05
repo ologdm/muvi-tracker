@@ -1,9 +1,8 @@
-package com.example.muvitracker.data.prefs
+package com.example.muvitracker.data
 
 import com.example.muvitracker.data.database.MyDatabase
-import com.example.muvitracker.data.database.entities.PrefsEntityR
+import com.example.muvitracker.data.database.entities.PrefsEntity
 import com.example.muvitracker.data.database.entities.toDomain
-import com.example.muvitracker.data.detail.DetailRepository
 import com.example.muvitracker.domain.model.DetailMovie
 import com.example.muvitracker.domain.repo.PrefsRepo
 import kotlinx.coroutines.flow.Flow
@@ -53,7 +52,7 @@ class PrefsRepository @Inject constructor(
             prefsDao.updateLiked(id)
         } else {
             prefsDao.insertSingle(
-                PrefsEntityR(
+                PrefsEntity(
                     traktId = id,
                     liked = true,
                     watched = false,
@@ -72,7 +71,7 @@ class PrefsRepository @Inject constructor(
             prefsDao.updateWatched(id, watched)
         } else {
             prefsDao.insertSingle(
-                PrefsEntityR(
+                PrefsEntity(
                     traktId = id,
                     liked = false,
                     watched = watched,

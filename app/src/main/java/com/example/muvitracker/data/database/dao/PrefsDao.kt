@@ -1,10 +1,9 @@
-package com.example.muvitracker.data.database
+package com.example.muvitracker.data.database.dao
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
-import com.example.muvitracker.data.database.entities.PrefsEntityR
+import com.example.muvitracker.data.database.entities.PrefsEntity
 import kotlinx.coroutines.flow.Flow
 
 
@@ -14,16 +13,16 @@ interface PrefsDao {
 
     // CREATE
     @Insert
-    suspend fun insertSingle(entity: PrefsEntityR)
+    suspend fun insertSingle(entity: PrefsEntity)
 
 
     // READ
     @Query("SELECT * FROM PrefsEntities WHERE traktId=:id")
-    fun readSingle(id: Int): Flow<PrefsEntityR?>
+    fun readSingle(id: Int): Flow<PrefsEntity?>
 
 
     @Query("SELECT * FROM PrefsEntities")
-    fun readAll(): Flow<List<PrefsEntityR?>>
+    fun readAll(): Flow<List<PrefsEntity?>>
 
     // UPDATE (personalizzati con query)
     @Query("UPDATE PrefsEntities SET liked = NOT liked WHERE traktId =:id")

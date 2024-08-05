@@ -5,10 +5,10 @@ import android.content.SharedPreferences
 import androidx.room.Room
 import com.example.muvitracker.data.TraktApi
 import com.example.muvitracker.data.database.MyDatabase
-import com.example.muvitracker.data.detail.DetailRepository
-import com.example.muvitracker.data.movies.MoviesRepositoryR
-import com.example.muvitracker.data.prefs.PrefsRepository
-import com.example.muvitracker.data.search.SearchRepository
+import com.example.muvitracker.data.DetailRepository
+import com.example.muvitracker.data.PrefsRepository
+import com.example.muvitracker.data.SearchRepository
+import com.example.muvitracker.data.movies.MoviesRepository
 import com.example.muvitracker.domain.repo.DetailRepo
 import com.example.muvitracker.domain.repo.MoviesRepo
 import com.example.muvitracker.domain.repo.PrefsRepo
@@ -28,16 +28,10 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 class DaggerModules {
 
-    // repositories
-//    @Provides
-//    @Singleton
-//    fun provideMoviesRepo(impl: MoviesRepository): MoviesRepo {
-//        return impl
-//    }
 
     @Provides
     @Singleton
-    fun provideMoviesRepo(impl: MoviesRepositoryR): MoviesRepo {
+    fun providedMoviesRepo(impl: MoviesRepository): MoviesRepo {
         return impl
     }
 

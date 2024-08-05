@@ -1,4 +1,4 @@
-package com.example.muvitracker.data.database
+package com.example.muvitracker.data.database.todo
 
 import androidx.room.Dao
 import androidx.room.Insert

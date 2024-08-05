@@ -11,7 +11,6 @@ data class BoxoDto(
 )
 
 
-// old
 fun BoxoDto.toDomain(): Movie {
     return Movie(
         movie.title,

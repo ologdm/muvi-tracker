@@ -1,4 +1,4 @@
-package com.example.muvitracker.data.detail
+package com.example.muvitracker.data
 
 import com.dropbox.android.external.store4.Fetcher
 import com.dropbox.android.external.store4.FetcherResult
@@ -7,13 +7,11 @@ import com.dropbox.android.external.store4.Store
 import com.dropbox.android.external.store4.StoreBuilder
 import com.dropbox.android.external.store4.StoreRequest
 import com.dropbox.android.external.store4.StoreResponse
-import com.example.muvitracker.data.TraktApi
 import com.example.muvitracker.data.database.MyDatabase
-import com.example.muvitracker.data.database.entities.DetailEntityR
+import com.example.muvitracker.data.database.entities.DetailEntity
 import com.example.muvitracker.data.database.entities.toDomain
 import com.example.muvitracker.data.dto.DetailDto
 import com.example.muvitracker.data.dto.toEntityR
-import com.example.muvitracker.data.prefs.PrefsLocalDS
 import com.example.muvitracker.domain.model.DetailMovie
 import com.example.muvitracker.domain.repo.DetailRepo
 import com.example.muvitracker.utils.IoResponse2
@@ -35,10 +33,11 @@ class DetailRepository @Inject constructor(
     private val prefsDao = database.prefsDao()
 
 
-    private val detailStore: Store<Int, DetailEntityR> = StoreBuilder.from(
+    private val detailStore: Store<Int, DetailEntity> = StoreBuilder.from(
         fetcher = Fetcher.ofResult { key ->
             try {
                 FetcherResult.Data(traktApi.getMovieDetail(key))
+
             } catch (ex: CancellationException) {
                 throw ex
             } catch (ex: Throwable) {
@@ -46,9 +45,8 @@ class DetailRepository @Inject constructor(
                 FetcherResult.Error.Exception(ex)
             }
         },
-        sourceOfTruth = SourceOfTruth.of<Int, DetailDto, DetailEntityR>(
+        sourceOfTruth = SourceOfTruth.of<Int, DetailDto, DetailEntity>(
             reader = { key ->
-                // catch before collect
                 getDetailEntity(key)
             },
             writer = { _, dto ->
@@ -63,7 +61,7 @@ class DetailRepository @Inject constructor(
     ).build()
 
 
-    private fun getDetailEntity(id: Int): Flow<DetailEntityR?> {
+    private fun getDetailEntity(id: Int): Flow<DetailEntity?> {
         return detailDao.readSingleFlow(id) // with flow, observable db
     }
 
@@ -105,14 +103,13 @@ class DetailRepository @Inject constructor(
                 is StoreResponse.Loading,
                 is StoreResponse.NoNewData -> error("should be filtered upstream")
             }
-
         }
     }
 
 
     // for prefs view
     override
-    fun getDetailListFlow(): Flow<List<DetailEntityR?>> {
+    fun getDetailListFlow(): Flow<List<DetailEntity?>> {
         return detailDao.readAllFlow()
     }
 

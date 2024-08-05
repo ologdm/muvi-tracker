@@ -7,8 +7,10 @@ import androidx.recyclerview.widget.DiffUtil
 import com.example.muvitracker.databinding.VhMovieBinding
 import com.example.muvitracker.domain.model.base.Movie
 
+// used by:
+// - popular fragment - lists with paging needed
 
-class MovieAdapterPag(
+class MoviePagingAdapter(
     private val onClickVH: (Int) -> Unit,
 ) : PagingDataAdapter<Movie, MovieVh>(DIFF_CALLBACK) {
 
@@ -19,21 +21,20 @@ class MovieAdapterPag(
             }
 
             override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean {
-                return oldItem == newItem // se dataclass -->  ==  uguale a .equals()
+                return oldItem == newItem
             }
 
         }
     }
 
 
-    // gli dico come creare i viewHolder
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieVh {
         val layoutInflater = LayoutInflater.from(parent.context)
         val bindingVh = VhMovieBinding.inflate(layoutInflater, parent, false)
         return MovieVh(bindingVh)
     }
 
-    // gli dico come gestire ogni Vh creato
+
     override fun onBindViewHolder(holder: MovieVh, position: Int) {
         val item = getItem(position)
 

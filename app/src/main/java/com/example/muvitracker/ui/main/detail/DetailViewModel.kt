@@ -3,7 +3,6 @@ package com.example.muvitracker.ui.main.detail
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.muvitracker.data.detail.DetailRepository
 import com.example.muvitracker.domain.model.DetailMovie
 import com.example.muvitracker.domain.repo.DetailRepo
 import com.example.muvitracker.domain.repo.PrefsRepo
