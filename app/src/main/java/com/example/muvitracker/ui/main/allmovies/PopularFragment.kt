@@ -5,7 +5,9 @@ import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.muvitracker.R
@@ -13,8 +15,12 @@ import com.example.muvitracker.databinding.FragmBaseCategoryBinding
 import com.example.muvitracker.ui.main.Navigator
 import com.example.muvitracker.ui.main.allmovies.base.MoviePagingAdapter
 import com.example.muvitracker.utils.viewBinding
+import com.example.muvitracker.utils.viewLifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.io.IOException
+import java.lang.Exception
 import javax.inject.Inject
 
 
@@ -36,26 +42,54 @@ class PopularFragment : Fragment(R.layout.fragm_base_category) {
         view: View,
         savedInstanceState: Bundle?
     ) {
-        // 1° coroutine - // TODO farla come extension function
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.statePaging.collect {
-                adapter.submitData(it)
-            }
-        }
-
-        // 2° coroutine necessaria
-        viewLifecycleOwner.lifecycleScope.launch {
-            adapter.loadStateFlow.collect { loadState ->
-                binding.progressBar.isVisible = loadState.refresh is LoadState.Loading
-//                binding.retry.isVisible = loadState.refresh !is LoadState.Loading
-                binding.errorTextView.isVisible = loadState.refresh is LoadState.Error
-            }
-        }
+        collectPagingState()// 1° coroutine
+        collectPagingLoadStateFlow()// 2° coroutine necessaria
 
         with(binding) {
             toolbar.text = getString(R.string.popular)
             recyclerView.adapter = adapter
             recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
+        }
+
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            adapter.refresh()
+        }
+
+    }
+
+    // PAGING METHODS
+    private fun collectPagingState() {
+        viewLifecycleScope.launch { // extended property
+
+            viewModel.statePaging.collect { pagingData ->
+                adapter.submitData(pagingData)
+                binding.swipeRefreshLayout.isRefreshing = false
+                binding.errorTextView.isVisible = false
+                // basta qua, si spegne quando si ha la risposta dal pager (sia data che error)
+            }
+        }
+    }
+
+
+    private fun collectPagingLoadStateFlow() {
+        viewLifecycleScope.launch {
+            adapter.loadStateFlow.collectLatest { loadState ->
+                // 1-OK
+                binding.progressBar.isVisible = loadState.refresh is LoadState.Loading
+                // 2 -OK
+                if (loadState.refresh is LoadState.Error) {
+                    binding.errorTextView.isVisible = true
+
+                    val error = (loadState.refresh as LoadState.Error).error
+                    if (error is IOException) {
+                        binding.errorTextView.text =
+                            requireContext().getString(R.string.error_message_no_internet)
+                    } else {
+                        binding.errorTextView.text =
+                            requireContext().getString(R.string.error_message_other)
+                    }
+                }
+            }
         }
     }
 
@@ -64,10 +98,8 @@ class PopularFragment : Fragment(R.layout.fragm_base_category) {
         navigator.startDetailsFragment(
             movieId
         )
-        println("XXX_POPULAR_movieId: $movieId") // OK arriva
     }
 
 }
-
 
 

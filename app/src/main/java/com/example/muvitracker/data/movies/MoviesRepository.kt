@@ -12,11 +12,10 @@ import com.example.muvitracker.data.database.MyDatabase
 import com.example.muvitracker.data.database.entities.BoxoMovieEntity
 import com.example.muvitracker.data.database.entities.toDomain
 import com.example.muvitracker.data.dto.BoxoDto
-import com.example.muvitracker.data.dto.basedto.toEntity
 import com.example.muvitracker.data.dto.toEntity
 import com.example.muvitracker.domain.model.base.Movie
 import com.example.muvitracker.domain.repo.MoviesRepo
-import com.example.muvitracker.utils.IoResponse2
+import com.example.muvitracker.utils.IoResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filterNot
 import kotlinx.coroutines.flow.map
@@ -60,7 +59,7 @@ class MoviesRepository @Inject constructor(
 
 
     override
-    fun getBoxoStoreStream(): Flow<IoResponse2<List<Movie>>> {
+    fun getBoxoStoreStream(): Flow<IoResponse<List<Movie>>> {
         return boxofficeStore.stream(StoreRequest.cached(key = Unit, refresh = true))
             .filterNot { response ->
                 response is StoreResponse.Loading || response is StoreResponse.NoNewData
@@ -68,15 +67,15 @@ class MoviesRepository @Inject constructor(
             .map { storeResponse ->
                 when (storeResponse) {
                     is StoreResponse.Data -> {
-                        IoResponse2.Success(storeResponse.value.map { it.toDomain() })
+                        IoResponse.Success(storeResponse.value.map { it.toDomain() })
                     }
 
                     is StoreResponse.Error.Exception -> {
-                        IoResponse2.Error(storeResponse.error)
+                        IoResponse.Error(storeResponse.error)
                     }
 
                     is StoreResponse.Error.Message -> {
-                        IoResponse2.Error(RuntimeException(storeResponse.message))
+                        IoResponse.Error(RuntimeException(storeResponse.message))
                     }
 
                     is StoreResponse.Loading,

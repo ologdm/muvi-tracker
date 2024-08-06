@@ -14,7 +14,7 @@ import com.example.muvitracker.data.dto.DetailDto
 import com.example.muvitracker.data.dto.toEntityR
 import com.example.muvitracker.domain.model.DetailMovie
 import com.example.muvitracker.domain.repo.DetailRepo
-import com.example.muvitracker.utils.IoResponse2
+import com.example.muvitracker.utils.IoResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterNot
@@ -73,7 +73,7 @@ class DetailRepository @Inject constructor(
     // CONTRACT METHODS
     // for detail view
     override
-    fun getSingleDetailMovieFlow(id: Int): Flow<IoResponse2<DetailMovie>> {
+    fun getSingleDetailMovieFlow(id: Int): Flow<IoResponse<DetailMovie>> {
         // flow1
         val detailFlow = detailStore.stream(StoreRequest.cached(key = id, refresh = true))
             .filterNot { response ->
@@ -91,14 +91,14 @@ class DetailRepository @Inject constructor(
                         entity?.traktId == storeResponse.value.ids.trakt
                     }
                     val detailMovie = storeResponse.value.toDomain(prefsEntity)
-                    IoResponse2.Success(detailMovie)
+                    IoResponse.Success(detailMovie)
                 }
 
                 is StoreResponse.Error.Exception ->
-                    IoResponse2.Error(storeResponse.error)
+                    IoResponse.Error(storeResponse.error)
 
                 is StoreResponse.Error.Message ->
-                    IoResponse2.Error(RuntimeException(storeResponse.message))
+                    IoResponse.Error(RuntimeException(storeResponse.message))
 
                 is StoreResponse.Loading,
                 is StoreResponse.NoNewData -> error("should be filtered upstream")

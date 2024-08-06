@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.muvitracker.domain.model.DetailMovie
 import com.example.muvitracker.domain.repo.DetailRepo
 import com.example.muvitracker.domain.repo.PrefsRepo
-import com.example.muvitracker.utils.IoResponse2
+import com.example.muvitracker.utils.IoResponse
 import com.example.muvitracker.utils.StateContainer
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
@@ -32,13 +32,13 @@ class DetailViewModel @Inject constructor(
             detailRepository.getSingleDetailMovieFlow(movieId)
                 .map { response ->
                     when (response) {
-                        is IoResponse2.Success -> {
+                        is IoResponse.Success -> {
                             println("ZZZ_VM_S${response.dataValue}")
                             cachedMovie = response.dataValue
                             StateContainer(data = response.dataValue)
                         }
 
-                        is IoResponse2.Error -> {
+                        is IoResponse.Error -> {
                             if (response.t is IOException) {
                                 println("ZZZ_VM_E1${response.t}")
                                 // non printare come stringa

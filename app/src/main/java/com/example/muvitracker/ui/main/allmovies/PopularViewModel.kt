@@ -22,6 +22,9 @@ class PopularViewModel @Inject constructor(
     ).flow
         .cachedIn(viewModelScope) // scope a cui fa riferimento il paging attuale
 
+
+
+
 }
 
 

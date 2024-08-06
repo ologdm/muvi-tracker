@@ -52,6 +52,11 @@ class BoxoFragment : Fragment(R.layout.fragm_base_category) {
             recyclerView.adapter = adapter
             recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
         }
+
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            viewModel.loadMovies()
+            binding.swipeRefreshLayout.isRefreshing = false // TODO  - manage all the states, stop
+        }
     }
 
 
