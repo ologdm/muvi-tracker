@@ -1,6 +1,5 @@
 package com.example.muvitracker.data.movies
 
-
 import com.dropbox.android.external.store4.Fetcher
 import com.dropbox.android.external.store4.FetcherResult
 import com.dropbox.android.external.store4.SourceOfTruth
@@ -9,113 +8,81 @@ import com.dropbox.android.external.store4.StoreBuilder
 import com.dropbox.android.external.store4.StoreRequest
 import com.dropbox.android.external.store4.StoreResponse
 import com.example.muvitracker.data.TraktApi
+import com.example.muvitracker.data.database.MyDatabase
+import com.example.muvitracker.data.database.entities.BoxoMovieEntity
+import com.example.muvitracker.data.database.entities.toDomain
 import com.example.muvitracker.data.dto.BoxoDto
-import com.example.muvitracker.data.dto.basedto.MovieDto
+import com.example.muvitracker.data.dto.toEntity
 import com.example.muvitracker.domain.model.base.Movie
-import com.example.muvitracker.data.dto.basedto.toDomain
-import com.example.muvitracker.data.dto.toDomain
 import com.example.muvitracker.domain.repo.MoviesRepo
-import com.example.muvitracker.utils.IoResponse2
+import com.example.muvitracker.utils.IoResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filterNot
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
-import javax.inject.Singleton
 import kotlin.coroutines.cancellation.CancellationException
 
+// for lists without paging
 
-@Singleton
 class MoviesRepository @Inject constructor(
     private val traktApi: TraktApi,
-    private val moviesDS: MoviesDS
+    private val database: MyDatabase
 ) : MoviesRepo {
 
 
-    // store builders #################################################################
-    private val popularStore: Store<Unit, List<MovieDto>> = StoreBuilder.from(
-        fetcher = Fetcher.ofResult {
-            try {
-                FetcherResult.Data(traktApi.getPopularMovies())// suspend fun
-            } catch (ex: CancellationException) {
-                throw ex
-            } catch (ex: Throwable) {
-                FetcherResult.Error.Exception(ex)
-            }
-        },
-        sourceOfTruth = SourceOfTruth.of<Unit, List<MovieDto>, List<MovieDto>>(
-            reader = { moviesDS.getPopularFLow() }, // flow
-            writer = { _, data -> moviesDS.savePopularOnShared(data) } // suspend fun
-        )
-    ).disableCache()
-        .build()
+    private val boxofficeDao = database.boxofficeDao()
 
-
-    private val boxoStore: Store<Unit, List<BoxoDto>> = StoreBuilder.from(
-        fetcher = Fetcher.ofResult {
+    // OK
+    private val boxofficeStore: Store<Unit, List<BoxoMovieEntity>> = StoreBuilder.from(
+        fetcher = Fetcher.ofResult { key ->
             try {
                 FetcherResult.Data(traktApi.getBoxoMovies())
+
             } catch (ex: CancellationException) {
                 throw ex
             } catch (ex: Throwable) {
+                ex.printStackTrace()
                 FetcherResult.Error.Exception(ex)
             }
         },
-        sourceOfTruth = SourceOfTruth.of<Unit, List<BoxoDto>, List<BoxoDto>>(
-            reader = { moviesDS.getBoxoFLow() },
-            writer = { _, data -> moviesDS.saveBoxoOnShared(data) }
+        sourceOfTruth = SourceOfTruth.of<Unit, List<BoxoDto>, List<BoxoMovieEntity>>(
+            reader = { _ ->
+                boxofficeDao.readAll()
+            },
+            writer = { _, list ->
+                boxofficeDao.insertList(list.map { it.toEntity() })
+            }
         )
     ).disableCache()
         .build()
 
 
-    // contract funs - with store stream
+
     override
-    fun getPopularStoreStream(): Flow<IoResponse2<List<Movie>>> {
-        return popularStore.stream(StoreRequest.cached(Unit, refresh = true))
+    fun getBoxoStoreStream(): Flow<IoResponse<List<Movie>>> {
+        return boxofficeStore.stream(StoreRequest.cached(key = Unit, refresh = true))
             .filterNot { response ->
                 response is StoreResponse.Loading || response is StoreResponse.NoNewData
-            }.map { response ->
-                when (response) {
-                    is StoreResponse.Data -> {
-                        IoResponse2.Success(response.value.map { dto ->
-                            dto.toDomain()
-                        })
-                    }
-
-                    is StoreResponse.Error.Exception -> IoResponse2.Error(response.error)
-                    is StoreResponse.Error.Message -> IoResponse2.Error(RuntimeException(response.message))// msg encapsulated into throwable
-                    is StoreResponse.Loading, is StoreResponse.NoNewData -> error("should be filtered upstream") // error - kotlin function
-                }
             }
-    }
-
-
-    override
-    fun getBoxoStoreStream(): Flow<IoResponse2<List<Movie>>> {
-        return boxoStore.stream(StoreRequest.cached(Unit, refresh = true))
-            .filterNot { response ->
-                response is StoreResponse.Loading || response is StoreResponse.NoNewData
-            }.map { response ->
-                when (response) {
+            .map { storeResponse ->
+                when (storeResponse) {
                     is StoreResponse.Data -> {
-                        IoResponse2.Success(response.value.map { dto ->
-                            dto.toDomain()
-                        })
+                        IoResponse.Success(storeResponse.value.map { it.toDomain() })
                     }
 
-                    is StoreResponse.Error.Exception -> IoResponse2.Error(response.error)
-                    is StoreResponse.Error.Message -> IoResponse2.Error(RuntimeException(response.message))
-                    is StoreResponse.Loading, is StoreResponse.NoNewData -> error("should be filtered upstream")
+                    is StoreResponse.Error.Exception -> {
+                        IoResponse.Error(storeResponse.error)
+                    }
+
+                    is StoreResponse.Error.Message -> {
+                        IoResponse.Error(RuntimeException(storeResponse.message))
+                    }
+
+                    is StoreResponse.Loading,
+                    is StoreResponse.NoNewData -> error("should be filtered upstream")
                 }
             }
     }
 
 
 }
-
-
-
-
-
-
-

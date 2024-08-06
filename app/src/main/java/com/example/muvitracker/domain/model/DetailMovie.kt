@@ -6,6 +6,7 @@ data class DetailMovie(
     // prefs entity
     val liked: Boolean,
     val watched: Boolean,
+    val addedDateTime: Long?,
 
     // detail entity
     val title: String,
@@ -18,9 +19,7 @@ data class DetailMovie(
     val rating: Float,
     val genres: List<String>,
 ) {
-
     fun imageUrl(): String {
         return "http://img.omdbapi.com/?apikey=ef6d3d4c&i=${ids.imdb}"
     }
-
 }

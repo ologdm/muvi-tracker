@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.ListAdapter
 import com.example.muvitracker.databinding.VhMovieBinding
 import com.example.muvitracker.domain.model.base.Movie
 
+// used by:
+// - boxoffice fragment (only 10 result, no paging needed)
 
 class MovieAdapter(
     private val onClickVH: (Int) -> Unit,
@@ -41,5 +43,3 @@ class MovieAdapter(
 
     }
 }
-
-

@@ -6,14 +6,13 @@ import kotlinx.coroutines.flow.Flow
 
 interface PrefsRepo {
 
-//    fun getList(): LiveData<List<DetailMovie>>
+    //    fun getList(): LiveData<List<DetailMovie>>
     fun getListFLow(): Flow<List<DetailMovie>>
 
+    suspend fun toggleFavoriteOnDB(id: Int)
 
-    fun toggleFavoriteOnDB(id: Int)
+    suspend fun updateWatchedOnDB(id: Int, watched: Boolean)
 
-    fun updateWatchedOnDB(id: Int, watched: Boolean)
-
-    fun deleteItemOnDB(movieId: Int)
+    suspend fun deleteItemOnDB(id: Int)
 
 }

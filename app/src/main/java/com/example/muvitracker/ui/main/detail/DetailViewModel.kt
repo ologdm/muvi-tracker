@@ -3,13 +3,13 @@ package com.example.muvitracker.ui.main.detail
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.muvitracker.data.detail.DetailRepository
 import com.example.muvitracker.domain.model.DetailMovie
 import com.example.muvitracker.domain.repo.DetailRepo
 import com.example.muvitracker.domain.repo.PrefsRepo
-import com.example.muvitracker.utils.IoResponse2
+import com.example.muvitracker.utils.IoResponse
 import com.example.muvitracker.utils.StateContainer
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -32,15 +32,16 @@ class DetailViewModel @Inject constructor(
             detailRepository.getSingleDetailMovieFlow(movieId)
                 .map { response ->
                     when (response) {
-                        is IoResponse2.Success -> {
+                        is IoResponse.Success -> {
                             println("ZZZ_VM_S${response.dataValue}")
                             cachedMovie = response.dataValue
                             StateContainer(data = response.dataValue)
                         }
 
-                        is IoResponse2.Error -> {
+                        is IoResponse.Error -> {
                             if (response.t is IOException) {
                                 println("ZZZ_VM_E1${response.t}")
+                                // non printare come stringa
                                 StateContainer(
                                     data = cachedMovie,
                                     isNetworkError = true
@@ -54,19 +55,32 @@ class DetailViewModel @Inject constructor(
                             }
                         }
                     }
-                }.collectLatest { container ->
+                }
+                .catch {
+                    // flow no try catch, direttamente catch -
+                    it.printStackTrace()
+                }
+                .collectLatest { container ->
                     state.value = container
                 }
         }
     }
 
 
+    // SET
     fun toggleFavorite(id: Int) {
-        prefsRepository.toggleFavoriteOnDB(id)
+        viewModelScope.launch {
+            prefsRepository.toggleFavoriteOnDB(id)
+        }
+
     }
 
+
     fun updateWatched(id: Int, watched: Boolean) {
-        prefsRepository.updateWatchedOnDB(id, watched)
+        viewModelScope.launch {
+            prefsRepository.updateWatchedOnDB(id, watched)
+        }
+
     }
 
 }

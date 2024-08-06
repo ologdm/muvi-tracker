@@ -2,11 +2,13 @@ package com.example.muvitracker.utils
 
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.room.Room
 import com.example.muvitracker.data.TraktApi
-import com.example.muvitracker.data.detail.DetailRepository
+import com.example.muvitracker.data.database.MyDatabase
+import com.example.muvitracker.data.DetailRepository
+import com.example.muvitracker.data.PrefsRepository
+import com.example.muvitracker.data.SearchRepository
 import com.example.muvitracker.data.movies.MoviesRepository
-import com.example.muvitracker.data.prefs.PrefsRepository
-import com.example.muvitracker.data.search.SearchRepository
 import com.example.muvitracker.domain.repo.DetailRepo
 import com.example.muvitracker.domain.repo.MoviesRepo
 import com.example.muvitracker.domain.repo.PrefsRepo
@@ -26,12 +28,13 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 class DaggerModules {
 
-    // repositories
+
     @Provides
     @Singleton
-    fun provideMoviesRepo(impl: MoviesRepository): MoviesRepo {
+    fun providedMoviesRepo(impl: MoviesRepository): MoviesRepo {
         return impl
     }
+
 
     @Provides
     @Singleton
@@ -59,6 +62,7 @@ class DaggerModules {
     fun provideGson(): Gson {
         return Gson()
     }
+
 
     @Provides
     @Singleton
@@ -92,6 +96,16 @@ class DaggerModules {
         return retrofit.create(TraktApi::class.java)
     }
 
+
+    @Provides
+    @Singleton
+    fun getMyDatabase(@ApplicationContext context: Context): MyDatabase {
+        return Room.databaseBuilder(
+            context,
+            MyDatabase::class.java,
+            "muvi-tracker-db"
+        ).build()
+    }
 
 
 }

@@ -1,6 +1,5 @@
-package com.example.muvitracker.data.search
+package com.example.muvitracker.data
 
-import com.example.muvitracker.data.TraktApi
 import com.example.muvitracker.data.dto.toDomain
 import com.example.muvitracker.domain.model.SearchResult
 import com.example.muvitracker.domain.repo.SearchRepo
