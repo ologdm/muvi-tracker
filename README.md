@@ -5,6 +5,8 @@ Movie tracking android application based on [Trakt API](https://trakt.docs.apiar
 The app is written using kotlin coroutines and Dagger for DI, includes data caching for better performance 
 and follows the principles of Clean Architecture.
 
+Soon on the Play Store as a complete application for tracking favorite movies and series
+
 ## Features
 - Explore popular and box-office movies
 - Search any movie from Trakt database
@@ -12,7 +14,6 @@ and follows the principles of Clean Architecture.
 
 
 ## Screenshots
-
 <div class="row">
   <img src="app/app-screenshots/base.png" width="24%"/>
   <img src="app/app-screenshots/details.png" width="24%"/>
@@ -23,31 +24,34 @@ and follows the principles of Clean Architecture.
 
 ## Tech stack & open-source libraries
 - Min SDK level 24
-- Entirely written in [Kotlin](https://kotlinlang.org/) (previously Java)
-- [Kotlin Coroutines](https://github.com/Kotlin/kotlinx.coroutines)
+- MVVM Architecture
+- Entirely written in [Kotlin](https://kotlinlang.org/) 
+- [kotlinx.coroutines](https://github.com/Kotlin/kotlinx.coroutines)
+- [kotlinx.serialization](https://github.com/Kotlin/kotlinx.serialization)
 - [Dagger](https://github.com/google/dagger/)
-- MVVM Architecture (previously MVP)
 - [Retrofit](https://github.com/square/retrofit) - Construct the REST APIs
-- [Gson](https://github.com/google/gson) - convert Java Objects into their JSON representation
-- SharedPreferences - Storage and Caching
-- [Store 4](https://github.com/MobileNativeFoundation/Store) - Caching manager for coroutines
-- [Glide](https://github.com/bumptech/glide) - Loading images 
+- [Gson](https://github.com/google/gson)
+- [Store4](https://github.com/MobileNativeFoundation/Store) - Caching manager for coroutines
+- [Glide](https://github.com/bumptech/glide) - Loading images
+- [FragmentViewBindingDelegate-kt](https://github.com/Zhuinden/fragmentviewbindingdelegate-kt)
 - [Material Design 3](https://m3.material.io/)
-- Androidx
-    - Swipe refresh layout
-    - Constraint layout
-    - Appcompat
+- [Androidx:](https://github.com/androidx/androidx/tree/androidx-main)
+  - [Appcompat](https://github.com/androidx/androidx/tree/androidx-main/appcompat)
+  - [SwipeRefreshLayout](https://github.com/androidx-releases/Swiperefreshlayout?tab=readme-ov-file) 
+  - [Core](https://github.com/androidx/androidx/tree/androidx-main/core)
+  - [Paging3](https://github.com/androidx/androidx/tree/androidx-main/paging)
+  - [Room](https://github.com/androidx/androidx/tree/androidx-main/room) - SQLite database for storage and caching
 
-
-
+  
 ## What's next?
-
-- Pagination using androidx [Paging3](https://developer.android.com/topic/libraries/architecture/paging/v3-overview)
-- Animations and other graphic features
 - Features
+    - movies - more categories
     - TV Series support
+    - actor cards support
+    - filter and sort on MyList catogory
+- Animations and other graphic features
 
-## Download
 
+## APK Download
 Go to the <u>[Releases](https://github.com/ologdm/muvi-tracker/releases)</u> to download the latest APK.
 
