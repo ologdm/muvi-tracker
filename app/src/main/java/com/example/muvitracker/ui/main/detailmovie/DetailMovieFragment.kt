@@ -1,4 +1,4 @@
-package com.example.muvitracker.ui.main.detail
+package com.example.muvitracker.ui.main.detailmovie
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,7 +9,7 @@ import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.muvitracker.R
-import com.example.muvitracker.databinding.FragmDetailBinding
+import com.example.muvitracker.databinding.FragmDetailMovieBinding
 import com.example.muvitracker.domain.model.DetailMovie
 import com.example.muvitracker.utils.dateFormatterInMMMyyy
 import com.example.muvitracker.utils.firstDecimalApproxToString
@@ -18,14 +18,14 @@ import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class DetailFragment : Fragment() {
+class DetailMovieFragment private constructor() : Fragment() {
 
     private var currentMovieId: Int = 0
-    private var _binding: FragmDetailBinding? = null
+    private var _binding: FragmDetailMovieBinding? = null
     private val binding
         get() = _binding
 
-    private val viewModel by viewModels<DetailViewModel>()
+    private val viewModel by viewModels<DetailMovieViewmodel>()
 
 
     override fun onCreateView(
@@ -33,7 +33,7 @@ class DetailFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmDetailBinding.inflate(inflater, container, false)
+        _binding = FragmDetailMovieBinding.inflate(inflater, container, false)
         return binding!!.root
     }
 
@@ -43,7 +43,6 @@ class DetailFragment : Fragment() {
         if (bundle != null) {
             currentMovieId = bundle.getInt(TRAKT_ID_KEY)
         }
-
 
         viewModel.state.observe(viewLifecycleOwner) { stateContainer ->
             stateContainer.data?.let { detailMovie ->
@@ -57,16 +56,13 @@ class DetailFragment : Fragment() {
 
         viewModel.getStateContainer(currentMovieId)
 
-
         with(binding!!) {
             buttonBack.setOnClickListener {
                 requireActivity().onBackPressed()
             }
-
             floatingLikedButton.setOnClickListener {
                 viewModel.toggleFavorite(currentMovieId)
             }
-
             watchedCkbox.setOnCheckedChangeListener { _, isChecked ->
                 viewModel.updateWatched(currentMovieId, isChecked)
             }
@@ -137,14 +133,14 @@ class DetailFragment : Fragment() {
 
 
     companion object {
-        const val TRAKT_ID_KEY = "traktId_key"
+        private const val TRAKT_ID_KEY = "traktIdKey"
 
-        fun create(traktId: Int): DetailFragment {
-            val detailFragment = DetailFragment()
+        fun create(traktId: Int): DetailMovieFragment {
+            val detailMovieFragment = DetailMovieFragment()
             val bundle = Bundle()
             bundle.putInt(TRAKT_ID_KEY, traktId)
-            detailFragment.arguments = bundle
-            return detailFragment
+            detailMovieFragment.arguments = bundle
+            return detailMovieFragment
         }
     }
 

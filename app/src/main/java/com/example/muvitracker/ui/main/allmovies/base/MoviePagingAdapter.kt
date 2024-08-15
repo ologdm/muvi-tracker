@@ -4,15 +4,16 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import com.example.muvitracker.databinding.VhMovieBinding
+import com.example.muvitracker.databinding.VhBaseListBinding
 import com.example.muvitracker.domain.model.base.Movie
 
 // used by:
 // - popular fragment - lists with paging needed
 
-class MoviePagingAdapter(
+
+class MoviePagingAdapter (
     private val onClickVH: (Int) -> Unit,
-) : PagingDataAdapter<Movie, MovieVh>(DIFF_CALLBACK) {
+) : PagingDataAdapter<Movie, MovieViewholder>(DIFF_CALLBACK) {
 
     companion object {
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Movie>() {
@@ -28,14 +29,14 @@ class MoviePagingAdapter(
     }
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieVh {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewholder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val bindingVh = VhMovieBinding.inflate(layoutInflater, parent, false)
-        return MovieVh(bindingVh)
+        val bindingVh = VhBaseListBinding.inflate(layoutInflater, parent, false)
+        return MovieViewholder(bindingVh)
     }
 
 
-    override fun onBindViewHolder(holder: MovieVh, position: Int) {
+    override fun onBindViewHolder(holder: MovieViewholder, position: Int) {
         val item = getItem(position)
 
         if (item != null) {

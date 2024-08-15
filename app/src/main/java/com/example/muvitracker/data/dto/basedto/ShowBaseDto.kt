@@ -3,14 +3,14 @@ package com.example.muvitracker.data.dto.basedto
 import com.example.muvitracker.domain.model.base.Show
 
 
-data class ShowDto(
+data class ShowBaseDto(
     val title: String,
     val year: Int,
     val ids: Ids
 )
 
 
-fun ShowDto.toDomain(): Show {
+fun ShowBaseDto.toDomain(): Show {
     return Show(
         title = this.title,
         year = this.year,

@@ -7,12 +7,12 @@ import com.example.muvitracker.data.database.dao.BoxofficeDao
 import com.example.muvitracker.data.database.dao.DetailDao
 import com.example.muvitracker.data.database.dao.PrefsDao
 import com.example.muvitracker.data.database.entities.BoxoMovieEntity
-import com.example.muvitracker.data.database.entities.DetailEntity
+import com.example.muvitracker.data.database.entities.DetailMovieEntity
 import com.example.muvitracker.data.database.entities.PrefsEntity
 
 @Database(
     entities = [
-        DetailEntity::class,
+        DetailMovieEntity::class,
         PrefsEntity::class,
         BoxoMovieEntity::class
     ],

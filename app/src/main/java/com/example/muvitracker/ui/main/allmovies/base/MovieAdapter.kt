@@ -4,7 +4,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import com.example.muvitracker.databinding.VhMovieBinding
+import com.example.muvitracker.databinding.VhBaseListBinding
+
 import com.example.muvitracker.domain.model.base.Movie
 
 // used by:
@@ -12,7 +13,7 @@ import com.example.muvitracker.domain.model.base.Movie
 
 class MovieAdapter(
     private val onClickVH: (Int) -> Unit,
-) : ListAdapter<Movie, MovieVh>(MovieAdapter) {
+) : ListAdapter<Movie, MovieViewholder>(MovieAdapter) {
 
     companion object : DiffUtil.ItemCallback<Movie>() {
         override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean {
@@ -25,14 +26,14 @@ class MovieAdapter(
     }
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieVh {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewholder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val bindingVh = VhMovieBinding.inflate(layoutInflater, parent, false)
-        return MovieVh(bindingVh)
+        val bindingVh = VhBaseListBinding.inflate(layoutInflater, parent, false)
+        return MovieViewholder(bindingVh)
     }
 
 
-    override fun onBindViewHolder(holder: MovieVh, position: Int) {
+    override fun onBindViewHolder(holder: MovieViewholder, position: Int) {
         val item = getItem(position)
 
         holder.bind(item)

@@ -2,10 +2,12 @@ package com.example.muvitracker.domain.model
 
 import com.example.muvitracker.data.dto.basedto.Ids
 
-data class DetailMovie(
+// TODO
+
+data class DetailShow(
     // prefs entity
     val liked: Boolean,
-    val watched: Boolean,
+//    val watched: Boolean,
     val addedDateTime: Long?,
 
     // detail entity
@@ -22,17 +24,4 @@ data class DetailMovie(
     fun imageUrl(): String {
         return "http://img.omdbapi.com/?apikey=ef6d3d4c&i=${ids.imdb}"
     }
-
-
-//    fun movieUrlTmdb(): String {
-//        return "https://api.themoviedb.org/3/movie/${ids.tmdb}?api_key=36b68580564c93f78a52fc28c15c44e5"
-//    }
-//
-//    fun imageUrlTmdb() :String {
-//        return ""
-//    }
-
-
 }
-
-// https://api.themoviedb.org/3/movie/550?api_key=YOUR_API_KEY

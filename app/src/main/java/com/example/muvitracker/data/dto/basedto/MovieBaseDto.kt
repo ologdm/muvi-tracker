@@ -4,20 +4,20 @@ import com.example.muvitracker.data.database.entities.PopularMovieEntity
 import com.example.muvitracker.domain.model.base.Movie
 
 
-data class MovieDto(
+data class MovieBaseDto(
     val title: String,
     val year: Int,
     val ids: Ids
 )
 
 
-fun MovieDto.toDomain(): Movie {
+fun MovieBaseDto.toDomain(): Movie {
     return Movie(title, year, ids)
 }
 
 
 // TODO
-fun MovieDto.toEntity(): PopularMovieEntity {
+fun MovieBaseDto.toEntity(): PopularMovieEntity {
     return PopularMovieEntity(
         traktId = ids.trakt,
         title = title,

@@ -48,7 +48,7 @@ Soon on the Play Store as a complete application for tracking favorite movies an
     - movies - more categories
     - TV Series support
     - actor cards support
-    - filter and sort on MyList catogory
+    - filter and sort on MyList category
 - Animations and other graphic features
 
 

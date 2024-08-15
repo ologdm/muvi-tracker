@@ -1,6 +1,6 @@
 package com.example.muvitracker.data.dto.basedto
 
-data class SeasonDto(
+data class SeasonBaseDto(
     val number:Int,
     val ids: Ids
 )

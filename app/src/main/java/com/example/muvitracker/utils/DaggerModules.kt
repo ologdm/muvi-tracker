@@ -3,6 +3,7 @@ package com.example.muvitracker.utils
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.room.Room
+import com.example.muvitracker.BuildConfig
 import com.example.muvitracker.data.TraktApi
 import com.example.muvitracker.data.database.MyDatabase
 import com.example.muvitracker.data.DetailRepository
@@ -84,7 +85,7 @@ class DaggerModules {
                         val newRequest = chain.request().newBuilder()
                             .addHeader(
                                 "trakt-api-key",
-                                "d3dd937d16c8de9800f9ce30270ddc1d9939a2dafc0cd59f0a17b72a2a4208fd"
+                                BuildConfig.TRAKT_API_KEY
                             )
                             .build()
                         chain.proceed(newRequest)

@@ -18,7 +18,7 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class BoxoViewModel @Inject constructor(
+class BoxoMovieViewmodel @Inject constructor(
     private val moviesRepository: MoviesRepo
 ) : ViewModel() {
 

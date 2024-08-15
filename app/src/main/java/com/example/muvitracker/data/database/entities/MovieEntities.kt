@@ -26,8 +26,6 @@ fun PopularMovieEntity.toDomain(): Movie {
 
 
 // ##############################################################################
-
-
 @Entity(tableName = "BoxofficeEntities")
 data class BoxoMovieEntity(
     @PrimaryKey val traktId: Int,

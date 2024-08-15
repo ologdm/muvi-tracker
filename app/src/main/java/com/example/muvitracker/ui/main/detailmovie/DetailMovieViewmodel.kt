@@ -1,4 +1,4 @@
-package com.example.muvitracker.ui.main.detail
+package com.example.muvitracker.ui.main.detailmovie
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -17,7 +17,7 @@ import java.io.IOException
 import javax.inject.Inject
 
 @HiltViewModel
-class DetailViewModel @Inject constructor(
+class DetailMovieViewmodel @Inject constructor(
     private val detailRepository: DetailRepo,
     private val prefsRepository: PrefsRepo
 ) : ViewModel() {

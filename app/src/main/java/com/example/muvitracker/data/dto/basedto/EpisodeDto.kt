@@ -8,7 +8,7 @@ data class EpisodeDto(
     val number: Int,
     val title: String,
     val ids: Ids,
-    val show: ShowDto
+    val show: ShowBaseDto
 )
 
 fun EpisodeDto.toDomain(): Episode {

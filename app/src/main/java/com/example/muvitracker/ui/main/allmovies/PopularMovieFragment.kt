@@ -5,9 +5,6 @@ import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.LifecycleCoroutineScope
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.muvitracker.R
@@ -15,26 +12,25 @@ import com.example.muvitracker.databinding.FragmBaseCategoryBinding
 import com.example.muvitracker.ui.main.Navigator
 import com.example.muvitracker.ui.main.allmovies.base.MoviePagingAdapter
 import com.example.muvitracker.utils.viewBinding
-import com.example.muvitracker.utils.viewLifecycleScope
+import com.example.muvitracker.utils.fragmentViewLifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.io.IOException
-import java.lang.Exception
 import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class PopularFragment : Fragment(R.layout.fragm_base_category) {
+class PopularMovieFragment : Fragment(R.layout.fragm_base_category) {
 
     private val binding by viewBinding(FragmBaseCategoryBinding::bind)
-    private val viewModel by viewModels<PopularViewModel>()
+    private val viewModel by viewModels<PopularMovieViewmodel>()
 
     @Inject
     lateinit var navigator: Navigator
 
     private val adapter = MoviePagingAdapter(onClickVH = { movieId ->
-        startDetailsFragment(movieId)
+        navigator.startMovieDetailFragment(movieId)
     })
 
 
@@ -59,7 +55,7 @@ class PopularFragment : Fragment(R.layout.fragm_base_category) {
 
     // PAGING METHODS
     private fun collectPagingState() {
-        viewLifecycleScope.launch { // extended property
+        fragmentViewLifecycleScope.launch { // extended property
 
             viewModel.statePaging.collect { pagingData ->
                 adapter.submitData(pagingData)
@@ -72,7 +68,7 @@ class PopularFragment : Fragment(R.layout.fragm_base_category) {
 
 
     private fun collectPagingLoadStateFlow() {
-        viewLifecycleScope.launch {
+        fragmentViewLifecycleScope.launch {
             adapter.loadStateFlow.collectLatest { loadState ->
                 // 1-OK
                 binding.progressBar.isVisible = loadState.refresh is LoadState.Loading
@@ -93,12 +89,6 @@ class PopularFragment : Fragment(R.layout.fragm_base_category) {
         }
     }
 
-
-    private fun startDetailsFragment(movieId: Int) {
-        navigator.startDetailsFragment(
-            movieId
-        )
-    }
 
 }
 

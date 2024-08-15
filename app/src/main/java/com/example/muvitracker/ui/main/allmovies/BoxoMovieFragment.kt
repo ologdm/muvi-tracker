@@ -2,34 +2,30 @@ package com.example.muvitracker.ui.main.allmovies
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
-import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.muvitracker.R
 import com.example.muvitracker.databinding.FragmBaseCategoryBinding
 import com.example.muvitracker.ui.main.Navigator
 import com.example.muvitracker.ui.main.allmovies.base.MovieAdapter
-import com.example.muvitracker.ui.main.allmovies.base.MoviePagingAdapter
 import com.example.muvitracker.utils.statesFlow
 import com.example.muvitracker.utils.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class BoxoFragment : Fragment(R.layout.fragm_base_category) {
+class BoxoMovieFragment : Fragment(R.layout.fragm_base_category) {
 
     private val binding by viewBinding(FragmBaseCategoryBinding::bind)
-    private val viewModel by viewModels<BoxoViewModel>()
+    private val viewModel by viewModels<BoxoMovieViewmodel>()
+
     @Inject
     lateinit var navigator: Navigator
 
     private val adapter = MovieAdapter(onClickVH = { movieId ->
-        startDetailsFragment(movieId)
+        navigator.startMovieDetailFragment(movieId)
     })
 
 
@@ -38,7 +34,7 @@ class BoxoFragment : Fragment(R.layout.fragm_base_category) {
         savedInstanceState: Bundle?
     ) {
 
-        viewModel.state.observe(viewLifecycleOwner){ stateContainer->
+        viewModel.state.observe(viewLifecycleOwner) { stateContainer ->
             adapter.submitList(stateContainer.data)
 
             stateContainer.statesFlow(
@@ -57,13 +53,6 @@ class BoxoFragment : Fragment(R.layout.fragm_base_category) {
             viewModel.loadMovies()
             binding.swipeRefreshLayout.isRefreshing = false // TODO  - manage all the states, stop
         }
-    }
-
-
-    private fun startDetailsFragment(movieId: Int) {
-        navigator.startDetailsFragment(
-            movieId
-        )
     }
 
 }

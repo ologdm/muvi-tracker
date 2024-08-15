@@ -20,10 +20,12 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filterNot
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
+import javax.inject.Singleton
 import kotlin.coroutines.cancellation.CancellationException
 
 // for lists without paging
 
+@Singleton
 class MoviesRepository @Inject constructor(
     private val traktApi: TraktApi,
     private val database: MyDatabase

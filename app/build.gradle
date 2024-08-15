@@ -11,6 +11,13 @@ plugins {
     id("com.google.dagger.hilt.android")
 }
 
+def localProperties = new Properties()
+def localPropertiesFile = rootProject.file('local.properties')
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.withReader('UTF-8') { reader ->
+        localProperties.load(reader)
+    }
+}
 
 android {
     namespace 'com.example.muvitracker'
@@ -22,6 +29,8 @@ android {
         targetSdk 34
         versionCode 1
         versionName "1.0"
+        // retrofit trakt key - gradle genera il file Buil dCoinfig.java
+        buildConfigField 'String', "TRAKT_API_KEY", "\"" + localProperties.trakt_api_key + "\""
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -42,6 +51,7 @@ android {
 
 
     buildFeatures {
+        buildConfig true
         viewBinding true
     }
 
@@ -106,9 +116,6 @@ dependencies {
     // To use Kotlin Symbol Processing (KSP) TODO test
 //    ksp "androidx.room:room-compiler:$room_version"
 
-    // optional - Paging 3 Integration - only for loading elements from db
-//    implementation "androidx.room:room-paging:$room_version"
-
     // optional - Test helpers TODO
 //    testImplementation "androidx.room:room-testing:$room_version"
 
@@ -116,7 +123,6 @@ dependencies {
     // paging3
     def paging_version = "3.3.1"
     implementation "androidx.paging:paging-runtime-ktx:$paging_version"
-
 
 }
 

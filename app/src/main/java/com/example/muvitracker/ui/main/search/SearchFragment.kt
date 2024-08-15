@@ -87,7 +87,7 @@ class SearchFragment : Fragment() {
 
 
     private fun startDetailsFragment(movieId: Int) {
-        navigator.startDetailsFragment(movieId)
+        navigator.startMovieDetailFragment(movieId)
     }
 
 }

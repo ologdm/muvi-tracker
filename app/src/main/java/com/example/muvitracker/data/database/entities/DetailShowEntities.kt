@@ -7,9 +7,10 @@ import com.example.muvitracker.data.database.ConvertersUtils
 import com.example.muvitracker.data.dto.basedto.Ids
 import com.example.muvitracker.domain.model.DetailMovie
 
+// TODO
 
-@Entity(tableName = "DetailEntities")
-data class DetailEntity(
+@Entity(tableName = "DetailShowEntities")
+data class DetailShowEntity(
     @PrimaryKey val traktId: Int,
     val title: String,
     val year: Int,
@@ -23,8 +24,10 @@ data class DetailEntity(
 )
 
 
+
+// TODO
 // (PrefsEntity?) - can be null as logic
-fun DetailEntity.toDomain(prefsEntity: PrefsEntity?): DetailMovie {
+fun DetailShowEntity.toDomain(prefsEntity: PrefsEntity?): DetailMovie {
     return DetailMovie(
         title = title,
         year = year,

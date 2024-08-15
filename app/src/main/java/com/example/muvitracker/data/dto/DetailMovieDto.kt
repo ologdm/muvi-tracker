@@ -1,10 +1,10 @@
 package com.example.muvitracker.data.dto
 
-import com.example.muvitracker.data.database.entities.DetailEntity
+import com.example.muvitracker.data.database.entities.DetailMovieEntity
 import com.example.muvitracker.data.dto.basedto.Ids
 
 
-data class DetailDto(
+data class DetailMovieDto(
     val title: String,
     val year: Int,
     val ids: Ids,
@@ -31,8 +31,8 @@ data class DetailDto(
 )
 
 
-fun DetailDto.toEntityR(): DetailEntity {
-    return DetailEntity(
+fun DetailMovieDto.toEntityR(): DetailMovieEntity {
+    return DetailMovieEntity(
         traktId = ids.trakt,
         title = title,
         year = year,
@@ -51,31 +51,9 @@ fun DetailDto.toEntityR(): DetailEntity {
 
 /*
 * JSON Details ####################################################
-*
-* Trakt Summary -> https://trakt.docs.apiary.io/#reference/movies/summary
-*
-* API GET:  movies/id
-* id -> Trakt ID, Trakt slug, or IMDB ID Example: tron-legacy-2010.
-* id -> path
 
-
-// 1. short
-
- /movies/tron-legacy-2010
-{
-  "title": "TRON: Legacy",
-  "year": 2010,
-  "ids": {
-    "trakt": 1,
-    "slug": "tron-legacy-2010",
-    "imdb": "tt1104001",
-    "tmdb": 20526
-  }
-}
-
-
-// 2. extended
-*  /movies/tron-legacy-2010?extended=full
+*  https://api.trakt.tv/movies/id
+*  id = {tron-legacy-2010}?extended=full
 {
     "title": "TRON: Legacy",
     "year": 2010,

@@ -6,6 +6,7 @@ import com.example.muvitracker.data.TraktApi
 import com.example.muvitracker.data.dto.basedto.toDomain
 import com.example.muvitracker.domain.model.base.Movie
 import java.util.concurrent.CancellationException
+import javax.inject.Singleton
 
 // PagingSource<key,resultValue> - due metodi da implementare
 //   1. getRefreshKey
@@ -20,7 +21,8 @@ import java.util.concurrent.CancellationException
 // TODO wrapper for generic paging source construction (),
 //      param - traktApi.getBoxoMovies(currentPage, params.loadSize)
 
-class PopularPagingSource(
+@Singleton
+class PopularPagingSourceM(
     private val traktApi: TraktApi,
 //    private val popularDao: PopularDao
 ) : PagingSource<Int, Movie>() {

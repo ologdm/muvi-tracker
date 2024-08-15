@@ -1,13 +1,13 @@
 package com.example.muvitracker.data.dto
 
 import com.example.muvitracker.data.database.entities.BoxoMovieEntity
-import com.example.muvitracker.data.dto.basedto.MovieDto
+import com.example.muvitracker.data.dto.basedto.MovieBaseDto
 import com.example.muvitracker.domain.model.base.Movie
 
 
 data class BoxoDto(
     val revenue: Int,
-    val movie: MovieDto
+    val movie: MovieBaseDto
 )
 
 

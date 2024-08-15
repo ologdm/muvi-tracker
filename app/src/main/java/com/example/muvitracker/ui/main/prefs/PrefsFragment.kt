@@ -71,7 +71,7 @@ class PrefsFragment : Fragment() {
     // #######################################################################################
 
     private fun startDetailsFragment(movieId: Int) {
-        navigator.startDetailsFragment(
+        navigator.startMovieDetailFragment(
             movieId
         )
     }

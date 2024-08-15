@@ -1,9 +1,12 @@
 package com.example.muvitracker.data
 
 import com.example.muvitracker.data.dto.BoxoDto
-import com.example.muvitracker.data.dto.DetailDto
-import com.example.muvitracker.data.dto.basedto.MovieDto
+import com.example.muvitracker.data.dto.DetailMovieDto
+import com.example.muvitracker.ui.main.detailshow.repo.DetailShowDto
+import com.example.muvitracker.data.dto.basedto.MovieBaseDto
 import com.example.muvitracker.data.dto.SearchDto
+import com.example.muvitracker.data.dto.SeasonExtenDto
+import com.example.muvitracker.data.dto.basedto.ShowBaseDto
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -11,12 +14,20 @@ import retrofit2.http.Query
 
 interface TraktApi {
 
+
+    @GET("search/movie")  // with mobile query
+    suspend fun getSearch(@Query("query") searchString: String)
+            : List<SearchDto>
+
+
+    // MOVIES ##############################################
+
     // ?page={page}&limit={limit} - impostazione standard
     @GET("movies/popular")
     suspend fun getPopularMovies(
         @Query("page") page: Int, // standard
         @Query("limit") limit: Int // standard
-    ): List<MovieDto>
+    ): List<MovieBaseDto>
 
 
     @GET("movies/boxoffice") // no paging, only 10 results
@@ -25,10 +36,36 @@ interface TraktApi {
 
     @GET("movies/{movie_id}?extended=full")
     suspend fun getMovieDetail(@Path("movie_id") movieId: Int)
-            : DetailDto
+            : DetailMovieDto
 
-    @GET("search/movie")  // with mobile query
-    suspend fun getSearch(@Query("query") searchString: String)
-            : List<SearchDto>
+
+    // SHOWS ########################################################
+
+    @GET("shows/popular")
+    suspend fun getPopularShows(
+        @Query("page") page: Int,
+        @Query("limit") limit: Int
+    ): List<ShowBaseDto>
+
+    // TODO https://api.trakt.tv/shows/trending
+
+
+    // DETAIL - detailDto, seasons(1,2,3,4...n), cast, related
+    // https://api.trakt.tv/shows/id
+    // 1 detailDto OK
+    @GET("shows/{show_id}?extended=full")
+    suspend fun getShowDetail(@Path("show_id") showId: Int): DetailShowDto
+
+    // 2 - seasons - all seasons OK
+    @GET("shows/{show_id}/seasons/?extended=full")
+    suspend fun getAllSeasons(@Path("show_id") showId: Int): List <SeasonExtenDto>
+
+
+    // 2 - cast - all cast dto TODO
+
+
+    // SEASONS - link to series TODO
+
 
 }
+

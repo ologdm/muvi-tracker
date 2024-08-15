@@ -8,9 +8,9 @@ import com.dropbox.android.external.store4.StoreBuilder
 import com.dropbox.android.external.store4.StoreRequest
 import com.dropbox.android.external.store4.StoreResponse
 import com.example.muvitracker.data.database.MyDatabase
-import com.example.muvitracker.data.database.entities.DetailEntity
+import com.example.muvitracker.data.database.entities.DetailMovieEntity
 import com.example.muvitracker.data.database.entities.toDomain
-import com.example.muvitracker.data.dto.DetailDto
+import com.example.muvitracker.data.dto.DetailMovieDto
 import com.example.muvitracker.data.dto.toEntityR
 import com.example.muvitracker.domain.model.DetailMovie
 import com.example.muvitracker.domain.repo.DetailRepo
@@ -33,7 +33,7 @@ class DetailRepository @Inject constructor(
     private val prefsDao = database.prefsDao()
 
 
-    private val detailStore: Store<Int, DetailEntity> = StoreBuilder.from(
+    private val detailStore: Store<Int, DetailMovieEntity> = StoreBuilder.from(
         fetcher = Fetcher.ofResult { key ->
             try {
                 FetcherResult.Data(traktApi.getMovieDetail(key))
@@ -45,7 +45,7 @@ class DetailRepository @Inject constructor(
                 FetcherResult.Error.Exception(ex)
             }
         },
-        sourceOfTruth = SourceOfTruth.of<Int, DetailDto, DetailEntity>(
+        sourceOfTruth = SourceOfTruth.of<Int, DetailMovieDto, DetailMovieEntity>(
             reader = { key ->
                 getDetailEntity(key)
             },
@@ -61,11 +61,11 @@ class DetailRepository @Inject constructor(
     ).build()
 
 
-    private fun getDetailEntity(id: Int): Flow<DetailEntity?> {
+    private fun getDetailEntity(id: Int): Flow<DetailMovieEntity?> {
         return detailDao.readSingleFlow(id) // with flow, observable db
     }
 
-    private suspend fun saveDtoToDatabase(dto: DetailDto) {
+    private suspend fun saveDtoToDatabase(dto: DetailMovieDto) {
         detailDao.insertSingle(dto.toEntityR()) // suspend dao fun
     }
 
@@ -109,7 +109,7 @@ class DetailRepository @Inject constructor(
 
     // for prefs view
     override
-    fun getDetailListFlow(): Flow<List<DetailEntity?>> {
+    fun getDetailListFlow(): Flow<List<DetailMovieEntity?>> {
         return detailDao.readAllFlow()
     }
 

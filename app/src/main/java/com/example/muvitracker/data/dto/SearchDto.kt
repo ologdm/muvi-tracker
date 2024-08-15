@@ -1,8 +1,8 @@
 package com.example.muvitracker.data.dto
 
 
-import com.example.muvitracker.data.dto.basedto.MovieDto
-import com.example.muvitracker.data.dto.basedto.ShowDto
+import com.example.muvitracker.data.dto.basedto.MovieBaseDto
+import com.example.muvitracker.data.dto.basedto.ShowBaseDto
 import com.example.muvitracker.data.dto.basedto.toDomain
 import com.example.muvitracker.domain.model.SearchResult
 
@@ -12,8 +12,8 @@ data class SearchDto(
     val type: String,
     val score: Double,
 
-    val movie: MovieDto?,
-    val show: ShowDto?,
+    val movie: MovieBaseDto?,
+    val show: ShowBaseDto?,
 //    val episode: EpisodeDto?
 )
 
