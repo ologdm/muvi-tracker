@@ -14,7 +14,7 @@ data class SearchDto(
 
     val movie: MovieBaseDto?,
     val show: ShowBaseDto?,
-//    val episode: EpisodeDto?
+//    val episode: EpisodeBaseDto?
 )
 
 

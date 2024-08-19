@@ -1,7 +1,7 @@
-package com.example.muvitracker.ui.main.detailmovie.repo
+package com.example.muvitracker.ui.main.detailshow
 
 import com.example.muvitracker.data.TraktApi
-import com.example.muvitracker.ui.main.detailshow.repo.DetailShowDto
+import com.example.muvitracker.data.dto.DetailShowDto
 import com.example.muvitracker.utils.IoResponse
 import java.util.concurrent.CancellationException
 import javax.inject.Inject

@@ -8,7 +8,7 @@ import com.example.muvitracker.data.dto.SeasonExtenDto
 import com.example.muvitracker.databinding.VhSeasonsOnDetailshowBinding
 import com.example.muvitracker.ui.main.detailshow.adapter.SeasonVH
 
-class SeasonsAdapter(
+class DetailSeasonsAdapter(
     val onClickVH :(Int)->Unit,
 ) : ListAdapter<SeasonExtenDto, SeasonVH>(DIFF_CALLBACK) {
 

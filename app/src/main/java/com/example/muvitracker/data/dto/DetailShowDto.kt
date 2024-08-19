@@ -1,4 +1,4 @@
-package com.example.muvitracker.ui.main.detailshow.repo
+package com.example.muvitracker.data.dto
 
 import com.example.muvitracker.data.dto.basedto.Ids
 import com.google.gson.annotations.SerializedName

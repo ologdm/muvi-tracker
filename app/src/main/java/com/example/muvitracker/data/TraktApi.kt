@@ -2,7 +2,8 @@ package com.example.muvitracker.data
 
 import com.example.muvitracker.data.dto.BoxoDto
 import com.example.muvitracker.data.dto.DetailMovieDto
-import com.example.muvitracker.ui.main.detailshow.repo.DetailShowDto
+import com.example.muvitracker.data.dto.DetailShowDto
+import com.example.muvitracker.data.dto.EpisodeExtenDto
 import com.example.muvitracker.data.dto.basedto.MovieBaseDto
 import com.example.muvitracker.data.dto.SearchDto
 import com.example.muvitracker.data.dto.SeasonExtenDto
@@ -49,22 +50,39 @@ interface TraktApi {
 
     // TODO https://api.trakt.tv/shows/trending
 
-
-    // DETAIL - detailDto, seasons(1,2,3,4...n), cast, related
-    // https://api.trakt.tv/shows/id
-    // 1 detailDto OK
+    // DETAIL
+    // seasons(1,2,3,4...n), cast, related
+    // 1 detailDto OK - // https://api.trakt.tv/shows/id
     @GET("shows/{show_id}?extended=full")
     suspend fun getShowDetail(@Path("show_id") showId: Int): DetailShowDto
 
-    // 2 - seasons - all seasons OK
+    // 2 all seasons OK
+    // https://api.trakt.tv/shows/id/seasons/?extended=full
     @GET("shows/{show_id}/seasons/?extended=full")
-    suspend fun getAllSeasons(@Path("show_id") showId: Int): List <SeasonExtenDto>
+    suspend fun getAllSeasons(@Path("show_id") showId: Int): List<SeasonExtenDto>
 
 
-    // 2 - cast - all cast dto TODO
+    // 3 cast - all cast dto TODO
 
 
-    // SEASONS - link to series TODO
+    // SEASON FRAGMENT - link to series TODO
+    // https://api.trakt.tv/shows/game-of-thrones/seasons/number?extended=full
+    // season info
+    @GET("shows/{show_id}/seasons/{season_number}/info?extended=full")
+    suspend fun getSeasonInfo(
+        @Path("show_id") showId: Int,
+        @Path("season_number") seasonNumber: Int
+    ): SeasonExtenDto
+
+    // all episodes
+    @GET("shows/{show_id}/seasons/{season_number}?extended=full")
+    suspend fun getSeasonWithEpisodes(
+        @Path("show_id") showId: Int,
+        @Path("season_number") seasonNumber: Int
+    ): List<EpisodeExtenDto>
+
+
+    // EPISODE FRAGMENT
 
 
 }

@@ -3,7 +3,7 @@ package com.example.muvitracker.data.dto.basedto
 import com.example.muvitracker.domain.model.base.Episode
 
 
-data class EpisodeDto(
+data class EpisodeBaseDto(
     val season: Int,
     val number: Int,
     val title: String,
@@ -11,7 +11,7 @@ data class EpisodeDto(
     val show: ShowBaseDto
 )
 
-fun EpisodeDto.toDomain(): Episode {
+fun EpisodeBaseDto.toDomain(): Episode {
     return Episode(
         season = season,
         number = number,

@@ -3,8 +3,8 @@ package com.example.muvitracker.ui.main.detailmovie
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.muvitracker.ui.main.detailshow.repo.DetailShowDto
-import com.example.muvitracker.ui.main.detailmovie.repo.DetailShowRepository
+import com.example.muvitracker.data.dto.DetailShowDto
+import com.example.muvitracker.ui.main.detailshow.DetailShowRepository
 import com.example.muvitracker.utils.IoResponse
 import com.example.muvitracker.utils.StateContainer
 import dagger.hilt.android.lifecycle.HiltViewModel

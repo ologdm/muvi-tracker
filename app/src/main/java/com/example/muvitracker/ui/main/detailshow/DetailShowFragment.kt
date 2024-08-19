@@ -9,14 +9,16 @@ import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.muvitracker.R
-import com.example.muvitracker.ui.main.detailshow.repo.DetailShowDto
+import com.example.muvitracker.data.dto.DetailShowDto
 import com.example.muvitracker.databinding.FragmDetailShowBinding
-import com.example.muvitracker.ui.main.detailmovie.adapter.SeasonsAdapter
+import com.example.muvitracker.ui.main.Navigator
+import com.example.muvitracker.ui.main.detailmovie.adapter.DetailSeasonsAdapter
 import com.example.muvitracker.utils.firstDecimalApproxToString
 import com.example.muvitracker.utils.statesFlow
 import com.example.muvitracker.utils.viewBinding
 import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 // STEPS:
 // 1. detailDto
@@ -32,11 +34,12 @@ class DetailShowFragment private constructor() : Fragment(R.layout.fragm_detail_
 
     val binding by viewBinding(FragmDetailShowBinding::bind)
     private val viewModel by viewModels<DetailShowViewmodel>()
+    @Inject
+    lateinit var navigator: Navigator
 
-    val seasonsAdapter = SeasonsAdapter(onClickVH = {
-        // TODO start seasonFragment
+    val detailSeasonsAdapter = DetailSeasonsAdapter(onClickVH = { seasonNumber ->
+        startSeasonFragment(currentShowId, seasonNumber)
     })
-
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -73,7 +76,6 @@ class DetailShowFragment private constructor() : Fragment(R.layout.fragm_detail_
         }
 
 
-
         // indietro OK
         binding.buttonBack.setOnClickListener {
             requireActivity().onBackPressed()
@@ -86,7 +88,6 @@ class DetailShowFragment private constructor() : Fragment(R.layout.fragm_detail_
 
 
     }
-
 
 
     // da movie details
@@ -127,6 +128,12 @@ class DetailShowFragment private constructor() : Fragment(R.layout.fragm_detail_
 
 //        updateFavoriteIcon(detailShow.liked)
 //        updateWatchedCheckbox(detailShow.watched)
+    }
+
+
+    private fun startSeasonFragment(traktShowId: Int, seasonNumber: Int) {
+        // TODO on navigator
+        navigator.startSeasonFragment(traktShowId,seasonNumber)
     }
 
 

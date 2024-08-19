@@ -1,8 +1,12 @@
 package com.example.muvitracker.data.dto
 
+import android.os.Parcelable
 import com.example.muvitracker.data.dto.basedto.Ids
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.Serializable
 
+@Parcelize
 data class SeasonExtenDto(
     val number: Int,
     val ids: Ids,
@@ -15,9 +19,9 @@ data class SeasonExtenDto(
     @SerializedName("first_aired") val firstAired: String,
     @SerializedName("updated_at") val updatedAt: String,
     val network: String
-) {
+) :Parcelable {
 
-    fun getYearFromFirsAired(): String {
+    fun getYear(): String {
         return firstAired.substring(0,4)
     }
 }
