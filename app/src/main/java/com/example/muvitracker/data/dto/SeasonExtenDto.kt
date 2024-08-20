@@ -6,25 +6,27 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.Serializable
 
+
 @Parcelize
 data class SeasonExtenDto(
     val number: Int,
     val ids: Ids,
     val rating: Double,
-    val votes: Int,
+//    val votes: Int, // not use
     @SerializedName("episode_count") val episodeCount: Int,
     @SerializedName("aired_episodes") val airedEpisodes: Int,
     val title: String,
     val overview: String?,
-    @SerializedName("first_aired") val firstAired: String,
-    @SerializedName("updated_at") val updatedAt: String,
+    @SerializedName("first_aired") val firstAired: String? ="",
+//    @SerializedName("updated_at") val updatedAt: String, // not use
     val network: String
 ) :Parcelable {
 
     fun getYear(): String {
-        return firstAired.substring(0,4)
+        return firstAired?.substring(0,4) ?: ""
     }
 }
+
 
 
 /*

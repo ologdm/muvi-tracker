@@ -27,8 +27,8 @@ class PopularShowFragment : Fragment(R.layout.fragm_base_category_new) {
     @Inject
     lateinit var navigator: Navigator
 
-    private val adapter = ShowPagingAdapter(onClickVH = { showId ->
-        navigator.startShowDetailFragment(showId)
+    private val adapter = ShowPagingAdapter(onClickVH = { showIds ->
+        navigator.startShowDetailFragment(showIds)
     })
 
 

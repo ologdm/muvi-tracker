@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.example.muvitracker.R
 import com.example.muvitracker.data.dto.SeasonExtenDto
+import com.example.muvitracker.data.dto.basedto.Ids
 import com.example.muvitracker.ui.main.detailmovie.DetailMovieFragment
 import com.example.muvitracker.ui.main.detailmovie.DetailShowFragment
 import com.example.muvitracker.ui.main.seasons.SeasonFragment
@@ -28,7 +29,7 @@ class Navigator @Inject constructor(
 
 
     fun startMovieDetailFragment(
-        traktMovieId: Int
+        traktMovieId: Int // TODO ids
     ) {
         val manager = fragmentActivity.supportFragmentManager
         manager.beginTransaction()
@@ -41,11 +42,11 @@ class Navigator @Inject constructor(
 
     // TODO OK
     fun startShowDetailFragment(
-        traktShowId: Int
+        showIds: Ids
     ) {
         val manager = fragmentActivity.supportFragmentManager
         manager.beginTransaction()
-            .replace(R.id.frameLayout, DetailShowFragment.create(traktShowId))
+            .replace(R.id.frameLayout, DetailShowFragment.create(showIds))
             .addToBackStack(null)
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
             .commit()
@@ -53,13 +54,12 @@ class Navigator @Inject constructor(
 
 
     fun startSeasonFragment(
-        traktShowId: Int,
+        showIds: Ids,
         seasonNumber: Int
-//        seasonDto : SeasonExtenDto,
     ) {
         val manager = fragmentActivity.supportFragmentManager
         manager.beginTransaction()
-            .replace(R.id.frameLayout, SeasonFragment.create(traktShowId, seasonNumber))
+            .replace(R.id.frameLayout, SeasonFragment.create(showIds, seasonNumber))
             .addToBackStack(null)
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
             .commit()

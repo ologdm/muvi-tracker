@@ -25,30 +25,30 @@ class SeasonViewmodel @Inject constructor(
 
     // OK
     fun loadSeasonInfo(showId: Int, seasonNumber: Int) {
-        try {
-            viewModelScope.launch {
+        viewModelScope.launch {
+            try {
                 val result = traktApi.getSeasonInfo(showId, seasonNumber)
                 seasonInfoState.value = StateContainer(data = result)
+            } catch (ex: CancellationException) {
+                throw ex
+            } catch (ex: Throwable) {
+                ex.printStackTrace()
             }
-        } catch (ex: CancellationException) {
-            throw ex
-        } catch (ex: Throwable) {
-            ex.printStackTrace()
         }
     }
 
 
     // OK
     fun loadSeasonEpisodes(showId: Int, seasonNumber: Int) {
-        try {
-            viewModelScope.launch {
-                val result =traktApi.getSeasonWithEpisodes(showId, seasonNumber)
+        viewModelScope.launch {
+            try {
+                val result = traktApi.getSeasonWithEpisodes(showId, seasonNumber)
                 seasonEpisodesState.value = StateContainer(data = result)
+            } catch (ex: CancellationException) {
+                throw ex
+            } catch (ex: Throwable) {
+                ex.printStackTrace()
             }
-        } catch (ex: CancellationException) {
-            throw ex
-        } catch (ex: Throwable) {
-            ex.printStackTrace()
         }
     }
 

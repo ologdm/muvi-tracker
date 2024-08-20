@@ -33,6 +33,7 @@
 
 
     <TextView
+            android:id="@+id/rating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toStartOf="@id/starIcon"
@@ -55,7 +56,7 @@
             android:id="@+id/episodesCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="7/10"
+            android:text="7/10"
             app:layout_constraintEnd_toStartOf="@id/checkbox"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent" />

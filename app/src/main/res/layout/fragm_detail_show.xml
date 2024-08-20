@@ -237,7 +237,8 @@
                 <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/streamChannelRV"
                         android:layout_width="match_parent"
-                        android:layout_height="40dp"
+                        android:layout_height="wrap_content"
+                        tools:layout_height="40dp"
                         android:background="@android:color/holo_blue_dark" />
 
 

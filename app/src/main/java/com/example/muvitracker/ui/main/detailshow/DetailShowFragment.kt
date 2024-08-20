@@ -6,10 +6,12 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.muvitracker.R
 import com.example.muvitracker.data.dto.DetailShowDto
+import com.example.muvitracker.data.dto.basedto.Ids
 import com.example.muvitracker.databinding.FragmDetailShowBinding
 import com.example.muvitracker.ui.main.Navigator
 import com.example.muvitracker.ui.main.detailmovie.adapter.DetailSeasonsAdapter
@@ -30,31 +32,31 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class DetailShowFragment private constructor() : Fragment(R.layout.fragm_detail_show) {
 
-    private var currentShowId: Int = 0
-
-    val binding by viewBinding(FragmDetailShowBinding::bind)
+    private var currentShowIds: Ids = Ids() // ids ha valori default
+    private val binding by viewBinding(FragmDetailShowBinding::bind)
     private val viewModel by viewModels<DetailShowViewmodel>()
+
     @Inject
     lateinit var navigator: Navigator
 
-    val detailSeasonsAdapter = DetailSeasonsAdapter(onClickVH = { seasonNumber ->
-        startSeasonFragment(currentShowId, seasonNumber)
+    private val detailSeasonsAdapter = DetailSeasonsAdapter(onClickVH = { seasonNumber ->
+        navigator.startSeasonFragment(currentShowIds, seasonNumber)
     })
 
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
-        val bundle = arguments // getArguments , cioè del fragment esistente
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?
+    ) {
+        // getArguments
+        val bundle = arguments
         if (bundle != null) {
-            currentShowId = bundle.getInt(TRAKT_ID_KEY)
+            currentShowIds = bundle.getParcelable(SHOW_IDS_KEY) ?: Ids()
         }
 
-        var trailerUrl: String? = null
-
-        viewModel.state.observe(viewLifecycleOwner) { stateContainer ->
+        viewModel.detailState.observe(viewLifecycleOwner) { stateContainer ->
             stateContainer.data?.let { detailShowDto ->
                 updateDetailUi(detailShowDto)
-                trailerUrl = detailShowDto.trailer
             }
             stateContainer.statesFlow(
                 binding.errorTextView,
@@ -62,93 +64,92 @@ class DetailShowFragment private constructor() : Fragment(R.layout.fragm_detail_
             )
         }
 
-        viewModel.loadDetail(currentShowId)
-
-        // apri link youtube OK
-        binding.trailerLink.setOnClickListener {
-            if (!trailerUrl.isNullOrEmpty()) {
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(trailerUrl))
-                startActivity(intent)
-            }
-            // action view  - cerca un corrispondente nel manifest di tutte le app installata
-            // e cerca di gestire l'intent filter
-
+        binding.seasonsRV.adapter = detailSeasonsAdapter
+        binding.seasonsRV.layoutManager = LinearLayoutManager(requireContext())
+        viewModel.allSeasonsState.observe(viewLifecycleOwner) { stateContainer ->
+            detailSeasonsAdapter.submitList(stateContainer.data)
         }
 
+        // data call
+        viewModel.loadShowDetail(currentShowIds.trakt)
+        viewModel.loadAllSeasons(currentShowIds.trakt)
+        viewModel.getTmdbImageLinks(currentShowIds.tmdb) // for glide
 
-        // indietro OK
+        // IMAGES TMDB
+        // horizontal - backdrop  TODO -ridurre dimensione
+        viewModel.backdropImageUrl.observe(viewLifecycleOwner) { backdropUrl ->
+            Glide.with(requireContext())
+                .load(backdropUrl) // 1399 game-of-thrones
+                .transition(DrawableTransitionOptions.withCrossFade(300))
+                .placeholder(R.drawable.glide_placeholder_base)
+                .error(R.drawable.glide_placeholder_base)
+                .into(binding.imageHorizontal)
+        }
+
+        // vertical - poster
+        viewModel.posterImageUrl.observe(viewLifecycleOwner) { posterUrl ->
+            Glide.with(requireContext())
+                .load(posterUrl)
+                .transition(DrawableTransitionOptions.withCrossFade(300))
+                .placeholder(R.drawable.glide_placeholder_base)
+                .error(R.drawable.glide_placeholder_base)
+                .into(binding.imageVertical)
+        }
+
         binding.buttonBack.setOnClickListener {
             requireActivity().onBackPressed()
         }
-
-
-        // TODO recyclerView
-//        binding.seasonsRV.adapter =
-//        binding.seasonsRV.layoutManager =
-
-
+        // TODO crew
+        // TODO related Shows
     }
 
 
-    // da movie details
-    private fun updateDetailUi(detailShow: DetailShowDto) {
+    // show detail
+    private fun updateDetailUi(detailShowDto: DetailShowDto) {
         with(binding) {
-            // OK
-            title.text = detailShow.title
-            status.text = detailShow.status
-//            trailerLink.text = detailShow.trailer
+            title.text = detailShowDto.title
+            status.text = detailShowDto.status
             networkYearCountry.text =
-                "${detailShow.network} ${detailShow.year.toString()} (${detailShow.country.toUpperCase()})"
+                "${detailShowDto.network} ${detailShowDto.year.toString()} (${detailShowDto.country.toUpperCase()})"
             runtime.text =
-                getString(R.string.runtime_description, detailShow.runtime.toString())  // string
-            airedEpisodes.text = "${detailShow.airedEpisodes} episodes"
-            rating.text = detailShow.rating.firstDecimalApproxToString() // conversion + string
-            overview.text = detailShow.overview
+                getString(R.string.runtime_description, detailShowDto.runtime.toString())  // string
+            // TODO seasons, calcolo
+            airedEpisodes.text = "${detailShowDto.airedEpisodes} episodes"
+            rating.text = detailShowDto.rating.firstDecimalApproxToString() // conversion + string
+            overview.text = detailShowDto.overview
 
-            Glide.with(requireContext())
-                .load(detailShow.imageUrl())
-                .transition(DrawableTransitionOptions.withCrossFade(500))
-                .placeholder(R.drawable.glide_placeholder_base)
-                .error(R.drawable.glide_placeholder_base)
-                .into(imageVertical)
-            Glide.with(requireContext())
-                .load(detailShow.imageUrl())
-                .transition(DrawableTransitionOptions.withCrossFade(500))
-                .placeholder(R.drawable.glide_placeholder_base)
-                .into(imageHorizontal)
 
+            // genres
             chipGroup.removeAllViews() // clean old
-            detailShow.genres.forEach {
-                val chip = Chip(context).apply {
-                    text = it
-                }
+            detailShowDto.genres.forEach { genre ->
+                val chip = Chip(context).apply { text = genre }
                 chipGroup.addView(chip)
+            }
+
+            // open link on youtube OK
+            var trailerUrl = detailShowDto.trailer
+            trailerLink.setOnClickListener {
+                if (!trailerUrl.isNullOrEmpty()) {
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(trailerUrl))
+                    startActivity(intent)
+                }
             }
         }
 
-//        updateFavoriteIcon(detailShow.liked)
-//        updateWatchedCheckbox(detailShow.watched)
+//        updateFavoriteIcon(detailShow.liked) TODO
+//        updateWatchedCheckbox(detailShow.watched) TODO
     }
 
 
-    private fun startSeasonFragment(traktShowId: Int, seasonNumber: Int) {
-        // TODO on navigator
-        navigator.startSeasonFragment(traktShowId,seasonNumber)
-    }
-
-
-    // ok
     companion object {
-        private const val TRAKT_ID_KEY = "traktIdKey" // key dell'intero che invio
+        private const val SHOW_IDS_KEY = "showIdsKey"
 
-        fun create(traktId: Int): DetailShowFragment {
-            val detailShowFragment = DetailShowFragment() // creo fragment
+        fun create(showIds: Ids): DetailShowFragment {
+            val detailShowFragment = DetailShowFragment()
             val bundle = Bundle()
-            bundle.putInt(TRAKT_ID_KEY, traktId)
-            detailShowFragment.arguments = bundle // carico il bundle dentro il fragment
+            bundle.putParcelable(SHOW_IDS_KEY, showIds)
+            detailShowFragment.arguments = bundle
             return detailShowFragment
         }
     }
-
-
 }

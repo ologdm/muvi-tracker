@@ -10,10 +10,10 @@ data class EpisodeExtenDto(
     val ids: Ids,
     @SerializedName("number_abs") val numberAbs: Int, val overview: String,
     val rating: Double,
-    val votes: Int,
-    @SerializedName("comment_count") val commentCount: Int,
+//    val votes: Int,
+//    @SerializedName("comment_count") val commentCount: Int,
     @SerializedName("first_aired") val firstAired: String,
-    @SerializedName("updated_at") val updatedAt: String,
+//    @SerializedName("updated_at") val updatedAt: String,
     @SerializedName("available_translations") val availableTranslations: List<String>,
     val runtime: Int,
     @SerializedName("episode_type") val episodeType: String

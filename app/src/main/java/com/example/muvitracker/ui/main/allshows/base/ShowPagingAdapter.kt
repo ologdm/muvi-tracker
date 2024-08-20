@@ -4,12 +4,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
+import com.example.muvitracker.data.dto.basedto.Ids
 import com.example.muvitracker.databinding.VhBaseListBinding
 import com.example.muvitracker.domain.model.base.Show
 
 
 class ShowPagingAdapter(
-    val onClickVH: (Int) -> Unit
+    val onClickVH: (Ids) -> Unit
 ) : PagingDataAdapter<Show, ShowViewholder>(DIFF_CALLBACK) {
 
     companion object {
@@ -38,7 +39,7 @@ class ShowPagingAdapter(
         if (item != null) {
             holder.bind(item)
             holder.itemView.setOnClickListener {
-                onClickVH(item.ids.trakt)
+                onClickVH(item.ids)
             }
         }
     }
