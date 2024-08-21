@@ -124,6 +124,8 @@ dependencies {
     def paging_version = "3.3.1"
     implementation "androidx.paging:paging-runtime-ktx:$paging_version"
 
+    // viewPager2, tabs already incleded in m3
+    implementation 'androidx.viewpager2:viewpager2:1.0.0'
 }
 
 

@@ -22,9 +22,9 @@ import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
-// STEPS:
-// 1. detailDto
-// 2. seasonsDto
+// TODO
+// 1. detailDto OK
+// 2. seasonsDto OK
 // 3. relatedDto
 // 4. castDto
 
@@ -32,7 +32,10 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class DetailShowFragment private constructor() : Fragment(R.layout.fragm_detail_show) {
 
-    private var currentShowIds: Ids = Ids() // ids ha valori default
+    private var currentShowTitle: String = ""
+    private var currentShowIds: Ids = Ids() // ids has default value
+    private var allSeasonsNumber: Int = 0
+
     private val binding by viewBinding(FragmDetailShowBinding::bind)
     private val viewModel by viewModels<DetailShowViewmodel>()
 
@@ -40,7 +43,12 @@ class DetailShowFragment private constructor() : Fragment(R.layout.fragm_detail_
     lateinit var navigator: Navigator
 
     private val detailSeasonsAdapter = DetailSeasonsAdapter(onClickVH = { seasonNumber ->
-        navigator.startSeasonFragment(currentShowIds, seasonNumber)
+        navigator.startSeasonsViewpagerFragment( // go to viewpager
+            currentShowTitle,
+            currentShowIds,
+            seasonNumber,
+            allSeasonsNumber
+        )
     })
 
 
@@ -54,6 +62,7 @@ class DetailShowFragment private constructor() : Fragment(R.layout.fragm_detail_
             currentShowIds = bundle.getParcelable(SHOW_IDS_KEY) ?: Ids()
         }
 
+
         viewModel.detailState.observe(viewLifecycleOwner) { stateContainer ->
             stateContainer.data?.let { detailShowDto ->
                 updateDetailUi(detailShowDto)
@@ -64,11 +73,13 @@ class DetailShowFragment private constructor() : Fragment(R.layout.fragm_detail_
             )
         }
 
-        binding.seasonsRV.adapter = detailSeasonsAdapter
-        binding.seasonsRV.layoutManager = LinearLayoutManager(requireContext())
         viewModel.allSeasonsState.observe(viewLifecycleOwner) { stateContainer ->
             detailSeasonsAdapter.submitList(stateContainer.data)
+            allSeasonsNumber = stateContainer.data?.size ?: 0
         }
+        binding.seasonsRV.adapter = detailSeasonsAdapter
+        binding.seasonsRV.layoutManager = LinearLayoutManager(requireContext())
+
 
         // data call
         viewModel.loadShowDetail(currentShowIds.trakt)
@@ -85,7 +96,6 @@ class DetailShowFragment private constructor() : Fragment(R.layout.fragm_detail_
                 .error(R.drawable.glide_placeholder_base)
                 .into(binding.imageHorizontal)
         }
-
         // vertical - poster
         viewModel.posterImageUrl.observe(viewLifecycleOwner) { posterUrl ->
             Glide.with(requireContext())
@@ -99,6 +109,7 @@ class DetailShowFragment private constructor() : Fragment(R.layout.fragm_detail_
         binding.buttonBack.setOnClickListener {
             requireActivity().onBackPressed()
         }
+
         // TODO crew
         // TODO related Shows
     }
@@ -107,6 +118,7 @@ class DetailShowFragment private constructor() : Fragment(R.layout.fragm_detail_
     // show detail
     private fun updateDetailUi(detailShowDto: DetailShowDto) {
         with(binding) {
+            currentShowTitle = detailShowDto.title
             title.text = detailShowDto.title
             status.text = detailShowDto.status
             networkYearCountry.text =
@@ -142,8 +154,6 @@ class DetailShowFragment private constructor() : Fragment(R.layout.fragm_detail_
 
 
     companion object {
-        private const val SHOW_IDS_KEY = "showIdsKey"
-
         fun create(showIds: Ids): DetailShowFragment {
             val detailShowFragment = DetailShowFragment()
             val bundle = Bundle()
@@ -151,5 +161,7 @@ class DetailShowFragment private constructor() : Fragment(R.layout.fragm_detail_
             detailShowFragment.arguments = bundle
             return detailShowFragment
         }
+
+        private const val SHOW_IDS_KEY = "showIdsKey"
     }
 }

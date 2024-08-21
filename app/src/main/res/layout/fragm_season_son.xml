@@ -1,80 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
 
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-        <ImageButton
-                android:id="@+id/buttonBack"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:elevation="4dp"
-                app:srcCompat="@drawable/baseline_arrow_back"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_margin="4dp"
-                android:importantForAccessibility="no" />
-
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="Game of Thrones"
-                android:gravity="center_vertical"
-                android:textSize="20dp"/>
-
-    </LinearLayout>
-
-
-    <!-- Tab Layout - per seasons -->
-    <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tabLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?attr/colorPrimary"
-            app:tabIndicatorColor="@android:color/white"
-            app:tabTextColor="@android:color/white"
-            app:tabMode="fixed"
-            app:tabGravity="fill" />
-
-
-    <!-- Scrollable Content -->
-    <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1">
-
         <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
             <!-- Season Details -->
             <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="150dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
                     android:background="@android:color/darker_gray"
-                    android:padding="16dp">
+                    android:padding="8dp">
 
-                <ImageView
+                <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/seasonPoster"
-                        android:layout_width="80dp"
-                        android:layout_height="120dp"
+                        android:layout_width="100dp"
+                        android:layout_height="150dp"
                         android:layout_alignParentStart="true"
                         tools:background="@tools:sample/avatars"
+                        style="@style/Image_BaseVH"
                         app:layout_constraintStart_toStartOf="parent"
-
                         app:layout_constraintTop_toTopOf="parent" />
 
-                <!--                TODO espandi testo-->
+
                 <TextView
                         android:id="@+id/seasonNumber"
                         android:layout_width="wrap_content"
@@ -88,7 +43,7 @@
                         android:textStyle="bold" />
 
                 <TextView
-                        android:id="@+id/seasonDescription"
+                        android:id="@+id/seasonOverview"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_toEndOf="@id/seasonPoster"
@@ -98,6 +53,7 @@
                         app:layout_constraintTop_toBottomOf="@id/seasonNumber"
                         app:layout_constraintStart_toEndOf="@id/seasonPoster"
                         app:layout_constraintEnd_toEndOf="parent" />
+                <!--                TODO espandi testo-->
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <!-- Episodes List -->
@@ -116,8 +72,9 @@
                         android:textSize="20sp" />
 
                 <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/episodesRV"
                         android:layout_width="match_parent"
-                        android:layout_height="0dp"
+                        android:layout_height="wrap_content"
                         tools:layout_height="500dp"
                         tools:listitem="@layout/vh_episode_onseason" />
 
@@ -125,6 +82,5 @@
 
         </LinearLayout>
 
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
-</LinearLayout>

@@ -82,6 +82,7 @@ interface TraktApi {
     ): List<EpisodeExtenDto>
 
 
+
     // EPISODE FRAGMENT (bottom sheet)
     @GET("shows/{show_id}/seasons/{season_number}/episodes/{episode_number}?extended=full")
     suspend fun getEpisodeInfo (

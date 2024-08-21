@@ -4,9 +4,10 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.muvitracker.R
 import com.example.muvitracker.data.dto.basedto.Ids
-import com.example.muvitracker.databinding.FragmSeasonBinding
+import com.example.muvitracker.databinding.FragmSeasonSonBinding
 import com.example.muvitracker.ui.main.Navigator
 import com.example.muvitracker.utils.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -22,24 +23,26 @@ import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class SeasonFragment private constructor() : Fragment(R.layout.fragm_season) {
+class SeasonFragment private constructor() : Fragment(R.layout.fragm_season_son) {
 
-    // TODO layout
     private var currentShowIds: Ids = Ids()
     private var currentSeason: Int = 0
 
-    private val binding by viewBinding(FragmSeasonBinding::bind)
+    private val binding by viewBinding(FragmSeasonSonBinding::bind)
     private val viewModel by viewModels<SeasonViewmodel>()
 
     @Inject
     lateinit var navigator: Navigator
 
-    private val adapter = SeasonEpisodesAdapter(onCLickVH = { episodeIds ->
-//        navigator.startEpisodeFragment() TODO
+    private val episodesAdapter = SeasonEpisodesAdapter(onCLickVH = { episodeNumber ->
+        navigator.startEpisodeFragment(currentShowIds, currentSeason, episodeNumber)
     })
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        binding.episodesRV.adapter = episodesAdapter
+        binding.episodesRV.layoutManager = LinearLayoutManager(requireContext())
 
         val bundle = arguments
         if (bundle != null) {
@@ -47,13 +50,22 @@ class SeasonFragment private constructor() : Fragment(R.layout.fragm_season) {
             currentSeason = bundle.getInt(SEASON_NUMBER_KEY)
         }
 
+
         viewModel.seasonInfoState.observe(viewLifecycleOwner) { stateContainer ->
-            // TODO updateUi
+            // TODO updateUi OK
+            val dto = stateContainer.data
+            if (dto != null) {
+                binding.seasonNumber.text = dto.title
+                binding.seasonOverview.text = dto.overview
+            }
         }
 
         viewModel.seasonEpisodesState.observe(viewLifecycleOwner) { stateContainer ->
-            // TODO adapter update
+            // TODO adapter update OK
+            episodesAdapter.submitList(stateContainer.data)
+            println("LLLL EPISODES${stateContainer.data}")
         }
+
 
 
         // OK
@@ -61,13 +73,11 @@ class SeasonFragment private constructor() : Fragment(R.layout.fragm_season) {
         viewModel.loadSeasonEpisodes(showId = currentShowIds.trakt, seasonNumber = currentSeason)
 
 
-        // TODO - swipe on tabs - change seasons
 
     }
 
 
     companion object {
-        // ARGUMENT
         fun create(
             showIds: Ids, // OK
             seasonNumber: Int, // get from db

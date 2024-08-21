@@ -21,7 +21,8 @@ data class EpisodeExtenDto(
 
 
     fun getDateFromFirsAired(): String {
-        return "${firstAired.substring(0,4)}/${firstAired.substring(5,7)}/${firstAired.substring(8,10)}"
+        "${firstAired.substring(0,4)}/${firstAired.substring(5,7)}/${firstAired.substring(8,10)}"
+        return "${firstAired.substring(8,10)}/${firstAired.substring(5,7)}/${firstAired.substring(0,4)}"
     }
 }
 

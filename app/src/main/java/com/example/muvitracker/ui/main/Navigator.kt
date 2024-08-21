@@ -5,11 +5,13 @@ import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.example.muvitracker.R
-import com.example.muvitracker.data.dto.SeasonExtenDto
+import com.example.muvitracker.data.dto.DetailShowDto
 import com.example.muvitracker.data.dto.basedto.Ids
 import com.example.muvitracker.ui.main.detailmovie.DetailMovieFragment
 import com.example.muvitracker.ui.main.detailmovie.DetailShowFragment
+import com.example.muvitracker.ui.main.episode.EpisodeFragment
 import com.example.muvitracker.ui.main.seasons.SeasonFragment
+import com.example.muvitracker.ui.main.seasons.SeasonViewpagerFragment
 import javax.inject.Inject
 
 
@@ -40,13 +42,30 @@ class Navigator @Inject constructor(
     }
 
 
-    // TODO OK
     fun startShowDetailFragment(
         showIds: Ids
     ) {
         val manager = fragmentActivity.supportFragmentManager
         manager.beginTransaction()
             .replace(R.id.frameLayout, DetailShowFragment.create(showIds))
+            .addToBackStack(null)
+            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+            .commit()
+    }
+
+    fun startSeasonsViewpagerFragment(
+        showTitle: String,
+        showIds: Ids,
+        seasonNumber: Int,
+        totSeasonsNumber: Int
+    ) {
+        val manager = fragmentActivity.supportFragmentManager
+        manager.beginTransaction()
+            .replace(
+                R.id.frameLayout,
+                SeasonViewpagerFragment
+                    .create(showTitle, showIds, seasonNumber, totSeasonsNumber)
+            )
             .addToBackStack(null)
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
             .commit()
@@ -60,6 +79,20 @@ class Navigator @Inject constructor(
         val manager = fragmentActivity.supportFragmentManager
         manager.beginTransaction()
             .replace(R.id.frameLayout, SeasonFragment.create(showIds, seasonNumber))
+            .addToBackStack(null)
+            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+            .commit()
+    }
+
+
+    fun startEpisodeFragment(
+        showIds: Ids,
+        seasonNumber: Int,
+        episodeNumber: Int
+    ) {
+        val manager = fragmentActivity.supportFragmentManager
+        manager.beginTransaction()
+            .replace(R.id.frameLayout, EpisodeFragment.create(showIds, seasonNumber, episodeNumber))
             .addToBackStack(null)
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
             .commit()

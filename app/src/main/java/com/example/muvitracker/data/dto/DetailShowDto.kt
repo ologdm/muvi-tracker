@@ -1,7 +1,9 @@
 package com.example.muvitracker.data.dto
 
+import android.os.Parcelable
 import com.example.muvitracker.data.dto.basedto.Ids
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
 // dto completo, commentati quelli non utili
 
@@ -16,21 +18,21 @@ data class DetailShowDto(
 //    val airs : Airs // day, time, timezone
     val runtime: Int = 0, // 60
 //    val certification: String,
-    val network :String, // hbo
+    val network: String, // hbo
     val country: String = "", // us
 //    @SerializedName("updated_at") val updatedAt: String = "", // date
-    val trailer : String = "", // link sito
+    val trailer: String = "", // link sito
     val homepage: String = "", // website
     val status: String = "", // coming soon, wip, ended
     val rating: Float = 0F,
     val votes: Int = 0,
     @SerializedName("comment_count") val commentCount: Int = 0,
-    val language : String,
+    val language: String,
     val languages: List<String> = emptyList(),
     val availableTranslations: List<String> = emptyList(),
     val genres: List<String> = emptyList(),
     @SerializedName("aired_episodes") val airedEpisodes: Int
-){
+)  {
 
     fun imageUrl(): String {
         return "http://img.omdbapi.com/?apikey=ef6d3d4c&i=${ids.imdb}"
@@ -38,11 +40,6 @@ data class DetailShowDto(
 
 
 }
-
-
-
-
-
 
 
 /*

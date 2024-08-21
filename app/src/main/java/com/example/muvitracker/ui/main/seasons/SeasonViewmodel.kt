@@ -53,9 +53,9 @@ class SeasonViewmodel @Inject constructor(
     }
 
 
-    fun toggleWatchedEpisode() {
-        TODO()
-    }
+
+
+
 
 
 }

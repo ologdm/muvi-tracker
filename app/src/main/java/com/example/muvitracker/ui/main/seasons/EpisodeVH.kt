@@ -10,7 +10,7 @@ class EpisodeVH(
 ) : ViewHolder(binding.root) {
 
     fun bind(dto: EpisodeExtenDto) {
-        binding.episodeNumberAndRelease.text = "#${dto.number} • ${dto.getDateFromFirsAired()} "
+        binding.episodeNumberAndRelease.text = "#${dto.number} • ${dto.getDateFromFirsAired()}"
         binding.episodeTitleAndRuntime.text = "${dto.title} (${dto.runtime} min)"
         binding.rating.text = dto.rating.firstDecimalApproxToString()
     }

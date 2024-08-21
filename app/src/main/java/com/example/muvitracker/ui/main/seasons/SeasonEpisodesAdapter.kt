@@ -10,8 +10,9 @@ import com.example.muvitracker.databinding.VhEpisodeOnseasonBinding
 import com.example.muvitracker.databinding.VhSeasonsOnDetailshowBinding
 
 class SeasonEpisodesAdapter(
-    val onCLickVH: (Ids) -> Unit
+    val onCLickVH: (Int) -> Unit
 ) : ListAdapter<EpisodeExtenDto, EpisodeVH>(DIFF_CALLBACK) {
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EpisodeVH {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -25,7 +26,7 @@ class SeasonEpisodesAdapter(
         holder.bind(episode)
 
         holder.itemView.setOnClickListener {
-            onCLickVH(episode.ids)
+            onCLickVH(episode.number)
         }
 
     }

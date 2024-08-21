@@ -38,7 +38,7 @@
             app:srcCompat="@drawable/baseline_arrow_back"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_margin="16dp"
+            android:layout_margin="8dp"
             android:importantForAccessibility="no" />
 
 
