@@ -34,7 +34,8 @@ class DetailShowFragment private constructor() : Fragment(R.layout.fragm_detail_
 
     private var currentShowTitle: String = ""
     private var currentShowIds: Ids = Ids() // ids has default value
-    private var allSeasonsNumber: Int = 0
+    private var allSeasonsCount: Int = 0
+
 
     private val binding by viewBinding(FragmDetailShowBinding::bind)
     private val viewModel by viewModels<DetailShowViewmodel>()
@@ -47,7 +48,7 @@ class DetailShowFragment private constructor() : Fragment(R.layout.fragm_detail_
             currentShowTitle,
             currentShowIds,
             seasonNumber,
-            allSeasonsNumber
+            allSeasonsCount
         )
     })
 
@@ -56,12 +57,10 @@ class DetailShowFragment private constructor() : Fragment(R.layout.fragm_detail_
         view: View,
         savedInstanceState: Bundle?
     ) {
-        // getArguments
         val bundle = arguments
         if (bundle != null) {
             currentShowIds = bundle.getParcelable(SHOW_IDS_KEY) ?: Ids()
         }
-
 
         viewModel.detailState.observe(viewLifecycleOwner) { stateContainer ->
             stateContainer.data?.let { detailShowDto ->
@@ -73,12 +72,14 @@ class DetailShowFragment private constructor() : Fragment(R.layout.fragm_detail_
             )
         }
 
-        viewModel.allSeasonsState.observe(viewLifecycleOwner) { stateContainer ->
-            detailSeasonsAdapter.submitList(stateContainer.data)
-            allSeasonsNumber = stateContainer.data?.size ?: 0
-        }
         binding.seasonsRV.adapter = detailSeasonsAdapter
         binding.seasonsRV.layoutManager = LinearLayoutManager(requireContext())
+
+        viewModel.allSeasonsState.observe(viewLifecycleOwner) { stateContainer ->
+            detailSeasonsAdapter.submitList(stateContainer.data)
+            allSeasonsCount = stateContainer.data?.size ?: 0
+            binding.airedSeasons.text = "${allSeasonsCount } seasons"
+        }
 
 
         // data call
