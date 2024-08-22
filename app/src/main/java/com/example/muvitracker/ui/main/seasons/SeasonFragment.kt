@@ -1,6 +1,7 @@
 package com.example.muvitracker.ui.main.seasons
 
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -67,13 +68,23 @@ class SeasonFragment private constructor() : Fragment(R.layout.fragm_season_son)
         }
 
 
-
         // OK
         viewModel.loadSeasonInfo(showId = currentShowIds.trakt, seasonNumber = currentSeason)
         viewModel.loadSeasonEpisodes(showId = currentShowIds.trakt, seasonNumber = currentSeason)
 
 
-
+        // Espansione e riduzione overview - OK
+        var isTextExpanded = false // initial state, fragment opening
+        binding.seasonOverview.setOnClickListener {
+            if (isTextExpanded){ // expanded==true -> contract
+                binding.seasonOverview.maxLines = 6
+                binding.seasonOverview.ellipsize = TextUtils.TruncateAt.END
+            }else{ // expanded==false -> expand
+                binding.seasonOverview.maxLines = Int.MAX_VALUE
+                binding.seasonOverview.ellipsize = null
+            }
+            isTextExpanded = !isTextExpanded // toggle state
+        }
     }
 
 

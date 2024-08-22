@@ -50,7 +50,8 @@
             app:layout_constraintEnd_toStartOf="@id/episodesCount"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginEnd="140dp" />
+            android:layout_marginEnd="140dp"
+            android:clickable="false"/>
 
     <TextView
             android:id="@+id/episodesCount"

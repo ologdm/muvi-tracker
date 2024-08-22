@@ -6,81 +6,89 @@
         android:layout_height="match_parent">
 
 
-        <LinearLayout
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        <!-- Season Details -->
+        <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_marginBottom="16dp"
+                android:background="?attr/colorSurfaceVariant"
+                android:padding="8dp">
 
-            <!-- Season Details -->
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/seasonPoster"
+                    android:layout_width="100dp"
+                    android:layout_height="150dp"
+                    android:layout_alignParentStart="true"
+                    tools:background="@tools:sample/avatars"
+                    style="@style/Image_BaseVH"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+            <TextView
+                    android:id="@+id/seasonNumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@id/seasonPoster"
+                    android:layout_marginStart="16dp"
+                    tools:text="Season 1"
+                    android:textAppearance="?attr/textAppearanceBody1"
+                    app:layout_constraintStart_toEndOf="@id/seasonPoster"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:textStyle="bold" />
+
+            <TextView
+                    android:id="@+id/seasonOverview"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@id/seasonPoster"
+                    android:layout_marginStart="16dp"
+                    tools:text="Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+                    android:textAppearance="?attr/textAppearanceBody1"
+                    app:layout_constraintTop_toBottomOf="@id/seasonNumber"
+                    app:layout_constraintStart_toEndOf="@id/seasonPoster"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:maxLines="6"
+                    android:ellipsize="end"
+                    android:clickable="true"/>
+<!--                    android:focusable="true"-->
+                    />
+<!--  elipsize...3 punti | focusable ??   -->
+
+
+            <!--                TODO espandi testo-->
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Episodes List -->
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" Episodes:"
+                    android:textStyle="bold"
+                    android:textSize="16sp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/episodesRV"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:background="@android:color/darker_gray"
-                    android:padding="8dp">
-
-                <com.google.android.material.imageview.ShapeableImageView
-                        android:id="@+id/seasonPoster"
-                        android:layout_width="100dp"
-                        android:layout_height="150dp"
-                        android:layout_alignParentStart="true"
-                        tools:background="@tools:sample/avatars"
-                        style="@style/Image_BaseVH"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-
-                <TextView
-                        android:id="@+id/seasonNumber"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_toEndOf="@id/seasonPoster"
-                        android:layout_marginStart="16dp"
-                        tools:text="Season 1"
-                        android:textAppearance="?attr/textAppearanceBody1"
-                        app:layout_constraintStart_toEndOf="@id/seasonPoster"
-                        app:layout_constraintTop_toTopOf="parent"
-                        android:textStyle="bold" />
-
-                <TextView
-                        android:id="@+id/seasonOverview"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_toEndOf="@id/seasonPoster"
-                        android:layout_marginStart="16dp"
-                        tools:text="Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
-                        android:textAppearance="?attr/textAppearanceBody1"
-                        app:layout_constraintTop_toBottomOf="@id/seasonNumber"
-                        app:layout_constraintStart_toEndOf="@id/seasonPoster"
-                        app:layout_constraintEnd_toEndOf="parent" />
-                <!--                TODO espandi testo-->
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <!-- Episodes List -->
-            <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingStart="12dp"
-                    android:paddingEnd="12dp">
-
-                <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text=" Episodes:"
-                        android:textStyle="bold"
-                        android:textSize="20sp" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/episodesRV"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        tools:layout_height="500dp"
-                        tools:listitem="@layout/vh_episode_onseason" />
-
-            </LinearLayout>
+                    tools:layout_height="500dp"
+                    tools:listitem="@layout/vh_episode_onseason" />
 
         </LinearLayout>
 
-    </androidx.core.widget.NestedScrollView>
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>
 

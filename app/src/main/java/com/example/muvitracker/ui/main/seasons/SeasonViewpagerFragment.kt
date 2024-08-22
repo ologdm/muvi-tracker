@@ -9,6 +9,7 @@ import com.example.muvitracker.data.dto.DetailShowDto
 import com.example.muvitracker.data.dto.basedto.Ids
 import com.example.muvitracker.databinding.FragmSeasonViewpagerBinding
 import com.example.muvitracker.utils.viewBinding
+import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -42,22 +43,19 @@ class SeasonViewpagerFragment private constructor() : Fragment(R.layout.fragm_se
 
 
         // TODO viewpager2
-        // TODO viewpager2
-        // TODO viewpager2
-        // TODO viewpager2
-
         binding.viewPager.adapter =
             SeasonViewpagerAdapter(
                 fragment = this,
                 ids = currentShowIds,
                 seasonCount = totalSeasons
-            ) // pesca da db
+            )
 
 
         // TODO tab mediator
+        binding.tabLayout.tabMode = TabLayout.MODE_SCROLLABLE
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
-            tab.text = "Season ${position + 1}"
-        }
+            tab.text = "Stagione ${position + 1}"
+        }.attach()
 
     }
 
