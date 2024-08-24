@@ -2,12 +2,13 @@ package com.example.muvitracker.data.database.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.example.muvitracker.data.dto.EpisodeExtenDto
 import com.example.muvitracker.data.dto.basedto.Ids
 
 
 @Entity(tableName = "EpisodeEntities")
 data class EpisodeEntity(
-    @PrimaryKey val episodeTraktId :Int,
+    @PrimaryKey val episodeTraktId: Int,
     val seasonNumber: Int, // X
     val episodeNumber: Int, // X
     val title: String,
@@ -25,3 +26,24 @@ data class EpisodeEntity(
     //save
     val watched: Boolean = false
 )
+
+
+// TODO fare ck se corretto !!
+fun EpisodeEntity.copyDtoData(episodeDto: EpisodeExtenDto) : EpisodeEntity {
+    return this.copy(
+        episodeTraktId = episodeDto.ids.trakt,
+        seasonNumber = episodeDto.season,
+        episodeNumber = episodeDto.number,
+        title = episodeDto.title,
+        ids = episodeDto.ids,
+        numberAbs = episodeDto.numberAbs,
+        overview = episodeDto.overview,
+        rating = episodeDto.rating,
+        firstAiredFormatted = episodeDto.getDateFromFirsAired(),
+        availableTranslations = episodeDto.availableTranslations,
+        runtime = episodeDto.runtime,
+        episodeType = episodeDto.episodeType,
+        showId = showId,
+        //  watched rimane stato db
+    )
+}

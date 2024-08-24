@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.muvitracker.data.DetailShowRepository
 import com.example.muvitracker.data.TraktApi
+import com.example.muvitracker.data.database.entities.SeasonEntity
 import com.example.muvitracker.data.dto.SeasonExtenDto
 import com.example.muvitracker.data.images.TmdbRepository
 import com.example.muvitracker.domain.model.DetailShow
@@ -27,14 +28,14 @@ class DetailShowViewmodel @Inject constructor(
 ) : ViewModel() {
 
     val detailState = MutableLiveData<StateContainer<DetailShow>>()
-    val allSeasonsState = MutableLiveData<StateContainer<List<SeasonExtenDto>>>() // TODO
+    val allSeasonsState = MutableLiveData<StateContainer<List<SeasonEntity>>>()
 
 
-    // flow -> livedata
+    // flow -> livedata 00
     fun loadShowDetailFlow(showId: Int) {
         var cachedItem: DetailShow? = null
         viewModelScope.launch {
-            detailShowRepo.getSingleDetailMovieFlow(showId)
+            detailShowRepo.getSingleDetailShowFlow(showId)
                 .map { response ->
                     when (response) {
                         is IoResponse.Success -> {
@@ -59,11 +60,12 @@ class DetailShowViewmodel @Inject constructor(
                 }.catch {
                     it.printStackTrace()
                 }
-                .collectLatest {container->
+                .collectLatest { container ->
                     detailState.value = container
                 }
         }
     }
+
 
     // 00
     fun toggleLikedItem(id: Int) {
@@ -73,42 +75,47 @@ class DetailShowViewmodel @Inject constructor(
     }
 
 
-
-    // OK
     fun loadAllSeasons(showId: Int) {
         viewModelScope.launch {
-            try {
-                val response = traktApi.getAllSeasons(showId)
-                    .filter { it.number != 0 } // filter only the actual seasons
-                allSeasonsState.value = StateContainer(data = response)
-            } catch (ex: CancellationException) {
-                throw ex
-            } catch (ex: Throwable) {
-                ex.printStackTrace()
-            }
+            detailShowRepo.getShowSeasonsFlow(showId)
+                .map { response ->
+                    when (response) {
+                        is IoResponse.Success -> {
+                            StateContainer(response.dataValue)
+                        }
+
+                        is IoResponse.Error -> {
+                            if (response.t is IOException) {
+                                StateContainer(isNetworkError = true)
+                            } else {
+                                StateContainer(isOtherError = true)
+                            }
+                        }
+                    }
+                }.catch {
+                    it.printStackTrace()
+                }.collectLatest { container ->
+                    allSeasonsState.value = container
+                }
         }
+
     }
 
 
-    // TODO ricopiare tmdb e appunti da l'altra
+    // TMDB TODO caching, ridurre dimensione no 4k, logica bestVotes
+    val backdropImageUrl = MutableLiveData<String>()
+    val posterImageUrl = MutableLiveData<String>()
+
+    fun getTmdbImageLinks(showTmdbId: Int) { // TODO salvare link su entity detail
+        viewModelScope.launch {
+            val result = tmdbRepository.getShowImages(showTmdbId)
+            val backdropUrl = result[TmdbRepository.BACKDROP_KEY] ?: ""
+            val posterUrl = result[TmdbRepository.POSTER_KEY] ?: ""
+            backdropImageUrl.value = backdropUrl
+            posterImageUrl.value = posterUrl
+        }
+    }
 }
 
-
-
-// old
-//fun loadShowDetail(showId: Int) {
-//    viewModelScope.launch {
-//        val response = detailShowRepo.getDetailData(showId)
-//        when (response) {
-//            is IoResponse.Success -> {
-//                detailState.value = StateContainer(data = response.dataValue)
-//            }
-//
-//            is IoResponse.Error -> {
-//                detailState.value = StateContainer(isNetworkError = true)
-//            }
-//        }
-//    }
-//}
 
 

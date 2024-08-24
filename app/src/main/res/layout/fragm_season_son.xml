@@ -57,12 +57,6 @@
                     android:ellipsize="end"
                     android:clickable="true" />
 
-            <!--                    android:focusable="true"-->
-            />
-            <!--  elipsize...3 punti | focusable ??   -->
-
-
-            <!--                TODO espandi testo-->
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <!-- Episodes List -->
@@ -98,18 +92,28 @@
                         android:textSize="16sp"
                         android:layout_marginEnd="4dp" />
 
+<!--                <ImageView-->
+<!--                        android:id="@+id/watchedAllIcon"-->
+<!--                        android:layout_width="30dp"-->
+<!--                        android:layout_height="30dp"-->
+<!--                        android:src="@android:drawable/ic_menu_view"-->
+<!--                        android:contentDescription="View episode"-->
+<!--                        android:layout_marginEnd="14dp"-->
+<!--                        android:clickable="true"-->
+
+<!--                        app:layout_constraintEnd_toEndOf="parent"-->
+<!--                        app:layout_constraintTop_toTopOf="parent" />-->
+
                 <ImageView
                         android:id="@+id/watchedAllIcon"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:src="@android:drawable/ic_menu_view"
+                        android:src="@drawable/watched_check_circle_empty"
                         android:contentDescription="View episode"
                         android:layout_marginEnd="14dp"
                         android:clickable="true"
-
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
-
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 

@@ -209,7 +209,8 @@
                                     android:id="@+id/watchedCheckbox"
                                     android:layout_gravity="center_vertical"
                                     android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content" />
+                                    android:layout_height="wrap_content"
+                                    android:clickable="false"/>
 
                         </LinearLayout>
 

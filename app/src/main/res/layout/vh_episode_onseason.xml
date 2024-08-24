@@ -55,16 +55,28 @@
             android:layout_marginEnd="20dp"
             android:clickable="false"/>
 
+<!--    colorare da codice-->
+<!--    <ImageView-->
+<!--            android:id="@+id/watchedIcon"-->
+<!--            android:layout_width="24dp"-->
+<!--            android:layout_height="24dp"-->
+<!--            android:src="@android:drawable/ic_menu_view"-->
+<!--            android:contentDescription="View episode"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            android:layout_marginEnd="16dp"-->
+<!--            android:clickable="true" />-->
     <ImageView
             android:id="@+id/watchedIcon"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:src="@android:drawable/ic_menu_view"
+            android:src="@drawable/watched_check_circle_empty"
             android:contentDescription="View episode"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginEnd="16dp"
-            android:clickable="true"/>
+            android:clickable="true" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

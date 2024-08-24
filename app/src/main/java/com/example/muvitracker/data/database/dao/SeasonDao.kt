@@ -1,6 +1,5 @@
 package com.example.muvitracker.data.database.dao
 
-import androidx.appcompat.widget.ActivityChooserView.InnerLayout
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
@@ -21,8 +20,12 @@ import kotlinx.coroutines.flow.Flow
 interface SeasonDao {
 
     // 1. READ 000
-    @Query("""SELECT * FROM SeasonEntities WHERE showId=:showId AND seasonNumber=:seasonNr""")
-    fun readSingleSeasonOfShow(showId: Int, seasonNr: Int): Flow<SeasonEntity>
+    @Query("SELECT * FROM SeasonEntities WHERE showId=:showId AND seasonNumber=:seasonNr")
+    fun readSingleSeason(showId: Int, seasonNr: Int): Flow<SeasonEntity>
+
+    @Query("SELECT * FROM SeasonEntities WHERE seasonTraktId=:seasonTraktId")
+    fun readSingleSeasonById(seasonTraktId: Int): Flow<SeasonEntity>
+
 
     @Query("SELECT * FROM SeasonEntities WHERE showId=:showId")
     fun readAllSeasonsOfShow(showId: Int): Flow<List<SeasonEntity>>
@@ -33,14 +36,12 @@ interface SeasonDao {
     @Insert
     suspend fun insertSingle(entity: SeasonEntity)
 
-    @Insert
-    suspend fun insertMultiple(entities: List<SeasonEntity>)
-
 
     // 3.1 UPDATE dto 00
     // pesco l'elemento necessario, poi copy, modificando solo i campi necessari (da repository)
     @Update
     suspend fun updateSingleSeasonDto(entity: SeasonEntity)
+
     @Update
     suspend fun updateAllSeasonsDto(entities: List<SeasonEntity>)
 
@@ -76,3 +77,7 @@ interface SeasonDao {
     )
 
 }
+
+
+//    @Insert
+//    suspend fun insertMultiple(entities: List<SeasonEntity>)

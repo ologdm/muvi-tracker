@@ -68,3 +68,8 @@ fun DetailShowEntity.toDomain(prefsShowEntity: PrefsShowEntity?): DetailShow {
         addedDateTime = prefsShowEntity?.addedDateTime
     )
 }
+
+
+// if(tutteLeStagioniWatchedAll==true){
+        //watchedAll==true
+// }

@@ -47,14 +47,14 @@
             android:layout_height="24dp"
             android:src="@android:drawable/btn_star"
             android:contentDescription="View episode"
-            app:layout_constraintEnd_toStartOf="@id/episodesCount"
+            app:layout_constraintEnd_toStartOf="@id/checkbox"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginEnd="140dp"
+            android:layout_marginEnd="100dp"
             android:clickable="false"/>
 
     <TextView
-            android:id="@+id/episodesCount"
+            android:id="@+id/watchedCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="7/10"
@@ -63,12 +63,14 @@
             app:layout_constraintBottom_toBottomOf="parent" />
 
 
+<!--    1° step, not clickable -->
     <CheckBox
             android:id="@+id/checkbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:gravity="center_vertical" />
+            android:gravity="center_vertical"
+            android:clickable="false"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

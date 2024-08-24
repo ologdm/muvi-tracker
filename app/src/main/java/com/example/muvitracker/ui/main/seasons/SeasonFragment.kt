@@ -35,9 +35,11 @@ class SeasonFragment private constructor() : Fragment(R.layout.fragm_season_son)
     @Inject
     lateinit var navigator: Navigator
 
-    private val episodesAdapter = SeasonEpisodesAdapter(onCLickVH = { episodeNumber ->
-        navigator.startEpisodeFragment(currentShowIds, currentSeason, episodeNumber)
-    })
+    private val episodesAdapter = SeasonEpisodesAdapter(
+        onCLickVH = { episodeNumber ->
+            navigator.startEpisodeFragment(currentShowIds, currentSeason, episodeNumber)
+        },
+    )
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -52,23 +54,35 @@ class SeasonFragment private constructor() : Fragment(R.layout.fragm_season_son)
         }
 
 
+        // TODO
+//        viewModel.seasonInfoState.observe(viewLifecycleOwner) { stateContainer ->
+//            val dto = stateContainer.data
+//            if (dto != null) {
+//                binding.seasonNumber.text = dto.title
+//                binding.seasonOverview.text = dto.overview
+//            }
+//        }
         viewModel.seasonInfoState.observe(viewLifecycleOwner) { stateContainer ->
-            // TODO updateUi OK
-            val dto = stateContainer.data
-            if (dto != null) {
-                binding.seasonNumber.text = dto.title
-                binding.seasonOverview.text = dto.overview
+            val entity = stateContainer.data
+            if (entity != null) {
+                binding.seasonNumber.text = entity.title
+                binding.seasonOverview.text = entity.overview
             }
         }
 
+
+        // TODO
+//        viewModel.seasonEpisodesState.observe(viewLifecycleOwner) { stateContainer ->
+//            episodesAdapter.submitList(stateContainer.data)
+//            println("LLLL EPISODES${stateContainer.data}")
+//        }
         viewModel.seasonEpisodesState.observe(viewLifecycleOwner) { stateContainer ->
-            // TODO adapter update OK
-            episodesAdapter.submitList(stateContainer.data)
             println("LLLL EPISODES${stateContainer.data}")
+            episodesAdapter.submitList(stateContainer.data)
         }
 
 
-        // OK
+        // OK, con caching rimangono uguali
         viewModel.loadSeasonInfo(showId = currentShowIds.trakt, seasonNumber = currentSeason)
         viewModel.loadSeasonEpisodes(showId = currentShowIds.trakt, seasonNumber = currentSeason)
 
@@ -76,17 +90,31 @@ class SeasonFragment private constructor() : Fragment(R.layout.fragm_season_son)
         // Espansione e riduzione overview - OK
         var isTextExpanded = false // initial state, fragment opening
         binding.seasonOverview.setOnClickListener {
-            if (isTextExpanded){ // expanded==true -> contract
+            if (isTextExpanded) { // expanded==true -> contract
                 binding.seasonOverview.maxLines = 6
                 binding.seasonOverview.ellipsize = TextUtils.TruncateAt.END
-            }else{ // expanded==false -> expand
+            } else { // expanded==false -> expand
                 binding.seasonOverview.maxLines = Int.MAX_VALUE
                 binding.seasonOverview.ellipsize = null
             }
             isTextExpanded = !isTextExpanded // toggle state
         }
+
+
+        binding.watchedAllIcon.setOnClickListener {
+            // all
+        }
+
     }
 
+
+    // CAMBIA ICONA COLORE
+    private fun updateWatchedEpisodeIcon(isFavorite: Boolean) {
+        val iconEmpty = context?.getDrawable(R.drawable.watched_check_circle_empty)
+        val iconFilled = context?.getDrawable(R.drawable.watched_check_circle_filled)
+
+        binding.watchedAllIcon.setImageDrawable(if (isFavorite) iconFilled else iconEmpty)
+    }
 
     companion object {
         fun create(
