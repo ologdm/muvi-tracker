@@ -3,11 +3,6 @@ package com.example.muvitracker.domain.model
 import com.example.muvitracker.data.dto.basedto.Ids
 
 data class DetailMovie(
-    // prefs entity
-    val liked: Boolean,
-    val watched: Boolean,
-    val addedDateTime: Long?,
-
     // detail entity
     val title: String,
     val year: Int,
@@ -18,6 +13,11 @@ data class DetailMovie(
     val country: String,
     val rating: Float,
     val genres: List<String>,
+
+    // prefs entity
+    val liked: Boolean,
+    val watched: Boolean,
+    val addedDateTime: Long?
 ) {
     fun imageUrl(): String {
         return "http://img.omdbapi.com/?apikey=ef6d3d4c&i=${ids.imdb}"

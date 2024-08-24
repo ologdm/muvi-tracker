@@ -7,12 +7,10 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.muvitracker.R
-import com.example.muvitracker.data.dto.DetailShowDto
 import com.example.muvitracker.data.dto.basedto.Ids
 import com.example.muvitracker.databinding.FragmDetailShowBinding
+import com.example.muvitracker.domain.model.DetailShow
 import com.example.muvitracker.ui.main.Navigator
 import com.example.muvitracker.ui.main.detailmovie.adapter.DetailSeasonsAdapter
 import com.example.muvitracker.utils.firstDecimalApproxToString
@@ -35,7 +33,6 @@ class DetailShowFragment private constructor() : Fragment(R.layout.fragm_detail_
     private var currentShowTitle: String = ""
     private var currentShowIds: Ids = Ids() // ids has default value
     private var allSeasonsCount: Int = 0
-
 
     private val binding by viewBinding(FragmDetailShowBinding::bind)
     private val viewModel by viewModels<DetailShowViewmodel>()
@@ -62,15 +59,19 @@ class DetailShowFragment private constructor() : Fragment(R.layout.fragm_detail_
             currentShowIds = bundle.getParcelable(SHOW_IDS_KEY) ?: Ids()
         }
 
+
+        // test
         viewModel.detailState.observe(viewLifecycleOwner) { stateContainer ->
-            stateContainer.data?.let { detailShowDto ->
-                updateDetailUi(detailShowDto)
+            stateContainer.data?.let { detailShow ->
+                updateDetailUi(detailShow)
             }
             stateContainer.statesFlow(
                 binding.errorTextView,
                 binding.progressBar
             )
         }
+        viewModel.loadShowDetailFlow(currentShowIds.trakt)
+
 
         binding.seasonsRV.adapter = detailSeasonsAdapter
         binding.seasonsRV.layoutManager = LinearLayoutManager(requireContext())
@@ -83,32 +84,36 @@ class DetailShowFragment private constructor() : Fragment(R.layout.fragm_detail_
 
 
         // data call
-        viewModel.loadShowDetail(currentShowIds.trakt)
+//        viewModel.loadShowDetail(currentShowIds.trakt)
         viewModel.loadAllSeasons(currentShowIds.trakt)
-        viewModel.getTmdbImageLinks(currentShowIds.tmdb) // for glide
+//        viewModel.getTmdbImageLinks(currentShowIds.tmdb) // for glide
 
         // IMAGES TMDB
         // horizontal - backdrop  TODO -ridurre dimensione
-        viewModel.backdropImageUrl.observe(viewLifecycleOwner) { backdropUrl ->
-            Glide.with(requireContext())
-                .load(backdropUrl) // 1399 game-of-thrones
-                .transition(DrawableTransitionOptions.withCrossFade(300))
-                .placeholder(R.drawable.glide_placeholder_base)
-                .error(R.drawable.glide_placeholder_base)
-                .into(binding.imageHorizontal)
-        }
-        // vertical - poster
-        viewModel.posterImageUrl.observe(viewLifecycleOwner) { posterUrl ->
-            Glide.with(requireContext())
-                .load(posterUrl)
-                .transition(DrawableTransitionOptions.withCrossFade(300))
-                .placeholder(R.drawable.glide_placeholder_base)
-                .error(R.drawable.glide_placeholder_base)
-                .into(binding.imageVertical)
-        }
+//        viewModel.backdropImageUrl.observe(viewLifecycleOwner) { backdropUrl ->
+//            Glide.with(requireContext())
+//                .load(backdropUrl) // 1399 game-of-thrones
+//                .transition(DrawableTransitionOptions.withCrossFade(300))
+//                .placeholder(R.drawable.glide_placeholder_base)
+//                .error(R.drawable.glide_placeholder_base)
+//                .into(binding.imageHorizontal)
+//        }
+//        // vertical - poster
+//        viewModel.posterImageUrl.observe(viewLifecycleOwner) { posterUrl ->
+//            Glide.with(requireContext())
+//                .load(posterUrl)
+//                .transition(DrawableTransitionOptions.withCrossFade(300))
+//                .placeholder(R.drawable.glide_placeholder_base)
+//                .error(R.drawable.glide_placeholder_base)
+//                .into(binding.imageVertical)
+//        }
 
         binding.buttonBack.setOnClickListener {
             requireActivity().onBackPressed()
+        }
+
+        binding.floatingLikedButton.setOnClickListener {
+            viewModel.toggleLikedItem(currentShowIds.trakt)
         }
 
         // TODO crew
@@ -117,7 +122,8 @@ class DetailShowFragment private constructor() : Fragment(R.layout.fragm_detail_
 
 
     // show detail
-    private fun updateDetailUi(detailShowDto: DetailShowDto) {
+//    private fun updateDetailUi(detailShowDto: DetailShowDto) {
+    private fun updateDetailUi(detailShowDto: DetailShow) {
         with(binding) {
             currentShowTitle = detailShowDto.title
             title.text = detailShowDto.title
@@ -149,8 +155,16 @@ class DetailShowFragment private constructor() : Fragment(R.layout.fragm_detail_
             }
         }
 
-//        updateFavoriteIcon(detailShow.liked) TODO
-//        updateWatchedCheckbox(detailShow.watched) TODO
+        updateFavoriteIcon(detailShowDto.liked)
+//        updateWatched - non fare
+    }
+
+
+    private fun updateFavoriteIcon(isFavorite: Boolean) {
+        val iconFilled = context?.getDrawable(R.drawable.baseline_liked)
+        val iconEmpty = context?.getDrawable(R.drawable.baseline_liked_border)
+
+        binding?.floatingLikedButton?.setImageDrawable(if (isFavorite) iconFilled else iconEmpty)
     }
 
 

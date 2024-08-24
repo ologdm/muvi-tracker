@@ -2,6 +2,7 @@ package com.example.muvitracker.data.dto
 
 import com.example.muvitracker.data.database.entities.DetailMovieEntity
 import com.example.muvitracker.data.dto.basedto.Ids
+import java.io.StringReader
 
 
 data class DetailMovieDto(
@@ -10,21 +11,21 @@ data class DetailMovieDto(
     val ids: Ids,
 
 // default value for the attributes that can be null
-//    val tagline: String = "",
+    val tagline: String = "",
     val overview: String = "",
     val released: String = "",
     val runtime: Int = 0,
     val country: String? = "",
 //    @SerializedName("updated_at")
 //    val updatedAt: String = "",
-//    trailer = null
-//    val homepage: String = "",
-//    val status: String = "",
+    val trailer: String = "", // TODO
+    val homepage: String = "", // TODO
+    val status: String = "", // TODO
     val rating: Float = 0F,
-//    val votes: Int =0,
+    val votes: Int = 0, // TODO
 //    @SerializedName("comment_count")
-//    val commentCount: Int =0,
-//    val language: String ="",
+//    val commentCount: Int = 0,
+    val language: String = "", // TODO
 //    val availableTranslations: List<String> = listOf(),
     val genres: List<String> = emptyList(),
 //    val certification: String = ""
@@ -45,8 +46,6 @@ fun DetailMovieDto.toEntityR(): DetailMovieEntity {
         genres = genres
     )
 }
-
-
 
 
 /*

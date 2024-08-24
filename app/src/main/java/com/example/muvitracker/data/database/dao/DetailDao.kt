@@ -26,7 +26,7 @@ interface DetailDao {
     fun readAllFlow(): Flow<List<DetailMovieEntity?>>
 
 
-    // 3 - DELETE
+    // 3 - DELETE - nnot used
     @Delete
     fun deleteSingle(entity: DetailMovieEntity)
 

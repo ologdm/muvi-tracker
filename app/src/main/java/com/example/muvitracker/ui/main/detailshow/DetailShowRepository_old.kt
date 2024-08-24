@@ -8,7 +8,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class DetailShowRepository @Inject constructor(
+class DetailShowRepository_old @Inject constructor(
     private val traktApi: TraktApi
 ) {
 

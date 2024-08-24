@@ -1,10 +1,10 @@
 package com.example.muvitracker.data.dto
 
 import android.os.Parcelable
+import com.example.muvitracker.data.database.entities.SeasonEntity
 import com.example.muvitracker.data.dto.basedto.Ids
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
-import kotlinx.serialization.Serializable
 
 
 @Parcelize
@@ -13,18 +13,35 @@ data class SeasonExtenDto(
     val ids: Ids,
     val rating: Double,
 //    val votes: Int, // not use
-    @SerializedName("episode_count") val episodeCount: Int,
-    @SerializedName("aired_episodes") val airedEpisodes: Int,
-    val title: String,
+    @SerializedName("episode_count") val episodeCount: Int, // total
+    @SerializedName("aired_episodes") val airedEpisodes: Int, // released
+    val title: String, // "season 1"
     val overview: String?,
-    @SerializedName("first_aired") val firstAired: String? ="",
+    @SerializedName("first_aired") val firstAired: String? = "",
 //    @SerializedName("updated_at") val updatedAt: String, // not use
     val network: String
-) :Parcelable {
+) : Parcelable {
 
     fun getYear(): String {
-        return firstAired?.substring(0,4) ?: ""
+        return firstAired?.substring(0, 4) ?: ""
     }
+}
+
+// 00
+fun SeasonExtenDto.toEntity(showId: Int): SeasonEntity {
+    return SeasonEntity(
+        seasonTraktId = ids.trakt,
+        seasonNumber = number,
+        ids = ids,
+        rating = rating,
+        episodeCount = episodeCount,
+        airedEpisodes = airedEpisodes,
+        title = title,
+        overview = overview ?: "",
+        releaseYear = getYear(),
+        network = network,
+        showId = showId // devo passarlo con la funzione
+    )
 }
 
 

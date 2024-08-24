@@ -1,5 +1,6 @@
 package com.example.muvitracker.data.dto
 
+import com.example.muvitracker.data.database.entities.EpisodeEntity
 import com.example.muvitracker.data.dto.basedto.Ids
 import com.google.gson.annotations.SerializedName
 
@@ -8,7 +9,8 @@ data class EpisodeExtenDto(
     val number: Int,
     val title: String,
     val ids: Ids,
-    @SerializedName("number_abs") val numberAbs: Int, val overview: String,
+    @SerializedName("number_abs") val numberAbs: Int, // posizione assoluta nel'intera serie
+    val overview: String,
     val rating: Double,
 //    val votes: Int,
 //    @SerializedName("comment_count") val commentCount: Int,
@@ -18,12 +20,35 @@ data class EpisodeExtenDto(
     val runtime: Int,
     @SerializedName("episode_type") val episodeType: String
 ) {
-
-
     fun getDateFromFirsAired(): String {
-        "${firstAired.substring(0,4)}/${firstAired.substring(5,7)}/${firstAired.substring(8,10)}"
-        return "${firstAired.substring(8,10)}/${firstAired.substring(5,7)}/${firstAired.substring(0,4)}"
+        "${firstAired.substring(0, 4)}/${firstAired.substring(5, 7)}/${firstAired.substring(8, 10)}"
+        return "${firstAired.substring(8, 10)}/${firstAired.substring(5, 7)}/${
+            firstAired.substring(
+                0,
+                4
+            )
+        }"
     }
+}
+
+
+// 00
+fun EpisodeExtenDto.toEntity(showId: Int): EpisodeEntity {
+    return EpisodeEntity(
+        episodeTraktId = ids.trakt,
+        seasonNumber = season,
+        episodeNumber = number,
+        title = title,
+        ids = ids,
+        numberAbs = numberAbs,
+        overview = overview,
+        rating = rating,
+        firstAiredFormatted = getDateFromFirsAired(),
+        availableTranslations = availableTranslations,
+        runtime = runtime,
+        episodeType = episodeType,
+        showId = showId // passo con la funzione, seasonEntity ce l'ha
+    )
 }
 
 

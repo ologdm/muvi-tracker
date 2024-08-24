@@ -3,47 +3,75 @@ package com.example.muvitracker.ui.main.detailmovie
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.muvitracker.data.DetailShowRepository
 import com.example.muvitracker.data.TraktApi
-import com.example.muvitracker.data.dto.DetailShowDto
 import com.example.muvitracker.data.dto.SeasonExtenDto
 import com.example.muvitracker.data.images.TmdbRepository
-import com.example.muvitracker.ui.main.detailshow.DetailShowRepository
+import com.example.muvitracker.domain.model.DetailShow
 import com.example.muvitracker.utils.IoResponse
 import com.example.muvitracker.utils.StateContainer
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import java.io.IOException
 import javax.inject.Inject
 
 @HiltViewModel
 class DetailShowViewmodel @Inject constructor(
-    private val repo: DetailShowRepository,
+    private val detailShowRepo: DetailShowRepository,
     private val traktApi: TraktApi,
     val tmdbRepository: TmdbRepository
 ) : ViewModel() {
 
-    val detailState = MutableLiveData<StateContainer<DetailShowDto>>()
-    val allSeasonsState = MutableLiveData<StateContainer<List<SeasonExtenDto>>>()
-
-    val backdropImageUrl = MutableLiveData<String>()
-    val posterImageUrl = MutableLiveData<String>()
+    val detailState = MutableLiveData<StateContainer<DetailShow>>()
+    val allSeasonsState = MutableLiveData<StateContainer<List<SeasonExtenDto>>>() // TODO
 
 
-    // OK
-    fun loadShowDetail(showId: Int) {
+    // flow -> livedata
+    fun loadShowDetailFlow(showId: Int) {
+        var cachedItem: DetailShow? = null
         viewModelScope.launch {
-            val response = repo.getDetailData(showId)
-            when (response) {
-                is IoResponse.Success -> {
-                    detailState.value = StateContainer(data = response.dataValue)
-                }
+            detailShowRepo.getSingleDetailMovieFlow(showId)
+                .map { response ->
+                    when (response) {
+                        is IoResponse.Success -> {
+                            cachedItem = response.dataValue
+                            StateContainer(data = response.dataValue)
+                        }
 
-                is IoResponse.Error -> {
-                    detailState.value = StateContainer(isNetworkError = true)
+                        is IoResponse.Error -> {
+                            if (response.t is IOException) {
+                                StateContainer(
+                                    data = cachedItem,
+                                    isNetworkError = true
+                                )
+                            } else {
+                                StateContainer(
+                                    data = cachedItem,
+                                    isOtherError = true
+                                )
+                            }
+                        }
+                    }
+                }.catch {
+                    it.printStackTrace()
                 }
-            }
+                .collectLatest {container->
+                    detailState.value = container
+                }
         }
     }
+
+    // 00
+    fun toggleLikedItem(id: Int) {
+        viewModelScope.launch {
+            detailShowRepo.toggleLikedOnDb(id)
+        }
+    }
+
 
 
     // OK
@@ -62,24 +90,25 @@ class DetailShowViewmodel @Inject constructor(
     }
 
 
-    fun getTmdbImageLinks(showTmdbId: Int) { // TODO salvare link su entity detail
-        viewModelScope.launch {
-            val result = tmdbRepository.getShowImages(showTmdbId)
-            val backdropUrl = result[TmdbRepository.BACKDROP_KEY] ?: ""
-            val posterUrl = result[TmdbRepository.POSTER_KEY] ?: ""
-            backdropImageUrl.value = backdropUrl
-            posterImageUrl.value = posterUrl
-        }
-
-    }
+    // TODO ricopiare tmdb e appunti da l'altra
 }
 
 
 
-
-//    // TODO
-//    fun loadAllPeopleForAShow(showId: Int) {
-//        // 1 cast(actors)
-//        // 2 directing, writing dopo
+// old
+//fun loadShowDetail(showId: Int) {
+//    viewModelScope.launch {
+//        val response = detailShowRepo.getDetailData(showId)
+//        when (response) {
+//            is IoResponse.Success -> {
+//                detailState.value = StateContainer(data = response.dataValue)
+//            }
+//
+//            is IoResponse.Error -> {
+//                detailState.value = StateContainer(isNetworkError = true)
+//            }
+//        }
 //    }
+//}
+
 

@@ -1,6 +1,10 @@
 package com.example.muvitracker.data.dto
 
 import android.os.Parcelable
+import androidx.room.TypeConverters
+import com.example.muvitracker.data.database.ConvertersUtils
+import com.example.muvitracker.data.database.entities.DetailMovieEntity
+import com.example.muvitracker.data.database.entities.DetailShowEntity
 import com.example.muvitracker.data.dto.basedto.Ids
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
@@ -26,20 +30,41 @@ data class DetailShowDto(
     val status: String = "", // coming soon, wip, ended
     val rating: Float = 0F,
     val votes: Int = 0,
-    @SerializedName("comment_count") val commentCount: Int = 0,
+//    @SerializedName("comment_count") val commentCount: Int = 0,
     val language: String,
     val languages: List<String> = emptyList(),
-    val availableTranslations: List<String> = emptyList(),
+//    val availableTranslations: List<String> = emptyList(),
     val genres: List<String> = emptyList(),
     @SerializedName("aired_episodes") val airedEpisodes: Int
-)  {
+)
 
-    fun imageUrl(): String {
-        return "http://img.omdbapi.com/?apikey=ef6d3d4c&i=${ids.imdb}"
-    }
-
-
+fun DetailShowDto.toEntity(): DetailShowEntity {
+    return DetailShowEntity(
+        traktId = ids.trakt,
+        title = title,
+        year = year,
+        ids = ids,
+        //
+        tagline = tagline,
+        overview = overview,
+        firstAired = firstAired,
+        runtime = runtime,
+        network = network,
+        country = country,
+        //
+        trailer = trailer,
+        homepage = homepage,
+        status = status,
+        rating = rating,
+        votes = votes,
+        //
+        language = language,
+        languages = languages,
+        genres = genres,
+        airedEpisodes = airedEpisodes
+    )
 }
+
 
 
 /*

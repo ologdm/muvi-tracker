@@ -14,11 +14,18 @@ data class DetailMovieEntity(
     val title: String,
     val year: Int,
     @TypeConverters(ConvertersUtils::class) val ids: Ids,
+
+//    val tagline: String, // TODO
     val overview: String,
     val released: String,
     val runtime: Int,
     val country: String,
+//    val trailer: String, TODO
+//    val homepage: String, TODO
+//    val status: String, TODO
     val rating: Float,
+//    val votes: Int, // TODO
+//    val language: String, // TODO
     @TypeConverters(ConvertersUtils::class) val genres: List<String>,
 )
 

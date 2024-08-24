@@ -6,41 +6,65 @@ import androidx.room.TypeConverters
 import com.example.muvitracker.data.database.ConvertersUtils
 import com.example.muvitracker.data.dto.basedto.Ids
 import com.example.muvitracker.domain.model.DetailMovie
+import com.example.muvitracker.domain.model.DetailShow
+import com.google.gson.annotations.SerializedName
 
-// TODO
-
+// 00
 @Entity(tableName = "DetailShowEntities")
 data class DetailShowEntity(
     @PrimaryKey val traktId: Int,
     val title: String,
     val year: Int,
     @TypeConverters(ConvertersUtils::class) val ids: Ids,
+    //
+    val tagline: String,
     val overview: String,
-    val released: String,
+    val firstAired: String,
     val runtime: Int,
+    val network: String,
     val country: String,
+    //
+    val trailer: String,
+    val homepage: String,
+    val status: String,
     val rating: Float,
+    val votes: Int,
+    val language: String,
+    val languages: List<String>,
     @TypeConverters(ConvertersUtils::class) val genres: List<String>,
+    val airedEpisodes: Int
 )
 
 
-
-// TODO
+// 00
 // (PrefsEntity?) - can be null as logic
-fun DetailShowEntity.toDomain(prefsEntity: PrefsEntity?): DetailMovie {
-    return DetailMovie(
+fun DetailShowEntity.toDomain(prefsShowEntity: PrefsShowEntity?): DetailShow {
+    return DetailShow(
         title = title,
         year = year,
         ids = ids,
+        //
+        tagline = tagline,
         overview = overview,
-        released = released,
+        firstAired = firstAired,
         runtime = runtime,
+        network = network,
         country = country,
+        //
+        trailer = trailer,
+        homepage = homepage,
+        status = status,
         rating = rating,
+        votes = votes,
+        //
+        language = language,
+        languages = languages,
         genres = genres,
-
-        liked = prefsEntity?.liked ?: false,
-        watched = prefsEntity?.watched ?: false,
-        addedDateTime = prefsEntity?.addedDateTime
+        airedEpisodes = airedEpisodes,
+        ////// prefs
+        liked = prefsShowEntity?.liked ?: false,
+        watchedAll = prefsShowEntity?.watchedAll ?: false,
+        watchedCount = prefsShowEntity?.watchedCount ?: 0,
+        addedDateTime = prefsShowEntity?.addedDateTime
     )
 }

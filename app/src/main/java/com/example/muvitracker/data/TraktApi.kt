@@ -39,8 +39,8 @@ interface TraktApi {
             : DetailMovieDto
 
 
-    // SHOWS ########################################################
 
+    // SHOWS ########################################################
     @GET("shows/popular")
     suspend fun getPopularShows(
         @Query("page") page: Int,

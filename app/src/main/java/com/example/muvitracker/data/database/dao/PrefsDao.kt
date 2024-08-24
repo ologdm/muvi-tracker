@@ -20,14 +20,13 @@ interface PrefsDao {
     @Query("SELECT * FROM PrefsEntities WHERE traktId=:id")
     fun readSingle(id: Int): Flow<PrefsEntity?>
 
-
     @Query("SELECT * FROM PrefsEntities")
     fun readAll(): Flow<List<PrefsEntity?>>
+
 
     // UPDATE (personalizzati con query)
     @Query("UPDATE PrefsEntities SET liked = NOT liked WHERE traktId =:id")
     suspend fun updateLiked(id: Int)
-
 
     @Query("UPDATE PrefsEntities SET watched =:watched WHERE traktId =:id ")
     suspend fun updateWatched(id: Int, watched: Boolean)

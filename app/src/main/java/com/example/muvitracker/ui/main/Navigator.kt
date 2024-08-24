@@ -35,7 +35,7 @@ class Navigator @Inject constructor(
     ) {
         val manager = fragmentActivity.supportFragmentManager
         manager.beginTransaction()
-            .replace(R.id.main_activity, DetailMovieFragment.create(traktMovieId))
+            .replace(R.id.frameLayout, DetailMovieFragment.create(traktMovieId))
             .addToBackStack(null)
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
             .commit()
@@ -99,4 +99,17 @@ class Navigator @Inject constructor(
     }
 
 }
+
+
+// test
+//fun startMovieDetailFragment(
+//    traktMovieId: Int // TODO ids
+//) {
+//    val manager = fragmentActivity.supportFragmentManager
+//    manager.beginTransaction()
+//        .replace(R.id.main_activity, DetailMovieFragment.create(traktMovieId))
+//        .addToBackStack(null)
+//        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+//        .commit()
+//}
 
