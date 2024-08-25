@@ -8,6 +8,7 @@ import com.dropbox.android.external.store4.StoreBuilder
 import com.dropbox.android.external.store4.StoreRequest
 import com.dropbox.android.external.store4.StoreResponse
 import com.example.muvitracker.data.database.MyDatabase
+import com.example.muvitracker.data.database.entities.DetailMovieEntity
 import com.example.muvitracker.data.database.entities.DetailShowEntity
 import com.example.muvitracker.data.database.entities.PrefsShowEntity
 import com.example.muvitracker.data.database.entities.SeasonEntity
@@ -22,6 +23,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterNot
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.singleOrNull
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.coroutines.cancellation.CancellationException
@@ -108,23 +110,11 @@ class DetailShowRepository @Inject constructor(
     }
 
 
-    // 00
-    suspend fun toggleLikedOnDb(id: Int) {
-        val entity = prefsShowDao.readSingle(id).firstOrNull()// flow closing function
-        if (entity != null) {
-            prefsShowDao.updateLiked(id)
-        } else {
-            prefsShowDao.insertSingle(
-                PrefsShowEntity(
-                    traktId = id,
-                    liked = true,
-                    watchedAll = false,
-                    watchedCount = 0,
-                    addedDateTime = System.currentTimeMillis()
-                )
-            )
-        }
+    fun getDetailListFlow(): Flow<List<DetailShowEntity?>> {
+        return detailShowDao.readAllFlow()
     }
+
+
 
 
     // SEASONS ###########################################################
@@ -208,7 +198,7 @@ class DetailShowRepository @Inject constructor(
     }
 
 
-    // update WatchedCount -> non qua !!! TODO
+
 
 
 }

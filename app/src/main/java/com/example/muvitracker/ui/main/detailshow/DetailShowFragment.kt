@@ -34,7 +34,7 @@ class DetailShowFragment private constructor() : Fragment(R.layout.fragm_detail_
 
     private var currentShowTitle: String = ""
     private var currentShowIds: Ids = Ids() // ids has default value
-    private var allSeasonsCount: Int = 0
+    private var totSeasonsNumber: Int = 0
 
     private val binding by viewBinding(FragmDetailShowBinding::bind)
     private val viewModel by viewModels<DetailShowViewmodel>()
@@ -47,7 +47,7 @@ class DetailShowFragment private constructor() : Fragment(R.layout.fragm_detail_
             currentShowTitle,
             currentShowIds,
             seasonNumber,
-            allSeasonsCount
+            totSeasonsNumber
         )
     })
 
@@ -79,8 +79,8 @@ class DetailShowFragment private constructor() : Fragment(R.layout.fragm_detail_
 
         viewModel.allSeasonsState.observe(viewLifecycleOwner) { stateContainer ->
             detailSeasonsAdapter.submitList(stateContainer.data)
-            allSeasonsCount = stateContainer.data?.size ?: 0
-            binding.airedSeasons.text = "${allSeasonsCount} seasons"
+            totSeasonsNumber = stateContainer.data?.size ?: 0
+            binding.airedSeasons.text = "${totSeasonsNumber} seasons"
         }
         viewModel.loadAllSeasons(currentShowIds.trakt)
 
@@ -133,29 +133,29 @@ class DetailShowFragment private constructor() : Fragment(R.layout.fragm_detail_
 
 
     // show detail
-    private fun updateDetailUi(detailShowDto: DetailShow) {
+    private fun updateDetailUi(detailShow: DetailShow) {
         with(binding) {
-            currentShowTitle = detailShowDto.title
-            title.text = detailShowDto.title
-            status.text = detailShowDto.status
+            currentShowTitle = detailShow.title
+            title.text = detailShow.title
+            status.text = detailShow.status
             networkYearCountry.text =
-                "${detailShowDto.network} ${detailShowDto.year.toString()} (${detailShowDto.country.toUpperCase()})"
+                "${detailShow.network} ${detailShow.year.toString()} (${detailShow.country.toUpperCase()})"
             runtime.text =
-                getString(R.string.runtime_description, detailShowDto.runtime.toString())  // string
-            airedEpisodes.text = "${detailShowDto.airedEpisodes} episodes"
-            rating.text = detailShowDto.rating.firstDecimalApproxToString() // conversion + string
-            overview.text = detailShowDto.overview
+                getString(R.string.runtime_description, detailShow.runtime.toString())  // string
+            airedEpisodes.text = "${detailShow.airedEpisodes} episodes"
+            rating.text = detailShow.rating.firstDecimalApproxToString() // conversion + string
+            overview.text = detailShow.overview
 
 
             // genres
             chipGroup.removeAllViews() // clean old
-            detailShowDto.genres.forEach { genre ->
+            detailShow.genres.forEach { genre ->
                 val chip = Chip(context).apply { text = genre }
                 chipGroup.addView(chip)
             }
 
             // open link on youtube OK
-            var trailerUrl = detailShowDto.trailer
+            var trailerUrl = detailShow.trailer
             trailerLink.setOnClickListener {
                 if (!trailerUrl.isNullOrEmpty()) {
                     val intent = Intent(Intent.ACTION_VIEW, Uri.parse(trailerUrl))
@@ -164,8 +164,12 @@ class DetailShowFragment private constructor() : Fragment(R.layout.fragm_detail_
             }
         }
 
-        updateFavoriteIcon(detailShowDto.liked)
+        updateFavoriteIcon(detailShow.liked)
 //        updateWatched - non fare
+
+        // test
+        binding.watchedCount.text = detailShow.watchedCount.toString()
+        binding.watchedCheckbox.isChecked  = detailShow.watchedAll
     }
 
 
@@ -173,7 +177,7 @@ class DetailShowFragment private constructor() : Fragment(R.layout.fragm_detail_
         val iconFilled = context?.getDrawable(R.drawable.baseline_liked)
         val iconEmpty = context?.getDrawable(R.drawable.baseline_liked_border)
 
-        binding?.floatingLikedButton?.setImageDrawable(if (isFavorite) iconFilled else iconEmpty)
+        binding.floatingLikedButton.setImageDrawable(if (isFavorite) iconFilled else iconEmpty)
     }
 
 

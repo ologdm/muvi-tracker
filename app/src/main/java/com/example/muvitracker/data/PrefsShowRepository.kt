@@ -1,31 +1,33 @@
 package com.example.muvitracker.data
 
 import com.example.muvitracker.data.database.MyDatabase
-import com.example.muvitracker.data.database.entities.PrefsEntity
+import com.example.muvitracker.data.database.entities.PrefsShowEntity
 import com.example.muvitracker.data.database.entities.toDomain
-import com.example.muvitracker.domain.model.DetailMovie
-import com.example.muvitracker.domain.repo.PrefsRepo
+import com.example.muvitracker.domain.model.DetailShow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.singleOrNull
 import javax.inject.Inject
 import javax.inject.Singleton
 
-//
 @Singleton
 class PrefsShowRepository @Inject constructor(
-    private val detailRepository: DetailRepository,
+    private val detailShowRepository: DetailShowRepository,
     private val database: MyDatabase
 ) {
 
-    private val prefsDao = database.prefsDao()
+    private val prefsShowDao = database.prefsShowDao()
+
+    private val detailShowDao = database.detailShowDao()
+    private val episodeDao = database.episodesDao()
 
 
-    // GET
+    // 000
 //    override
-    fun getListFLow(): Flow<List<DetailMovie>> {
-        val detailListFLow = detailRepository.getDetailListFlow()
-        val prefsListFLow = prefsDao.readAll()
+    fun getListFLow(): Flow<List<DetailShow>> {
+        val detailListFLow = detailShowRepository.getDetailListFlow()
+        val prefsListFLow = prefsShowDao.readAll()
 
         return detailListFLow
             .combine(prefsListFLow) { detailList, prefsList ->
@@ -42,20 +44,21 @@ class PrefsShowRepository @Inject constructor(
     }
 
 
-    // SET
+    // LIKED 000
 //    override
-    suspend fun toggleFavoriteOnDB(id: Int) {
+    suspend fun toggleLikedOnDB(id: Int) {
         // switch state on repository & update db
         val entity =
-            prefsDao.readSingle(id).firstOrNull() //  flow closing function
+            prefsShowDao.readSingle(id).firstOrNull() //  flow closing function
         if (entity != null) {
-            prefsDao.updateLiked(id)
+            prefsShowDao.toggleLiked(id)
         } else {
-            prefsDao.insertSingle(
-                PrefsEntity(
+            prefsShowDao.insertSingle(
+                PrefsShowEntity(
                     traktId = id,
                     liked = true,
-                    watched = false,
+                    watchedAll = false,
+                    watchedCount = 0,
                     addedDateTime = System.currentTimeMillis()
                 )
             )
@@ -63,28 +66,53 @@ class PrefsShowRepository @Inject constructor(
     }
 
 
+    // WATCHED 000
 //    override
-    suspend fun updateWatchedOnDB(id: Int, watched: Boolean) {
-        // only update db
-        val entity = prefsDao.readSingle(id).firstOrNull()
-        if (entity != null) {
-            prefsDao.updateWatched(id, watched)
-        } else {
-            prefsDao.insertSingle(
-                PrefsEntity(
-                    traktId = id,
+    suspend fun updateWatchedOnDB(showId: Int) {
+        val entity = prefsShowDao.readSingle(showId).firstOrNull()
+        println("TTTT: check entity trakt: ${entity?.traktId}") // arriva
+        if (entity == null) {
+            println("TTTT: new entity")
+            // NEW PREFS
+            prefsShowDao.insertSingle(
+                PrefsShowEntity(
+                    traktId = showId,
                     liked = false,
-                    watched = watched,
+                    watchedAll = false,
+                    watchedCount = 1,  // firstElement Added
                     addedDateTime = System.currentTimeMillis()
                 )
             )
+
+        } else {
+            // UPDATE SHOW WATCHED ALL AND COUNT
+            val watchedEpisodes = episodeDao.checkWatchedEpisodesOfShow(showId).singleOrNull()?.size
+            val showTotalEpisodes = detailShowDao.readSingleFlow(showId).singleOrNull()?.airedEpisodes
+            println("TTTT: watched-$watchedEpisodes, total-$showTotalEpisodes")
+
+            if (watchedEpisodes == showTotalEpisodes) { // max
+                println("TTTT: max")
+                prefsShowDao.updateWatched(
+                    showId = showId,
+                    watchedAll = true,
+                    watchedCount = watchedEpisodes ?: 0
+                )
+            } else { // not max
+                println("TTTT: non max")
+                prefsShowDao.updateWatched(
+                    showId = showId,
+                    watchedAll = false,
+                    watchedCount = watchedEpisodes ?: 0
+                )
+            }
         }
     }
 
 
+    // TODO
 //    override
     suspend fun deleteItemOnDB(id: Int) {
-        prefsDao.deleteSingle(id)
+        prefsShowDao.deleteSingle(id)
     }
 
 

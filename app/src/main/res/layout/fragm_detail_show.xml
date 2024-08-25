@@ -168,6 +168,13 @@
                                 tools:text="48 episodes"
                                 android:textStyle="bold" />
 
+                        <TextView
+                                android:id="@+id/watchedCount"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                tools:text="watchedcount"
+                                android:textStyle="bold" />
+
 
                         <View
                                 android:layout_width="match_parent"

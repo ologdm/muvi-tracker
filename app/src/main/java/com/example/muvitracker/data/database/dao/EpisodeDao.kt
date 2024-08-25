@@ -17,7 +17,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface EpisodeDao {
 
-    // 1. READ
+    // 1. READ ##################################################
     @Query("SELECT * FROM EpisodeEntities WHERE episodeTraktId=:episodeTraktId ")
     fun readSingleEpisodeById(episodeTraktId: Int): Flow<EpisodeEntity>
     // si potrebbe fare con filtro-> show, season, episode
@@ -27,53 +27,65 @@ interface EpisodeDao {
 
 
     // !!! check inserimento o update sempre uno alla volta
-    // 2. INSERT
+    // 2. INSERT ##################################################
     @Insert
     suspend fun insertSingle(entity: EpisodeEntity)
 
 
-    // 3.1 UPDATE dto
+    // 3.1 UPDATE DTO ##################################################
     @Update
     suspend fun updateDataSingleEpisode(entity: EpisodeEntity)
 
 
-    // 3.2 UPDATE watched 00
+    // 3.2 WATCHED TOGGLE #################################################
+    // 1 toggle single
     @Query(
         """
         UPDATE EpisodeEntities
-        SET watched= NOT watched
+        SET watched = NOT watched
         WHERE showId=:showId AND seasonNumber=:seasonNr AND episodeNumber=:episodeNr
         """
     )
-    suspend fun updateWatchedSingleEpisode(
+    suspend fun toggleWatchedSingleEpisode(
         showId: Int,
         seasonNr: Int,
         episodeNr: Int,
     )
 
+    // 2 toggle all
+    @Query(
+        """
+        UPDATE EpisodeEntities
+        SET watched=:watched
+        WHERE showId=:showId AND seasonNumber=:seasonNr
+        """
+    )
+    suspend fun toggleWatchedAllEpisodes(
+        showId: Int,
+        seasonNr: Int,
+        watched: Boolean,
+    )
+
+
+
+    // 4 CHECK ####################################################
+    // boolean sql -> true=1, false=0
+    @Query("""
+        SELECT * 
+        FROM EpisodeEntities 
+        WHERE showId=:showId AND seasonNumber=:seasonNr AND watched = 1
+    """)
+    fun checkWatchedEpisodesOfSeason(showId: Int, seasonNr: Int): Flow<List<EpisodeEntity>>
+
+
+    @Query("""
+        SELECT * 
+        FROM EpisodeEntities 
+        WHERE showId=:showId AND watched = 1
+    """)
+    fun checkWatchedEpisodesOfShow(showId: Int): Flow<List<EpisodeEntity>>
 
 
 
 }
 
-
-// NON USARE, LOGICA CHECK UNO AD UNO
-//    @Insert
-//    suspend fun insertMultiple(entities: List<EpisodeEntity>)
-
-//    @Update
-//    suspend fun updateDataAllEpisodes(entity: List<EpisodeEntity>)
-
-
-//@Query( non ha senso
-//        """
-//        UPDATE EpisodeEntities
-//        SET watched=:watched
-//        WHERE showId=:showId AND seasonNumber=:seasonNr
-//        """
-//    )
-//   suspend fun updateWatchedAllEpisodes(
-//        showId: Int,
-//        seasonNr: Int,
-//        watched: Boolean,
-//    )

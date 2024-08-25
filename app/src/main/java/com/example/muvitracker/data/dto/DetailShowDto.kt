@@ -25,7 +25,7 @@ data class DetailShowDto(
     val network: String, // hbo
     val country: String = "", // us
 //    @SerializedName("updated_at") val updatedAt: String = "", // date
-    val trailer: String = "", // link sito
+    val trailer: String? = "", // link sito
     val homepage: String = "", // website
     val status: String = "", // coming soon, wip, ended
     val rating: Float = 0F,
@@ -52,7 +52,7 @@ fun DetailShowDto.toEntity(): DetailShowEntity {
         network = network,
         country = country,
         //
-        trailer = trailer,
+        trailer = trailer ?: "",
         homepage = homepage,
         status = status,
         rating = rating,
@@ -64,7 +64,6 @@ fun DetailShowDto.toEntity(): DetailShowEntity {
         airedEpisodes = airedEpisodes
     )
 }
-
 
 
 /*

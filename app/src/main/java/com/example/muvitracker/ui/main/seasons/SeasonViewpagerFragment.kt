@@ -26,7 +26,6 @@ class SeasonViewpagerFragment private constructor() : Fragment(R.layout.fragm_se
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
         val bundle = arguments
         if (bundle != null) {
             currentShowTitle = bundle.getString(SHOW_TITLE_KEY) ?: ""
@@ -42,7 +41,7 @@ class SeasonViewpagerFragment private constructor() : Fragment(R.layout.fragm_se
         }
 
 
-        // TODO viewpager2
+        // viewpager2 00
         binding.viewPager.adapter =
             SeasonViewpagerAdapter(
                 fragment = this,
@@ -50,8 +49,11 @@ class SeasonViewpagerFragment private constructor() : Fragment(R.layout.fragm_se
                 seasonCount = totalSeasons
             )
 
+        // Imposta il ViewPager2 sulla stagione corretta 00
+        // indice come nelle liste,-1 rispetto alla conteggio naturale
+        binding.viewPager.setCurrentItem(currentSeason - 1, false)
 
-        // TODO tab mediator
+        // tab mediator 00
         binding.tabLayout.tabMode = TabLayout.MODE_SCROLLABLE
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
             tab.text = "Stagione ${position + 1}"

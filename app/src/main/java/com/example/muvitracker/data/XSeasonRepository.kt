@@ -27,7 +27,7 @@ import kotlin.coroutines.cancellation.CancellationException
 @Singleton
 class XSeasonRepository @Inject constructor(
     private val traktApi: TraktApi,
-    private val database: MyDatabase
+    private val database: MyDatabase,
 ) {
 
     private val seasonDao = database.seasonsDao()
@@ -139,12 +139,59 @@ class XSeasonRepository @Inject constructor(
 
 
     // WATCHED
+    // 1. update episode 00
     suspend fun toggleWatchedEpisode(
         showId: Int,
         seasonNr: Int,
         episodeNr: Int
     ) {
-        episodeDao.updateWatchedSingleEpisode(showId,seasonNr,episodeNr)
+        episodeDao.toggleWatchedSingleEpisode(showId, seasonNr, episodeNr)
+    } // usare - seasonFragment, (DetailFragment no)
+
+
+    // 2. update season
+    suspend fun updateSeasonWatchedCountAndAll(showId: Int, seasonNr: Int) {
+        val watchedEpisodes =
+            episodeDao.checkWatchedEpisodesOfSeason(showId, seasonNr).firstOrNull()?.size
+        val seasonTotalEpisodes =
+            seasonDao.readSingleSeason(showId, seasonNr).firstOrNull()?.episodeCount
+
+        if (watchedEpisodes == seasonTotalEpisodes) {
+            // count=total  true
+            seasonDao.updateWatchedCountOfSingleSeason(
+                showId,
+                seasonNr,
+                watchedAll = true,
+                watchedCount = watchedEpisodes ?: 0
+            )
+        } else {
+            // count<total  false
+            seasonDao.updateWatchedCountOfSingleSeason(
+                showId,
+                seasonNr,
+                watchedAll = false,
+                watchedCount = watchedEpisodes ?: 0
+            )
+        }
+    }
+
+
+    suspend fun toggleWatchedAllEpisodes(
+        showId: Int,
+        seasonNr: Int,
+    ) {
+        // watched true, watchd false imperativo
+
+        val seasonWatchedAll =
+            seasonDao.readSingleSeason(showId, seasonNr).firstOrNull()?.watchedAll
+
+        if (seasonWatchedAll == true) {
+            episodeDao.toggleWatchedAllEpisodes(showId, seasonNr, false)
+        } else {
+            episodeDao.toggleWatchedAllEpisodes(showId, seasonNr, true)
+        }
+
+
     }
 
 
@@ -152,12 +199,6 @@ class XSeasonRepository @Inject constructor(
 
 }
 
-//episodeDao.updateWatchedSingleEpisode(
-//showId = showId,
-//seasonNr = seasonNr,
-//episodeNr = episodeNr,
-//watched = !watched
-//)
 
 
 

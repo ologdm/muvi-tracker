@@ -61,23 +61,4 @@ interface SeasonDao {
         watchedCount: Int,
     )
 
-
-    // (solo totale, watchedCount==episodeCount  -> da repository)
-    @Query(
-        """
-        UPDATE SeasonEntities 
-        SET watchedAll=:watchedAll, watchedCount=:watchedCount
-        WHERE showId=:showId
-        """
-    )
-    suspend fun updateWatchedCountOfAllSeasons(
-        showId: Int,
-        watchedAll: Boolean,
-        watchedCount: Int
-    )
-
 }
-
-
-//    @Insert
-//    suspend fun insertMultiple(entities: List<SeasonEntity>)

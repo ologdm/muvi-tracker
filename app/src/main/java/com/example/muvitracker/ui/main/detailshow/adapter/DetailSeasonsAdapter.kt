@@ -32,9 +32,13 @@ class DetailSeasonsAdapter(
             onClickVH(seasonItem.seasonNumber)
         }
 
-        holder.binding.checkbox.setOnCheckedChangeListener { _, isChecked ->
-            // TODO - salvataggio stato intera stagione
+        // checkbox check
+        if (seasonItem.watchedAll){
+            holder.binding.checkbox.isChecked =true
+        }else{
+            holder.binding.checkbox.isChecked =false
         }
+
 
     }
 

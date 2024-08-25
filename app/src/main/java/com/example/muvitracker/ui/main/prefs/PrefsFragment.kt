@@ -33,8 +33,8 @@ class PrefsFragment : Fragment() {
         onLongClickVH = { movieId ->
             startDeleteAlertDialog(movieId)
         },
-        onCLickLiked = { item ->
-            viewModel.toggleFavoriteItem(itemToToggle = item)
+        onCLickLiked = { movieId ->
+            viewModel.toggleFavoriteItem(movieId)
         },
         onClickWatched = { item, watched ->
             viewModel.updateWatchedItem(updatedItem = item, watched)

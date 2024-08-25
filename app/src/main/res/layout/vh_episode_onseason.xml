@@ -67,6 +67,7 @@
 <!--            app:layout_constraintBottom_toBottomOf="parent"-->
 <!--            android:layout_marginEnd="16dp"-->
 <!--            android:clickable="true" />-->
+
     <ImageView
             android:id="@+id/watchedIcon"
             android:layout_width="24dp"

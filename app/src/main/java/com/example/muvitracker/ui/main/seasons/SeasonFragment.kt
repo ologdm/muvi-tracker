@@ -39,6 +39,9 @@ class SeasonFragment private constructor() : Fragment(R.layout.fragm_season_son)
         onCLickVH = { episodeNumber ->
             navigator.startEpisodeFragment(currentShowIds, currentSeason, episodeNumber)
         },
+        onCLickWatched = { episodeTraktId ->
+            viewModel.toggleWatchedEpisode(currentShowIds.trakt, currentSeason, episodeTraktId)
+        }
     )
 
 
@@ -53,37 +56,22 @@ class SeasonFragment private constructor() : Fragment(R.layout.fragm_season_son)
             currentSeason = bundle.getInt(SEASON_NUMBER_KEY)
         }
 
-
-        // TODO
-//        viewModel.seasonInfoState.observe(viewLifecycleOwner) { stateContainer ->
-//            val dto = stateContainer.data
-//            if (dto != null) {
-//                binding.seasonNumber.text = dto.title
-//                binding.seasonOverview.text = dto.overview
-//            }
-//        }
+        // 00
         viewModel.seasonInfoState.observe(viewLifecycleOwner) { stateContainer ->
             val entity = stateContainer.data
             if (entity != null) {
-                binding.seasonNumber.text = entity.title
+                binding.seasonTitle.text = entity.title
                 binding.seasonOverview.text = entity.overview
+                updateWatchedAllIcon(stateContainer.data!!.watchedAll)
             }
         }
+        viewModel.loadSeasonInfo(showId = currentShowIds.trakt, seasonNumber = currentSeason)
 
-
-        // TODO
-//        viewModel.seasonEpisodesState.observe(viewLifecycleOwner) { stateContainer ->
-//            episodesAdapter.submitList(stateContainer.data)
-//            println("LLLL EPISODES${stateContainer.data}")
-//        }
+        // 00
         viewModel.seasonEpisodesState.observe(viewLifecycleOwner) { stateContainer ->
             println("LLLL EPISODES${stateContainer.data}")
             episodesAdapter.submitList(stateContainer.data)
         }
-
-
-        // OK, con caching rimangono uguali
-        viewModel.loadSeasonInfo(showId = currentShowIds.trakt, seasonNumber = currentSeason)
         viewModel.loadSeasonEpisodes(showId = currentShowIds.trakt, seasonNumber = currentSeason)
 
 
@@ -101,19 +89,23 @@ class SeasonFragment private constructor() : Fragment(R.layout.fragm_season_son)
         }
 
 
+        // TODO !!!!!!!!!!!!!!!!!!!!!!!
         binding.watchedAllIcon.setOnClickListener {
-            // all
+            viewModel.toggleWatchedAllEpisodes(currentShowIds.trakt, currentSeason)
+            // aggiorna db su episode, season, TODO show
         }
 
     }
 
 
     // CAMBIA ICONA COLORE
-    private fun updateWatchedEpisodeIcon(isFavorite: Boolean) {
-        val iconEmpty = context?.getDrawable(R.drawable.watched_check_circle_empty)
-        val iconFilled = context?.getDrawable(R.drawable.watched_check_circle_filled)
+    private fun updateWatchedAllIcon(isWatched: Boolean) {
+//        val iconEmpty = context?.getDrawable(R.drawable.watched_check_circle_empty)
+//        val iconFilled = context?.getDrawable(R.drawable.watched_check_circle_filled)
+        val iconEmpty = context?.getDrawable(R.drawable.x_checkbox_multiple_blank_circle_outline)
+        val iconFilled = context?.getDrawable(R.drawable.x_checkbox_multiple_blank_circle)
 
-        binding.watchedAllIcon.setImageDrawable(if (isFavorite) iconFilled else iconEmpty)
+        binding.watchedAllIcon.setImageDrawable(if (isWatched) iconFilled else iconEmpty)
     }
 
     companion object {

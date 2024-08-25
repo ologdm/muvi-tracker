@@ -3,7 +3,6 @@ package com.example.muvitracker.data.database.dao
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
-import com.example.muvitracker.data.database.entities.PrefsEntity
 import com.example.muvitracker.data.database.entities.PrefsShowEntity
 import kotlinx.coroutines.flow.Flow
 
@@ -27,14 +26,26 @@ interface PrefsShowDao {
     // UPDATE (personalizzati con query) 00
     // (SET liked = NOT liked) -> toggle liked
     @Query("UPDATE PrefsShowEntities SET liked = NOT liked WHERE traktId =:id")
-    suspend fun updateLiked(id: Int)
+    suspend fun toggleLiked(id: Int)
 
-    // setWatchedAll -> eliminata, si fa da episodi
-    // watchedCount -> su episodi
 
     // DELETE
     @Query("DELETE FROM PrefsEntities WHERE traktId =:id")
     suspend fun deleteSingle(id: Int)
 
-    // finito
+
+    // WATCHED #############################################################
+    // !!! aggiornato solo su season repository
+    @Query(
+        """
+        UPDATE PrefsShowEntities 
+        SET watchedAll=:watchedAll, watchedCount=:watchedCount
+        WHERE traktId=:showId
+"""
+    )
+    suspend fun updateWatched(showId: Int, watchedAll: Boolean, watchedCount: Int)
+
+
+
+
 }

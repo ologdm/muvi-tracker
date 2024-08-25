@@ -15,7 +15,7 @@ import com.example.muvitracker.domain.model.DetailMovie
 class PrefsAdapter(
     private val onClickVH: (movieId: Int) -> Unit,
     private val onLongClickVH: (movieId: Int) -> Unit,
-    private val onCLickLiked: (DetailMovie) -> Unit,
+    private val onCLickLiked: (Int) -> Unit,
     private val onClickWatched: (DetailMovie, Boolean) -> Unit
 ) : ListAdapter<DetailMovie, PrefsVH>(PrefsAdapter) {
 
@@ -52,7 +52,7 @@ class PrefsAdapter(
             updateFavoriteIcon(likedButton, currentItem.liked, iconFilled, iconEmpty)
 
             likedButton.setOnClickListener {
-                onCLickLiked.invoke(currentItem)
+                onCLickLiked.invoke(currentItem.ids.trakt)
                 updateFavoriteIcon(likedButton, currentItem.liked, iconFilled, iconEmpty)
             }
 

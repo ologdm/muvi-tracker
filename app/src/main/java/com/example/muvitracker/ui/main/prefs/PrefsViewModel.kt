@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.muvitracker.domain.model.DetailMovie
 import com.example.muvitracker.domain.repo.PrefsRepo
-import com.example.muvitracker.utils.StateContainer
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -31,9 +30,9 @@ class PrefsViewModel @Inject constructor(
     }
 
 
-    fun toggleFavoriteItem(itemToToggle: DetailMovie) {
+    fun toggleFavoriteItem(movieId: Int) {
         viewModelScope.launch {
-            prefsRepository.toggleFavoriteOnDB(itemToToggle.ids.trakt) // bypass
+            prefsRepository.toggleFavoriteOnDB(movieId) // bypass
         }
     }
 

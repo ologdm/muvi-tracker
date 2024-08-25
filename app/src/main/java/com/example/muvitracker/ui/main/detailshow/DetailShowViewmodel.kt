@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.muvitracker.data.DetailShowRepository
+import com.example.muvitracker.data.PrefsShowRepository
 import com.example.muvitracker.data.TraktApi
 import com.example.muvitracker.data.database.entities.SeasonEntity
 import com.example.muvitracker.data.dto.SeasonExtenDto
@@ -23,6 +24,7 @@ import javax.inject.Inject
 @HiltViewModel
 class DetailShowViewmodel @Inject constructor(
     private val detailShowRepo: DetailShowRepository,
+    private val prefsShowRepository: PrefsShowRepository,
     private val traktApi: TraktApi,
     val tmdbRepository: TmdbRepository
 ) : ViewModel() {
@@ -70,7 +72,7 @@ class DetailShowViewmodel @Inject constructor(
     // 00
     fun toggleLikedItem(id: Int) {
         viewModelScope.launch {
-            detailShowRepo.toggleLikedOnDb(id)
+            prefsShowRepository.toggleLikedOnDB(id)
         }
     }
 

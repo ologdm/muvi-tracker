@@ -3,13 +3,10 @@ package com.example.muvitracker.ui.main.seasons
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.muvitracker.data.DetailShowRepository
-import com.example.muvitracker.data.TraktApi
+import com.example.muvitracker.data.PrefsShowRepository
 import com.example.muvitracker.data.XSeasonRepository
 import com.example.muvitracker.data.database.entities.EpisodeEntity
 import com.example.muvitracker.data.database.entities.SeasonEntity
-import com.example.muvitracker.data.dto.EpisodeExtenDto
-import com.example.muvitracker.data.dto.SeasonExtenDto
 import com.example.muvitracker.utils.IoResponse
 import com.example.muvitracker.utils.StateContainer
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,34 +16,33 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.io.IOException
 import javax.inject.Inject
-import kotlin.coroutines.cancellation.CancellationException
 
 // TODO - readFromDb
 
 @HiltViewModel
 class SeasonViewmodel @Inject constructor(
-    val traktApi: TraktApi,
-    val seasonRepository: XSeasonRepository
+    private val seasonRepository: XSeasonRepository,
+    private val prefsShowRepository: PrefsShowRepository
 ) : ViewModel() {
 
-
+// old
 //    val seasonEpisodesState = MutableLiveData<StateContainer<List<EpisodeExtenDto>>>()
-//    val seasonInfoState = MutableLiveData<StateContainer<SeasonEntity>>() TODO dopo detail
+//    val seasonInfoState = MutableLiveData<StateContainer<SeasonExtenDto>>() // test
 
-    val seasonInfoState = MutableLiveData<StateContainer<SeasonExtenDto>>() // test
+    val seasonInfoState = MutableLiveData<StateContainer<SeasonEntity>>()
     val seasonEpisodesState = MutableLiveData<StateContainer<List<EpisodeEntity>>>() // test
 
-    // test
+
     fun loadSeasonInfo(showId: Int, seasonNumber: Int) {
         viewModelScope.launch {
-            try {
-                val result = traktApi.getSeasonInfo(showId, seasonNumber)
-                seasonInfoState.value = StateContainer(data = result)
-            } catch (ex: CancellationException) {
-                throw ex
-            } catch (ex: Throwable) {
-                ex.printStackTrace()
-            }
+            seasonRepository.getSingleSeasonFlow(showId, seasonNumber)
+                .map { respose ->
+                    StateContainer(data = respose)
+                }.catch {
+                    it.printStackTrace()
+                }.collectLatest {
+                    seasonInfoState.value = it
+                }
         }
     }
 
@@ -86,18 +82,25 @@ class SeasonViewmodel @Inject constructor(
     ) {
         viewModelScope.launch {
             seasonRepository.toggleWatchedEpisode(showId, seasonNr, episodeNr)
+            seasonRepository.updateSeasonWatchedCountAndAll(showId, seasonNr)
+//            prefsShowRepository.updateWatchedOnDB(showId) TODO
         }
     }
 
-    fun toggleWatchedAllSeason() {
-        // for per tutti gli episodi
-    }
 
+    fun toggleWatchedAllEpisodes(showId: Int, seasonNr: Int) {
+        viewModelScope.launch {
+            seasonRepository.toggleWatchedAllEpisodes(showId,seasonNr) // OK
+            seasonRepository.updateSeasonWatchedCountAndAll(showId, seasonNr) // OK
+//            prefsShowRepository.updateWatchedOnDB(showId) // TODO
+        }
+    }
 
 }
 
 
-//// OK
+
+// old
 //fun loadSeasonEpisodes(showId: Int, seasonNumber: Int) {
 //    viewModelScope.launch {
 //        try {
@@ -112,16 +115,16 @@ class SeasonViewmodel @Inject constructor(
 //}
 
 
-// TODO dopo
-//fun loadSeasonInfo(showId: Int, seasonNumber: Int) {
-//    viewModelScope.launch {
-//        seasonRepository.getSingleSeasonFlow(showId, seasonNumber)
-//            .map { respose ->
-//                StateContainer(data = respose)
-//            }.catch {
-//                it.printStackTrace()
-//            }.collectLatest {
-//                seasonInfoState.value = it
+// old
+//    fun loadSeasonInfo(showId: Int, seasonNumber: Int) {
+//        viewModelScope.launch {
+//            try {
+//                val result = traktApi.getSeasonInfo(showId, seasonNumber)
+//                seasonInfoState.value = StateContainer(data = result)
+//            } catch (ex: CancellationException) {
+//                throw ex
+//            } catch (ex: Throwable) {
+//                ex.printStackTrace()
 //            }
+//        }
 //    }
-//}
