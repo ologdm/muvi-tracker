@@ -7,6 +7,7 @@ import com.example.muvitracker.ui.main.allmovies.BoxoMovieFragment
 import com.example.muvitracker.ui.main.allmovies.PopularMovieFragment
 import com.example.muvitracker.ui.main.allshows.PopularShowFragment
 import com.example.muvitracker.ui.main.prefs.PrefsFragment
+import com.example.muvitracker.ui.main.prefs.viewpager.PrefsViewpagerFragment
 import com.example.muvitracker.ui.main.search.SearchFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationBarView
@@ -49,7 +50,8 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
                 if (clickedId == R.id.buttonMyList) {
                     navigator.replaceFragment(
-                        PrefsFragment()
+//                        PrefsFragment()
+                        PrefsViewpagerFragment()
                     )
                     return@OnItemSelectedListener true
                 }

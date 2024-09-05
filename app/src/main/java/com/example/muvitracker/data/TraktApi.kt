@@ -15,9 +15,12 @@ import retrofit2.http.Query
 
 interface TraktApi {
 
-    @GET("search/movie")  // with mobile query
-    suspend fun getSearch(@Query("query") searchString: String)
-            : List<SearchDto>
+    // type: movie, show, person
+    @GET("search/{filter_type}")
+    suspend fun getSearch(
+        @Path("filter_type") filterType: String,
+        @Query("query") searchString: String
+    ): List<SearchDto>
 
 
     // MOVIES ##############################################
@@ -37,7 +40,6 @@ interface TraktApi {
     @GET("movies/{movie_id}?extended=full")
     suspend fun getMovieDetail(@Path("movie_id") movieId: Int)
             : DetailMovieDto
-
 
 
     // SHOWS ########################################################
@@ -84,7 +86,7 @@ interface TraktApi {
 
     // EPISODE FRAGMENT (bottom sheet)
     @GET("shows/{show_id}/seasons/{season_number}/episodes/{episode_number}?extended=full")
-    suspend fun getEpisodeInfo (
+    suspend fun getEpisodeInfo(
         @Path("show_id") showId: Int,
         @Path("season_number") seasonNumber: Int,
         @Path("episode_number") episodeNumber: Int

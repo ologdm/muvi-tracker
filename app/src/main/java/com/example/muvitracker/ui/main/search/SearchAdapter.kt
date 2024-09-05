@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
+import com.example.muvitracker.data.dto.basedto.Ids
 import com.example.muvitracker.databinding.VhSearchBinding
 import com.example.muvitracker.domain.model.SearchResult
 
@@ -11,8 +12,34 @@ import com.example.muvitracker.domain.model.SearchResult
 
 
 class SearchAdapter(
-    private var onClickVH: (Int) -> Unit,
+    private var onClickVHMovie: (Int) -> Unit,
+    private var onClickVHShow: (Ids) -> Unit,
 ) : ListAdapter<SearchResult, SearchVH>(SearchAdapter) {
+
+
+    // ########################################################################
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchVH {
+        val inflater = LayoutInflater.from(parent.context)
+        val binding = VhSearchBinding.inflate(inflater, parent, false)
+        return SearchVH(binding)
+    }
+
+
+    override fun onBindViewHolder(holder: SearchVH, position: Int) {
+        val item = getItem(position)
+
+        holder.bind(item) // update on VH
+
+        holder.itemView.setOnClickListener {
+            when (item) {
+                is SearchResult.MovieItem -> onClickVHMovie(item.movie.ids.trakt)
+                is SearchResult.ShowItem -> onClickVHShow(item.show.ids)
+            }
+        }
+
+
+    }
+
 
     companion object : DiffUtil.ItemCallback<SearchResult>() {
         override fun areItemsTheSame(oldItem: SearchResult, newItem: SearchResult): Boolean {
@@ -32,30 +59,6 @@ class SearchAdapter(
         override fun areContentsTheSame(oldItem: SearchResult, newItem: SearchResult): Boolean {
             return oldItem == newItem
         }
-    }
-
-    // ########################################################################
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchVH {
-        val inflater = LayoutInflater.from(parent.context)
-        val binding = VhSearchBinding.inflate(inflater, parent, false)
-        return SearchVH(binding)
-    }
-
-
-    override fun onBindViewHolder(holder: SearchVH, position: Int) {
-        val item = getItem(position)
-
-        holder.bind(item) // update on VH
-
-        holder.itemView.setOnClickListener {
-            when (item) {
-                is SearchResult.MovieItem -> onClickVH(item.movie.ids.trakt)
-                is SearchResult.ShowItem -> onClickVH(item.show.ids.trakt)
-            }
-        }
-
-
     }
 
 }

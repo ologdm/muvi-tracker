@@ -105,7 +105,11 @@ class DaggerModules {
             context,
             MyDatabase::class.java,
             "muvi-tracker-db"
-        ).build()
+        )
+            // non crasha quando modifichi lo schema del DB, ma lo cancella
+            // e ne create uno nuovo
+            .fallbackToDestructiveMigration()
+            .build()
     }
 
 

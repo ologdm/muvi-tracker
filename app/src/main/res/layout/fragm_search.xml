@@ -27,13 +27,55 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
+    <com.google.android.material.chip.ChipGroup
+            android:id="@+id/searchChipGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/searchEditTextLayout"
+            >
+
+        <com.google.android.material.chip.Chip
+                android:id="@+id/chipAll"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="All"
+                app:iconStartPadding="30dp" />
+
+        <com.google.android.material.chip.Chip
+                android:id="@+id/chipMovie"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Movies"
+                app:iconStartPadding="8dp" />
+
+        <com.google.android.material.chip.Chip
+                android:id="@+id/chipShow"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Shows"
+                app:iconStartPadding="8dp" />
+
+        <com.google.android.material.chip.Chip
+                android:id="@+id/chipPeople"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="People"
+                app:iconStartPadding="8dp" />
+
+
+    </com.google.android.material.chip.ChipGroup>
+
 
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/searchEditTextLayout"
+            app:layout_constraintTop_toBottomOf="@id/searchChipGroup"
             app:layout_constraintVertical_bias="0.0"
             android:paddingHorizontal="4dp"
             android:paddingVertical="8dp"
