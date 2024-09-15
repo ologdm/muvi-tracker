@@ -1,9 +1,10 @@
 package com.example.muvitracker.data.dto
 
 
-import com.example.muvitracker.data.dto.basedto.MovieBaseDto
-import com.example.muvitracker.data.dto.basedto.ShowBaseDto
-import com.example.muvitracker.data.dto.basedto.toDomain
+import com.example.muvitracker.data.dto.movies.MovieBaseDto
+import com.example.muvitracker.data.dto.show.ShowBaseDto
+import com.example.muvitracker.data.dto.movies.toDomain
+import com.example.muvitracker.data.dto.show.toDomain
 import com.example.muvitracker.domain.model.SearchResult
 
 // can be: movie || show || episode(excluded)

@@ -13,15 +13,12 @@ class SearchRepository @Inject constructor(
     private val traktApi: TraktApi
 ) : SearchRepo {
 
-
     override
     suspend fun getNetworkResult(typeFilter: String, queryText: String): List<SearchResult> {
         try {
             return traktApi.getSearch(typeFilter, queryText)
-                .sortedByDescending { dto -> dto.score }
-                .map { dto ->
-                    dto.toDomain()
-                }
+//                .sortedByDescending { dto -> dto.score } // don't use
+                .map { dto -> dto.toDomain() }
         } catch (ex: CancellationException) {
             throw ex
         } catch (ex: Throwable) {

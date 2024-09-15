@@ -1,5 +1,6 @@
-package com.example.muvitracker.data.dto.basedto
+package com.example.muvitracker.data.dto.show
 
+import com.example.muvitracker.data.dto.basedto.Ids
 import com.example.muvitracker.domain.model.base.Show
 
 

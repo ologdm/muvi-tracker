@@ -14,7 +14,7 @@ class SeasonVH(
     fun bind (seasonItem : SeasonEntity){
         binding.seasonNrAndYear.text = "${seasonItem.title} (${seasonItem.releaseYear})"
         binding.totalEpisodes.text = "${seasonItem.episodeCount} episodes"
-        binding.rating.text = seasonItem.rating.firstDecimalApproxToString()
+        binding.rating.text = seasonItem.rating?.firstDecimalApproxToString()
 
     // totale - usare episodeCount 00
         binding.watchedCount.text = "${seasonItem.watchedCount}/${seasonItem.episodeCount}"

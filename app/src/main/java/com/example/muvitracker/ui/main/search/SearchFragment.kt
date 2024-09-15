@@ -12,29 +12,27 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.muvitracker.R
 import com.example.muvitracker.data.dto.basedto.Ids
+import com.example.muvitracker.databinding.FragmBaseCategoryNewBinding
 import com.example.muvitracker.databinding.FragmSearchBinding
 import com.example.muvitracker.ui.main.Navigator
+import com.example.muvitracker.utils.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
-// X - modifiche da chipgroup filter
 
 @AndroidEntryPoint
-class SearchFragment : Fragment() {
+class SearchFragment : Fragment(R.layout.fragm_search) {
 
-    private var _binding: FragmSearchBinding? = null
-    private val binding
-        get() = _binding
-
+    private val binding by viewBinding (FragmSearchBinding::bind)
     private val viewModel by viewModels<SearchViewModel>()
 
     @Inject
     lateinit var navigator: Navigator
     private val adapter = SearchAdapter(onClickVHMovie = { movieId ->
-        startMovieDetailFragment(movieId)
+        navigator.startMovieDetailFragment(movieId)
     },
         onClickVHShow = { showIds -> // X
-            startDetailShowFragment(showIds)
+            navigator.startShowDetailFragment(showIds)
         })
 
     // Debouncing
@@ -43,35 +41,21 @@ class SearchFragment : Fragment() {
     private val DEBOUNCE_DELAY: Long = 300L
 
 
-    private var filterValue: String = "movie,show" // X
-    private var currentSearchText: String = "" // X
+    private var filterValue: String = "movie,show" // default X
+    private var currentSearchText: String = "" // default X
 
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmSearchBinding.inflate(inflater, container, false)
-        return _binding?.root
-    }
 
 
     override fun onViewCreated(
         view: View,
         savedInstanceState: Bundle?
     ) {
-        // TODO
-        //   adapter OK
-        //   chip select OK
-        //   funzione chiamata dati OK
-
 
         viewModel.searchState.observe(viewLifecycleOwner) {
             adapter.submitList(it)
         }
 
-        with(binding!!) {
+        with(binding) {
             recyclerView.layoutManager = GridLayoutManager(requireContext(), 3)
             recyclerView.adapter = adapter
 
@@ -95,9 +79,10 @@ class SearchFragment : Fragment() {
 
 
         // chip group // X
-        binding?.searchChipGroup?.isSingleSelection = true // selezione uno alla volta
-        binding?.searchChipGroup?.check(R.id.chipAll) // default
-        binding?.searchChipGroup?.setOnCheckedChangeListener { chipGroup, checkedId ->
+        binding.searchChipGroup.isSingleSelection = true // selezione uno alla volta
+        binding.searchChipGroup.isSelectionRequired = true // selezione uno alla volta
+        binding.searchChipGroup.check(R.id.chipAll) // default
+        binding.searchChipGroup.setOnCheckedChangeListener { chipGroup, checkedId ->
             filterValue = when (checkedId) {
                 R.id.chipAll -> "movie,show"
                 R.id.chipMovie -> "movie"
@@ -112,18 +97,5 @@ class SearchFragment : Fragment() {
     }
 
 
-    private fun startMovieDetailFragment(movieId: Int) {
-        navigator.startMovieDetailFragment(movieId)
-    }
-
-
-    private fun startDetailShowFragment(showId: Ids) { // X
-        navigator.startShowDetailFragment(showId)
-    }
-
 }
 
-//override fun onDestroyView() {
-//    super.onDestroyView()
-//    _binding = null
-//}

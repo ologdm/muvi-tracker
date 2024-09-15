@@ -10,8 +10,8 @@ import com.dropbox.android.external.store4.StoreResponse
 import com.example.muvitracker.data.database.MyDatabase
 import com.example.muvitracker.data.database.entities.DetailMovieEntity
 import com.example.muvitracker.data.database.entities.toDomain
-import com.example.muvitracker.data.dto.DetailMovieDto
-import com.example.muvitracker.data.dto.toEntityR
+import com.example.muvitracker.data.dto.movies.DetailMovieDto
+import com.example.muvitracker.data.dto.movies.toEntityR
 import com.example.muvitracker.domain.model.DetailMovie
 import com.example.muvitracker.domain.repo.DetailRepo
 import com.example.muvitracker.utils.IoResponse

@@ -8,14 +8,14 @@ import com.dropbox.android.external.store4.StoreBuilder
 import com.dropbox.android.external.store4.StoreRequest
 import com.dropbox.android.external.store4.StoreResponse
 import com.example.muvitracker.data.database.MyDatabase
-import com.example.muvitracker.data.database.entities.DetailMovieEntity
 import com.example.muvitracker.data.database.entities.DetailShowEntity
-import com.example.muvitracker.data.database.entities.PrefsShowEntity
 import com.example.muvitracker.data.database.entities.SeasonEntity
 import com.example.muvitracker.data.database.entities.toDomain
-import com.example.muvitracker.data.dto.DetailShowDto
-import com.example.muvitracker.data.dto.SeasonExtenDto
-import com.example.muvitracker.data.dto.toEntity
+import com.example.muvitracker.data.dto.show.DetailShowDto
+import com.example.muvitracker.data.dto.season.SeasonExtenDto
+import com.example.muvitracker.data.dto.movies.toEntity
+import com.example.muvitracker.data.dto.season.toEntity
+import com.example.muvitracker.data.dto.show.toEntity
 import com.example.muvitracker.domain.model.DetailShow
 import com.example.muvitracker.utils.IoResponse
 import kotlinx.coroutines.flow.Flow
@@ -23,7 +23,6 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterNot
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.singleOrNull
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.coroutines.cancellation.CancellationException

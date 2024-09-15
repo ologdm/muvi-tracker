@@ -5,7 +5,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.example.muvitracker.data.database.entities.SeasonEntity
-import com.example.muvitracker.data.dto.SeasonExtenDto
 import com.example.muvitracker.databinding.VhSeasonsOnDetailshowBinding
 import com.example.muvitracker.ui.main.detailshow.adapter.SeasonVH
 

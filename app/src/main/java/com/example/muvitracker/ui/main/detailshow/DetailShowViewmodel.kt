@@ -7,13 +7,11 @@ import com.example.muvitracker.data.DetailShowRepository
 import com.example.muvitracker.data.PrefsShowRepository
 import com.example.muvitracker.data.TraktApi
 import com.example.muvitracker.data.database.entities.SeasonEntity
-import com.example.muvitracker.data.dto.SeasonExtenDto
 import com.example.muvitracker.data.images.TmdbRepository
 import com.example.muvitracker.domain.model.DetailShow
 import com.example.muvitracker.utils.IoResponse
 import com.example.muvitracker.utils.StateContainer
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.map

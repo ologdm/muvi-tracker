@@ -1,13 +1,8 @@
-package com.example.muvitracker.data.dto
+package com.example.muvitracker.data.dto.show
 
-import android.os.Parcelable
-import androidx.room.TypeConverters
-import com.example.muvitracker.data.database.ConvertersUtils
-import com.example.muvitracker.data.database.entities.DetailMovieEntity
 import com.example.muvitracker.data.database.entities.DetailShowEntity
 import com.example.muvitracker.data.dto.basedto.Ids
 import com.google.gson.annotations.SerializedName
-import kotlinx.parcelize.Parcelize
 
 // dto completo, commentati quelli non utili
 

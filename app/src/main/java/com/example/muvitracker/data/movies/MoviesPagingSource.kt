@@ -1,9 +1,11 @@
 package com.example.muvitracker.data.movies
 
+import android.content.Context
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import com.example.muvitracker.R
 import com.example.muvitracker.data.TraktApi
-import com.example.muvitracker.data.dto.basedto.toDomain
+import com.example.muvitracker.data.dto.movies.toDomain
 import com.example.muvitracker.domain.model.base.Movie
 import java.util.concurrent.CancellationException
 import javax.inject.Singleton
@@ -18,29 +20,38 @@ import javax.inject.Singleton
 //   - LoadResult.Invalid -  if the PagingSource should be invalidated because it can no longer guarantee the integrity of its results.
 
 
-// TODO wrapper for generic paging source construction (),
-//      param - traktApi.getBoxoMovies(currentPage, params.loadSize)
-
 @Singleton
-class PopularPagingSourceM(
-    private val traktApi: TraktApi,
-//    private val popularDao: PopularDao
+class MoviesPagingSource(
+    val context: Context,
+    private val feedCategory: String, // feedCategory -> solo indicative, le chiamate sono implementate separatamente
+    private val traktApi: TraktApi
 ) : PagingSource<Int, Movie>() {
 
 
     // parameters - (currentPage, loadSize)
-    // TODO  - caricare nel fetcher (store)
     override suspend fun load(
         params: LoadParams<Int>
     ): LoadResult<Int, Movie> {
-
         val currentPage = params.key ?: 1
         return try {
-            val response = traktApi.getPopularMovies(currentPage, params.loadSize)
+            val response = when (feedCategory) {
+                context.getString(R.string.popular) -> traktApi.getPopularMovies(currentPage, params.loadSize)
+                    .map { it.toDomain() }
+
+                context.getString(R.string.watched) -> traktApi.getWatchedMovies(currentPage, params.loadSize)
+                    .map { it.toDomain() }
+
+                context.getString(R.string.favorited) -> traktApi.getFavoritedMovies(currentPage, params.loadSize)
+                    .map { it.toDomain() }
+
+                context.getString(R.string.anticipated) -> traktApi.getAnticipatedMovies(currentPage, params.loadSize)
+                    .map { it.toDomain() }
+
+                else -> emptyList()
+            }
+
             LoadResult.Page(  // #1
-                data = response.map { dto ->
-                    dto.toDomain()
-                }, // response from network
+                data = response, // response from network
                 prevKey = if (currentPage == 1) null else currentPage - 1, // standard
                 nextKey = if (response.isEmpty()) null else currentPage + 1 // standard
             )

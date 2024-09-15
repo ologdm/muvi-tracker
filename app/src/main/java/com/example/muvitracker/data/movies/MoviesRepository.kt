@@ -11,8 +11,8 @@ import com.example.muvitracker.data.TraktApi
 import com.example.muvitracker.data.database.MyDatabase
 import com.example.muvitracker.data.database.entities.BoxoMovieEntity
 import com.example.muvitracker.data.database.entities.toDomain
-import com.example.muvitracker.data.dto.BoxoDto
-import com.example.muvitracker.data.dto.toEntity
+import com.example.muvitracker.data.dto.movies.BoxofficeDtoM
+import com.example.muvitracker.data.dto.movies.toEntity
 import com.example.muvitracker.domain.model.base.Movie
 import com.example.muvitracker.domain.repo.MoviesRepo
 import com.example.muvitracker.utils.IoResponse
@@ -47,7 +47,7 @@ class MoviesRepository @Inject constructor(
                 FetcherResult.Error.Exception(ex)
             }
         },
-        sourceOfTruth = SourceOfTruth.of<Unit, List<BoxoDto>, List<BoxoMovieEntity>>(
+        sourceOfTruth = SourceOfTruth.of<Unit, List<BoxofficeDtoM>, List<BoxoMovieEntity>>(
             reader = { _ ->
                 boxofficeDao.readAll()
             },

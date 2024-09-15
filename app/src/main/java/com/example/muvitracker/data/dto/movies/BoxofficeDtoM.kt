@@ -1,17 +1,16 @@
-package com.example.muvitracker.data.dto
+package com.example.muvitracker.data.dto.movies
 
 import com.example.muvitracker.data.database.entities.BoxoMovieEntity
-import com.example.muvitracker.data.dto.basedto.MovieBaseDto
 import com.example.muvitracker.domain.model.base.Movie
 
 
-data class BoxoDto(
+data class BoxofficeDtoM(
     val revenue: Int,
     val movie: MovieBaseDto
 )
 
 
-fun BoxoDto.toDomain(): Movie {
+fun BoxofficeDtoM.toDomain(): Movie {
     return Movie(
         movie.title,
         movie.year,
@@ -20,8 +19,7 @@ fun BoxoDto.toDomain(): Movie {
 }
 
 
-// TODO
-fun BoxoDto.toEntity(): BoxoMovieEntity {
+fun BoxofficeDtoM.toEntity(): BoxoMovieEntity {
     return BoxoMovieEntity(
         traktId = movie.ids.trakt,
         title = movie.title,
@@ -33,8 +31,9 @@ fun BoxoDto.toEntity(): BoxoMovieEntity {
 
 
 
-//  JSON BoxOffice #########################################################################
+//  JSON movies boxOffice
 /* revenue + dto movie
+[
   {
     "revenue": 48464322,
     "movie": {
@@ -48,6 +47,9 @@ fun BoxoDto.toEntity(): BoxoMovieEntity {
       }
     }
   },
+  ....
+  ....
+]
  */
 
 

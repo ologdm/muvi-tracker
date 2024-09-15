@@ -2,10 +2,8 @@ package com.example.muvitracker.ui.main.seasons
 
 import android.os.Bundle
 import android.view.View
-import android.widget.TableLayout
 import androidx.fragment.app.Fragment
 import com.example.muvitracker.R
-import com.example.muvitracker.data.dto.DetailShowDto
 import com.example.muvitracker.data.dto.basedto.Ids
 import com.example.muvitracker.databinding.FragmSeasonViewpagerBinding
 import com.example.muvitracker.utils.viewBinding

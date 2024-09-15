@@ -2,26 +2,30 @@ package com.example.muvitracker.data.database.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.muvitracker.data.dto.EpisodeExtenDto
+import com.example.muvitracker.data.dto.episode.EpisodeExtenDto
 import com.example.muvitracker.data.dto.basedto.Ids
 
+// completo - apertura season i
+// parziale - detail, watchedAll
 
 @Entity(tableName = "EpisodeEntities")
 data class EpisodeEntity(
+    // base data - from base dto
     @PrimaryKey val episodeTraktId: Int,
     val seasonNumber: Int, // X
     val episodeNumber: Int, // X
     val title: String,
     val ids: Ids,
-    val numberAbs: Int,
-    val overview: String,
-    val rating: Double,
-    val firstAiredFormatted: String, // converted
-    val availableTranslations: List<String>,
-    val runtime: Int,
-    val episodeType: String,
-
     val showId: Int, // X, passed through parameter .toEntity(showId)
+
+    // todo - test salvataggio parziale
+    val numberAbs: Int? = null,
+    val overview: String? = null,
+    val rating: Double? = null,
+    val firstAiredFormatted: String? = null, // converted
+    val availableTranslations: List<String>? = null,
+    val runtime: Int? = null,
+    val episodeType: String? = null,
 
     //save
     val watched: Boolean = false
@@ -29,7 +33,7 @@ data class EpisodeEntity(
 
 
 // TODO fare ck se corretto !!
-fun EpisodeEntity.copyDtoData(episodeDto: EpisodeExtenDto) : EpisodeEntity {
+fun EpisodeEntity.copyDtoData(episodeDto: EpisodeExtenDto): EpisodeEntity {
     return this.copy(
         episodeTraktId = episodeDto.ids.trakt,
         seasonNumber = episodeDto.season,
@@ -47,3 +51,13 @@ fun EpisodeEntity.copyDtoData(episodeDto: EpisodeExtenDto) : EpisodeEntity {
         //  watched rimane stato db
     )
 }
+
+
+// old
+//val numberAbs: Int,
+//val overview: String,
+//val rating: Double,
+//val firstAiredFormatted: String, // converted
+//val availableTranslations: List<String>,
+//val runtime: Int,
+//val episodeType: String,

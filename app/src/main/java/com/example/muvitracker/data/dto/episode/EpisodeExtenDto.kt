@@ -1,4 +1,4 @@
-package com.example.muvitracker.data.dto
+package com.example.muvitracker.data.dto.episode
 
 import com.example.muvitracker.data.database.entities.EpisodeEntity
 import com.example.muvitracker.data.dto.basedto.Ids

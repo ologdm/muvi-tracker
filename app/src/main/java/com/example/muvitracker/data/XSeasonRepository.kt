@@ -10,8 +10,9 @@ import com.dropbox.android.external.store4.StoreResponse
 import com.example.muvitracker.data.database.MyDatabase
 import com.example.muvitracker.data.database.entities.EpisodeEntity
 import com.example.muvitracker.data.database.entities.SeasonEntity
-import com.example.muvitracker.data.dto.EpisodeExtenDto
-import com.example.muvitracker.data.dto.toEntity
+import com.example.muvitracker.data.dto.episode.EpisodeExtenDto
+import com.example.muvitracker.data.dto.episode.toEntity
+import com.example.muvitracker.data.dto.movies.toEntity
 import com.example.muvitracker.data.requests.ShowRequestKeys
 import com.example.muvitracker.utils.IoResponse
 import kotlinx.coroutines.flow.Flow

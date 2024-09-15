@@ -1,4 +1,4 @@
-package com.example.muvitracker.data.dto
+package com.example.muvitracker.data.dto.season
 
 import android.os.Parcelable
 import com.example.muvitracker.data.database.entities.SeasonEntity
