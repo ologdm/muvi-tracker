@@ -18,11 +18,11 @@ import kotlinx.coroutines.flow.Flow
 interface EpisodeDao {
 
     // 1. READ ##################################################
-    @Query("SELECT * FROM EpisodeEntities WHERE episodeTraktId=:episodeTraktId ")
+    @Query("SELECT * FROM episode_entities WHERE episodeTraktId=:episodeTraktId ")
     fun readSingleEpisodeById(episodeTraktId: Int): Flow<EpisodeEntity>
     // si potrebbe fare con filtro-> show, season, episode
 
-    @Query("SELECT * FROM EpisodeEntities WHERE showId=:showId AND seasonNumber =:seasonNr")
+    @Query("SELECT * FROM episode_entities WHERE showId=:showId AND seasonNumber =:seasonNr")
     fun readAllEpisodesOfSeason(showId: Int, seasonNr: Int): Flow<List<EpisodeEntity>>
 
 
@@ -41,7 +41,7 @@ interface EpisodeDao {
     // 1 toggle single
     @Query(
         """
-        UPDATE EpisodeEntities
+        UPDATE episode_entities
         SET watched = NOT watched
         WHERE showId=:showId AND seasonNumber=:seasonNr AND episodeNumber=:episodeNr
         """
@@ -55,7 +55,7 @@ interface EpisodeDao {
     // 2 toggle all
     @Query(
         """
-        UPDATE EpisodeEntities
+        UPDATE episode_entities
         SET watched=:watched
         WHERE showId=:showId AND seasonNumber=:seasonNr
         """
@@ -72,7 +72,7 @@ interface EpisodeDao {
     // boolean sql -> true=1, false=0
     @Query("""
         SELECT * 
-        FROM EpisodeEntities 
+        FROM episode_entities 
         WHERE showId=:showId AND seasonNumber=:seasonNr AND watched = 1
     """)
     fun checkWatchedEpisodesOfSeason(showId: Int, seasonNr: Int): Flow<List<EpisodeEntity>>
@@ -80,7 +80,7 @@ interface EpisodeDao {
 
     @Query("""
         SELECT * 
-        FROM EpisodeEntities 
+        FROM episode_entities 
         WHERE showId=:showId AND watched = 1
     """)
     fun checkWatchedEpisodesOfShow(showId: Int): Flow<List<EpisodeEntity>>

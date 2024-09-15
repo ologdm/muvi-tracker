@@ -19,10 +19,10 @@ interface DetailShowDao {
 
 
     // 2 - READ (con flow)
-    @Query("SELECT * FROM DetailShowEntities WHERE traktId=:inputId")
+    @Query("SELECT * FROM detail_show_entities WHERE traktId=:inputId")
     fun readSingleFlow(inputId: Int): Flow<DetailShowEntity?> // deve essere nullable
 
-    @Query("SELECT * FROM DetailShowEntities")
+    @Query("SELECT * FROM detail_show_entities")
     fun readAllFlow(): Flow<List<DetailShowEntity?>>
 
 

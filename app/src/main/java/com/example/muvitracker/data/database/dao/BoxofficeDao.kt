@@ -17,7 +17,7 @@ interface BoxofficeDao {
     suspend fun insertList(list: List<BoxoMovieEntity>)
 
     // read
-    @Query("SELECT * FROM BoxofficeEntities")
+    @Query("SELECT * FROM boxoffice_movie_entities")
     fun readAll() : Flow<List<BoxoMovieEntity>>
 
 }

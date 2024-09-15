@@ -10,7 +10,7 @@ import com.example.muvitracker.domain.model.DetailShow
 import com.google.gson.annotations.SerializedName
 
 // 00
-@Entity(tableName = "DetailShowEntities")
+@Entity(tableName = "detail_show_entities")
 data class DetailShowEntity(
     @PrimaryKey val traktId: Int,
     val title: String,

@@ -8,25 +8,26 @@ import com.example.muvitracker.data.dto.basedto.Ids
 import com.example.muvitracker.domain.model.base.Movie
 
 
-@Entity(tableName = "PopularEntities")
-data class PopularMovieEntity(
-    @PrimaryKey val traktId: Int,
-    val title: String,
-    val year: Int,
-    @TypeConverters(ConvertersUtils::class) val ids: Ids
-)
-
-fun PopularMovieEntity.toDomain(): Movie {
-    return Movie(
-        title = title,
-        year = year,
-        ids = ids
-    )
-}
+// not used
+//@Entity(tableName = "popular_movie_entities")
+//data class PopularMovieEntity(
+//    @PrimaryKey val traktId: Int,
+//    val title: String,
+//    val year: Int,
+//    @TypeConverters(ConvertersUtils::class) val ids: Ids
+//)
+//
+//fun PopularMovieEntity.toDomain(): Movie {
+//    return Movie(
+//        title = title,
+//        year = year,
+//        ids = ids
+//    )
+//}
 
 
 // ##############################################################################
-@Entity(tableName = "BoxofficeEntities")
+@Entity(tableName = "boxoffice_movie_entities")
 data class BoxoMovieEntity(
     @PrimaryKey val traktId: Int,
     val title: String,

@@ -16,21 +16,21 @@ interface PrefsShowDao {
 
 
     // READ
-    @Query("SELECT * FROM PrefsShowEntities WHERE traktId=:id")
+    @Query("SELECT * FROM prefs_show_entities WHERE traktId=:id")
     fun readSingle(id: Int): Flow<PrefsShowEntity?>
 
-    @Query("SELECT * FROM PrefsShowEntities")
+    @Query("SELECT * FROM prefs_show_entities")
     fun readAll(): Flow<List<PrefsShowEntity?>>
 
 
     // UPDATE (personalizzati con query) 00
     // (SET liked = NOT liked) -> toggle liked
-    @Query("UPDATE PrefsShowEntities SET liked = NOT liked WHERE traktId =:id")
+    @Query("UPDATE prefs_show_entities SET liked = NOT liked WHERE traktId =:id")
     suspend fun toggleLiked(id: Int)
 
 
     // DELETE
-    @Query("DELETE FROM PrefsEntities WHERE traktId =:id")
+    @Query("DELETE FROM prefs_show_entities WHERE traktId =:id")
     suspend fun deleteSingle(id: Int)
 
 
@@ -38,7 +38,7 @@ interface PrefsShowDao {
     // !!! aggiornato solo su season repository
     @Query(
         """
-        UPDATE PrefsShowEntities 
+        UPDATE prefs_show_entities 
         SET watchedAll=:watchedAll, watchedCount=:watchedCount
         WHERE traktId=:showId
 """

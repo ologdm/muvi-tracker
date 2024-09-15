@@ -9,7 +9,7 @@ import com.example.muvitracker.data.database.entities.DetailMovieEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface DetailDao {
+interface DetailMovieDao {
 
     // 1 - CREATE or UPDATE
     // (use always suspend)
@@ -19,10 +19,10 @@ interface DetailDao {
 
     // 2 - READ
     // (con flow) - osserva cambiamenti tabelle a cui fanno riferimento le query
-    @Query("SELECT * FROM DetailMovieEntities WHERE traktId=:inputId")
+    @Query("SELECT * FROM detail_movie_entities WHERE traktId=:inputId")
     fun readSingleFlow(inputId: Int): Flow<DetailMovieEntity?> // deve essere nullable
 
-    @Query("SELECT * FROM DetailMovieEntities")
+    @Query("SELECT * FROM detail_movie_entities")
     fun readAllFlow(): Flow<List<DetailMovieEntity?>>
 
 

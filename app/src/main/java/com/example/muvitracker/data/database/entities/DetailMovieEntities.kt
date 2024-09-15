@@ -8,7 +8,7 @@ import com.example.muvitracker.data.dto.basedto.Ids
 import com.example.muvitracker.domain.model.DetailMovie
 
 
-@Entity(tableName = "DetailMovieEntities")
+@Entity(tableName = "detail_movie_entities")
 data class DetailMovieEntity(
     @PrimaryKey val traktId: Int,
     val title: String,
@@ -31,7 +31,7 @@ data class DetailMovieEntity(
 
 
 // (PrefsEntity?) - can be null as logic
-fun DetailMovieEntity.toDomain(prefsEntity: PrefsEntity?): DetailMovie {
+fun DetailMovieEntity.toDomain(prefsMovieEntity: PrefsMovieEntity?): DetailMovie {
     return DetailMovie(
         title = title,
         year = year,
@@ -43,8 +43,8 @@ fun DetailMovieEntity.toDomain(prefsEntity: PrefsEntity?): DetailMovie {
         rating = rating,
         genres = genres,
 
-        liked = prefsEntity?.liked ?: false,
-        watched = prefsEntity?.watched ?: false,
-        addedDateTime = prefsEntity?.addedDateTime
+        liked = prefsMovieEntity?.liked ?: false,
+        watched = prefsMovieEntity?.watched ?: false,
+        addedDateTime = prefsMovieEntity?.addedDateTime
     )
 }

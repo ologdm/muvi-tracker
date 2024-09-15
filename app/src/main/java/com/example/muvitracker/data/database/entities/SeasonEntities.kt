@@ -8,7 +8,7 @@ import com.example.muvitracker.data.dto.basedto.Ids
 // completo - apertura detail
 // parziale - da mylist, watchedAll
 
-@Entity(tableName = "SeasonEntities")
+@Entity(tableName = "season_entities")
 data class SeasonEntity(
     // base data - from base dto
     @PrimaryKey val seasonTraktId: Int,

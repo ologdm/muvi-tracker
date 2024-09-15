@@ -20,14 +20,14 @@ import kotlinx.coroutines.flow.Flow
 interface SeasonDao {
 
     // 1. READ 000
-    @Query("SELECT * FROM SeasonEntities WHERE showId=:showId AND seasonNumber=:seasonNr")
+    @Query("SELECT * FROM season_entities WHERE showId=:showId AND seasonNumber=:seasonNr")
     fun readSingleSeason(showId: Int, seasonNr: Int): Flow<SeasonEntity>
 
-    @Query("SELECT * FROM SeasonEntities WHERE seasonTraktId=:seasonTraktId")
+    @Query("SELECT * FROM season_entities WHERE seasonTraktId=:seasonTraktId")
     fun readSingleSeasonById(seasonTraktId: Int): Flow<SeasonEntity>
 
 
-    @Query("SELECT * FROM SeasonEntities WHERE showId=:showId")
+    @Query("SELECT * FROM season_entities WHERE showId=:showId")
     fun readAllSeasonsOfShow(showId: Int): Flow<List<SeasonEntity>>
 
 
@@ -49,7 +49,7 @@ interface SeasonDao {
     // 3.2 UPDATE watched (parziale, totale -> da repository)
     @Query(
         """
-        UPDATE SeasonEntities 
+        UPDATE season_entities 
         SET watchedAll=:watchedAll, watchedCount=:watchedCount
         WHERE showId=:showId AND seasonNumber=:seasonNr
         """

@@ -4,8 +4,8 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 
-@Entity(tableName = "PrefsEntities")
-data class PrefsEntity(
+@Entity(tableName = "prefs_movie_entities")
+data class PrefsMovieEntity(
     @PrimaryKey val traktId: Int,
     val liked: Boolean = false,
     val watched: Boolean = false,
