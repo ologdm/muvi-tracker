@@ -29,8 +29,8 @@ class DetailRepository @Inject constructor(
     private val database: MyDatabase
 ) : DetailRepo {
 
-    private val detailDao = database.detailDao()
-    private val prefsDao = database.prefsDao()
+    private val detailDao = database.detailMovieDao()
+    private val prefsDao = database.prefsMovieDao()
 
 
     private val detailStore: Store<Int, DetailMovieEntity> = StoreBuilder.from(

@@ -6,8 +6,10 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.muvitracker.R
-import com.example.muvitracker.data.dto.basedto.Ids
+import com.example.muvitracker.data.dto.base.Ids
 import com.example.muvitracker.databinding.FragmSeasonSonBinding
 import com.example.muvitracker.ui.main.Navigator
 import com.example.muvitracker.utils.viewBinding
@@ -86,6 +88,23 @@ class SeasonFragment private constructor() : Fragment(R.layout.fragm_season_son)
                 binding.seasonOverview.ellipsize = null
             }
             isTextExpanded = !isTextExpanded // toggle state
+        }
+
+        // IMAGE vertical - poster
+        viewModel.getTmdbImageLinksFlow(
+            showTmdbId = currentShowIds.tmdb,
+            seasonNumber = currentSeason
+        )
+
+//        viewModel.getTmdbTEST(currentShowIds.tmdb, currentSeason)
+
+        viewModel.posterImageUrl.observe(viewLifecycleOwner) { posterUrl ->
+            Glide.with(requireContext())
+                .load(posterUrl)
+                .transition(DrawableTransitionOptions.withCrossFade(300))
+                .placeholder(R.drawable.glide_placeholder_base)
+                .error(R.drawable.glide_placeholder_base)
+                .into(binding.seasonPoster)
         }
 
 

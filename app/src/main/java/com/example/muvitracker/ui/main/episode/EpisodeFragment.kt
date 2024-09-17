@@ -3,9 +3,8 @@ package com.example.muvitracker.ui.main.episode
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
-import com.bumptech.glide.Glide
 import com.example.muvitracker.R
-import com.example.muvitracker.data.dto.basedto.Ids
+import com.example.muvitracker.data.dto.base.Ids
 import com.example.muvitracker.databinding.FragmEpisodeBottomsheetBinding
 import com.example.muvitracker.utils.viewBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment

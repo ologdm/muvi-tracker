@@ -4,10 +4,8 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.example.muvitracker.data.database.ConvertersUtils
-import com.example.muvitracker.data.dto.basedto.Ids
-import com.example.muvitracker.domain.model.DetailMovie
+import com.example.muvitracker.data.dto.base.Ids
 import com.example.muvitracker.domain.model.DetailShow
-import com.google.gson.annotations.SerializedName
 
 // 00
 @Entity(tableName = "detail_show_entities")

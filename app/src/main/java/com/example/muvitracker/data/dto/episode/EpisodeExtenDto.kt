@@ -1,7 +1,7 @@
 package com.example.muvitracker.data.dto.episode
 
 import com.example.muvitracker.data.database.entities.EpisodeEntity
-import com.example.muvitracker.data.dto.basedto.Ids
+import com.example.muvitracker.data.dto.base.Ids
 import com.google.gson.annotations.SerializedName
 
 data class EpisodeExtenDto(

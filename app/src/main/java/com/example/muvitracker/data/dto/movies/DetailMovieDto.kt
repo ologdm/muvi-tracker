@@ -1,7 +1,7 @@
 package com.example.muvitracker.data.dto.movies
 
 import com.example.muvitracker.data.database.entities.DetailMovieEntity
-import com.example.muvitracker.data.dto.basedto.Ids
+import com.example.muvitracker.data.dto.base.Ids
 
 
 data class DetailMovieDto(

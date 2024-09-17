@@ -1,11 +1,7 @@
 package com.example.muvitracker.data.dto.episode
 
 import com.example.muvitracker.data.database.entities.EpisodeEntity
-import com.example.muvitracker.data.dto.basedto.Ids
-import com.example.muvitracker.data.dto.show.ShowBaseDto
-import com.example.muvitracker.data.dto.show.toDomain
-import com.example.muvitracker.domain.model.base.Episode
-import kotlin.system.exitProcess
+import com.example.muvitracker.data.dto.base.Ids
 
 
 data class EpisodeBaseDto(

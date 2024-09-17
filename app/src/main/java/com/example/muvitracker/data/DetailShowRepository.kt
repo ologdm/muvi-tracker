@@ -41,7 +41,6 @@ class DetailShowRepository @Inject constructor(
     private val detailShowDao = database.detailShowDao()
     private val prefsShowDao = database.prefsShowDao()
 
-    // TODO
     private val seasonDao = database.seasonsDao()
 
 

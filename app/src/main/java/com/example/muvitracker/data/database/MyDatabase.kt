@@ -17,9 +17,19 @@ import com.example.muvitracker.data.database.entities.EpisodeEntity
 import com.example.muvitracker.data.database.entities.PrefsMovieEntity
 import com.example.muvitracker.data.database.entities.PrefsShowEntity
 import com.example.muvitracker.data.database.entities.SeasonEntity
+import com.example.muvitracker.data.imagetmdb.database.ConvertersUtilsTmdb
+import com.example.muvitracker.data.imagetmdb.database.dao.EpisodeImageDao
+import com.example.muvitracker.data.imagetmdb.database.dao.MovieShowImageDao
+import com.example.muvitracker.data.imagetmdb.database.dao.PersonImageDao
+import com.example.muvitracker.data.imagetmdb.database.dao.SeasonImageDao
+import com.example.muvitracker.data.imagetmdb.database.entities.EpisodeImageEntity
+import com.example.muvitracker.data.imagetmdb.database.entities.MovieShowImageEntity
+import com.example.muvitracker.data.imagetmdb.database.entities.PersonImageEntity
+import com.example.muvitracker.data.imagetmdb.database.entities.SeasonImageEntity
 
 @Database(
     entities = [
+        // trakt
         BoxoMovieEntity::class,
         DetailMovieEntity::class,
         PrefsMovieEntity::class,
@@ -27,25 +37,33 @@ import com.example.muvitracker.data.database.entities.SeasonEntity
         PrefsShowEntity::class,
         SeasonEntity::class,
         EpisodeEntity::class,
-    // TODO tmdb
+        // tmdb images
+        MovieShowImageEntity::class,
+        SeasonImageEntity::class,
+        EpisodeImageEntity::class,
+        PersonImageEntity::class,
     ],
     version = 1
 )
-@TypeConverters(ConvertersUtils::class)
+@TypeConverters(ConvertersUtils::class, ConvertersUtilsTmdb::class)
 abstract class MyDatabase : RoomDatabase() {
 
-    abstract fun boxofficeDao(): BoxofficeDao // only list with caching
+    // trakt
+    abstract fun boxofficeDao(): BoxofficeDao // movies feed - list with caching
 
-    abstract fun detailDao(): DetailMovieDao
-    abstract fun prefsDao(): PrefsMovieDao
-
+    abstract fun detailMovieDao(): DetailMovieDao
     abstract fun detailShowDao(): DetailShowDao
+
+    abstract fun prefsMovieDao(): PrefsMovieDao
     abstract fun prefsShowDao(): PrefsShowDao
 
     abstract fun seasonsDao(): SeasonDao
     abstract fun episodesDao(): EpisodeDao
 
 
-
-
+    // tmdb
+    abstract fun movieShowImageDao() : MovieShowImageDao
+    abstract fun seasonImageDao() : SeasonImageDao
+    abstract fun episodeImageDao() : EpisodeImageDao
+    abstract fun personImageDao() : PersonImageDao
 }

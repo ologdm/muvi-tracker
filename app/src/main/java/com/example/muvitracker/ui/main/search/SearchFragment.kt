@@ -3,16 +3,12 @@ package com.example.muvitracker.ui.main.search
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.muvitracker.R
-import com.example.muvitracker.data.dto.basedto.Ids
-import com.example.muvitracker.databinding.FragmBaseCategoryNewBinding
 import com.example.muvitracker.databinding.FragmSearchBinding
 import com.example.muvitracker.ui.main.Navigator
 import com.example.muvitracker.utils.viewBinding

@@ -1,6 +1,6 @@
 package com.example.muvitracker.domain.model
 
-import com.example.muvitracker.data.dto.basedto.Ids
+import com.example.muvitracker.data.dto.base.Ids
 
 data class DetailMovie(
     // detail entity

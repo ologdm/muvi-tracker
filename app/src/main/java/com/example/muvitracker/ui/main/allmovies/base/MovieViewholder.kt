@@ -4,16 +4,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.muvitracker.R
-import com.example.muvitracker.data.images.TMDbApi
-import com.example.muvitracker.data.images.TmdbRepository
 import com.example.muvitracker.databinding.VhBaseListBinding
 import com.example.muvitracker.domain.model.base.Movie
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.create
 
 class MovieViewholder(
     val binding: VhBaseListBinding,

@@ -41,7 +41,7 @@ interface PrefsShowDao {
         UPDATE prefs_show_entities 
         SET watchedAll=:watchedAll, watchedCount=:watchedCount
         WHERE traktId=:showId
-"""
+        """
     )
     suspend fun updateWatched(showId: Int, watchedAll: Boolean, watchedCount: Int)
 

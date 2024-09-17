@@ -1,4 +1,4 @@
-package com.example.muvitracker.ui.main.detailmovie
+package com.example.muvitracker.ui.main.detailshow
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -7,13 +7,15 @@ import com.example.muvitracker.data.DetailShowRepository
 import com.example.muvitracker.data.PrefsShowRepository
 import com.example.muvitracker.data.TraktApi
 import com.example.muvitracker.data.database.entities.SeasonEntity
-import com.example.muvitracker.data.images.TmdbRepository
+import com.example.muvitracker.data.imagetmdb.TmdbRepository
 import com.example.muvitracker.domain.model.DetailShow
 import com.example.muvitracker.utils.IoResponse
 import com.example.muvitracker.utils.StateContainer
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.io.IOException
@@ -24,7 +26,7 @@ class DetailShowViewmodel @Inject constructor(
     private val detailShowRepo: DetailShowRepository,
     private val prefsShowRepository: PrefsShowRepository,
     private val traktApi: TraktApi,
-    val tmdbRepository: TmdbRepository
+    private val tmdbRepository: TmdbRepository
 ) : ViewModel() {
 
     val detailState = MutableLiveData<StateContainer<DetailShow>>()
@@ -106,16 +108,27 @@ class DetailShowViewmodel @Inject constructor(
     val backdropImageUrl = MutableLiveData<String>()
     val posterImageUrl = MutableLiveData<String>()
 
-    fun getTmdbImageLinks(showTmdbId: Int) { // TODO salvare link su entity detail
+    fun getTmdbImageLinksFlow (showTmdbId: Int) {
         viewModelScope.launch {
-            val result = tmdbRepository.getShowImages(showTmdbId)
-            val backdropUrl = result[TmdbRepository.BACKDROP_KEY] ?: ""
-            val posterUrl = result[TmdbRepository.POSTER_KEY] ?: ""
+            // todo gestione null !!!!!!!!!
+            val result = tmdbRepository.getShowImageFlow(showTmdbId).firstOrNull()
+            val backdropUrl = result?.get(TmdbRepository.BACKDROP_KEY) ?: ""
+            val posterUrl = result?.get(TmdbRepository.POSTER_KEY) ?: ""
             backdropImageUrl.value = backdropUrl
             posterImageUrl.value = posterUrl
         }
     }
 }
+
+//    fun getTmdbImageLinks(showTmdbId: Int) { // TODO salvare link su entity detail
+//        viewModelScope.launch {
+//            val result = tmdbRepository.getShowImages(showTmdbId)
+//            val backdropUrl = result[TmdbRepository.BACKDROP_KEY] ?: ""
+//            val posterUrl = result[TmdbRepository.POSTER_KEY] ?: ""
+//            backdropImageUrl.value = backdropUrl
+//            posterImageUrl.value = posterUrl
+//        }
+//    }
 
 
 

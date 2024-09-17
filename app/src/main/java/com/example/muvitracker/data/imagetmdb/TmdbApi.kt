@@ -1,8 +1,10 @@
-package com.example.muvitracker.data.images
+package com.example.muvitracker.data.imagetmdb
 
-import com.example.muvitracker.data.images.dto.EpisodeImageDto
-import com.example.muvitracker.data.images.dto.MovieShowImagesDto
-import com.example.muvitracker.data.images.dto.SeasonImageDto
+import com.example.muvitracker.data.imagetmdb.dto.EpisodeImageDto
+import com.example.muvitracker.data.imagetmdb.dto.MediaItem
+import com.example.muvitracker.data.imagetmdb.dto.MovieShowImagesDto
+import com.example.muvitracker.data.imagetmdb.dto.PersonImageDto
+import com.example.muvitracker.data.imagetmdb.dto.SeasonImageDto
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,20 +19,19 @@ import javax.inject.Singleton
 //      https://api.themoviedb.org/3/movie/293660?api_key=36b68580564c93f78a52fc28c15c44e5
 //      https://api.themoviedb.org/3/movie/293660/images?api_key=36b68580564c93f78a52fc28c15c44e5
 
+// movie ok, show ok, season ok, episode ok, person ok
 
-interface TMDbApi {
-
-    companion object {
-        const val API_KEY_QUERY = "api_key=36b68580564c93f78a52fc28c15c44e5"
-    }
+interface TmdbApi {
 
     // movie - https://api.themoviedb.org/3/movie/{movie_id}/images
     @GET("movie/{movie_id}/images?$API_KEY_QUERY")
     suspend fun getMovieImages(@Path("movie_id") movieId: Int): MovieShowImagesDto
 
+
     // show - https://api.themoviedb.org/3/tv/{series_id}/images
     @GET("tv/{series_id}/images?$API_KEY_QUERY")
     suspend fun getShowImages(@Path("series_id") seriesId: Int): MovieShowImagesDto
+
 
     // season - https://api.themoviedb.org/3/tv/{series_id}/season/{season_number}/images
     @GET("tv/{series_id}/season/{season_number}/images?$API_KEY_QUERY")
@@ -49,7 +50,15 @@ interface TMDbApi {
 
 
     // people - https://api.themoviedb.org/3/person/{person_id}/images
-    // TODO
+    @GET("person/{person_id}/images?$API_KEY_QUERY")
+    suspend fun getPersonImages(
+        @Path("person_id") personId: Int
+    ): PersonImageDto
+
+
+    companion object {
+        const val API_KEY_QUERY = "api_key=36b68580564c93f78a52fc28c15c44e5"
+    }
 }
 
 
@@ -59,12 +68,13 @@ interface TMDbApi {
 object NetworkModule {
     @Provides
     @Singleton
-    fun getApi(): TMDbApi {
+    fun getApi(): TmdbApi {
         val retrofit = Retrofit.Builder()
             .baseUrl("https://api.themoviedb.org/3/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
-        return retrofit.create(TMDbApi::class.java)
+        return retrofit.create(TmdbApi::class.java)
     }
 }
+

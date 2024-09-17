@@ -3,7 +3,7 @@ package com.example.muvitracker.data.database.entities
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.muvitracker.data.dto.episode.EpisodeExtenDto
-import com.example.muvitracker.data.dto.basedto.Ids
+import com.example.muvitracker.data.dto.base.Ids
 
 // completo - apertura season i
 // parziale - detail, watchedAll

@@ -1,7 +1,7 @@
 package com.example.muvitracker.data.dto.show
 
 import com.example.muvitracker.data.database.entities.DetailShowEntity
-import com.example.muvitracker.data.dto.basedto.Ids
+import com.example.muvitracker.data.dto.base.Ids
 import com.google.gson.annotations.SerializedName
 
 // dto completo, commentati quelli non utili

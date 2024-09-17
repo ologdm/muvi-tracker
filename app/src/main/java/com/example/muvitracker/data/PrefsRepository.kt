@@ -18,7 +18,7 @@ class PrefsRepository @Inject constructor(
     private val database: MyDatabase
 ) : PrefsRepo {
 
-    private val prefsDao = database.prefsDao()
+    private val prefsDao = database.prefsMovieDao()
 
 
     // GET

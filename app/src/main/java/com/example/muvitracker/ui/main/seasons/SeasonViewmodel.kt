@@ -7,11 +7,13 @@ import com.example.muvitracker.data.PrefsShowRepository
 import com.example.muvitracker.data.XSeasonRepository
 import com.example.muvitracker.data.database.entities.EpisodeEntity
 import com.example.muvitracker.data.database.entities.SeasonEntity
+import com.example.muvitracker.data.imagetmdb.TmdbRepository
 import com.example.muvitracker.utils.IoResponse
 import com.example.muvitracker.utils.StateContainer
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.io.IOException
@@ -22,7 +24,8 @@ import javax.inject.Inject
 @HiltViewModel
 class SeasonViewmodel @Inject constructor(
     private val seasonRepository: XSeasonRepository,
-    private val prefsShowRepository: PrefsShowRepository
+    private val prefsShowRepository: PrefsShowRepository,
+    private val tmdbRepository: TmdbRepository
 ) : ViewModel() {
 
 // old
@@ -90,14 +93,39 @@ class SeasonViewmodel @Inject constructor(
 
     fun toggleWatchedAllEpisodes(showId: Int, seasonNr: Int) {
         viewModelScope.launch {
-            seasonRepository.toggleWatchedAllEpisodes(showId,seasonNr) // OK
+            seasonRepository.toggleWatchedAllEpisodes(showId, seasonNr) // OK
             seasonRepository.updateSeasonWatchedCountAndAll(showId, seasonNr) // OK
 //            prefsShowRepository.updateWatchedOnDB(showId) // TODO
         }
     }
 
-}
 
+    // TMDB IMAGES
+    val posterImageUrl = MutableLiveData<String>()
+
+    fun getTmdbImageLinksFlow(showTmdbId: Int, seasonNumber: Int) {
+        viewModelScope.launch {
+            // todo gestione null !!!!!!!!!
+            val result = tmdbRepository
+                .getSeasonImageFlow(showTmdbId, seasonNumber)
+                .firstOrNull()
+            val posterUrl = result?.get(TmdbRepository.POSTER_KEY) ?: ""
+            posterImageUrl.value = posterUrl
+        }
+    }
+
+
+    //test
+    fun getTmdbTEST(showTmdbId: Int, seasonNumber: Int) {
+        viewModelScope.launch {
+            val result = tmdbRepository
+                .getSeasonTest(showTmdbId, seasonNumber)
+            val posterUrl = result[TmdbRepository.POSTER_KEY] ?: ""
+            posterImageUrl.value = posterUrl
+        }
+    }
+
+}
 
 
 // old

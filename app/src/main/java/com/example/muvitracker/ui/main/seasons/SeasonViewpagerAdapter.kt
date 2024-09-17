@@ -2,7 +2,7 @@ package com.example.muvitracker.ui.main.seasons
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.example.muvitracker.data.dto.basedto.Ids
+import com.example.muvitracker.data.dto.base.Ids
 
 class SeasonViewpagerAdapter(
     fragment: Fragment,

@@ -1,4 +1,4 @@
-package com.example.muvitracker.ui.main.detailmovie
+package com.example.muvitracker.ui.main.detailshow
 
 import android.content.Intent
 import android.net.Uri
@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.muvitracker.R
-import com.example.muvitracker.data.dto.basedto.Ids
+import com.example.muvitracker.data.dto.base.Ids
 import com.example.muvitracker.databinding.FragmDetailShowBinding
 import com.example.muvitracker.domain.model.DetailShow
 import com.example.muvitracker.ui.main.Navigator
@@ -86,7 +86,8 @@ class DetailShowFragment private constructor() : Fragment(R.layout.fragm_detail_
 
 
         // TMDB
-        viewModel.getTmdbImageLinks(currentShowIds.tmdb) // for glide
+//        viewModel.getTmdbImageLinks(currentShowIds.tmdb) // for glide
+        viewModel.getTmdbImageLinksFlow(currentShowIds.tmdb) // for glide
 
         // IMAGES TMDB
         // horizontal - backdrop
@@ -123,8 +124,7 @@ class DetailShowFragment private constructor() : Fragment(R.layout.fragm_detail_
         // count = TOTWatchedCount
 
 //        binding.watchedCheckbox.isChecked
-            // se totSeasonsWatchedAll = totAiredSeasons
-
+        // se totSeasonsWatchedAll = totAiredSeasons
 
 
         // TODO crew
@@ -169,7 +169,7 @@ class DetailShowFragment private constructor() : Fragment(R.layout.fragm_detail_
 
         // test
         binding.watchedCount.text = detailShow.watchedCount.toString()
-        binding.watchedCheckbox.isChecked  = detailShow.watchedAll
+        binding.watchedCheckbox.isChecked = detailShow.watchedAll
     }
 
 
