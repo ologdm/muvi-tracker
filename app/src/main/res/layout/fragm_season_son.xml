@@ -25,7 +25,7 @@
                     android:layout_height="150dp"
                     android:layout_alignParentStart="true"
                     tools:background="@tools:sample/avatars"
-                    style="@style/Image_BaseVH"
+                    style="@style/Image_Season"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 

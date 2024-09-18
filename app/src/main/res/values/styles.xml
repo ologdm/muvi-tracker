@@ -58,6 +58,13 @@
         <item name="shapeAppearance">@style/ImageLarge_RoundedShape</item>
     </style>
 
+    <style name="Image_Season">
+        <item name="android:scaleType">centerCrop</item>
+        <item name="shapeAppearance">@style/ImageMedium_RoundedShape</item>
+    </style>
+
+
+
     <!-- TYPOGRAFY PER LAYOUT -->
     <!--base vh -->
     <style name="TextView_Tipography_BaseVH">

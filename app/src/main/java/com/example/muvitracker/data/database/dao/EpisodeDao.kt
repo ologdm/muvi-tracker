@@ -22,6 +22,15 @@ interface EpisodeDao {
     fun readSingleEpisodeById(episodeTraktId: Int): Flow<EpisodeEntity>
     // si potrebbe fare con filtro-> show, season, episode
 
+    @Query(
+        """
+        SELECT * FROM episode_entities 
+        WHERE showId=:showId AND seasonNumber=:seasonNr AND episodeNumber =:episodeNr
+        """
+    )
+    fun readSingleEpisode(showId: Int, seasonNr: Int, episodeNr: Int): Flow<EpisodeEntity>
+
+
     @Query("SELECT * FROM episode_entities WHERE showId=:showId AND seasonNumber =:seasonNr")
     fun readAllEpisodesOfSeason(showId: Int, seasonNr: Int): Flow<List<EpisodeEntity>>
 
@@ -67,24 +76,26 @@ interface EpisodeDao {
     )
 
 
-
     // 4 CHECK ####################################################
     // boolean sql -> true=1, false=0
-    @Query("""
+    @Query(
+        """
         SELECT * 
         FROM episode_entities 
         WHERE showId=:showId AND seasonNumber=:seasonNr AND watched = 1
-    """)
+    """
+    )
     fun checkWatchedEpisodesOfSeason(showId: Int, seasonNr: Int): Flow<List<EpisodeEntity>>
 
 
-    @Query("""
+    @Query(
+        """
         SELECT * 
         FROM episode_entities 
         WHERE showId=:showId AND watched = 1
-    """)
+    """
+    )
     fun checkWatchedEpisodesOfShow(showId: Int): Flow<List<EpisodeEntity>>
-
 
 
 }

@@ -3,6 +3,8 @@ package com.example.muvitracker.ui.main.episode
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.muvitracker.R
 import com.example.muvitracker.data.dto.base.Ids
 import com.example.muvitracker.databinding.FragmEpisodeBottomsheetBinding
@@ -19,12 +21,12 @@ class EpisodeFragment private constructor() :
     private var currentEpisode: Int = 0
 
     val binding by viewBinding(FragmEpisodeBottomsheetBinding::bind)
-    val viewmodel by viewModels<EpisodeViewmodel>()
+    private val viewModel by viewModels<EpisodeViewmodel>()
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        // OK
+        // get bundle
         val bundle = arguments
         if (bundle != null) {
             currentShowIds = bundle.getParcelable(SHOW_IDS_KEY) ?: Ids()
@@ -32,32 +34,45 @@ class EpisodeFragment private constructor() :
             currentEpisode = bundle.getInt(EPISODE_NUMBER_KEY)
         }
 
-        viewmodel.state.observe(viewLifecycleOwner) { episodeDto ->
-            binding.title.text = episodeDto.title
-            binding.info.text = episodeDto.firstAired
-            binding.overview.text = episodeDto.overview
+        // load episode
+        viewModel.loadEpisode(
+            showTraktId = currentShowIds.trakt,
+            seasonNr = currentSeason,
+            episodeNr = currentEpisode
+        )
+        viewModel.state.observe(viewLifecycleOwner) { episodeEntity ->
+            binding.title.text = episodeEntity.title
+            binding.info.text = episodeEntity.firstAiredFormatted
+            binding.overview.text = episodeEntity.overview
         }
 
 
-//        Glide.with(requireContext())
-        //        TODO
+        // load episode image - from tmdb
+        viewModel.getTmdbImageLinksFlow(
+            showTmdbId = currentShowIds.tmdb,
+            seasonNr = currentSeason,
+            episodeNr = currentEpisode
+        )
 
+        viewModel.backdropImageUrl.observe(viewLifecycleOwner) { backdropUrl ->
+            Glide.with(requireContext())
+                .load(backdropUrl) // 1399 game-of-thrones
+                .transition(DrawableTransitionOptions.withCrossFade(300))
+                .placeholder(R.drawable.glide_placeholder_base)
+                .error(R.drawable.glide_placeholder_base)
+                .into(binding.episodeImageBackdrop)
+        }
 
     }
 
 
     companion object {
-
-        fun create(
-            showIds: Ids,
-            seasonNumber: Int,
-            episodeNumber: Int
-        ): EpisodeFragment {
+        fun create(showIds: Ids, seasonNr: Int, episodeNr: Int): EpisodeFragment {
             val episodeFragment = EpisodeFragment()
             val bundle = Bundle()
             bundle.putParcelable(SHOW_IDS_KEY, showIds)
-            bundle.putInt(SEASON_NUMBER_KEY, seasonNumber)
-            bundle.putInt(EPISODE_NUMBER_KEY, episodeNumber)
+            bundle.putInt(SEASON_NUMBER_KEY, seasonNr)
+            bundle.putInt(EPISODE_NUMBER_KEY, episodeNr)
             episodeFragment.arguments = bundle
             return episodeFragment
         }

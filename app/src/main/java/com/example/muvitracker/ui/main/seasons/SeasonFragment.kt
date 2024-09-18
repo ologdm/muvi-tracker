@@ -41,6 +41,7 @@ class SeasonFragment private constructor() : Fragment(R.layout.fragm_season_son)
         onCLickVH = { episodeNumber ->
             navigator.startEpisodeFragment(currentShowIds, currentSeason, episodeNumber)
         },
+
         onCLickWatched = { episodeTraktId ->
             viewModel.toggleWatchedEpisode(currentShowIds.trakt, currentSeason, episodeTraktId)
         }
@@ -93,7 +94,7 @@ class SeasonFragment private constructor() : Fragment(R.layout.fragm_season_son)
         // IMAGE vertical - poster
         viewModel.getTmdbImageLinksFlow(
             showTmdbId = currentShowIds.tmdb,
-            seasonNumber = currentSeason
+            seasonNr = currentSeason
         )
 
 //        viewModel.getTmdbTEST(currentShowIds.tmdb, currentSeason)

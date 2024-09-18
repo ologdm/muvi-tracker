@@ -19,18 +19,12 @@ import kotlinx.coroutines.launch
 import java.io.IOException
 import javax.inject.Inject
 
-// TODO - readFromDb
-
 @HiltViewModel
 class SeasonViewmodel @Inject constructor(
     private val seasonRepository: XSeasonRepository,
     private val prefsShowRepository: PrefsShowRepository,
     private val tmdbRepository: TmdbRepository
 ) : ViewModel() {
-
-// old
-//    val seasonEpisodesState = MutableLiveData<StateContainer<List<EpisodeExtenDto>>>()
-//    val seasonInfoState = MutableLiveData<StateContainer<SeasonExtenDto>>() // test
 
     val seasonInfoState = MutableLiveData<StateContainer<SeasonEntity>>()
     val seasonEpisodesState = MutableLiveData<StateContainer<List<EpisodeEntity>>>() // test
@@ -103,30 +97,33 @@ class SeasonViewmodel @Inject constructor(
     // TMDB IMAGES
     val posterImageUrl = MutableLiveData<String>()
 
-    fun getTmdbImageLinksFlow(showTmdbId: Int, seasonNumber: Int) {
+    fun getTmdbImageLinksFlow(showTmdbId: Int, seasonNr: Int) {
         viewModelScope.launch {
             // todo gestione null !!!!!!!!!
             val result = tmdbRepository
-                .getSeasonImageFlow(showTmdbId, seasonNumber)
+                .getSeasonImageFlow(showTmdbId, seasonNr)
                 .firstOrNull()
             val posterUrl = result?.get(TmdbRepository.POSTER_KEY) ?: ""
             posterImageUrl.value = posterUrl
         }
     }
 
-
-    //test
-    fun getTmdbTEST(showTmdbId: Int, seasonNumber: Int) {
-        viewModelScope.launch {
-            val result = tmdbRepository
-                .getSeasonTest(showTmdbId, seasonNumber)
-            val posterUrl = result[TmdbRepository.POSTER_KEY] ?: ""
-            posterImageUrl.value = posterUrl
-        }
-    }
-
 }
 
+
+//test
+//    fun getTmdbTEST(showTmdbId: Int, seasonNumber: Int) {
+//        viewModelScope.launch {
+//            val result = tmdbRepository
+//                .getSeasonTest(showTmdbId, seasonNumber)
+//            val posterUrl = result[TmdbRepository.POSTER_KEY] ?: ""
+//            posterImageUrl.value = posterUrl
+//        }
+//    }
+
+// old
+//    val seasonEpisodesState = MutableLiveData<StateContainer<List<EpisodeExtenDto>>>()
+//    val seasonInfoState = MutableLiveData<StateContainer<SeasonExtenDto>>() // test
 
 // old
 //fun loadSeasonEpisodes(showId: Int, seasonNumber: Int) {

@@ -84,19 +84,29 @@ class Navigator @Inject constructor(
     }
 
 
+//    fun startEpisodeFragment(
+//        showIds: Ids,
+//        seasonNumber: Int,
+//        episodeNumber: Int
+//    ) {
+//        val manager = fragmentActivity.supportFragmentManager
+//        manager.beginTransaction()
+//            .replace(R.id.frameLayout, EpisodeFragment.create(showIds, seasonNumber, episodeNumber))
+//            .addToBackStack(null)
+//            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+//            .commit()
+//    }
+
+
     fun startEpisodeFragment(
         showIds: Ids,
         seasonNumber: Int,
         episodeNumber: Int
     ) {
-        val manager = fragmentActivity.supportFragmentManager
-        manager.beginTransaction()
-            .replace(R.id.frameLayout, EpisodeFragment.create(showIds, seasonNumber, episodeNumber))
-            .addToBackStack(null)
-            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-            .commit()
+        val episodeFragment = EpisodeFragment.create(showIds, seasonNumber, episodeNumber)
+        episodeFragment.show(fragmentActivity.supportFragmentManager, "EpisodeFragmentTEST")
+        // replace, commit non necessari, show fa gia tutto internamente
     }
-
 }
 
 
