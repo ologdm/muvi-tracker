@@ -7,7 +7,7 @@ import com.example.muvitracker.R
 import com.example.muvitracker.databinding.VhBaseListBinding
 import com.example.muvitracker.domain.model.base.Movie
 
-class MovieViewholder(
+class MovieVH(
     val binding: VhBaseListBinding,
 ) : RecyclerView.ViewHolder(binding.root) {
 

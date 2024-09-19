@@ -11,13 +11,18 @@ import com.example.muvitracker.data.database.MyDatabase
 import com.example.muvitracker.data.database.entities.DetailShowEntity
 import com.example.muvitracker.data.database.entities.SeasonEntity
 import com.example.muvitracker.data.database.entities.toDomain
+import com.example.muvitracker.data.dto.movies.MovieBaseDto
 import com.example.muvitracker.data.dto.show.DetailShowDto
 import com.example.muvitracker.data.dto.season.SeasonExtenDto
 import com.example.muvitracker.data.dto.movies.toEntity
 import com.example.muvitracker.data.dto.season.toEntity
+import com.example.muvitracker.data.dto.show.ShowBaseDto
+import com.example.muvitracker.data.dto.show.toDomain
 import com.example.muvitracker.data.dto.show.toEntity
 import com.example.muvitracker.domain.model.DetailShow
+import com.example.muvitracker.domain.model.base.Show
 import com.example.muvitracker.utils.IoResponse
+import com.example.muvitracker.utils.ioMapper
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterNot
@@ -113,8 +118,6 @@ class DetailShowRepository @Inject constructor(
     }
 
 
-
-
     // SEASONS ###########################################################
 
     // 1. store 00
@@ -196,7 +199,27 @@ class DetailShowRepository @Inject constructor(
     }
 
 
+    // RELATED SHOWS todo
 
+    suspend fun getRelatedShows(showId: Int): IoResponse<List<Show>> {
+        return try {
+            IoResponse.Success(traktApi.getShowRelatedShows(showId)).ioMapper { dtos ->
+                dtos.map { dto ->
+                    println("YYY related dto:$dto")
+                    dto.toDomain()
+
+                }
+            }
+        } catch (ex: CancellationException) {
+            throw ex
+        } catch (ex: Throwable) {
+            ex.printStackTrace()
+            println("YYY related error type:$ex")
+            IoResponse.Error(ex)
+        }
+    }
+
+    // CAST - repo separata -
 
 
 }

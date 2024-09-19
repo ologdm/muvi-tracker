@@ -5,16 +5,17 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.muvitracker.data.DetailShowRepository
 import com.example.muvitracker.data.PrefsShowRepository
-import com.example.muvitracker.data.TraktApi
 import com.example.muvitracker.data.database.entities.SeasonEntity
+import com.example.muvitracker.data.dto.show.ShowBaseDto
 import com.example.muvitracker.data.imagetmdb.TmdbRepository
 import com.example.muvitracker.domain.model.DetailShow
+import com.example.muvitracker.domain.model.base.Show
 import com.example.muvitracker.utils.IoResponse
 import com.example.muvitracker.utils.StateContainer
+import com.example.muvitracker.utils.ioMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -25,7 +26,7 @@ import javax.inject.Inject
 class DetailShowViewmodel @Inject constructor(
     private val detailShowRepo: DetailShowRepository,
     private val prefsShowRepository: PrefsShowRepository,
-    private val traktApi: TraktApi,
+//    private val traktApi: TraktApi,
     private val tmdbRepository: TmdbRepository
 ) : ViewModel() {
 
@@ -33,7 +34,7 @@ class DetailShowViewmodel @Inject constructor(
     val allSeasonsState = MutableLiveData<StateContainer<List<SeasonEntity>>>()
 
 
-    // flow -> livedata 00
+    // flow -> livedata OK
     fun loadShowDetailFlow(showId: Int) {
         var cachedItem: DetailShow? = null
         viewModelScope.launch {
@@ -68,8 +69,7 @@ class DetailShowViewmodel @Inject constructor(
         }
     }
 
-
-    // 00
+    // TODO - watchedAll
     fun toggleLikedItem(id: Int) {
         viewModelScope.launch {
             prefsShowRepository.toggleLikedOnDB(id)
@@ -77,6 +77,7 @@ class DetailShowViewmodel @Inject constructor(
     }
 
 
+    // OK
     fun loadAllSeasons(showId: Int) {
         viewModelScope.launch {
             detailShowRepo.getShowSeasonsFlow(showId)
@@ -104,11 +105,11 @@ class DetailShowViewmodel @Inject constructor(
     }
 
 
-    // TMDB TODO caching, ridurre dimensione no 4k, logica bestVotes
+    // TMDB IMAGES - OK
     val backdropImageUrl = MutableLiveData<String>()
     val posterImageUrl = MutableLiveData<String>()
 
-    fun getTmdbImageLinksFlow (showTmdbId: Int) {
+    fun loadTmdbImageLinksFlow(showTmdbId: Int) {
         viewModelScope.launch {
             // todo gestione null !!!!!!!!!
             val result = tmdbRepository.getShowImageFlow(showTmdbId).firstOrNull()
@@ -118,6 +119,23 @@ class DetailShowViewmodel @Inject constructor(
             posterImageUrl.value = posterUrl
         }
     }
+
+
+    // RELATED SHOWS
+    val relatedShowsStatus = MutableLiveData<List<Show>>()
+
+    fun loadRelatedShows(showId: Int) {
+        viewModelScope.launch {
+
+            // to finish
+            detailShowRepo.getRelatedShows(showId).ioMapper {
+                relatedShowsStatus.value = it
+            }
+
+        }
+
+    }
+
 }
 
 //    fun getTmdbImageLinks(showTmdbId: Int) { // TODO salvare link su entity detail

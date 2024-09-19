@@ -6,11 +6,6 @@
             android:title="@string/movies"
             android:icon="@drawable/bottom_nav_base_list_icon"/>
 
-<!--    <item-->
-<!--            android:id="@+id/buttonBoxoffice"-->
-<!--            android:title="@string/box_office"-->
-<!--            android:icon="@drawable/bottom_nav_base_list_icon"/>-->
-
     <item
             android:id="@+id/buttonSeries"
             android:title="@string/shows"

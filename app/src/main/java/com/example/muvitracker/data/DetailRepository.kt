@@ -113,4 +113,8 @@ class DetailRepository @Inject constructor(
         return detailDao.readAllFlow()
     }
 
+
+    // RELATED MOVIES todo
+
+
 }

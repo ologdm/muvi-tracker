@@ -27,7 +27,9 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
         bottomNavigationView = findViewById(R.id.bottomNavigation)
 
-        navigator.replaceFragment(MoviesFragment()) // default
+        // todo - last open
+        navigator.replaceFragment(ShowsFragment()) // default
+        bottomNavigationView.selectedItemId = R.id.buttonSeries // default
 
         bottomNavigationView.setOnItemSelectedListener(
             NavigationBarView.OnItemSelectedListener { item ->

@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import androidx.constraintlayout.helper.widget.Carousel.Adapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,6 +16,7 @@ import com.example.muvitracker.databinding.FragmDetailShowBinding
 import com.example.muvitracker.domain.model.DetailShow
 import com.example.muvitracker.ui.main.Navigator
 import com.example.muvitracker.ui.main.detailmovie.adapter.DetailSeasonsAdapter
+import com.example.muvitracker.ui.main.detailshow.adapter.RelatedShowsAdapter
 import com.example.muvitracker.utils.firstDecimalApproxToString
 import com.example.muvitracker.utils.statesFlow
 import com.example.muvitracker.utils.viewBinding
@@ -49,6 +51,10 @@ class DetailShowFragment private constructor() : Fragment(R.layout.fragm_detail_
             seasonNumber,
             totSeasonsNumber
         )
+    })
+
+    private val relatedShowsAdapter = RelatedShowsAdapter(onClickVH = { ids ->
+        navigator.startShowDetailFragment(ids)
     })
 
 
@@ -87,7 +93,7 @@ class DetailShowFragment private constructor() : Fragment(R.layout.fragm_detail_
 
         // TMDB
 //        viewModel.getTmdbImageLinks(currentShowIds.tmdb) // for glide
-        viewModel.getTmdbImageLinksFlow(currentShowIds.tmdb) // for glide
+        viewModel.loadTmdbImageLinksFlow(currentShowIds.tmdb) // for glide
 
         // IMAGES TMDB
         // horizontal - backdrop
@@ -127,8 +133,21 @@ class DetailShowFragment private constructor() : Fragment(R.layout.fragm_detail_
         // se totSeasonsWatchedAll = totAiredSeasons
 
 
+        // related Shows TODO
+        binding.relatedShowsRV.adapter = relatedShowsAdapter
+        binding.relatedShowsRV.layoutManager =
+            LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
+
+
+        viewModel.loadRelatedShows(showId = currentShowIds.trakt)
+        viewModel.relatedShowsStatus.observe(viewLifecycleOwner) { response ->
+            // related adapter
+            relatedShowsAdapter.submitList(response)
+            println("YYY related  shows observer:$response")
+        }
+
+
         // TODO crew
-        // TODO related Shows
     }
 
 

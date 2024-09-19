@@ -90,7 +90,6 @@ interface TraktApi {
     ): List<AnticipatedDtoS>
 
 
-
     // DETAIL MOVIE/SHOW
     @GET("movies/{movie_id}?extended=full")
     suspend fun getMovieDetail(@Path("movie_id") movieId: Int)
@@ -111,6 +110,19 @@ interface TraktApi {
 
     // 3 cast - all cast dto TODO
 //    suspend fun getAllCrew(): CrewDto
+
+    // 4 related movie, show
+    @GET("movies/{movie_id}/related")
+    suspend fun getMovieRelatedMovies(
+        @Path("movie_id") movieId: Int
+    ): List<MovieBaseDto>
+
+    @GET("shows/{show_id}/related")
+    suspend fun getShowRelatedShows(
+        @Path("show_id") showId: Int
+    ): List<ShowBaseDto>
+
+
 
 
     // SEASON FRAGMENT

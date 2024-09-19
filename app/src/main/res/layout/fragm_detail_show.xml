@@ -335,19 +335,18 @@
                 <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Related shows TODO"
+                        android:text="You may also like"
                         android:textSize="16sp"
                         style="@style/Categories_Typography_Detail" />
 
                 <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/relatedShowsRV"
                         android:layout_width="match_parent"
-                        android:layout_height="180dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
                         android:layout_marginBottom="16dp"
-                        tools:listitem="@layout/vh_search"
-                        tools:itemCount="2"
-                        tools:orientation="horizontal"/>
+                        tools:listitem="@layout/vh_related_list"
+                        tools:itemCount="1" />
 
             </LinearLayout>
 

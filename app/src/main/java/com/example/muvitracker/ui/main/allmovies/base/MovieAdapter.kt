@@ -13,7 +13,7 @@ import com.example.muvitracker.domain.model.base.Movie
 
 class MovieAdapter(
     private val onClickVH: (Int) -> Unit,
-) : ListAdapter<Movie, MovieViewholder>(MovieAdapter) {
+) : ListAdapter<Movie, MovieVH>(MovieAdapter) {
 
     companion object : DiffUtil.ItemCallback<Movie>() {
         override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean {
@@ -26,14 +26,14 @@ class MovieAdapter(
     }
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewholder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieVH {
         val layoutInflater = LayoutInflater.from(parent.context)
         val bindingVh = VhBaseListBinding.inflate(layoutInflater, parent, false)
-        return MovieViewholder(bindingVh)
+        return MovieVH(bindingVh)
     }
 
 
-    override fun onBindViewHolder(holder: MovieViewholder, position: Int) {
+    override fun onBindViewHolder(holder: MovieVH, position: Int) {
         val item = getItem(position)
 
         holder.bind(item)

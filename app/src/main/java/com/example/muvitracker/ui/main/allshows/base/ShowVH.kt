@@ -7,7 +7,7 @@ import com.example.muvitracker.R
 import com.example.muvitracker.databinding.VhBaseListBinding
 import com.example.muvitracker.domain.model.base.Show
 
-class ShowViewholder(
+class ShowVH(
     private val vhBinding: VhBaseListBinding
 ) : RecyclerView.ViewHolder(vhBinding.root) {
 

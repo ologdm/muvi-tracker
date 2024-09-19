@@ -15,6 +15,7 @@
 
     <style name="ImageMedium_RoundedShape" parent="ShapeAppearance.Material3.Corner.Medium" />
 
+    <style name="ImageSmall_RoundedShape" parent="ShapeAppearance.Material3.Corner.Small" />
 
     <!-- GRAFICA PER LAYOUT   -->
 
@@ -61,6 +62,11 @@
     <style name="Image_Season">
         <item name="android:scaleType">centerCrop</item>
         <item name="shapeAppearance">@style/ImageMedium_RoundedShape</item>
+    </style>
+
+    <style name="Image_Related">
+        <item name="android:scaleType">centerCrop</item>
+        <item name="shapeAppearance">@style/ImageSmall_RoundedShape</item>
     </style>
 
 

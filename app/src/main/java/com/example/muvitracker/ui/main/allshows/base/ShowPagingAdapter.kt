@@ -11,7 +11,7 @@ import com.example.muvitracker.domain.model.base.Show
 
 class ShowPagingAdapter(
     val onClickVH: (Ids) -> Unit
-) : PagingDataAdapter<Show, ShowViewholder>(DIFF_CALLBACK) {
+) : PagingDataAdapter<Show, ShowVH>(DIFF_CALLBACK) {
 
     companion object {
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Show>() {
@@ -26,14 +26,14 @@ class ShowPagingAdapter(
     }
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShowViewholder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShowVH {
         val layoutInflater = LayoutInflater.from(parent.context)
         val vhBinding = VhBaseListBinding.inflate(layoutInflater, parent, false)
-        return ShowViewholder(vhBinding)
+        return ShowVH(vhBinding)
     }
 
 
-    override fun onBindViewHolder(holder: ShowViewholder, position: Int) {
+    override fun onBindViewHolder(holder: ShowVH, position: Int) {
         val item = getItem(position)
 
         if (item != null) {

@@ -13,7 +13,7 @@ import com.example.muvitracker.domain.model.base.Movie
 
 class MoviePagingAdapter (
     private val onClickVH: (Int) -> Unit,
-) : PagingDataAdapter<Movie, MovieViewholder>(DIFF_CALLBACK) {
+) : PagingDataAdapter<Movie, MovieVH>(DIFF_CALLBACK) {
 
     companion object {
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Movie>() {
@@ -29,14 +29,14 @@ class MoviePagingAdapter (
     }
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewholder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieVH {
         val layoutInflater = LayoutInflater.from(parent.context)
         val bindingVh = VhBaseListBinding.inflate(layoutInflater, parent, false)
-        return MovieViewholder(bindingVh)
+        return MovieVH(bindingVh)
     }
 
 
-    override fun onBindViewHolder(holder: MovieViewholder, position: Int) {
+    override fun onBindViewHolder(holder: MovieVH, position: Int) {
         val item = getItem(position)
 
         if (item != null) {

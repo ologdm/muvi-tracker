@@ -1,6 +1,5 @@
 package com.example.muvitracker.domain.model
 
-import com.example.muvitracker.domain.model.base.Episode
 import com.example.muvitracker.domain.model.base.Movie
 import com.example.muvitracker.domain.model.base.Show
 
