@@ -15,55 +15,68 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
+    companion object {
+        const val LAST_SELECTED_ID = "last_selected_id"
+    }
 
     private lateinit var bottomNavigationView: BottomNavigationView
+    private val prefs by lazy { getSharedPreferences("app_prefs", MODE_PRIVATE) }
 
     @Inject
     lateinit var navigator: Navigator
 
+    // Mappa tra ID e fragment
+    private val fragmentMap = mapOf(
+        R.id.buttonMovies to MoviesFragment(),
+        R.id.buttonSeries to ShowsFragment(),
+        R.id.buttonMyList to PrefsViewpagerFragment(),
+        R.id.buttonSearch to SearchFragment()
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // sequesta corretta per save istance
         bottomNavigationView = findViewById(R.id.bottomNavigation)
+        // 2 Recupera l'ID salvato delle SharedPreferences
+        val lastSelectedId = prefs.getInt(LAST_SELECTED_ID, R.id.buttonSeries) // tv_series, default value
+        // 3 seleziona button corretto
+        bottomNavigationView.selectedItemId = lastSelectedId // default
+        // Carica il fragment corretto in base all'ID salvato
+        navigator.replaceFragment(
+            fragmentMap[lastSelectedId] ?: ShowsFragment()
+        ) // Default a ShowsFragment se non trovato
 
-        // todo - last open
-        navigator.replaceFragment(ShowsFragment()) // default
-        bottomNavigationView.selectedItemId = R.id.buttonSeries // default
 
         bottomNavigationView.setOnItemSelectedListener(
             NavigationBarView.OnItemSelectedListener { item ->
                 val clickedId = item.itemId
-                if (clickedId == R.id.buttonMovies) {
-                    navigator.replaceFragment(
-                        MoviesFragment()
-                    )
-                    return@OnItemSelectedListener true
+                when (clickedId) {
+                    R.id.buttonMovies -> {
+                        navigator.replaceFragment(MoviesFragment())
+                    }
+
+                    R.id.buttonSeries -> {
+                        navigator.replaceFragment(ShowsFragment())
+                    }
+
+                    R.id.buttonMyList -> {
+                        navigator.replaceFragment(PrefsViewpagerFragment())
+                    }
+
+                    R.id.buttonSearch -> {
+                        navigator.replaceFragment(SearchFragment())
+                    }
+
+                    else -> return@OnItemSelectedListener false
                 }
 
-                if (clickedId == R.id.buttonSeries) {
-                    navigator.replaceFragment(
-                        ShowsFragment()
-                    )
-                    return@OnItemSelectedListener true
-                }
 
-                if (clickedId == R.id.buttonMyList) {
-                    navigator.replaceFragment(
-                        PrefsViewpagerFragment()
-                    )
-                    return@OnItemSelectedListener true
-                }
-
-                if (clickedId == R.id.buttonSearch) {
-                    navigator.replaceFragment(
-                        SearchFragment()
-                    )
-                    return@OnItemSelectedListener true
-                }
-
-                return@OnItemSelectedListener false
+                // Salva l'ID dell'elemento selezionato nelle SharedPreferences
+                prefs.edit().putInt(LAST_SELECTED_ID, clickedId).apply()
+                true// return di ogni elemento selezionato
             })
+
     }
 }
 
