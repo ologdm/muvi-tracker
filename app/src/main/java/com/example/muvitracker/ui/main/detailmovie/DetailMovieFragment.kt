@@ -9,39 +9,30 @@ import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.muvitracker.R
+import com.example.muvitracker.data.dto.base.Ids
 import com.example.muvitracker.databinding.FragmDetailMovieBinding
 import com.example.muvitracker.domain.model.DetailMovie
+import com.example.muvitracker.ui.main.detailshow.DetailShowFragment
 import com.example.muvitracker.utils.dateFormatterInMMMyyy
 import com.example.muvitracker.utils.firstDecimalApproxToString
 import com.example.muvitracker.utils.statesFlow
+import com.example.muvitracker.utils.viewBinding
 import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class DetailMovieFragment private constructor() : Fragment() {
+class DetailMovieFragment private constructor() : Fragment(R.layout.fragm_detail_movie) {
 
-    private var currentMovieId: Int = 0
-    private var _binding: FragmDetailMovieBinding? = null
-    private val binding
-        get() = _binding
+    private var currentMovieIds: Ids = Ids()
 
     private val viewModel by viewModels<DetailMovieViewmodel>()
-
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmDetailMovieBinding.inflate(inflater, container, false)
-        return binding!!.root
-    }
+    private val binding by viewBinding(FragmDetailMovieBinding::bind)
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val bundle = arguments
         if (bundle != null) {
-            currentMovieId = bundle.getInt(TRAKT_ID_KEY)
+            currentMovieIds = bundle.getParcelable(MOVIE_IDS_KEY) ?: Ids()
         }
 
         viewModel.state.observe(viewLifecycleOwner) { stateContainer ->
@@ -49,36 +40,55 @@ class DetailMovieFragment private constructor() : Fragment() {
                 updateUi(detailMovie)
             }
             stateContainer.statesFlow(
-                binding!!.errorTextView,
-                binding!!.progressBar
+                binding.errorTextView,
+                binding.progressBar
             )
         }
 
-        viewModel.getStateContainer(currentMovieId)
+        viewModel.getStateContainer(currentMovieIds.trakt)
 
-        with(binding!!) {
+        with(binding) {
             buttonBack.setOnClickListener {
                 requireActivity().onBackPressed()
             }
             floatingLikedButton.setOnClickListener {
-                viewModel.toggleFavorite(currentMovieId)
+                viewModel.toggleFavorite(currentMovieIds.trakt)
             }
             watchedCkbox.setOnCheckedChangeListener { _, isChecked ->
-                viewModel.updateWatched(currentMovieId, isChecked)
+                viewModel.updateWatched(currentMovieIds.trakt, isChecked)
             }
         }
-    }
 
+        // todo
+        viewModel.loadImageMovieTest(currentMovieIds.tmdb)
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+        viewModel.backdropImageUrl.observe(viewLifecycleOwner) { backdropUrl ->
+            Glide.with(requireContext())
+                .load(backdropUrl) // 1399 game-of-thrones
+                .transition(DrawableTransitionOptions.withCrossFade(300))
+                .placeholder(R.drawable.glide_placeholder_base)
+                .error(R.drawable.glide_placeholder_base)
+                .into(binding.imageHorizontal)
+            println("XXX detail test backdrop: $backdropUrl")
+        }
+
+        // vertical - poster
+        viewModel.posterImageUrl.observe(viewLifecycleOwner) { posterUrl ->
+            Glide.with(requireContext())
+                .load(posterUrl)
+                .transition(DrawableTransitionOptions.withCrossFade(300))
+                .placeholder(R.drawable.glide_placeholder_base)
+                .error(R.drawable.glide_placeholder_base)
+                .into(binding.imageVertical)
+            println("XXX detail test poster: $posterUrl")
+        }
+
     }
 
 
     // ###################################################################
     private fun updateUi(detailMovie: DetailMovie) {
-        with(binding!!) {
+        with(binding) {
             val ratingApproximation = detailMovie.rating.firstDecimalApproxToString()
 
             title.text = detailMovie.title
@@ -90,17 +100,18 @@ class DetailMovieFragment private constructor() : Fragment() {
                 getString(R.string.rating_description, ratingApproximation) // conversion + string
             overview.text = detailMovie.overview
 
-            Glide.with(requireContext())
-                .load(detailMovie.imageUrl())
-                .transition(DrawableTransitionOptions.withCrossFade(500))
-                .placeholder(R.drawable.glide_placeholder_base)
-                .error(R.drawable.glide_placeholder_base)
-                .into(imageVertical)
-            Glide.with(requireContext())
-                .load(detailMovie.imageUrl())
-                .transition(DrawableTransitionOptions.withCrossFade(500))
-                .placeholder(R.drawable.glide_placeholder_base)
-                .into(imageHorizontal)
+            // old
+//            Glide.with(requireContext())
+//                .load(detailMovie.imageUrl())
+//                .transition(DrawableTransitionOptions.withCrossFade(500))
+//                .placeholder(R.drawable.glide_placeholder_base)
+//                .error(R.drawable.glide_placeholder_base)
+//                .into(imageVertical)
+//            Glide.with(requireContext())
+//                .load(detailMovie.imageUrl())
+//                .transition(DrawableTransitionOptions.withCrossFade(500))
+//                .placeholder(R.drawable.glide_placeholder_base)
+//                .into(imageHorizontal)
 
             chipGroup.removeAllViews() // clean old
             detailMovie.genres.forEach {
@@ -120,42 +131,27 @@ class DetailMovieFragment private constructor() : Fragment() {
         val iconFilled = context?.getDrawable(R.drawable.baseline_liked)
         val iconEmpty = context?.getDrawable(R.drawable.baseline_liked_border)
 
-        binding?.floatingLikedButton?.setImageDrawable(if (isFavorite) iconFilled else iconEmpty)
+        binding.floatingLikedButton.setImageDrawable(if (isFavorite) iconFilled else iconEmpty)
     }
 
     private fun updateWatchedCheckbox(isWatched: Boolean) {
-        binding?.watchedCkbox?.setOnCheckedChangeListener(null) // ok
-        binding?.watchedCkbox?.isChecked = isWatched // ok
-        binding?.watchedCkbox?.setOnCheckedChangeListener { _, isChecked ->
-            viewModel.updateWatched(currentMovieId, isChecked)
+        binding.watchedCkbox.setOnCheckedChangeListener(null) // ok
+        binding.watchedCkbox.isChecked = isWatched // ok
+        binding.watchedCkbox.setOnCheckedChangeListener { _, isChecked ->
+            viewModel.updateWatched(currentMovieIds.trakt, isChecked)
         }
     }
 
-
     companion object {
-        private const val TRAKT_ID_KEY = "traktIdKey"
-
-        fun create(traktId: Int): DetailMovieFragment {
+        fun create(movieIds: Ids): DetailMovieFragment {
             val detailMovieFragment = DetailMovieFragment()
             val bundle = Bundle()
-            bundle.putInt(TRAKT_ID_KEY, traktId)
+            bundle.putParcelable(MOVIE_IDS_KEY,movieIds)
             detailMovieFragment.arguments = bundle
             return detailMovieFragment
         }
+
+        private const val MOVIE_IDS_KEY = "movieIdsKey"
     }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -27,8 +27,8 @@ class PrefsFragment : Fragment() {
     lateinit var navigator: Navigator
 
     private val adapter = PrefsAdapter(
-        onClickVH = { movieId ->
-            startDetailsFragment(movieId)
+        onClickVH = { movieIds ->
+            navigator.startMovieDetailFragment(movieIds)
         },
         onLongClickVH = { movieId ->
             startDeleteAlertDialog(movieId)
@@ -69,14 +69,6 @@ class PrefsFragment : Fragment() {
 
 
     // #######################################################################################
-
-    private fun startDetailsFragment(movieId: Int) {
-        navigator.startMovieDetailFragment(
-            movieId
-        )
-    }
-
-
     private fun startDeleteAlertDialog(movieId: Int) {
         MaterialAlertDialogBuilder(requireContext())
             .setMessage("Discard movie")

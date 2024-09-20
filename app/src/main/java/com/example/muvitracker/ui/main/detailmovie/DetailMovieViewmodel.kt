@@ -3,7 +3,9 @@ package com.example.muvitracker.ui.main.detailmovie
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.muvitracker.data.imagetmdb.TmdbRepository
 import com.example.muvitracker.domain.model.DetailMovie
+import com.example.muvitracker.domain.model.base.Show
 import com.example.muvitracker.domain.repo.DetailRepo
 import com.example.muvitracker.domain.repo.PrefsRepo
 import com.example.muvitracker.utils.IoResponse
@@ -19,7 +21,8 @@ import javax.inject.Inject
 @HiltViewModel
 class DetailMovieViewmodel @Inject constructor(
     private val detailRepository: DetailRepo,
-    private val prefsRepository: PrefsRepo
+    private val prefsRepository: PrefsRepo,
+    private val tmdbRepository: TmdbRepository
 ) : ViewModel() {
 
     val state = MutableLiveData<StateContainer<DetailMovie>>()
@@ -82,5 +85,19 @@ class DetailMovieViewmodel @Inject constructor(
         }
 
     }
+
+
+    // IMAGES TMDB todo
+    val backdropImageUrl = MutableLiveData<String>()
+    val posterImageUrl = MutableLiveData<String>()
+
+    fun loadImageMovieTest(movieTmdbId: Int) {
+        viewModelScope.launch {
+            val x = tmdbRepository.getQuickPathForMovie(movieTmdbId)
+            backdropImageUrl.value = "https://image.tmdb.org/t/p/original${x.backdropPath.toString()}"
+            posterImageUrl.value = "https://image.tmdb.org/t/p/original${x.posterPath.toString()}"
+        }
+    }
+
 
 }

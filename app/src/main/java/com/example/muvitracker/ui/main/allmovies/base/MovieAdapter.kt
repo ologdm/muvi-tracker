@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
+import com.example.muvitracker.data.dto.base.Ids
 import com.example.muvitracker.databinding.VhBaseListBinding
 
 import com.example.muvitracker.domain.model.base.Movie
@@ -12,7 +13,7 @@ import com.example.muvitracker.domain.model.base.Movie
 // - boxoffice fragment (only 10 result, no paging needed)
 
 class MovieAdapter(
-    private val onClickVH: (Int) -> Unit,
+    val onClickVH: (Ids) -> Unit
 ) : ListAdapter<Movie, MovieVH>(MovieAdapter) {
 
     companion object : DiffUtil.ItemCallback<Movie>() {
@@ -39,7 +40,7 @@ class MovieAdapter(
         holder.bind(item)
 
         holder.itemView.setOnClickListener {
-            onClickVH(item.ids.trakt)
+            onClickVH(item.ids)
         }
 
     }

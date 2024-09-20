@@ -36,16 +36,17 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // sequesta corretta per save istance
         bottomNavigationView = findViewById(R.id.bottomNavigation)
-        // 2 Recupera l'ID salvato delle SharedPreferences
+
+        // sequesta corretta per save istance
+        // 1 Get saved Id from SharedPrefs
         val lastSelectedId = prefs.getInt(LAST_SELECTED_ID, R.id.buttonSeries) // tv_series, default value
-        // 3 seleziona button corretto
+        // 2 select the correct button
         bottomNavigationView.selectedItemId = lastSelectedId // default
-        // Carica il fragment corretto in base all'ID salvato
+        // 3 load the correct fragment based on saved Id
         navigator.replaceFragment(
             fragmentMap[lastSelectedId] ?: ShowsFragment()
-        ) // Default a ShowsFragment se non trovato
+        )
 
 
         bottomNavigationView.setOnItemSelectedListener(
@@ -70,7 +71,6 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
                     else -> return@OnItemSelectedListener false
                 }
-
 
                 // Salva l'ID dell'elemento selezionato nelle SharedPreferences
                 prefs.edit().putInt(LAST_SELECTED_ID, clickedId).apply()

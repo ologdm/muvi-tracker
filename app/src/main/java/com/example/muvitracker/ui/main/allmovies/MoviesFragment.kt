@@ -37,11 +37,11 @@ class MoviesFragment : Fragment(R.layout.fragm_base_category_new) {
     @Inject
     lateinit var navigator: Navigator
 
-    private val pagingAdapter = MoviePagingAdapter(onClickVH = { movieId ->
-        navigator.startMovieDetailFragment(movieId)
+    private val pagingAdapter = MoviePagingAdapter(onClickVH = { movieIds ->
+        navigator.startMovieDetailFragment(movieIds)
     })
-    private val adapter = MovieAdapter(onClickVH = { movieId ->
-        navigator.startMovieDetailFragment(movieId)
+    private val adapter = MovieAdapter(onClickVH = { movieIds ->
+        navigator.startMovieDetailFragment(movieIds)
     })
 
 

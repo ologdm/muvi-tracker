@@ -6,7 +6,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.muvitracker.data.DetailShowRepository
 import com.example.muvitracker.data.PrefsShowRepository
 import com.example.muvitracker.data.database.entities.SeasonEntity
-import com.example.muvitracker.data.dto.show.ShowBaseDto
 import com.example.muvitracker.data.imagetmdb.TmdbRepository
 import com.example.muvitracker.domain.model.DetailShow
 import com.example.muvitracker.domain.model.base.Show
@@ -121,6 +120,16 @@ class DetailShowViewmodel @Inject constructor(
     }
 
 
+    // quick image path
+    fun loadImageShowTest(showTmdbId: Int) {
+        viewModelScope.launch {
+            val x = tmdbRepository.getQuickPathForShow(showTmdbId)
+            backdropImageUrl.value = "https://image.tmdb.org/t/p/original${x.backdropPath.toString()}"
+            posterImageUrl.value = "https://image.tmdb.org/t/p/original${x.posterPath.toString()}"
+        }
+    }
+
+
     // RELATED SHOWS
     val relatedShowsStatus = MutableLiveData<List<Show>>()
 
@@ -135,6 +144,9 @@ class DetailShowViewmodel @Inject constructor(
         }
 
     }
+
+
+
 
 }
 

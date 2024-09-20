@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
+import com.example.muvitracker.data.dto.base.Ids
 import com.example.muvitracker.databinding.VhBaseListBinding
 import com.example.muvitracker.domain.model.base.Movie
 
@@ -12,7 +13,7 @@ import com.example.muvitracker.domain.model.base.Movie
 
 
 class MoviePagingAdapter (
-    private val onClickVH: (Int) -> Unit,
+    val onClickVH: (Ids) -> Unit
 ) : PagingDataAdapter<Movie, MovieVH>(DIFF_CALLBACK) {
 
     companion object {
@@ -42,7 +43,7 @@ class MoviePagingAdapter (
         if (item != null) {
             holder.bind(item)
             holder.itemView.setOnClickListener {
-                onClickVH(item.ids.trakt)
+                onClickVH(item.ids)
             }
         }
     }

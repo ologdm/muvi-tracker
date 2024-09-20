@@ -8,12 +8,13 @@ import android.widget.ImageButton
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.example.muvitracker.R
+import com.example.muvitracker.data.dto.base.Ids
 import com.example.muvitracker.databinding.VhPrefsBinding
 import com.example.muvitracker.domain.model.DetailMovie
 
 
 class PrefsAdapter(
-    private val onClickVH: (movieId: Int) -> Unit,
+    private val onClickVH: (movieIds: Ids) -> Unit,
     private val onLongClickVH: (movieId: Int) -> Unit,
     private val onCLickLiked: (Int) -> Unit,
     private val onClickWatched: (DetailMovie, Boolean) -> Unit
@@ -63,7 +64,7 @@ class PrefsAdapter(
             }
 
             holder.itemView.setOnClickListener {
-                onClickVH.invoke(currentItem.ids.trakt)
+                onClickVH.invoke(currentItem.ids)
             }
 
             holder.itemView.setOnLongClickListener {

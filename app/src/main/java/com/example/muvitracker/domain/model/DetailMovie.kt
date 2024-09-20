@@ -23,6 +23,12 @@ data class DetailMovie(
         return "http://img.omdbapi.com/?apikey=ef6d3d4c&i=${ids.imdb}"
     }
 
+    // imdb score and votes todo
+//    fun getOmdbDto () : OmdbMovieDto {
+//    ...
+//    }
+
+
 
 //    fun movieUrlTmdb(): String {
 //        return "https://api.themoviedb.org/3/movie/${ids.tmdb}?api_key=36b68580564c93f78a52fc28c15c44e5"

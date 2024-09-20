@@ -194,8 +194,12 @@ class XSeasonRepository @Inject constructor(
 
     }
 
+    // TODO
+    //  1. season Watched click - no dati/ dati
 
-    // TODO tmdb
+    fun scarica Parziali
+
+
 
 }
 

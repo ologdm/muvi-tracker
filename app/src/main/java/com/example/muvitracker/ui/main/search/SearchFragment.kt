@@ -24,10 +24,10 @@ class SearchFragment : Fragment(R.layout.fragm_search) {
 
     @Inject
     lateinit var navigator: Navigator
-    private val adapter = SearchAdapter(onClickVHMovie = { movieId ->
-        navigator.startMovieDetailFragment(movieId)
+    private val adapter = SearchAdapter(onClickVHMovie = { movieIds ->
+        navigator.startMovieDetailFragment(movieIds)
     },
-        onClickVHShow = { showIds -> // X
+        onClickVHShow = { showIds ->
             navigator.startShowDetailFragment(showIds)
         })
 

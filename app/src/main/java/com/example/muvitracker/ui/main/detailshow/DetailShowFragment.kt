@@ -4,7 +4,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
-import androidx.constraintlayout.helper.widget.Carousel.Adapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -83,17 +82,38 @@ class DetailShowFragment private constructor() : Fragment(R.layout.fragm_detail_
         binding.seasonsRV.adapter = detailSeasonsAdapter
         binding.seasonsRV.layoutManager = LinearLayoutManager(requireContext())
 
+        // old
+//        viewModel.allSeasonsState.observe(viewLifecycleOwner) { stateContainer ->
+//            detailSeasonsAdapter.submitList(stateContainer.data)
+//            totSeasonsNumber = stateContainer.data?.size ?: 0
+//            binding.airedSeasons.text = "${totSeasonsNumber} seasons"
+//        }
+//        viewModel.loadAllSeasons(currentShowIds.trakt)
+
+        // todo
         viewModel.allSeasonsState.observe(viewLifecycleOwner) { stateContainer ->
-            detailSeasonsAdapter.submitList(stateContainer.data)
+            // 1 ok
             totSeasonsNumber = stateContainer.data?.size ?: 0
             binding.airedSeasons.text = "${totSeasonsNumber} seasons"
+            // 2 ok
+            detailSeasonsAdapter.submitList(stateContainer.data)
+
+            // 3 todo
+            // checkbox update
+
+
+
         }
         viewModel.loadAllSeasons(currentShowIds.trakt)
 
 
+
+
+
+
         // TMDB
-//        viewModel.getTmdbImageLinks(currentShowIds.tmdb) // for glide
-        viewModel.loadTmdbImageLinksFlow(currentShowIds.tmdb) // for glide
+//        viewModel.loadTmdbImageLinksFlow(currentShowIds.tmdb) // for glide
+        viewModel.loadImageShowTest(currentShowIds.tmdb)
 
         // IMAGES TMDB
         // horizontal - backdrop

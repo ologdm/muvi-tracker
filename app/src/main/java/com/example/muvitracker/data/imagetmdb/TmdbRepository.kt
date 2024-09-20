@@ -16,6 +16,7 @@ import com.example.muvitracker.data.imagetmdb.dto.EpisodeImageDto
 import com.example.muvitracker.data.imagetmdb.dto.MovieShowImagesDto
 import com.example.muvitracker.data.imagetmdb.dto.PersonImageDto
 import com.example.muvitracker.data.imagetmdb.dto.SeasonImageDto
+import com.example.muvitracker.data.imagetmdb.dto.TestTmdbDto
 import com.example.muvitracker.data.imagetmdb.dto.filterNotUhdBackdrops
 import com.example.muvitracker.data.imagetmdb.dto.filterNotUhdPosters
 import com.example.muvitracker.data.imagetmdb.dto.toEntity
@@ -337,6 +338,31 @@ class TmdbRepository @Inject constructor(
                     POSTER_KEY to "$TMDB_LINK$bestPoster"
                 )
             }
+    }
+
+
+    // TODO test quick path
+
+    suspend fun getQuickPathForMovie(movieId: Int): TestTmdbDto {
+        try {
+            val x  =  tmdbApi.getMovieDtoTest(movieId)
+            ("XXX getQuickPathForMovie:  data: $x ")
+            return x
+        } catch (ex: Throwable) {
+            ("XXX getQuickPathForMovie:  error: $ex ")
+            return TestTmdbDto(id = 1, video = false, voteAverage = 3.33, voteCount = 1, backdropPath = "", homepage = "", posterPath = "")
+        }
+    }
+
+    suspend fun getQuickPathForShow(showId: Int): TestTmdbDto {
+        try {
+            val x  =  tmdbApi.getShowDtoTest(showId)
+            ("XXX getQuickPathForMovie:  data: $x ")
+            return x
+        } catch (ex: Throwable) {
+            ("XXX getQuickPathForMovie:  error: $ex ")
+            return TestTmdbDto(id = 1, video = false, voteAverage = 3.33, voteCount = 1, backdropPath = "", homepage = "", posterPath = "")
+        }
     }
 
 

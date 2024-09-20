@@ -5,6 +5,7 @@ import com.example.muvitracker.data.imagetmdb.dto.MediaItem
 import com.example.muvitracker.data.imagetmdb.dto.MovieShowImagesDto
 import com.example.muvitracker.data.imagetmdb.dto.PersonImageDto
 import com.example.muvitracker.data.imagetmdb.dto.SeasonImageDto
+import com.example.muvitracker.data.imagetmdb.dto.TestTmdbDto
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,6 +23,10 @@ import javax.inject.Singleton
 // movie ok, show ok, season ok, episode ok, person ok
 
 interface TmdbApi {
+
+    companion object {
+        const val API_KEY_QUERY = "api_key=36b68580564c93f78a52fc28c15c44e5"
+    }
 
     // movie - https://api.themoviedb.org/3/movie/{movie_id}/images
     @GET("movie/{movie_id}/images?$API_KEY_QUERY")
@@ -56,9 +61,15 @@ interface TmdbApi {
     ): PersonImageDto
 
 
-    companion object {
-        const val API_KEY_QUERY = "api_key=36b68580564c93f78a52fc28c15c44e5"
-    }
+    // TODO - Quick Paths
+    // https://api.themoviedb.org/3/
+    @GET("movie/{movie_id}?$API_KEY_QUERY")
+    suspend fun getMovieDtoTest(@Path("movie_id") movieId: Int) : TestTmdbDto
+
+    @GET("tv/{show_id}?$API_KEY_QUERY")
+    suspend fun getShowDtoTest(@Path("show_id") showId: Int) : TestTmdbDto
+
+
 }
 
 
