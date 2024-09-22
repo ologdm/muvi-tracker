@@ -31,7 +31,7 @@ interface TraktApi {
 
 
     // MOVIES ############################################## OK
-    // todo filters - gennre, year
+    // todo filters - genre, year
 
     // ?page={page}&limit={limit} - impostazione standard
     @GET("movies/popular")

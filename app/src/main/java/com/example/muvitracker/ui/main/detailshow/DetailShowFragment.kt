@@ -43,14 +43,22 @@ class DetailShowFragment private constructor() : Fragment(R.layout.fragm_detail_
     @Inject
     lateinit var navigator: Navigator
 
-    private val detailSeasonsAdapter = DetailSeasonsAdapter(onClickVH = { seasonNumber ->
-        navigator.startSeasonsViewpagerFragment( // go to viewpager
-            currentShowTitle,
-            currentShowIds,
-            seasonNumber,
-            totSeasonsNumber
-        )
-    })
+    private val detailSeasonsAdapter = DetailSeasonsAdapter(
+        onClickVH = { seasonNumber ->
+            navigator.startSeasonsViewpagerFragment( // go to viewpager
+                currentShowTitle,
+                currentShowIds,
+                seasonNumber,
+                totSeasonsNumber
+            )
+        },
+        onClickWatchedAllCheckbox = { seasonNr, callback ->
+            viewModel.toggleSingleSeasonWatchedAll(currentShowIds.trakt, seasonNr, onComplete = {
+                callback() // Chiama la callback passando il risultato
+            })
+        }
+    )
+
 
     private val relatedShowsAdapter = RelatedShowsAdapter(onClickVH = { ids ->
         navigator.startShowDetailFragment(ids)
@@ -82,13 +90,6 @@ class DetailShowFragment private constructor() : Fragment(R.layout.fragm_detail_
         binding.seasonsRV.adapter = detailSeasonsAdapter
         binding.seasonsRV.layoutManager = LinearLayoutManager(requireContext())
 
-        // old
-//        viewModel.allSeasonsState.observe(viewLifecycleOwner) { stateContainer ->
-//            detailSeasonsAdapter.submitList(stateContainer.data)
-//            totSeasonsNumber = stateContainer.data?.size ?: 0
-//            binding.airedSeasons.text = "${totSeasonsNumber} seasons"
-//        }
-//        viewModel.loadAllSeasons(currentShowIds.trakt)
 
         // todo
         viewModel.allSeasonsState.observe(viewLifecycleOwner) { stateContainer ->
@@ -102,16 +103,11 @@ class DetailShowFragment private constructor() : Fragment(R.layout.fragm_detail_
             // checkbox update
 
 
-
         }
         viewModel.loadAllSeasons(currentShowIds.trakt)
 
 
-
-
-
-
-        // TMDB
+        // TMDB test
 //        viewModel.loadTmdbImageLinksFlow(currentShowIds.tmdb) // for glide
         viewModel.loadImageShowTest(currentShowIds.tmdb)
 
@@ -140,7 +136,7 @@ class DetailShowFragment private constructor() : Fragment(R.layout.fragm_detail_
         }
 
         binding.floatingLikedButton.setOnClickListener {
-            viewModel.toggleLikedItem(currentShowIds.trakt)
+            viewModel.toggleLikedShow(currentShowIds.trakt)
         }
 
 
@@ -153,11 +149,10 @@ class DetailShowFragment private constructor() : Fragment(R.layout.fragm_detail_
         // se totSeasonsWatchedAll = totAiredSeasons
 
 
-        // related Shows TODO
+        // RELATED SHOWS OK
         binding.relatedShowsRV.adapter = relatedShowsAdapter
         binding.relatedShowsRV.layoutManager =
-            LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
-
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
         viewModel.loadRelatedShows(showId = currentShowIds.trakt)
         viewModel.relatedShowsStatus.observe(viewLifecycleOwner) { response ->
@@ -204,11 +199,9 @@ class DetailShowFragment private constructor() : Fragment(R.layout.fragm_detail_
         }
 
         updateFavoriteIcon(detailShow.liked)
-//        updateWatched - non fare
+//        updateWatched - todo
 
-        // test
-        binding.watchedCount.text = detailShow.watchedCount.toString()
-        binding.watchedCheckbox.isChecked = detailShow.watchedAll
+
     }
 
 

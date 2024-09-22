@@ -7,6 +7,7 @@ import com.dropbox.android.external.store4.Store
 import com.dropbox.android.external.store4.StoreBuilder
 import com.dropbox.android.external.store4.StoreRequest
 import com.dropbox.android.external.store4.StoreResponse
+import com.dropbox.android.external.store4.fresh
 import com.example.muvitracker.data.database.MyDatabase
 import com.example.muvitracker.data.database.entities.EpisodeEntity
 import com.example.muvitracker.data.database.entities.SeasonEntity
@@ -25,9 +26,10 @@ import kotlin.coroutines.cancellation.CancellationException
 // contiene lista episodi totale
 
 @Singleton
-class XSeasonRepository @Inject constructor(
+class SeasonRepository @Inject constructor(
     private val traktApi: TraktApi,
     private val database: MyDatabase,
+    private val prefsShowRepository: PrefsShowRepository
 ) {
 
     private val seasonDao = database.seasonsDao()
@@ -35,8 +37,8 @@ class XSeasonRepository @Inject constructor(
 
 
     // EPISODES #################################################################
-    // 1. store = solo lettura
-    val episodeStore: Store<ShowRequestKeys, List<EpisodeEntity>> = StoreBuilder.from(
+    // 1. store = solo lettura todo -> to episode repository
+    private val episodeStore: Store<ShowRequestKeys, List<EpisodeEntity>> = StoreBuilder.from(
         fetcher = Fetcher.ofResult { request ->
             try {
                 FetcherResult.Data(
@@ -55,8 +57,11 @@ class XSeasonRepository @Inject constructor(
         sourceOfTruth = SourceOfTruth.of<ShowRequestKeys, List<EpisodeExtenDto>, List<EpisodeEntity>>(
             reader = { request ->
                 // flow
-                episodeDao.readAllEpisodesOfSeason(request.showId, request.seasonNr)
-
+                episodeDao.readAllEpisodesOfSeason(request.showId, request.seasonNr).map {
+                    // map list -> to return list or null
+                    if (it.isEmpty()) null
+                    else it
+                }
             },
             writer = { request, dtos ->
                 // ciclo for che paragona id di ogni elemento prima di inserirlo
@@ -71,7 +76,7 @@ class XSeasonRepository @Inject constructor(
         // if (non esiste) insertNuovo, else updateParziale
         for (dto in dtos) { // check per ogni elemento dto
             val dtoIndex = dto.ids.trakt
-            val entity = episodeDao.readSingleEpisodeById(dtoIndex).firstOrNull()
+            val entity = episodeDao.readSingleEpisodeById(dtoIndex)
             if (entity == null) {
                 episodeDao.insertSingle(dto.toEntity(showId))
             } else {
@@ -139,17 +144,7 @@ class XSeasonRepository @Inject constructor(
 
 
     // WATCHED
-    // 1. update episode 00
-    suspend fun toggleWatchedEpisode(
-        showId: Int,
-        seasonNr: Int,
-        episodeNr: Int
-    ) {
-        episodeDao.toggleWatchedSingleEpisode(showId, seasonNr, episodeNr)
-    } // usare - seasonFragment, (DetailFragment no)
-
-
-    // 2. update season
+    // 1. update season
     suspend fun updateSeasonWatchedCountAndAll(showId: Int, seasonNr: Int) {
         val watchedEpisodes =
             episodeDao.checkWatchedEpisodesOfSeason(showId, seasonNr).firstOrNull()?.size
@@ -175,13 +170,22 @@ class XSeasonRepository @Inject constructor(
         }
     }
 
+    // 2. update episode
+    suspend fun toggleWatchedEpisode(
+        showId: Int,
+        seasonNr: Int,
+        episodeNr: Int
+    ) {
+        episodeDao.toggleWatchedSingleEpisode(showId, seasonNr, episodeNr)
+    }
 
+
+    // 3. update every episode
     suspend fun toggleWatchedAllEpisodes(
         showId: Int,
         seasonNr: Int,
     ) {
-        // watched true, watchd false imperativo
-
+        // watched true/false -> imperativo
         val seasonWatchedAll =
             seasonDao.readSingleSeason(showId, seasonNr).firstOrNull()?.watchedAll
 
@@ -191,18 +195,34 @@ class XSeasonRepository @Inject constructor(
             episodeDao.toggleWatchedAllEpisodes(showId, seasonNr, true)
         }
 
+    }
+
+
+    // #############################################################################################
+    // force seasonWatchedClick - noData vs Data OK
+    private suspend fun areEpisodesAvailableForSeason(showId: Int, seasonNr: Int): Boolean {
+        return episodeDao.getEpisodeCountBySeason(showId, seasonNr) > 0
 
     }
 
-    // TODO
-    //  1. season Watched click - no dati/ dati
+    suspend fun checkAndToggleWatchedAllSeasonEpisodes(
+        showId: Int,
+        seasonNr: Int,
+    ) {
+        if (!areEpisodesAvailableForSeason(showId, seasonNr)) {
+            val z = episodeStore.fresh(ShowRequestKeys(showId = showId, seasonNr = seasonNr))
+            // get() non andava perche dao restituiva emptyList, con null funzica
+        }
 
-    fun scarica Parziali
+        toggleWatchedAllEpisodes(showId, seasonNr) // episodes
+        updateSeasonWatchedCountAndAll(showId, seasonNr) // season
+        prefsShowRepository.updateWatchedOnDB(showId) // show
 
-
+        // TODO edge case (stagione in corso) eugi
+    //  - se puntate aumentano, devo watchedAll scompare, airedEpisodes 10->13, 3 episodi non scaricati
+    }
 
 }
-
 
 
 

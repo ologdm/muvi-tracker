@@ -145,11 +145,6 @@
                                 android:layout_height="wrap_content"
                                 tools:text="Network 2010 (US) " />
 
-                        <TextView
-                                android:id="@+id/runtime"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                tools:text="42 min" />
 
                         <TextView
                                 android:id="@+id/airedSeasons"
@@ -165,15 +160,16 @@
                                 tools:text="48 episodes" />
 
                         <TextView
-                                android:id="@+id/watchedCount"
+                                android:id="@+id/runtime"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                tools:text="watchedcount" />
+                                tools:text="42 min" />
+
 
 
                         <View
                                 android:layout_width="match_parent"
-                                android:layout_height="20dp" />
+                                android:layout_height="10dp" />
 
 
                         <TextView
@@ -191,7 +187,14 @@
                         <!-- solo diastanziamento -->
                         <View
                                 android:layout_width="match_parent"
-                                android:layout_height="60dp" />
+                                android:layout_height="50dp" />
+
+                        <TextView
+                                android:id="@+id/watchedCountTextview"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                tools:text="15/30"
+                                android:layout_marginBottom="10dp"/>
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                                 android:layout_width="match_parent"
@@ -199,10 +202,10 @@
 
 
                             <com.google.android.material.progressindicator.LinearProgressIndicator
-                                    android:id="@+id/watchedAllProgressionBar"
+                                    android:id="@+id/watchedAllEpisodesCounter"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    app:layout_constraintTop_toTopOf="@id/watchedAllProgressionBar"
+                                    app:layout_constraintTop_toTopOf="@id/watchedAllEpisodesCounter"
                                     android:paddingBottom="20dp" />
 
                             <TextView
@@ -212,13 +215,13 @@
                                     android:layout_marginBottom="5dp"
                                     android:layout_gravity="center_vertical"
                                     app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="@id/watchedAllProgressBar"
+                                    app:layout_constraintTop_toTopOf="@id/watchedAllCheckboxLoadingBar"
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     android:layout_marginTop="10dp"/>
 
 
                             <CheckBox
-                                    android:id="@+id/watchedCheckbox"
+                                    android:id="@+id/watchedAllCheckbox"
                                     android:layout_gravity="center_vertical"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
@@ -228,10 +231,10 @@
                                     android:layout_marginTop="10dp" />
 
                             <ProgressBar
-                                    android:id="@+id/watchedAllProgressBar"
+                                    android:id="@+id/watchedAllCheckboxLoadingBar"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    app:layout_constraintTop_toTopOf="@id/watchedAllProgressionBar"
+                                    app:layout_constraintTop_toTopOf="@id/watchedAllEpisodesCounter"
                                     app:layout_constraintEnd_toEndOf="parent"
                                     android:layout_marginTop="10dp"
                                     tools:visibility ="visible"

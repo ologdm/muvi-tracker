@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.muvitracker.data.PrefsShowRepository
-import com.example.muvitracker.data.XSeasonRepository
+import com.example.muvitracker.data.SeasonRepository
 import com.example.muvitracker.data.database.entities.EpisodeEntity
 import com.example.muvitracker.data.database.entities.SeasonEntity
 import com.example.muvitracker.data.imagetmdb.TmdbRepository
@@ -21,7 +21,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SeasonViewmodel @Inject constructor(
-    private val seasonRepository: XSeasonRepository,
+    private val seasonRepository: SeasonRepository,
     private val prefsShowRepository: PrefsShowRepository,
     private val tmdbRepository: TmdbRepository
 ) : ViewModel() {

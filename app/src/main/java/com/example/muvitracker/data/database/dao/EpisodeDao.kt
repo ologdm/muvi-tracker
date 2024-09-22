@@ -19,8 +19,8 @@ interface EpisodeDao {
 
     // 1. READ ##################################################
     @Query("SELECT * FROM episode_entities WHERE episodeTraktId=:episodeTraktId ")
-    fun readSingleEpisodeById(episodeTraktId: Int): Flow<EpisodeEntity>
-    // si potrebbe fare con filtro-> show, season, episode
+    suspend fun readSingleEpisodeById(episodeTraktId: Int): EpisodeEntity?
+
 
     @Query(
         """
@@ -28,7 +28,8 @@ interface EpisodeDao {
         WHERE showId=:showId AND seasonNumber=:seasonNr AND episodeNumber =:episodeNr
         """
     )
-    fun readSingleEpisode(showId: Int, seasonNr: Int, episodeNr: Int): Flow<EpisodeEntity>
+    suspend fun readSingleEpisode(showId: Int, seasonNr: Int, episodeNr: Int): EpisodeEntity?
+
 
 
     @Query("SELECT * FROM episode_entities WHERE showId=:showId AND seasonNumber =:seasonNr")
@@ -97,6 +98,27 @@ interface EpisodeDao {
     )
     fun checkWatchedEpisodesOfShow(showId: Int): Flow<List<EpisodeEntity>>
 
+
+    // TODO force WatchedAll
+    // for season
+    @Query(
+        """
+        SELECT COUNT(*) FROM episode_entities 
+        WHERE showId=:showId AND seasonNumber = :seasonNr
+        """
+    )
+    suspend fun getEpisodeCountBySeason(showId: Int, seasonNr: Int): Int
+
+
+
+    // for show
+    @Query(
+        """
+        SELECT COUNT(*) FROM episode_entities 
+        WHERE showId=:showId
+        """
+    )
+    suspend fun getEpisodeCountByShow(showId: Int): Int
 
 }
 

@@ -45,7 +45,6 @@ class DetailShowRepository @Inject constructor(
 
     private val detailShowDao = database.detailShowDao()
     private val prefsShowDao = database.prefsShowDao()
-
     private val seasonDao = database.seasonsDao()
 
 
@@ -120,8 +119,8 @@ class DetailShowRepository @Inject constructor(
 
     // SEASONS ###########################################################
 
-    // 1. store 00
-    val seasonStore: Store<Int, List<SeasonEntity>> = StoreBuilder.from(
+    // 1. store 00 - todo - to SeasonRepository
+    private val seasonStore: Store<Int, List<SeasonEntity>> = StoreBuilder.from(
         fetcher = Fetcher.ofResult { showId ->
             try {
                 FetcherResult.Data(traktApi.getAllSeasons(showId)

@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.muvitracker.data.DetailShowRepository
 import com.example.muvitracker.data.PrefsShowRepository
+import com.example.muvitracker.data.SeasonRepository
 import com.example.muvitracker.data.database.entities.SeasonEntity
 import com.example.muvitracker.data.imagetmdb.TmdbRepository
 import com.example.muvitracker.domain.model.DetailShow
@@ -25,6 +26,7 @@ import javax.inject.Inject
 class DetailShowViewmodel @Inject constructor(
     private val detailShowRepo: DetailShowRepository,
     private val prefsShowRepository: PrefsShowRepository,
+    private val seasonRepository: SeasonRepository,
 //    private val traktApi: TraktApi,
     private val tmdbRepository: TmdbRepository
 ) : ViewModel() {
@@ -68,12 +70,15 @@ class DetailShowViewmodel @Inject constructor(
         }
     }
 
-    // TODO - watchedAll
-    fun toggleLikedItem(id: Int) {
+
+    // like OK
+    fun toggleLikedShow(showId: Int) {
         viewModelScope.launch {
-            prefsShowRepository.toggleLikedOnDB(id)
+            prefsShowRepository.toggleLikedOnDB(showId)
         }
     }
+
+    // todo force show watchedAll
 
 
     // OK
@@ -104,6 +109,23 @@ class DetailShowViewmodel @Inject constructor(
     }
 
 
+    // season watchedAll OK
+
+    fun toggleSingleSeasonWatchedAll(showId: Int, seasonNr: Int, onComplete: () -> Unit) {
+        viewModelScope.launch() {
+            // 1 start loading  - su adapter - start al click
+
+            // 2 toggle allEpisodes + season + showOnPrefs
+            seasonRepository.checkAndToggleWatchedAllSeasonEpisodes(showId, seasonNr)
+//            seasonRepository.updateSeasonWatchedCountAndAll(showId,seasonNr)
+
+            // 3 finish loading - chiama la callback con true o false (se l'operazione ha avuto successo o no)
+            onComplete()
+
+        }
+    }
+
+
     // TMDB IMAGES - OK
     val backdropImageUrl = MutableLiveData<String>()
     val posterImageUrl = MutableLiveData<String>()
@@ -124,10 +146,12 @@ class DetailShowViewmodel @Inject constructor(
     fun loadImageShowTest(showTmdbId: Int) {
         viewModelScope.launch {
             val x = tmdbRepository.getQuickPathForShow(showTmdbId)
-            backdropImageUrl.value = "https://image.tmdb.org/t/p/original${x.backdropPath.toString()}"
-            posterImageUrl.value = "https://image.tmdb.org/t/p/original${x.posterPath.toString()}"
+            val baseUrl = "https://image.tmdb.org/t/p/original"
+            backdropImageUrl.value = "$baseUrl${x.backdropPath.toString()}"
+            posterImageUrl.value = "$baseUrl${x.posterPath.toString()}"
         }
     }
+
 
 
     // RELATED SHOWS
@@ -145,10 +169,8 @@ class DetailShowViewmodel @Inject constructor(
 
     }
 
-
-
-
 }
+
 
 //    fun getTmdbImageLinks(showTmdbId: Int) { // TODO salvare link su entity detail
 //        viewModelScope.launch {

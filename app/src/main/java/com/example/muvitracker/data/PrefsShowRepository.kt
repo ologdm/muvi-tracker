@@ -83,11 +83,11 @@ class PrefsShowRepository @Inject constructor(
                     addedDateTime = System.currentTimeMillis()
                 )
             )
-
         } else {
             // UPDATE SHOW WATCHED ALL AND COUNT
             val watchedEpisodes = episodeDao.checkWatchedEpisodesOfShow(showId).singleOrNull()?.size
-            val showTotalEpisodes = detailShowDao.readSingleFlow(showId).singleOrNull()?.airedEpisodes
+            val showTotalEpisodes =
+                detailShowDao.readSingleFlow(showId).singleOrNull()?.airedEpisodes
             println("TTTT: watched-$watchedEpisodes, total-$showTotalEpisodes")
 
             if (watchedEpisodes == showTotalEpisodes) { // max

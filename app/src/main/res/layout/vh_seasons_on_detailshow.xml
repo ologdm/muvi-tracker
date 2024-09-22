@@ -47,25 +47,25 @@
             android:layout_height="24dp"
             android:src="@android:drawable/btn_star"
             android:contentDescription="View episode"
-            app:layout_constraintEnd_toStartOf="@id/checkbox"
+            app:layout_constraintEnd_toStartOf="@id/seasonCheckbox"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginEnd="100dp"
             android:clickable="false"/>
 
     <TextView
-            android:id="@+id/watchedCount"
+            android:id="@+id/watchedCountTextview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="7/10"
-            app:layout_constraintEnd_toStartOf="@id/checkbox"
+            app:layout_constraintEnd_toStartOf="@id/seasonCheckbox"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent" />
 
 
 <!--    1° step, not clickable -->
     <CheckBox
-            android:id="@+id/checkbox"
+            android:id="@+id/seasonCheckbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
@@ -73,7 +73,7 @@
             app:layout_constraintBottom_toBottomOf="parent" />
 
     <ProgressBar
-            android:id="@+id/watchedAllProgressBar"
+            android:id="@+id/watchedAllCheckboxLoadingBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:visibility ="visible"

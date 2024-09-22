@@ -30,9 +30,7 @@ class EpisodeViewmodel @Inject constructor(
     // se elemento nella RV, elemento già nel database
     fun loadEpisode(showTraktId: Int, seasonNr: Int, episodeNr: Int) {
         viewModelScope.launch {
-            state.value = episodeDao
-                .readSingleEpisode(showTraktId, seasonNr, episodeNr)
-                .firstOrNull()
+            state.value = episodeDao.readSingleEpisode(showTraktId, seasonNr, episodeNr)
         }
     }
 
