@@ -11,17 +11,17 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class PrefsViewModel @Inject constructor(
+class PrefsMovieViewModel @Inject constructor(
     private val prefsRepository: PrefsRepo
 ) : ViewModel() {
 
     val prefsList = MutableLiveData<List<DetailMovie>>()
 
     init {
-        getPrefs()
+        getPrefsList()
     }
 
-    private fun getPrefs (){
+    private fun getPrefsList (){
         viewModelScope.launch {
             prefsRepository.getListFLow().collectLatest {
                 prefsList.value = it
@@ -30,9 +30,9 @@ class PrefsViewModel @Inject constructor(
     }
 
 
-    fun toggleFavoriteItem(movieId: Int) {
+    fun toggleLikedItem(movieId: Int) {
         viewModelScope.launch {
-            prefsRepository.toggleFavoriteOnDB(movieId) // bypass
+            prefsRepository.toggleLikedOnDB(movieId) // bypass
         }
     }
 

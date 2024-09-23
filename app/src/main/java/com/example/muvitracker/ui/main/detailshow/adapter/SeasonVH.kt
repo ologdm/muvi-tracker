@@ -17,7 +17,7 @@ class SeasonVH(
         binding.rating.text = seasonItem.rating?.firstDecimalApproxToString()
 
     // totale - usare episodeCount 00
-        binding.watchedCountTextview.text = "${seasonItem.watchedCount}/${seasonItem.episodeCount}"
+//        binding.watchedCounterTextview.text = "${seasonItem.watchedCount}/${seasonItem.episodeCount}"
 
     }
 

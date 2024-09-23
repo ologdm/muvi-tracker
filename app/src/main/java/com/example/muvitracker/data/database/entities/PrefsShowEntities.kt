@@ -8,13 +8,16 @@ import androidx.room.PrimaryKey
 data class PrefsShowEntity(
     @PrimaryKey val traktId: Int,
     val liked: Boolean = false,
-    val watchedAll: Boolean = false, // solo
-    val watchedCount: Int = 0, // default 0,
     val addedDateTime: Long // using timestamp
 )
 
 
 
+
+    // watched non servono
+//    val watchedAll: Boolean = false,
+//    val watchedCount: Int = 0,
+//)
 
 // logica:
 // watchedCount=0 default | observe on episodes

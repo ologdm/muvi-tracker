@@ -17,7 +17,8 @@ interface PrefsShowDao {
 
     // READ
     @Query("SELECT * FROM prefs_show_entities WHERE traktId=:id")
-    fun readSingle(id: Int): Flow<PrefsShowEntity?>
+    suspend fun readSingle(id: Int): PrefsShowEntity?
+
 
     @Query("SELECT * FROM prefs_show_entities")
     fun readAll(): Flow<List<PrefsShowEntity?>>
@@ -34,16 +35,17 @@ interface PrefsShowDao {
     suspend fun deleteSingle(id: Int)
 
 
-    // WATCHED #############################################################
-    // !!! aggiornato solo su season repository
-    @Query(
-        """
-        UPDATE prefs_show_entities 
-        SET watchedAll=:watchedAll, watchedCount=:watchedCount
-        WHERE traktId=:showId
-        """
-    )
-    suspend fun updateWatched(showId: Int, watchedAll: Boolean, watchedCount: Int)
+//    // WATCHED #############################################################
+//    // all - count and all
+//    // !!! aggiornato solo su season repository
+//    @Query(
+//        """
+//        UPDATE prefs_show_entities
+//        SET watchedAll=:watchedAll, watchedCount=:watchedCount
+//        WHERE traktId=:showId
+//        """
+//    )
+//    suspend fun updateWatched(showId: Int, watchedAll: Boolean, watchedCount: Int)
 
 
 

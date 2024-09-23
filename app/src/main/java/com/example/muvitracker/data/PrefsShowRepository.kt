@@ -1,8 +1,10 @@
 package com.example.muvitracker.data
 
+import com.dropbox.android.external.store4.fresh
 import com.example.muvitracker.data.database.MyDatabase
 import com.example.muvitracker.data.database.entities.PrefsShowEntity
 import com.example.muvitracker.data.database.entities.toDomain
+import com.example.muvitracker.data.requests.ShowRequestKeys
 import com.example.muvitracker.domain.model.DetailShow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
@@ -18,12 +20,11 @@ class PrefsShowRepository @Inject constructor(
 ) {
 
     private val prefsShowDao = database.prefsShowDao()
-
     private val detailShowDao = database.detailShowDao()
     private val episodeDao = database.episodesDao()
 
 
-    // 000
+    // for Prefs Frgment todo
 //    override
     fun getListFLow(): Flow<List<DetailShow>> {
         val detailListFLow = detailShowRepository.getDetailListFlow()
@@ -44,12 +45,13 @@ class PrefsShowRepository @Inject constructor(
     }
 
 
-    // LIKED 000
+    // LIKED OK
+    // new or update
 //    override
     suspend fun toggleLikedOnDB(id: Int) {
         // switch state on repository & update db
         val entity =
-            prefsShowDao.readSingle(id).firstOrNull() //  flow closing function
+            prefsShowDao.readSingle(id) //  flow closing function
         if (entity != null) {
             prefsShowDao.toggleLiked(id)
         } else {
@@ -57,56 +59,14 @@ class PrefsShowRepository @Inject constructor(
                 PrefsShowEntity(
                     traktId = id,
                     liked = true,
-                    watchedAll = false,
-                    watchedCount = 0,
+//                    watchedAll = false,
+//                    watchedCount = 0,
                     addedDateTime = System.currentTimeMillis()
                 )
             )
         }
     }
 
-
-    // WATCHED 000
-//    override
-    suspend fun updateWatchedOnDB(showId: Int) {
-        val entity = prefsShowDao.readSingle(showId).firstOrNull()
-        println("TTTT: check entity trakt: ${entity?.traktId}") // arriva
-        if (entity == null) {
-            println("TTTT: new entity")
-            // NEW PREFS
-            prefsShowDao.insertSingle(
-                PrefsShowEntity(
-                    traktId = showId,
-                    liked = false,
-                    watchedAll = false,
-                    watchedCount = 1,  // firstElement Added
-                    addedDateTime = System.currentTimeMillis()
-                )
-            )
-        } else {
-            // UPDATE SHOW WATCHED ALL AND COUNT
-            val watchedEpisodes = episodeDao.checkWatchedEpisodesOfShow(showId).singleOrNull()?.size
-            val showTotalEpisodes =
-                detailShowDao.readSingleFlow(showId).singleOrNull()?.airedEpisodes
-            println("TTTT: watched-$watchedEpisodes, total-$showTotalEpisodes")
-
-            if (watchedEpisodes == showTotalEpisodes) { // max
-                println("TTTT: max")
-                prefsShowDao.updateWatched(
-                    showId = showId,
-                    watchedAll = true,
-                    watchedCount = watchedEpisodes ?: 0
-                )
-            } else { // not max
-                println("TTTT: non max")
-                prefsShowDao.updateWatched(
-                    showId = showId,
-                    watchedAll = false,
-                    watchedCount = watchedEpisodes ?: 0
-                )
-            }
-        }
-    }
 
 
     // TODO
@@ -117,3 +77,47 @@ class PrefsShowRepository @Inject constructor(
 
 
 }
+
+
+// WATCHED 000
+// new or update
+//    override
+//    suspend fun updateWatchedOnDB(showId: Int) {
+//        val entity = prefsShowDao.readSingle(showId)
+//        println("TTTT: check entity trakt: ${entity?.traktId}") // arriva
+//        if (entity == null) {
+//            println("TTTT: new entity")
+//            // NEW PREFS
+//            prefsShowDao.insertSingle(
+//                PrefsShowEntity(
+//                    traktId = showId,
+//                    liked = false,
+//                    watchedAll = false,
+//                    watchedCount = 1,  // firstElement Added
+//                    addedDateTime = System.currentTimeMillis()
+//                )
+//            )
+//        } else {
+//            // UPDATE SHOW WATCHED ALL AND COUNT
+//            val watchedEpisodes = episodeDao.checkWatchedEpisodesOfShow(showId).firstOrNull()?.size
+//            val showTotalEpisodes =
+//                detailShowDao.readSingleFlow(showId).firstOrNull()?.airedEpisodes
+//            println("TTTT: watched-$watchedEpisodes, total-$showTotalEpisodes")
+//
+//            if (watchedEpisodes == showTotalEpisodes) { // max
+//                println("TTTT: max")
+//                prefsShowDao.updateWatched(
+//                    showId = showId,
+//                    watchedAll = true,
+//                    watchedCount = watchedEpisodes ?: 0
+//                )
+//            } else { // not max
+//                println("TTTT: non max")
+//                prefsShowDao.updateWatched(
+//                    showId = showId,
+//                    watchedAll = false,
+//                    watchedCount = watchedEpisodes ?: 0
+//                )
+//            }
+//        }
+//    }

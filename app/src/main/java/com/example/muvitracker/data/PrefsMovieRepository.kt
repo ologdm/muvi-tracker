@@ -13,7 +13,7 @@ import javax.inject.Singleton
 
 
 @Singleton
-class PrefsRepository @Inject constructor(
+class PrefsMovieRepository @Inject constructor(
     private val detailRepository: DetailRepository,
     private val database: MyDatabase
 ) : PrefsRepo {
@@ -44,7 +44,7 @@ class PrefsRepository @Inject constructor(
 
     // SET
     override
-    suspend fun toggleFavoriteOnDB(id: Int) {
+    suspend fun toggleLikedOnDB(id: Int) {
         // switch state on repository & update db
         val entity =
             prefsDao.readSingle(id).firstOrNull() //  flow closing function

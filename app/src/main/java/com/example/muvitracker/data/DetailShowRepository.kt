@@ -19,6 +19,7 @@ import com.example.muvitracker.data.dto.season.toEntity
 import com.example.muvitracker.data.dto.show.ShowBaseDto
 import com.example.muvitracker.data.dto.show.toDomain
 import com.example.muvitracker.data.dto.show.toEntity
+import com.example.muvitracker.data.requests.ShowRequestKeys
 import com.example.muvitracker.domain.model.DetailShow
 import com.example.muvitracker.domain.model.base.Show
 import com.example.muvitracker.utils.IoResponse
@@ -40,12 +41,14 @@ import kotlin.coroutines.cancellation.CancellationException
 @Singleton
 class DetailShowRepository @Inject constructor(
     private val traktApi: TraktApi,
-    private val database: MyDatabase
+    private val database: MyDatabase,
+    private val seasonRepo : SeasonRepository // todo
 ) {
 
     private val detailShowDao = database.detailShowDao()
     private val prefsShowDao = database.prefsShowDao()
     private val seasonDao = database.seasonsDao()
+    private val episodeDao = database.episodesDao()
 
 
     // DETAIL 00
@@ -117,89 +120,8 @@ class DetailShowRepository @Inject constructor(
     }
 
 
-    // SEASONS ###########################################################
 
-    // 1. store 00 - todo - to SeasonRepository
-    private val seasonStore: Store<Int, List<SeasonEntity>> = StoreBuilder.from(
-        fetcher = Fetcher.ofResult { showId ->
-            try {
-                FetcherResult.Data(traktApi.getAllSeasons(showId)
-                    .filter { it.number != 0 })// exclude season 0, specials
-            } catch (ex: CancellationException) {
-                throw ex
-            } catch (ex: Throwable) {
-                ex.printStackTrace()
-                FetcherResult.Error.Exception(ex)
-            }
-        },
-        sourceOfTruth = SourceOfTruth.of<Int, List<SeasonExtenDto>, List<SeasonEntity>>(
-            reader = { showId ->
-                seasonDao.readAllSeasonsOfShow(showId) // flow
-            },
-            writer = { showId, dtos ->
-                saveSeasonDtosToDatabase(showId, dtos)
-            }
-        )
-    ).build()
-
-
-    // 2. logica write season + aggiornamento detailShow  00
-    suspend fun saveSeasonDtosToDatabase(showId: Int, dtos: List<SeasonExtenDto>) {
-        // if (non esiste) insertNuovo, else updateParziale
-        for (dto in dtos) {
-            val dtoIndex = dto.ids.trakt
-            val entity = seasonDao.readSingleSeasonById(dtoIndex).firstOrNull()
-            if (entity == null) {
-                seasonDao.insertSingle(dto.toEntity(showId))
-            } else {
-                val updatedEntity = entity.copy(
-                    // TODO semplificare ala fine
-                    seasonTraktId = dto.ids.trakt,
-                    seasonNumber = dto.number,
-                    ids = dto.ids,
-                    rating = dto.rating,
-                    episodeCount = dto.episodeCount,
-                    airedEpisodes = dto.airedEpisodes,
-                    title = dto.title,
-                    overview = dto.overview ?: "",
-                    releaseYear = dto.getYear(),
-                    network = dto.network,
-                    showId = showId
-                )
-            }
-        }
-    }
-
-
-    // 3. stream 00
-    fun getShowSeasonsFlow(showId: Int): Flow<IoResponse<List<SeasonEntity>>> {
-        return seasonStore.stream(StoreRequest.cached(showId, refresh = true))
-            .filterNot { storeResponse ->
-                storeResponse is StoreResponse.Loading || storeResponse is StoreResponse.NoNewData
-            }
-            .map { storeResponse ->
-                when (storeResponse) {
-                    is StoreResponse.Data -> {
-                        IoResponse.Success(storeResponse.value)// no map toDomain
-                    }
-
-                    is StoreResponse.Error.Exception -> {
-                        IoResponse.Error(storeResponse.error)
-                    }
-
-                    is StoreResponse.Error.Message -> {
-                        IoResponse.Error(RuntimeException(storeResponse.message))
-                    }
-
-                    is StoreResponse.Loading,
-                    is StoreResponse.NoNewData -> error("should be filtered upstream")
-                }
-            }
-    }
-
-
-    // RELATED SHOWS todo
-
+    // RELATED SHOWS todo OK
     suspend fun getRelatedShows(showId: Int): IoResponse<List<Show>> {
         return try {
             IoResponse.Success(traktApi.getShowRelatedShows(showId)).ioMapper { dtos ->
@@ -218,7 +140,33 @@ class DetailShowRepository @Inject constructor(
         }
     }
 
-    // CAST - repo separata -
+    // CAST - repo separata todo
+
+
+//    private suspend fun areEpisodesAvailableForSeason(showId: Int, seasonNr: Int): Boolean {
+        // TODO
+//        return episodeDao.countEpisodesBySeason(showId, seasonNr) > 0
+//    }
+
+//    suspend fun checkAndToggleWatchedAllSeasonEpisodes(
+//        showId: Int,
+//        seasonNr: Int,
+//    ) {
+//        if (!areEpisodesAvailableForSeason(showId, seasonNr)) {
+//
+//            // ciclo for per ogni stagione
+//            // scarica tutti gli episodi stagione
+//            episodeRepository.episodeStore.fresh(ShowRequestKeys(showId = showId, seasonNr = seasonNr))
+//            // get() non andava perche dao restituiva emptyList, con null funzica
+//        }
+//
+//        // toggle tutti gli episodi stagione
+//        episodeRepository.toggleSeasonAllWatchedEpisodes(showId, seasonNr) // episodes
+//
+//
+//        // TODO edge case (stagione in corso) eugi
+//        //  - se puntate aumentano, devo watchedAll scompare, airedEpisodes 10->13, 3 episodi non scaricati
+//    }
 
 
 }

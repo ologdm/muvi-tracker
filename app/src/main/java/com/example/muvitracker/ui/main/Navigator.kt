@@ -10,7 +10,7 @@ import com.example.muvitracker.ui.main.detailmovie.DetailMovieFragment
 import com.example.muvitracker.ui.main.detailshow.DetailShowFragment
 import com.example.muvitracker.ui.main.episode.EpisodeFragment
 import com.example.muvitracker.ui.main.seasons.SeasonFragment
-import com.example.muvitracker.ui.main.seasons.SeasonViewpagerFragment
+import com.example.muvitracker.ui.main.seasons.viewpager.SeasonViewpagerFragment
 import javax.inject.Inject
 
 

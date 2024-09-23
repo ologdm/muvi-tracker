@@ -22,6 +22,7 @@
     <string name="country">Country:</string>
     <string name="rating">Rating:</string>
     <string name="watchedCheck">Watched</string>
+    <string name="watchedAllCheck">Watched All</string>
     <string name="about_show">About show</string>
     <string name="genres">Genres:</string>
     <!--detail formatting -->

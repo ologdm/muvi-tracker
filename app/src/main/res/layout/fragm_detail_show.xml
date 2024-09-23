@@ -190,7 +190,7 @@
                                 android:layout_height="50dp" />
 
                         <TextView
-                                android:id="@+id/watchedCountTextview"
+                                android:id="@+id/watchedCounterTextview"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 tools:text="15/30"
@@ -202,10 +202,10 @@
 
 
                             <com.google.android.material.progressindicator.LinearProgressIndicator
-                                    android:id="@+id/watchedAllEpisodesCounter"
+                                    android:id="@+id/watchedCounterProgressBar"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    app:layout_constraintTop_toTopOf="@id/watchedAllEpisodesCounter"
+                                    app:layout_constraintTop_toTopOf="@id/watchedCounterProgressBar"
                                     android:paddingBottom="20dp" />
 
                             <TextView
@@ -234,7 +234,7 @@
                                     android:id="@+id/watchedAllCheckboxLoadingBar"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    app:layout_constraintTop_toTopOf="@id/watchedAllEpisodesCounter"
+                                    app:layout_constraintTop_toTopOf="@id/watchedCounterProgressBar"
                                     app:layout_constraintEnd_toEndOf="parent"
                                     android:layout_marginTop="10dp"
                                     tools:visibility ="visible"

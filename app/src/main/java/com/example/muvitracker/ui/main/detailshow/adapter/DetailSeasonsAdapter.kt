@@ -34,39 +34,37 @@ class DetailSeasonsAdapter(
             onClickVH(seasonItem.seasonNumber)
         }
 
+        // stato default sempre iniziale per il nuovo elemento
+        // per evitare animaz e stati element precedente
+        holder.binding.seasonCheckbox.isEnabled = true
+        holder.binding.watchedAllCheckboxLoadingBar.visibility = View.GONE
+
 
         // checkbox todo
-        holder.binding.seasonCheckbox.setOnCheckedChangeListener(null)
-        holder.binding.seasonCheckbox.isChecked =
-            seasonItem.watchedAll // !! forma abbreviata - caso true
-        // todo (eugi appunti) - listener viene chiamato alClick e al cambiamentoStatoChecked (quando lo stato cambia)
-
-        holder.binding.seasonCheckbox.setOnCheckedChangeListener(object :
-            CompoundButton.OnCheckedChangeListener {
-            override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
-                // 1 checkbox disatt + progressbar ativa
-                holder.binding.seasonCheckbox.isEnabled = false
-                holder.binding.watchedAllCheckboxLoadingBar.visibility = View.VISIBLE
-
-                // 2 callback
-                // e invocata quando la chiamata assincrona di viewmodel finisce
-                onClickWatchedAllCheckbox.invoke(seasonItem.seasonNumber) {
-                    // Dopo che l'operazione è terminata
-                    holder.binding.watchedAllCheckboxLoadingBar.visibility = View.GONE
-                    holder.binding.seasonCheckbox.isEnabled = true
-
-                    // 1 per non chiamare listener al cambiamento checkbox -> // tolgo listener- (null)
-                    holder.binding.seasonCheckbox.setOnCheckedChangeListener(null)
-                    holder.binding.seasonCheckbox.isChecked = seasonItem.watchedAll
-                    // rimetto listener com'esta prima (this)
-                    holder.binding.seasonCheckbox.setOnCheckedChangeListener(this)
-                    // this si puo usare solo con object e non lambda (lambda perde il contesto della classe anonima)
-
-                    holder.bind(seasonItem) // Re-bind per aggiornare i dati visualizzati
-
-                }
-            }
-        })
+//        holder.binding.seasonCheckbox.setOnCheckedChangeListener(null)
+//        holder.binding.seasonCheckbox.isChecked =
+//            seasonItem.watchedAll // !! forma abbreviata - caso true
+//        // todo (eugi appunti) - listener viene chiamato alClick e al cambiamentoStatoChecked (quando lo stato cambia)
+//
+//        holder.binding.seasonCheckbox.setOnCheckedChangeListener(object :
+//            CompoundButton.OnCheckedChangeListener {
+//            override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
+//                holder.binding.seasonCheckbox.isEnabled = false
+//                holder.binding.watchedAllCheckboxLoadingBar.visibility = View.VISIBLE
+//
+//                onClickWatchedAllCheckbox.invoke(seasonItem.seasonNumber) {
+//                    holder.binding.watchedAllCheckboxLoadingBar.visibility = View.GONE
+//                    holder.binding.seasonCheckbox.isEnabled = true
+//
+//                    holder.binding.seasonCheckbox.setOnCheckedChangeListener(null)
+//                    holder.binding.seasonCheckbox.isChecked = seasonItem.watchedAll
+//                    holder.binding.seasonCheckbox.setOnCheckedChangeListener(this)
+//
+//                    holder.bind(seasonItem) // Re-bind per aggiornare i dati visualizzati
+//
+//                }
+//            }
+//        })
     }
 
 
@@ -76,7 +74,8 @@ class DetailSeasonsAdapter(
                 return oldItem.seasonTraktId == newItem.seasonTraktId
             }
 
-            override fun areContentsTheSame(oldItem: SeasonEntity, newItem: SeasonEntity): Boolean {
+            override fun areContentsTheSame(
+                oldItem: SeasonEntity, newItem: SeasonEntity): Boolean {
                 return oldItem == newItem
             }
         }

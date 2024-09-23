@@ -21,7 +21,7 @@ import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class DetailMovieFragment private constructor() : Fragment(R.layout.fragm_detail_movie) {
+class DetailMovieFragment : Fragment(R.layout.fragm_detail_movie) {
 
     private var currentMovieIds: Ids = Ids()
 

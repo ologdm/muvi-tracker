@@ -54,7 +54,7 @@
             android:clickable="false"/>
 
     <TextView
-            android:id="@+id/watchedCountTextview"
+            android:id="@+id/watchedCounterTextview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="7/10"

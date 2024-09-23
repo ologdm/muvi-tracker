@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
@@ -9,34 +9,38 @@
 
     <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/image"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
+            tools:layout_width="wrap_content"
+            app:layout_constraintDimensionRatio="2:3"
             tools:background="@tools:sample/avatars"
             app:shapeAppearance="@style/ImageLarge_RoundedShape"
-            android:background="?attr/colorOnSurface" />
+            android:background="?attr/colorOnSurface"
+            app:layout_constraintStart_toStartOf="parent" />
 
 
     <!-- Titoli: -->
     <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:paddingTop="12dp"
-            android:paddingHorizontal="16dp">
+            android:paddingHorizontal="16dp"
+            app:layout_constraintStart_toEndOf="@id/image"
+            app:layout_constraintEnd_toEndOf="parent">
 
         <TextView
                 android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="@tools:sample/cities"
+                tools:text="Deadpool"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
         <TextView
-                android:id="@+id/year"
+                android:id="@+id/otherInfo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="@tools:sample/us_zipcodes"
+                tools:text="2016 (US)"
                 android:textSize="16sp"
 
                 android:layout_marginBottom="10dp" />
@@ -45,7 +49,8 @@
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
 
             <ImageButton
                     android:id="@+id/likedButton"
@@ -54,7 +59,6 @@
                     app:srcCompat="@drawable/baseline_liked_border"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    android:layout_marginTop="4dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     android:importantForAccessibility="no" />
 
@@ -72,4 +76,4 @@
     </LinearLayout>
 
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

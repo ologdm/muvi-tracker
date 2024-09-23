@@ -3,7 +3,7 @@ package com.example.muvitracker.ui.main.seasons
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.muvitracker.data.PrefsShowRepository
+import com.example.muvitracker.data.EpisodeRepository
 import com.example.muvitracker.data.SeasonRepository
 import com.example.muvitracker.data.database.entities.EpisodeEntity
 import com.example.muvitracker.data.database.entities.SeasonEntity
@@ -22,24 +22,23 @@ import javax.inject.Inject
 @HiltViewModel
 class SeasonViewmodel @Inject constructor(
     private val seasonRepository: SeasonRepository,
-    private val prefsShowRepository: PrefsShowRepository,
+    private val episodeRepository: EpisodeRepository,
     private val tmdbRepository: TmdbRepository
 ) : ViewModel() {
 
     val seasonInfoState = MutableLiveData<StateContainer<SeasonEntity>>()
     val seasonEpisodesState = MutableLiveData<StateContainer<List<EpisodeEntity>>>() // test
+    val allSeasonEpisodesIsWatchedStatus = MutableLiveData<Boolean>() // icon state
 
 
     fun loadSeasonInfo(showId: Int, seasonNumber: Int) {
         viewModelScope.launch {
-            seasonRepository.getSingleSeasonFlow(showId, seasonNumber)
-                .map { respose ->
-                    StateContainer(data = respose)
-                }.catch {
-                    it.printStackTrace()
-                }.collectLatest {
-                    seasonInfoState.value = it
-                }
+            try {
+                val season = seasonRepository.getSingleSeason(showId, seasonNumber)
+                seasonInfoState.value = season?.let { StateContainer(data = season) }
+            } catch (ex: Throwable) {
+                ex.printStackTrace()
+            }
         }
     }
 
@@ -47,7 +46,7 @@ class SeasonViewmodel @Inject constructor(
     fun loadSeasonEpisodes(showId: Int, seasonNumber: Int) {
         // TODO caching come in details
         viewModelScope.launch {
-            seasonRepository.getSeasonEpisodesFlow(showId, seasonNumber)
+            episodeRepository.getSeasonEpisodesFlow(showId, seasonNumber)
                 .map { response ->
                     when (response) {
                         is IoResponse.Success -> {
@@ -72,24 +71,30 @@ class SeasonViewmodel @Inject constructor(
     }
 
 
+    // WATCHED
+    fun isWatchedAllStatus(showId: Int, seasonNr: Int) {
+        viewModelScope.launch {
+            allSeasonEpisodesIsWatchedStatus.value =
+                seasonRepository.checkSeasonAllWatchedStatus(showId, seasonNr)
+        }
+
+    }
+
+
     fun toggleWatchedEpisode(
         showId: Int,
         seasonNr: Int,
         episodeNr: Int
     ) {
         viewModelScope.launch {
-            seasonRepository.toggleWatchedEpisode(showId, seasonNr, episodeNr)
-            seasonRepository.updateSeasonWatchedCountAndAll(showId, seasonNr)
-//            prefsShowRepository.updateWatchedOnDB(showId) TODO
+            episodeRepository.toggleSingleWatchedEpisode(showId, seasonNr, episodeNr)
         }
     }
 
 
-    fun toggleWatchedAllEpisodes(showId: Int, seasonNr: Int) {
+    fun toggleSeasonAllWatchedEpisodes(showId: Int, seasonNr: Int) {
         viewModelScope.launch {
-            seasonRepository.toggleWatchedAllEpisodes(showId, seasonNr) // OK
-            seasonRepository.updateSeasonWatchedCountAndAll(showId, seasonNr) // OK
-//            prefsShowRepository.updateWatchedOnDB(showId) // TODO
+            seasonRepository.checkAndToggleWatchedAllSeasonEpisodes(showId, seasonNr)
         }
     }
 
@@ -107,6 +112,7 @@ class SeasonViewmodel @Inject constructor(
             posterImageUrl.value = posterUrl
         }
     }
+
 
 }
 

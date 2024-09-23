@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.muvitracker.data.imagetmdb.TmdbRepository
 import com.example.muvitracker.domain.model.DetailMovie
-import com.example.muvitracker.domain.model.base.Show
 import com.example.muvitracker.domain.repo.DetailRepo
 import com.example.muvitracker.domain.repo.PrefsRepo
 import com.example.muvitracker.utils.IoResponse
@@ -73,7 +72,7 @@ class DetailMovieViewmodel @Inject constructor(
     // SET
     fun toggleFavorite(id: Int) {
         viewModelScope.launch {
-            prefsRepository.toggleFavoriteOnDB(id)
+            prefsRepository.toggleLikedOnDB(id)
         }
 
     }

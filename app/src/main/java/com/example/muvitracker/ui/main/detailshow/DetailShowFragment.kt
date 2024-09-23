@@ -31,11 +31,14 @@ import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class DetailShowFragment private constructor() : Fragment(R.layout.fragm_detail_show) {
+class DetailShowFragment : Fragment(R.layout.fragm_detail_show) {
 
     private var currentShowTitle: String = ""
     private var currentShowIds: Ids = Ids() // ids has default value
     private var totSeasonsNumber: Int = 0
+
+    // todo
+    private val watchedEpisodeCounter :Int = 0
 
     private val binding by viewBinding(FragmDetailShowBinding::bind)
     private val viewModel by viewModels<DetailShowViewmodel>()
@@ -75,36 +78,40 @@ class DetailShowFragment private constructor() : Fragment(R.layout.fragm_detail_
         }
 
         // DETAIL
+        viewModel.loadShowDetailFlow(currentShowIds.trakt)
+
         viewModel.detailState.observe(viewLifecycleOwner) { stateContainer ->
             stateContainer.data?.let { detailShow ->
                 updateDetailUi(detailShow)
+                // todo - watchedCount view from show
+                binding.watchedCounterTextview.text = "${stateContainer.data!!.watchedCount}/${stateContainer.data!!.airedEpisodes}"
+
+//                binding.watchedCounterProgressBar =
+                // todo - watcvhedAll view from show
+                // show aggiornarlo dove serve -
+
             }
             stateContainer.statesFlow(
                 binding.errorTextView,
                 binding.progressBar
             )
         }
-        viewModel.loadShowDetailFlow(currentShowIds.trakt)
+
 
         // SEASONS
         binding.seasonsRV.adapter = detailSeasonsAdapter
         binding.seasonsRV.layoutManager = LinearLayoutManager(requireContext())
 
+        viewModel.loadAllSeasons(currentShowIds.trakt)
 
-        // todo
         viewModel.allSeasonsState.observe(viewLifecycleOwner) { stateContainer ->
             // 1 ok
             totSeasonsNumber = stateContainer.data?.size ?: 0
             binding.airedSeasons.text = "${totSeasonsNumber} seasons"
             // 2 ok
             detailSeasonsAdapter.submitList(stateContainer.data)
-
-            // 3 todo
-            // checkbox update
-
-
         }
-        viewModel.loadAllSeasons(currentShowIds.trakt)
+
 
 
         // TMDB test

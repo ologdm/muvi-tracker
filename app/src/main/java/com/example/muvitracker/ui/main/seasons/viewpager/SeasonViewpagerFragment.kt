@@ -1,4 +1,4 @@
-package com.example.muvitracker.ui.main.seasons
+package com.example.muvitracker.ui.main.seasons.viewpager
 
 import android.os.Bundle
 import android.view.View
@@ -13,7 +13,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class SeasonViewpagerFragment private constructor() : Fragment(R.layout.fragm_season_viewpager) {
+class SeasonViewpagerFragment : Fragment(R.layout.fragm_season_viewpager) {
 
     private var currentShowTitle: String = ""
     private var currentShowIds: Ids = Ids()

@@ -1,8 +1,9 @@
-package com.example.muvitracker.ui.main.seasons
+package com.example.muvitracker.ui.main.seasons.viewpager
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.muvitracker.data.dto.base.Ids
+import com.example.muvitracker.ui.main.seasons.SeasonFragment
 
 class SeasonViewpagerAdapter(
     fragment: Fragment,

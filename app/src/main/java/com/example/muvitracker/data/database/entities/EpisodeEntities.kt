@@ -32,7 +32,7 @@ data class EpisodeEntity(
 )
 
 
-// TODO fare ck se corretto !!
+// update only the dto part of entity
 fun EpisodeEntity.copyDtoData(episodeDto: EpisodeExtenDto): EpisodeEntity {
     return this.copy(
         episodeTraktId = episodeDto.ids.trakt,
@@ -47,17 +47,7 @@ fun EpisodeEntity.copyDtoData(episodeDto: EpisodeExtenDto): EpisodeEntity {
         availableTranslations = episodeDto.availableTranslations,
         runtime = episodeDto.runtime,
         episodeType = episodeDto.episodeType,
-        showId = showId,
-        //  watched rimane stato db
+        // showId already exist
+        // watched remain the same
     )
 }
-
-
-// old
-//val numberAbs: Int,
-//val overview: String,
-//val rating: Double,
-//val firstAiredFormatted: String, // converted
-//val availableTranslations: List<String>,
-//val runtime: Int,
-//val episodeType: String,

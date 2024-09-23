@@ -9,24 +9,25 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.muvitracker.databinding.FragmPrefsBinding
 import com.example.muvitracker.ui.main.Navigator
+import com.example.muvitracker.ui.main.prefs.adapter.PrefsMovieAdapter
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class PrefsFragment : Fragment() {
+class PrefsMovieFragment : Fragment() {
 
     private var _binding: FragmPrefsBinding? = null
     private val binding
         get() = _binding
 
-    private val viewModel by viewModels<PrefsViewModel>()
+    private val viewModel by viewModels<PrefsMovieViewModel>()
 
     @Inject
     lateinit var navigator: Navigator
 
-    private val adapter = PrefsAdapter(
+    private val adapter = PrefsMovieAdapter(
         onClickVH = { movieIds ->
             navigator.startMovieDetailFragment(movieIds)
         },
@@ -34,7 +35,7 @@ class PrefsFragment : Fragment() {
             startDeleteAlertDialog(movieId)
         },
         onCLickLiked = { movieId ->
-            viewModel.toggleFavoriteItem(movieId)
+            viewModel.toggleLikedItem(movieId)
         },
         onClickWatched = { item, watched ->
             viewModel.updateWatchedItem(updatedItem = item, watched)

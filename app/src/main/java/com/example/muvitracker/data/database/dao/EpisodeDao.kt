@@ -7,118 +7,175 @@ import androidx.room.Update
 import com.example.muvitracker.data.database.entities.EpisodeEntity
 import kotlinx.coroutines.flow.Flow
 
-// TODO
-//  1. read
-//  2. insert
-//  3. update -> logica parziale+totale da repository
+// accoppio in base al'utilizzo
 
 
-// funzioni giuste
 @Dao
 interface EpisodeDao {
 
-    // 1. READ ##################################################
-    @Query("SELECT * FROM episode_entities WHERE episodeTraktId=:episodeTraktId ")
-    suspend fun readSingleEpisodeById(episodeTraktId: Int): EpisodeEntity?
-
-
+    // READ
+    // per aggiornamento da dto, check esistenza elemento || todo - fare true false
     @Query(
         """
         SELECT * FROM episode_entities 
-        WHERE showId=:showId AND seasonNumber=:seasonNr AND episodeNumber =:episodeNr
+        WHERE episodeTraktId=:episodeTraktId 
+        """
+    )
+    suspend fun readSingleEpisodeById(episodeTraktId: Int): EpisodeEntity?
+
+
+    // per episodeFragment
+    @Query(
+        """
+        SELECT * FROM episode_entities 
+        WHERE showId=:showId 
+            AND seasonNumber=:seasonNr 
+            AND episodeNumber =:episodeNr
         """
     )
     suspend fun readSingleEpisode(showId: Int, seasonNr: Int, episodeNr: Int): EpisodeEntity?
 
 
-
-    @Query("SELECT * FROM episode_entities WHERE showId=:showId AND seasonNumber =:seasonNr")
+    // per seasonFragment
+    @Query(
+        """
+        SELECT * FROM episode_entities 
+        WHERE showId=:showId 
+            AND seasonNumber =:seasonNr""")
     fun readAllEpisodesOfSeason(showId: Int, seasonNr: Int): Flow<List<EpisodeEntity>>
 
 
-    // !!! check inserimento o update sempre uno alla volta
-    // 2. INSERT ##################################################
+    // INSERT /UPDATE from dto (without watched status)
+    // per episode store update
     @Insert
     suspend fun insertSingle(entity: EpisodeEntity)
 
-
-    // 3.1 UPDATE DTO ##################################################
+    // per episode store update
     @Update
     suspend fun updateDataSingleEpisode(entity: EpisodeEntity)
 
 
-    // 3.2 WATCHED TOGGLE #################################################
-    // 1 toggle single
+    // TODO WATCHED
+    // 1. CHECK/ TOGGLE WATCHED - SINGLE EPISODE
+    // seasonFragm, episode Fragm
+
+//    @Query(
+//        """
+//        SELECT * FROM episode_entities
+//        WHERE showId=:showId
+//            AND seasonNumber=:seasonNr
+//            AND episodeNumber=:episodeNr
+//            AND watched= 1
+//        """
+//    )
+//    suspend fun isEpisodeWatched(showId: Int, seasonNr: Int, episodeNr: Int): Boolean
+
+
     @Query(
         """
         UPDATE episode_entities
         SET watched = NOT watched
-        WHERE showId=:showId AND seasonNumber=:seasonNr AND episodeNumber=:episodeNr
+        WHERE showId=:showId 
+            AND seasonNumber=:seasonNr 
+            AND episodeNumber=:episodeNr
         """
     )
-    suspend fun toggleWatchedSingleEpisode(
-        showId: Int,
-        seasonNr: Int,
-        episodeNr: Int,
-    )
+    suspend fun toggleWatchedSingleEpisode(showId: Int, seasonNr: Int, episodeNr: Int)
 
-    // 2 toggle all
+
+    // 2. COUNT/ TOGGLE WATCHED - SEASON EPISODES
+    // for detail, season fragment
+    @Query(
+        """
+        SELECT COUNT(*)
+        FROM episode_entities
+        WHERE showId=:showId 
+            AND seasonNumber=:seasonNr 
+            AND watched = 1
+        """
+    )
+    fun countSeasonWatchedEpisodes(showId: Int, seasonNr: Int): Flow<Int>
+
+
     @Query(
         """
         UPDATE episode_entities
         SET watched=:watched
-        WHERE showId=:showId AND seasonNumber=:seasonNr
+        WHERE showId=:showId 
+            AND seasonNumber=:seasonNr
         """
     )
-    suspend fun toggleWatchedAllEpisodes(
-        showId: Int,
-        seasonNr: Int,
-        watched: Boolean,
-    )
+    suspend fun toggleSeasonAllWatchedAEpisodes(showId: Int, seasonNr: Int, watched: Boolean)
 
 
-    // 4 CHECK ####################################################
-    // boolean sql -> true=1, false=0
+    // 3. COUNT/TOGGLE WATCHED - SHOW EPISODES
+    // for show fragment
     @Query(
         """
-        SELECT * 
-        FROM episode_entities 
-        WHERE showId=:showId AND seasonNumber=:seasonNr AND watched = 1
+        SELECT COUNT (*)
+        FROM episode_entities
+        WHERE showId=:showId 
+            AND watched = 1
     """
     )
-    fun checkWatchedEpisodesOfSeason(showId: Int, seasonNr: Int): Flow<List<EpisodeEntity>>
+    suspend fun countShowWatchedEpisodes(showId: Int): Int
 
 
     @Query(
         """
-        SELECT * 
-        FROM episode_entities 
-        WHERE showId=:showId AND watched = 1
+       UPDATE episode_entities
+        SET watched=:watched
+        WHERE showId=:showId
     """
     )
-    fun checkWatchedEpisodesOfShow(showId: Int): Flow<List<EpisodeEntity>>
+    suspend fun toggleShowAllWatchedEpisodes(
+        showId: Int, watched: Boolean
+    )
 
 
-    // TODO force WatchedAll
-    // for season
+    // CONTEGGIO AL MOMENTO DEGLI EPISODI GIA' SCARICATO
+    // serve solo per scaricare nuovi episodi mancanti (force push)
     @Query(
         """
         SELECT COUNT(*) FROM episode_entities 
-        WHERE showId=:showId AND seasonNumber = :seasonNr
+        WHERE showId=:showId 
+            AND seasonNumber = :seasonNr 
         """
     )
-    suspend fun getEpisodeCountBySeason(showId: Int, seasonNr: Int): Int
+    suspend fun countEpisodesBySeason(showId: Int, seasonNr: Int): Int
 
 
-
-    // for show
     @Query(
         """
         SELECT COUNT(*) FROM episode_entities 
         WHERE showId=:showId
         """
     )
-    suspend fun getEpisodeCountByShow(showId: Int): Int
+    suspend fun countEpisodesByShow(showId: Int): Int
+
 
 }
 
+
+// TODO OOOO
+// eliminare entrambe, sostituito da count
+
+
+// boolean sql -> true=1, false=0
+
+// todo
+// (eugi) - peraz sql comode, select (tipo) - deve coincidere con return (tipo)
+// e devono avere lo stesso nome...come nel esempio sotto
+//@Query(
+//    """
+//        SELECT count(*) as number, count(*) as number2
+//        FROM episode_entities
+//        WHERE showId=:showId AND watched = 1
+//    """
+//)
+//fun checkWatchedEpisodesOfShow(showId: Int): Flow<Test>
+//
+//data class Test(
+//    val number: Int,
+//    val number2: Int,
+//)

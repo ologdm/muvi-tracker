@@ -13,18 +13,17 @@ import kotlinx.coroutines.flow.Flow
 // TODO
 //  1. read
 //  2. insert
-//  3.1 update dto
-//  3.2 update watched unico -> logica parziale(input episodio), totale (input show) da repository
+//  3.1 update from dto
 
 @Dao
 interface SeasonDao {
 
     // 1. READ 000
     @Query("SELECT * FROM season_entities WHERE showId=:showId AND seasonNumber=:seasonNr")
-    fun readSingleSeason(showId: Int, seasonNr: Int): Flow<SeasonEntity>
+    suspend fun readSingleSeason(showId: Int, seasonNr: Int): SeasonEntity?
 
     @Query("SELECT * FROM season_entities WHERE seasonTraktId=:seasonTraktId")
-    fun readSingleSeasonById(seasonTraktId: Int): Flow<SeasonEntity>
+    suspend fun readSingleSeasonById(seasonTraktId: Int): SeasonEntity?
 
 
     @Query("SELECT * FROM season_entities WHERE showId=:showId")
@@ -37,6 +36,8 @@ interface SeasonDao {
     suspend fun insertSingle(entity: SeasonEntity)
 
 
+
+    // TODO modificare codice repository
     // 3.1 UPDATE dto 00
     // pesco l'elemento necessario, poi copy, modificando solo i campi necessari (da repository)
     @Update
@@ -45,20 +46,22 @@ interface SeasonDao {
     @Update
     suspend fun updateAllSeasonsDto(entities: List<SeasonEntity>)
 
-
-    // 3.2 UPDATE watched (parziale, totale -> da repository)
-    @Query(
-        """
-        UPDATE season_entities 
-        SET watchedAll=:watchedAll, watchedCount=:watchedCount
-        WHERE showId=:showId AND seasonNumber=:seasonNr
-        """
-    )
-    suspend fun updateWatchedCountOfSingleSeason(
-        showId: Int,
-        seasonNr: Int,
-        watchedAll: Boolean,
-        watchedCount: Int,
-    )
-
 }
+
+
+// 3.2 UPDATE watched (parziale, totale -> da repository)
+// todo eliminare
+
+//    @Query(
+//        """
+//        UPDATE season_entities
+//        SET watchedAll=:watchedAll, watchedCount=:watchedCount
+//        WHERE showId=:showId AND seasonNumber=:seasonNr
+//        """
+//    )
+//    suspend fun updateWatchedCountOfSingleSeason(
+//        showId: Int,
+//        seasonNr: Int,
+//        watchedAll: Boolean,
+//        watchedCount: Int,
+//    )

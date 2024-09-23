@@ -27,7 +27,6 @@ class DetailShowViewmodel @Inject constructor(
     private val detailShowRepo: DetailShowRepository,
     private val prefsShowRepository: PrefsShowRepository,
     private val seasonRepository: SeasonRepository,
-//    private val traktApi: TraktApi,
     private val tmdbRepository: TmdbRepository
 ) : ViewModel() {
 
@@ -35,7 +34,7 @@ class DetailShowViewmodel @Inject constructor(
     val allSeasonsState = MutableLiveData<StateContainer<List<SeasonEntity>>>()
 
 
-    // flow -> livedata OK
+    // SHOW
     fun loadShowDetailFlow(showId: Int) {
         var cachedItem: DetailShow? = null
         viewModelScope.launch {
@@ -84,7 +83,7 @@ class DetailShowViewmodel @Inject constructor(
     // OK
     fun loadAllSeasons(showId: Int) {
         viewModelScope.launch {
-            detailShowRepo.getShowSeasonsFlow(showId)
+            seasonRepository.getShowSeasonsFlow(showId)
                 .map { response ->
                     when (response) {
                         is IoResponse.Success -> {
@@ -109,7 +108,7 @@ class DetailShowViewmodel @Inject constructor(
     }
 
 
-    // season watchedAll OK
+    // SEASON watchedAll OK todo eu
 
     fun toggleSingleSeasonWatchedAll(showId: Int, seasonNr: Int, onComplete: () -> Unit) {
         viewModelScope.launch() {

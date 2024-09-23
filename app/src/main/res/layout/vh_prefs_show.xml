@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:orientation="horizontal"
+        android:paddingBottom="8dp">
+
+    <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/image"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            tools:layout_width="wrap_content"
+            app:layout_constraintDimensionRatio="2:3"
+            tools:background="@tools:sample/avatars"
+            app:shapeAppearance="@style/ImageLarge_RoundedShape"
+            android:background="?attr/colorOnSurface"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+    <!-- Titoli: -->
+    <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingHorizontal="16dp"
+            app:layout_constraintStart_toEndOf="@id/image"
+            app:layout_constraintEnd_toEndOf="parent">
+
+
+        <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Game Of Thrones"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+        <TextView
+                android:id="@+id/otherInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="HBO  2011 (US), ended "
+                android:textSize="16sp" />
+
+        <TextView
+                android:id="@+id/totalSeasonEpisodes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="6 seas, 64 epis"
+                android:textSize="16sp" />
+
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp" />
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+
+            <ImageButton
+                    android:id="@+id/likedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/baseline_liked_border"
+                    android:importantForAccessibility="no"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/watchedCheckBox"
+                    app:layout_constraintBottom_toBottomOf="@id/watchedCheckBox" />
+
+            <CheckBox
+                    android:id="@+id/watchedCheckBox"
+                    android:text="@string/watchedAllCheck"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/likedButton" />
+
+
+            <com.google.android.material.progressindicator.LinearProgressIndicator
+                    android:id="@+id/watchedCounterProgressBar"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/watchedCheckBox"
+                    app:layout_constraintStart_toStartOf="@id/watchedCheckBox"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -24,41 +24,24 @@ data class SeasonEntity(
     val overview: String? = null,
     val releaseYear: String? = null,
     val network: String? = null,
-
-    // save
-    var watchedAll: Boolean = false,
-    var watchedCount: Int = 0
 )
 
 
-// TODO fare ck se corretto !!
-fun SeasonEntity.copyDtoData(dto: SeasonExtenDto): SeasonEntity {
+//  todo !!! non usato, non serve piu
+fun SeasonEntity.copyDtoData(seasonDto: SeasonExtenDto): SeasonEntity {
     return this.copy(
-        seasonTraktId = dto.ids.trakt,
-        seasonNumber = dto.number,
-        ids = dto.ids,
-        rating = dto.rating,
-        episodeCount = dto.episodeCount,
-        airedEpisodes = dto.airedEpisodes,
-        title = dto.title,
-        overview = dto.overview ?: "",
-        releaseYear = dto.getYear(),
-        network = dto.network,
-        showId = showId
+        seasonTraktId = seasonDto.ids.trakt,
+        seasonNumber = seasonDto.number,
+        ids = seasonDto.ids,
+        rating = seasonDto.rating,
+        episodeCount = seasonDto.episodeCount,
+        airedEpisodes = seasonDto.airedEpisodes,
+        title = seasonDto.title,
+        overview = seasonDto.overview ?: "",
+        releaseYear = seasonDto.getYear(),
+        network = seasonDto.network
+        // showId - already exist
     )
 }
 
-
-// from extended dto old
-//    val rating: Double, // converted
-//    val episodeCount: Int, // !! usare su detailShow-seasonlist-conteggio top
-//    val airedEpisodes: Int, // non usare
-//    val title: String,
-//    val overview: String,
-//    val releaseYear: String, // converted
-//    val network: String,
-
-// if (watchedCount==episodeCount){
-//    watchedAll==true
-// }
 

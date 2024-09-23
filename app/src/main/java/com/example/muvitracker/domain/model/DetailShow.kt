@@ -27,9 +27,11 @@ data class DetailShow(
 
     // prefs entity
     val liked: Boolean,
-    val watchedAll: Boolean, // solo
-    val watchedCount: Int, // default 0,
     val addedDateTime: Long?, // using timestamp
+
+    // computed data from episodeRepository
+    val watchedAll: Boolean = false, // default false
+    val watchedCount: Int = 0, // default 0
 
     ) {
     fun imageUrl(): String {

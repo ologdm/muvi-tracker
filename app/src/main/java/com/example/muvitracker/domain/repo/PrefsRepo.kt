@@ -9,7 +9,7 @@ interface PrefsRepo {
     //    fun getList(): LiveData<List<DetailMovie>>
     fun getListFLow(): Flow<List<DetailMovie>>
 
-    suspend fun toggleFavoriteOnDB(id: Int)
+    suspend fun toggleLikedOnDB(id: Int)
 
     suspend fun updateWatchedOnDB(id: Int, watched: Boolean)
 
