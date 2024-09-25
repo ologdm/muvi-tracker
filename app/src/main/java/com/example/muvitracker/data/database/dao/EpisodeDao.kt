@@ -118,7 +118,7 @@ interface EpisodeDao {
             AND watched = 1
     """
     )
-    suspend fun countShowWatchedEpisodes(showId: Int): Int
+    fun countShowWatchedEpisodes(showId: Int): Flow<Int>
 
 
     @Query(
@@ -131,6 +131,7 @@ interface EpisodeDao {
     suspend fun toggleShowAllWatchedEpisodes(
         showId: Int, watched: Boolean
     )
+
 
 
     // CONTEGGIO AL MOMENTO DEGLI EPISODI GIA' SCARICATO

@@ -14,11 +14,11 @@ import com.example.muvitracker.data.database.entities.copyDtoData
 import com.example.muvitracker.data.dto.season.SeasonExtenDto
 import com.example.muvitracker.data.dto.season.toEntity
 import com.example.muvitracker.data.requests.ShowRequestKeys
+import com.example.muvitracker.domain.model.SeasonExtended
 import com.example.muvitracker.utils.IoResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filterNot
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -40,7 +40,7 @@ class SeasonRepository @Inject constructor(
     // SEASON from detail
 
     // 1. store OK
-    private val seasonStore: Store<Int, List<SeasonEntity>> = StoreBuilder.from(
+    private val seasonStore: Store<Int, List<SeasonExtended>> = StoreBuilder.from(
         fetcher = Fetcher.ofResult { showId ->
             try {
                 FetcherResult.Data(traktApi.getAllSeasons(showId)
@@ -52,9 +52,10 @@ class SeasonRepository @Inject constructor(
                 FetcherResult.Error.Exception(ex)
             }
         },
-        sourceOfTruth = SourceOfTruth.of<Int, List<SeasonExtenDto>, List<SeasonEntity>>(
+        sourceOfTruth = SourceOfTruth.of<Int, List<SeasonExtenDto>, List<SeasonExtended>>(
             reader = { showId ->
-                seasonDao.readAllSeasonsOfShow(showId) // flow
+//                seasonDao.readAllSeasonsOfShow(showId) // old
+                seasonDao.getAllSeasonsExtended(showId) //
             },
             writer = { showId, dtos ->
                 saveSeasonDtosToDatabase(showId, dtos)
@@ -80,7 +81,9 @@ class SeasonRepository @Inject constructor(
 
 
     // 3. stream
-    fun getShowSeasonsFlow(showId: Int): Flow<IoResponse<List<SeasonEntity>>> {
+    // con SeasonExtended
+    fun getAllSeasonsFlow(showId: Int): Flow<IoResponse<List<SeasonExtended>>> {
+
         return seasonStore.stream(StoreRequest.cached(showId, refresh = true))
             .filterNot { storeResponse ->
                 storeResponse is StoreResponse.Loading || storeResponse is StoreResponse.NoNewData
@@ -88,7 +91,7 @@ class SeasonRepository @Inject constructor(
             .map { storeResponse ->
                 when (storeResponse) {
                     is StoreResponse.Data -> {
-                        IoResponse.Success(storeResponse.value)// no map toDomain
+                        IoResponse.Success(storeResponse.value)
                     }
 
                     is StoreResponse.Error.Exception -> {
@@ -101,17 +104,154 @@ class SeasonRepository @Inject constructor(
 
                     is StoreResponse.Loading,
                     is StoreResponse.NoNewData -> error("should be filtered upstream")
+
                 }
             }
     }
 
 
-    // SEASON old #################################################################
     // 1. solo lettura da db elemento singolo (elemento esiste sicuramente)
-    suspend fun getSingleSeason(showId: Int, seasonNr: Int): SeasonEntity? {
-        return seasonDao.readSingleSeason(showId, seasonNr)
+//    suspend fun getSingleSeason(showId: Int, seasonNr: Int): SeasonEntity? {
+//        return seasonDao.readSingleSeason(showId, seasonNr)
+//    }
+    fun getSingleSeasonFlow(showId: Int, seasonNr: Int): Flow<SeasonExtended> {
+        // !!deve essere flow perchè stato watchedAll puo sempre cambiare
+        return seasonDao.getSingleSeasonExtended(showId, seasonNr)
     }
 
+
+    // #############################################################################################
+    // Force Season Watched Click (noData vs Data) 0000
+    private suspend fun areEpisodesAvailableForSeason(
+        showId: Int,
+        seasonNr: Int
+    ): Boolean {
+        return episodeDao.countEpisodesBySeason(showId, seasonNr) > 0
+
+    }
+
+
+    // funzione unica per detail & season fragment 0000
+    suspend fun checkAndToggleWatchedAllSeasonEpisodes(
+        showId: Int,
+        seasonNr: Int,
+    ) {
+        if (!areEpisodesAvailableForSeason(showId, seasonNr)) {
+            // 1. scarica tutti gli episodi stagione
+            episodeRepository
+                .episodeStore
+                .fresh(ShowRequestKeys(showId = showId, seasonNr = seasonNr))
+        }
+
+        // 2 toggle tutti episodi season
+        val seasonAiredEpisodes =
+            seasonDao.readSingleSeason(showId, seasonNr)?.airedEpisodes ?: 0
+        val seasonWatchedAll =
+            episodeDao.countSeasonWatchedEpisodes(showId, seasonNr).first()
+        if (seasonWatchedAll == seasonAiredEpisodes) {
+            episodeDao.toggleSeasonAllWatchedAEpisodes(showId, seasonNr, false)
+        } else {
+            episodeDao.toggleSeasonAllWatchedAEpisodes(showId, seasonNr, true)
+        }
+
+        // todo egde case
+        // - se puntate aumentano, devo watchedAll scompare, airedEpisodes 10->13, 3 episodi non scaricati
+    }
+
+}
+
+//    fun getShowSeasonsFlowOld(showId: Int): Flow<IoResponse<List<SeasonEntity>>> {
+//        return seasonStore.stream(StoreRequest.cached(showId, refresh = true))
+//            .filterNot { storeResponse ->
+//                storeResponse is StoreResponse.Loading || storeResponse is StoreResponse.NoNewData
+//            }
+//            .map { storeResponse ->
+//                when (storeResponse) {
+//                    is StoreResponse.Data -> {
+//                        IoResponse.Success(storeResponse.value)// no map toDomain
+//                    }
+//
+//                    is StoreResponse.Error.Exception -> {
+//                        IoResponse.Error(storeResponse.error)
+//                    }
+//
+//                    is StoreResponse.Error.Message -> {
+//                        IoResponse.Error(RuntimeException(storeResponse.message))
+//                    }
+//
+//                    is StoreResponse.Loading,
+//                    is StoreResponse.NoNewData -> error("should be filtered upstream")
+//                }
+//            }
+//    }
+
+
+// todo - singolo -> join su season dao
+//                private fun getSeasonWatchedStates(
+//                    showId: Int,
+//                    seasonNr: Int
+//                ): Flow<WatchedDataModel> {
+//                    return flow {
+//                        // totali stagione (val fisso)
+//                        val airedEpisodes =
+//                            seasonDao.readSingleSeason(showId, seasonNr)?.airedEpisodes
+//                                ?: 0 // suspend function
+//
+//                        // watched (flow)
+//                        episodeDao.countSeasonWatchedEpisodes(showId, seasonNr)
+//                            .collect { watchedEpisodes ->
+//                                val watchedAll = (watchedEpisodes == airedEpisodes)
+//                                emit(WatchedDataModel(watchedAll, watchedEpisodes))
+//                            }
+//                    }
+//                }
+
+
+//private fun getAllSeasonsWatchedStates(showId: Int): Flow<List<WatchedDataModel>> {
+//        return flow {
+//            val watchedDataList = mutableListOf<WatchedDataModel>()
+//
+//            // Ottenere tutte le stagioni per lo show
+//            val airedSeasons = seasonDao.readAllSeasonsOfShow(showId).first()
+//            for (season in airedSeasons) {
+//                val airedEpisodes = season.airedEpisodes
+//
+//                val watchedEpisodes =
+//                    episodeDao.countSeasonWatchedEpisodes(showId, season.seasonNumber).first()
+//
+//                // watched (flow)
+//                val watchedAll = (watchedEpisodes == airedEpisodes)
+//                watchedDataList.add(
+//                    WatchedDataModel(
+//                        showId = showId,
+//                        seasonNumber = season.seasonNumber,
+//                        watchedAll = watchedAll,
+//                        watchedCount = watchedEpisodes
+//                    )
+//                )
+//            }
+//            emit(watchedDataList)
+//
+//        }
+//
+//    }
+
+
+
+
+//    fun checkSeasonAllWatchedStatus(showId: Int, seasonNr: Int): Flow<Boolean> {
+//        return flow {
+//            // totali stagione (val fisso)
+//            val airedEpisodes =
+//                seasonDao.readSingleSeason(showId, seasonNr)?.airedEpisodes ?: 0 // suspend function
+//
+//            // watched (flow)
+//            episodeDao.countSeasonWatchedEpisodes(showId, seasonNr)
+//                .collect { watchedEpisodes ->
+//                    emit(watchedEpisodes == airedEpisodes) // emit true se coincidono
+//                }
+//        }
+//    }
 
 //    // WATCHED
 //    // 1. update season
@@ -142,57 +282,6 @@ class SeasonRepository @Inject constructor(
 //            )
 //        }
 //    }
-
-
-    // #############################################################################################
-    // force seasonWatchedClick - noData vs Data OK
-    private suspend fun areEpisodesAvailableForSeason(showId: Int, seasonNr: Int): Boolean {
-        return episodeDao.countEpisodesBySeason(showId, seasonNr) > 0
-
-    }
-
-
-    suspend fun checkAndToggleWatchedAllSeasonEpisodes(
-        showId: Int,
-        seasonNr: Int,
-    ) {
-        if (!areEpisodesAvailableForSeason(showId, seasonNr)) {
-            // scarica tutti gli episodi stagione
-            episodeRepository.episodeStore.fresh(
-                ShowRequestKeys(
-                    showId = showId,
-                    seasonNr = seasonNr
-                )
-            )
-            // get() non andava perche dao restituiva emptyList, con null funzica
-        }
-
-        // toggle tutti gli episodi stagione
-        episodeRepository.toggleSeasonAllWatchedEpisodes(showId, seasonNr) // episodes
-
-
-        // TODO edge case (stagione in corso) eugi
-        //  - se puntate aumentano, devo watchedAll scompare, airedEpisodes 10->13, 3 episodi non scaricati
-    }
-
-
-    fun checkSeasonAllWatchedStatus(showId: Int, seasonNr: Int): Flow<Boolean> {
-        return flow {
-            val airedEpisodes = seasonDao.readSingleSeason(showId, seasonNr)?.airedEpisodes ?: 0
-            // watched
-            val watchedEpisodes = episodeDao.countSeasonWatchedEpisodes(showId, seasonNr)
-
-
-        }
-        // total
-
-
-
-        return watchedEpisodes == airedEpisodes // return true se coincidono
-
-    }
-
-}
 
 
 

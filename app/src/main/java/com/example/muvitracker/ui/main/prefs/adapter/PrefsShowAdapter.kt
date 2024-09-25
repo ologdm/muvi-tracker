@@ -41,14 +41,22 @@ class PrefsShowAdapter(
 
         holder.binding.run {
 
+            // liked update + toggle
             updateFavoriteIcon(likedButton, currentItem.liked, iconFilled, iconEmpty)
-            // todo watchedCount
 
-            // toggle liked
             likedButton.setOnClickListener {
                 onCLickLiked.invoke(currentItem.ids.trakt)
                 updateFavoriteIcon(likedButton, currentItem.liked, iconFilled, iconEmpty)
             }
+
+            // watched update + toggle TODO
+            watchedCheckBox.isChecked =
+                currentItem.watchedAll // !! forma abbreviata - caso true
+
+            watchedCounterProgressBar.max = currentItem.airedEpisodes
+            watchedCounterProgressBar.progress = currentItem.watchedCount
+            watchedCounterTextview.text = "${currentItem.watchedCount}/${currentItem.airedEpisodes}"
+
 
             // todo alla fine
             // pass watchedState
@@ -84,7 +92,6 @@ class PrefsShowAdapter(
         else
             likedButton.setImageDrawable(iconEmpty)
     }
-
 
 
     companion object : DiffUtil.ItemCallback<DetailShow>() {

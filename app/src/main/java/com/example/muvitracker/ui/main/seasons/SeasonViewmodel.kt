@@ -8,11 +8,13 @@ import com.example.muvitracker.data.SeasonRepository
 import com.example.muvitracker.data.database.entities.EpisodeEntity
 import com.example.muvitracker.data.database.entities.SeasonEntity
 import com.example.muvitracker.data.imagetmdb.TmdbRepository
+import com.example.muvitracker.domain.model.SeasonExtended
 import com.example.muvitracker.utils.IoResponse
 import com.example.muvitracker.utils.StateContainer
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -26,92 +28,100 @@ class SeasonViewmodel @Inject constructor(
     private val tmdbRepository: TmdbRepository
 ) : ViewModel() {
 
-    val seasonInfoState = MutableLiveData<StateContainer<SeasonEntity>>()
+    //    val seasonInfoState = MutableLiveData<StateContainer<SeasonEntity>>()
+    val seasonInfoState = MutableLiveData<StateContainer<SeasonExtended>>()
     val seasonEpisodesState = MutableLiveData<StateContainer<List<EpisodeEntity>>>() // test
-    val allSeasonEpisodesIsWatchedStatus = MutableLiveData<Boolean>() // icon state
 
 
     fun loadSeasonInfo(showId: Int, seasonNumber: Int) {
         viewModelScope.launch {
-            try {
-                val season = seasonRepository.getSingleSeason(showId, seasonNumber)
-                seasonInfoState.value = season?.let { StateContainer(data = season) }
-            } catch (ex: Throwable) {
-                ex.printStackTrace()
-            }
-        }
-    }
-
-
-    fun loadSeasonEpisodes(showId: Int, seasonNumber: Int) {
-        // TODO caching come in details
-        viewModelScope.launch {
-            episodeRepository.getSeasonEpisodesFlow(showId, seasonNumber)
-                .map { response ->
-                    when (response) {
-                        is IoResponse.Success -> {
-                            StateContainer(response.dataValue)
-                        }
-
-                        is IoResponse.Error -> {
-                            if (response.t is IOException) {
-                                StateContainer(isNetworkError = true)
-                            } else {
-                                StateContainer(isOtherError = true)
-                            }
-
-                        }
-                    }
-                }.catch {
+            seasonRepository.getSingleSeasonFlow(showId, seasonNumber)
+                .catch {
                     it.printStackTrace()
-                }.collectLatest {
-                    seasonEpisodesState.value = it
+                }
+                .collectLatest {seasonExtendedFromDb ->
+                    seasonInfoState.value = StateContainer(seasonExtendedFromDb)
                 }
         }
+
+
+//        seasonInfoState.value = season?.let { StateContainer(data = season) }
     }
 
 
-    // WATCHED
-    fun isWatchedAllStatus(showId: Int, seasonNr: Int) {
-        viewModelScope.launch {
-            allSeasonEpisodesIsWatchedStatus.value =
-                seasonRepository.checkSeasonAllWatchedStatus(showId, seasonNr)
-        }
 
+fun loadSeasonEpisodes(showId: Int, seasonNumber: Int) {
+    // TODO caching come in details
+    viewModelScope.launch {
+        episodeRepository.getSeasonEpisodesFlow(showId, seasonNumber)
+            .map { response ->
+                when (response) {
+                    is IoResponse.Success -> {
+                        StateContainer(response.dataValue)
+                    }
+
+                    is IoResponse.Error -> {
+                        if (response.t is IOException) {
+                            StateContainer(isNetworkError = true)
+                        } else {
+                            StateContainer(isOtherError = true)
+                        }
+                    }
+                }
+            }.catch {
+                it.printStackTrace()
+            }.collectLatest {
+                seasonEpisodesState.value = it
+            }
     }
+}
 
 
-    fun toggleWatchedEpisode(
-        showId: Int,
-        seasonNr: Int,
-        episodeNr: Int
-    ) {
-        viewModelScope.launch {
-            episodeRepository.toggleSingleWatchedEpisode(showId, seasonNr, episodeNr)
-        }
+// WATCHED
+// eliminare
+//    val isWatchedAllSeasonEpisodesStatus = MutableLiveData<Boolean>() // icon state
+//
+//    fun isWatchedAllSeasonEpisodes(showId: Int, seasonNr: Int) {
+//        viewModelScope.launch {
+//            seasonRepository.checkSeasonAllWatchedStatus(showId, seasonNr)
+//                .collect { watchedStatus ->
+//                    isWatchedAllSeasonEpisodesStatus.value = watchedStatus
+//                }
+//        }
+//    }
+
+
+fun toggleSeasonAllWatchedEpisodes(showId: Int, seasonNr: Int) {
+    viewModelScope.launch {
+        seasonRepository.checkAndToggleWatchedAllSeasonEpisodes(showId, seasonNr)
     }
+}
 
 
-    fun toggleSeasonAllWatchedEpisodes(showId: Int, seasonNr: Int) {
-        viewModelScope.launch {
-            seasonRepository.checkAndToggleWatchedAllSeasonEpisodes(showId, seasonNr)
-        }
+fun toggleWatchedEpisode(
+    showId: Int,
+    seasonNr: Int,
+    episodeNr: Int
+) {
+    viewModelScope.launch {
+        episodeRepository.toggleSingleWatchedEpisode(showId, seasonNr, episodeNr)
     }
+}
 
 
-    // TMDB IMAGES
-    val posterImageUrl = MutableLiveData<String>()
+// TMDB IMAGES
+val posterImageUrl = MutableLiveData<String>()
 
-    fun getTmdbImageLinksFlow(showTmdbId: Int, seasonNr: Int) {
-        viewModelScope.launch {
-            // todo gestione null !!!!!!!!!
-            val result = tmdbRepository
-                .getSeasonImageFlow(showTmdbId, seasonNr)
-                .firstOrNull()
-            val posterUrl = result?.get(TmdbRepository.POSTER_KEY) ?: ""
-            posterImageUrl.value = posterUrl
-        }
+fun getTmdbImageLinksFlow(showTmdbId: Int, seasonNr: Int) {
+    viewModelScope.launch {
+        // todo gestione null !!!!!!!!!
+        val result = tmdbRepository
+            .getSeasonImageFlow(showTmdbId, seasonNr)
+            .firstOrNull()
+        val posterUrl = result?.get(TmdbRepository.POSTER_KEY) ?: ""
+        posterImageUrl.value = posterUrl
     }
+}
 
 
 }

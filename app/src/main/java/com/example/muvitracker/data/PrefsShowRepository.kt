@@ -25,23 +25,29 @@ class PrefsShowRepository @Inject constructor(
 
 
     // for Prefs Frgment todo
-//    override
-    fun getListFLow(): Flow<List<DetailShow>> {
-        val detailListFLow = detailShowRepository.getDetailListFlow()
-        val prefsListFLow = prefsShowDao.readAll()
+//    override - old
+//    fun getListFLow(): Flow<List<DetailShow>> {
+//        val detailListFLow = detailShowRepository.getDetailListFlow()
+//        val prefsListFLow = prefsShowDao.readAll()
+//
+//        return detailListFLow
+//            .combine(prefsListFLow) { detailList, prefsList ->
+//                // mappa valori non nulli
+//                prefsList.mapNotNull { prefsEntityR ->
+//                    val detailItem = detailList.find { detailEntityR ->
+//                        detailEntityR?.traktId == prefsEntityR?.traktId
+//                    }
+//                    detailItem?.toDomain(prefsEntityR)
+//                }.sortedByDescending {
+//                    it.addedDateTime
+//                }
+//            }
+//    }
 
-        return detailListFLow
-            .combine(prefsListFLow) { detailList, prefsList ->
-                // mappa valori non nulli
-                prefsList.mapNotNull { prefsEntityR ->
-                    val detailItem = detailList.find { detailEntityR ->
-                        detailEntityR?.traktId == prefsEntityR?.traktId
-                    }
-                    detailItem?.toDomain(prefsEntityR)
-                }.sortedByDescending {
-                    it.addedDateTime
-                }
-            }
+
+    // TODO
+    fun getListFLow(): Flow<List<DetailShow>> {
+        return prefsShowDao.getAllPrefsShows()
     }
 
 
@@ -66,7 +72,6 @@ class PrefsShowRepository @Inject constructor(
             )
         }
     }
-
 
 
     // TODO

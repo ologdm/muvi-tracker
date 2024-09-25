@@ -48,11 +48,10 @@ class SeasonFragment : Fragment(R.layout.fragm_season_son) {
     )
 
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
-        binding.episodesRV.adapter = episodesAdapter
-        binding.episodesRV.layoutManager = LinearLayoutManager(requireContext())
-
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?
+    ) {
         val bundle = arguments
         if (bundle != null) {
             currentShowIds = bundle.getParcelable(SHOW_IDS_KEY) ?: Ids()
@@ -60,7 +59,7 @@ class SeasonFragment : Fragment(R.layout.fragm_season_son) {
         }
 
 
-        // 00
+        // SEASON INFO
         viewModel.loadSeasonInfo(showId = currentShowIds.trakt, seasonNumber = currentSeason)
 
         viewModel.seasonInfoState.observe(viewLifecycleOwner) { stateContainer ->
@@ -68,32 +67,34 @@ class SeasonFragment : Fragment(R.layout.fragm_season_son) {
             if (entity != null) {
                 binding.seasonTitle.text = entity.title
                 binding.seasonOverview.text = entity.overview
-//                updateWatchedAllIcon(stateContainer.data!!.watchedAll) todo eliminare
+                updateIconWatchedAll(stateContainer!!.data!!.watchedAll)
             }
         }
 
 
-        // 00
+        // SEASON EPISODES
+        binding.episodesRV.adapter = episodesAdapter
+        binding.episodesRV.layoutManager = LinearLayoutManager(requireContext())
+
         viewModel.loadSeasonEpisodes(showId = currentShowIds.trakt, seasonNumber = currentSeason)
 
         viewModel.seasonEpisodesState.observe(viewLifecycleOwner) { stateContainer ->
-            println("LLLL EPISODES${stateContainer.data}")
             episodesAdapter.submitList(stateContainer.data)
         }
 
 
-        // Espansione e riduzione overview - OK
-        var isTextExpanded = false // initial state, fragment opening
-        binding.seasonOverview.setOnClickListener {
-            if (isTextExpanded) { // expanded==true -> contract
-                binding.seasonOverview.maxLines = 6
-                binding.seasonOverview.ellipsize = TextUtils.TruncateAt.END
-            } else { // expanded==false -> expand
-                binding.seasonOverview.maxLines = Int.MAX_VALUE
-                binding.seasonOverview.ellipsize = null
-            }
-            isTextExpanded = !isTextExpanded // toggle state
+        //  WATCHED_ALL_ICON  0000
+//        viewModel.isWatchedAllSeasonEpisodes(currentShowIds.trakt, currentSeason)
+
+        // todo - sposto su
+//        viewModel.isWatchedAllSeasonEpisodesStatus.observe(viewLifecycleOwner) { isWatched ->
+//            updateIconWatchedAll(isWatched)
+//        }
+
+        binding.watchedAllIcon.setOnClickListener {
+            viewModel.toggleSeasonAllWatchedEpisodes(currentShowIds.trakt, currentSeason)
         }
+
 
         // IMAGE vertical - poster
         viewModel.getTmdbImageLinksFlow(
@@ -113,19 +114,18 @@ class SeasonFragment : Fragment(R.layout.fragm_season_son) {
         }
 
 
-        //  WATCHED_ALL_ICON  0000
-        viewModel.isWatchedAllStatus(currentShowIds.trakt,currentSeason)
-
-        viewModel.allSeasonEpisodesIsWatchedStatus.observe(viewLifecycleOwner){ isWatched->
-            updateIconWatchedAll(isWatched)
+        // Espansione e riduzione overview - OK
+        var isTextExpanded = false // initial state, fragment opening
+        binding.seasonOverview.setOnClickListener {
+            if (isTextExpanded) { // expanded==true -> contract
+                binding.seasonOverview.maxLines = 6
+                binding.seasonOverview.ellipsize = TextUtils.TruncateAt.END
+            } else { // expanded==false -> expand
+                binding.seasonOverview.maxLines = Int.MAX_VALUE
+                binding.seasonOverview.ellipsize = null
+            }
+            isTextExpanded = !isTextExpanded // toggle state
         }
-
-        binding.watchedAllIcon.setOnClickListener {
-            viewModel.toggleSeasonAllWatchedEpisodes(currentShowIds.trakt, currentSeason)
-        }
-
-
-
 
     }
 

@@ -24,7 +24,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:paddingHorizontal="16dp"
+            android:paddingHorizontal="12dp"
             app:layout_constraintStart_toEndOf="@id/image"
             app:layout_constraintEnd_toEndOf="parent">
 
@@ -77,9 +77,22 @@
                     android:text="@string/watchedAllCheck"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="30dp"
+                    android:layout_marginStart="20dp"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toEndOf="@id/likedButton" />
+
+            <TextView
+                    android:id="@+id/watchedCounterTextview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="9000/9000"
+                    app:layout_constraintStart_toEndOf="@id/watchedCheckBox"
+                    app:layout_constraintTop_toTopOf="@id/watchedCheckBox"
+                    app:layout_constraintBottom_toBottomOf="@id/watchedCheckBox"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginStart="10dp"
+                    android:textSize="16dp"
+                    android:layout_marginBottom="2dp" />
 
 
             <com.google.android.material.progressindicator.LinearProgressIndicator
@@ -89,8 +102,7 @@
                     app:layout_constraintTop_toBottomOf="@id/watchedCheckBox"
                     app:layout_constraintStart_toStartOf="@id/watchedCheckBox"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp" />
+                    android:layout_marginStart="8dp" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

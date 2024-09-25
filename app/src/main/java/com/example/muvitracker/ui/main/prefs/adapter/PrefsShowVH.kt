@@ -18,8 +18,7 @@ class PrefsShowVH(
             otherInfo.text =
                 "${currentItem.network}, ${currentItem.year}, ${currentItem.country.uppercase()}, ${currentItem.status}"
             // todo passare conteggio
-            totalSeasonEpisodes.text =
-                " 6 seas, ${currentItem.airedEpisodes} ep"
+
 
             watchedCounterProgressBar.max = currentItem.airedEpisodes
             watchedCounterProgressBar.progress = currentItem.watchedCount

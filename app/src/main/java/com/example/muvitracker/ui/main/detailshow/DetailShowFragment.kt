@@ -37,8 +37,6 @@ class DetailShowFragment : Fragment(R.layout.fragm_detail_show) {
     private var currentShowIds: Ids = Ids() // ids has default value
     private var totSeasonsNumber: Int = 0
 
-    // todo
-    private val watchedEpisodeCounter :Int = 0
 
     private val binding by viewBinding(FragmDetailShowBinding::bind)
     private val viewModel by viewModels<DetailShowViewmodel>()
@@ -83,14 +81,15 @@ class DetailShowFragment : Fragment(R.layout.fragm_detail_show) {
         viewModel.detailState.observe(viewLifecycleOwner) { stateContainer ->
             stateContainer.data?.let { detailShow ->
                 updateDetailUi(detailShow)
-                // todo - watchedCount view from show
-                binding.watchedCounterTextview.text = "${stateContainer.data!!.watchedCount}/${stateContainer.data!!.airedEpisodes}"
 
-//                binding.watchedCounterProgressBar =
-                // todo - watcvhedAll view from show
-                // show aggiornarlo dove serve -
+                binding.watchedCounterTextview.text =
+                    "${stateContainer.data!!.watchedCount}/${stateContainer.data!!.airedEpisodes}"
+                binding.watchedCounterProgressBar.max = detailShow.airedEpisodes
+                binding.watchedCounterProgressBar.progress = detailShow.watchedCount
 
+                binding.watchedAllCheckbox.isChecked = detailShow.watchedAll
             }
+
             stateContainer.statesFlow(
                 binding.errorTextView,
                 binding.progressBar
@@ -111,7 +110,6 @@ class DetailShowFragment : Fragment(R.layout.fragm_detail_show) {
             // 2 ok
             detailSeasonsAdapter.submitList(stateContainer.data)
         }
-
 
 
         // TMDB test
@@ -138,6 +136,8 @@ class DetailShowFragment : Fragment(R.layout.fragm_detail_show) {
                 .into(binding.imageVertical)
         }
 
+
+        // BUTTONS CLICK
         binding.buttonBack.setOnClickListener {
             requireActivity().onBackPressed()
         }
@@ -146,14 +146,20 @@ class DetailShowFragment : Fragment(R.layout.fragm_detail_show) {
             viewModel.toggleLikedShow(currentShowIds.trakt)
         }
 
+//        updateWatchedCheckbox()
+        binding.watchedAllCheckbox.setOnCheckedChangeListener(null)
+//        binding.watchedAllCheckbox.isChecked = isWatched todo eliminare, non serve
+        binding.watchedAllCheckbox.setOnCheckedChangeListener { _, _ ->
+            viewModel.toggleWatchedAll(currentShowIds.trakt)
+            // todo - add checkboxLoadingBar
+            println("XXX watchedAllCheckbox fragm ")
+        }
 
-        // TODO aggiornamento
-//        binding.watchedProgressionBar
-        // max = airedEpisedes
-        // count = TOTWatchedCount
 
-//        binding.watchedCheckbox.isChecked
-        // se totSeasonsWatchedAll = totAiredSeasons
+        binding.watchedAllCheckbox.setOnCheckedChangeListener{_,isCheched->
+            viewModel.toggleWatchedAll(currentShowIds.trakt)
+        }
+
 
 
         // RELATED SHOWS OK
@@ -205,18 +211,23 @@ class DetailShowFragment : Fragment(R.layout.fragm_detail_show) {
             }
         }
 
-        updateFavoriteIcon(detailShow.liked)
+        updateLikedIcon(detailShow.liked)
 //        updateWatched - todo
 
 
     }
 
 
-    private fun updateFavoriteIcon(isFavorite: Boolean) {
+    private fun updateLikedIcon(isFavorite: Boolean) {
         val iconFilled = context?.getDrawable(R.drawable.baseline_liked)
         val iconEmpty = context?.getDrawable(R.drawable.baseline_liked_border)
 
         binding.floatingLikedButton.setImageDrawable(if (isFavorite) iconFilled else iconEmpty)
+    }
+
+
+    private fun updateWatchedCheckbox() {
+
     }
 
 

@@ -6,9 +6,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.muvitracker.data.DetailShowRepository
 import com.example.muvitracker.data.PrefsShowRepository
 import com.example.muvitracker.data.SeasonRepository
-import com.example.muvitracker.data.database.entities.SeasonEntity
 import com.example.muvitracker.data.imagetmdb.TmdbRepository
 import com.example.muvitracker.domain.model.DetailShow
+import com.example.muvitracker.domain.model.SeasonExtended
 import com.example.muvitracker.domain.model.base.Show
 import com.example.muvitracker.utils.IoResponse
 import com.example.muvitracker.utils.StateContainer
@@ -31,7 +31,8 @@ class DetailShowViewmodel @Inject constructor(
 ) : ViewModel() {
 
     val detailState = MutableLiveData<StateContainer<DetailShow>>()
-    val allSeasonsState = MutableLiveData<StateContainer<List<SeasonEntity>>>()
+//    val allSeasonsState = MutableLiveData<StateContainer<List<SeasonEntity>>>()
+    val allSeasonsState = MutableLiveData<StateContainer<List<SeasonExtended>>>()
 
 
     // SHOW
@@ -77,13 +78,21 @@ class DetailShowViewmodel @Inject constructor(
         }
     }
 
-    // todo force show watchedAll
+    // force show watchedAll OK
+    fun toggleWatchedAll (showId: Int){
+        // add callback
+        viewModelScope.launch {
+//            detailShowRepo.checkAndToggleShowAllWatchedEpisodes(showId)
+            println("XXX watchedAllCheckbox viewmodel ")
+        }
+
+    }
 
 
     // OK
     fun loadAllSeasons(showId: Int) {
         viewModelScope.launch {
-            seasonRepository.getShowSeasonsFlow(showId)
+            seasonRepository.getAllSeasonsFlow(showId)
                 .map { response ->
                     when (response) {
                         is IoResponse.Success -> {

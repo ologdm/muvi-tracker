@@ -8,6 +8,7 @@ import com.dropbox.android.external.store4.StoreBuilder
 import com.dropbox.android.external.store4.StoreRequest
 import com.dropbox.android.external.store4.StoreResponse
 import com.example.muvitracker.data.database.MyDatabase
+import com.example.muvitracker.data.database.dao.DetailShowDao
 import com.example.muvitracker.data.database.entities.EpisodeEntity
 import com.example.muvitracker.data.database.entities.copyDtoData
 import com.example.muvitracker.data.dto.episode.EpisodeExtenDto
@@ -16,6 +17,8 @@ import com.example.muvitracker.data.requests.ShowRequestKeys
 import com.example.muvitracker.utils.IoResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filterNot
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -27,7 +30,7 @@ class EpisodeRepository @Inject constructor(
     private val database: MyDatabase,
 ) {
     private val episodeDao = database.episodesDao()
-    private val seasonDao = database.seasonsDao()
+//    private val seasonDao = database.seasonsDao()
 
 
     // STORE 0000
@@ -114,7 +117,7 @@ class EpisodeRepository @Inject constructor(
 
 
     // ########################################################################################
-    // single episode - watched
+    // WATCHED TOGGLE
     suspend fun toggleSingleWatchedEpisode( // 000
         showId: Int,
         seasonNr: Int,
@@ -124,40 +127,21 @@ class EpisodeRepository @Inject constructor(
         episodeDao.toggleWatchedSingleEpisode(showId, seasonNr, episodeNr)
     }
 
+    // WATCHED READ - all'interno dell'entity
 
-    // season, show fragm
-    suspend fun toggleSeasonAllWatchedEpisodes(
-        //
-        showId: Int,
-        seasonNr: Int,
-    ) {
-//        val seasonWatchedAll = seasonDao.readSingleSeason(showId, seasonNr)?.watchedAll
-//        if (seasonWatchedAll == true) {
-//            episodeDao.toggleWatchedAllEpisodes(showId, seasonNr, false)
-//        } else {
-//            episodeDao.toggleWatchedAllEpisodes(showId, seasonNr, true)
-//        }
-        // TODO - nuova logica calcolata su episodes
-
-    }
-
-
-    // show fragm
-    suspend fun toggleShowAllWatchedEpisodes(
-        //
-        showId: Int,
-        seasonNr: Int,
-    ) {
-//        val seasonWatchedAll = seasonDao.readSingleSeason(showId, seasonNr)?.watchedAll
-//        if (seasonWatchedAll == true) {
-//            episodeDao.toggleWatchedAllEpisodes(showId, seasonNr, false)
-//        } else {
-//            episodeDao.toggleWatchedAllEpisodes(showId, seasonNr, true)
-//        }
-        // TODO - nuova logica calcolata su episodes
-
-
-    }
 
 
 }
+
+
+//suspend fun toggleSeasonAllWatchedEpisodes(
+//    //
+//    showId: Int,
+//    seasonNr: Int,
+//) {
+//        val seasonWatchedAll = seasonDao.readSingleSeason(showId, seasonNr)?.watchedAll
+//        if (seasonWatchedAll == true) {
+//            episodeDao.toggleWatchedAllEpisodes(showId, seasonNr, false)
+//        } else {
+//            episodeDao.toggleWatchedAllEpisodes(showId, seasonNr, true)
+//        }

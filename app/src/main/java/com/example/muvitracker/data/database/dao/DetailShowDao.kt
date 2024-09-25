@@ -23,7 +23,7 @@ interface DetailShowDao {
     fun readSingleFlow(inputId: Int): Flow<DetailShowEntity?> // deve essere nullable
 
     @Query("SELECT * FROM detail_show_entities")
-    fun readAllFlow(): Flow<List<DetailShowEntity?>>
+    fun readAllFlow(): Flow<List<DetailShowEntity>>
 
 
     // 3 - DELETE - not used

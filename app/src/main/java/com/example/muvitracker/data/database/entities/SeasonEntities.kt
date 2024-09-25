@@ -2,8 +2,10 @@ package com.example.muvitracker.data.database.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.example.muvitracker.data.WatchedDataModel
 import com.example.muvitracker.data.dto.season.SeasonExtenDto
 import com.example.muvitracker.data.dto.base.Ids
+import com.example.muvitracker.domain.model.SeasonExtended
 
 // completo - apertura detail
 // parziale - da mylist, watchedAll
@@ -43,5 +45,24 @@ fun SeasonEntity.copyDtoData(seasonDto: SeasonExtenDto): SeasonEntity {
         // showId - already exist
     )
 }
+
+
+// TODO  - check nullable elements!!!
+//fun SeasonEntity.toDomain(watchedDataModel: WatchedDataModel?) :SeasonExtended {
+//    return SeasonExtended(
+//        showId = showId,
+//        seasonNumber = seasonNumber,
+//        ids = ids,
+//        rating = rating!!,
+//        episodeCount = episodeCount!!,
+//        airedEpisodes = airedEpisodes!!,
+//        title = title!!,
+//        overview = overview!!,
+//        releaseYear = releaseYear!!,
+//        network = network!!,
+//        watchedAll = watchedDataModel?.watchedAll ?: false,
+//        watchedCount = watchedDataModel?.watchedCount ?: 0
+//    )
+//}
 
 

@@ -32,8 +32,8 @@ import com.example.muvitracker.data.imagetmdb.database.entities.SeasonImageEntit
         // trakt
         BoxoMovieEntity::class,
         DetailMovieEntity::class,
-        PrefsMovieEntity::class,
         DetailShowEntity::class,
+        PrefsMovieEntity::class,
         PrefsShowEntity::class,
         SeasonEntity::class,
         EpisodeEntity::class,
