@@ -1,9 +1,7 @@
 package com.example.muvitracker.ui.main.detailmovie
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
@@ -12,7 +10,6 @@ import com.example.muvitracker.R
 import com.example.muvitracker.data.dto.base.Ids
 import com.example.muvitracker.databinding.FragmDetailMovieBinding
 import com.example.muvitracker.domain.model.DetailMovie
-import com.example.muvitracker.ui.main.detailshow.DetailShowFragment
 import com.example.muvitracker.utils.dateFormatterInMMMyyy
 import com.example.muvitracker.utils.firstDecimalApproxToString
 import com.example.muvitracker.utils.statesFlow
@@ -35,7 +32,9 @@ class DetailMovieFragment : Fragment(R.layout.fragm_detail_movie) {
             currentMovieIds = bundle.getParcelable(MOVIE_IDS_KEY) ?: Ids()
         }
 
-        viewModel.state.observe(viewLifecycleOwner) { stateContainer ->
+        // MOVIE
+        viewModel.getStateContainer(currentMovieIds.trakt)
+        viewModel.detailState.observe(viewLifecycleOwner) { stateContainer ->
             stateContainer.data?.let { detailMovie ->
                 updateUi(detailMovie)
             }
@@ -45,8 +44,8 @@ class DetailMovieFragment : Fragment(R.layout.fragm_detail_movie) {
             )
         }
 
-        viewModel.getStateContainer(currentMovieIds.trakt)
 
+        // BUTTONS
         with(binding) {
             buttonBack.setOnClickListener {
                 requireActivity().onBackPressed()
@@ -59,7 +58,7 @@ class DetailMovieFragment : Fragment(R.layout.fragm_detail_movie) {
             }
         }
 
-        // todo
+        // IMAGES - TODO test
         viewModel.loadImageMovieTest(currentMovieIds.tmdb)
 
         viewModel.backdropImageUrl.observe(viewLifecycleOwner) { backdropUrl ->
@@ -82,6 +81,14 @@ class DetailMovieFragment : Fragment(R.layout.fragm_detail_movie) {
                 .into(binding.imageVertical)
             println("XXX detail test poster: $posterUrl")
         }
+
+
+
+        // overview expand - non fare
+
+
+
+
 
     }
 
@@ -113,12 +120,12 @@ class DetailMovieFragment : Fragment(R.layout.fragm_detail_movie) {
 //                .placeholder(R.drawable.glide_placeholder_base)
 //                .into(imageHorizontal)
 
-            chipGroup.removeAllViews() // clean old
+            genresChipGroup.removeAllViews() // clean old
             detailMovie.genres.forEach {
                 val chip = Chip(context).apply {
                     text = it
                 }
-                chipGroup.addView(chip)
+                genresChipGroup.addView(chip)
             }
         }
 

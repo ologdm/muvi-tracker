@@ -10,15 +10,3 @@ data class PrefsShowEntity(
     val liked: Boolean = false,
     val addedDateTime: Long // using timestamp
 )
-
-
-
-
-    // watched non servono
-//    val watchedAll: Boolean = false,
-//    val watchedCount: Int = 0,
-//)
-
-// logica:
-// watchedCount=0 default | observe on episodes
-// watchedAll=true  if(watchedCount=max episodes)

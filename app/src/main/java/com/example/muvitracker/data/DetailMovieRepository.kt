@@ -24,9 +24,9 @@ import kotlin.coroutines.cancellation.CancellationException
 
 
 @Singleton
-class DetailRepository @Inject constructor(
+class DetailMovieRepository @Inject constructor(
     private val traktApi: TraktApi,
-    private val database: MyDatabase
+    database: MyDatabase
 ) : DetailRepo {
 
     private val detailDao = database.detailMovieDao()

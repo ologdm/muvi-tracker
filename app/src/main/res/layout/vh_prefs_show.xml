@@ -33,9 +33,13 @@
                 android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="Game Of Thrones"
+                tools:text="Game Of Thrones Thrones Thrones Thrones Thrones Thrones Thrones"
                 android:textSize="20sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:clickable="false"
+                />
 
         <TextView
                 android:id="@+id/otherInfo"
@@ -44,12 +48,6 @@
                 tools:text="HBO  2011 (US), ended "
                 android:textSize="16sp" />
 
-        <TextView
-                android:id="@+id/totalSeasonEpisodes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="6 seas, 64 epis"
-                android:textSize="16sp" />
 
         <View
                 android:layout_width="match_parent"
@@ -79,7 +77,19 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     app:layout_constraintTop_toTopOf="parent"
+                    android:clickable="false"
                     app:layout_constraintStart_toEndOf="@id/likedButton" />
+
+            <ProgressBar
+                    android:id="@+id/watchedAllCheckboxLoadingBar"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    app:layout_constraintStart_toStartOf="@id/watchedCheckBox"
+                    app:layout_constraintBottom_toBottomOf="@id/watchedCheckBox"
+                    app:layout_constraintTop_toTopOf="@id/watchedCheckBox"/>
+
 
             <TextView
                     android:id="@+id/watchedCounterTextview"

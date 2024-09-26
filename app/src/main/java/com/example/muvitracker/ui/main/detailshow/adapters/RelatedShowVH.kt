@@ -1,4 +1,4 @@
-package com.example.muvitracker.ui.main.detailshow.adapter
+package com.example.muvitracker.ui.main.detailshow.adapters
 
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide

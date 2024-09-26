@@ -10,7 +10,7 @@ import com.example.muvitracker.data.database.dao.EpisodeDao
 import com.example.muvitracker.data.database.dao.PrefsMovieDao
 import com.example.muvitracker.data.database.dao.PrefsShowDao
 import com.example.muvitracker.data.database.dao.SeasonDao
-import com.example.muvitracker.data.database.entities.BoxoMovieEntity
+import com.example.muvitracker.data.database.entities.BoxofficeMovieEntity
 import com.example.muvitracker.data.database.entities.DetailMovieEntity
 import com.example.muvitracker.data.database.entities.DetailShowEntity
 import com.example.muvitracker.data.database.entities.EpisodeEntity
@@ -30,7 +30,7 @@ import com.example.muvitracker.data.imagetmdb.database.entities.SeasonImageEntit
 @Database(
     entities = [
         // trakt
-        BoxoMovieEntity::class,
+        BoxofficeMovieEntity::class,
         DetailMovieEntity::class,
         DetailShowEntity::class,
         PrefsMovieEntity::class,

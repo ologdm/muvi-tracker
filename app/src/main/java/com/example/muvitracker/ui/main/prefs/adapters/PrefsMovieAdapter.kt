@@ -1,4 +1,4 @@
-package com.example.muvitracker.ui.main.prefs.adapter
+package com.example.muvitracker.ui.main.prefs.adapters
 
 import android.content.Context
 import android.graphics.drawable.Drawable

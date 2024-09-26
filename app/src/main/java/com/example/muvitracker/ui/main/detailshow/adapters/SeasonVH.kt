@@ -1,7 +1,6 @@
-package com.example.muvitracker.ui.main.detailshow.adapter
+package com.example.muvitracker.ui.main.detailshow.adapters
 
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import com.example.muvitracker.data.database.entities.SeasonEntity
 import com.example.muvitracker.databinding.VhSeasonsOnDetailshowBinding
 import com.example.muvitracker.domain.model.SeasonExtended
 import com.example.muvitracker.utils.firstDecimalApproxToString

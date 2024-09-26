@@ -109,7 +109,6 @@
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:src="@drawable/x_checkbox_multiple_blank_circle_outline"
-                        android:contentDescription="View episode"
                         android:layout_marginEnd="14dp"
                         android:clickable="true"
                         app:layout_constraintEnd_toEndOf="parent"

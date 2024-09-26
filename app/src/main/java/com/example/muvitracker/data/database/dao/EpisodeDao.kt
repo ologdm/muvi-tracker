@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.Flow
 interface EpisodeDao {
 
     // READ
-    // per aggiornamento da dto, check esistenza elemento || todo - fare true false
+    // to aggiornamento da dto, check esistenza elemento || todo - fare true false
     @Query(
         """
         SELECT * FROM episode_entities 
@@ -24,7 +24,7 @@ interface EpisodeDao {
     suspend fun readSingleEpisodeById(episodeTraktId: Int): EpisodeEntity?
 
 
-    // per episodeFragment
+    // to episodeFragment
     @Query(
         """
         SELECT * FROM episode_entities 
@@ -36,17 +36,18 @@ interface EpisodeDao {
     suspend fun readSingleEpisode(showId: Int, seasonNr: Int, episodeNr: Int): EpisodeEntity?
 
 
-    // per seasonFragment
+    // to seasonFragment
     @Query(
         """
         SELECT * FROM episode_entities 
         WHERE showId=:showId 
-            AND seasonNumber =:seasonNr""")
+            AND seasonNumber =:seasonNr"""
+    )
     fun readAllEpisodesOfSeason(showId: Int, seasonNr: Int): Flow<List<EpisodeEntity>>
 
 
     // INSERT /UPDATE from dto (without watched status)
-    // per episode store update
+    // to episode store update
     @Insert
     suspend fun insertSingle(entity: EpisodeEntity)
 
@@ -55,21 +56,11 @@ interface EpisodeDao {
     suspend fun updateDataSingleEpisode(entity: EpisodeEntity)
 
 
-    // TODO WATCHED
+    // WATCHED
     // 1. CHECK/ TOGGLE WATCHED - SINGLE EPISODE
-    // seasonFragm, episode Fragm
+    // to seasonFragm, episode Fragm
 
-//    @Query(
-//        """
-//        SELECT * FROM episode_entities
-//        WHERE showId=:showId
-//            AND seasonNumber=:seasonNr
-//            AND episodeNumber=:episodeNr
-//            AND watched= 1
-//        """
-//    )
-//    suspend fun isEpisodeWatched(showId: Int, seasonNr: Int, episodeNr: Int): Boolean
-
+    // check - read single
 
     @Query(
         """
@@ -84,7 +75,7 @@ interface EpisodeDao {
 
 
     // 2. COUNT/ TOGGLE WATCHED - SEASON EPISODES
-    // for detail, season fragment
+    // to detail, season fragment
     @Query(
         """
         SELECT COUNT(*)
@@ -109,7 +100,7 @@ interface EpisodeDao {
 
 
     // 3. COUNT/TOGGLE WATCHED - SHOW EPISODES
-    // for show fragment
+    //to show fragment
     @Query(
         """
         SELECT COUNT (*)
@@ -133,9 +124,8 @@ interface EpisodeDao {
     )
 
 
-
     // CONTEGGIO AL MOMENTO DEGLI EPISODI GIA' SCARICATO
-    // serve solo per scaricare nuovi episodi mancanti (force push)
+    // serve solo per scaricare nuovi episodi mancanti (force download episodes)
     @Query(
         """
         SELECT COUNT(*) FROM episode_entities 
@@ -146,37 +136,5 @@ interface EpisodeDao {
     suspend fun countEpisodesBySeason(showId: Int, seasonNr: Int): Int
 
 
-    @Query(
-        """
-        SELECT COUNT(*) FROM episode_entities 
-        WHERE showId=:showId
-        """
-    )
-    suspend fun countEpisodesByShow(showId: Int): Int
-
-
 }
 
-
-// TODO OOOO
-// eliminare entrambe, sostituito da count
-
-
-// boolean sql -> true=1, false=0
-
-// todo
-// (eugi) - peraz sql comode, select (tipo) - deve coincidere con return (tipo)
-// e devono avere lo stesso nome...come nel esempio sotto
-//@Query(
-//    """
-//        SELECT count(*) as number, count(*) as number2
-//        FROM episode_entities
-//        WHERE showId=:showId AND watched = 1
-//    """
-//)
-//fun checkWatchedEpisodesOfShow(showId: Int): Flow<Test>
-//
-//data class Test(
-//    val number: Int,
-//    val number2: Int,
-//)

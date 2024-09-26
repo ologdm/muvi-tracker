@@ -1,4 +1,4 @@
-package com.example.muvitracker.ui.main.prefs.adapter
+package com.example.muvitracker.ui.main.prefs.adapters
 
 import android.content.Context
 import android.graphics.drawable.Drawable
@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.ListAdapter
 import com.example.muvitracker.R
 import com.example.muvitracker.data.dto.base.Ids
 import com.example.muvitracker.databinding.VhPrefsShowBinding
-import com.example.muvitracker.domain.model.DetailMovie
 import com.example.muvitracker.domain.model.DetailShow
 
 

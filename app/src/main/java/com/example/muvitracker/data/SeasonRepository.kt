@@ -30,8 +30,9 @@ import kotlin.coroutines.cancellation.CancellationException
 @Singleton
 class SeasonRepository @Inject constructor(
     private val traktApi: TraktApi,
-    private val database: MyDatabase,
-    private val episodeRepository: EpisodeRepository
+    database: MyDatabase,
+    private val episodeRepository: EpisodeRepository,
+    private val prefsShowRepository: PrefsShowRepository
 ) {
     private val seasonDao = database.seasonsDao()
     private val episodeDao = database.episodesDao()
@@ -141,6 +142,9 @@ class SeasonRepository @Inject constructor(
             episodeRepository
                 .episodeStore
                 .fresh(ShowRequestKeys(showId = showId, seasonNr = seasonNr))
+
+            // aggiungi watched ai prefs se manca
+            prefsShowRepository.addWatchedToPrefs (showId)
         }
 
         // 2 toggle tutti episodi season

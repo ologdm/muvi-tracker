@@ -15,13 +15,10 @@ import javax.inject.Singleton
 
 @Singleton
 class PrefsShowRepository @Inject constructor(
-    private val detailShowRepository: DetailShowRepository,
-    private val database: MyDatabase
+    database: MyDatabase
 ) {
 
     private val prefsShowDao = database.prefsShowDao()
-    private val detailShowDao = database.detailShowDao()
-    private val episodeDao = database.episodesDao()
 
 
     // for Prefs Frgment todo
@@ -45,8 +42,8 @@ class PrefsShowRepository @Inject constructor(
 //    }
 
 
-    // TODO
     fun getListFLow(): Flow<List<DetailShow>> {
+        // join: prefs + detail + watched episodes
         return prefsShowDao.getAllPrefsShows()
     }
 
@@ -65,8 +62,6 @@ class PrefsShowRepository @Inject constructor(
                 PrefsShowEntity(
                     traktId = id,
                     liked = true,
-//                    watchedAll = false,
-//                    watchedCount = 0,
                     addedDateTime = System.currentTimeMillis()
                 )
             )
@@ -74,7 +69,22 @@ class PrefsShowRepository @Inject constructor(
     }
 
 
-    // TODO
+    // aggiungi elemento ai prefs se aggiungo watched ad un episodio
+    suspend fun addWatchedToPrefs(showId: Int) {
+        val prefsEntity = prefsShowDao.readSingle(showId)
+        if (prefsEntity == null) {
+            prefsShowDao.insertSingle(
+                PrefsShowEntity(
+                    traktId = showId,
+                    liked = false,
+                    addedDateTime = System.currentTimeMillis()
+                )
+            )
+        }
+    }
+
+
+
 //    override
     suspend fun deleteItemOnDB(id: Int) {
         prefsShowDao.deleteSingle(id)
@@ -82,47 +92,3 @@ class PrefsShowRepository @Inject constructor(
 
 
 }
-
-
-// WATCHED 000
-// new or update
-//    override
-//    suspend fun updateWatchedOnDB(showId: Int) {
-//        val entity = prefsShowDao.readSingle(showId)
-//        println("TTTT: check entity trakt: ${entity?.traktId}") // arriva
-//        if (entity == null) {
-//            println("TTTT: new entity")
-//            // NEW PREFS
-//            prefsShowDao.insertSingle(
-//                PrefsShowEntity(
-//                    traktId = showId,
-//                    liked = false,
-//                    watchedAll = false,
-//                    watchedCount = 1,  // firstElement Added
-//                    addedDateTime = System.currentTimeMillis()
-//                )
-//            )
-//        } else {
-//            // UPDATE SHOW WATCHED ALL AND COUNT
-//            val watchedEpisodes = episodeDao.checkWatchedEpisodesOfShow(showId).firstOrNull()?.size
-//            val showTotalEpisodes =
-//                detailShowDao.readSingleFlow(showId).firstOrNull()?.airedEpisodes
-//            println("TTTT: watched-$watchedEpisodes, total-$showTotalEpisodes")
-//
-//            if (watchedEpisodes == showTotalEpisodes) { // max
-//                println("TTTT: max")
-//                prefsShowDao.updateWatched(
-//                    showId = showId,
-//                    watchedAll = true,
-//                    watchedCount = watchedEpisodes ?: 0
-//                )
-//            } else { // not max
-//                println("TTTT: non max")
-//                prefsShowDao.updateWatched(
-//                    showId = showId,
-//                    watchedAll = false,
-//                    watchedCount = watchedEpisodes ?: 0
-//                )
-//            }
-//        }
-//    }

@@ -1,4 +1,4 @@
-package com.example.muvitracker.ui.main.prefs.adapter
+package com.example.muvitracker.ui.main.prefs.adapters
 
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -14,7 +14,7 @@ class PrefsMovieVH(
     fun bind(currentItem: DetailMovie) {
         binding.run {
             title.text = currentItem.title
-            otherInfo.text = "${currentItem.year} (${currentItem.country})"
+            otherInfo.text = "${currentItem.year} (${currentItem.country.uppercase()})"
 
             Glide
                 .with(binding.root.context)

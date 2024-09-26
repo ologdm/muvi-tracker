@@ -4,13 +4,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CompoundButton
-import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import com.example.muvitracker.data.database.entities.SeasonEntity
 import com.example.muvitracker.databinding.VhSeasonsOnDetailshowBinding
 import com.example.muvitracker.domain.model.SeasonExtended
-import com.example.muvitracker.ui.main.detailshow.adapter.SeasonVH
+import com.example.muvitracker.ui.main.detailshow.adapters.SeasonVH
 
 class DetailSeasonsAdapter(
     private val onClickVH: (Int) -> Unit,

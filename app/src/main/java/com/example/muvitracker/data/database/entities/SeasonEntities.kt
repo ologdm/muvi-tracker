@@ -29,7 +29,7 @@ data class SeasonEntity(
 )
 
 
-//  todo !!! non usato, non serve piu
+//  todo !!!
 fun SeasonEntity.copyDtoData(seasonDto: SeasonExtenDto): SeasonEntity {
     return this.copy(
         seasonTraktId = seasonDto.ids.trakt,
@@ -45,24 +45,5 @@ fun SeasonEntity.copyDtoData(seasonDto: SeasonExtenDto): SeasonEntity {
         // showId - already exist
     )
 }
-
-
-// TODO  - check nullable elements!!!
-//fun SeasonEntity.toDomain(watchedDataModel: WatchedDataModel?) :SeasonExtended {
-//    return SeasonExtended(
-//        showId = showId,
-//        seasonNumber = seasonNumber,
-//        ids = ids,
-//        rating = rating!!,
-//        episodeCount = episodeCount!!,
-//        airedEpisodes = airedEpisodes!!,
-//        title = title!!,
-//        overview = overview!!,
-//        releaseYear = releaseYear!!,
-//        network = network!!,
-//        watchedAll = watchedDataModel?.watchedAll ?: false,
-//        watchedCount = watchedDataModel?.watchedCount ?: 0
-//    )
-//}
 
 

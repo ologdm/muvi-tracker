@@ -37,6 +37,8 @@ interface PrefsShowDao {
     suspend fun deleteSingle(id: Int)
 
 
+
+    // JOIN prefsEntity + detailEntity + (watchedEpisode) -> ottengo domain
     @Transaction
     @Query("""
     SELECT d.title, d.year, d.ids, d.tagline, d.overview, d.firstAired, d.runtime, 

@@ -3,7 +3,7 @@ package com.example.muvitracker.ui.main.prefs.viewpager
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.muvitracker.ui.main.prefs.PrefsMovieFragment
-import com.example.muvitracker.ui.main.prefs.PrefsShowFragmentTODO
+import com.example.muvitracker.ui.main.prefs.PrefsShowFragment
 
 
 class PrefsViewpagerAdapter (
@@ -18,7 +18,7 @@ class PrefsViewpagerAdapter (
     override fun createFragment(position: Int): Fragment {
         return when (position) {
             0 -> PrefsMovieFragment() // movie
-            1 -> PrefsShowFragmentTODO() // show
+            1 -> PrefsShowFragment() // show
             else -> throw IllegalStateException("Invalid position $position")
         }
     }

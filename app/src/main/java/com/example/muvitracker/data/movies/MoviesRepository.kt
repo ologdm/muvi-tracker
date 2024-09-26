@@ -9,7 +9,7 @@ import com.dropbox.android.external.store4.StoreRequest
 import com.dropbox.android.external.store4.StoreResponse
 import com.example.muvitracker.data.TraktApi
 import com.example.muvitracker.data.database.MyDatabase
-import com.example.muvitracker.data.database.entities.BoxoMovieEntity
+import com.example.muvitracker.data.database.entities.BoxofficeMovieEntity
 import com.example.muvitracker.data.database.entities.toDomain
 import com.example.muvitracker.data.dto.movies.BoxofficeDtoM
 import com.example.muvitracker.data.dto.movies.toEntity
@@ -35,7 +35,7 @@ class MoviesRepository @Inject constructor(
     private val boxofficeDao = database.boxofficeDao()
 
     // OK
-    private val boxofficeStore: Store<Unit, List<BoxoMovieEntity>> = StoreBuilder.from(
+    private val boxofficeStore: Store<Unit, List<BoxofficeMovieEntity>> = StoreBuilder.from(
         fetcher = Fetcher.ofResult { key ->
             try {
                 FetcherResult.Data(traktApi.getBoxoMovies())
@@ -47,7 +47,7 @@ class MoviesRepository @Inject constructor(
                 FetcherResult.Error.Exception(ex)
             }
         },
-        sourceOfTruth = SourceOfTruth.of<Unit, List<BoxofficeDtoM>, List<BoxoMovieEntity>>(
+        sourceOfTruth = SourceOfTruth.of<Unit, List<BoxofficeDtoM>, List<BoxofficeMovieEntity>>(
             reader = { _ ->
                 boxofficeDao.readAll()
             },

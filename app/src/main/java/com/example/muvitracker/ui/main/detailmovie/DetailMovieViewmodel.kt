@@ -24,7 +24,7 @@ class DetailMovieViewmodel @Inject constructor(
     private val tmdbRepository: TmdbRepository
 ) : ViewModel() {
 
-    val state = MutableLiveData<StateContainer<DetailMovie>>()
+    val detailState = MutableLiveData<StateContainer<DetailMovie>>()
 
     // flow -> livedata
     fun getStateContainer(movieId: Int) {
@@ -63,7 +63,7 @@ class DetailMovieViewmodel @Inject constructor(
                     it.printStackTrace()
                 }
                 .collectLatest { container ->
-                    state.value = container
+                    detailState.value = container
                 }
         }
     }

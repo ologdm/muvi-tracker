@@ -3,6 +3,7 @@ package com.example.muvitracker.ui.main.detailshow
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -15,7 +16,7 @@ import com.example.muvitracker.databinding.FragmDetailShowBinding
 import com.example.muvitracker.domain.model.DetailShow
 import com.example.muvitracker.ui.main.Navigator
 import com.example.muvitracker.ui.main.detailmovie.adapter.DetailSeasonsAdapter
-import com.example.muvitracker.ui.main.detailshow.adapter.RelatedShowsAdapter
+import com.example.muvitracker.ui.main.detailshow.adapters.RelatedShowsAdapter
 import com.example.muvitracker.utils.firstDecimalApproxToString
 import com.example.muvitracker.utils.statesFlow
 import com.example.muvitracker.utils.viewBinding
@@ -96,6 +97,22 @@ class DetailShowFragment : Fragment(R.layout.fragm_detail_show) {
             )
         }
 
+        // overview expanded
+        var isTextExpanded = false // initial state, fragment opening
+        binding.overview.setOnClickListener {
+            if (isTextExpanded) { // expanded==true -> contract
+                binding.overview.maxLines = 3
+                binding.overview.ellipsize = TextUtils.TruncateAt.END
+            } else { // expanded==false -> expand
+                binding.overview.maxLines = Int.MAX_VALUE
+                binding.overview.ellipsize = null
+            }
+            isTextExpanded = !isTextExpanded // toggle state
+        }
+
+
+
+
 
         // SEASONS
         binding.seasonsRV.adapter = detailSeasonsAdapter
@@ -175,6 +192,7 @@ class DetailShowFragment : Fragment(R.layout.fragm_detail_show) {
         }
 
 
+
         // TODO crew
     }
 
@@ -195,10 +213,11 @@ class DetailShowFragment : Fragment(R.layout.fragm_detail_show) {
 
 
             // genres
-            chipGroup.removeAllViews() // clean old
+            genresChipGroup.removeAllViews() // clean old
             detailShow.genres.forEach { genre ->
                 val chip = Chip(context).apply { text = genre }
-                chipGroup.addView(chip)
+//                chip.isEnabled = false todo
+                genresChipGroup.addView(chip)
             }
 
             // open link on youtube OK

@@ -74,16 +74,40 @@
                     android:paddingBottom="80dp">
 
 
-                <ImageView
-                        android:id="@+id/imageHorizontal"
+                <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_height="270dp"
-                        tools:layout_height="270dp"
-                        app:layout_constraintDimensionRatio="1.5"
-                        android:scaleType="centerCrop"
-                        tools:background="@tools:sample/avatars"
-                        android:elevation="-4dp"
-                        android:importantForAccessibility="no" />
+                        android:layout_height="wrap_content">
+
+                    <ImageView
+                            android:id="@+id/imageHorizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="270dp"
+                            tools:layout_height="270dp"
+                            app:layout_constraintDimensionRatio="1.5"
+                            android:scaleType="centerCrop"
+                            tools:background="@tools:sample/avatars"
+                            android:elevation="-4dp"
+                            android:importantForAccessibility="no"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                            android:id="@+id/trailerLink"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Trailer"
+                            android:background="?attr/colorSecondaryContainer"
+                            android:textColor="?attr/colorOnSecondaryContainer"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            android:layout_marginBottom="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:padding="2dp" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
 
                 <LinearLayout
                         android:layout_width="match_parent"
@@ -106,7 +130,8 @@
                     <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal">
+                            android:orientation="horizontal"
+                            android:layout_marginBottom="24dp">
 
 
                         <com.google.android.material.imageview.ShapeableImageView
@@ -207,38 +232,51 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/about_show"
-                            android:layout_marginTop="30dp"
-                            android:layout_marginBottom="10dp"
+                            android:layout_marginBottom="8dp"
                             style="@style/Categories_Typography_Detail" />
 
                     <TextView
                             android:id="@+id/overview"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             tools:hint="Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            android:layout_marginBottom="20dp" />
+                            android:layout_marginBottom="16dp" />
 
+
+
+                    <com.google.android.material.chip.ChipGroup
+                            android:id="@+id/genresChipGroup"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            tools:layout_height="25dp"
+                            tools:background="@android:color/darker_gray"
+                            android:clickable="false"
+                            app:singleSelection="false"
+                            android:layout_marginBottom="16dp"/>
 
                     <com.google.android.material.divider.MaterialDivider
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            app:layout_constraintTop_toBottomOf="@id/toolbar" />
+                            android:layout_marginBottom="16dp"
+                            app:layout_constraintTop_toBottomOf="@id/toolbar"
+                            android:visibility="visible" />
 
                     <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/genres"
-                            android:paddingTop="16dp"
-                            android:paddingBottom="8dp"
-                            style="@style/Categories_Typography_Detail"/>
+                            android:text="You may also like"
+                            android:textSize="16sp"
+                            android:layout_marginBottom="8dp"
+                            style="@style/Categories_Typography_Detail" />
 
-                    <com.google.android.material.chip.ChipGroup
-                            android:id="@+id/chipGroup"
+                    <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/relatedShowsRV"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            app:singleSelection="false" />
+                            android:layout_marginBottom="16dp"
+                            tools:listitem="@layout/vh_related_list"
+                            tools:itemCount="1" />
+
 
                 </LinearLayout>
 

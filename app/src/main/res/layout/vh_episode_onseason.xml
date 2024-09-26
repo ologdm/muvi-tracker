@@ -72,7 +72,7 @@
             android:id="@+id/watchedIcon"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:src="@drawable/watched_check_circle_empty"
+            android:src="@drawable/x_panorama_fisheye"
             android:contentDescription="View episode"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"

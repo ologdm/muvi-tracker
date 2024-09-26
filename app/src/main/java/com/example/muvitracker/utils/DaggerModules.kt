@@ -6,7 +6,7 @@ import androidx.room.Room
 import com.example.muvitracker.BuildConfig
 import com.example.muvitracker.data.TraktApi
 import com.example.muvitracker.data.database.MyDatabase
-import com.example.muvitracker.data.DetailRepository
+import com.example.muvitracker.data.DetailMovieRepository
 import com.example.muvitracker.data.PrefsMovieRepository
 import com.example.muvitracker.data.SearchRepository
 import com.example.muvitracker.data.movies.MoviesRepository
@@ -39,7 +39,7 @@ class DaggerModules {
 
     @Provides
     @Singleton
-    fun providedDetailRepo(impl: DetailRepository): DetailRepo {
+    fun providedDetailRepo(impl: DetailMovieRepository): DetailRepo {
         return impl
     }
 

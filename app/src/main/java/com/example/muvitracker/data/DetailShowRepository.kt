@@ -30,22 +30,21 @@ import kotlin.coroutines.cancellation.CancellationException
 // solo per detail fragment
 // 1. detail base
 // 2. season
+// 3. relatedShows
 
 
 @Singleton
 class DetailShowRepository @Inject constructor(
     private val traktApi: TraktApi,
-    private val database: MyDatabase,
-    private val seasonRepo: SeasonRepository // todo
+    database: MyDatabase,
 ) {
 
     private val detailShowDao = database.detailShowDao()
     private val prefsShowDao = database.prefsShowDao()
-    private val seasonDao = database.seasonsDao()
     private val episodeDao = database.episodesDao()
 
 
-    // DETAIL 00
+    // DETAIL
     // store
     private val detailStore: Store<Int, DetailShowEntity> = StoreBuilder.from(
         fetcher = Fetcher.ofResult { showId ->
@@ -75,20 +74,17 @@ class DetailShowRepository @Inject constructor(
     ).build()
 
 
+
     fun getSingleDetailShowFlow(showId: Int): Flow<IoResponse<DetailShow>> {
         // flow1
         val detailFlow = detailStore.stream(StoreRequest.cached(key = showId, refresh = true))
             .filterNot { response ->
                 response is StoreResponse.Loading || response is StoreResponse.NoNewData
             }
-
         // flow2
         val prefsListFLow = prefsShowDao.readAll()
-
         // flow3
         val watchedStatesFlow: Flow<WatchedDataModel> = getShowWatchedStates(showId)
-        // devo combinarlo alle altre 2
-
 
         // combine flows T1,T2,T3 -> R
         return combine(
@@ -123,13 +119,7 @@ class DetailShowRepository @Inject constructor(
     }
 
 
-    // per prefs fragment
-    fun getDetailListFlow(): Flow<List<DetailShowEntity>> {
-        return detailShowDao.readAllFlow()
-    }
-
-
-    // RELATED SHOWS todo OK
+    // RELATED SHOWS
     suspend fun getRelatedShows(showId: Int): IoResponse<List<Show>> {
         return try {
             IoResponse.Success(traktApi.getShowRelatedShows(showId)).ioMapper { dtos ->
@@ -151,9 +141,8 @@ class DetailShowRepository @Inject constructor(
     // CAST - repo separata todo
 
 
-    // READ WATCHED STATUS
+    // READ WATCHED STATUS - fare con join
     // per checkbox & progress bar insieme OK
-    // aggiungere nella crazione di domain - TODO
     private fun getShowWatchedStates(showId: Int): Flow<WatchedDataModel> {
         return flow {
             // totali show (val fisso) OK
@@ -168,24 +157,13 @@ class DetailShowRepository @Inject constructor(
         }
     }
 
-    // TOGGLE WATCHED
-    // per click on checkbox OK
-//    suspend fun checkAndToggleShowAllWatchedEpisodes(showId: Int) {
-//        println("XXX watchedAllCheckbox repository1 ")
-//        // itera stagione per stagione e scarica tutti i dati necessari
-//        val showSeasons = seasonDao.readAllSeasonsOfShow(showId).collect{
-//            for (season in it) {
-//                seasonRepo.checkAndToggleWatchedAllSeasonEpisodes(showId, season.seasonNumber)
-//            }
-//        }
-//
-//        println("XXX watchedAllCheckbox repository2 ")
-//    }
 
-    // 5 coroutines al massimo aperte in una volta
+    // WATCHED ALL SU SHOW TODO !!!!!!!!!!!!!!!
+//     //5 coroutines al massimo aperte in una volta
 //    suspend fun checkAndToggleShowAllWatchedEpisodes(showId: Int) = coroutineScope {
 //
 //        val semaphore = Semaphore(5)
+//        // usare mutex, versione piu avanzata mutex
 //
 //        val showSeasons = seasonDao.readAllSeasonsOfShow(showId).first()
 //
@@ -200,33 +178,21 @@ class DetailShowRepository @Inject constructor(
 //    }
 
 
+    //     // TOGGLE WATCHED  - old test, sequenziale
+//     // per click on checkbox
+//    suspend fun checkAndToggleShowAllWatchedEpisodes(showId: Int) {
+//        // itera stagione per stagione e scarica tutti i dati necessari
+//        val showSeasons = seasonDao.readAllSeasonsOfShow(showId).collect{
+//            for (season in it) {
+//                seasonRepo.checkAndToggleWatchedAllSeasonEpisodes(showId, season.seasonNumber)
+//            }
+//        }
+//    }
+
+
     // TODO
-    // LOGICA AGGIUNTA PREFS QUANDO UN EPISODE IS WATCHED - dopo
+    // LOGICA AGGIUNTA PREFS QUANDO UN EPISODE IS WATCHED
 
 }
-
-
-// combine flows T1, T2 -> R
-//        return detailFlow
-//            .combine(prefsListFLow) { storeResponse, prefList ->
-//                when (storeResponse) {
-//                    is StoreResponse.Data -> {
-//                        val prefsEntity = prefList.find { entity ->
-//                            entity?.traktId == storeResponse.value.ids.trakt
-//                        }
-//                        val detailMovie = storeResponse.value.toDomain(prefsEntity)
-//                        IoResponse.Success(detailMovie)
-//                    }
-//
-//                    is StoreResponse.Error.Exception ->
-//                        IoResponse.Error(storeResponse.error)
-//
-//                    is StoreResponse.Error.Message ->
-//                        IoResponse.Error(RuntimeException(storeResponse.message))
-//
-//                    is StoreResponse.Loading,
-//                    is StoreResponse.NoNewData -> error("should be filtered upstream")
-//                }
-//            }
 
 

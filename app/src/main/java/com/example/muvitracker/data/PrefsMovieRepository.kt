@@ -14,8 +14,8 @@ import javax.inject.Singleton
 
 @Singleton
 class PrefsMovieRepository @Inject constructor(
-    private val detailRepository: DetailRepository,
-    private val database: MyDatabase
+    database: MyDatabase,
+    private val detailMovieRepository: DetailMovieRepository
 ) : PrefsRepo {
 
     private val prefsDao = database.prefsMovieDao()
@@ -24,7 +24,7 @@ class PrefsMovieRepository @Inject constructor(
     // GET
     override
     fun getListFLow(): Flow<List<DetailMovie>> {
-        val detailListFLow = detailRepository.getDetailListFlow()
+        val detailListFLow = detailMovieRepository.getDetailListFlow()
         val prefsListFLow = prefsDao.readAll()
 
         return detailListFLow

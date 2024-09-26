@@ -27,10 +27,10 @@ import kotlin.coroutines.cancellation.CancellationException
 @Singleton
 class EpisodeRepository @Inject constructor(
     private val traktApi: TraktApi,
-    private val database: MyDatabase,
+    database: MyDatabase,
+    private val prefsShowRepository : PrefsShowRepository
 ) {
     private val episodeDao = database.episodesDao()
-//    private val seasonDao = database.seasonsDao()
 
 
     // STORE 0000
@@ -125,6 +125,9 @@ class EpisodeRepository @Inject constructor(
     ) {
         // watched / not watched
         episodeDao.toggleWatchedSingleEpisode(showId, seasonNr, episodeNr)
+
+        // todo logica prefs add if watched
+        prefsShowRepository.addWatchedToPrefs (showId)
     }
 
     // WATCHED READ - all'interno dell'entity

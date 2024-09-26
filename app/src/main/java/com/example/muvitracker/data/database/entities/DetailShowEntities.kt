@@ -62,16 +62,6 @@ fun DetailShowEntity.toDomain(prefsShowEntity: PrefsShowEntity?): DetailShow {
         airedEpisodes = airedEpisodes,
         ////// prefs
         liked = prefsShowEntity?.liked ?: false,
-        // todo non servono piu
-//        watchedAll = prefsShowEntity?.watchedAll ?: false,
-//        watchedCount = prefsShowEntity?.watchedCount ?: 0,
         addedDateTime = prefsShowEntity?.addedDateTime
     )
 }
-
-
-
-
-// if(tutteLeStagioniWatchedAll==true){
-        //watchedAll==true
-// }
