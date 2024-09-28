@@ -17,7 +17,6 @@ class SearchAdapter(
 ) : ListAdapter<SearchResult, SearchVH>(SearchAdapter) {
 
 
-    // ########################################################################
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchVH {
         val inflater = LayoutInflater.from(parent.context)
         val binding = VhSearchBinding.inflate(inflater, parent, false)
@@ -36,8 +35,6 @@ class SearchAdapter(
                 is SearchResult.ShowItem -> onClickVHShow(item.show.ids)
             }
         }
-
-
     }
 
 
