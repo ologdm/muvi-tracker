@@ -52,7 +52,7 @@ class PrefsShowAdapter(
 
             // stato default - per pulizia da precedenti modifiche
             watchedAllCheckBox.isEnabled = true
-            watchedAllCheckBox.visibility = View.GONE
+            holder.binding.watchedAllCheckboxLoadingBar.visibility = View.GONE
 
             // checkbox update -
             watchedAllCheckBox.setOnCheckedChangeListener(null)

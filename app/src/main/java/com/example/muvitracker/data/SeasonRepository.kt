@@ -53,8 +53,7 @@ class SeasonRepository @Inject constructor(
         },
         sourceOfTruth = SourceOfTruth.of<Int, List<SeasonExtenDto>, List<SeasonExtended>>(
             reader = { showId ->
-//                seasonDao.readAllSeasonsOfShow(showId) // old
-                seasonDao.getAllSeasonsExtended(showId) //
+                seasonDao.getAllSeasonsExtended(showId)
             },
             writer = { showId, dtos ->
                 saveSeasonDtosToDatabase(showId, dtos)
