@@ -1,0 +1,392 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/progressBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible"
+            style="@style/ProgressBar_ES" />
+
+    <TextView
+            android:id="@+id/errorTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|center"
+            tools:visibility="visible"
+            tools:hint="custom error text"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            style="@style/ErrorText_ES" />
+
+
+    <ImageButton
+            android:id="@+id/buttonBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:elevation="4dp"
+            app:srcCompat="@drawable/baseline_arrow_back"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_margin="8dp"
+            android:importantForAccessibility="no" />
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floatingLikedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/baseline_liked_border"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginBottom="25dp"
+            android:layout_marginEnd="25dp"
+            android:importantForAccessibility="no" />
+
+
+    <!--    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout-->
+    <!--            android:id="@+id/swipeToRefresh"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="match_parent">-->
+
+
+    <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+        <LinearLayout
+                android:id="@+id/insideScrollView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingBottom="80dp">
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                <ImageView
+                        android:id="@+id/imageHorizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="270dp"
+                        tools:layout_height="270dp"
+                        app:layout_constraintDimensionRatio="1.5"
+                        android:scaleType="centerCrop"
+                        tools:background="@tools:sample/avatars"
+                        android:elevation="-4dp"
+                        android:importantForAccessibility="no"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                        android:id="@+id/trailerLink"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Trailer"
+                        android:background="?attr/colorSecondaryContainer"
+                        android:textColor="?attr/colorOnSecondaryContainer"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:padding="2dp" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+
+                <TextView
+                        android:id="@+id/title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="@tools:sample/lorem"
+                        style="@style/Title_Typography_Detail" />
+
+                <TextView
+                        android:id="@+id/status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="ended"
+                        android:textStyle="normal"
+                        android:paddingBottom="10dp" />
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="24dp">
+
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                            android:id="@+id/imageVertical"
+                            android:layout_width="200dp"
+                            android:layout_height="300dp"
+                            android:layout_marginEnd="15dp"
+                            tools:background="@tools:sample/avatars"
+                            android:importantForAccessibility="no"
+                            app:shapeAppearance="@style/ImageLarge_RoundedShape" />
+
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:padding="10dp">
+
+
+                        <TextView
+                                android:id="@+id/networkYearCountry"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                tools:text="Network 2010 (US) " />
+
+
+                        <TextView
+                                android:id="@+id/airedSeasons"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                tools:text="6 seasons ?" />
+
+
+                        <TextView
+                                android:id="@+id/airedEpisodes"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                tools:text="48 episodes" />
+
+                        <TextView
+                                android:id="@+id/runtime"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                tools:text="42 min" />
+
+
+                        <View
+                                android:layout_width="match_parent"
+                                android:layout_height="10dp" />
+
+
+                        <TextView
+                                android:id="@+id/rating"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="20dp"
+                                android:text="0.0" />
+
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="trakt.tv" />
+
+                        <!-- solo diastanziamento -->
+                        <View
+                                android:layout_width="match_parent"
+                                android:layout_height="50dp" />
+
+                        <TextView
+                                android:id="@+id/watchedCounterTextview"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                tools:text="15/30"
+                                android:layout_marginBottom="10dp"
+                                android:layout_gravity="end"
+                                android:layout_marginEnd="12dp"/>
+
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                            <com.google.android.material.progressindicator.LinearProgressIndicator
+                                    android:id="@+id/watchedCounterProgressBar"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    app:layout_constraintTop_toTopOf="@id/watchedCounterProgressBar" />
+
+                            <CheckBox
+                                    android:id="@+id/watchedAllCheckbox"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="10dp"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent" />
+
+                            <ProgressBar
+                                    android:id="@+id/watchedAllCheckboxLoadingBar"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    tools:visibility="visible"
+                                    android:visibility="gone"
+                                    app:layout_constraintTop_toTopOf="@id/watchedAllCheckbox"
+                                    app:layout_constraintEnd_toEndOf="@id/watchedAllCheckbox" />
+
+                            <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Watched All"
+                                    android:textSize="15sp"
+                                    app:layout_constraintTop_toTopOf="@id/watchedAllCheckbox"
+                                    app:layout_constraintBottom_toBottomOf="@id/watchedAllCheckbox"
+                                    app:layout_constraintEnd_toStartOf="@id/watchedAllCheckbox" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=" Watch Provider(by region): Netflix, Prime ecc TODO "
+                        android:layout_marginBottom="10dp"
+                        tools:background="@android:color/holo_blue_dark"
+                        style="@style/Categories_Typography_Detail"
+                        android:visibility="gone"
+                        tools:visibility="visible"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/streamChannelRV"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:layout_height="40dp"
+                        android:layout_marginBottom="16dp"
+                        android:background="@android:color/holo_blue_dark"
+                        android:visibility="gone"
+                        tools:visibility="visible"
+                        />
+
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/about_show"
+                        android:textSize="16sp"
+                        android:layout_marginBottom="8dp"
+                        style="@style/Categories_Typography_Detail" />
+
+                <TextView
+                        android:id="@+id/overview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:hint="Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+                        android:maxLines="3"
+                        android:ellipsize="end"
+                        android:layout_marginBottom="16dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent" />
+
+
+                <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/genresChipGroup"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:layout_height="25dp"
+                        android:layout_marginBottom="16dp"
+                        tools:background="@android:color/darker_gray"
+                        app:singleSelection="false"
+                        android:clickable="false"/>
+
+                <com.google.android.material.divider.MaterialDivider
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        app:layout_constraintTop_toBottomOf="@id/toolbar"
+                        android:visibility="gone"
+                        tools:visibility="visible" />
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Cast &amp; Crew TODO"
+                        android:textSize="16sp"
+                        android:layout_marginBottom="8dp"
+                        style="@style/Categories_Typography_Detail"
+                        android:visibility="gone"
+                        tools:visibility="visible" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/castAndCrewRV"
+                        android:layout_width="match_parent"
+                        android:layout_marginBottom="16dp"
+                        tools:background="@android:color/darker_gray"
+                        android:layout_height="100dp"
+                        android:visibility="gone"
+                        tools:visibility="visible" />
+
+
+                <com.google.android.material.divider.MaterialDivider
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Seasons"
+                        android:textSize="16sp"
+                        android:layout_marginBottom="8dp"
+                        style="@style/Categories_Typography_Detail" />
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/seasonsRV"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:layout_height="wrap_content"
+                        tools:listitem="@layout/vh_seasons_on_detailshow"
+                        android:layout_marginBottom="16dp"
+                        tools:itemCount="3" />
+
+
+                <com.google.android.material.divider.MaterialDivider
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="You may also like"
+                        android:textSize="16sp"
+                        android:layout_marginBottom="8dp"
+                        style="@style/Categories_Typography_Detail" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/relatedShowsRV"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        tools:listitem="@layout/vh_related_list"
+                        tools:itemCount="1" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <!--    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>-->
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -15,6 +15,7 @@
 
     <style name="ImageMedium_RoundedShape" parent="ShapeAppearance.Material3.Corner.Medium" />
 
+    <style name="ImageSmall_RoundedShape" parent="ShapeAppearance.Material3.Corner.Small" />
 
     <!-- GRAFICA PER LAYOUT   -->
 
@@ -58,6 +59,18 @@
         <item name="shapeAppearance">@style/ImageLarge_RoundedShape</item>
     </style>
 
+    <style name="Image_Season">
+        <item name="android:scaleType">centerCrop</item>
+        <item name="shapeAppearance">@style/ImageMedium_RoundedShape</item>
+    </style>
+
+    <style name="Image_Related">
+        <item name="android:scaleType">centerCrop</item>
+        <item name="shapeAppearance">@style/ImageSmall_RoundedShape</item>
+    </style>
+
+
+
     <!-- TYPOGRAFY PER LAYOUT -->
     <!--base vh -->
     <style name="TextView_Tipography_BaseVH">
@@ -69,8 +82,7 @@
     <!--details-->
     <style name="Title_Typography_Detail">
         <item name="android:textSize">40sp</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:paddingBottom">20dp</item>
+        <item name="android:textStyle">bold</item>>
     </style>
 
     <style name="Categories_Typography_Detail">

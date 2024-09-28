@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:orientation="vertical"
+>
+
+<!--    senza watched checker-->
+
+    <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/episodeImageBackdrop"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            tools:layout_height="200dp"
+            android:scaleType="centerCrop"
+            style="@style/Image_BaseVH"
+            android:adjustViewBounds="true"
+            tools:src="@tools:sample/backgrounds/scenic"
+            />
+
+    <!-- Title S01 E01 (series premiere)-->
+    <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            tools:text="Winter is coming | S01 E01 |Series Premiere"/>
+
+
+    <!--  first aired, runtime, episode type, rating, vote -->
+    <TextView
+            android:id="@+id/info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            tools:text="First aired: Jan 1, 2022 | 60 min | Drama"/>
+
+
+    <TextView
+            android:id="@+id/overview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textSize="16sp"
+            tools:text="Overview This is the overview of the episode. It will give a brief description of what happens in this episode."/>
+
+
+</LinearLayout>

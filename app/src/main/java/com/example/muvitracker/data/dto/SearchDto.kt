@@ -1,9 +1,10 @@
 package com.example.muvitracker.data.dto
 
 
-import com.example.muvitracker.data.dto.basedto.MovieDto
-import com.example.muvitracker.data.dto.basedto.ShowDto
-import com.example.muvitracker.data.dto.basedto.toDomain
+import com.example.muvitracker.data.dto.movies.MovieBaseDto
+import com.example.muvitracker.data.dto.show.ShowBaseDto
+import com.example.muvitracker.data.dto.movies.toDomain
+import com.example.muvitracker.data.dto.show.toDomain
 import com.example.muvitracker.domain.model.SearchResult
 
 // can be: movie || show || episode(excluded)
@@ -12,9 +13,9 @@ data class SearchDto(
     val type: String,
     val score: Double,
 
-    val movie: MovieDto?,
-    val show: ShowDto?,
-//    val episode: EpisodeDto?
+    val movie: MovieBaseDto?,
+    val show: ShowBaseDto?,
+//    val episode: EpisodeBaseDto?
 )
 
 

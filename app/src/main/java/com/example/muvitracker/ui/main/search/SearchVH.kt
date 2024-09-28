@@ -20,7 +20,7 @@ class SearchVH(
             when (item) {
                 is SearchResult.MovieItem -> {
                     typeItem.text = root.context.getString(R.string.movie)
-                    score.text = item.score.firstDecimalApproxToString()
+//                    score.text = item.score.firstDecimalApproxToString()
                     title.text = "${item.movie?.title} ${item.movie?.year.toString()}"
 
                     Glide.with(root.context)
@@ -33,7 +33,7 @@ class SearchVH(
 
                 is SearchResult.ShowItem -> {
                     typeItem.text = root.context.getString(R.string.show)
-                    score.text = item.score.firstDecimalApproxToString()
+//                    score.text = item.score.firstDecimalApproxToString()
                     title.text = "${item.show.title} ${item.show.year.toString()}"
 
                     Glide.with(root.context)

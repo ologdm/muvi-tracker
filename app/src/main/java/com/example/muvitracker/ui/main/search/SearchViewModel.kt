@@ -18,11 +18,10 @@ class SearchViewModel @Inject constructor(
     val searchState = MutableLiveData<List<SearchResult>>()
 
 
-    fun updateSearch(text: String) {
+    fun updateSearch(typeFilter: String, text: String) {
         viewModelScope.launch {
-            searchState.value = searchRepository.getNetworkResult(text)
+            searchState.value = searchRepository.getNetworkResult(typeFilter,text)
         }
     }
-
 
 }

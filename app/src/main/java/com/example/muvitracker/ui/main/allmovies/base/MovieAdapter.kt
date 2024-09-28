@@ -4,15 +4,17 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import com.example.muvitracker.databinding.VhMovieBinding
+import com.example.muvitracker.data.dto.base.Ids
+import com.example.muvitracker.databinding.VhBaseListBinding
+
 import com.example.muvitracker.domain.model.base.Movie
 
 // used by:
 // - boxoffice fragment (only 10 result, no paging needed)
 
 class MovieAdapter(
-    private val onClickVH: (Int) -> Unit,
-) : ListAdapter<Movie, MovieVh>(MovieAdapter) {
+    val onClickVH: (Ids) -> Unit
+) : ListAdapter<Movie, MovieVH>(MovieAdapter) {
 
     companion object : DiffUtil.ItemCallback<Movie>() {
         override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean {
@@ -25,20 +27,20 @@ class MovieAdapter(
     }
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieVh {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieVH {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val bindingVh = VhMovieBinding.inflate(layoutInflater, parent, false)
-        return MovieVh(bindingVh)
+        val bindingVh = VhBaseListBinding.inflate(layoutInflater, parent, false)
+        return MovieVH(bindingVh)
     }
 
 
-    override fun onBindViewHolder(holder: MovieVh, position: Int) {
+    override fun onBindViewHolder(holder: MovieVH, position: Int) {
         val item = getItem(position)
 
         holder.bind(item)
 
         holder.itemView.setOnClickListener {
-            onClickVH(item.ids.trakt)
+            onClickVH(item.ids)
         }
 
     }

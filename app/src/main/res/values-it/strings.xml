@@ -1,17 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="popular">Popolari</string>
-    <string name="box_office">Al Cinema</string>
-    <string name="my_list">Preferiti</string>
+    <!--navigation bar names -->
+    <string name="movies">Film</string>
+    <string name="shows">Series TV</string>
+    <string name="my_list">La Mia Lista</string>
     <string name="search">Cerca</string>
+
+    <!--base categories -->
+    <string name="popular">popolari</string>
+    <string name="box_office">al cinema</string>
+    <string name="watched">più guardati</string>
+    <string name="favorited">favoriti</string>
+    <string name="anticipated">prossimamente</string>
 
 
     <string name="released">Data uscita:</string>
     <string name="runtime">Durata:</string>
     <string name="country">Paese:</string>
     <string name="rating">Rating:</string>
-    <string name="watched">Guardato</string>
+    <string name="watchedCheck">Guardato</string>
+    <string name="watchedAllCheck">Guardato</string>
     <string name="about_show">Descrizione</string>
     <string name="genres">Generi:</string>
     <string name="rating_description"> %1$s stelle</string>

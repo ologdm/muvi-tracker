@@ -11,6 +11,13 @@ plugins {
     id("com.google.dagger.hilt.android")
 }
 
+def localProperties = new Properties()
+def localPropertiesFile = rootProject.file('local.properties')
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.withReader('UTF-8') { reader ->
+        localProperties.load(reader)
+    }
+}
 
 android {
     namespace 'com.example.muvitracker'
@@ -22,6 +29,9 @@ android {
         targetSdk 34
         versionCode 1
         versionName "1.0"
+        // retrofit trakt key - gradle genera il file BuildCoinfig.java
+        buildConfigField 'String', "TRAKT_API_KEY", "\"" + localProperties.trakt_api_key + "\""
+        buildConfigField 'String', "TMDB_API_KEY", "\"" + localProperties.tmdb_api_key + "\""
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -42,6 +52,7 @@ android {
 
 
     buildFeatures {
+        buildConfig true
         viewBinding true
     }
 
@@ -80,7 +91,7 @@ dependencies {
 
     // glide
     implementation 'com.github.bumptech.glide:glide:4.16.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
+    kapt 'com.github.bumptech.glide:compiler:4.16.0'
 
     // hilt dagger
     def hilt_version = "2.51.1"
@@ -106,9 +117,6 @@ dependencies {
     // To use Kotlin Symbol Processing (KSP) TODO test
 //    ksp "androidx.room:room-compiler:$room_version"
 
-    // optional - Paging 3 Integration - only for loading elements from db
-//    implementation "androidx.room:room-paging:$room_version"
-
     // optional - Test helpers TODO
 //    testImplementation "androidx.room:room-testing:$room_version"
 
@@ -117,7 +125,8 @@ dependencies {
     def paging_version = "3.3.1"
     implementation "androidx.paging:paging-runtime-ktx:$paging_version"
 
-
+    // viewPager2, tabs already incleded in m3
+    implementation 'androidx.viewpager2:viewpager2:1.0.0'
 }
 
 

@@ -3,10 +3,11 @@ package com.example.muvitracker.utils
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.room.Room
+import com.example.muvitracker.BuildConfig
 import com.example.muvitracker.data.TraktApi
 import com.example.muvitracker.data.database.MyDatabase
-import com.example.muvitracker.data.DetailRepository
-import com.example.muvitracker.data.PrefsRepository
+import com.example.muvitracker.data.DetailMovieRepository
+import com.example.muvitracker.data.PrefsMovieRepository
 import com.example.muvitracker.data.SearchRepository
 import com.example.muvitracker.data.movies.MoviesRepository
 import com.example.muvitracker.domain.repo.DetailRepo
@@ -38,14 +39,14 @@ class DaggerModules {
 
     @Provides
     @Singleton
-    fun providedDetailRepo(impl: DetailRepository): DetailRepo {
+    fun providedDetailRepo(impl: DetailMovieRepository): DetailRepo {
         return impl
     }
 
 
     @Provides
     @Singleton
-    fun providePrefsRepo(impl: PrefsRepository): PrefsRepo {
+    fun providePrefsRepo(impl: PrefsMovieRepository): PrefsRepo {
         return impl
     }
 
@@ -84,7 +85,7 @@ class DaggerModules {
                         val newRequest = chain.request().newBuilder()
                             .addHeader(
                                 "trakt-api-key",
-                                "d3dd937d16c8de9800f9ce30270ddc1d9939a2dafc0cd59f0a17b72a2a4208fd"
+                                BuildConfig.TRAKT_API_KEY
                             )
                             .build()
                         chain.proceed(newRequest)
@@ -104,7 +105,11 @@ class DaggerModules {
             context,
             MyDatabase::class.java,
             "muvi-tracker-db"
-        ).build()
+        )
+            // non crasha quando modifichi lo schema del DB, ma lo cancella
+            // e ne create uno nuovo
+            .fallbackToDestructiveMigration()
+            .build()
     }
 
 
