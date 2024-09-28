@@ -8,8 +8,6 @@ import com.dropbox.android.external.store4.StoreBuilder
 import com.dropbox.android.external.store4.StoreRequest
 import com.dropbox.android.external.store4.StoreResponse
 import com.example.muvitracker.data.database.MyDatabase
-import com.example.muvitracker.data.database.entities.DetailShowEntity
-import com.example.muvitracker.data.database.entities.toDomain
 import com.example.muvitracker.data.dto.show.DetailShowDto
 import com.example.muvitracker.data.dto.show.toDomain
 import com.example.muvitracker.data.dto.show.toEntity
@@ -17,12 +15,19 @@ import com.example.muvitracker.domain.model.DetailShow
 import com.example.muvitracker.domain.model.base.Show
 import com.example.muvitracker.utils.IoResponse
 import com.example.muvitracker.utils.ioMapper
+import kotlinx.coroutines.Delay
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterNot
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.sync.Semaphore
+import kotlinx.coroutines.sync.withPermit
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.coroutines.cancellation.CancellationException
@@ -36,17 +41,15 @@ import kotlin.coroutines.cancellation.CancellationException
 @Singleton
 class DetailShowRepository @Inject constructor(
     private val traktApi: TraktApi,
+    private val seasonRepo: SeasonRepository,
     database: MyDatabase,
 ) {
-
     private val detailShowDao = database.detailShowDao()
-    private val prefsShowDao = database.prefsShowDao()
-    private val episodeDao = database.episodesDao()
+    private val seasonDao = database.seasonsDao()
 
 
-    // DETAIL
     // store
-    private val detailStore: Store<Int, DetailShowEntity> = StoreBuilder.from(
+    private val detailStore: Store<Int, DetailShow> = StoreBuilder.from(
         fetcher = Fetcher.ofResult { showId ->
             try {
                 FetcherResult.Data(traktApi.getShowDetail(showId))
@@ -58,9 +61,11 @@ class DetailShowRepository @Inject constructor(
                 FetcherResult.Error.Exception(ex)
             }
         },
-        sourceOfTruth = SourceOfTruth.of<Int, DetailShowDto, DetailShowEntity>(
+        sourceOfTruth = SourceOfTruth.of<Int, DetailShowDto, DetailShow>(
             reader = { showId ->
-                detailShowDao.readSingleFlow(showId)
+                detailShowDao.getSingleDetailFlow(showId)
+                // return->DetailShow,
+                // join detail + prefs + episodeCount
             },
             writer = { _, dto ->
                 try {
@@ -74,48 +79,30 @@ class DetailShowRepository @Inject constructor(
     ).build()
 
 
-
-    fun getSingleDetailShowFlow(showId: Int): Flow<IoResponse<DetailShow>> {
-        // flow1
-        val detailFlow = detailStore.stream(StoreRequest.cached(key = showId, refresh = true))
+    fun getSingleDetailShowFlow(showId: Int): Flow<IoResponse<DetailShow?>> {
+        return detailStore.stream(StoreRequest.cached(key = showId, refresh = true))
             .filterNot { response ->
                 response is StoreResponse.Loading || response is StoreResponse.NoNewData
             }
-        // flow2
-        val prefsListFLow = prefsShowDao.readAll()
-        // flow3
-        val watchedStatesFlow: Flow<WatchedDataModel> = getShowWatchedStates(showId)
-
-        // combine flows T1,T2,T3 -> R
-        return combine(
-            detailFlow, prefsListFLow, watchedStatesFlow
-        ) { storeResponse, prefList, watchedStates ->
-            when (storeResponse) {
-                is StoreResponse.Data -> {
-                    val prefsEntity = prefList.find { entity ->
-                        entity?.traktId == storeResponse.value.ids.trakt
+            .map { storeResponse ->
+                when (storeResponse) {
+                    is StoreResponse.Data -> {
+                        val detailShow = storeResponse.value
+                        IoResponse.Success(detailShow)
                     }
-                    val detailShow = storeResponse.value
-                        .toDomain(prefsEntity)
-                        .copy(
-                            watchedAll = watchedStates.watchedAll,
-                            watchedCount = watchedStates.watchedCount
-                        )
-                    IoResponse.Success(detailShow)
-                }
 
-                is StoreResponse.Error.Exception -> {
-                    IoResponse.Error(storeResponse.error)
-                }
+                    is StoreResponse.Error.Exception -> {
+                        IoResponse.Error(storeResponse.error)
+                    }
 
-                is StoreResponse.Error.Message -> {
-                    IoResponse.Error(RuntimeException(storeResponse.message))
-                }
+                    is StoreResponse.Error.Message -> {
+                        IoResponse.Error(RuntimeException(storeResponse.message))
+                    }
 
-                is StoreResponse.Loading,
-                is StoreResponse.NoNewData -> error("should be filtered upstream")
+                    is StoreResponse.Loading,
+                    is StoreResponse.NoNewData -> error("should be filtered upstream")
+                }
             }
-        }
     }
 
 
@@ -126,7 +113,6 @@ class DetailShowRepository @Inject constructor(
                 dtos.map { dto ->
                     println("YYY related dto:$dto")
                     dto.toDomain()
-
                 }
             }
         } catch (ex: CancellationException) {
@@ -138,61 +124,39 @@ class DetailShowRepository @Inject constructor(
         }
     }
 
-    // CAST - repo separata todo
 
+    // WATCHED ALL SU SHOW
+    // 10 coroutines al massimo aperte in una volta
 
-    // READ WATCHED STATUS - fare con join
-    // per checkbox & progress bar insieme OK
-    private fun getShowWatchedStates(showId: Int): Flow<WatchedDataModel> {
-        return flow {
-            // totali show (val fisso) OK
-            val airedEpisodes = detailShowDao.readSingleFlow(showId).firstOrNull()?.airedEpisodes
-                ?: 0 // suspend function
+    suspend fun checkAndSetShowAllWatchedEpisodes(showId: Int) = coroutineScope {
+        val showSeasons = seasonDao.countAllSeasonsOfShow(showId)
+        val isDetailWatchedStatus =
+            detailShowDao.getSingleDetailFlow(showId).firstOrNull()?.watchedAll
+                ?: return@coroutineScope
 
-            episodeDao.countShowWatchedEpisodes(showId)
-                .collect { watchedEpisodes ->
-                    val watchedAll = (watchedEpisodes == airedEpisodes)
-                    emit(WatchedDataModel(watchedAll, watchedEpisodes)) // emit true se coincidono
+        val semaphore = Semaphore(10)
+
+        val jobs = (1..showSeasons).map { season ->
+            async {
+                semaphore.withPermit {
+                    println("XXX async")
+//                    delay(5000) for test
+                    if (isDetailWatchedStatus) {
+                        seasonRepo.checkAndSetWatchedAllSeasonEpisodes(showId, season, false)
+                    } else {
+                        seasonRepo.checkAndSetWatchedAllSeasonEpisodes(showId, season, true)
+                    }
                 }
+            }
         }
+        jobs.awaitAll()
     }
 
 
-    // WATCHED ALL SU SHOW TODO !!!!!!!!!!!!!!!
-//     //5 coroutines al massimo aperte in una volta
-//    suspend fun checkAndToggleShowAllWatchedEpisodes(showId: Int) = coroutineScope {
-//
-//        val semaphore = Semaphore(5)
-//        // usare mutex, versione piu avanzata mutex
-//
-//        val showSeasons = seasonDao.readAllSeasonsOfShow(showId).first()
-//
-//        val jobs = showSeasons.map { season ->
-//            async(Dispatchers.IO) {
-//                semaphore.withPermit {
-//                    seasonRepo.checkAndToggleWatchedAllSeasonEpisodes(showId, season.seasonNumber)
-//                }
-//            }
-//        }
-//        jobs.awaitAll()
-//    }
-
-
-    //     // TOGGLE WATCHED  - old test, sequenziale
-//     // per click on checkbox
-//    suspend fun checkAndToggleShowAllWatchedEpisodes(showId: Int) {
-//        // itera stagione per stagione e scarica tutti i dati necessari
-//        val showSeasons = seasonDao.readAllSeasonsOfShow(showId).collect{
-//            for (season in it) {
-//                seasonRepo.checkAndToggleWatchedAllSeasonEpisodes(showId, season.seasonNumber)
-//            }
-//        }
-//    }
-
-
-    // TODO
-    // LOGICA AGGIUNTA PREFS QUANDO UN EPISODE IS WATCHED
+    // CAST - repo separata todo
 
 }
+
+
 
 

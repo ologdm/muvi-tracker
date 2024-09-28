@@ -7,6 +7,7 @@
         android:orientation="horizontal"
         android:paddingBottom="8dp">
 
+
     <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/image"
             android:layout_width="0dp"
@@ -38,8 +39,7 @@
                 android:textStyle="bold"
                 android:maxLines="2"
                 android:ellipsize="end"
-                android:clickable="false"
-                />
+                android:clickable="false" />
 
         <TextView
                 android:id="@+id/otherInfo"
@@ -67,11 +67,11 @@
                     app:srcCompat="@drawable/baseline_liked_border"
                     android:importantForAccessibility="no"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/watchedCheckBox"
-                    app:layout_constraintBottom_toBottomOf="@id/watchedCheckBox" />
+                    app:layout_constraintTop_toTopOf="@id/watchedAllCheckBox"
+                    app:layout_constraintBottom_toBottomOf="@id/watchedAllCheckBox" />
 
             <CheckBox
-                    android:id="@+id/watchedCheckBox"
+                    android:id="@+id/watchedAllCheckBox"
                     android:text="@string/watchedAllCheck"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -86,9 +86,9 @@
                     android:layout_height="32dp"
                     android:visibility="gone"
                     tools:visibility="visible"
-                    app:layout_constraintStart_toStartOf="@id/watchedCheckBox"
-                    app:layout_constraintBottom_toBottomOf="@id/watchedCheckBox"
-                    app:layout_constraintTop_toTopOf="@id/watchedCheckBox"/>
+                    app:layout_constraintStart_toStartOf="@id/watchedAllCheckBox"
+                    app:layout_constraintBottom_toBottomOf="@id/watchedAllCheckBox"
+                    app:layout_constraintTop_toTopOf="@id/watchedAllCheckBox" />
 
 
             <TextView
@@ -96,9 +96,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="9000/9000"
-                    app:layout_constraintStart_toEndOf="@id/watchedCheckBox"
-                    app:layout_constraintTop_toTopOf="@id/watchedCheckBox"
-                    app:layout_constraintBottom_toBottomOf="@id/watchedCheckBox"
+                    app:layout_constraintStart_toEndOf="@id/watchedAllCheckBox"
+                    app:layout_constraintTop_toTopOf="@id/watchedAllCheckBox"
+                    app:layout_constraintBottom_toBottomOf="@id/watchedAllCheckBox"
                     app:layout_constraintEnd_toEndOf="parent"
                     android:layout_marginStart="10dp"
                     android:textSize="16dp"
@@ -109,15 +109,14 @@
                     android:id="@+id/watchedCounterProgressBar"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/watchedCheckBox"
-                    app:layout_constraintStart_toStartOf="@id/watchedCheckBox"
+                    app:layout_constraintTop_toBottomOf="@id/watchedAllCheckBox"
+                    app:layout_constraintStart_toStartOf="@id/watchedAllCheckBox"
                     app:layout_constraintEnd_toEndOf="parent"
                     android:layout_marginStart="8dp" />
 
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-
     </LinearLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

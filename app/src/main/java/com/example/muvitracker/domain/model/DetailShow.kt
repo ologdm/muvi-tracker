@@ -24,18 +24,24 @@ data class DetailShow(
     val languages: List<String>,
     val genres: List<String>,
     val airedEpisodes: Int,
-
     // prefs entity
     val liked: Boolean,
     val addedDateTime: Long?, // using timestamp
-
     // computed data from episodeRepository
-    val watchedAll: Boolean = false, // default false
     val watchedCount: Int = 0, // default 0
+) {
 
-    ) {
+    // imdb univoco tra show e movie
     fun imageUrl(): String {
         return "http://img.omdbapi.com/?apikey=ef6d3d4c&i=${ids.imdb}"
     }
-    // imdb univoco tra show e movie
+
+
+    val watchedAll: Boolean
+        get() = watchedCount == airedEpisodes
+
+//    fun watchedAll(): Boolean {
+//        return watchedCount == airedEpisodes
+//    }
+
 }

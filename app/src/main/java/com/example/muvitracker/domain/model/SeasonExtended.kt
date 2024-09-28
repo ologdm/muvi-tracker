@@ -15,6 +15,13 @@ data class SeasonExtended(
     val releaseYear: String,
     val network: String,
     // computed data from episodeRepository
-    val watchedAll: Boolean = false, // default false
     val watchedCount: Int = 0, // default 0
-    )
+) {
+
+    // property al posto di fun
+    val watchedAll: Boolean
+        get() = watchedCount == episodeCount
+}
+
+
+

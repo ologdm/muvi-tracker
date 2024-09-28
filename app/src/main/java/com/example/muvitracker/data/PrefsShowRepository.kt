@@ -21,29 +21,9 @@ class PrefsShowRepository @Inject constructor(
     private val prefsShowDao = database.prefsShowDao()
 
 
-    // for Prefs Frgment todo
-//    override - old
-//    fun getListFLow(): Flow<List<DetailShow>> {
-//        val detailListFLow = detailShowRepository.getDetailListFlow()
-//        val prefsListFLow = prefsShowDao.readAll()
-//
-//        return detailListFLow
-//            .combine(prefsListFLow) { detailList, prefsList ->
-//                // mappa valori non nulli
-//                prefsList.mapNotNull { prefsEntityR ->
-//                    val detailItem = detailList.find { detailEntityR ->
-//                        detailEntityR?.traktId == prefsEntityR?.traktId
-//                    }
-//                    detailItem?.toDomain(prefsEntityR)
-//                }.sortedByDescending {
-//                    it.addedDateTime
-//                }
-//            }
-//    }
-
-
+    //  override
     fun getListFLow(): Flow<List<DetailShow>> {
-        // join: prefs + detail + watched episodes
+        // join: prefs + detail + watched episodes -> (caso tutto gia scaricato)
         return prefsShowDao.getAllPrefsShows()
     }
 
@@ -67,6 +47,7 @@ class PrefsShowRepository @Inject constructor(
             )
         }
     }
+
 
 
     // aggiungi elemento ai prefs se aggiungo watched ad un episodio

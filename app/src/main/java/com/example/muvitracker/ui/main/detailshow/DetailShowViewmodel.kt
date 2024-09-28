@@ -31,7 +31,8 @@ class DetailShowViewmodel @Inject constructor(
 ) : ViewModel() {
 
     val detailState = MutableLiveData<StateContainer<DetailShow>>()
-//    val allSeasonsState = MutableLiveData<StateContainer<List<SeasonEntity>>>()
+
+    //    val allSeasonsState = MutableLiveData<StateContainer<List<SeasonEntity>>>()
     val allSeasonsState = MutableLiveData<StateContainer<List<SeasonExtended>>>()
 
 
@@ -79,13 +80,12 @@ class DetailShowViewmodel @Inject constructor(
     }
 
     // force show watchedAll OK
-    fun toggleWatchedAll (showId: Int){
+    fun toggleWatchedAll(showId: Int, onComplete: () -> Unit) {
         // add callback
         viewModelScope.launch {
-//            detailShowRepo.checkAndToggleShowAllWatchedEpisodes(showId)
-            println("XXX watchedAllCheckbox viewmodel ")
+            detailShowRepo.checkAndSetShowAllWatchedEpisodes(showId)
+            onComplete()
         }
-
     }
 
 
@@ -159,7 +159,6 @@ class DetailShowViewmodel @Inject constructor(
             posterImageUrl.value = "$baseUrl${x.posterPath.toString()}"
         }
     }
-
 
 
     // RELATED SHOWS

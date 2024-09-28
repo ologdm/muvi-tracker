@@ -19,7 +19,7 @@ import javax.inject.Inject
 class PrefsShowFragment : Fragment(R.layout.fragm_prefs) {
 
     private val viewModel by viewModels<PrefsShowViewModel>()
-    private val binding by viewBinding (FragmPrefsBinding::bind)
+    private val binding by viewBinding(FragmPrefsBinding::bind)
 
     @Inject
     lateinit var navigator: Navigator
@@ -32,10 +32,12 @@ class PrefsShowFragment : Fragment(R.layout.fragm_prefs) {
             startDeleteAlertDialog(movieId)
         },
         onCLickLiked = { movieId ->
-            viewModel.togglelikedShow(movieId)
+            viewModel.toggleLikedShow(movieId)
         },
-        onClickWatched = { item, watched ->
-//            viewModel.updateWatchedItem(updatedItem = item, watched)
+        onClickWatchedAllCheckbox = { showId, adapterCallback ->
+            viewModel.updateWatchedAllSingleShow(showId, onComplete = {
+                adapterCallback() // esegui operazione su adapter
+            })
         }
     )
 
@@ -49,7 +51,6 @@ class PrefsShowFragment : Fragment(R.layout.fragm_prefs) {
             adapter.submitList(list)
         }
     }
-
 
 
     // #######################################################################################

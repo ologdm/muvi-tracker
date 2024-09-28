@@ -3,6 +3,7 @@ package com.example.muvitracker.ui.main.prefs
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.muvitracker.data.DetailShowRepository
 import com.example.muvitracker.data.PrefsShowRepository
 import com.example.muvitracker.domain.model.DetailMovie
 import com.example.muvitracker.domain.model.DetailShow
@@ -13,7 +14,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PrefsShowViewModel @Inject constructor(
-    private val prefsShowRepository: PrefsShowRepository
+    private val prefsShowRepository: PrefsShowRepository,
+    private val detailShowRepository: DetailShowRepository
 ) : ViewModel() {
 
     val prefsList = MutableLiveData<List<DetailShow>>()
@@ -23,7 +25,7 @@ class PrefsShowViewModel @Inject constructor(
     }
 
     // 00
-    private fun getPrefsList (){
+    private fun getPrefsList() {
         viewModelScope.launch {
             prefsShowRepository.getListFLow().collectLatest {
                 prefsList.value = it
@@ -32,7 +34,7 @@ class PrefsShowViewModel @Inject constructor(
     }
 
     // 000
-    fun togglelikedShow(movieId: Int) {
+    fun toggleLikedShow(movieId: Int) {
         viewModelScope.launch {
             prefsShowRepository.toggleLikedOnDB(movieId) // bypass
             // aggiornare solo su prefsDao
@@ -40,11 +42,13 @@ class PrefsShowViewModel @Inject constructor(
     }
 
 
-    //
-    fun updateWatchedItem(updatedItem: DetailMovie, watched: Boolean) {
+    fun updateWatchedAllSingleShow(showId: Int, onComplete: () -> Unit) {
         viewModelScope.launch {
-//            prefsShowRepository.updateWatchedOnDB(updatedItem.ids.trakt, watched) // bypass
-            // todo - aggiornare solo su episodesDao
+            // 1 start loading on adapter
+            // 2 chiama funzione su repository - stessa di detail
+            detailShowRepository.checkAndSetShowAllWatchedEpisodes(showId)
+            // 3 finish
+            onComplete()
         }
     }
 

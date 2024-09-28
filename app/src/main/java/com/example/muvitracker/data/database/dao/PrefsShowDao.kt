@@ -2,8 +2,10 @@ package com.example.muvitracker.data.database.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
+import androidx.room.Upsert
 import com.example.muvitracker.data.database.entities.PrefsShowEntity
 import com.example.muvitracker.domain.model.DetailShow
 import kotlinx.coroutines.flow.Flow
@@ -13,7 +15,8 @@ import kotlinx.coroutines.flow.Flow
 interface PrefsShowDao {
 
     // CREATE
-    @Insert
+//    @Upsert()
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertSingle(entity: PrefsShowEntity)
 
 
@@ -45,8 +48,7 @@ interface PrefsShowDao {
            d.network, d.country, d.trailer, d.homepage, d.status, d.rating, d.votes, 
            d.language, d.languages, d.genres, d.airedEpisodes,
            p.liked, p.addedDateTime,
-           SUM(CASE WHEN e.watched = 1 THEN 1 ELSE 0 END) AS watchedCount, 
-           (SUM(CASE WHEN e.watched = 1 THEN 1 ELSE 0 END) = d.airedEpisodes) AS watchedAll
+           SUM(CASE WHEN e.watched = 1 THEN 1 ELSE 0 END) AS watchedCount
     FROM prefs_show_entities AS p
     LEFT JOIN detail_show_entities AS d ON p.traktId = d.traktId
     LEFT JOIN episode_entities AS e ON d.traktId = e.showId

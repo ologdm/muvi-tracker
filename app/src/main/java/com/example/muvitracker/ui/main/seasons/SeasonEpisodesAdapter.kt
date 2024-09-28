@@ -28,8 +28,6 @@ class SeasonEpisodesAdapter(
 
         // icons
         val context: Context = holder.itemView.context
-//        val iconFilled = context.getDrawable(R.drawable.watched_check_circle_filled)
-//        val iconEmpty = context.getDrawable(R.drawable.watched_check_circle_empty)
         val iconFilled = context.getDrawable(R.drawable.x_eye_circle)
         val iconEmpty = context.getDrawable(R.drawable.x_panorama_fisheye)
 

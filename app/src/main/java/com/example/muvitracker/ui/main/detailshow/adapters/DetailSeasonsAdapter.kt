@@ -33,17 +33,15 @@ class DetailSeasonsAdapter(
             onClickVH(seasonItem.seasonNumber)
         }
 
+        // WATCHED CHECKBOX
         // stato default sempre iniziale per il nuovo elemento
-        // per evitare animaz e stati element precedente
+        // (per evitare animaz e stati elementi precedenti)
         holder.binding.seasonCheckbox.isEnabled = true
         holder.binding.watchedAllCheckboxLoadingBar.visibility = View.GONE
 
-
-        // checkbox todo
+        // sempre set(null) -> sempre prima di update
         holder.binding.seasonCheckbox.setOnCheckedChangeListener(null)
-        holder.binding.seasonCheckbox.isChecked =
-            seasonItem.watchedAll // !! forma abbreviata - caso true
-        // todo (eugi appunti) - listener viene chiamato alClick e al cambiamentoStatoChecked (quando lo stato cambia)
+        holder.binding.seasonCheckbox.isChecked = seasonItem.watchedAll
 
         holder.binding.seasonCheckbox.setOnCheckedChangeListener(object :
             CompoundButton.OnCheckedChangeListener {
@@ -51,16 +49,16 @@ class DetailSeasonsAdapter(
                 holder.binding.seasonCheckbox.isEnabled = false
                 holder.binding.watchedAllCheckboxLoadingBar.visibility = View.VISIBLE
 
+                // ad operazione conclusa, la viewmodel callback chiama questa callabck
                 onClickWatchedAllCheckbox.invoke(seasonItem.seasonNumber) {
                     holder.binding.watchedAllCheckboxLoadingBar.visibility = View.GONE
                     holder.binding.seasonCheckbox.isEnabled = true
-
+                    // aggiorno di nuovo chekbox
                     holder.binding.seasonCheckbox.setOnCheckedChangeListener(null)
                     holder.binding.seasonCheckbox.isChecked = seasonItem.watchedAll
                     holder.binding.seasonCheckbox.setOnCheckedChangeListener(this)
 
                     holder.bind(seasonItem) // Re-bind per aggiornare i dati visualizzati
-
                 }
             }
         })
@@ -69,12 +67,16 @@ class DetailSeasonsAdapter(
 
     companion object {
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<SeasonExtended>() {
-            override fun areItemsTheSame(oldItem: SeasonExtended, newItem: SeasonExtended): Boolean {
+            override fun areItemsTheSame(
+                oldItem: SeasonExtended,
+                newItem: SeasonExtended
+            ): Boolean {
                 return oldItem.ids.trakt == newItem.ids.trakt
             }
 
             override fun areContentsTheSame(
-                oldItem: SeasonExtended, newItem: SeasonExtended): Boolean {
+                oldItem: SeasonExtended, newItem: SeasonExtended
+            ): Boolean {
                 return oldItem == newItem
             }
         }

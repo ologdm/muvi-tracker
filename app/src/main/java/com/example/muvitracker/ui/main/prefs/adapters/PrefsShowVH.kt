@@ -5,9 +5,6 @@ import com.bumptech.glide.Glide
 import com.example.muvitracker.databinding.VhPrefsShowBinding
 import com.example.muvitracker.domain.model.DetailShow
 
-// espasione titolo max e righe...
-// espasione
-
 class PrefsShowVH(
     val binding: VhPrefsShowBinding
 ) : RecyclerView.ViewHolder(binding.root) {
@@ -17,23 +14,17 @@ class PrefsShowVH(
             title.text = "${currentItem.title}"
             otherInfo.text =
                 "${currentItem.network}, ${currentItem.year}, ${currentItem.country.uppercase()}, ${currentItem.status}"
-            // todo passare conteggio
-
-
-            watchedCounterProgressBar.max = currentItem.airedEpisodes
-            watchedCounterProgressBar.progress = currentItem.watchedCount
-
-            /* !!!!
-            - currentItem.airedEpisodes - sia un numero positivo.
-            - currentItem.watchedCount - non superi il valore di airedEpisodes.
-             */
-
-            // checkbox - su adapter
 
             Glide
                 .with(binding.root.context)
                 .load(currentItem.imageUrl())
                 .into(image)
+
+            // update watched states
+            watchedCounterProgressBar.max = currentItem.airedEpisodes
+            watchedCounterProgressBar.progress = currentItem.watchedCount
+            watchedCounterTextview.text = "${currentItem.watchedCount}/${currentItem.airedEpisodes}"
+
         }
     }
 }

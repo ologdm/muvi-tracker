@@ -3,7 +3,9 @@ package com.example.muvitracker.ui.main.prefs.adapters
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.CompoundButton
 import android.widget.ImageButton
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -17,7 +19,7 @@ class PrefsShowAdapter(
     private val onClickVH: (movieIds: Ids) -> Unit,
     private val onLongClickVH: (movieId: Int) -> Unit,
     private val onCLickLiked: (Int) -> Unit,
-    private val onClickWatched: (DetailShow, Boolean) -> Unit
+    private val onClickWatchedAllCheckbox: (showId: Int, () -> Unit) -> Unit
 ) : ListAdapter<DetailShow, PrefsShowVH>(PrefsShowAdapter) {
 
 
@@ -48,37 +50,50 @@ class PrefsShowAdapter(
                 updateFavoriteIcon(likedButton, currentItem.liked, iconFilled, iconEmpty)
             }
 
-            // watched update + toggle TODO
-            watchedCheckBox.isChecked =
-                currentItem.watchedAll // !! forma abbreviata - caso true
+            // stato default - per pulizia da precedenti modifiche
+            watchedAllCheckBox.isEnabled = true
+            watchedAllCheckBox.visibility = View.GONE
 
-            watchedCounterProgressBar.max = currentItem.airedEpisodes
-            watchedCounterProgressBar.progress = currentItem.watchedCount
-            watchedCounterTextview.text = "${currentItem.watchedCount}/${currentItem.airedEpisodes}"
+            // checkbox update -
+            watchedAllCheckBox.setOnCheckedChangeListener(null)
+            watchedAllCheckBox.isChecked = currentItem.watchedAll
 
 
-            // todo alla fine
-            // pass watchedState
-            watchedCheckBox.setOnCheckedChangeListener(null)
-            watchedCheckBox.isChecked = currentItem.watchedAll
-            watchedCheckBox.setOnCheckedChangeListener { _, isChecked ->
-                onClickWatched.invoke(currentItem, isChecked)
-            }
+            watchedAllCheckBox.setOnCheckedChangeListener(object :
+                CompoundButton.OnCheckedChangeListener {
+                override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
+                    watchedAllCheckBox.isEnabled = false
+                    watchedAllCheckboxLoadingBar.visibility = View.VISIBLE
 
-            // open detail
-            holder.itemView.setOnClickListener {
-                onClickVH.invoke(currentItem.ids)
-            }
+                    onClickWatchedAllCheckbox.invoke(currentItem.ids.trakt) {
+                        watchedAllCheckBox.isEnabled = true
+                        watchedAllCheckboxLoadingBar.visibility = View.GONE
 
-            // delete item
-            holder.itemView.setOnLongClickListener {
-                onLongClickVH.invoke(currentItem.ids.trakt)
-                true
-            }
+                        // aggiorno di nuovo chekbox
+                        watchedAllCheckBox.setOnCheckedChangeListener(null)
+                        watchedAllCheckBox.isChecked = currentItem.watchedAll
+                        watchedAllCheckBox.setOnCheckedChangeListener(this)
+
+                        holder.bind(currentItem)
+                    }
+                }
+            })
+        }
+
+
+        // open detail
+        holder.itemView.setOnClickListener {
+            onClickVH.invoke(currentItem.ids)
+        }
+
+        // delete item
+        holder.itemView.setOnLongClickListener {
+            onLongClickVH.invoke(currentItem.ids.trakt)
+            true
         }
     }
 
-    // ################################################################################
+// ################################################################################
 
     private fun updateFavoriteIcon(
         likedButton: ImageButton,

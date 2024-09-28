@@ -5,6 +5,11 @@ sealed interface IoResponse<out T> {
     data class Success<T>(val dataValue: T) : IoResponse<T>
     data class Error(val t: Throwable) : IoResponse<Nothing>
 
+    companion object {
+        fun <T> success(dataValue: T): IoResponse<T> {
+            return IoResponse.Success(dataValue)
+        }
+    }
 }
 
 

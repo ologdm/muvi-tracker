@@ -24,11 +24,11 @@ import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
-// TODO
+
 // 1. detailDto OK
 // 2. seasonsDto OK
-// 3. relatedDto
-// 4. castDto
+// 3. relatedDto OK
+// 4. castDto TODO
 
 
 @AndroidEntryPoint
@@ -54,13 +54,12 @@ class DetailShowFragment : Fragment(R.layout.fragm_detail_show) {
                 totSeasonsNumber
             )
         },
-        onClickWatchedAllCheckbox = { seasonNr, callback ->
+        onClickWatchedAllCheckbox = { seasonNr, adapterCallback ->
             viewModel.toggleSingleSeasonWatchedAll(currentShowIds.trakt, seasonNr, onComplete = {
-                callback() // Chiama la callback passando il risultato
+                adapterCallback()
             })
         }
     )
-
 
     private val relatedShowsAdapter = RelatedShowsAdapter(onClickVH = { ids ->
         navigator.startShowDetailFragment(ids)
@@ -88,7 +87,21 @@ class DetailShowFragment : Fragment(R.layout.fragm_detail_show) {
                 binding.watchedCounterProgressBar.max = detailShow.airedEpisodes
                 binding.watchedCounterProgressBar.progress = detailShow.watchedCount
 
+                // sempre insieme (togli listener, leggi, rimetti listener)
+                binding.watchedAllCheckbox.setOnCheckedChangeListener(null)
                 binding.watchedAllCheckbox.isChecked = detailShow.watchedAll
+
+                binding.watchedAllCheckbox.setOnCheckedChangeListener { _, _ ->
+//                    viewModel.toggleWatchedAll(currentShowIds.trakt) // old
+                    binding.watchedAllCheckboxLoadingBar.visibility = View.VISIBLE
+                    binding.watchedAllCheckbox.isEnabled = false
+
+                    viewModel.toggleWatchedAll(currentShowIds.trakt, onComplete = {
+                        // spegni caricamento
+                        binding.watchedAllCheckboxLoadingBar.visibility = View.GONE
+                        binding.watchedAllCheckbox.isEnabled = true
+                    })
+                }
             }
 
             stateContainer.statesFlow(
@@ -163,19 +176,19 @@ class DetailShowFragment : Fragment(R.layout.fragm_detail_show) {
             viewModel.toggleLikedShow(currentShowIds.trakt)
         }
 
-//        updateWatchedCheckbox()
-        binding.watchedAllCheckbox.setOnCheckedChangeListener(null)
-//        binding.watchedAllCheckbox.isChecked = isWatched todo eliminare, non serve
+
         binding.watchedAllCheckbox.setOnCheckedChangeListener { _, _ ->
-            viewModel.toggleWatchedAll(currentShowIds.trakt)
-            // todo - add checkboxLoadingBar
-            println("XXX watchedAllCheckbox fragm ")
+            //avvia caricamento
+            binding.watchedAllCheckboxLoadingBar.visibility = View.VISIBLE
+            binding.watchedAllCheckbox.isEnabled = false
+
+            viewModel.toggleWatchedAll(currentShowIds.trakt, onComplete = {
+                // spegni caricamento
+                binding.watchedAllCheckboxLoadingBar.visibility = View.GONE
+                binding.watchedAllCheckbox.isEnabled = true
+            })
         }
 
-
-        binding.watchedAllCheckbox.setOnCheckedChangeListener{_,isCheched->
-            viewModel.toggleWatchedAll(currentShowIds.trakt)
-        }
 
 
 
@@ -231,9 +244,6 @@ class DetailShowFragment : Fragment(R.layout.fragm_detail_show) {
         }
 
         updateLikedIcon(detailShow.liked)
-//        updateWatched - todo
-
-
     }
 
 
@@ -244,10 +254,6 @@ class DetailShowFragment : Fragment(R.layout.fragm_detail_show) {
         binding.floatingLikedButton.setImageDrawable(if (isFavorite) iconFilled else iconEmpty)
     }
 
-
-    private fun updateWatchedCheckbox() {
-
-    }
 
 
     companion object {

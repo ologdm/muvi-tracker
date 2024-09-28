@@ -28,15 +28,14 @@ interface SeasonDao {
     suspend fun readSingleSeasonById(seasonTraktId: Int): SeasonEntity?
 
 
-    @Query("SELECT * FROM season_entities WHERE showId=:showId")
-    fun readAllSeasonsOfShow(showId: Int): Flow<List<SeasonEntity>>
+    @Query("SELECT COUNT(*) FROM season_entities WHERE showId=:showId")
+    suspend fun countAllSeasonsOfShow(showId: Int): Int
 
 
     // 2. INSERT 000
     // only new items
     @Insert
     suspend fun insertSingle(entity: SeasonEntity)
-
 
 
     // TODO modificare codice repository
@@ -50,31 +49,32 @@ interface SeasonDao {
 
     // JOIN season + episodeEntity (watchedEpisode) -> ottengo domain
     @Transaction
-    @Query("""
+    @Query(
+        """
     SELECT s.showId, s.seasonNumber, s.ids, s.rating, s.episodeCount, s.airedEpisodes, 
            s.title, s.overview, s.releaseYear, s.network, 
-           SUM(CASE WHEN e.watched = 1 THEN 1 ELSE 0 END) AS watchedCount, 
-           (SUM(CASE WHEN e.watched = 1 THEN 1 ELSE 0 END) = s.airedEpisodes) AS watchedAll
+           SUM(CASE WHEN e.watched = 1 THEN 1 ELSE 0 END) AS watchedCount
     FROM season_entities AS s
     LEFT JOIN episode_entities AS e ON s.seasonNumber = e.seasonNumber AND s.showId = e.showId
     WHERE s.showId = :showId
     GROUP BY s.seasonTraktId
-""")
+"""
+    )
     fun getAllSeasonsExtended(showId: Int): Flow<List<SeasonExtended>>
 
 
-
     @Transaction
-    @Query("""
+    @Query(
+        """
     SELECT s.showId, s.seasonNumber, s.ids, s.rating, s.episodeCount, s.airedEpisodes, 
            s.title, s.overview, s.releaseYear, s.network, 
-           SUM(CASE WHEN e.watched = 1 THEN 1 ELSE 0 END) AS watchedCount, 
-           (SUM(CASE WHEN e.watched = 1 THEN 1 ELSE 0 END) = s.airedEpisodes) AS watchedAll
+           SUM(CASE WHEN e.watched = 1 THEN 1 ELSE 0 END) AS watchedCount
     FROM season_entities AS s
     LEFT JOIN episode_entities AS e ON s.seasonNumber = e.seasonNumber AND s.showId = e.showId
     WHERE s.showId = :showId AND s.seasonNumber = :seasonNumber
     GROUP BY s.seasonTraktId
-""")
+"""
+    )
     fun getSingleSeasonExtended(showId: Int, seasonNumber: Int): Flow<SeasonExtended>
 
 }
