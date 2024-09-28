@@ -22,11 +22,6 @@ import kotlinx.coroutines.launch
 import java.io.IOException
 import javax.inject.Inject
 
-// TODO
-//   1.  fare prima tutte le categorie con paging, poi boxoffice
-//   2. year, genres -> dopo
-//   3.
-
 
 @AndroidEntryPoint
 class MoviesFragment : Fragment(R.layout.fragm_base_category_new) {

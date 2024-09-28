@@ -82,14 +82,6 @@ class DetailMovieFragment : Fragment(R.layout.fragm_detail_movie) {
             println("XXX detail test poster: $posterUrl")
         }
 
-
-
-        // overview expand - non fare
-
-
-
-
-
     }
 
 

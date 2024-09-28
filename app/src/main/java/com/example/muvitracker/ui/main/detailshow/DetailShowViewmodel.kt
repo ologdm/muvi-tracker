@@ -179,15 +179,4 @@ class DetailShowViewmodel @Inject constructor(
 }
 
 
-//    fun getTmdbImageLinks(showTmdbId: Int) { // TODO salvare link su entity detail
-//        viewModelScope.launch {
-//            val result = tmdbRepository.getShowImages(showTmdbId)
-//            val backdropUrl = result[TmdbRepository.BACKDROP_KEY] ?: ""
-//            val posterUrl = result[TmdbRepository.POSTER_KEY] ?: ""
-//            backdropImageUrl.value = backdropUrl
-//            posterImageUrl.value = posterUrl
-//        }
-//    }
-
-
 

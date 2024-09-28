@@ -28,7 +28,6 @@ class SeasonViewmodel @Inject constructor(
     private val tmdbRepository: TmdbRepository
 ) : ViewModel() {
 
-    //    val seasonInfoState = MutableLiveData<StateContainer<SeasonEntity>>()
     val seasonInfoState = MutableLiveData<StateContainer<SeasonExtended>>()
     val seasonEpisodesState = MutableLiveData<StateContainer<List<EpisodeEntity>>>() // test
 
@@ -43,15 +42,12 @@ class SeasonViewmodel @Inject constructor(
                     seasonInfoState.value = StateContainer(seasonExtendedFromDb)
                 }
         }
-
-
-//        seasonInfoState.value = season?.let { StateContainer(data = season) }
     }
 
 
 
 fun loadSeasonEpisodes(showId: Int, seasonNumber: Int) {
-    // TODO caching come in details
+    // caching come in details
     viewModelScope.launch {
         episodeRepository.getSeasonEpisodesFlow(showId, seasonNumber)
             .map { response ->
@@ -75,20 +71,6 @@ fun loadSeasonEpisodes(showId: Int, seasonNumber: Int) {
             }
     }
 }
-
-
-// WATCHED
-// eliminare
-//    val isWatchedAllSeasonEpisodesStatus = MutableLiveData<Boolean>() // icon state
-//
-//    fun isWatchedAllSeasonEpisodes(showId: Int, seasonNr: Int) {
-//        viewModelScope.launch {
-//            seasonRepository.checkSeasonAllWatchedStatus(showId, seasonNr)
-//                .collect { watchedStatus ->
-//                    isWatchedAllSeasonEpisodesStatus.value = watchedStatus
-//                }
-//        }
-//    }
 
 
 fun toggleSeasonAllWatchedEpisodes(showId: Int, seasonNr: Int) {
@@ -125,47 +107,3 @@ fun getTmdbImageLinksFlow(showTmdbId: Int, seasonNr: Int) {
 
 
 }
-
-
-//test
-//    fun getTmdbTEST(showTmdbId: Int, seasonNumber: Int) {
-//        viewModelScope.launch {
-//            val result = tmdbRepository
-//                .getSeasonTest(showTmdbId, seasonNumber)
-//            val posterUrl = result[TmdbRepository.POSTER_KEY] ?: ""
-//            posterImageUrl.value = posterUrl
-//        }
-//    }
-
-// old
-//    val seasonEpisodesState = MutableLiveData<StateContainer<List<EpisodeExtenDto>>>()
-//    val seasonInfoState = MutableLiveData<StateContainer<SeasonExtenDto>>() // test
-
-// old
-//fun loadSeasonEpisodes(showId: Int, seasonNumber: Int) {
-//    viewModelScope.launch {
-//        try {
-//            val result = traktApi.getSeasonWithEpisodes(showId, seasonNumber)
-//            seasonEpisodesState.value = StateContainer(data = result)
-//        } catch (ex: CancellationException) {
-//            throw ex
-//        } catch (ex: Throwable) {
-//            ex.printStackTrace()
-//        }
-//    }
-//}
-
-
-// old
-//    fun loadSeasonInfo(showId: Int, seasonNumber: Int) {
-//        viewModelScope.launch {
-//            try {
-//                val result = traktApi.getSeasonInfo(showId, seasonNumber)
-//                seasonInfoState.value = StateContainer(data = result)
-//            } catch (ex: CancellationException) {
-//                throw ex
-//            } catch (ex: Throwable) {
-//                ex.printStackTrace()
-//            }
-//        }
-//    }
