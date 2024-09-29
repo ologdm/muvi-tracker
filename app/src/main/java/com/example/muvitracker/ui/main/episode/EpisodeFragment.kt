@@ -13,8 +13,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class EpisodeFragment :
-    BottomSheetDialogFragment(R.layout.fragm_episode_bottomsheet) {
+class EpisodeFragment : BottomSheetDialogFragment(R.layout.fragm_episode_bottomsheet) {
 
     private var currentShowIds: Ids = Ids()
     private var currentSeason: Int = 0

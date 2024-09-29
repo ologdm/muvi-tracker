@@ -5,49 +5,46 @@ import com.example.muvitracker.data.dto.base.Ids
 import com.google.gson.annotations.SerializedName
 
 data class EpisodeExtenDto(
-    val season: Int,
-    val number: Int,
-    val title: String,
+    val season: Int?,
+    val number: Int?,
+    val title: String?,
     val ids: Ids,
-    @SerializedName("number_abs") val numberAbs: Int, // posizione assoluta nel'intera serie
-    val overview: String,
-    val rating: Double,
-//    val votes: Int,
-//    @SerializedName("comment_count") val commentCount: Int,
-    @SerializedName("first_aired") val firstAired: String,
-//    @SerializedName("updated_at") val updatedAt: String,
-    @SerializedName("available_translations") val availableTranslations: List<String>,
-    val runtime: Int,
-    @SerializedName("episode_type") val episodeType: String
+    @SerializedName("number_abs") val numberAbs: Int?, // posizione assoluta nel'intera serie
+    val overview: String?,
+    val rating: Double?,
+//    val votes: Int?,
+//    @SerializedName("comment_count") val commentCount: Int?,
+    @SerializedName("first_aired") val firstAired: String?,
+//    @SerializedName("updated_at") val updatedAt: String?,
+    @SerializedName("available_translations") val availableTranslations: List<String>?,
+    val runtime: Int?,
+    @SerializedName("episode_type") val episodeType: String?
 ) {
-    fun getDateFromFirsAired(): String {
-        "${firstAired.substring(0, 4)}/${firstAired.substring(5, 7)}/${firstAired.substring(8, 10)}"
-        return "${firstAired.substring(8, 10)}/${firstAired.substring(5, 7)}/${
-            firstAired.substring(
-                0,
-                4
-            )
-        }"
+
+    fun getDateFromFirsAired(): String? {
+        return firstAired?.let {
+            "${it.substring(8, 10)}/${it.substring(5, 7)}/${it.substring(0, 4)}"
+        }
     }
+
 }
 
 
-// 00
 fun EpisodeExtenDto.toEntity(showId: Int): EpisodeEntity {
     return EpisodeEntity(
         episodeTraktId = ids.trakt,
-        seasonNumber = season,
-        episodeNumber = number,
-        title = title,
+        seasonNumber = season ?: 0,
+        episodeNumber = number ?: 0,
+        title = title ?: "N/A",
         ids = ids,
-        numberAbs = numberAbs,
-        overview = overview,
-        rating = rating,
-        firstAiredFormatted = getDateFromFirsAired(),
-        availableTranslations = availableTranslations,
-        runtime = runtime,
-        episodeType = episodeType,
-        showId = showId // passo con la funzione, seasonEntity ce l'ha
+        numberAbs = numberAbs ?: 0,
+        overview = overview ?: "N/A",
+        rating = rating ?: 0.0,
+        firstAiredFormatted = getDateFromFirsAired() ?: "N/A",
+        availableTranslations = availableTranslations ?: emptyList(),
+        runtime = runtime ?: 0,
+        episodeType = episodeType ?: "N/A",
+        showId = showId // passo con la funzione
     )
 }
 

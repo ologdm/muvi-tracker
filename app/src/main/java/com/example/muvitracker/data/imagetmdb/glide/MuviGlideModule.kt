@@ -1,4 +1,4 @@
-package com.example.muvitracker.ui.main.glide
+package com.example.muvitracker.data.imagetmdb.glide
 
 import android.content.Context
 import com.bumptech.glide.Glide

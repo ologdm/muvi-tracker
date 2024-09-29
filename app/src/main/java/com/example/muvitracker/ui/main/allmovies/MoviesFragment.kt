@@ -8,7 +8,7 @@ import androidx.fragment.app.viewModels
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.muvitracker.R
-import com.example.muvitracker.databinding.FragmBaseCategoryNewBinding
+import com.example.muvitracker.databinding.FragmBaseCategoryBinding
 import com.example.muvitracker.ui.main.Navigator
 import com.example.muvitracker.ui.main.allmovies.base.MovieAdapter
 import com.example.muvitracker.ui.main.allmovies.base.MoviePagingAdapter
@@ -24,9 +24,9 @@ import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class MoviesFragment : Fragment(R.layout.fragm_base_category_new) {
+class MoviesFragment : Fragment(R.layout.fragm_base_category) {
 
-    private val binding by viewBinding(FragmBaseCategoryNewBinding::bind)
+    private val binding by viewBinding(FragmBaseCategoryBinding::bind)
     private val viewModel by viewModels<MoviesViewmodel>()
 
     @Inject

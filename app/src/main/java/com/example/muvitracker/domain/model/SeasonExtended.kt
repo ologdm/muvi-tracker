@@ -20,7 +20,8 @@ data class SeasonExtended(
 
     // property al posto di fun
     val watchedAll: Boolean
-        get() = watchedCount == episodeCount
+        get() = (episodeCount > 0) && (watchedCount == episodeCount)
+
 }
 
 

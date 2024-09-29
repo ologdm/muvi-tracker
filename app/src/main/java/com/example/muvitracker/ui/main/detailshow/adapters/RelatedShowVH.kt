@@ -4,11 +4,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.muvitracker.R
-import com.example.muvitracker.databinding.VhRelatedListBinding
+import com.example.muvitracker.databinding.VhRelatedListOnDetailBinding
 import com.example.muvitracker.domain.model.base.Show
 
 class RelatedShowVH(
-    val binding: VhRelatedListBinding,
+    val binding: VhRelatedListOnDetailBinding,
 ) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(show: Show) {

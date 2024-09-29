@@ -1,4 +1,4 @@
-package com.example.muvitracker.ui.main.glide
+package com.example.muvitracker.data.imagetmdb.glide
 
 import com.bumptech.glide.load.Options
 import com.bumptech.glide.load.model.ModelLoader

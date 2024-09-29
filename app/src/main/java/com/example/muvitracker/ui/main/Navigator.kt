@@ -84,19 +84,6 @@ class Navigator @Inject constructor(
     }
 
 
-//    fun startEpisodeFragment(
-//        showIds: Ids,
-//        seasonNumber: Int,
-//        episodeNumber: Int
-//    ) {
-//        val manager = fragmentActivity.supportFragmentManager
-//        manager.beginTransaction()
-//            .replace(R.id.frameLayout, EpisodeFragment.create(showIds, seasonNumber, episodeNumber))
-//            .addToBackStack(null)
-//            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-//            .commit()
-//    }
-
 
     fun startEpisodeFragment(
         showIds: Ids,
@@ -105,20 +92,7 @@ class Navigator @Inject constructor(
     ) {
         val episodeFragment = EpisodeFragment.create(showIds, seasonNumber, episodeNumber)
         episodeFragment.show(fragmentActivity.supportFragmentManager, "EpisodeFragmentTEST")
-        // replace, commit non necessari, show fa gia tutto internamente
+        // replace,commit non necessari -> show() fa gia tutto internamente
     }
 }
-
-
-// test
-//fun startMovieDetailFragment(
-//    traktMovieId: Int // TODO ids
-//) {
-//    val manager = fragmentActivity.supportFragmentManager
-//    manager.beginTransaction()
-//        .replace(R.id.main_activity, DetailMovieFragment.create(traktMovieId))
-//        .addToBackStack(null)
-//        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-//        .commit()
-//}
 

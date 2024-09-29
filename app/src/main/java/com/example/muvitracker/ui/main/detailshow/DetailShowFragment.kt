@@ -25,10 +25,10 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 
-// 1. detailDto OK
-// 2. seasonsDto OK
-// 3. relatedDto OK
-// 4. castDto TODO
+// 1. DetailShow
+// 2. Seasons OK
+// 3. RelatedShows OK
+// 4. CastPerson TODO
 
 
 @AndroidEntryPoint

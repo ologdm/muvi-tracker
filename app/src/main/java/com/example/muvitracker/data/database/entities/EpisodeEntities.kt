@@ -36,17 +36,17 @@ data class EpisodeEntity(
 fun EpisodeEntity.copyDtoData(episodeDto: EpisodeExtenDto): EpisodeEntity {
     return this.copy(
         episodeTraktId = episodeDto.ids.trakt,
-        seasonNumber = episodeDto.season,
-        episodeNumber = episodeDto.number,
-        title = episodeDto.title,
+        seasonNumber = episodeDto.season ?: 0,
+        episodeNumber = episodeDto.number ?: 0,
+        title = episodeDto.title ?: "N/A",
         ids = episodeDto.ids,
-        numberAbs = episodeDto.numberAbs,
-        overview = episodeDto.overview,
-        rating = episodeDto.rating,
-        firstAiredFormatted = episodeDto.getDateFromFirsAired(),
-        availableTranslations = episodeDto.availableTranslations,
-        runtime = episodeDto.runtime,
-        episodeType = episodeDto.episodeType,
+        numberAbs = episodeDto.numberAbs ?: 0,
+        overview = episodeDto.overview ?: "N/A",
+        rating = episodeDto.rating ?: 0.0,
+        firstAiredFormatted = episodeDto.getDateFromFirsAired() ?: "N/A",
+        availableTranslations = episodeDto.availableTranslations ?: emptyList(),
+        runtime = episodeDto.runtime ?: 0,
+        episodeType = episodeDto.episodeType ?: "N/A",
         // showId already exist
         // watched remain the same
     )

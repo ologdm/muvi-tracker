@@ -5,44 +5,47 @@ import com.example.muvitracker.data.dto.base.Ids
 
 
 data class DetailMovieDto(
-    val title: String,
-    val year: Int,
+    val title: String?,
+    val year: Int?,
     val ids: Ids,
-
-// default value for the attributes that can be null
-    val tagline: String = "",
-    val overview: String = "",
-    val released: String = "",
-    val runtime: Int = 0,
-    val country: String? = "",
-//    @SerializedName("updated_at")
-//    val updatedAt: String = "",
-    val trailer: String = "", // TODO
-    val homepage: String = "", // TODO
-    val status: String = "", // TODO
-    val rating: Float = 0F,
-    val votes: Int = 0, // TODO
-//    @SerializedName("comment_count")
-//    val commentCount: Int = 0,
-    val language: String = "", // TODO
-//    val availableTranslations: List<String> = listOf(),
-    val genres: List<String> = emptyList(),
-//    val certification: String = ""
+    // extended =full
+    val tagline: String?,
+    val overview: String?,
+    val released: String?,
+    val runtime: Int?,
+    val country: String?,
+//    @SerializedName("updated_at") val updatedAt: String?,
+    val trailer: String?,
+    val homepage: String?,
+    val status: String?,
+    val rating: Float? ,
+    val votes: Int?,
+//    @SerializedName("comment_count") val commentCount: Int?,
+    val language: String?,
+//    val availableTranslations: List<String>?,
+    val genres: List<String>?,
+//    val certification: String?
 )
 
 
-fun DetailMovieDto.toEntityR(): DetailMovieEntity {
+fun DetailMovieDto.toEntity(): DetailMovieEntity {
     return DetailMovieEntity(
         traktId = ids.trakt,
-        title = title,
-        year = year,
+        title = title ?: "",
+        year = year ?: 0,
         ids = ids,
-        overview = overview,
-        released = released,
-        runtime = runtime,
+        tagline = tagline ?: "",
+        overview = overview?: "",
+        released = released?: "",
+        runtime = runtime ?: 0,
         country = country ?: "",
-        rating = rating,
-        genres = genres
+        trailer = trailer?: "",
+        homepage= homepage?: "",
+        status = status?: "",
+        rating = rating?: 0f,
+        votes =votes ?: 0,
+        language = language?: "" ,
+        genres = genres ?: emptyList()
     )
 }
 

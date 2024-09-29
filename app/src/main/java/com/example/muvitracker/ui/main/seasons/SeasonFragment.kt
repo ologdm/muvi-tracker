@@ -16,14 +16,6 @@ import com.example.muvitracker.utils.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
-// viewmodel
-//    - call season info, after from db
-//    - call episodes ok
-// state ok
-// adapter TODO
-// tab - pageviewer2 TODO
-// recyclerview
-
 
 @AndroidEntryPoint
 class SeasonFragment : Fragment(R.layout.fragm_season_son) {
@@ -41,7 +33,6 @@ class SeasonFragment : Fragment(R.layout.fragm_season_son) {
         onCLickVH = { episodeNumber ->
             navigator.startEpisodeFragment(currentShowIds, currentSeason, episodeNumber)
         },
-
         onCLickWatched = { episodeTraktId ->
             viewModel.toggleWatchedEpisode(currentShowIds.trakt, currentSeason, episodeTraktId)
         }
@@ -67,7 +58,7 @@ class SeasonFragment : Fragment(R.layout.fragm_season_son) {
             if (entity != null) {
                 binding.seasonTitle.text = entity.title
                 binding.seasonOverview.text = entity.overview
-                updateIconWatchedAll(stateContainer!!.data!!.watchedAll)
+                updateIconWatchedAll(entity.watchedAll)
             }
         }
 
@@ -81,15 +72,6 @@ class SeasonFragment : Fragment(R.layout.fragm_season_son) {
         viewModel.seasonEpisodesState.observe(viewLifecycleOwner) { stateContainer ->
             episodesAdapter.submitList(stateContainer.data)
         }
-
-
-        //  WATCHED_ALL_ICON  0000
-//        viewModel.isWatchedAllSeasonEpisodes(currentShowIds.trakt, currentSeason)
-
-        // todo - sposto su
-//        viewModel.isWatchedAllSeasonEpisodesStatus.observe(viewLifecycleOwner) { isWatched ->
-//            updateIconWatchedAll(isWatched)
-//        }
 
         binding.watchedAllIcon.setOnClickListener {
             viewModel.toggleSeasonAllWatchedEpisodes(currentShowIds.trakt, currentSeason)

@@ -9,41 +9,41 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class SeasonExtenDto(
-    val number: Int,
+    val number: Int?,
     val ids: Ids,
-    val rating: Double,
-//    val votes: Int, // not use
-    @SerializedName("episode_count") val episodeCount: Int, // total usare
-    @SerializedName("aired_episodes") val airedEpisodes: Int, // released
-    val title: String, // "season 1"
+    val rating: Double?,
+//    val votes: Int?, // not use
+    @SerializedName("episode_count") val episodeCount: Int?, // total usare
+    @SerializedName("aired_episodes") val airedEpisodes: Int?, // released
+    val title: String?, // "season 1"
     val overview: String?,
-    @SerializedName("first_aired") val firstAired: String? = "",
-//    @SerializedName("updated_at") val updatedAt: String, // not use
-    val network: String
+    @SerializedName("first_aired") val firstAired: String?,
+//    @SerializedName("updated_at") val updatedAt: String?, // not use
+    val network: String?
 ) : Parcelable {
 
-    fun getYear(): String {
-        return firstAired?.substring(0, 4) ?: ""
+
+    fun getYear(): String? {
+        return firstAired?.substring(0, 4)
     }
 }
 
-// 00
+
 fun SeasonExtenDto.toEntity(showId: Int): SeasonEntity {
     return SeasonEntity(
         seasonTraktId = ids.trakt,
-        seasonNumber = number,
+        seasonNumber = number ?: 0,
         ids = ids,
-        rating = rating,
-        episodeCount = episodeCount,
-        airedEpisodes = airedEpisodes,
-        title = title,
-        overview = overview ?: "",
-        releaseYear = getYear(),
-        network = network,
+        rating = rating ?: 0.0,
+        episodeCount = episodeCount ?: 0,
+        airedEpisodes = airedEpisodes ?: 0,
+        title = title ?: "N/A",
+        overview = overview ?: "N/A",
+        releaseYear = getYear() ?: "N/A",
+        network = network ?: "N/A",
         showId = showId // devo passarlo con la funzione
     )
 }
-
 
 
 /*
