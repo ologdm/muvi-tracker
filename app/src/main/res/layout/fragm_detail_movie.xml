@@ -315,8 +315,8 @@
                         android:text="You may also like"
                         style="@style/Category_Title_Typography_Detail" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/relatedShowsRV"
+                relatedMovieRV<androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/relatedMoviesRV"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="16dp"

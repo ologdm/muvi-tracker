@@ -31,9 +31,8 @@ class DetailShowViewmodel @Inject constructor(
 ) : ViewModel() {
 
     val detailState = MutableLiveData<StateContainer<DetailShow>>()
-
-    //    val allSeasonsState = MutableLiveData<StateContainer<List<SeasonEntity>>>()
     val allSeasonsState = MutableLiveData<StateContainer<List<SeasonExtended>>>()
+    val relatedShowsStatus = MutableLiveData<List<Show>>()
 
 
     // SHOW
@@ -162,8 +161,6 @@ class DetailShowViewmodel @Inject constructor(
 
 
     // RELATED SHOWS
-    val relatedShowsStatus = MutableLiveData<List<Show>>()
-
     fun loadRelatedShows(showId: Int) {
         viewModelScope.launch {
 

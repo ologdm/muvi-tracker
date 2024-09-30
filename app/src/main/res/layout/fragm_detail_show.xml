@@ -126,7 +126,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         tools:text="ended"
-                        android:textSize="15"
+                        android:textSize="15sp"
                         android:textStyle="normal"
                         android:layout_marginBottom="8dp" />
 
@@ -167,7 +167,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textSize="15sp"
-                                tools:text="6 seasons ?" />
+                                tools:text="6 seasons" />
 
 
                         <TextView
