@@ -27,7 +27,7 @@
     <string name="genres">Genres:</string>
     <!--detail formatting -->
     <string name="runtime_description" translatable="false">%1$s min</string>
-    <string name="rating_description"> %1$s stars</string>
+<!--    <string name="rating_description"> %1$s stars</string>-->
 
 
     <!--error messages -->

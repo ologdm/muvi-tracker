@@ -12,7 +12,7 @@ class EpisodeVH(
     fun bind(item: EpisodeEntity) {
         binding.episodeNumberAndRelease.text = "#${item.episodeNumber} • ${item.firstAiredFormatted}"
         binding.episodeTitleAndRuntime.text = "${item.title} (${item.runtime} min)"
-        binding.rating.text = item.rating?.firstDecimalApproxToString()
+        binding.traktRating.text = item.rating?.firstDecimalApproxToString()
     }
 
 }

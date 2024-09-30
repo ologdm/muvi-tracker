@@ -221,7 +221,7 @@ class DetailShowFragment : Fragment(R.layout.fragm_detail_show) {
             runtime.text =
                 getString(R.string.runtime_description, detailShow.runtime.toString())  // string
             airedEpisodes.text = "${detailShow.airedEpisodes} episodes"
-            rating.text = detailShow.rating.firstDecimalApproxToString() // conversion + string
+            traktRating.text = detailShow.rating.firstDecimalApproxToString() // conversion + string
             overview.text = detailShow.overview
 
 

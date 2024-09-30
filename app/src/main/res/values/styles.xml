@@ -86,9 +86,11 @@
         <item name="android:textStyle">bold</item>>
     </style>
 
-    <style name="Categories_Typography_Detail">
-        <item name="android:textStyle">bold</item>
 
+    <style name="Category_Title_Typography_Detail">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:layout_marginBottom">8sp</item>
     </style>
 
 

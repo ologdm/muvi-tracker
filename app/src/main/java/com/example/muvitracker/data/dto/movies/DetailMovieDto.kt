@@ -31,20 +31,20 @@ data class DetailMovieDto(
 fun DetailMovieDto.toEntity(): DetailMovieEntity {
     return DetailMovieEntity(
         traktId = ids.trakt,
-        title = title ?: "",
+        title = title ?: "N/A",
         year = year ?: 0,
         ids = ids,
-        tagline = tagline ?: "",
-        overview = overview?: "",
-        released = released?: "",
+        tagline = tagline ?: "N/A",
+        overview = overview?: "N/A",
+        released = released?: "N/A",
         runtime = runtime ?: 0,
-        country = country ?: "",
-        trailer = trailer?: "",
-        homepage= homepage?: "",
-        status = status?: "",
+        country = country ?: "N/A",
+        trailer = trailer?: "N/A",
+        homepage= homepage?: "N/A",
+        status = status?: "N/A",
         rating = rating?: 0f,
         votes =votes ?: 0,
-        language = language?: "" ,
+        language = language?: "N/A" ,
         genres = genres ?: emptyList()
     )
 }

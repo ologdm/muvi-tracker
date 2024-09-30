@@ -5,6 +5,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.muvitracker.R
 import com.example.muvitracker.databinding.FragmPrefsSonBinding
 import com.example.muvitracker.ui.main.Navigator
 import com.example.muvitracker.ui.main.prefs.adapters.PrefsMovieAdapter
@@ -15,7 +16,7 @@ import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class PrefsMovieFragment : Fragment() {
+class PrefsMovieFragment : Fragment(R.layout.fragm_prefs_son) {
 
     private val viewModel by viewModels<PrefsMovieViewModel>()
     private val binding by viewBinding(FragmPrefsSonBinding::bind)

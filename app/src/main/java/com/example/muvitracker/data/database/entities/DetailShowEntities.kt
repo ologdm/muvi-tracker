@@ -8,7 +8,6 @@ import com.example.muvitracker.data.database.ConvertersUtils
 import com.example.muvitracker.data.dto.base.Ids
 import com.example.muvitracker.domain.model.DetailShow
 
-// 00
 @Entity(tableName = "detail_show_entities")
 data class DetailShowEntity(
     @PrimaryKey val traktId: Int,
@@ -22,7 +21,6 @@ data class DetailShowEntity(
     val runtime: Int,
     val network: String,
     val country: String,
-    //
     val trailer: String,
     val homepage: String,
     val status: String,
@@ -32,10 +30,11 @@ data class DetailShowEntity(
     val languages: List<String>,
     @TypeConverters(ConvertersUtils::class) val genres: List<String>,
     val airedEpisodes: Int
-)
+){
+    // TODO connversione dati
+}
 
 
-// 00
 // (PrefsEntity?) - can be null as logic
 fun DetailShowEntity.toDomain(prefsShowEntity: PrefsShowEntity?): DetailShow {
     return DetailShow(
@@ -49,18 +48,16 @@ fun DetailShowEntity.toDomain(prefsShowEntity: PrefsShowEntity?): DetailShow {
         runtime = runtime,
         network = network,
         country = country,
-        //
         trailer = trailer,
         homepage = homepage,
         status = status,
         rating = rating,
         votes = votes,
-        //
         language = language,
         languages = languages,
         genres = genres,
         airedEpisodes = airedEpisodes,
-        ////// prefs
+        // prefs
         liked = prefsShowEntity?.liked ?: false,
         addedDateTime = prefsShowEntity?.addedDateTime
     )

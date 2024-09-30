@@ -10,8 +10,6 @@ import com.example.muvitracker.R
 import com.example.muvitracker.data.dto.base.Ids
 import com.example.muvitracker.databinding.FragmDetailMovieBinding
 import com.example.muvitracker.domain.model.DetailMovie
-import com.example.muvitracker.utils.dateFormatterInMMMyyy
-import com.example.muvitracker.utils.firstDecimalApproxToString
 import com.example.muvitracker.utils.statesFlow
 import com.example.muvitracker.utils.viewBinding
 import com.google.android.material.chip.Chip
@@ -53,7 +51,7 @@ class DetailMovieFragment : Fragment(R.layout.fragm_detail_movie) {
             floatingLikedButton.setOnClickListener {
                 viewModel.toggleFavorite(currentMovieIds.trakt)
             }
-            watchedCkbox.setOnCheckedChangeListener { _, isChecked ->
+            watchedCheckbox.setOnCheckedChangeListener { _, isChecked ->
                 viewModel.updateWatched(currentMovieIds.trakt, isChecked)
             }
         }
@@ -88,29 +86,13 @@ class DetailMovieFragment : Fragment(R.layout.fragm_detail_movie) {
     // ###################################################################
     private fun updateUi(detailMovie: DetailMovie) {
         with(binding) {
-            val ratingApproximation = detailMovie.rating.firstDecimalApproxToString()
-
             title.text = detailMovie.title
-            released.text = detailMovie.released.dateFormatterInMMMyyy() // conversion
-            runtime.text =
-                getString(R.string.runtime_description, detailMovie.runtime.toString())  // string
-            country.text = detailMovie.country
-            rating.text =
-                getString(R.string.rating_description, ratingApproximation) // conversion + string
+            releasedYearAndCountry.text = "${detailMovie.released} (${detailMovie.country.uppercase()})"
+            status.text = detailMovie.status.replaceFirstChar { it.uppercaseChar() } // es released
+            runtime.text = getString(R.string.runtime_description, detailMovie.runtime.toString())  // string
+            traktRating.text = detailMovie.rating // (string, already converted)
+            tagline.text = detailMovie.tagline
             overview.text = detailMovie.overview
-
-            // old
-//            Glide.with(requireContext())
-//                .load(detailMovie.imageUrl())
-//                .transition(DrawableTransitionOptions.withCrossFade(500))
-//                .placeholder(R.drawable.glide_placeholder_base)
-//                .error(R.drawable.glide_placeholder_base)
-//                .into(imageVertical)
-//            Glide.with(requireContext())
-//                .load(detailMovie.imageUrl())
-//                .transition(DrawableTransitionOptions.withCrossFade(500))
-//                .placeholder(R.drawable.glide_placeholder_base)
-//                .into(imageHorizontal)
 
             genresChipGroup.removeAllViews() // clean old
             detailMovie.genres.forEach {
@@ -134,9 +116,9 @@ class DetailMovieFragment : Fragment(R.layout.fragm_detail_movie) {
     }
 
     private fun updateWatchedCheckbox(isWatched: Boolean) {
-        binding.watchedCkbox.setOnCheckedChangeListener(null) // ok
-        binding.watchedCkbox.isChecked = isWatched // ok
-        binding.watchedCkbox.setOnCheckedChangeListener { _, isChecked ->
+        binding.watchedCheckbox.setOnCheckedChangeListener(null) // ok
+        binding.watchedCheckbox.isChecked = isWatched
+        binding.watchedCheckbox.setOnCheckedChangeListener { _, isChecked ->
             viewModel.updateWatched(currentMovieIds.trakt, isChecked)
         }
     }
@@ -145,7 +127,7 @@ class DetailMovieFragment : Fragment(R.layout.fragm_detail_movie) {
         fun create(movieIds: Ids): DetailMovieFragment {
             val detailMovieFragment = DetailMovieFragment()
             val bundle = Bundle()
-            bundle.putParcelable(MOVIE_IDS_KEY,movieIds)
+            bundle.putParcelable(MOVIE_IDS_KEY, movieIds)
             detailMovieFragment.arguments = bundle
             return detailMovieFragment
         }
@@ -154,3 +136,17 @@ class DetailMovieFragment : Fragment(R.layout.fragm_detail_movie) {
     }
 
 }
+
+
+// old
+//            Glide.with(requireContext())
+//                .load(detailMovie.imageUrl())
+//                .transition(DrawableTransitionOptions.withCrossFade(500))
+//                .placeholder(R.drawable.glide_placeholder_base)
+//                .error(R.drawable.glide_placeholder_base)
+//                .into(imageVertical)
+//            Glide.with(requireContext())
+//                .load(detailMovie.imageUrl())
+//                .transition(DrawableTransitionOptions.withCrossFade(500))
+//                .placeholder(R.drawable.glide_placeholder_base)
+//                .into(imageHorizontal)

@@ -74,7 +74,6 @@ class DetailMovieViewmodel @Inject constructor(
         viewModelScope.launch {
             prefsRepository.toggleLikedOnDB(id)
         }
-
     }
 
 
