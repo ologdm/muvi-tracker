@@ -3,7 +3,6 @@ package com.example.muvitracker.data.imagetmdb.database.entities
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
-import com.example.muvitracker.data.imagetmdb.database.ConvertersUtilsTmdb
 import com.example.muvitracker.data.imagetmdb.dto.MediaItem
 
 @Entity(tableName = "season_image_entities")

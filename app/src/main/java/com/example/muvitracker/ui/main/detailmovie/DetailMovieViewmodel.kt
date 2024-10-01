@@ -23,7 +23,6 @@ import javax.inject.Inject
 class DetailMovieViewmodel @Inject constructor(
     private val detailMovieRepository: DetailRepo,
     private val prefsRepository: PrefsRepo,
-    private val tmdbRepository: TmdbRepository
 ) : ViewModel() {
 
     val detailState = MutableLiveData<StateContainer<DetailMovie>>()
@@ -87,19 +86,6 @@ class DetailMovieViewmodel @Inject constructor(
 
     }
 
-
-    // IMAGES TMDB todo
-    val backdropImageUrl = MutableLiveData<String>()
-    val posterImageUrl = MutableLiveData<String>()
-
-    fun loadImageMovieTest(movieTmdbId: Int) {
-        viewModelScope.launch {
-            val x = tmdbRepository.getQuickPathForMovie(movieTmdbId)
-            backdropImageUrl.value =
-                "https://image.tmdb.org/t/p/original${x.backdropPath.toString()}"
-            posterImageUrl.value = "https://image.tmdb.org/t/p/original${x.posterPath.toString()}"
-        }
-    }
 
 
     // RELATED MOVIES

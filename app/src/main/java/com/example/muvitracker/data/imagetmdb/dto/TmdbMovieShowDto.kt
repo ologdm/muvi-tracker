@@ -2,7 +2,7 @@ package com.example.muvitracker.data.imagetmdb.dto
 
 import com.google.gson.annotations.SerializedName
 
-data class TestTmdbDto(
+data class TmdbMovieShowDto(
 //    val adult: Boolean,
     @SerializedName("backdrop_path") val backdropPath: String?,
 //    @SerializedName("belongs_to_collection") val belongsToCollection: BelongsToCollection?,

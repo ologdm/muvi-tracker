@@ -27,7 +27,6 @@ class DetailShowViewmodel @Inject constructor(
     private val detailShowRepo: DetailShowRepository,
     private val prefsShowRepository: PrefsShowRepository,
     private val seasonRepository: SeasonRepository,
-    private val tmdbRepository: TmdbRepository
 ) : ViewModel() {
 
     val detailState = MutableLiveData<StateContainer<DetailShow>>()
@@ -128,34 +127,6 @@ class DetailShowViewmodel @Inject constructor(
 
             // 3 finish loading - chiama la callback con true o false (se l'operazione ha avuto successo o no)
             onComplete()
-
-        }
-    }
-
-
-    // TMDB IMAGES - OK
-    val backdropImageUrl = MutableLiveData<String>()
-    val posterImageUrl = MutableLiveData<String>()
-
-    fun loadTmdbImageLinksFlow(showTmdbId: Int) {
-        viewModelScope.launch {
-            // todo gestione null !!!!!!!!!
-            val result = tmdbRepository.getShowImageFlow(showTmdbId).firstOrNull()
-            val backdropUrl = result?.get(TmdbRepository.BACKDROP_KEY) ?: ""
-            val posterUrl = result?.get(TmdbRepository.POSTER_KEY) ?: ""
-            backdropImageUrl.value = backdropUrl
-            posterImageUrl.value = posterUrl
-        }
-    }
-
-
-    // quick image path
-    fun loadImageShowTest(showTmdbId: Int) {
-        viewModelScope.launch {
-            val x = tmdbRepository.getQuickPathForShow(showTmdbId)
-            val baseUrl = "https://image.tmdb.org/t/p/original"
-            backdropImageUrl.value = "$baseUrl${x.backdropPath.toString()}"
-            posterImageUrl.value = "$baseUrl${x.posterPath.toString()}"
         }
     }
 
@@ -163,12 +134,9 @@ class DetailShowViewmodel @Inject constructor(
     // RELATED SHOWS
     fun loadRelatedShows(showId: Int) {
         viewModelScope.launch {
-
-            // to finish
             detailShowRepo.getRelatedShows(showId).ioMapper {
                 relatedShowsStatus.value = it
             }
-
         }
 
     }

@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.muvitracker.R
 import com.example.muvitracker.data.dto.base.Ids
+import com.example.muvitracker.data.imagetmdb.glide.ImageTmdbRequest
 import com.example.muvitracker.databinding.FragmDetailShowBinding
 import com.example.muvitracker.domain.model.DetailShow
 import com.example.muvitracker.ui.main.Navigator
@@ -162,29 +163,21 @@ class DetailShowFragment : Fragment(R.layout.fragm_detail_show) {
         }
 
 
-        // TMDB IMAGES test
-//        viewModel.loadTmdbImageLinksFlow(currentShowIds.tmdb) // for glide
-        viewModel.loadImageShowTest(currentShowIds.tmdb)
+        // TMDB IMAGES - with custom glide
+        Glide.with(requireContext())
+            .load(ImageTmdbRequest.ShowHorizontal(currentShowIds.tmdb))
+            .transition(DrawableTransitionOptions.withCrossFade(300))
+            .placeholder(R.drawable.glide_placeholder_base)
+            .error(R.drawable.glide_placeholder_base)
+            .into(binding.imageHorizontal)
 
-        // IMAGES TMDB
-        // horizontal - backdrop
-        viewModel.backdropImageUrl.observe(viewLifecycleOwner) { backdropUrl ->
-            Glide.with(requireContext())
-                .load(backdropUrl) // 1399 game-of-thrones
-                .transition(DrawableTransitionOptions.withCrossFade(300))
-                .placeholder(R.drawable.glide_placeholder_base)
-                .error(R.drawable.glide_placeholder_base)
-                .into(binding.imageHorizontal)
-        }
-        // vertical - poster
-        viewModel.posterImageUrl.observe(viewLifecycleOwner) { posterUrl ->
-            Glide.with(requireContext())
-                .load(posterUrl)
-                .transition(DrawableTransitionOptions.withCrossFade(300))
-                .placeholder(R.drawable.glide_placeholder_base)
-                .error(R.drawable.glide_placeholder_base)
-                .into(binding.imageVertical)
-        }
+
+        Glide.with(requireContext())
+            .load(ImageTmdbRequest.ShowVertical(currentShowIds.tmdb))
+            .transition(DrawableTransitionOptions.withCrossFade(300))
+            .placeholder(R.drawable.glide_placeholder_base)
+            .error(R.drawable.glide_placeholder_base)
+            .into(binding.imageVertical)
 
 
         // RELATED SHOWS OK

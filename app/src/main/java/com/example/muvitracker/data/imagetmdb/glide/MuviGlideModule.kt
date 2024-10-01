@@ -1,9 +1,13 @@
 package com.example.muvitracker.data.imagetmdb.glide
 
 import android.content.Context
+import android.util.Log
 import com.bumptech.glide.Glide
+import com.bumptech.glide.GlideBuilder
 import com.bumptech.glide.Registry
 import com.bumptech.glide.annotation.GlideModule
+import com.bumptech.glide.load.engine.executor.GlideExecutor
+import com.bumptech.glide.load.engine.executor.GlideExecutor.UncaughtThrowableStrategy.IGNORE
 import com.bumptech.glide.module.AppGlideModule
 import com.example.muvitracker.data.imagetmdb.TmdbApi
 import dagger.hilt.EntryPoint
@@ -26,7 +30,13 @@ class MuviGlideModule : AppGlideModule() {
         super.registerComponents(context, glide, registry)
         val component = EntryPoints.get(context, GlideComponent::class.java)
         val api = component.api()
-        registry.prepend(ImageRequest::class.java, InputStream::class.java, TmdbLoaderFactory(api))
+        registry.prepend(ImageTmdbRequest::class.java, InputStream::class.java, TmdbLoaderFactory(api))
     }
 
+    override fun applyOptions(context: Context, builder: GlideBuilder) {
+        val level = IGNORE // ignora gli errori che non servono (e)
+        builder.setLogLevel(Log.ERROR)
+            .setDiskCacheExecutor(GlideExecutor.newDiskCacheExecutor(level))
+            .setSourceExecutor(GlideExecutor.newSourceExecutor(level))
+    }
 }

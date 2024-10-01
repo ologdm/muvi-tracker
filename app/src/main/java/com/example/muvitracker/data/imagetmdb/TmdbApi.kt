@@ -2,11 +2,10 @@ package com.example.muvitracker.data.imagetmdb
 
 import com.example.muvitracker.BuildConfig
 import com.example.muvitracker.data.imagetmdb.dto.EpisodeImageDto
-import com.example.muvitracker.data.imagetmdb.dto.MediaItem
 import com.example.muvitracker.data.imagetmdb.dto.MovieShowImagesDto
 import com.example.muvitracker.data.imagetmdb.dto.PersonImageDto
 import com.example.muvitracker.data.imagetmdb.dto.SeasonImageDto
-import com.example.muvitracker.data.imagetmdb.dto.TestTmdbDto
+import com.example.muvitracker.data.imagetmdb.dto.TmdbMovieShowDto
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,10 +17,9 @@ import retrofit2.http.Path
 import javax.inject.Singleton
 
 // esempio: movie=deadpool
-//      https://api.themoviedb.org/3/movie/293660?api_key=36b68580564c93f78a52fc28c15c44e5
-//      https://api.themoviedb.org/3/movie/293660/images?api_key=36b68580564c93f78a52fc28c15c44e5
+// dto - https://api.themoviedb.org/3/movie/293660?api_key=36b68580564c93f78a52fc28c15c44e5
+// dto images - https://api.themoviedb.org/3/movie/293660/images?api_key=36b68580564c93f78a52fc28c15c44e5
 
-// movie ok, show ok, season ok, episode ok, person ok
 
 interface TmdbApi {
 
@@ -29,26 +27,36 @@ interface TmdbApi {
         const val API_KEY_QUERY = "api_key=${BuildConfig.TMDB_API_KEY}"
     }
 
+    // DIRECT CALLS - with custom glide ###########################################################
+    @GET("movie/{movie_id}?$API_KEY_QUERY")
+    suspend fun getMovieDtoImages(@Path("movie_id") movieId: Int): TmdbMovieShowDto
+
+    @GET("tv/{show_id}?$API_KEY_QUERY")
+    suspend fun getShowDtoImages(@Path("show_id") showId: Int): TmdbMovieShowDto
+
+
+    // REPOSITORY CALLS - all images for item  #####################################################
+
     // movie - https://api.themoviedb.org/3/movie/{movie_id}/images
     @GET("movie/{movie_id}/images?$API_KEY_QUERY")
-    suspend fun getMovieImages(@Path("movie_id") movieId: Int): MovieShowImagesDto
+    suspend fun getMovieAllImages(@Path("movie_id") movieId: Int): MovieShowImagesDto
 
 
     // show - https://api.themoviedb.org/3/tv/{series_id}/images
     @GET("tv/{series_id}/images?$API_KEY_QUERY")
-    suspend fun getShowImages(@Path("series_id") seriesId: Int): MovieShowImagesDto
+    suspend fun getShowAllImages(@Path("series_id") seriesId: Int): MovieShowImagesDto
 
 
     // season - https://api.themoviedb.org/3/tv/{series_id}/season/{season_number}/images
     @GET("tv/{series_id}/season/{season_number}/images?$API_KEY_QUERY")
-    suspend fun getSeasonImages(
+    suspend fun getSeasonAllImages(
         @Path("series_id") seriesId: Int,
         @Path("season_number") seasonNumber: Int,
     ): SeasonImageDto
 
     // episode - https://api.themoviedb.org/3/tv/{series_id}/season/{season_number}/episode/{episode_number}/images
     @GET("tv/{series_id}/season/{season_number}/episode/{episode_number}/images?$API_KEY_QUERY")
-    suspend fun getEpisodeImages(
+    suspend fun getEpisodeAllImages(
         @Path("series_id") seasonId: Int,
         @Path("season_number") seasonNumber: Int,
         @Path("episode_number") episodeNumber: Int,
@@ -57,19 +65,9 @@ interface TmdbApi {
 
     // people - https://api.themoviedb.org/3/person/{person_id}/images
     @GET("person/{person_id}/images?$API_KEY_QUERY")
-    suspend fun getPersonImages(
+    suspend fun getPersonAllImages(
         @Path("person_id") personId: Int
     ): PersonImageDto
-
-
-    // TODO - Quick Paths
-    // https://api.themoviedb.org/3/
-    @GET("movie/{movie_id}?$API_KEY_QUERY")
-    suspend fun getMovieDtoTest(@Path("movie_id") movieId: Int): TestTmdbDto
-
-    @GET("tv/{show_id}?$API_KEY_QUERY")
-    suspend fun getShowDtoTest(@Path("show_id") showId: Int): TestTmdbDto
-
 
 }
 

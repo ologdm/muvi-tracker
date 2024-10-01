@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.muvitracker.R
 import com.example.muvitracker.data.dto.base.Ids
+import com.example.muvitracker.data.imagetmdb.glide.ImageTmdbRequest
 import com.example.muvitracker.databinding.FragmDetailMovieBinding
 import com.example.muvitracker.domain.model.DetailMovie
 import com.example.muvitracker.ui.main.Navigator
@@ -76,29 +77,21 @@ class DetailMovieFragment : Fragment(R.layout.fragm_detail_movie) {
         }
 
 
-        // TMDB IMAGES - TODO test
-        viewModel.loadImageMovieTest(currentMovieIds.tmdb)
+        // TMDB IMAGES - with custom glide
+        Glide.with(requireContext())
+            .load(ImageTmdbRequest.MovieHorizontal(currentMovieIds.tmdb))
+            .transition(DrawableTransitionOptions.withCrossFade(300))
+            .placeholder(R.drawable.glide_placeholder_base)
+            .error(R.drawable.glide_placeholder_base)
+            .into(binding.imageHorizontal)
 
-        viewModel.backdropImageUrl.observe(viewLifecycleOwner) { backdropUrl ->
-            Glide.with(requireContext())
-                .load(backdropUrl) // 1399 game-of-thrones
-                .transition(DrawableTransitionOptions.withCrossFade(300))
-                .placeholder(R.drawable.glide_placeholder_base)
-                .error(R.drawable.glide_placeholder_base)
-                .into(binding.imageHorizontal)
-            println("XXX detail test backdrop: $backdropUrl")
-        }
 
-        // vertical - poster
-        viewModel.posterImageUrl.observe(viewLifecycleOwner) { posterUrl ->
-            Glide.with(requireContext())
-                .load(posterUrl)
-                .transition(DrawableTransitionOptions.withCrossFade(300))
-                .placeholder(R.drawable.glide_placeholder_base)
-                .error(R.drawable.glide_placeholder_base)
-                .into(binding.imageVertical)
-            println("XXX detail test poster: $posterUrl")
-        }
+        Glide.with(requireContext())
+            .load(ImageTmdbRequest.MovieVertical(currentMovieIds.tmdb))
+            .transition(DrawableTransitionOptions.withCrossFade(300))
+            .placeholder(R.drawable.glide_placeholder_base)
+            .error(R.drawable.glide_placeholder_base)
+            .into(binding.imageVertical)
 
 
         // RELATED MOVIES

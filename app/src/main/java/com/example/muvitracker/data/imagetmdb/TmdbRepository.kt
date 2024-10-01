@@ -16,7 +16,6 @@ import com.example.muvitracker.data.imagetmdb.dto.EpisodeImageDto
 import com.example.muvitracker.data.imagetmdb.dto.MovieShowImagesDto
 import com.example.muvitracker.data.imagetmdb.dto.PersonImageDto
 import com.example.muvitracker.data.imagetmdb.dto.SeasonImageDto
-import com.example.muvitracker.data.imagetmdb.dto.TestTmdbDto
 import com.example.muvitracker.data.imagetmdb.dto.filterNotUhdBackdrops
 import com.example.muvitracker.data.imagetmdb.dto.filterNotUhdPosters
 import com.example.muvitracker.data.imagetmdb.dto.toEntity
@@ -38,6 +37,7 @@ import javax.inject.Singleton
 // database completo, read, write single element
 
 
+// NON USED
 @Singleton
 class TmdbRepository @Inject constructor(
     private val tmdbApi: TmdbApi,
@@ -51,7 +51,6 @@ class TmdbRepository @Inject constructor(
         const val TMDB_LINK = "https://image.tmdb.org/t/p/original"
     }
 
-
     private val movieShowImageDao = database.movieShowImageDao()
     private val seasonImageDao = database.seasonImageDao()
     private val episodeImageDao = database.episodeImageDao()
@@ -62,7 +61,7 @@ class TmdbRepository @Inject constructor(
     private val moviesImageStore: Store<Int, MovieShowImageEntity> = StoreBuilder.from(
         fetcher = Fetcher.ofResult { movieId ->
             try {
-                FetcherResult.Data(tmdbApi.getMovieImages(movieId))
+                FetcherResult.Data(tmdbApi.getMovieAllImages(movieId))
             } catch (ex: CancellationException) {
                 throw ex
             } catch (ex: Throwable) {
@@ -111,7 +110,7 @@ class TmdbRepository @Inject constructor(
         fetcher = Fetcher.ofResult { showId ->
             // try catch
             try {
-                FetcherResult.Data(tmdbApi.getShowImages(showId))
+                FetcherResult.Data(tmdbApi.getShowAllImages(showId))
             } catch (ex: CancellationException) {
                 throw ex
             } catch (ex: Throwable) {
@@ -165,7 +164,7 @@ class TmdbRepository @Inject constructor(
         fetcher = Fetcher.ofResult { requestKeys ->
             try {
                 FetcherResult.Data(
-                    tmdbApi.getSeasonImages(
+                    tmdbApi.getSeasonAllImages(
                         requestKeys.showId,
                         requestKeys.seasonNr
                     )
@@ -213,23 +212,6 @@ class TmdbRepository @Inject constructor(
             }
     }
 
-    // todo test
-    suspend fun getSeasonTest(showTmdbId: Int, seasonNumber: Int): Map<String, String> {
-        return try {
-            val response = tmdbApi.getSeasonImages(showTmdbId, seasonNumber)
-
-            val bestPoster = response.posters
-                .maxByOrNull { it.voteCount }
-                ?.filePath ?: ""
-            mapOf(
-                POSTER_KEY to "$TMDB_LINK$bestPoster"
-            )
-        } catch (ex: Throwable) {
-            ex.printStackTrace()
-            emptyMap()
-        }
-    }
-
 
     // EPISODE  #############################################################################
     // call - showId, seasonNr, episodeNr
@@ -239,7 +221,7 @@ class TmdbRepository @Inject constructor(
         fetcher = Fetcher.ofResult { requestKeys ->
             try {
                 FetcherResult.Data(
-                    tmdbApi.getEpisodeImages(
+                    tmdbApi.getEpisodeAllImages(
                         requestKeys.showId,
                         requestKeys.seasonNr,
                         requestKeys.episodeNr
@@ -301,7 +283,7 @@ class TmdbRepository @Inject constructor(
     private val personImageStore: Store<Int, PersonImageEntity> = StoreBuilder.from(
         fetcher = Fetcher.ofResult { personId ->
             try {
-                FetcherResult.Data(tmdbApi.getPersonImages(personId))
+                FetcherResult.Data(tmdbApi.getPersonAllImages(personId))
             } catch (ex: CancellationException) {
                 throw ex
             } catch (ex: Throwable) {
@@ -338,31 +320,6 @@ class TmdbRepository @Inject constructor(
                     POSTER_KEY to "$TMDB_LINK$bestPoster"
                 )
             }
-    }
-
-
-    // TODO test quick path
-
-    suspend fun getQuickPathForMovie(movieId: Int): TestTmdbDto {
-        try {
-            val x  =  tmdbApi.getMovieDtoTest(movieId)
-            ("XXX getQuickPathForMovie:  data: $x ")
-            return x
-        } catch (ex: Throwable) {
-            ("XXX getQuickPathForMovie:  error: $ex ")
-            return TestTmdbDto(id = 1, video = false, voteAverage = 3.33, voteCount = 1, backdropPath = "", homepage = "", posterPath = "")
-        }
-    }
-
-    suspend fun getQuickPathForShow(showId: Int): TestTmdbDto {
-        try {
-            val x  =  tmdbApi.getShowDtoTest(showId)
-            ("XXX getQuickPathForMovie:  data: $x ")
-            return x
-        } catch (ex: Throwable) {
-            ("XXX getQuickPathForMovie:  error: $ex ")
-            return TestTmdbDto(id = 1, video = false, voteAverage = 3.33, voteCount = 1, backdropPath = "", homepage = "", posterPath = "")
-        }
     }
 
 
