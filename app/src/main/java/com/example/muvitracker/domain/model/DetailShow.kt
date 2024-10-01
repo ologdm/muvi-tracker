@@ -18,7 +18,7 @@ data class DetailShow(
     val trailer: String,
     val homepage: String,
     val status: String,
-    val rating: Float,
+    val rating: String, // converted from Float
     val votes: Int,
     val language: String,
     val languages: List<String>,

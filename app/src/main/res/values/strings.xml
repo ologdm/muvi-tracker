@@ -16,18 +16,27 @@
     <string name="anticipated">coming soon</string>
 
 
-    <!--detail -->
-    <string name="released">Released:</string>
-    <string name="runtime">Runtime:</string>
-    <string name="country">Country:</string>
-    <string name="rating">Rating:</string>
-    <string name="watchedCheck">Watched</string>
-    <string name="watchedAllCheck">Watched All</string>
-    <string name="about_show">About show</string>
-    <string name="genres">Genres:</string>
-    <!--detail formatting -->
+    <!--detail-->
+    <string name="aired_episodes">%1$s episodes </string>
+    <string name="count_seasons">%1$s seasons </string>
     <string name="runtime_description" translatable="false">%1$s min</string>
-<!--    <string name="rating_description"> %1$s stars</string>-->
+    <!--  -->
+    <string name="watched_check_text">Watched</string>
+    <string name="watched_all_check_text">Watched All</string>
+    <!--     sections-->
+    <string name="about_show_text">About show</string>
+    <string name="seasons_text">Seasons</string>
+    <string name="related_text">You may also like</string>
+    <string name="cast_text" translatable="false">Cast</string>
+    <string name="watch_provider_text">Watch Providers</string>
+
+<!--    seasons-->
+    <string name="season_text">Season</string>
+    <string name="episodes_text">episodes</string>
+
+
+
+
 
 
     <!--error messages -->

@@ -108,8 +108,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:paddingHorizontal="12dp"
-                    android:paddingVertical="8dp">
+                    android:paddingHorizontal="12dp">
 
 
                 <TextView
@@ -118,7 +117,8 @@
                         android:layout_height="wrap_content"
                         tools:text="@tools:sample/lorem"
                         style="@style/Title_Typography_Detail"
-                        android:layout_marginBottom="8dp" />
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="12dp" />
 
                 <!--                <TextView-->
                 <!--                        android:id="@+id/status"-->
@@ -181,7 +181,7 @@
 
                         <View
                                 android:layout_width="match_parent"
-                                android:layout_height="12dp" />
+                                android:layout_height="4dp" />
 
 
                         <TextView
@@ -226,8 +226,8 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 app:layout_constraintBottom_toTopOf="@id/watchedCheckbox"
-                                android:layout_marginTop="4dp"
-                                android:layout_marginBottom="12dp"/>
+                                android:layout_marginTop="8dp"
+                                android:layout_marginBottom="8dp"/>
 
 
                         <CheckBox
@@ -256,7 +256,7 @@
                 <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/about_show"
+                        android:text="@string/about_show_text"
                         style="@style/Category_Title_Typography_Detail" />
 
                 <TextView
@@ -288,7 +288,8 @@
                 <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Cast &amp; Crew TODO"
+                        android:text="@string/cast_text"
+                        tools:text="Cast &amp; Crew TODO"
                         android:visibility="gone"
                         tools:visibility="visible"
                         style="@style/Category_Title_Typography_Detail"/>
@@ -312,10 +313,10 @@
                 <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="You may also like"
+                        android:text="@string/related_text"
                         style="@style/Category_Title_Typography_Detail" />
 
-                relatedMovieRV<androidx.recyclerview.widget.RecyclerView
+                <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/relatedMoviesRV"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

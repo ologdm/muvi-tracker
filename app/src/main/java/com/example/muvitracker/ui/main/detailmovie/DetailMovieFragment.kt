@@ -1,5 +1,7 @@
 package com.example.muvitracker.ui.main.detailmovie
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -12,7 +14,6 @@ import com.example.muvitracker.data.dto.base.Ids
 import com.example.muvitracker.databinding.FragmDetailMovieBinding
 import com.example.muvitracker.domain.model.DetailMovie
 import com.example.muvitracker.ui.main.Navigator
-import com.example.muvitracker.ui.main.detailshow.adapters.RelatedShowsAdapter
 import com.example.muvitracker.utils.statesFlow
 import com.example.muvitracker.utils.viewBinding
 import com.google.android.material.chip.Chip
@@ -35,18 +36,25 @@ class DetailMovieFragment : Fragment(R.layout.fragm_detail_movie) {
     })
 
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(
+        view: View, savedInstanceState: Bundle?
+    ) {
         val bundle = arguments
         if (bundle != null) {
             currentMovieIds = bundle.getParcelable(MOVIE_IDS_KEY) ?: Ids()
         }
 
-        // MOVIE
-        viewModel.getStateContainer(currentMovieIds.trakt)
+        // MOVIE DETAIL
+        viewModel.loadMovieDetailFlow(currentMovieIds.trakt)
+
         viewModel.detailState.observe(viewLifecycleOwner) { stateContainer ->
+            // 1
             stateContainer.data?.let { detailMovie ->
-                updateUi(detailMovie)
+                updateDetailUi(detailMovie)
+                updateFavoriteIcon(detailMovie.liked)
+                updateWatchedCheckbox(detailMovie.watched)
             }
+            // 2
             stateContainer.statesFlow(
                 binding.errorTextView,
                 binding.progressBar
@@ -54,20 +62,21 @@ class DetailMovieFragment : Fragment(R.layout.fragm_detail_movie) {
         }
 
 
-        // BUTTONS
-        with(binding) {
-            buttonBack.setOnClickListener {
-                requireActivity().onBackPressed()
-            }
-            floatingLikedButton.setOnClickListener {
-                viewModel.toggleFavorite(currentMovieIds.trakt)
-            }
-            watchedCheckbox.setOnCheckedChangeListener { _, isChecked ->
-                viewModel.updateWatched(currentMovieIds.trakt, isChecked)
-            }
+        // BUTTONS CLICK
+        binding.buttonBack.setOnClickListener {
+            requireActivity().onBackPressed()
         }
 
-        // IMAGES - TODO test
+        binding.floatingLikedButton.setOnClickListener {
+            viewModel.toggleLikedMovie(currentMovieIds.trakt)
+        }
+
+        binding.watchedCheckbox.setOnCheckedChangeListener { _, isChecked ->
+            viewModel.updateWatched(currentMovieIds.trakt, isChecked)
+        }
+
+
+        // TMDB IMAGES - TODO test
         viewModel.loadImageMovieTest(currentMovieIds.tmdb)
 
         viewModel.backdropImageUrl.observe(viewLifecycleOwner) { backdropUrl ->
@@ -101,11 +110,14 @@ class DetailMovieFragment : Fragment(R.layout.fragm_detail_movie) {
         viewModel.relatedMoviesStatus.observe(viewLifecycleOwner) { relatedMovies ->
             relatedMovieAdapter.submitList(relatedMovies)
         }
+
+
+        // TODO cast
     }
 
 
-    // ###################################################################
-    private fun updateUi(detailMovie: DetailMovie) {
+    // movie detail
+    private fun updateDetailUi(detailMovie: DetailMovie) {
         with(binding) {
             title.text = detailMovie.title
             releasedYearAndCountry.text =
@@ -113,38 +125,45 @@ class DetailMovieFragment : Fragment(R.layout.fragm_detail_movie) {
             status.text = detailMovie.status.replaceFirstChar { it.uppercaseChar() } // es released
             runtime.text =
                 getString(R.string.runtime_description, detailMovie.runtime.toString())  // string
+
             traktRating.text = detailMovie.rating // (string, already converted)
             tagline.text = detailMovie.tagline
             overview.text = detailMovie.overview
 
+            // genres
             genresChipGroup.removeAllViews() // clean old
-            detailMovie.genres.forEach {
-                val chip = Chip(context).apply {
-                    text = it
-                }
+            detailMovie.genres.forEach { genre ->
+                val chip = Chip(context).apply { text = genre }
                 genresChipGroup.addView(chip)
+            }
+
+            // open link on youtube
+            val trailerUrl = detailMovie.trailer
+            trailerLink.setOnClickListener {
+                if (!trailerUrl.isNullOrEmpty()) {
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(trailerUrl))
+                    startActivity(intent)
+                }
             }
         }
 
-        updateFavoriteIcon(detailMovie.liked)
-        updateWatchedCheckbox(detailMovie.watched)
     }
 
 
     private fun updateFavoriteIcon(isFavorite: Boolean) {
         val iconFilled = context?.getDrawable(R.drawable.baseline_liked)
         val iconEmpty = context?.getDrawable(R.drawable.baseline_liked_border)
-
         binding.floatingLikedButton.setImageDrawable(if (isFavorite) iconFilled else iconEmpty)
     }
 
     private fun updateWatchedCheckbox(isWatched: Boolean) {
-        binding.watchedCheckbox.setOnCheckedChangeListener(null) // ok
+        binding.watchedCheckbox.setOnCheckedChangeListener(null)
         binding.watchedCheckbox.isChecked = isWatched
         binding.watchedCheckbox.setOnCheckedChangeListener { _, isChecked ->
             viewModel.updateWatched(currentMovieIds.trakt, isChecked)
         }
     }
+
 
     companion object {
         fun create(movieIds: Ids): DetailMovieFragment {

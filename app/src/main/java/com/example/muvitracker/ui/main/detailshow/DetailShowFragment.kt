@@ -67,48 +67,71 @@ class DetailShowFragment : Fragment(R.layout.fragm_detail_show) {
 
 
     override fun onViewCreated(
-        view: View,
-        savedInstanceState: Bundle?
+        view: View, savedInstanceState: Bundle?
     ) {
         val bundle = arguments
         if (bundle != null) {
             currentShowIds = bundle.getParcelable(SHOW_IDS_KEY) ?: Ids()
         }
 
-        // DETAIL
+        // SHOW DETAIL
         viewModel.loadShowDetailFlow(currentShowIds.trakt)
 
         viewModel.detailState.observe(viewLifecycleOwner) { stateContainer ->
+            // 1
             stateContainer.data?.let { detailShow ->
                 updateDetailUi(detailShow)
-
-                binding.watchedCounterTextview.text =
-                    "${stateContainer.data!!.watchedCount}/${stateContainer.data!!.airedEpisodes}"
-                binding.watchedCounterProgressBar.max = detailShow.airedEpisodes
-                binding.watchedCounterProgressBar.progress = detailShow.watchedCount
-
-                // sempre insieme (togli listener, leggi, rimetti listener)
-                binding.watchedAllCheckbox.setOnCheckedChangeListener(null)
-                binding.watchedAllCheckbox.isChecked = detailShow.watchedAll
-
-                binding.watchedAllCheckbox.setOnCheckedChangeListener { _, _ ->
-//                    viewModel.toggleWatchedAll(currentShowIds.trakt) // old
-                    binding.watchedAllCheckboxLoadingBar.visibility = View.VISIBLE
-                    binding.watchedAllCheckbox.isEnabled = false
-
-                    viewModel.toggleWatchedAll(currentShowIds.trakt, onComplete = {
-                        // spegni caricamento
-                        binding.watchedAllCheckboxLoadingBar.visibility = View.GONE
-                        binding.watchedAllCheckbox.isEnabled = true
-                    })
-                }
+                updateLikedIcon(detailShow.liked)
+                updateWatchedCheckboxAndCounters(detailShow)
+//                binding.watchedCounterTextview.text =
+//                    "${stateContainer.data!!.watchedCount}/${stateContainer.data!!.airedEpisodes}"
+//                binding.watchedCounterProgressBar.max = detailShow.airedEpisodes
+//                binding.watchedCounterProgressBar.progress = detailShow.watchedCount
+//
+//                // sempre insieme (togli listener, leggi, rimetti listener)
+//                binding.watchedAllCheckbox.setOnCheckedChangeListener(null)
+//                binding.watchedAllCheckbox.isChecked = detailShow.watchedAll
+//
+//                binding.watchedAllCheckbox.setOnCheckedChangeListener { _, _ ->
+//                    binding.watchedAllCheckboxLoadingBar.visibility = View.VISIBLE
+//                    binding.watchedAllCheckbox.isEnabled = false
+//
+//                    viewModel.toggleWatchedAll(currentShowIds.trakt, onComplete = {
+//                        // spegni caricamento
+//                        binding.watchedAllCheckboxLoadingBar.visibility = View.GONE
+//                        binding.watchedAllCheckbox.isEnabled = true
+//                    })
+//                }
             }
-
+            // 2
             stateContainer.statesFlow(
                 binding.errorTextView,
                 binding.progressBar
             )
         }
+
+
+        // BUTTONS CLICK
+        binding.buttonBack.setOnClickListener {
+            requireActivity().onBackPressed()
+        }
+
+        binding.floatingLikedButton.setOnClickListener {
+            viewModel.toggleLikedShow(currentShowIds.trakt)
+        }
+
+        binding.watchedAllCheckbox.setOnCheckedChangeListener { _, _ ->
+            //avvia caricamento
+            binding.watchedAllCheckboxLoadingBar.visibility = View.VISIBLE
+            binding.watchedAllCheckbox.isEnabled = false
+
+            viewModel.toggleWatchedAll(currentShowIds.trakt, onComplete = {
+                // spegni caricamento
+                binding.watchedAllCheckboxLoadingBar.visibility = View.GONE
+                binding.watchedAllCheckbox.isEnabled = true
+            })
+        }
+
 
         // overview expanded
         var isTextExpanded = false // initial state, fragment opening
@@ -122,9 +145,6 @@ class DetailShowFragment : Fragment(R.layout.fragm_detail_show) {
             }
             isTextExpanded = !isTextExpanded // toggle state
         }
-
-
-
 
 
         // SEASONS
@@ -142,7 +162,7 @@ class DetailShowFragment : Fragment(R.layout.fragm_detail_show) {
         }
 
 
-        // TMDB test
+        // TMDB IMAGES test
 //        viewModel.loadTmdbImageLinksFlow(currentShowIds.tmdb) // for glide
         viewModel.loadImageShowTest(currentShowIds.tmdb)
 
@@ -167,31 +187,6 @@ class DetailShowFragment : Fragment(R.layout.fragm_detail_show) {
         }
 
 
-        // BUTTONS CLICK
-        binding.buttonBack.setOnClickListener {
-            requireActivity().onBackPressed()
-        }
-
-        binding.floatingLikedButton.setOnClickListener {
-            viewModel.toggleLikedShow(currentShowIds.trakt)
-        }
-
-
-        binding.watchedAllCheckbox.setOnCheckedChangeListener { _, _ ->
-            //avvia caricamento
-            binding.watchedAllCheckboxLoadingBar.visibility = View.VISIBLE
-            binding.watchedAllCheckbox.isEnabled = false
-
-            viewModel.toggleWatchedAll(currentShowIds.trakt, onComplete = {
-                // spegni caricamento
-                binding.watchedAllCheckboxLoadingBar.visibility = View.GONE
-                binding.watchedAllCheckbox.isEnabled = true
-            })
-        }
-
-
-
-
         // RELATED SHOWS OK
         binding.relatedShowsRV.adapter = relatedShowsAdapter
         binding.relatedShowsRV.layoutManager =
@@ -201,29 +196,29 @@ class DetailShowFragment : Fragment(R.layout.fragm_detail_show) {
         viewModel.relatedShowsStatus.observe(viewLifecycleOwner) { response ->
             // related adapter
             relatedShowsAdapter.submitList(response)
-            println("YYY related  shows observer:$response")
         }
 
 
-
-        // TODO crew
+        // TODO cast
     }
 
 
     // show detail
     private fun updateDetailUi(detailShow: DetailShow) {
+        currentShowTitle = detailShow.title
+
         with(binding) {
-            currentShowTitle = detailShow.title
             title.text = detailShow.title
-            status.text = detailShow.status
+            status.text = detailShow.status // es: ended
             networkYearCountry.text =
-                "${detailShow.network} ${detailShow.year.toString()} (${detailShow.country.toUpperCase()})"
+                "${detailShow.network} ${detailShow.year} (${detailShow.country.toUpperCase()})"
+            airedEpisodes.text =
+                getString(R.string.aired_episodes, detailShow.airedEpisodes.toString())
             runtime.text =
                 getString(R.string.runtime_description, detailShow.runtime.toString())  // string
-            airedEpisodes.text = "${detailShow.airedEpisodes} episodes"
-            traktRating.text = detailShow.rating.firstDecimalApproxToString() // conversion + string
-            overview.text = detailShow.overview
 
+            traktRating.text = detailShow.rating // (string, already converted)
+            overview.text = detailShow.overview
 
             // genres
             genresChipGroup.removeAllViews() // clean old
@@ -233,8 +228,8 @@ class DetailShowFragment : Fragment(R.layout.fragm_detail_show) {
                 genresChipGroup.addView(chip)
             }
 
-            // open link on youtube OK
-            var trailerUrl = detailShow.trailer
+            // open link on youtube
+            val trailerUrl = detailShow.trailer
             trailerLink.setOnClickListener {
                 if (!trailerUrl.isNullOrEmpty()) {
                     val intent = Intent(Intent.ACTION_VIEW, Uri.parse(trailerUrl))
@@ -242,18 +237,37 @@ class DetailShowFragment : Fragment(R.layout.fragm_detail_show) {
                 }
             }
         }
-
-        updateLikedIcon(detailShow.liked)
     }
 
 
     private fun updateLikedIcon(isFavorite: Boolean) {
         val iconFilled = context?.getDrawable(R.drawable.baseline_liked)
         val iconEmpty = context?.getDrawable(R.drawable.baseline_liked_border)
-
         binding.floatingLikedButton.setImageDrawable(if (isFavorite) iconFilled else iconEmpty)
     }
 
+
+    private fun updateWatchedCheckboxAndCounters(detailShow: DetailShow) {
+        binding.watchedCounterTextview.text =
+            "${detailShow.watchedCount}/${detailShow.airedEpisodes}"
+        binding.watchedCounterProgressBar.max = detailShow.airedEpisodes
+        binding.watchedCounterProgressBar.progress = detailShow.watchedCount
+
+        // sempre insieme (togli listener, leggi, rimetti listener)
+        binding.watchedAllCheckbox.setOnCheckedChangeListener(null)
+        binding.watchedAllCheckbox.isChecked = detailShow.watchedAll
+
+        binding.watchedAllCheckbox.setOnCheckedChangeListener { _, _ ->
+            binding.watchedAllCheckboxLoadingBar.visibility = View.VISIBLE
+            binding.watchedAllCheckbox.isEnabled = false
+
+            viewModel.toggleWatchedAll(currentShowIds.trakt, onComplete = {
+                // spegni caricamento
+                binding.watchedAllCheckboxLoadingBar.visibility = View.GONE
+                binding.watchedAllCheckbox.isEnabled = true
+            })
+        }
+    }
 
 
     companion object {

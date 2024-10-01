@@ -2,6 +2,7 @@ package com.example.muvitracker.data.dto.show
 
 import com.example.muvitracker.data.database.entities.DetailShowEntity
 import com.example.muvitracker.data.dto.base.Ids
+import com.example.muvitracker.utils.firstDecimalApproxToString
 import com.google.gson.annotations.SerializedName
 
 // complete dto, commented if not used
@@ -51,7 +52,7 @@ fun DetailShowDto.toEntity(): DetailShowEntity {
         trailer = trailer ?: "N/A",
         homepage = homepage ?: "N/A",
         status = status ?: "N/A",
-        rating = rating ?: 0f,
+        rating = rating?.firstDecimalApproxToString() ?: "0.0",
         votes = votes ?: 0,
         language = language ?: "N/A",
         languages = languages ?: emptyList(),

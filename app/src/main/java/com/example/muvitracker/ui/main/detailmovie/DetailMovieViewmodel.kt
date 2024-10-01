@@ -30,7 +30,7 @@ class DetailMovieViewmodel @Inject constructor(
     val relatedMoviesStatus = MutableLiveData<List<Movie>>()
 
     // flow -> livedata
-    fun getStateContainer(movieId: Int) {
+    fun loadMovieDetailFlow(movieId: Int) {
         var cachedMovie: DetailMovie? = null
 
         viewModelScope.launch {
@@ -73,7 +73,7 @@ class DetailMovieViewmodel @Inject constructor(
 
 
     // SET
-    fun toggleFavorite(id: Int) {
+    fun toggleLikedMovie(id: Int) {
         viewModelScope.launch {
             prefsRepository.toggleLikedOnDB(id)
         }

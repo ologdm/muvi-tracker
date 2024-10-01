@@ -110,8 +110,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:paddingHorizontal="12dp"
-                    android:paddingVertical="8dp">
+                    android:paddingHorizontal="12dp">
 
 
                 <TextView
@@ -119,7 +118,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         tools:text="@tools:sample/lorem"
-                        style="@style/Title_Typography_Detail" />
+                        style="@style/Title_Typography_Detail"
+                        android:layout_marginTop="8dp"/>
 
                 <TextView
                         android:id="@+id/status"
@@ -128,7 +128,7 @@
                         tools:text="ended"
                         android:textSize="15sp"
                         android:textStyle="normal"
-                        android:layout_marginBottom="8dp" />
+                        android:layout_marginBottom="16dp" />
 
                 <LinearLayout
                         android:layout_width="match_parent"
@@ -187,14 +187,14 @@
 
                         <View
                                 android:layout_width="match_parent"
-                                android:layout_height="12dp" />
+                                android:layout_height="4dp" />
 
 
                         <TextView
                                 android:id="@+id/traktRating"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textSize="20sp"
+                                android:textSize="24sp"
                                 android:text="0.0" />
 
                         <TextView
@@ -206,7 +206,7 @@
                         <!-- solo diastanziamento -->
                         <View
                                 android:layout_width="match_parent"
-                                android:layout_height="50dp" />
+                                android:layout_height="40dp" />
 
                         <TextView
                                 android:id="@+id/watchedCounterTextview"
@@ -265,7 +265,8 @@
                 <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text=" Watch Provider(by region): Netflix, Prime ecc TODO "
+                        tools:text=" Watch Provider(by region): Netflix, Prime ecc TODO "
+                        android:text="@string/watch_provider_text"
                         tools:background="@android:color/holo_blue_dark"
                         style="@style/Category_Title_Typography_Detail"
                         android:visibility="gone"
@@ -286,7 +287,7 @@
                 <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/about_show"
+                        android:text="@string/about_show_text"
                         style="@style/Category_Title_Typography_Detail" />
 
                 <TextView
@@ -322,7 +323,8 @@
                 <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Cast &amp; Crew TODO"
+                        tools:text="Cast &amp; Crew TODO"
+                        android:text="@string/cast_text"
                         style="@style/Category_Title_Typography_Detail"
                         android:visibility="gone"
                         tools:visibility="visible" />
@@ -347,7 +349,7 @@
                 <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Seasons"
+                        android:text="@string/seasons_text"
                         style="@style/Category_Title_Typography_Detail" />
 
 
@@ -370,7 +372,7 @@
                 <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="You may also like"
+                        android:text="@string/related_text"
                         style="@style/Category_Title_Typography_Detail" />
 
                 <androidx.recyclerview.widget.RecyclerView

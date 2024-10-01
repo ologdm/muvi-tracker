@@ -8,8 +8,6 @@ import com.example.muvitracker.data.dto.base.Ids
 import com.example.muvitracker.domain.model.DetailMovie
 import com.example.muvitracker.utils.dateFormatterInMMMyyy
 import com.example.muvitracker.utils.firstDecimalApproxToString
-import java.text.SimpleDateFormat
-import java.util.Locale
 
 
 @Entity(tableName = "detail_movie_entities")
@@ -27,25 +25,11 @@ data class DetailMovieEntity(
     val trailer: String, // new
     val homepage: String, // new
     val status: String, // new
-    val rating: Float,
+    val rating: String,
     val votes: Int, // new
     val language: String, // new
     @TypeConverters(ConvertersUtils::class) val genres: List<String>,
-){
-
-    // TODO connversione dati
-    // 1
-    fun ratingFirstDecimalApproxToString() :String{
-
-        return ""
-    }
-
-    // 2 OK
-    fun releasedDateFormatterInMMMyyy() :String{
-        return ""
-    }
-
-}
+)
 
 
 // (PrefsEntity?) - can be null as logic
@@ -56,13 +40,13 @@ fun DetailMovieEntity.toDomain(prefsMovieEntity: PrefsMovieEntity?): DetailMovie
         ids = ids,
         tagline = tagline,
         overview = overview,
-        released = released.dateFormatterInMMMyyy(),
+        released = released,
         runtime = runtime,
         country = country,
         trailer = trailer,
         homepage = homepage,
         status = status,
-        rating = rating.firstDecimalApproxToString(),
+        rating = rating,
         votes = votes,
         language = language,
         genres = genres,

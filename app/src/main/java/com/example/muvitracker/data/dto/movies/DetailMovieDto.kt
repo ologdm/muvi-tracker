@@ -2,6 +2,8 @@ package com.example.muvitracker.data.dto.movies
 
 import com.example.muvitracker.data.database.entities.DetailMovieEntity
 import com.example.muvitracker.data.dto.base.Ids
+import com.example.muvitracker.utils.dateFormatterInMMMyyy
+import com.example.muvitracker.utils.firstDecimalApproxToString
 
 
 data class DetailMovieDto(
@@ -18,7 +20,7 @@ data class DetailMovieDto(
     val trailer: String?,
     val homepage: String?,
     val status: String?,
-    val rating: Float? ,
+    val rating: Float?,
     val votes: Int?,
 //    @SerializedName("comment_count") val commentCount: Int?,
     val language: String?,
@@ -35,16 +37,16 @@ fun DetailMovieDto.toEntity(): DetailMovieEntity {
         year = year ?: 0,
         ids = ids,
         tagline = tagline ?: "N/A",
-        overview = overview?: "N/A",
-        released = released?: "N/A",
+        overview = overview ?: "N/A",
+        released = released?.dateFormatterInMMMyyy() ?: "N/A",
         runtime = runtime ?: 0,
         country = country ?: "N/A",
-        trailer = trailer?: "N/A",
-        homepage= homepage?: "N/A",
-        status = status?: "N/A",
-        rating = rating?: 0f,
-        votes =votes ?: 0,
-        language = language?: "N/A" ,
+        trailer = trailer ?: "N/A",
+        homepage = homepage ?: "N/A",
+        status = status ?: "N/A",
+        rating = rating?.firstDecimalApproxToString() ?: "0.0",
+        votes = votes ?: 0,
+        language = language ?: "N/A",
         genres = genres ?: emptyList()
     )
 }
