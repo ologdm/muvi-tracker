@@ -89,18 +89,28 @@
                         android:importantForAccessibility="no"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                        android:id="@+id/trailerLink"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Trailer"
-                        android:background="?attr/colorSecondaryContainer"
-                        android:textColor="?attr/colorOnSecondaryContainer"
+                <!--                <TextView-->
+                <!--                        android:id="@+id/trailerLink"-->
+                <!--                        android:layout_width="wrap_content"-->
+                <!--                        android:layout_height="wrap_content"-->
+                <!--                        android:text="Trailer"-->
+                <!--                        android:background="?attr/colorSecondaryContainer"-->
+                <!--                        android:textColor="?attr/colorOnSecondaryContainer"-->
+                <!--                        app:layout_constraintEnd_toEndOf="parent"-->
+                <!--                        app:layout_constraintBottom_toBottomOf="parent"-->
+                <!--                        android:layout_marginBottom="8dp"-->
+                <!--                        android:layout_marginEnd="8dp"-->
+                <!--                        android:padding="2dp" />-->
+
+                <ImageView
+                        android:id="@+id/trailerImageButton"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:src="@drawable/youtube_icon_red_square_variant"
+                        android:layout_marginBottom="12dp"
+                        android:layout_marginEnd="16dp"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginEnd="8dp"
-                        android:padding="2dp" />
+                        app:layout_constraintBottom_toBottomOf="parent" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -119,7 +129,7 @@
                         android:layout_height="wrap_content"
                         tools:text="@tools:sample/lorem"
                         style="@style/Title_Typography_Detail"
-                        android:layout_marginTop="8dp"/>
+                        android:layout_marginTop="8dp" />
 
                 <TextView
                         android:id="@+id/status"
@@ -216,7 +226,7 @@
                                 tools:text="15/30"
                                 android:layout_marginBottom="10dp"
                                 android:layout_gravity="end"
-                                android:layout_marginEnd="12dp"/>
+                                android:layout_marginEnd="12dp" />
 
 
                         <androidx.constraintlayout.widget.ConstraintLayout
@@ -270,7 +280,7 @@
                         tools:background="@android:color/holo_blue_dark"
                         style="@style/Category_Title_Typography_Detail"
                         android:visibility="gone"
-                        tools:visibility="visible"/>
+                        tools:visibility="visible" />
 
                 <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/streamChannelRV"
@@ -280,8 +290,7 @@
                         android:layout_marginBottom="16dp"
                         android:background="@android:color/holo_blue_dark"
                         android:visibility="gone"
-                        tools:visibility="visible"
-                        />
+                        tools:visibility="visible" />
 
 
                 <TextView
@@ -310,7 +319,7 @@
                         android:layout_marginBottom="16dp"
                         tools:background="@android:color/darker_gray"
                         app:singleSelection="false"
-                        android:clickable="false"/>
+                        android:clickable="false" />
 
                 <com.google.android.material.divider.MaterialDivider
                         android:layout_width="match_parent"

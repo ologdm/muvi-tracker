@@ -230,7 +230,7 @@ class DetailShowFragment : Fragment(R.layout.fragm_detail_show) {
 
             // open link on youtube
             val trailerUrl = detailShow.trailer
-            trailerLink.setOnClickListener {
+            trailerImageButton.setOnClickListener {
                 if (!trailerUrl.isNullOrEmpty()) {
                     val intent = Intent(Intent.ACTION_VIEW, Uri.parse(trailerUrl))
                     startActivity(intent)
