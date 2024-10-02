@@ -6,7 +6,8 @@ import com.bumptech.glide.load.data.DataFetcher
 import com.bumptech.glide.load.data.HttpUrlFetcher
 import com.bumptech.glide.load.model.GlideUrl
 import com.example.muvitracker.data.imagetmdb.TmdbApi
-import com.example.muvitracker.data.imagetmdb.dto.TmdbMovieShowDto
+import com.example.muvitracker.data.imagetmdb.dto.TmdbMovieDto
+import com.example.muvitracker.data.imagetmdb.dto.TmdbShowDto
 import kotlinx.coroutines.runBlocking
 import java.io.InputStream
 
@@ -53,8 +54,8 @@ class TmdbFetcher(
                 callback
             )
 
-            is ImageTmdbRequest.Season -> TODO()
-            is ImageTmdbRequest.Episode -> TODO()
+            is ImageTmdbRequest.Season -> fetchSeasonImage(model, priority, callback)
+            is ImageTmdbRequest.Episode -> fetchEpisodeImage(model, priority, callback)
             is ImageTmdbRequest.Person -> TODO()
         }
     }
@@ -62,12 +63,12 @@ class TmdbFetcher(
 
     private suspend fun fetchMovieImage(
         movieId: Int,
-        imagePathType: (TmdbMovieShowDto) -> String?,
+        imagePathType: (TmdbMovieDto) -> String?,
         priority: Priority,
         callback: DataFetcher.DataCallback<in InputStream>,
     ) {
         try {
-            val response = tmdbApi.getMovieDtoImages(movieId)
+            val response = tmdbApi.getMovieDto(movieId)
             val imagePath = imagePathType(response) ?: throw Exception("Image path not available")
             val url = "$TMDB_IMAGE_URL_DOMAIN${imagePath}"
             val fetcher = HttpUrlFetcher(GlideUrl(url), TIMEOUT)
@@ -80,12 +81,12 @@ class TmdbFetcher(
 
     private suspend fun fetchShowImage(
         showId: Int,
-        imagePathType: (TmdbMovieShowDto) -> String?,
+        imagePathType: (TmdbShowDto) -> String?,
         priority: Priority,
         callback: DataFetcher.DataCallback<in InputStream>,
     ) {
         try {
-            val response = tmdbApi.getShowDtoImages(showId)
+            val response = tmdbApi.getShowDto(showId)
             val imagePath = imagePathType(response) ?: throw Exception("Image path not available")
             val url = "$TMDB_IMAGE_URL_DOMAIN${imagePath}"
             val fetcher = HttpUrlFetcher(GlideUrl(url), TIMEOUT)
@@ -95,20 +96,52 @@ class TmdbFetcher(
         }
     }
 
-//    private suspend fun fetchSeasonImage(
-//        model: ImageTmdbRequest.Season,
-//        priority: Priority,
-//        callback: DataFetcher.DataCallback<in InputStream>,
-//    ) {
-//        try {
-//            val response = api.getShowDtoTest(model.showId,model.seasonNr)
-//            val url = "$TMDB_IMAGE_URL_DOMAIN${response.posterPath}"
-//            val fetcher = HttpUrlFetcher(GlideUrl(url), TIMEOUT)
-//            fetcher.loadData(priority, callback)
-//        } catch (ex: Exception) {
-//            callback.onLoadFailed(ex)
-//        }
-//    }
+
+    private suspend fun fetchSeasonImage(
+        model: ImageTmdbRequest.Season,
+        priority: Priority,
+        callback: DataFetcher.DataCallback<in InputStream>,
+    ) {
+        try {
+            val response = tmdbApi.getSeasonDto(model.showId, model.seasonNr)
+            val url = "$TMDB_IMAGE_URL_DOMAIN${response.posterPath}"
+            val fetcher = HttpUrlFetcher(GlideUrl(url), TIMEOUT)
+            fetcher.loadData(priority, callback)
+        } catch (ex: Exception) {
+            callback.onLoadFailed(ex)
+        }
+    }
+
+
+    private suspend fun fetchEpisodeImage(
+        model: ImageTmdbRequest.Episode,
+        priority: Priority,
+        callback: DataFetcher.DataCallback<in InputStream>,
+    ) {
+        try {
+            val response = tmdbApi.getEpisodeDto(model.showId, model.seasonNr, model.episodeNr)
+            val url = "$TMDB_IMAGE_URL_DOMAIN${response.stillPath}"
+            val fetcher = HttpUrlFetcher(GlideUrl(url), TIMEOUT)
+            fetcher.loadData(priority, callback)
+        } catch (ex: Exception) {
+            callback.onLoadFailed(ex)
+        }
+    }
+
+    private suspend fun fetchPersonImage(
+        model: ImageTmdbRequest.Person,
+        priority: Priority,
+        callback: DataFetcher.DataCallback<in InputStream>,
+    ) {
+        try {
+            val response = tmdbApi.getPersonDto(model.personId)
+            val url = "$TMDB_IMAGE_URL_DOMAIN${response.profilePath}"
+            val fetcher = HttpUrlFetcher(GlideUrl(url), TIMEOUT)
+            fetcher.loadData(priority, callback)
+        } catch (ex: Exception) {
+            callback.onLoadFailed(ex)
+        }
+    }
 
 
     override fun getDataClass(): Class<InputStream> = InputStream::class.java

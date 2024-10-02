@@ -5,7 +5,11 @@ import com.example.muvitracker.data.imagetmdb.dto.EpisodeImageDto
 import com.example.muvitracker.data.imagetmdb.dto.MovieShowImagesDto
 import com.example.muvitracker.data.imagetmdb.dto.PersonImageDto
 import com.example.muvitracker.data.imagetmdb.dto.SeasonImageDto
-import com.example.muvitracker.data.imagetmdb.dto.TmdbMovieShowDto
+import com.example.muvitracker.data.imagetmdb.dto.TmdbEpisodeDto
+import com.example.muvitracker.data.imagetmdb.dto.TmdbMovieDto
+import com.example.muvitracker.data.imagetmdb.dto.TmdbPersonDto
+import com.example.muvitracker.data.imagetmdb.dto.TmdbSeasonDto
+import com.example.muvitracker.data.imagetmdb.dto.TmdbShowDto
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -29,10 +33,29 @@ interface TmdbApi {
 
     // DIRECT CALLS - with custom glide ###########################################################
     @GET("movie/{movie_id}?$API_KEY_QUERY")
-    suspend fun getMovieDtoImages(@Path("movie_id") movieId: Int): TmdbMovieShowDto
+    suspend fun getMovieDto(@Path("movie_id") movieId: Int): TmdbMovieDto
 
     @GET("tv/{show_id}?$API_KEY_QUERY")
-    suspend fun getShowDtoImages(@Path("show_id") showId: Int): TmdbMovieShowDto
+    suspend fun getShowDto(@Path("show_id") showId: Int): TmdbShowDto
+
+    @GET("tv/{series_id}/season/{season_number}?$API_KEY_QUERY")
+    suspend fun getSeasonDto(
+        @Path("series_id") seriesId: Int,
+        @Path("season_number") seasonNumber: Int,
+    ): TmdbSeasonDto
+
+    @GET("tv/{series_id}/season/{season_number}/episode/{episode_number}?$API_KEY_QUERY")
+    suspend fun getEpisodeDto(
+        @Path("series_id") seasonId: Int,
+        @Path("season_number") seasonNumber: Int,
+        @Path("episode_number") episodeNumber: Int,
+    ): TmdbEpisodeDto
+
+
+    @GET("person/{person_id}?$API_KEY_QUERY")
+    suspend fun getPersonDto(
+        @Path("person_id") personId: Int
+    ): TmdbPersonDto
 
 
     // REPOSITORY CALLS - all images for item  #####################################################
