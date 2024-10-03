@@ -44,10 +44,11 @@
         <item name="android:paddingBottom">8dp</item>
     </style>
 
+
     <style name="RecyclerView_BaseCategory">
         <item name="android:paddingStart">8dp</item>
         <item name="android:paddingEnd">8dp</item>
-        <item name="android:paddingTop">16dp</item>
+        <item name="android:paddingTop">8dp</item>
         <item name="android:paddingBottom">16dp</item>
         <item name="android:clipToPadding">true</item>
     </style>
@@ -85,9 +86,11 @@
         <item name="android:textStyle">bold</item>>
     </style>
 
-    <style name="Categories_Typography_Detail">
-        <item name="android:textStyle">bold</item>
 
+    <style name="Category_Title_Typography_Detail">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:layout_marginBottom">8sp</item>
     </style>
 
 

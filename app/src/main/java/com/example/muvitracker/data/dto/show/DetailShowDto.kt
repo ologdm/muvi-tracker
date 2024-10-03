@@ -2,61 +2,62 @@ package com.example.muvitracker.data.dto.show
 
 import com.example.muvitracker.data.database.entities.DetailShowEntity
 import com.example.muvitracker.data.dto.base.Ids
+import com.example.muvitracker.utils.firstDecimalApproxToString
 import com.google.gson.annotations.SerializedName
 
-// dto completo, commentati quelli non utili
+// complete dto, commented if not used
+// all dto element nullable -> all default values on toDomain()
 
 data class DetailShowDto(
-    val title: String,
-    val year: Int, // start
+    val title: String?,
+    val year: Int?, // start
     val ids: Ids, // + tvdb
 
-    val tagline: String = "", // the winter is coming
-    val overview: String = "", // about movie
-    @SerializedName("first_aired") val firstAired: String,
+    val tagline: String?, // the winter is coming
+    val overview: String?, // about movie
+    @SerializedName("first_aired") val firstAired: String?,
 //    val airs : Airs // day, time, timezone
-    val runtime: Int = 0, // 60
+    val runtime: Int? = 0, // 60
 //    val certification: String,
-    val network: String, // hbo
-    val country: String = "", // us
+    val network: String?, // hbo
+    val country: String?, // us
 //    @SerializedName("updated_at") val updatedAt: String = "", // date
-    val trailer: String? = "", // link sito
-    val homepage: String = "", // website
-    val status: String = "", // coming soon, wip, ended
-    val rating: Float = 0F,
-    val votes: Int = 0,
+    val trailer: String?, // link sito
+    val homepage: String?, // website
+    val status: String?, // coming soon, wip, ended
+    val rating: Float?,
+    val votes: Int?,
 //    @SerializedName("comment_count") val commentCount: Int = 0,
-    val language: String,
-    val languages: List<String> = emptyList(),
+    val language: String?,
+    val languages: List<String>?,
 //    val availableTranslations: List<String> = emptyList(),
-    val genres: List<String> = emptyList(),
-    @SerializedName("aired_episodes") val airedEpisodes: Int
+    val genres: List<String>?,
+    @SerializedName("aired_episodes") val airedEpisodes: Int?
 )
+
 
 fun DetailShowDto.toEntity(): DetailShowEntity {
     return DetailShowEntity(
         traktId = ids.trakt,
-        title = title,
-        year = year,
+        title = title ?: "N/A",
+        year = year ?: 0,
         ids = ids,
         //
-        tagline = tagline,
-        overview = overview,
-        firstAired = firstAired,
-        runtime = runtime,
-        network = network,
-        country = country,
-        //
+        tagline = tagline ?: "N/A",
+        overview = overview ?: "N/A",
+        firstAired = firstAired ?: "N/A",
+        runtime = runtime ?: 0,
+        network = network ?: "N/A",
+        country = country ?: "N/A",
         trailer = trailer ?: "",
-        homepage = homepage,
-        status = status,
-        rating = rating,
-        votes = votes,
-        //
-        language = language,
-        languages = languages,
-        genres = genres,
-        airedEpisodes = airedEpisodes
+        homepage = homepage ?: "N/A",
+        status = status ?: "N/A",
+        rating = rating?.firstDecimalApproxToString() ?: "0.0",
+        votes = votes ?: 0,
+        language = language ?: "N/A",
+        languages = languages ?: emptyList(),
+        genres = genres ?: emptyList(),
+        airedEpisodes = airedEpisodes ?: 0
     )
 }
 

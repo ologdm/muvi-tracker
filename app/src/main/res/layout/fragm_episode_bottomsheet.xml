@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:orientation="vertical"
->
+        android:orientation="vertical">
 
-<!--    senza watched checker-->
+    <!--    senza watched checker-->
 
     <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/episodeImageBackdrop"
@@ -17,8 +15,7 @@
             android:scaleType="centerCrop"
             style="@style/Image_BaseVH"
             android:adjustViewBounds="true"
-            tools:src="@tools:sample/backgrounds/scenic"
-            />
+            tools:src="@tools:sample/backgrounds/scenic" />
 
     <!-- Title S01 E01 (series premiere)-->
     <TextView
@@ -27,7 +24,7 @@
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:textSize="18sp"
-            tools:text="Winter is coming | S01 E01 |Series Premiere"/>
+            tools:text="Winter is coming | S01 E01 |Series Premiere" />
 
 
     <!--  first aired, runtime, episode type, rating, vote -->
@@ -36,7 +33,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="14sp"
-            tools:text="First aired: Jan 1, 2022 | 60 min | Drama"/>
+            tools:text="First aired: Jan 1, 2022 | 60 min | Drama" />
 
 
     <TextView
@@ -45,7 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:textSize="16sp"
-            tools:text="Overview This is the overview of the episode. It will give a brief description of what happens in this episode."/>
+            tools:text="Overview This is the overview of the episode. It will give a brief description of what happens in this episode." />
 
 
 </LinearLayout>

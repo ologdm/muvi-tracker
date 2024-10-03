@@ -17,7 +17,7 @@ import com.example.muvitracker.data.database.entities.EpisodeEntity
 import com.example.muvitracker.data.database.entities.PrefsMovieEntity
 import com.example.muvitracker.data.database.entities.PrefsShowEntity
 import com.example.muvitracker.data.database.entities.SeasonEntity
-import com.example.muvitracker.data.imagetmdb.database.ConvertersUtilsTmdb
+import com.example.muvitracker.data.imagetmdb.database.entities.ConvertersUtilsTmdb
 import com.example.muvitracker.data.imagetmdb.database.dao.EpisodeImageDao
 import com.example.muvitracker.data.imagetmdb.database.dao.MovieShowImageDao
 import com.example.muvitracker.data.imagetmdb.database.dao.PersonImageDao

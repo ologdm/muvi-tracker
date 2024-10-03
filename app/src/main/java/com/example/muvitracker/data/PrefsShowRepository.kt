@@ -9,6 +9,7 @@ import com.example.muvitracker.domain.model.DetailShow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.singleOrNull
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -25,6 +26,9 @@ class PrefsShowRepository @Inject constructor(
     fun getListFLow(): Flow<List<DetailShow>> {
         // join: prefs + detail + watched episodes -> (caso tutto gia scaricato)
         return prefsShowDao.getAllPrefsShows()
+            .map { shows ->
+                shows.sortedByDescending { it.addedDateTime }
+            }
     }
 
 
@@ -49,7 +53,6 @@ class PrefsShowRepository @Inject constructor(
     }
 
 
-
     // aggiungi elemento ai prefs se aggiungo watched ad un episodio
     suspend fun addWatchedToPrefs(showId: Int) {
         val prefsEntity = prefsShowDao.readSingle(showId)
@@ -65,8 +68,7 @@ class PrefsShowRepository @Inject constructor(
     }
 
 
-
-//    override
+    //    override
     suspend fun deleteItemOnDB(id: Int) {
         prefsShowDao.deleteSingle(id)
     }

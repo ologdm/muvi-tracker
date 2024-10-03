@@ -5,10 +5,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.muvitracker.data.imagetmdb.TmdbRepository
 import com.example.muvitracker.domain.model.DetailMovie
+import com.example.muvitracker.domain.model.base.Movie
 import com.example.muvitracker.domain.repo.DetailRepo
 import com.example.muvitracker.domain.repo.PrefsRepo
 import com.example.muvitracker.utils.IoResponse
 import com.example.muvitracker.utils.StateContainer
+import com.example.muvitracker.utils.ioMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
@@ -19,19 +21,19 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DetailMovieViewmodel @Inject constructor(
-    private val detailRepository: DetailRepo,
+    private val detailMovieRepository: DetailRepo,
     private val prefsRepository: PrefsRepo,
-    private val tmdbRepository: TmdbRepository
 ) : ViewModel() {
 
     val detailState = MutableLiveData<StateContainer<DetailMovie>>()
+    val relatedMoviesStatus = MutableLiveData<List<Movie>>()
 
     // flow -> livedata
-    fun getStateContainer(movieId: Int) {
+    fun loadMovieDetailFlow(movieId: Int) {
         var cachedMovie: DetailMovie? = null
 
         viewModelScope.launch {
-            detailRepository.getSingleDetailMovieFlow(movieId)
+            detailMovieRepository.getSingleDetailMovieFlow(movieId)
                 .map { response ->
                     when (response) {
                         is IoResponse.Success -> {
@@ -70,11 +72,10 @@ class DetailMovieViewmodel @Inject constructor(
 
 
     // SET
-    fun toggleFavorite(id: Int) {
+    fun toggleLikedMovie(id: Int) {
         viewModelScope.launch {
             prefsRepository.toggleLikedOnDB(id)
         }
-
     }
 
 
@@ -86,16 +87,15 @@ class DetailMovieViewmodel @Inject constructor(
     }
 
 
-    // IMAGES TMDB todo
-    val backdropImageUrl = MutableLiveData<String>()
-    val posterImageUrl = MutableLiveData<String>()
 
-    fun loadImageMovieTest(movieTmdbId: Int) {
+    // RELATED MOVIES
+    fun loadRelatedMovies(movieId: Int) {
         viewModelScope.launch {
-            val x = tmdbRepository.getQuickPathForMovie(movieTmdbId)
-            backdropImageUrl.value = "https://image.tmdb.org/t/p/original${x.backdropPath.toString()}"
-            posterImageUrl.value = "https://image.tmdb.org/t/p/original${x.posterPath.toString()}"
+            detailMovieRepository.getRelatedMovies(movieId).ioMapper {movies->
+                relatedMoviesStatus.value = movies
+            }
         }
+
     }
 
 

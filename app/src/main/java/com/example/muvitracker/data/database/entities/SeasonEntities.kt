@@ -29,19 +29,19 @@ data class SeasonEntity(
 )
 
 
-//  todo !!!
+//  update entity - only dto part
 fun SeasonEntity.copyDtoData(seasonDto: SeasonExtenDto): SeasonEntity {
     return this.copy(
         seasonTraktId = seasonDto.ids.trakt,
-        seasonNumber = seasonDto.number,
+        seasonNumber = seasonDto.number ?: 0,
         ids = seasonDto.ids,
-        rating = seasonDto.rating,
-        episodeCount = seasonDto.episodeCount,
-        airedEpisodes = seasonDto.airedEpisodes,
-        title = seasonDto.title,
-        overview = seasonDto.overview ?: "",
-        releaseYear = seasonDto.getYear(),
-        network = seasonDto.network
+        rating = seasonDto.rating ?: 0.0,
+        episodeCount = seasonDto.episodeCount ?: 0,
+        airedEpisodes = seasonDto.airedEpisodes ?: 0 ,
+        title = seasonDto.title ?: "N/A",
+        overview = seasonDto.overview ?: "N/A",
+        releaseYear = seasonDto.getYear() ?: "N/A",
+        network = seasonDto.network ?: "N/A"
         // showId - already exist
     )
 }

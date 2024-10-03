@@ -10,26 +10,19 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.muvitracker.R
 import com.example.muvitracker.data.dto.base.Ids
+import com.example.muvitracker.data.imagetmdb.glide.ImageTmdbRequest
 import com.example.muvitracker.databinding.FragmSeasonSonBinding
 import com.example.muvitracker.ui.main.Navigator
 import com.example.muvitracker.utils.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
-// viewmodel
-//    - call season info, after from db
-//    - call episodes ok
-// state ok
-// adapter TODO
-// tab - pageviewer2 TODO
-// recyclerview
-
 
 @AndroidEntryPoint
 class SeasonFragment : Fragment(R.layout.fragm_season_son) {
 
     private var currentShowIds: Ids = Ids()
-    private var currentSeason: Int = 0
+    private var currentSeasonNr: Int = 0
 
     private val binding by viewBinding(FragmSeasonSonBinding::bind)
     private val viewModel by viewModels<SeasonViewmodel>()
@@ -39,11 +32,10 @@ class SeasonFragment : Fragment(R.layout.fragm_season_son) {
 
     private val episodesAdapter = SeasonEpisodesAdapter(
         onCLickVH = { episodeNumber ->
-            navigator.startEpisodeFragment(currentShowIds, currentSeason, episodeNumber)
+            navigator.startEpisodeFragment(currentShowIds, currentSeasonNr, episodeNumber)
         },
-
         onCLickWatched = { episodeTraktId ->
-            viewModel.toggleWatchedEpisode(currentShowIds.trakt, currentSeason, episodeTraktId)
+            viewModel.toggleWatchedEpisode(currentShowIds.trakt, currentSeasonNr, episodeTraktId)
         }
     )
 
@@ -55,19 +47,19 @@ class SeasonFragment : Fragment(R.layout.fragm_season_son) {
         val bundle = arguments
         if (bundle != null) {
             currentShowIds = bundle.getParcelable(SHOW_IDS_KEY) ?: Ids()
-            currentSeason = bundle.getInt(SEASON_NUMBER_KEY)
+            currentSeasonNr = bundle.getInt(SEASON_NUMBER_KEY)
         }
 
 
         // SEASON INFO
-        viewModel.loadSeasonInfo(showId = currentShowIds.trakt, seasonNumber = currentSeason)
+        viewModel.loadSeasonInfo(showId = currentShowIds.trakt, seasonNumber = currentSeasonNr)
 
         viewModel.seasonInfoState.observe(viewLifecycleOwner) { stateContainer ->
             val entity = stateContainer.data
             if (entity != null) {
                 binding.seasonTitle.text = entity.title
                 binding.seasonOverview.text = entity.overview
-                updateIconWatchedAll(stateContainer!!.data!!.watchedAll)
+                updateIconWatchedAll(entity.watchedAll)
             }
         }
 
@@ -76,37 +68,28 @@ class SeasonFragment : Fragment(R.layout.fragm_season_son) {
         binding.episodesRV.adapter = episodesAdapter
         binding.episodesRV.layoutManager = LinearLayoutManager(requireContext())
 
-        viewModel.loadSeasonEpisodes(showId = currentShowIds.trakt, seasonNumber = currentSeason)
+        viewModel.loadSeasonEpisodes(showId = currentShowIds.trakt, seasonNumber = currentSeasonNr)
 
         viewModel.seasonEpisodesState.observe(viewLifecycleOwner) { stateContainer ->
             episodesAdapter.submitList(stateContainer.data)
         }
 
-
-        //  WATCHED_ALL_ICON  0000
-//        viewModel.isWatchedAllSeasonEpisodes(currentShowIds.trakt, currentSeason)
-
-        // todo - sposto su
-//        viewModel.isWatchedAllSeasonEpisodesStatus.observe(viewLifecycleOwner) { isWatched ->
-//            updateIconWatchedAll(isWatched)
-//        }
-
         binding.watchedAllIcon.setOnClickListener {
-            viewModel.toggleSeasonAllWatchedEpisodes(currentShowIds.trakt, currentSeason)
+            viewModel.toggleSeasonAllWatchedEpisodes(currentShowIds.trakt, currentSeasonNr)
         }
 
 
         // IMAGE vertical - poster
         viewModel.getTmdbImageLinksFlow(
             showTmdbId = currentShowIds.tmdb,
-            seasonNr = currentSeason
+            seasonNr = currentSeasonNr
         )
 
 //        viewModel.getTmdbTEST(currentShowIds.tmdb, currentSeason)
 
         viewModel.posterImageUrl.observe(viewLifecycleOwner) { posterUrl ->
             Glide.with(requireContext())
-                .load(posterUrl)
+                .load(ImageTmdbRequest.Season(currentShowIds.tmdb,currentSeasonNr))
                 .transition(DrawableTransitionOptions.withCrossFade(300))
                 .placeholder(R.drawable.glide_placeholder_base)
                 .error(R.drawable.glide_placeholder_base)

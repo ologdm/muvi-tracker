@@ -54,7 +54,8 @@ class SeasonViewpagerFragment : Fragment(R.layout.fragm_season_viewpager) {
         // tab mediator 00
         binding.tabLayout.tabMode = TabLayout.MODE_SCROLLABLE
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
-            tab.text = "Stagione ${position + 1}"
+            val seasonText = getString(R.string.season_text)
+            tab.text = "$seasonText ${position + 1}"
         }.attach()
 
     }

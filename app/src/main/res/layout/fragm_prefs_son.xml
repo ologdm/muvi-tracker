@@ -11,6 +11,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:listitem="@layout/vh_prefs_movie"
-            android:padding="12dp" />
-
+            android:paddingHorizontal="8dp"
+            android:paddingBottom="8dp"/>
 </FrameLayout>

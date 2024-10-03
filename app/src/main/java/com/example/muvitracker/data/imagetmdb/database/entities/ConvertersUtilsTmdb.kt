@@ -1,4 +1,4 @@
-package com.example.muvitracker.data.imagetmdb.database
+package com.example.muvitracker.data.imagetmdb.database.entities
 
 import androidx.room.TypeConverter
 import com.example.muvitracker.data.imagetmdb.dto.MediaItem

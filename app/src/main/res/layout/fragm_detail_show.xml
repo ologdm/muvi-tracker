@@ -89,18 +89,28 @@
                         android:importantForAccessibility="no"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                        android:id="@+id/trailerLink"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Trailer"
-                        android:background="?attr/colorSecondaryContainer"
-                        android:textColor="?attr/colorOnSecondaryContainer"
+                <!--                <TextView-->
+                <!--                        android:id="@+id/trailerLink"-->
+                <!--                        android:layout_width="wrap_content"-->
+                <!--                        android:layout_height="wrap_content"-->
+                <!--                        android:text="Trailer"-->
+                <!--                        android:background="?attr/colorSecondaryContainer"-->
+                <!--                        android:textColor="?attr/colorOnSecondaryContainer"-->
+                <!--                        app:layout_constraintEnd_toEndOf="parent"-->
+                <!--                        app:layout_constraintBottom_toBottomOf="parent"-->
+                <!--                        android:layout_marginBottom="8dp"-->
+                <!--                        android:layout_marginEnd="8dp"-->
+                <!--                        android:padding="2dp" />-->
+
+                <ImageView
+                        android:id="@+id/trailerImageButton"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:src="@drawable/youtube_icon_red_square_variant"
+                        android:layout_marginBottom="12dp"
+                        android:layout_marginEnd="16dp"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginEnd="8dp"
-                        android:padding="2dp" />
+                        app:layout_constraintBottom_toBottomOf="parent" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -110,7 +120,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="10dp">
+                    android:paddingHorizontal="12dp">
 
 
                 <TextView
@@ -118,15 +128,17 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         tools:text="@tools:sample/lorem"
-                        style="@style/Title_Typography_Detail" />
+                        style="@style/Title_Typography_Detail"
+                        android:layout_marginTop="8dp" />
 
                 <TextView
                         android:id="@+id/status"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         tools:text="ended"
+                        android:textSize="15sp"
                         android:textStyle="normal"
-                        android:paddingBottom="10dp" />
+                        android:layout_marginBottom="16dp" />
 
                 <LinearLayout
                         android:layout_width="match_parent"
@@ -139,7 +151,7 @@
                             android:id="@+id/imageVertical"
                             android:layout_width="200dp"
                             android:layout_height="300dp"
-                            android:layout_marginEnd="15dp"
+
                             tools:background="@tools:sample/avatars"
                             android:importantForAccessibility="no"
                             app:shapeAppearance="@style/ImageLarge_RoundedShape" />
@@ -148,13 +160,15 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:orientation="vertical"
-                            android:padding="10dp">
+                            android:padding="12dp"
+                            android:layout_marginStart="8dp">
 
 
                         <TextView
                                 android:id="@+id/networkYearCountry"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:textSize="15sp"
                                 tools:text="Network 2010 (US) " />
 
 
@@ -162,52 +176,57 @@
                                 android:id="@+id/airedSeasons"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                tools:text="6 seasons ?" />
+                                android:textSize="15sp"
+                                tools:text="6 seasons" />
 
 
                         <TextView
                                 android:id="@+id/airedEpisodes"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:textSize="15sp"
                                 tools:text="48 episodes" />
 
                         <TextView
                                 android:id="@+id/runtime"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:textSize="15sp"
                                 tools:text="42 min" />
 
 
                         <View
                                 android:layout_width="match_parent"
-                                android:layout_height="10dp" />
+                                android:layout_height="4dp" />
 
 
                         <TextView
-                                android:id="@+id/rating"
+                                android:id="@+id/traktRating"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textSize="20dp"
+                                android:textSize="24sp"
                                 android:text="0.0" />
 
                         <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:textSize="15sp"
                                 android:text="trakt.tv" />
 
                         <!-- solo diastanziamento -->
                         <View
                                 android:layout_width="match_parent"
-                                android:layout_height="50dp" />
+                                android:layout_height="40dp" />
 
                         <TextView
                                 android:id="@+id/watchedCounterTextview"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:textSize="15sp"
                                 tools:text="15/30"
                                 android:layout_marginBottom="10dp"
                                 android:layout_gravity="end"
-                                android:layout_marginEnd="12dp"/>
+                                android:layout_marginEnd="12dp" />
 
 
                         <androidx.constraintlayout.widget.ConstraintLayout
@@ -256,12 +275,12 @@
                 <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text=" Watch Provider(by region): Netflix, Prime ecc TODO "
-                        android:layout_marginBottom="10dp"
+                        tools:text=" Watch Provider(by region): Netflix, Prime ecc TODO "
+                        android:text="@string/watch_provider_text"
                         tools:background="@android:color/holo_blue_dark"
-                        style="@style/Categories_Typography_Detail"
+                        style="@style/Category_Title_Typography_Detail"
                         android:visibility="gone"
-                        tools:visibility="visible"/>
+                        tools:visibility="visible" />
 
                 <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/streamChannelRV"
@@ -271,17 +290,14 @@
                         android:layout_marginBottom="16dp"
                         android:background="@android:color/holo_blue_dark"
                         android:visibility="gone"
-                        tools:visibility="visible"
-                        />
+                        tools:visibility="visible" />
 
 
                 <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/about_show"
-                        android:textSize="16sp"
-                        android:layout_marginBottom="8dp"
-                        style="@style/Categories_Typography_Detail" />
+                        android:text="@string/about_show_text"
+                        style="@style/Category_Title_Typography_Detail" />
 
                 <TextView
                         android:id="@+id/overview"
@@ -303,7 +319,7 @@
                         android:layout_marginBottom="16dp"
                         tools:background="@android:color/darker_gray"
                         app:singleSelection="false"
-                        android:clickable="false"/>
+                        android:clickable="false" />
 
                 <com.google.android.material.divider.MaterialDivider
                         android:layout_width="match_parent"
@@ -316,10 +332,9 @@
                 <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Cast &amp; Crew TODO"
-                        android:textSize="16sp"
-                        android:layout_marginBottom="8dp"
-                        style="@style/Categories_Typography_Detail"
+                        tools:text="Cast &amp; Crew TODO"
+                        android:text="@string/cast_text"
+                        style="@style/Category_Title_Typography_Detail"
                         android:visibility="gone"
                         tools:visibility="visible" />
 
@@ -343,10 +358,8 @@
                 <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Seasons"
-                        android:textSize="16sp"
-                        android:layout_marginBottom="8dp"
-                        style="@style/Categories_Typography_Detail" />
+                        android:text="@string/seasons_text"
+                        style="@style/Category_Title_Typography_Detail" />
 
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -368,17 +381,15 @@
                 <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="You may also like"
-                        android:textSize="16sp"
-                        android:layout_marginBottom="8dp"
-                        style="@style/Categories_Typography_Detail" />
+                        android:text="@string/related_text"
+                        style="@style/Category_Title_Typography_Detail" />
 
                 <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/relatedShowsRV"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="16dp"
-                        tools:listitem="@layout/vh_related_list"
+                        tools:listitem="@layout/vh_related_list_on_detail"
                         tools:itemCount="1" />
 
             </LinearLayout>

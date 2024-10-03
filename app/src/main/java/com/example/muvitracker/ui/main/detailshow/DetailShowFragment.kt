@@ -5,6 +5,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,6 +13,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.muvitracker.R
 import com.example.muvitracker.data.dto.base.Ids
+import com.example.muvitracker.data.imagetmdb.glide.ImageTmdbRequest
 import com.example.muvitracker.databinding.FragmDetailShowBinding
 import com.example.muvitracker.domain.model.DetailShow
 import com.example.muvitracker.ui.main.Navigator
@@ -25,10 +27,10 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 
-// 1. detailDto OK
-// 2. seasonsDto OK
-// 3. relatedDto OK
-// 4. castDto TODO
+// 1. DetailShow
+// 2. Seasons OK
+// 3. RelatedShows OK
+// 4. CastPerson TODO
 
 
 @AndroidEntryPoint
@@ -67,48 +69,52 @@ class DetailShowFragment : Fragment(R.layout.fragm_detail_show) {
 
 
     override fun onViewCreated(
-        view: View,
-        savedInstanceState: Bundle?
+        view: View, savedInstanceState: Bundle?
     ) {
         val bundle = arguments
         if (bundle != null) {
             currentShowIds = bundle.getParcelable(SHOW_IDS_KEY) ?: Ids()
         }
 
-        // DETAIL
+        // SHOW DETAIL
         viewModel.loadShowDetailFlow(currentShowIds.trakt)
 
         viewModel.detailState.observe(viewLifecycleOwner) { stateContainer ->
+            // 1
             stateContainer.data?.let { detailShow ->
                 updateDetailUi(detailShow)
-
-                binding.watchedCounterTextview.text =
-                    "${stateContainer.data!!.watchedCount}/${stateContainer.data!!.airedEpisodes}"
-                binding.watchedCounterProgressBar.max = detailShow.airedEpisodes
-                binding.watchedCounterProgressBar.progress = detailShow.watchedCount
-
-                // sempre insieme (togli listener, leggi, rimetti listener)
-                binding.watchedAllCheckbox.setOnCheckedChangeListener(null)
-                binding.watchedAllCheckbox.isChecked = detailShow.watchedAll
-
-                binding.watchedAllCheckbox.setOnCheckedChangeListener { _, _ ->
-//                    viewModel.toggleWatchedAll(currentShowIds.trakt) // old
-                    binding.watchedAllCheckboxLoadingBar.visibility = View.VISIBLE
-                    binding.watchedAllCheckbox.isEnabled = false
-
-                    viewModel.toggleWatchedAll(currentShowIds.trakt, onComplete = {
-                        // spegni caricamento
-                        binding.watchedAllCheckboxLoadingBar.visibility = View.GONE
-                        binding.watchedAllCheckbox.isEnabled = true
-                    })
-                }
+                updateLikedIcon(detailShow.liked)
+                updateWatchedCheckboxAndCounters(detailShow)
             }
-
+            // 2
             stateContainer.statesFlow(
                 binding.errorTextView,
                 binding.progressBar
             )
         }
+
+
+        // BUTTONS CLICK
+        binding.buttonBack.setOnClickListener {
+            requireActivity().onBackPressed()
+        }
+
+        binding.floatingLikedButton.setOnClickListener {
+            viewModel.toggleLikedShow(currentShowIds.trakt)
+        }
+
+        binding.watchedAllCheckbox.setOnCheckedChangeListener { _, _ ->
+            //avvia caricamento
+            binding.watchedAllCheckboxLoadingBar.visibility = View.VISIBLE
+            binding.watchedAllCheckbox.isEnabled = false
+
+            viewModel.toggleWatchedAll(currentShowIds.trakt, onComplete = {
+                // spegni caricamento
+                binding.watchedAllCheckboxLoadingBar.visibility = View.GONE
+                binding.watchedAllCheckbox.isEnabled = true
+            })
+        }
+
 
         // overview expanded
         var isTextExpanded = false // initial state, fragment opening
@@ -122,9 +128,6 @@ class DetailShowFragment : Fragment(R.layout.fragm_detail_show) {
             }
             isTextExpanded = !isTextExpanded // toggle state
         }
-
-
-
 
 
         // SEASONS
@@ -142,54 +145,21 @@ class DetailShowFragment : Fragment(R.layout.fragm_detail_show) {
         }
 
 
-        // TMDB test
-//        viewModel.loadTmdbImageLinksFlow(currentShowIds.tmdb) // for glide
-        viewModel.loadImageShowTest(currentShowIds.tmdb)
-
-        // IMAGES TMDB
-        // horizontal - backdrop
-        viewModel.backdropImageUrl.observe(viewLifecycleOwner) { backdropUrl ->
-            Glide.with(requireContext())
-                .load(backdropUrl) // 1399 game-of-thrones
-                .transition(DrawableTransitionOptions.withCrossFade(300))
-                .placeholder(R.drawable.glide_placeholder_base)
-                .error(R.drawable.glide_placeholder_base)
-                .into(binding.imageHorizontal)
-        }
-        // vertical - poster
-        viewModel.posterImageUrl.observe(viewLifecycleOwner) { posterUrl ->
-            Glide.with(requireContext())
-                .load(posterUrl)
-                .transition(DrawableTransitionOptions.withCrossFade(300))
-                .placeholder(R.drawable.glide_placeholder_base)
-                .error(R.drawable.glide_placeholder_base)
-                .into(binding.imageVertical)
-        }
+        // TMDB IMAGES - with custom glide
+        Glide.with(requireContext())
+            .load(ImageTmdbRequest.ShowHorizontal(currentShowIds.tmdb))
+            .transition(DrawableTransitionOptions.withCrossFade(300))
+            .placeholder(R.drawable.glide_placeholder_base)
+            .error(R.drawable.glide_placeholder_base)
+            .into(binding.imageHorizontal)
 
 
-        // BUTTONS CLICK
-        binding.buttonBack.setOnClickListener {
-            requireActivity().onBackPressed()
-        }
-
-        binding.floatingLikedButton.setOnClickListener {
-            viewModel.toggleLikedShow(currentShowIds.trakt)
-        }
-
-
-        binding.watchedAllCheckbox.setOnCheckedChangeListener { _, _ ->
-            //avvia caricamento
-            binding.watchedAllCheckboxLoadingBar.visibility = View.VISIBLE
-            binding.watchedAllCheckbox.isEnabled = false
-
-            viewModel.toggleWatchedAll(currentShowIds.trakt, onComplete = {
-                // spegni caricamento
-                binding.watchedAllCheckboxLoadingBar.visibility = View.GONE
-                binding.watchedAllCheckbox.isEnabled = true
-            })
-        }
-
-
+        Glide.with(requireContext())
+            .load(ImageTmdbRequest.ShowVertical(currentShowIds.tmdb))
+            .transition(DrawableTransitionOptions.withCrossFade(300))
+            .placeholder(R.drawable.glide_placeholder_base)
+            .error(R.drawable.glide_placeholder_base)
+            .into(binding.imageVertical)
 
 
         // RELATED SHOWS OK
@@ -201,29 +171,29 @@ class DetailShowFragment : Fragment(R.layout.fragm_detail_show) {
         viewModel.relatedShowsStatus.observe(viewLifecycleOwner) { response ->
             // related adapter
             relatedShowsAdapter.submitList(response)
-            println("YYY related  shows observer:$response")
         }
 
 
-
-        // TODO crew
+        // TODO cast
     }
 
 
     // show detail
     private fun updateDetailUi(detailShow: DetailShow) {
+        currentShowTitle = detailShow.title
+
         with(binding) {
-            currentShowTitle = detailShow.title
             title.text = detailShow.title
-            status.text = detailShow.status
+            status.text = detailShow.status // es: ended
             networkYearCountry.text =
-                "${detailShow.network} ${detailShow.year.toString()} (${detailShow.country.toUpperCase()})"
+                "${detailShow.network} ${detailShow.year} (${detailShow.country.toUpperCase()})"
+            airedEpisodes.text =
+                getString(R.string.aired_episodes, detailShow.airedEpisodes.toString())
             runtime.text =
                 getString(R.string.runtime_description, detailShow.runtime.toString())  // string
-            airedEpisodes.text = "${detailShow.airedEpisodes} episodes"
-            rating.text = detailShow.rating.firstDecimalApproxToString() // conversion + string
-            overview.text = detailShow.overview
 
+            traktRating.text = detailShow.rating // (string, already converted)
+            overview.text = detailShow.overview
 
             // genres
             genresChipGroup.removeAllViews() // clean old
@@ -233,27 +203,52 @@ class DetailShowFragment : Fragment(R.layout.fragm_detail_show) {
                 genresChipGroup.addView(chip)
             }
 
-            // open link on youtube OK
-            var trailerUrl = detailShow.trailer
-            trailerLink.setOnClickListener {
+            // open link on youtube
+            val trailerUrl = detailShow.trailer
+            trailerImageButton.setOnClickListener {
                 if (!trailerUrl.isNullOrEmpty()) {
                     val intent = Intent(Intent.ACTION_VIEW, Uri.parse(trailerUrl))
                     startActivity(intent)
+                } else {
+                    Toast.makeText(
+                        requireContext(),
+                        getString(R.string.no_trailer_available),
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
         }
-
-        updateLikedIcon(detailShow.liked)
     }
 
 
     private fun updateLikedIcon(isFavorite: Boolean) {
         val iconFilled = context?.getDrawable(R.drawable.baseline_liked)
         val iconEmpty = context?.getDrawable(R.drawable.baseline_liked_border)
-
         binding.floatingLikedButton.setImageDrawable(if (isFavorite) iconFilled else iconEmpty)
     }
 
+
+    private fun updateWatchedCheckboxAndCounters(detailShow: DetailShow) {
+        binding.watchedCounterTextview.text =
+            "${detailShow.watchedCount}/${detailShow.airedEpisodes}"
+        binding.watchedCounterProgressBar.max = detailShow.airedEpisodes
+        binding.watchedCounterProgressBar.progress = detailShow.watchedCount
+
+        // sempre insieme (togli listener, leggi, rimetti listener)
+        binding.watchedAllCheckbox.setOnCheckedChangeListener(null)
+        binding.watchedAllCheckbox.isChecked = detailShow.watchedAll
+
+        binding.watchedAllCheckbox.setOnCheckedChangeListener { _, _ ->
+            binding.watchedAllCheckboxLoadingBar.visibility = View.VISIBLE
+            binding.watchedAllCheckbox.isEnabled = false
+
+            viewModel.toggleWatchedAll(currentShowIds.trakt, onComplete = {
+                // spegni caricamento
+                binding.watchedAllCheckboxLoadingBar.visibility = View.GONE
+                binding.watchedAllCheckbox.isEnabled = true
+            })
+        }
+    }
 
 
     companion object {

@@ -11,10 +11,15 @@ import com.example.muvitracker.data.database.MyDatabase
 import com.example.muvitracker.data.database.entities.DetailMovieEntity
 import com.example.muvitracker.data.database.entities.toDomain
 import com.example.muvitracker.data.dto.movies.DetailMovieDto
-import com.example.muvitracker.data.dto.movies.toEntityR
+import com.example.muvitracker.data.dto.movies.toDomain
+import com.example.muvitracker.data.dto.movies.toEntity
+import com.example.muvitracker.data.dto.show.toDomain
 import com.example.muvitracker.domain.model.DetailMovie
+import com.example.muvitracker.domain.model.base.Movie
+import com.example.muvitracker.domain.model.base.Show
 import com.example.muvitracker.domain.repo.DetailRepo
 import com.example.muvitracker.utils.IoResponse
+import com.example.muvitracker.utils.ioMapper
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterNot
@@ -66,7 +71,7 @@ class DetailMovieRepository @Inject constructor(
     }
 
     private suspend fun saveDtoToDatabase(dto: DetailMovieDto) {
-        detailDao.insertSingle(dto.toEntityR()) // suspend dao fun
+        detailDao.insertSingle(dto.toEntity()) // suspend dao fun
     }
 
 
@@ -85,25 +90,25 @@ class DetailMovieRepository @Inject constructor(
         // combine flows T1, T2 -> R
         return detailFlow
             .combine(prefsListFLow) { storeResponse, prefList ->
-            when (storeResponse) {
-                is StoreResponse.Data -> {
-                    val prefsEntity = prefList.find { entity ->
-                        entity?.traktId == storeResponse.value.ids.trakt
+                when (storeResponse) {
+                    is StoreResponse.Data -> {
+                        val prefsEntity = prefList.find { entity ->
+                            entity?.traktId == storeResponse.value.ids.trakt
+                        }
+                        val detailMovie = storeResponse.value.toDomain(prefsEntity)
+                        IoResponse.Success(detailMovie)
                     }
-                    val detailMovie = storeResponse.value.toDomain(prefsEntity)
-                    IoResponse.Success(detailMovie)
+
+                    is StoreResponse.Error.Exception ->
+                        IoResponse.Error(storeResponse.error)
+
+                    is StoreResponse.Error.Message ->
+                        IoResponse.Error(RuntimeException(storeResponse.message))
+
+                    is StoreResponse.Loading,
+                    is StoreResponse.NoNewData -> error("should be filtered upstream")
                 }
-
-                is StoreResponse.Error.Exception ->
-                    IoResponse.Error(storeResponse.error)
-
-                is StoreResponse.Error.Message ->
-                    IoResponse.Error(RuntimeException(storeResponse.message))
-
-                is StoreResponse.Loading,
-                is StoreResponse.NoNewData -> error("should be filtered upstream")
             }
-        }
     }
 
 
@@ -114,7 +119,22 @@ class DetailMovieRepository @Inject constructor(
     }
 
 
-    // RELATED MOVIES todo
+    // RELATED MOVIES
+    override suspend fun getRelatedMovies(movieId: Int): IoResponse<List<Movie>> {
+        return try {
+            IoResponse.Success(traktApi.getMovieRelatedMovies(movieId))
+                .ioMapper { dtos ->
+                    dtos.map { dto ->
+                        dto.toDomain()
+                    }
+                }
+        } catch (ex: CancellationException) {
+            throw ex
+        } catch (ex: Throwable) {
+            ex.printStackTrace()
+            IoResponse.Error(ex)
+        }
+    }
 
 
 }
