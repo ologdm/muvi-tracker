@@ -25,6 +25,7 @@
     <string name="seasons_text">Stagioni</string>
     <string name="related_text">Ti potrebbe piacere anche</string>
     <string name="watch_provider_text">Piattaforme streaming</string>
+    <string name="no_trailer_available">Nessun trailer disponibile</string>
 
     <!--    seasons-->
     <string name="season_text">Stagione</string>

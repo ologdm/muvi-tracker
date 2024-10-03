@@ -49,7 +49,7 @@ fun DetailShowDto.toEntity(): DetailShowEntity {
         runtime = runtime ?: 0,
         network = network ?: "N/A",
         country = country ?: "N/A",
-        trailer = trailer ?: "N/A",
+        trailer = trailer ?: "",
         homepage = homepage ?: "N/A",
         status = status ?: "N/A",
         rating = rating?.firstDecimalApproxToString() ?: "0.0",

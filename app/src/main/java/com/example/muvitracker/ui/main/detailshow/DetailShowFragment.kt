@@ -5,6 +5,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -84,25 +85,6 @@ class DetailShowFragment : Fragment(R.layout.fragm_detail_show) {
                 updateDetailUi(detailShow)
                 updateLikedIcon(detailShow.liked)
                 updateWatchedCheckboxAndCounters(detailShow)
-//                binding.watchedCounterTextview.text =
-//                    "${stateContainer.data!!.watchedCount}/${stateContainer.data!!.airedEpisodes}"
-//                binding.watchedCounterProgressBar.max = detailShow.airedEpisodes
-//                binding.watchedCounterProgressBar.progress = detailShow.watchedCount
-//
-//                // sempre insieme (togli listener, leggi, rimetti listener)
-//                binding.watchedAllCheckbox.setOnCheckedChangeListener(null)
-//                binding.watchedAllCheckbox.isChecked = detailShow.watchedAll
-//
-//                binding.watchedAllCheckbox.setOnCheckedChangeListener { _, _ ->
-//                    binding.watchedAllCheckboxLoadingBar.visibility = View.VISIBLE
-//                    binding.watchedAllCheckbox.isEnabled = false
-//
-//                    viewModel.toggleWatchedAll(currentShowIds.trakt, onComplete = {
-//                        // spegni caricamento
-//                        binding.watchedAllCheckboxLoadingBar.visibility = View.GONE
-//                        binding.watchedAllCheckbox.isEnabled = true
-//                    })
-//                }
             }
             // 2
             stateContainer.statesFlow(
@@ -227,6 +209,12 @@ class DetailShowFragment : Fragment(R.layout.fragm_detail_show) {
                 if (!trailerUrl.isNullOrEmpty()) {
                     val intent = Intent(Intent.ACTION_VIEW, Uri.parse(trailerUrl))
                     startActivity(intent)
+                } else {
+                    Toast.makeText(
+                        requireContext(),
+                        getString(R.string.no_trailer_available),
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
         }

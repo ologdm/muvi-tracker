@@ -4,6 +4,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.muvitracker.R
+import com.example.muvitracker.data.imagetmdb.glide.ImageTmdbRequest
 import com.example.muvitracker.databinding.VhSearchBinding
 import com.example.muvitracker.domain.model.SearchResult
 import com.example.muvitracker.utils.firstDecimalApproxToString
@@ -24,7 +25,7 @@ class SearchVH(
                     title.text = "${item.movie?.title} ${item.movie?.year.toString()}"
 
                     Glide.with(root.context)
-                        .load(item.movie.imageUrl())
+                        .load(ImageTmdbRequest.MovieVertical(item.movie.ids.tmdb))
                         .transition(DrawableTransitionOptions.withCrossFade())
                         .placeholder(R.drawable.glide_placeholder_search)
                         .error(R.drawable.glide_placeholder_search)
@@ -37,7 +38,7 @@ class SearchVH(
                     title.text = "${item.show.title} ${item.show.year.toString()}"
 
                     Glide.with(root.context)
-                        .load(item.show?.imageUrl())
+                        .load(ImageTmdbRequest.ShowVertical(item.show.ids.tmdb))
                         .transition(DrawableTransitionOptions.withCrossFade())
                         .placeholder(R.drawable.glide_placeholder_search)
                         .error(R.drawable.glide_placeholder_search)

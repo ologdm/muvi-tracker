@@ -41,7 +41,7 @@ fun DetailMovieDto.toEntity(): DetailMovieEntity {
         released = released?.dateFormatterInMMMyyy() ?: "N/A",
         runtime = runtime ?: 0,
         country = country ?: "N/A",
-        trailer = trailer ?: "N/A",
+        trailer = trailer ?: "",
         homepage = homepage ?: "N/A",
         status = status ?: "N/A",
         rating = rating?.firstDecimalApproxToString() ?: "0.0",
