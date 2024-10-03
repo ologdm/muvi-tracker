@@ -12,7 +12,7 @@ import kotlinx.coroutines.runBlocking
 import java.io.InputStream
 
 private const val TIMEOUT = 10_000 // 10 seconds
-private const val TMDB_IMAGE_URL_DOMAIN = "http://image.tmdb.org/t/p/w500/"
+private const val TMDB_IMAGE_URL_DOMAIN = "http://image.tmdb.org/t/p/original/"
 
 
 class TmdbFetcher(
