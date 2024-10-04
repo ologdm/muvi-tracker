@@ -59,7 +59,7 @@
                 android:id="@+id/likedButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:srcCompat="@drawable/baseline_liked_border"
+                app:srcCompat="@drawable/liked_icon_empty"
                 android:importantForAccessibility="no"
                 android:layout_marginBottom="16dp"
                 app:layout_constraintStart_toStartOf="parent"

@@ -46,7 +46,10 @@ class EpisodeFragment : BottomSheetDialogFragment(R.layout.fragm_episode_bottoms
                 binding.title.text =
                     "E.${it.episodeNumber.episodesFormatNumber()} • ${it.title}"
                 binding.episodeType.text =
-                    "${it.episodeType.toString().replace("_"," ").replaceFirstChar { it.uppercaseChar()}}"
+                    "${
+                        it.episodeType.toString().replace("_", " ")
+                            .replaceFirstChar { it.uppercaseChar() }
+                    }"
 
                 val release = getString(R.string.release_date)
                 binding.info.text =
@@ -54,26 +57,37 @@ class EpisodeFragment : BottomSheetDialogFragment(R.layout.fragm_episode_bottoms
                 binding.overview.text = episodeEntity.overview
                 binding.traktRating.text = episodeEntity.rating.toString()
 
+                updateWatchedIcon(it.watched)
             }
         }
 
 
         // IMAGE TMDB - custom glide
+        Glide.with(requireContext())
+            .load(
+                ImageTmdbRequest.Episode(
+                    currentShowIds.tmdb,
+                    currentSeasonNr,
+                    currentEpisodeNr
+                )
+            ) // 1399 game-of-thrones
+            .transition(DrawableTransitionOptions.withCrossFade(300))
+            .placeholder(R.drawable.glide_placeholder_base)
+            .error(R.drawable.glide_placeholder_base)
+            .into(binding.episodeImageBackdrop)
 
-            Glide.with(requireContext())
-                .load(
-                    ImageTmdbRequest.Episode(
-                        currentShowIds.tmdb,
-                        currentSeasonNr,
-                        currentEpisodeNr
-                    )
-                ) // 1399 game-of-thrones
-                .transition(DrawableTransitionOptions.withCrossFade(300))
-                .placeholder(R.drawable.glide_placeholder_base)
-                .error(R.drawable.glide_placeholder_base)
-                .into(binding.episodeImageBackdrop)
+
+        binding.watchedIcon.setOnClickListener {
+            viewModel.toggleWatchedEpisode(currentShowIds.trakt, currentSeasonNr, currentEpisodeNr)
+        }
 
 
+    }
+
+    private fun updateWatchedIcon(isWatched: Boolean) {
+        val iconFilled = context?.getDrawable(R.drawable.episode_watched_eye_filled)
+        val iconEmpty = context?.getDrawable(R.drawable.episode_watched_eye_empty)
+        binding.watchedIcon.setImageDrawable(if (isWatched) iconFilled else iconEmpty)
     }
 
 

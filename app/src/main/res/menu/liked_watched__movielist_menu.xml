@@ -3,7 +3,7 @@
 
             android:id="@+id/action_likedItem"
             android:title="liked"
-            android:icon="@drawable/baseline_liked"/>
+            android:icon="@drawable/liked_icon_filled"/>
 
     <item
             android:id="@+id/action_watchedItem"

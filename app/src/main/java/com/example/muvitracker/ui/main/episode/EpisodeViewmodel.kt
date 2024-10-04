@@ -3,21 +3,20 @@ package com.example.muvitracker.ui.main.episode
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.muvitracker.data.EpisodeRepository
 import com.example.muvitracker.data.database.MyDatabase
-import com.example.muvitracker.data.database.dao.EpisodeDao
 import com.example.muvitracker.data.database.entities.EpisodeEntity
-import com.example.muvitracker.data.dto.episode.EpisodeExtenDto
-import com.example.muvitracker.data.imagetmdb.TmdbRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
 @HiltViewModel
 class EpisodeViewmodel @Inject constructor(
-    val database: MyDatabase,
+    private val database: MyDatabase,
+    private val episodeRepository: EpisodeRepository
 ) : ViewModel() {
 
     private val episodeDao = database.episodesDao()
@@ -28,10 +27,22 @@ class EpisodeViewmodel @Inject constructor(
     // se elemento nella RV, elemento già nel database
     fun loadEpisode(showTraktId: Int, seasonNr: Int, episodeNr: Int) {
         viewModelScope.launch {
-            state.value = episodeDao.readSingleEpisode(showTraktId, seasonNr, episodeNr)
+            episodeDao.readSingleEpisode(showTraktId, seasonNr, episodeNr)
+                ?.catch {
+                    it.printStackTrace()
+                }
+                ?.collectLatest { episode ->
+                    state.value = episode
+                }
         }
     }
 
+
+    fun toggleWatchedEpisode(showId: Int, seasonNr: Int, episodeNr: Int) {
+        viewModelScope.launch {
+            episodeRepository.toggleSingleWatchedEpisode(showId, seasonNr, episodeNr)
+        }
+    }
 
 
 }

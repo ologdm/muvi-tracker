@@ -19,7 +19,6 @@ import com.example.muvitracker.domain.model.DetailShow
 import com.example.muvitracker.ui.main.Navigator
 import com.example.muvitracker.ui.main.detailmovie.adapter.DetailSeasonsAdapter
 import com.example.muvitracker.ui.main.detailshow.adapters.RelatedShowsAdapter
-import com.example.muvitracker.utils.firstDecimalApproxToString
 import com.example.muvitracker.utils.statesFlow
 import com.example.muvitracker.utils.viewBinding
 import com.google.android.material.chip.Chip
@@ -222,8 +221,8 @@ class DetailShowFragment : Fragment(R.layout.fragm_detail_show) {
 
 
     private fun updateLikedIcon(isFavorite: Boolean) {
-        val iconFilled = context?.getDrawable(R.drawable.baseline_liked)
-        val iconEmpty = context?.getDrawable(R.drawable.baseline_liked_border)
+        val iconFilled = context?.getDrawable(R.drawable.liked_icon_filled)
+        val iconEmpty = context?.getDrawable(R.drawable.liked_icon_empty)
         binding.floatingLikedButton.setImageDrawable(if (isFavorite) iconFilled else iconEmpty)
     }
 

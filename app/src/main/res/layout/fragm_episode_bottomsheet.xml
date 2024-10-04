@@ -45,8 +45,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="15sp"
-                tools:text="release date: 01-01 - 2022 | 60 min "
-             />
+                tools:text="release date: 01-01 - 2022 | 60 min " />
 
         <LinearLayout
                 android:layout_width="match_parent"
@@ -54,13 +53,13 @@
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
                 android:layout_marginTop="4dp"
-                android:layout_marginBottom="12dp" >
+                android:layout_marginBottom="12dp">
 
 
             <ImageView
                     android:id="@+id/starIcon"
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:src="@android:drawable/btn_star"
                     android:layout_marginEnd="4dp"
                     android:clickable="false" />
@@ -95,10 +94,13 @@
                 android:layout_height="28dp" />
 
         <ImageView
+                android:id="@+id/watchedIcon"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-            android:src="@drawable/episode_watched_eye_filled"
-            android:layout_gravity="center"/>
+                android:src="@drawable/episode_watched_eye_empty"
+                tools:src="@drawable/episode_watched_eye_filled"
+                android:layout_gravity="center" />
+
         <View
                 android:layout_width="match_parent"
                 android:layout_height="28dp" />

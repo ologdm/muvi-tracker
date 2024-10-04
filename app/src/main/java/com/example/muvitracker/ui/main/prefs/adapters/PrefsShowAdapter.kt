@@ -34,8 +34,8 @@ class PrefsShowAdapter(
         var currentItem = getItem(position)
 
         val context: Context = holder.itemView.context
-        val iconFilled = context.getDrawable(R.drawable.baseline_liked)
-        val iconEmpty = context.getDrawable(R.drawable.baseline_liked_border)
+        val iconFilled = context.getDrawable(R.drawable.liked_icon_filled)
+        val iconEmpty = context.getDrawable(R.drawable.liked_icon_empty)
 
 
         holder.bind(currentItem) // update views

@@ -45,7 +45,7 @@
             android:id="@+id/floatingLikedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/baseline_liked_border"
+            app:srcCompat="@drawable/liked_icon_empty"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginBottom="25dp"
