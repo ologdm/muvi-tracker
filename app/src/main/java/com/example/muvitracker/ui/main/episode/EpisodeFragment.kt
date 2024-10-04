@@ -9,6 +9,7 @@ import com.example.muvitracker.R
 import com.example.muvitracker.data.dto.base.Ids
 import com.example.muvitracker.data.imagetmdb.glide.ImageTmdbRequest
 import com.example.muvitracker.databinding.FragmEpisodeBottomsheetBinding
+import com.example.muvitracker.utils.episodesFormatNumber
 import com.example.muvitracker.utils.viewBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -41,20 +42,24 @@ class EpisodeFragment : BottomSheetDialogFragment(R.layout.fragm_episode_bottoms
             episodeNr = currentEpisodeNr
         )
         viewModel.state.observe(viewLifecycleOwner) { episodeEntity ->
-            binding.title.text = episodeEntity.title
-            binding.info.text = episodeEntity.firstAiredFormatted
-            binding.overview.text = episodeEntity.overview
+            episodeEntity?.let {
+                binding.title.text =
+                    "E.${it.episodeNumber.episodesFormatNumber()} • ${it.title}"
+                binding.episodeType.text =
+                    "${it.episodeType.toString().replace("_"," ").replaceFirstChar { it.uppercaseChar()}}"
+
+                val release = getString(R.string.release_date)
+                binding.info.text =
+                    "${getString(R.string.release_date)} ${episodeEntity.firstAiredFormatted} | ${episodeEntity.runtime} min "
+                binding.overview.text = episodeEntity.overview
+                binding.traktRating.text = episodeEntity.rating.toString()
+
+            }
         }
 
 
-        // load episode image - from tmdb
-        viewModel.getTmdbImageLinksFlow(
-            showTmdbId = currentShowIds.tmdb,
-            seasonNr = currentSeasonNr,
-            episodeNr = currentEpisodeNr
-        )
+        // IMAGE TMDB - custom glide
 
-        viewModel.backdropImageUrl.observe(viewLifecycleOwner) { backdropUrl ->
             Glide.with(requireContext())
                 .load(
                     ImageTmdbRequest.Episode(
@@ -67,7 +72,7 @@ class EpisodeFragment : BottomSheetDialogFragment(R.layout.fragm_episode_bottoms
                 .placeholder(R.drawable.glide_placeholder_base)
                 .error(R.drawable.glide_placeholder_base)
                 .into(binding.episodeImageBackdrop)
-        }
+
 
     }
 

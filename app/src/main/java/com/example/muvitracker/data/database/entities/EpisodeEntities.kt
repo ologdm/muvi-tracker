@@ -4,6 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.muvitracker.data.dto.episode.EpisodeExtenDto
 import com.example.muvitracker.data.dto.base.Ids
+import com.example.muvitracker.utils.firstDecimalApproxToString
 
 // completo - apertura season i
 // parziale - detail, watchedAll
@@ -21,7 +22,7 @@ data class EpisodeEntity(
     // todo - test salvataggio parziale
     val numberAbs: Int? = null,
     val overview: String? = null,
-    val rating: Double? = null,
+    val rating: String? = null,
     val firstAiredFormatted: String? = null, // converted
     val availableTranslations: List<String>? = null,
     val runtime: Int? = null,
@@ -42,7 +43,7 @@ fun EpisodeEntity.copyDtoData(episodeDto: EpisodeExtenDto): EpisodeEntity {
         ids = episodeDto.ids,
         numberAbs = episodeDto.numberAbs ?: 0,
         overview = episodeDto.overview ?: "N/A",
-        rating = episodeDto.rating ?: 0.0,
+        rating = episodeDto.rating?.firstDecimalApproxToString() ?: "0.0",
         firstAiredFormatted = episodeDto.getDateFromFirsAired() ?: "N/A",
         availableTranslations = episodeDto.availableTranslations ?: emptyList(),
         runtime = episodeDto.runtime ?: 0,

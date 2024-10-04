@@ -3,6 +3,7 @@ package com.example.muvitracker.data.dto.season
 import android.os.Parcelable
 import com.example.muvitracker.data.database.entities.SeasonEntity
 import com.example.muvitracker.data.dto.base.Ids
+import com.example.muvitracker.utils.firstDecimalApproxToString
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
@@ -34,7 +35,7 @@ fun SeasonExtenDto.toEntity(showId: Int): SeasonEntity {
         seasonTraktId = ids.trakt,
         seasonNumber = number ?: 0,
         ids = ids,
-        rating = rating ?: 0.0,
+        rating = rating?.firstDecimalApproxToString() ?: "0.0",
         episodeCount = episodeCount ?: 0,
         airedEpisodes = airedEpisodes ?: 0,
         title = title ?: "N/A",

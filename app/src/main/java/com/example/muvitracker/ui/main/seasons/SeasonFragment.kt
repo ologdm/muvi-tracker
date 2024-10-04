@@ -79,22 +79,14 @@ class SeasonFragment : Fragment(R.layout.fragm_season_son) {
         }
 
 
-        // IMAGE vertical - poster
-        viewModel.getTmdbImageLinksFlow(
-            showTmdbId = currentShowIds.tmdb,
-            seasonNr = currentSeasonNr
-        )
-
-//        viewModel.getTmdbTEST(currentShowIds.tmdb, currentSeason)
-
-        viewModel.posterImageUrl.observe(viewLifecycleOwner) { posterUrl ->
+        // IMAGE TMDB - custom glide
             Glide.with(requireContext())
                 .load(ImageTmdbRequest.Season(currentShowIds.tmdb,currentSeasonNr))
                 .transition(DrawableTransitionOptions.withCrossFade(300))
                 .placeholder(R.drawable.glide_placeholder_base)
                 .error(R.drawable.glide_placeholder_base)
                 .into(binding.seasonPoster)
-        }
+
 
 
         // Espansione e riduzione overview - OK
@@ -115,8 +107,8 @@ class SeasonFragment : Fragment(R.layout.fragm_season_son) {
 
     // CAMBIA ICONA COLORE
     private fun updateIconWatchedAll(isWatched: Boolean) {
-        val iconEmpty = context?.getDrawable(R.drawable.x_checkbox_multiple_blank_circle_outline)
-        val iconFilled = context?.getDrawable(R.drawable.x_checkbox_multiple_blank_circle)
+        val iconEmpty = context?.getDrawable(R.drawable.episode_watched_all_empty)
+        val iconFilled = context?.getDrawable(R.drawable.episode_watched_all_filled)
         binding.watchedAllIcon.setImageDrawable(if (isWatched) iconFilled else iconEmpty)
     }
 

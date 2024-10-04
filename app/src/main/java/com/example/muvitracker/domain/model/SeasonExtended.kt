@@ -7,7 +7,7 @@ data class SeasonExtended(
     val showId: Int,
     val seasonNumber: Int,
     val ids: Ids,
-    val rating: Double,
+    val rating: String,
     val episodeCount: Int,
     val airedEpisodes: Int,
     val title: String,

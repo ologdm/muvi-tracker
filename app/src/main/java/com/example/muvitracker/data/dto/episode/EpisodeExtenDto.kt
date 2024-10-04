@@ -2,6 +2,7 @@ package com.example.muvitracker.data.dto.episode
 
 import com.example.muvitracker.data.database.entities.EpisodeEntity
 import com.example.muvitracker.data.dto.base.Ids
+import com.example.muvitracker.utils.firstDecimalApproxToString
 import com.google.gson.annotations.SerializedName
 
 data class EpisodeExtenDto(
@@ -23,10 +24,9 @@ data class EpisodeExtenDto(
 
     fun getDateFromFirsAired(): String? {
         return firstAired?.let {
-            "${it.substring(8, 10)}/${it.substring(5, 7)}/${it.substring(0, 4)}"
+            "${it.substring(8, 10)}.${it.substring(5, 7)}.${it.substring(0, 4)}"
         }
     }
-
 }
 
 
@@ -39,7 +39,7 @@ fun EpisodeExtenDto.toEntity(showId: Int): EpisodeEntity {
         ids = ids,
         numberAbs = numberAbs ?: 0,
         overview = overview ?: "N/A",
-        rating = rating ?: 0.0,
+        rating = rating?.firstDecimalApproxToString() ?: "0.0",
         firstAiredFormatted = getDateFromFirsAired() ?: "N/A",
         availableTranslations = availableTranslations ?: emptyList(),
         runtime = runtime ?: 0,

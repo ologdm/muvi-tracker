@@ -3,6 +3,7 @@ package com.example.muvitracker.ui.main.seasons
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.muvitracker.data.database.entities.EpisodeEntity
 import com.example.muvitracker.databinding.VhEpisodeOnseasonBinding
+import com.example.muvitracker.utils.episodesFormatNumber
 import com.example.muvitracker.utils.firstDecimalApproxToString
 
 class EpisodeVH(
@@ -10,9 +11,11 @@ class EpisodeVH(
 ) : ViewHolder(binding.root) {
 
     fun bind(item: EpisodeEntity) {
-        binding.episodeNumberAndRelease.text = "#${item.episodeNumber} • ${item.firstAiredFormatted}"
+
+        binding.episodeNumberAndRelease.text =
+            "E.${item.episodeNumber.episodesFormatNumber()} • ${item.firstAiredFormatted}"
         binding.episodeTitleAndRuntime.text = "${item.title} (${item.runtime} min)"
-        binding.traktRating.text = item.rating?.firstDecimalApproxToString()
+        binding.traktRating.text = item.rating
     }
 
 }

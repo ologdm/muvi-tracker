@@ -23,7 +23,7 @@
                 android:id="@+id/episodeNumberAndRelease"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:text="#01 • 18/04/11"
+                tools:text="E.01 • 18.04.11"
    />
 
         <TextView
@@ -72,7 +72,7 @@
             android:id="@+id/watchedIcon"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:src="@drawable/x_panorama_fisheye"
+            android:src="@drawable/episode_watched_eye_empty"
             android:contentDescription="View episode"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"

@@ -16,7 +16,7 @@ class SeasonVH(
         binding.seasonNrAndYear.text = "${seasonItem.title} (${seasonItem.releaseYear})"
         val episodesText = binding.root.context.getString(R.string.episodes_text)
         binding.totalEpisodes.text = "${seasonItem.episodeCount} $episodesText"
-        binding.traktRating.text = seasonItem.rating.firstDecimalApproxToString()
+        binding.traktRating.text = seasonItem.rating
 
         // totale - usare episodeCount 00
         binding.watchedCounterTextview.text =

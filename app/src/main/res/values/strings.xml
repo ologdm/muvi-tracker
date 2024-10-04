@@ -29,17 +29,16 @@
     <string name="related_text">You may also like</string>
     <string name="cast_text" translatable="false">Cast</string>
     <string name="watch_provider_text">Watch Providers</string>
+
     <string name="no_trailer_available">No trailer available</string>
 
-    Nessun trailer disponibile
 
-<!--    seasons-->
+    <!--seasons-->
     <string name="season_text">Season</string>
     <string name="episodes_text">episodes</string>
 
-
-
-
+    <!--episode-->
+    <string name="release_date">Release date:</string>
 
 
     <!--error messages -->

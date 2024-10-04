@@ -17,32 +17,92 @@
             android:adjustViewBounds="true"
             tools:src="@tools:sample/backgrounds/scenic" />
 
-    <!-- Title S01 E01 (series premiere)-->
-    <TextView
-            android:id="@+id/title"
+    <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textSize="18sp"
-            tools:text="Winter is coming | S01 E01 |Series Premiere" />
+            android:orientation="vertical"
+            android:padding="12dp">
+
+        <!-- Title S01 E01 (series premiere)-->
+        <TextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                tools:text="E1 • Winter is coming " />
+
+        <TextView
+                android:id="@+id/episodeType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                tools:text="series premiere " />
+
+        <!--  first aired, runtime, episode type, rating, vote -->
+        <TextView
+                android:id="@+id/info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                tools:text="release date: 01-01 - 2022 | 60 min "
+             />
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="12dp" >
 
 
-    <!--  first aired, runtime, episode type, rating, vote -->
-    <TextView
-            android:id="@+id/info"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="14sp"
-            tools:text="First aired: Jan 1, 2022 | 60 min | Drama" />
+            <ImageView
+                    android:id="@+id/starIcon"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:src="@android:drawable/btn_star"
+                    android:layout_marginEnd="4dp"
+                    android:clickable="false" />
+
+            <TextView
+                    android:id="@+id/traktRating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="15sp"
+                    tools:text="5.1" />
+
+        </LinearLayout>
 
 
-    <TextView
-            android:id="@+id/overview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:textSize="16sp"
-            tools:text="Overview This is the overview of the episode. It will give a brief description of what happens in this episode." />
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:text="Overview:" />
+
+
+        <TextView
+                android:id="@+id/overview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                tools:text="This is the overview of the episode. It will give a brief description of what happens in this episode." />
+
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="28dp" />
+
+        <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+            android:src="@drawable/episode_watched_eye_filled"
+            android:layout_gravity="center"/>
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="28dp" />
+    </LinearLayout>
 
 
 </LinearLayout>

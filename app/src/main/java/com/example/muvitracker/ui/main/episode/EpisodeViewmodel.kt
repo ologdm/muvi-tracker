@@ -18,11 +18,9 @@ import javax.inject.Inject
 @HiltViewModel
 class EpisodeViewmodel @Inject constructor(
     val database: MyDatabase,
-    val tmdbRepository: TmdbRepository
 ) : ViewModel() {
 
     private val episodeDao = database.episodesDao()
-
 
     val state = MutableLiveData<EpisodeEntity>()
 
@@ -34,19 +32,6 @@ class EpisodeViewmodel @Inject constructor(
         }
     }
 
-
-    // TMDB IMAGES
-    val backdropImageUrl = MutableLiveData<String>()
-
-    fun getTmdbImageLinksFlow(showTmdbId: Int, seasonNr: Int, episodeNr: Int) {
-        viewModelScope.launch {
-            val result = tmdbRepository
-                .getEpisodeImageFlow(showTmdbId, seasonNr, episodeNr)
-                .firstOrNull()
-            val backdropUrl = result?.get(TmdbRepository.BACKDROP_KEY) ?: ""
-            backdropImageUrl.value = backdropUrl
-        }
-    }
 
 
 }

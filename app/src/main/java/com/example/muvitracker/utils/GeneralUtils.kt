@@ -35,7 +35,6 @@ fun String.dateFormatterInMMMyyy(): String {
 //    }
 
 
-
 fun Double.firstDecimalApproxToString(): String {
     return String.format("%.1f", this)
 }
@@ -44,6 +43,17 @@ fun Float.firstDecimalApproxToString(): String {
     return String.format("%.1f", this)
     // % - numbers
     // .1f - decimal
+}
+
+
+
+fun Int.episodesFormatNumber(): String {
+    return if (this < 10) {
+        // Aggiungi zero davanti ai numeri a una cifra
+        String.format("%02d", this)
+    } else {
+        this.toString()
+    }
 }
 
 
