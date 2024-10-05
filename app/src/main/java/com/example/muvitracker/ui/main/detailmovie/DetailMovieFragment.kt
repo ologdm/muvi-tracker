@@ -16,6 +16,7 @@ import com.example.muvitracker.data.imagetmdb.glide.ImageTmdbRequest
 import com.example.muvitracker.databinding.FragmDetailMovieBinding
 import com.example.muvitracker.domain.model.DetailMovie
 import com.example.muvitracker.ui.main.Navigator
+import com.example.muvitracker.ui.main.detailmovie.adapters.RelatedMovieAdapter
 import com.example.muvitracker.utils.statesFlow
 import com.example.muvitracker.utils.viewBinding
 import com.google.android.material.chip.Chip

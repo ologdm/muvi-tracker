@@ -1,15 +1,19 @@
 package com.example.muvitracker.utils
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.lifecycleScope
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.Period
+import java.time.format.DateTimeFormatter
 import java.util.Locale
 
- // fragment extended property for scope
- val Fragment.fragmentViewLifecycleScope :LifecycleCoroutineScope
-     get() = this.viewLifecycleOwner.lifecycleScope
-
+// fragment extended property for scope
+val Fragment.fragmentViewLifecycleScope: LifecycleCoroutineScope
+    get() = this.viewLifecycleOwner.lifecycleScope
 
 
 // dateFormatter ###############################################################
@@ -46,7 +50,6 @@ fun Float.firstDecimalApproxToString(): String {
 }
 
 
-
 fun Int.episodesFormatNumber(): String {
     return if (this < 10) {
         // Aggiungi zero davanti ai numeri a una cifra
@@ -54,6 +57,15 @@ fun Int.episodesFormatNumber(): String {
     } else {
         this.toString()
     }
+}
+
+
+// calculate person age
+fun calculateAge(birthDate: String): Int {
+    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+    val dateOfBirth = LocalDate.parse(birthDate, formatter)
+    val currentDate = LocalDate.now()
+    return Period.between(dateOfBirth, currentDate).years
 }
 
 

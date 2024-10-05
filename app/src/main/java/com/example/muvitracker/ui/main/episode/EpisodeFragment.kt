@@ -47,7 +47,8 @@ class EpisodeFragment : BottomSheetDialogFragment(R.layout.fragm_episode_bottoms
                     "E.${it.episodeNumber.episodesFormatNumber()} • ${it.title}"
                 binding.episodeType.text =
                     "${
-                        it.episodeType.toString().replace("_", " ")
+                        it.episodeType.toString()
+                            .replace("_", " ")
                             .replaceFirstChar { it.uppercaseChar() }
                     }"
 

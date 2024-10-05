@@ -25,7 +25,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.muvitracker"
-        minSdk 24
+        minSdk 26
         targetSdk 34
         versionCode 1
         versionName "1.0"
@@ -127,6 +127,7 @@ dependencies {
 
     // viewPager2, tabs already incleded in m3
     implementation 'androidx.viewpager2:viewpager2:1.0.0'
+
 }
 
 

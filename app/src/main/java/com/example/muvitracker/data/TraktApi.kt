@@ -14,6 +14,8 @@ import com.example.muvitracker.data.dto.show.AnticipatedDtoS
 import com.example.muvitracker.data.dto.show.FavoritedDtoS
 import com.example.muvitracker.data.dto.show.ShowBaseDto
 import com.example.muvitracker.data.dto.show.WatchedDtoS
+import com.example.muvitracker.data.dto.xperson.CastResponseDto
+import com.example.muvitracker.data.dto.xperson.PersonExtendedDto
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -21,7 +23,7 @@ import retrofit2.http.Query
 
 interface TraktApi {
 
-    // SEARCH
+    // SEARCH - TODO
     // type: movie, show, person
     @GET("search/{filter_type}")
     suspend fun getSearch(
@@ -108,10 +110,7 @@ interface TraktApi {
     suspend fun getAllSeasons(@Path("show_id") showId: Int): List<SeasonExtenDto>
 
 
-    // 3 cast - all cast dto TODO
-//    suspend fun getAllCrew(): CrewDto
-
-    // 4 related movie, show
+    // 3 related movie, show
     @GET("movies/{movie_id}/related")
     suspend fun getMovieRelatedMovies(
         @Path("movie_id") movieId: Int
@@ -121,8 +120,6 @@ interface TraktApi {
     suspend fun getShowRelatedShows(
         @Path("show_id") showId: Int
     ): List<ShowBaseDto>
-
-
 
 
     // SEASON FRAGMENT
@@ -149,6 +146,31 @@ interface TraktApi {
         @Path("season_number") seasonNumber: Int,
         @Path("episode_number") episodeNumber: Int
     ): EpisodeExtenDto
+
+
+    // TODO CAST, PERSON DETAIL  ######################################################
+
+    // https://api.trakt.tv/movies/id/people
+    @GET("movies/{movie_id}/people")
+    suspend fun getAllMovieCast(
+        @Path("movie_id") movieId: Int
+    ): CastResponseDto
+
+    // https://api.trakt.tv/shows/id/people
+    @GET("shows/{show_id}/people")
+    suspend fun getAllShowCast(
+        @Path("showId") showId: Int
+    ): CastResponseDto
+
+
+    // https://api.trakt.tv/people/id?extended=full
+    // bryan-cranston
+    @GET("people/{person_id}?extended=full")
+    suspend fun getPersonDetail(
+        @Path("personId") personId: Int
+    ): PersonExtendedDto
+
+
 }
 
 
