@@ -89,18 +89,18 @@
                         android:importantForAccessibility="no"
                         app:layout_constraintTop_toTopOf="parent" />
 
-<!--                <TextView-->
-<!--                        android:id="@+id/trailerLink"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:text="Trailer"-->
-<!--                        android:background="?attr/colorSecondaryContainer"-->
-<!--                        android:textColor="?attr/colorOnSecondaryContainer"-->
-<!--                        app:layout_constraintEnd_toEndOf="parent"-->
-<!--                        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                        android:layout_marginBottom="8dp"-->
-<!--                        android:layout_marginEnd="8dp"-->
-<!--                        android:padding="2dp" />-->
+                <!--                <TextView-->
+                <!--                        android:id="@+id/trailerLink"-->
+                <!--                        android:layout_width="wrap_content"-->
+                <!--                        android:layout_height="wrap_content"-->
+                <!--                        android:text="Trailer"-->
+                <!--                        android:background="?attr/colorSecondaryContainer"-->
+                <!--                        android:textColor="?attr/colorOnSecondaryContainer"-->
+                <!--                        app:layout_constraintEnd_toEndOf="parent"-->
+                <!--                        app:layout_constraintBottom_toBottomOf="parent"-->
+                <!--                        android:layout_marginBottom="8dp"-->
+                <!--                        android:layout_marginEnd="8dp"-->
+                <!--                        android:padding="2dp" />-->
 
                 <ImageView
                         android:id="@+id/trailerImageButton"
@@ -239,7 +239,7 @@
                                 android:layout_height="wrap_content"
                                 app:layout_constraintBottom_toTopOf="@id/watchedCheckbox"
                                 android:layout_marginTop="8dp"
-                                android:layout_marginBottom="8dp"/>
+                                android:layout_marginBottom="8dp" />
 
 
                         <CheckBox
@@ -254,12 +254,11 @@
                                 android:id="@+id/watchedTextview"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Watched"
+                                android:text="@string/watched_check_text"
                                 android:textSize="15sp"
                                 app:layout_constraintEnd_toStartOf="@id/watchedCheckbox"
                                 app:layout_constraintTop_toTopOf="@id/watchedCheckbox"
                                 app:layout_constraintBottom_toBottomOf="@id/watchedCheckbox" />
-
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -293,27 +292,23 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="16dp"
-                        app:layout_constraintTop_toBottomOf="@id/toolbar"
-                        android:visibility="gone"
-                        tools:visibility="visible" />
+                        app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
                 <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/cast_text"
                         tools:text="Cast &amp; Crew TODO"
-                        android:visibility="gone"
-                        tools:visibility="visible"
-                        style="@style/Category_Title_Typography_Detail"/>
+                        style="@style/Category_Title_Typography_Detail" />
 
                 <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/castAndCrewRV"
+                        android:id="@+id/castRV"
                         android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginBottom="16dp"
-                        tools:background="@android:color/darker_gray"
-                        android:layout_height="100dp"
-                        android:visibility="gone"
-                        tools:visibility="visible" />
+                        tools:itemCount="1"
+                        tools:listitem="@layout/vh_cast_list_on_detail" />
+
 
                 <com.google.android.material.divider.MaterialDivider
                         android:layout_width="match_parent"

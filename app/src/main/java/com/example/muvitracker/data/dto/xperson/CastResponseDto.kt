@@ -21,30 +21,30 @@ import com.google.gson.annotations.SerializedName
 // tutti gli elementi nullable OK
 
 data class CastResponseDto(
-    val cast: List<CastMember>?,
+    val cast: List<CastMember>? = emptyList(),
 //    val crew: Crew
 )
 
 
 data class CastMember(
-    val character: String?,
-    val characters: List<String>?,
-    val episodeCount :Int?, // only for shows
-    val person: PersonExtendedDto?
+    val character: String? = "",
+    val characters: List<String>? = emptyList(),
+    val episodeCount :Int? = 0, // only for shows
+    val person: PersonExtendedDto? = PersonExtendedDto()
 )
 
 
 data class PersonExtendedDto(
-    val name: String?,
-    val ids: Ids,
-    @SerializedName("social_ids") val socialIds: SocialIds?,
-    val biography: String?,
-    val birthday: String?,
-    val death: String?,
-    val birthplace: String?,
-    val homepage: String?,
-    val gender: String?,
-    @SerializedName("known_for_department") val knownForDepartment: String?,
+    val name: String? = "",
+    val ids: Ids = Ids(),
+    @SerializedName("social_ids") val socialIds: SocialIds? = SocialIds(),
+    val biography: String? = "",
+    val birthday: String?= "",
+    val death: String?= "",
+    val birthplace: String?= "",
+    val homepage: String?= "",
+    val gender: String?= "",
+    @SerializedName("known_for_department") val knownForDepartment: String? = "",
 //    @SerializedName("updated_at") val updatedAt: String?
 )
 
@@ -56,10 +56,10 @@ data class PersonExtendedDto(
 
 
 data class SocialIds(
-    val twitter: String?,
-    val facebook: String?,
-    val instagram: String?,
-    val wikipedia: String?
+    val twitter: String?= "",
+    val facebook: String?= "",
+    val instagram: String?= "",
+    val wikipedia: String?= ""
 )
 
 

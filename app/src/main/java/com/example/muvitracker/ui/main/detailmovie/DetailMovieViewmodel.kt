@@ -3,6 +3,9 @@ package com.example.muvitracker.ui.main.detailmovie
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.muvitracker.data.TraktApi
+import com.example.muvitracker.data.dto.xperson.CastResponseDto
+import com.example.muvitracker.data.dto.xperson.PersonExtendedDto
 import com.example.muvitracker.data.imagetmdb.TmdbRepository
 import com.example.muvitracker.domain.model.DetailMovie
 import com.example.muvitracker.domain.model.base.Movie
@@ -23,6 +26,7 @@ import javax.inject.Inject
 class DetailMovieViewmodel @Inject constructor(
     private val detailMovieRepository: DetailRepo,
     private val prefsRepository: PrefsRepo,
+    private val traktApi :TraktApi
 ) : ViewModel() {
 
     val detailState = MutableLiveData<StateContainer<DetailMovie>>()
@@ -95,7 +99,20 @@ class DetailMovieViewmodel @Inject constructor(
                 relatedMoviesStatus.value = movies
             }
         }
+    }
 
+
+    // CAST ATTORI
+    val castState = MutableLiveData<CastResponseDto>()
+
+    fun loadCast(movieId: Int) {
+        viewModelScope.launch {
+            try {
+                castState.value = traktApi.getAllMovieCast(movieId)
+            } catch (ex: Throwable) {
+                ex.printStackTrace()
+            }
+        }
     }
 
 

@@ -32,7 +32,7 @@
     <string name="episodes_text">episodi</string>
 
     <!--episode-->
-    <string name="release_date">data uscita:</string>
+    <string name="release_date">Prima uscita:</string>
 
 
     <string name="error_message_no_internet">nessuna connessione internet, scorri verso il basso</string>

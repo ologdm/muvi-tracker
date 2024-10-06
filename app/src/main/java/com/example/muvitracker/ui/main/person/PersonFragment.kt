@@ -34,31 +34,34 @@ class PersonFragment : BottomSheetDialogFragment(R.layout.fragm_person_bottomshe
 
         viewmodel.getPerson(currentPersonIds.trakt)
         viewmodel.personState.observe(viewLifecycleOwner) { personDto ->
-            personDto?.let {
-                binding.personName.text = it.name
+            personDto?.let { personDto ->
+                binding.personName.text = personDto.name
 
                 binding.personAge.text =
-                    it.birthday?.let { bDay -> calculateAge(bDay).toString() }
+                    personDto.birthday?.let { bDay -> calculateAge(bDay).toString() }
 
-                binding.personBorn.text = "${it.birthday}\n${it.birthplace} "
+                binding.personBorn.text =
+                    "${personDto.birthday}\n${personDto.birthplace} "
 
-                if (it.death != null) {
-                    binding.personDeath.text = "${it.death}" // TODO test
+                if (personDto.death != null) {
+                    binding.personDeath.text = "${personDto.death}" // TODO test
                 } else {
                     binding.personDeath.visibility = View.GONE
                     binding.deathTitle.visibility = View.GONE
                 }
 
-                binding.biography.text = it.biography
+                binding.biography.text = personDto.biography
             }
         }
 
+        // the only element from who createst the Fragment
         binding.character.text = currentCharacter
 
     }
 
 
     companion object {
+        // from movie, show (castMember -> personExtended)
         fun create(personIds: Ids, character: String): PersonFragment {
             val personFragment = PersonFragment()
             val bundle = Bundle()
@@ -68,7 +71,16 @@ class PersonFragment : BottomSheetDialogFragment(R.layout.fragm_person_bottomshe
             return personFragment
         }
 
+        // from search (person -> personExtended)
+        fun create(personIds: Ids): PersonFragment {
+            val personFragment = PersonFragment()
+            val bundle = Bundle()
+            bundle.putParcelable(PERSON_IDS_KEY, personIds)
+            personFragment.arguments = bundle
+            return personFragment
+        }
+
         private const val PERSON_IDS_KEY = "person_ids_key"
-        private const val CHARACTER_NAME_KEY = "chracter_ids_key"
+        private const val CHARACTER_NAME_KEY = "character_ids_key"
     }
 }

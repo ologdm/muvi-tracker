@@ -56,7 +56,7 @@ class TmdbFetcher(
 
             is ImageTmdbRequest.Season -> fetchSeasonImage(model, priority, callback)
             is ImageTmdbRequest.Episode -> fetchEpisodeImage(model, priority, callback)
-            is ImageTmdbRequest.Person -> TODO()
+            is ImageTmdbRequest.Person -> fetchPersonImage(model, priority, callback)
         }
     }
 

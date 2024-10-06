@@ -16,6 +16,7 @@ import com.example.muvitracker.data.imagetmdb.glide.ImageTmdbRequest
 import com.example.muvitracker.databinding.FragmDetailMovieBinding
 import com.example.muvitracker.domain.model.DetailMovie
 import com.example.muvitracker.ui.main.Navigator
+import com.example.muvitracker.ui.main.detailmovie.adapters.CastAdapter
 import com.example.muvitracker.ui.main.detailmovie.adapters.RelatedMovieAdapter
 import com.example.muvitracker.utils.statesFlow
 import com.example.muvitracker.utils.viewBinding
@@ -36,6 +37,11 @@ class DetailMovieFragment : Fragment(R.layout.fragm_detail_movie) {
 
     private val relatedMovieAdapter = RelatedMovieAdapter(onClickVH = { ids ->
         navigator.startMovieDetailFragment(ids)
+    })
+
+
+    private val castMovieAdapter = CastAdapter(onClickVH = { ids ->
+//        navigator.startMovieDetailFragment(ids) TODO
     })
 
 
@@ -108,6 +114,15 @@ class DetailMovieFragment : Fragment(R.layout.fragm_detail_movie) {
 
 
         // TODO cast
+        binding.castRV.adapter = castMovieAdapter
+        binding.castRV.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+
+        viewModel.loadCast(currentMovieIds.trakt)
+        viewModel.castState.observe(viewLifecycleOwner) {
+            castMovieAdapter.submitList(it.cast)
+            println("XXX ${it.cast.toString()}")
+        }
     }
 
 
