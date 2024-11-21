@@ -26,7 +26,7 @@ import javax.inject.Inject
 class DetailMovieViewmodel @Inject constructor(
     private val detailMovieRepository: DetailRepo,
     private val prefsRepository: PrefsRepo,
-    private val traktApi :TraktApi
+    private val traktApi: TraktApi
 ) : ViewModel() {
 
     val detailState = MutableLiveData<StateContainer<DetailMovie>>()
@@ -91,11 +91,10 @@ class DetailMovieViewmodel @Inject constructor(
     }
 
 
-
     // RELATED MOVIES
     fun loadRelatedMovies(movieId: Int) {
         viewModelScope.launch {
-            detailMovieRepository.getRelatedMovies(movieId).ioMapper {movies->
+            detailMovieRepository.getRelatedMovies(movieId).ioMapper { movies ->
                 relatedMoviesStatus.value = movies
             }
         }

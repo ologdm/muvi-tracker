@@ -86,7 +86,6 @@ class SearchFragment : Fragment(R.layout.fragm_search) {
 //                R.id.chipPeople -> "people" TODO
                 else -> "movie, show"
             }
-
             // Chiama ricerca con nuovo filtro
             viewModel.updateSearch(filterValue, currentSearchText)
         }

@@ -7,7 +7,6 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import com.example.muvitracker.data.TraktApi
-import com.example.muvitracker.data.shows.PopularPagingSourceS
 import com.example.muvitracker.data.shows.ShowsPagingSource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
