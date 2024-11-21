@@ -16,7 +16,7 @@ import com.example.muvitracker.data.imagetmdb.glide.ImageTmdbRequest
 import com.example.muvitracker.databinding.FragmDetailMovieBinding
 import com.example.muvitracker.domain.model.DetailMovie
 import com.example.muvitracker.ui.main.Navigator
-import com.example.muvitracker.ui.main.detailmovie.adapters.CastAdapter
+import com.example.muvitracker.ui.main.person.adapters.CastAdapter
 import com.example.muvitracker.ui.main.detailmovie.adapters.RelatedMovieAdapter
 import com.example.muvitracker.utils.statesFlow
 import com.example.muvitracker.utils.viewBinding
@@ -113,7 +113,7 @@ class DetailMovieFragment : Fragment(R.layout.fragm_detail_movie) {
         }
 
 
-        // TODO cast
+        // CAST
         binding.castRV.adapter = castMovieAdapter
         binding.castRV.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)

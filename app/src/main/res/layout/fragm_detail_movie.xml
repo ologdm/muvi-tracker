@@ -298,7 +298,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/cast_text"
-                        tools:text="Cast &amp; Crew TODO"
                         style="@style/Category_Title_Typography_Detail" />
 
                 <androidx.recyclerview.widget.RecyclerView
