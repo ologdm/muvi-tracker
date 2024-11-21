@@ -1,13 +1,16 @@
 package com.example.muvitracker.ui.main.person
 
-import android.opengl.Visibility
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.View
 import androidx.fragment.app.viewModels
+import com.bumptech.glide.Glide
 import com.example.muvitracker.R
 import com.example.muvitracker.data.dto.base.Ids
+import com.example.muvitracker.data.imagetmdb.glide.ImageTmdbRequest
 import com.example.muvitracker.databinding.FragmPersonBottomsheetBinding
 import com.example.muvitracker.utils.calculateAge
+import com.example.muvitracker.utils.dateFormatterInddMMMyyy
 import com.example.muvitracker.utils.viewBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -38,24 +41,44 @@ class PersonFragment : BottomSheetDialogFragment(R.layout.fragm_person_bottomshe
                 binding.personName.text = personDto.name
 
                 binding.personAge.text =
-                    personDto.birthday?.let { bDay -> calculateAge(bDay).toString() }
+                    calculateAge(personDto.birthday, personDto.death).toString() ?: "no information"
 
-                binding.personBorn.text =
-                    "${personDto.birthday}\n${personDto.birthplace} "
+                binding.bornContent.text =
+                    "${personDto.birthday?.dateFormatterInddMMMyyy()}\n${personDto.birthplace} " ?: "no information"
+
+
 
                 if (personDto.death != null) {
-                    binding.personDeath.text = "${personDto.death}" // TODO test
+                    binding.deathContent.text =
+                        "${personDto.death.dateFormatterInddMMMyyy()}" // TODO test
                 } else {
-                    binding.personDeath.visibility = View.GONE
+                    binding.deathContent.visibility = View.GONE
                     binding.deathTitle.visibility = View.GONE
                 }
 
-                binding.biography.text = personDto.biography
+                binding.biographyContent.text = personDto.biography
             }
         }
 
         // the only element from who createst the Fragment
         binding.character.text = currentCharacter
+
+        var isTextExpanded = false
+        binding.biographyContent.setOnClickListener {
+            if (isTextExpanded) {
+                binding.biographyContent.maxLines = 5
+                binding.biographyContent.ellipsize = TextUtils.TruncateAt.END
+            } else {
+                binding.biographyContent.maxLines = Int.MAX_VALUE
+                binding.biographyContent.ellipsize = null
+            }
+            isTextExpanded = !isTextExpanded
+        }
+
+        Glide.with(requireContext())
+            .load(ImageTmdbRequest.Person(currentPersonIds.tmdb))
+            .into(binding.imageVertical)
+
 
     }
 
