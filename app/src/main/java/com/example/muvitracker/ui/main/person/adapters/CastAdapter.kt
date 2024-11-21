@@ -1,4 +1,4 @@
-package com.example.muvitracker.ui.main.detailmovie.adapters
+package com.example.muvitracker.ui.main.person.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -20,7 +20,6 @@ class CastAdapter(
     }
 
     override fun onBindViewHolder(holder: CastVH, position: Int) {
-//        TODO("Not yet implemented")
 
         val item = getItem(position)
 

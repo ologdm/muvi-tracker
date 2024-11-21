@@ -16,7 +16,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class PersonFragment : BottomSheetDialogFragment(R.layout.fragm_person_bottomsheet) {
+class PersonBSheetFragment : BottomSheetDialogFragment(R.layout.fragm_person_bottomsheet) {
 
     private var currentPersonIds: Ids = Ids()
     private var currentCharacter: String = ""
@@ -85,8 +85,8 @@ class PersonFragment : BottomSheetDialogFragment(R.layout.fragm_person_bottomshe
 
     companion object {
         // from movie, show (castMember -> personExtended)
-        fun create(personIds: Ids, character: String): PersonFragment {
-            val personFragment = PersonFragment()
+        fun create(personIds: Ids, character: String): PersonBSheetFragment {
+            val personFragment = PersonBSheetFragment()
             val bundle = Bundle()
             bundle.putParcelable(PERSON_IDS_KEY, personIds)
             bundle.putString(CHARACTER_NAME_KEY, character)
@@ -95,13 +95,13 @@ class PersonFragment : BottomSheetDialogFragment(R.layout.fragm_person_bottomshe
         }
 
         // from search (person -> personExtended)
-        fun create(personIds: Ids): PersonFragment {
-            val personFragment = PersonFragment()
-            val bundle = Bundle()
-            bundle.putParcelable(PERSON_IDS_KEY, personIds)
-            personFragment.arguments = bundle
-            return personFragment
-        }
+//        fun create(personIds: Ids): PersonBSheetFragment {
+//            val personFragment = PersonBSheetFragment()
+//            val bundle = Bundle()
+//            bundle.putParcelable(PERSON_IDS_KEY, personIds)
+//            personFragment.arguments = bundle
+//            return personFragment
+//        }
 
         private const val PERSON_IDS_KEY = "person_ids_key"
         private const val CHARACTER_NAME_KEY = "character_ids_key"

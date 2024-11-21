@@ -6,6 +6,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.muvitracker.data.DetailShowRepository
 import com.example.muvitracker.data.PrefsShowRepository
 import com.example.muvitracker.data.SeasonRepository
+import com.example.muvitracker.data.TraktApi
+import com.example.muvitracker.data.dto.xperson.CastResponseDto
 import com.example.muvitracker.data.imagetmdb.TmdbRepository
 import com.example.muvitracker.domain.model.DetailShow
 import com.example.muvitracker.domain.model.SeasonExtended
@@ -27,6 +29,7 @@ class DetailShowViewmodel @Inject constructor(
     private val detailShowRepo: DetailShowRepository,
     private val prefsShowRepository: PrefsShowRepository,
     private val seasonRepository: SeasonRepository,
+    private val traktApi: TraktApi
 ) : ViewModel() {
 
     val detailState = MutableLiveData<StateContainer<DetailShow>>()
@@ -138,7 +141,20 @@ class DetailShowViewmodel @Inject constructor(
                 relatedShowsStatus.value = it
             }
         }
+    }
 
+
+    // CAST ATTORI - same as the movie's
+    val castState = MutableLiveData<CastResponseDto>()
+
+    fun loadCast(showId: Int) {
+        viewModelScope.launch {
+            try {
+                castState.value = traktApi.getAllShowCast(showId)
+            } catch (ex: Throwable) {
+                ex.printStackTrace()
+            }
+        }
     }
 
 }

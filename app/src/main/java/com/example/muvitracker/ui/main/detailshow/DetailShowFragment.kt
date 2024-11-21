@@ -19,6 +19,7 @@ import com.example.muvitracker.domain.model.DetailShow
 import com.example.muvitracker.ui.main.Navigator
 import com.example.muvitracker.ui.main.detailmovie.adapter.DetailSeasonsAdapter
 import com.example.muvitracker.ui.main.detailshow.adapters.RelatedShowsAdapter
+import com.example.muvitracker.ui.main.person.adapters.CastAdapter
 import com.example.muvitracker.utils.statesFlow
 import com.example.muvitracker.utils.viewBinding
 import com.google.android.material.chip.Chip
@@ -64,6 +65,10 @@ class DetailShowFragment : Fragment(R.layout.fragm_detail_show) {
 
     private val relatedShowsAdapter = RelatedShowsAdapter(onClickVH = { ids ->
         navigator.startShowDetailFragment(ids)
+    })
+
+    private val castMovieAdapter = CastAdapter(onClickVH = { ids, character ->
+        navigator.startPersonFragmentFromCast(ids, character)
     })
 
 
@@ -161,7 +166,7 @@ class DetailShowFragment : Fragment(R.layout.fragm_detail_show) {
             .into(binding.imageVertical)
 
 
-        // RELATED SHOWS OK
+        // RELATED SHOWS
         binding.relatedShowsRV.adapter = relatedShowsAdapter
         binding.relatedShowsRV.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
@@ -173,7 +178,16 @@ class DetailShowFragment : Fragment(R.layout.fragm_detail_show) {
         }
 
 
-        // TODO cast
+        // CAST TODO
+        binding.castRV.adapter = castMovieAdapter
+        binding.castRV.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+
+        viewModel.loadCast(currentShowIds.trakt)
+        viewModel.castState.observe(viewLifecycleOwner) {
+            castMovieAdapter.submitList(it.cast)
+            println("XXX SHOW CASH ${it.cast.toString()}")
+        }
     }
 
 

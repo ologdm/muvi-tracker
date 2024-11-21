@@ -159,7 +159,7 @@ interface TraktApi {
     // https://api.trakt.tv/shows/id/people
     @GET("shows/{show_id}/people")
     suspend fun getAllShowCast(
-        @Path("showId") showId: Int
+        @Path("show_id") showId: Int
     ): CastResponseDto
 
 
