@@ -14,7 +14,6 @@ class CastVH(
 
     fun bind(castMember: CastMember) {
 
-//        binding.personName.text = "${castMember.person?.name} (${castMember.characters.toString()})"
         binding.personName.text = "${castMember.person?.name}"
         binding.characterName.text = "${castMember.character}"
 

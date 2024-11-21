@@ -167,7 +167,7 @@ interface TraktApi {
     // bryan-cranston
     @GET("people/{person_id}?extended=full")
     suspend fun getPersonDetail(
-        @Path("personId") personId: Int
+        @Path("person_id") personId: Int
     ): PersonExtendedDto
 
 

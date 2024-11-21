@@ -20,8 +20,7 @@
             app:layout_constraintStart_toStartOf="parent" />
 
 
-    <!-- dentro l'immagine -->
-
+    <!-- into the image -->
     <TextView
             android:id="@+id/personName"
             android:layout_width="0dp"
@@ -44,13 +43,13 @@
     <!-- android:shadowColor="?attr/colorOnSurface" -->
 
 
-    <!-- sotto -->
+    <!-- under image -->
     <TextView
             android:id="@+id/characterName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textSize="12sp"
-            android:textColor="@android:color/holo_red_light"
+            android:textSize="11sp"
+            android:textColor="?attr/colorOnSurfaceVariant"
             tools:text="Mister Smith, Mister Smith, Mister Smith, Mister Smith, "
             android:maxLines="3"
             android:ellipsize="end"
@@ -59,6 +58,5 @@
             app:layout_constraintTop_toBottomOf="@id/image"
             app:layout_constraintStart_toStartOf="@id/image"
             app:layout_constraintEnd_toEndOf="@id/image" />
-<!--    android:textColor="?attr/colorOnSurface"-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

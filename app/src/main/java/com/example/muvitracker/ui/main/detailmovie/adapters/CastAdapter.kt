@@ -9,7 +9,7 @@ import com.example.muvitracker.data.dto.xperson.CastMember
 import com.example.muvitracker.databinding.VhCastListOnDetailBinding
 
 class CastAdapter(
-    private val onClickVH: (Ids) -> Unit,
+    private val onClickVH: (Ids, String) -> Unit,
 ) : ListAdapter<CastMember, CastVH>(CastAdapter) {
 
 
@@ -27,7 +27,9 @@ class CastAdapter(
         holder.bind(item)
 
         holder.itemView.setOnClickListener {
-            onClickVH.invoke(item.person!!.ids)
+            item?.let { it ->
+                onClickVH.invoke(it.person?.ids ?: Ids(), it.character ?: "")
+            }
         }
 
 
