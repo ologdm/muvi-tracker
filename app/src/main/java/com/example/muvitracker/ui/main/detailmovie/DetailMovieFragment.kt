@@ -40,8 +40,8 @@ class DetailMovieFragment : Fragment(R.layout.fragm_detail_movie) {
     })
 
 
-    private val castMovieAdapter = CastAdapter(onClickVH = { ids ->
-//        navigator.startMovieDetailFragment(ids) TODO
+    private val castMovieAdapter = CastAdapter(onClickVH = { ids, character ->
+        navigator.startPersonFragmentFromCast(ids, character)
     })
 
 

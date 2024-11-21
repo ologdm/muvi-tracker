@@ -38,6 +38,14 @@ fun String.dateFormatterInMMMyyy(): String {
 //        return dataLocale.format(formatterOutput)
 //    }
 
+fun String.dateFormatterInddMMMyyy(): String {
+    val formatterInput = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)   // Input date format
+    val formatterOutput = SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH)    // Output date format
+
+    val date = formatterInput.parse(this)     // Parse the input date string
+    return formatterOutput.format(date)              // Format to output string
+}
+
 
 fun Double.firstDecimalApproxToString(): String {
     return String.format("%.1f", this)
@@ -61,11 +69,24 @@ fun Int.episodesFormatNumber(): String {
 
 
 // calculate person age
-fun calculateAge(birthDate: String): Int {
+fun calculateAge(birthDate: String?, deathDate: String?): Int {
+    // caso limite manca birthday o entrambi
+    if (birthDate.isNullOrEmpty() || (birthDate.isNullOrEmpty() && deathDate.isNullOrEmpty()) ){
+        return 0
+    }
+
+
     val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
     val dateOfBirth = LocalDate.parse(birthDate, formatter)
-    val currentDate = LocalDate.now()
-    return Period.between(dateOfBirth, currentDate).years
+    if (deathDate.isNullOrEmpty()) { // e vivo
+        val currentDate = LocalDate.now()
+        return Period.between(dateOfBirth, currentDate).years
+    } else { // è morto
+        val deathDate = LocalDate.parse(deathDate, formatter)
+        return Period.between(dateOfBirth, deathDate).years
+    }
+
+
 }
 
 

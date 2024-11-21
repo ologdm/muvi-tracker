@@ -9,7 +9,7 @@ import com.example.muvitracker.data.dto.base.Ids
 import com.example.muvitracker.ui.main.detailmovie.DetailMovieFragment
 import com.example.muvitracker.ui.main.detailshow.DetailShowFragment
 import com.example.muvitracker.ui.main.episode.EpisodeFragment
-import com.example.muvitracker.ui.main.seasons.SeasonFragment
+import com.example.muvitracker.ui.main.person.PersonFragment
 import com.example.muvitracker.ui.main.seasons.viewpager.SeasonViewpagerFragment
 import javax.inject.Inject
 
@@ -62,27 +62,12 @@ class Navigator @Inject constructor(
         manager.beginTransaction()
             .replace(
                 R.id.frameLayout,
-                SeasonViewpagerFragment
-                    .create(showTitle, showIds, seasonNumber, totSeasonsNumber)
+                SeasonViewpagerFragment.create(showTitle, showIds, seasonNumber, totSeasonsNumber)
             )
             .addToBackStack(null)
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
             .commit()
     }
-
-
-    fun startSeasonFragment(
-        showIds: Ids,
-        seasonNumber: Int
-    ) {
-        val manager = fragmentActivity.supportFragmentManager
-        manager.beginTransaction()
-            .replace(R.id.frameLayout, SeasonFragment.create(showIds, seasonNumber))
-            .addToBackStack(null)
-            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-            .commit()
-    }
-
 
 
     fun startEpisodeFragment(
@@ -91,8 +76,31 @@ class Navigator @Inject constructor(
         episodeNumber: Int
     ) {
         val episodeFragment = EpisodeFragment.create(showIds, seasonNumber, episodeNumber)
-        episodeFragment.show(fragmentActivity.supportFragmentManager, "EpisodeFragmentTEST")
+        episodeFragment.show(fragmentActivity.supportFragmentManager, "EpisodeFragment")
         // replace,commit non necessari -> show() fa gia tutto internamente
     }
+
+
+    // PERSON DETAIL
+    // 1. from cast
+    fun startPersonFragmentFromCast(
+        personIds: Ids,
+        character: String
+    ) {
+        val personFragment = PersonFragment.create(personIds, character).apply {
+            show(fragmentActivity.supportFragmentManager, "PersonFragmentCast")
+        }
+    }
+
+    // 2. from search
+    fun startPersonFragmentFromSearch(
+        personIds: Ids
+    ) {
+        val personFragment = PersonFragment.create(personIds).apply {
+            show(fragmentActivity.supportFragmentManager, "PersonFragmentSearch")
+        }
+    }
+
+
 }
 
