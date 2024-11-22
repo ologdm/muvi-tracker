@@ -14,8 +14,8 @@ import com.example.muvitracker.data.dto.show.AnticipatedDtoS
 import com.example.muvitracker.data.dto.show.FavoritedDtoS
 import com.example.muvitracker.data.dto.show.ShowBaseDto
 import com.example.muvitracker.data.dto.show.WatchedDtoS
-import com.example.muvitracker.data.dto.xperson.CastResponseDto
-import com.example.muvitracker.data.dto.xperson.PersonExtendedDto
+import com.example.muvitracker.data.dto.person.CastResponseDto
+import com.example.muvitracker.data.dto.person.PersonExtendedDto
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query

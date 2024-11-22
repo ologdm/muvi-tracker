@@ -1,7 +1,4 @@
-package com.example.muvitracker.data.dto.xperson
-
-import com.example.muvitracker.data.dto.base.Ids
-import com.google.gson.annotations.SerializedName
+package com.example.muvitracker.data.dto.person
 
 // show cast, movie cast, detail cast, search
 
@@ -18,8 +15,6 @@ import com.google.gson.annotations.SerializedName
 // https://api.trakt.tv/people/bryan-cranston?extended=full
 
 
-// tutti gli elementi nullable OK
-
 data class CastResponseDto(
     val cast: List<CastMember>? = emptyList(),
 //    val crew: Crew
@@ -34,33 +29,6 @@ data class CastMember(
 )
 
 
-data class PersonExtendedDto(
-    val name: String? = "",
-    val ids: Ids = Ids(),
-    @SerializedName("social_ids") val socialIds: SocialIds? = SocialIds(),
-    val biography: String? = "",
-    val birthday: String?= "",
-    val death: String?= "",
-    val birthplace: String?= "",
-    val homepage: String?= "",
-    val gender: String?= "",
-    @SerializedName("known_for_department") val knownForDepartment: String? = "",
-//    @SerializedName("updated_at") val updatedAt: String?
-)
-
-
-//data class Person(
-//    val name: String?,
-//    val ids: Ids
-//)
-
-
-data class SocialIds(
-    val twitter: String?= "",
-    val facebook: String?= "",
-    val instagram: String?= "",
-    val wikipedia: String?= ""
-)
 
 
 // non serve

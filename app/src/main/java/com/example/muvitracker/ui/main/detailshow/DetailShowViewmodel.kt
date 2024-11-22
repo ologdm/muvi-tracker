@@ -7,8 +7,7 @@ import com.example.muvitracker.data.DetailShowRepository
 import com.example.muvitracker.data.PrefsShowRepository
 import com.example.muvitracker.data.SeasonRepository
 import com.example.muvitracker.data.TraktApi
-import com.example.muvitracker.data.dto.xperson.CastResponseDto
-import com.example.muvitracker.data.imagetmdb.TmdbRepository
+import com.example.muvitracker.data.dto.person.CastResponseDto
 import com.example.muvitracker.domain.model.DetailShow
 import com.example.muvitracker.domain.model.SeasonExtended
 import com.example.muvitracker.domain.model.base.Show
@@ -18,7 +17,6 @@ import com.example.muvitracker.utils.ioMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.io.IOException

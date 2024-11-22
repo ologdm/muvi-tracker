@@ -44,6 +44,16 @@ class SearchVH(
                         .error(R.drawable.glide_placeholder_search)
                         .into(image)
                 }
+
+                is SearchResult.PersonItem -> {
+                    typeItem.text = root.context.getString(R.string.person)
+                    title.text = "${item.person.name}"
+
+                    Glide.with(root.context)
+                        .load(ImageTmdbRequest.Person(item.person.ids.tmdb))
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(image)
+                }
             }
         }
     }

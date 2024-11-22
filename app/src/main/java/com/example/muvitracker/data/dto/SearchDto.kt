@@ -5,9 +5,11 @@ import com.example.muvitracker.data.dto.movies.MovieBaseDto
 import com.example.muvitracker.data.dto.show.ShowBaseDto
 import com.example.muvitracker.data.dto.movies.toDomain
 import com.example.muvitracker.data.dto.show.toDomain
+import com.example.muvitracker.data.dto.person.PersonBaseDto
+import com.example.muvitracker.data.dto.person.toDomain
 import com.example.muvitracker.domain.model.SearchResult
 
-// can be: movie || show || episode(excluded)
+// can be: movie || show || person
 
 data class SearchDto(
     val type: String,
@@ -15,7 +17,7 @@ data class SearchDto(
 
     val movie: MovieBaseDto?,
     val show: ShowBaseDto?,
-//    val episode: EpisodeBaseDto?
+    val person: PersonBaseDto?
 )
 
 
@@ -33,11 +35,11 @@ fun SearchDto.toDomain(): SearchResult {
                 score = score
             )
 
-//        "episode" ->
-//            SearchResult.EpisodeItem(
-//                episode = episode!!.toDomain(),
-//                score = score
-//            )
+        "person" ->
+            SearchResult.PersonItem(
+                person = person!!.toDomain(),
+                score = score
+            )
 
         else -> throw IllegalArgumentException("Unknown type: $type")
     }

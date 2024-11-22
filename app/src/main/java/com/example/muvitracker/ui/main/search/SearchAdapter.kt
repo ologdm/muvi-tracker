@@ -13,7 +13,8 @@ import com.example.muvitracker.domain.model.SearchResult
 
 class SearchAdapter(
     private var onClickVHMovie: (Ids) -> Unit,
-    private var onClickVHShow: (Ids) -> Unit
+    private var onClickVHShow: (Ids) -> Unit,
+    private var onClickVHPerson: (Ids) -> Unit
 ) : ListAdapter<SearchResult, SearchVH>(SearchAdapter) {
 
 
@@ -33,6 +34,7 @@ class SearchAdapter(
             when (item) {
                 is SearchResult.MovieItem -> onClickVHMovie(item.movie.ids)
                 is SearchResult.ShowItem -> onClickVHShow(item.show.ids)
+                is SearchResult.PersonItem ->  onClickVHPerson(item.person.ids)
             }
         }
     }
@@ -47,6 +49,10 @@ class SearchAdapter(
 
                 oldItem is SearchResult.ShowItem && newItem is SearchResult.ShowItem -> {
                     oldItem.show.ids.trakt == newItem.show.ids.trakt
+                }
+
+                oldItem is SearchResult.PersonItem && newItem is SearchResult.PersonItem -> {
+                    oldItem.person.ids.trakt == newItem.person.ids.trakt
                 }
 
                 else -> false

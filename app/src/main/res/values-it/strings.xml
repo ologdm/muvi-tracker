@@ -41,5 +41,6 @@
 
     <string name="movie">film</string>
     <string name="show">serie tv</string>
+    <string name="person">persona</string>
 
 </resources>

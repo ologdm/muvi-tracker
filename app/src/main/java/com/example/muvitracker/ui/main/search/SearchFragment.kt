@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
+import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -19,16 +20,20 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class SearchFragment : Fragment(R.layout.fragm_search) {
 
-    private val binding by viewBinding (FragmSearchBinding::bind)
+    private val binding by viewBinding(FragmSearchBinding::bind)
     private val viewModel by viewModels<SearchViewModel>()
 
     @Inject
     lateinit var navigator: Navigator
-    private val adapter = SearchAdapter(onClickVHMovie = { movieIds ->
-        navigator.startMovieDetailFragment(movieIds)
-    },
+    private val adapter = SearchAdapter(
+        onClickVHMovie = { movieIds ->
+            navigator.startMovieDetailFragment(movieIds)
+        },
         onClickVHShow = { showIds ->
             navigator.startShowDetailFragment(showIds)
+        },
+        onClickVHPerson = {personIds->
+            Toast.makeText(requireContext(),"click su person", Toast.LENGTH_SHORT).show()
         })
 
     // Debouncing
@@ -36,10 +41,9 @@ class SearchFragment : Fragment(R.layout.fragm_search) {
     private var searchRunnable: Runnable? = null
     private val DEBOUNCE_DELAY: Long = 300L
 
-
-    private var filterValue: String = "movie,show" // default X
-    private var currentSearchText: String = "" // default X
-
+    // default values
+    private var filterValue: String = MOVIE_SHOW_PERSON
+    private var currentSearchText: String = ""
 
 
     override fun onViewCreated(
@@ -74,21 +78,29 @@ class SearchFragment : Fragment(R.layout.fragm_search) {
         }
 
 
-        // chip group // X
+        // chip group
         binding.searchChipGroup.isSingleSelection = true // selezione uno alla volta
         binding.searchChipGroup.isSelectionRequired = true // selezione uno alla volta
         binding.searchChipGroup.check(R.id.chipAll) // default
         binding.searchChipGroup.setOnCheckedChangeListener { chipGroup, checkedId ->
             filterValue = when (checkedId) {
-                R.id.chipAll -> "movie,show"
-                R.id.chipMovie -> "movie"
-                R.id.chipShow -> "show"
-//                R.id.chipPeople -> "people" TODO
-                else -> "movie, show"
+                R.id.chipAll -> MOVIE_SHOW_PERSON
+                R.id.chipMovies -> MOVIE
+                R.id.chipShows -> SHOW
+                R.id.chipPeople -> PERSON
+                else -> MOVIE_SHOW_PERSON
             }
             // Chiama ricerca con nuovo filtro
             viewModel.updateSearch(filterValue, currentSearchText)
         }
+    }
+
+
+    companion object {
+        private const val MOVIE_SHOW_PERSON = "movie,show,person"
+        private const val MOVIE = "movie"
+        private const val SHOW = "show"
+        private const val PERSON = "person"
     }
 
 

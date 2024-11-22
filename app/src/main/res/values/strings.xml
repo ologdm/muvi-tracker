@@ -49,6 +49,7 @@
     <!--search type -->
     <string name="movie">movie</string>
     <string name="show">show</string>
+    <string name="person">person</string>
 
 
 </resources>

@@ -4,9 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.muvitracker.data.TraktApi
-import com.example.muvitracker.data.dto.xperson.CastResponseDto
-import com.example.muvitracker.data.dto.xperson.PersonExtendedDto
-import com.example.muvitracker.data.imagetmdb.TmdbRepository
+import com.example.muvitracker.data.dto.person.CastResponseDto
 import com.example.muvitracker.domain.model.DetailMovie
 import com.example.muvitracker.domain.model.base.Movie
 import com.example.muvitracker.domain.repo.DetailRepo
