@@ -8,6 +8,8 @@ import com.example.muvitracker.data.PrefsShowRepository
 import com.example.muvitracker.data.SeasonRepository
 import com.example.muvitracker.data.TraktApi
 import com.example.muvitracker.data.dto.person.CastResponseDto
+import com.example.muvitracker.data.dto.person.toDomain
+import com.example.muvitracker.domain.model.CastAndCrew
 import com.example.muvitracker.domain.model.DetailShow
 import com.example.muvitracker.domain.model.SeasonExtended
 import com.example.muvitracker.domain.model.base.Show
@@ -143,12 +145,12 @@ class DetailShowViewmodel @Inject constructor(
 
 
     // CAST ATTORI - same as the movie's
-    val castState = MutableLiveData<CastResponseDto>()
+    val castState = MutableLiveData<CastAndCrew>()
 
     fun loadCast(showId: Int) {
         viewModelScope.launch {
             try {
-                castState.value = traktApi.getAllShowCast(showId)
+                castState.value = traktApi.getAllShowCast(showId).toDomain()
             } catch (ex: Throwable) {
                 ex.printStackTrace()
             }

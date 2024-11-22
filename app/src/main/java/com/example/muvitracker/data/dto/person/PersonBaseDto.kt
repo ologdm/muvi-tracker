@@ -10,7 +10,7 @@ data class PersonBaseDto(
 
 fun PersonBaseDto.toDomain(): Person {
     return Person(
-        this.name ?: "N/A",
-        this.ids
+        name = name ?: "N/A",
+        ids = ids
     )
 }

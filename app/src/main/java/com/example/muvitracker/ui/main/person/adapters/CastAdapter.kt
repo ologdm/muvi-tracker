@@ -5,9 +5,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.example.muvitracker.data.dto.base.Ids
-import com.example.muvitracker.data.dto.person.CastMember
+import com.example.muvitracker.data.dto.person.CastMemberDto
 import com.example.muvitracker.databinding.VhCastListOnDetailBinding
+import com.example.muvitracker.domain.model.CastMember
 
+// TODO OK domain
 class CastAdapter(
     private val onClickVH: (Ids, String) -> Unit,
 ) : ListAdapter<CastMember, CastVH>(CastAdapter) {
@@ -27,17 +29,17 @@ class CastAdapter(
 
         holder.itemView.setOnClickListener {
             item?.let { it ->
-                onClickVH.invoke(it.person?.ids ?: Ids(), it.character ?: "")
+                onClickVH.invoke(it.person.ids, it.character)
             }
         }
 
 
     }
 
-
+    // TODO OK domain
     companion object : DiffUtil.ItemCallback<CastMember>() {
         override fun areItemsTheSame(oldItem: CastMember, newItem: CastMember): Boolean {
-            return oldItem.person?.ids?.trakt == newItem.person?.ids?.trakt
+            return oldItem.person.ids.trakt == newItem.person.ids.trakt
         }
 
         override fun areContentsTheSame(oldItem: CastMember, newItem: CastMember): Boolean {

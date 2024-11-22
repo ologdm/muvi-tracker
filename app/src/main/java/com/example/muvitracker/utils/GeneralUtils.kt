@@ -1,7 +1,5 @@
 package com.example.muvitracker.utils
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.lifecycleScope
@@ -68,25 +66,25 @@ fun Int.episodesFormatNumber(): String {
 }
 
 
-// calculate person age
-fun calculateAge(birthDate: String?, deathDate: String?): Int {
-    // caso limite manca birthday o entrambi
-    if (birthDate.isNullOrEmpty() || (birthDate.isNullOrEmpty() && deathDate.isNullOrEmpty()) ){
-        return 0
+// return: 0 or deathAge or currentAge
+fun calculatePersonAge(birthDate: String?, deathDate: String?): String {
+    // 1) edge case: missing birthDate or both
+    if (birthDate.isNullOrEmpty() ||
+        (birthDate.isNullOrEmpty() && deathDate.isNullOrEmpty())
+    ) {
+        return "N/A"
     }
-
 
     val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
     val dateOfBirth = LocalDate.parse(birthDate, formatter)
-    if (deathDate.isNullOrEmpty()) { // e vivo
+
+    if (deathDate.isNullOrEmpty()) { // 2) alive
         val currentDate = LocalDate.now()
-        return Period.between(dateOfBirth, currentDate).years
-    } else { // è morto
+        return Period.between(dateOfBirth, currentDate).years.toString()
+    } else { // 3) death
         val deathDate = LocalDate.parse(deathDate, formatter)
-        return Period.between(dateOfBirth, deathDate).years
+        return Period.between(dateOfBirth, deathDate).years.toString()
     }
-
-
 }
 
 

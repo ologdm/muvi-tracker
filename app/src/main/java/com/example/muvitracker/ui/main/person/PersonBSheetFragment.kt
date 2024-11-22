@@ -1,5 +1,6 @@
 package com.example.muvitracker.ui.main.person
 
+import android.opengl.Visibility
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
@@ -9,7 +10,7 @@ import com.example.muvitracker.R
 import com.example.muvitracker.data.dto.base.Ids
 import com.example.muvitracker.data.imagetmdb.glide.ImageTmdbRequest
 import com.example.muvitracker.databinding.FragmPersonBottomsheetBinding
-import com.example.muvitracker.utils.calculateAge
+import com.example.muvitracker.utils.calculatePersonAge
 import com.example.muvitracker.utils.dateFormatterInddMMMyyy
 import com.example.muvitracker.utils.viewBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -20,7 +21,6 @@ class PersonBSheetFragment : BottomSheetDialogFragment(R.layout.fragm_person_bot
 
     private var currentPersonIds: Ids = Ids()
     private var currentCharacter: String = ""
-
 
     val viewmodel by viewModels<PersonViewmodel>()
     val binding by viewBinding(FragmPersonBottomsheetBinding::bind)
@@ -34,34 +34,33 @@ class PersonBSheetFragment : BottomSheetDialogFragment(R.layout.fragm_person_bot
             currentCharacter = bundle.getString(CHARACTER_NAME_KEY) ?: ""
         }
 
+        binding.character.text = currentCharacter // the only element from who create the Fragment
 
         viewmodel.getPerson(currentPersonIds.trakt)
-        viewmodel.personState.observe(viewLifecycleOwner) { personDto ->
-            personDto?.let { personDto ->
-                binding.personName.text = personDto.name
+        viewmodel.personState.observe(viewLifecycleOwner) { person ->
+            binding.personName.text = person.name
+            binding.personAge.text = person.age // calculated
 
-                binding.personAge.text =
-                    calculateAge(personDto.birthday, personDto.death).toString() ?: "no information"
+            binding.bornContent.text = "${person.birthday}\n${person.birthplace}"
 
-                binding.bornContent.text =
-                    "${personDto.birthday?.dateFormatterInddMMMyyy()}\n${personDto.birthplace} " ?: "no information"
-
-
-
-                if (personDto.death != null) {
-                    binding.deathContent.text =
-                        "${personDto.death.dateFormatterInddMMMyyy()}" // TODO test
-                } else {
-                    binding.deathContent.visibility = View.GONE
-                    binding.deathTitle.visibility = View.GONE
-                }
-
-                binding.biographyContent.text = personDto.biography
+            if (person.death.isNotBlank()) {
+                binding.deathContent.text = person.death
+                // default visible
+            } else {
+                binding.deathContent.visibility = View.GONE
+                binding.deathTitle.visibility = View.GONE
             }
+
+            if (person.death.isNotBlank()) {
+                binding.deathContent.text = person.death
+            } else {
+                binding.deathContent.visibility = View.GONE
+                binding.deathTitle.visibility = View.GONE
+            }
+
+            binding.biographyContent.text = person.biography.ifBlank { "N/A" }
         }
 
-        // the only element from who createst the Fragment
-        binding.character.text = currentCharacter
 
         var isTextExpanded = false
         binding.biographyContent.setOnClickListener {
@@ -78,8 +77,6 @@ class PersonBSheetFragment : BottomSheetDialogFragment(R.layout.fragm_person_bot
         Glide.with(requireContext())
             .load(ImageTmdbRequest.Person(currentPersonIds.tmdb))
             .into(binding.imageVertical)
-
-
     }
 
 
@@ -93,15 +90,6 @@ class PersonBSheetFragment : BottomSheetDialogFragment(R.layout.fragm_person_bot
             personFragment.arguments = bundle
             return personFragment
         }
-
-        // from search (person -> personExtended)
-//        fun create(personIds: Ids): PersonBSheetFragment {
-//            val personFragment = PersonBSheetFragment()
-//            val bundle = Bundle()
-//            bundle.putParcelable(PERSON_IDS_KEY, personIds)
-//            personFragment.arguments = bundle
-//            return personFragment
-//        }
 
         private const val PERSON_IDS_KEY = "person_ids_key"
         private const val CHARACTER_NAME_KEY = "character_ids_key"

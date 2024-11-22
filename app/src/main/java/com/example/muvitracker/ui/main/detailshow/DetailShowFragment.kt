@@ -178,15 +178,14 @@ class DetailShowFragment : Fragment(R.layout.fragm_detail_show) {
         }
 
 
-        // CAST TODO
         binding.castRV.adapter = castMovieAdapter
         binding.castRV.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
         viewModel.loadCast(currentShowIds.trakt)
         viewModel.castState.observe(viewLifecycleOwner) {
-            castMovieAdapter.submitList(it.cast)
-            println("XXX SHOW CASH ${it.cast.toString()}")
+            castMovieAdapter.submitList(it.castMembers)
+            println("XXX SHOW CASH ${it.castMembers.toString()}")
         }
     }
 

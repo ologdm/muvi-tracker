@@ -120,8 +120,8 @@ class DetailMovieFragment : Fragment(R.layout.fragm_detail_movie) {
 
         viewModel.loadCast(currentMovieIds.trakt)
         viewModel.castState.observe(viewLifecycleOwner) {
-            castMovieAdapter.submitList(it.cast)
-            println("XXX ${it.cast.toString()}")
+            castMovieAdapter.submitList(it.castMembers)
+            println("XXX ${it.castMembers}")
         }
     }
 

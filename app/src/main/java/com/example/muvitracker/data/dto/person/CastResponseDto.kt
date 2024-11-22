@@ -1,37 +1,44 @@
 package com.example.muvitracker.data.dto.person
 
-// show cast, movie cast, detail cast, search
+import com.example.muvitracker.domain.model.CastAndCrew
+import com.example.muvitracker.domain.model.CastMember
+import com.example.muvitracker.domain.model.base.Person
 
-// movie
+// cast & crew
 // https://api.trakt.tv/movies/id/people
-
-//show
 // https://api.trakt.tv/shows/id/people
-
-// episode
 //https://api.trakt.tv/shows/id/seasons/season/episodes/episode/people
-
-// detail
-// https://api.trakt.tv/people/bryan-cranston?extended=full
 
 
 data class CastResponseDto(
-    val cast: List<CastMember>? = emptyList(),
+    val cast: List<CastMemberDto>?,
 //    val crew: Crew
 )
 
+fun CastResponseDto.toDomain() :CastAndCrew {
+    return CastAndCrew(
+        castMembers = cast?.map { it.toDomain() } ?: emptyList()
+    )
+}
 
-data class CastMember(
-    val character: String? = "",
-    val characters: List<String>? = emptyList(),
-    val episodeCount :Int? = 0, // only for shows
-    val person: PersonExtendedDto? = PersonExtendedDto()
+
+data class CastMemberDto(
+    val character: String?, // provide all the characters
+//    val characters: List<String>?,
+    val episodeCount :Int?, // only for shows
+    val person: PersonBaseDto?
 )
 
+fun CastMemberDto.toDomain() :CastMember{
+    return CastMember(
+        character = character ?: "N/A",
+        episodeCount = episodeCount?.toString() ?: "N/A",
+        person = person?.toDomain() ?: Person()
+    )
+}
 
 
-
-// non serve
+// TODO
 //data class Crew(
 //    val production: List<CrewMember>,
 //    val art: List<CrewMember>,

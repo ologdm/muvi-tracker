@@ -5,6 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.muvitracker.data.TraktApi
 import com.example.muvitracker.data.dto.person.CastResponseDto
+import com.example.muvitracker.data.dto.person.toDomain
+import com.example.muvitracker.domain.model.CastAndCrew
 import com.example.muvitracker.domain.model.DetailMovie
 import com.example.muvitracker.domain.model.base.Movie
 import com.example.muvitracker.domain.repo.DetailRepo
@@ -100,12 +102,12 @@ class DetailMovieViewmodel @Inject constructor(
 
 
     // CAST ATTORI
-    val castState = MutableLiveData<CastResponseDto>()
+    val castState = MutableLiveData<CastAndCrew>()
 
     fun loadCast(movieId: Int) {
         viewModelScope.launch {
             try {
-                castState.value = traktApi.getAllMovieCast(movieId)
+                castState.value = traktApi.getAllMovieCast(movieId).toDomain()
             } catch (ex: Throwable) {
                 ex.printStackTrace()
             }
