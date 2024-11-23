@@ -42,7 +42,7 @@ fun PersonExtendedDto.toDomain(): PersonExtended {
             deathDate = death
         ), // return always a string: N/A or age
         birthplace = birthplace ?: "birthplace N/A",
-        knownForDepartment = name ?: "N/A", // acting, etc
+        knownForDepartment = knownForDepartment ?: "N/A", // acting, etc
 
         // social platforms links
         twitter = if (socialIds?.twitter != null) "$TWITTER_DOMAIN${socialIds.twitter}" else "N/A",

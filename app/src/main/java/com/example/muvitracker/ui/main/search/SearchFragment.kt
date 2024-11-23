@@ -33,7 +33,7 @@ class SearchFragment : Fragment(R.layout.fragm_search) {
             navigator.startShowDetailFragment(showIds)
         },
         onClickVHPerson = {personIds->
-            Toast.makeText(requireContext(),"click su person", Toast.LENGTH_SHORT).show()
+            navigator.startPersonFragmentFromSearch(personIds)
         })
 
     // Debouncing

@@ -9,6 +9,7 @@ import com.example.muvitracker.data.dto.base.Ids
 import com.example.muvitracker.ui.main.detailmovie.DetailMovieFragment
 import com.example.muvitracker.ui.main.detailshow.DetailShowFragment
 import com.example.muvitracker.ui.main.episode.EpisodeFragment
+import com.example.muvitracker.ui.main.person.PersonBSheetFragment
 import com.example.muvitracker.ui.main.person.PersonFragment
 import com.example.muvitracker.ui.main.seasons.viewpager.SeasonViewpagerFragment
 import javax.inject.Inject
@@ -87,7 +88,7 @@ class Navigator @Inject constructor(
         personIds: Ids,
         character: String
     ) {
-        val personFragment = PersonFragment.create(personIds, character).apply {
+        val personFragment = PersonBSheetFragment.create(personIds, character).apply {
             show(fragmentActivity.supportFragmentManager, "PersonFragmentCast")
         }
     }
@@ -96,9 +97,10 @@ class Navigator @Inject constructor(
     fun startPersonFragmentFromSearch(
         personIds: Ids
     ) {
-        val personFragment = PersonFragment.create(personIds).apply {
-            show(fragmentActivity.supportFragmentManager, "PersonFragmentSearch")
-        }
+        fragmentActivity.supportFragmentManager.beginTransaction()
+            .replace(R.id.frameLayout,PersonFragment.create(personIds))
+            .addToBackStack(null)
+            .commit()
     }
 
 

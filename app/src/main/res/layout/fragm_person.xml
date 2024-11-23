@@ -6,6 +6,8 @@
         android:layout_height="wrap_content"
         android:padding="12dp">
 
+    <!--    for BottomSheetFragment() and Fragment() -->
+
     <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -13,6 +15,31 @@
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
+            <LinearLayout
+                    android:id="@+id/buttonBackLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
+
+                <!-- only for base PersonFragment()-->
+                <ImageButton
+                        android:id="@+id/buttonBack"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/baseline_arrow_back"
+                        android:importantForAccessibility="no" />
+
+                <com.google.android.material.divider.MaterialDivider
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="16dp" />
+
+            </LinearLayout>
 
 
             <com.google.android.material.imageview.ShapeableImageView
@@ -24,7 +51,7 @@
                     android:importantForAccessibility="no"
                     app:shapeAppearance="@style/ImageLarge_RoundedShape"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toBottomOf="@id/buttonBackLayout" />
 
             <LinearLayout
                     android:layout_width="0dp"
@@ -34,7 +61,7 @@
                     android:layout_marginStart="8dp"
                     app:layout_constraintStart_toEndOf="@id/imageVertical"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:layout_constraintTop_toBottomOf="@id/buttonBackLayout">
 
                 <TextView
                         android:id="@+id/personName"
@@ -52,19 +79,30 @@
                         android:layout_height="wrap_content"
                         tools:text="John Snow"
                         android:textStyle=""
-
                         android:textColor="?attr/colorTertiary" />
 
                 <View
                         android:layout_width="match_parent"
                         android:layout_height="8dp" />
 
-
                 <GridLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:columnCount="2"
                         android:rowCount="3">
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Known:  "
+                            android:textColor="?attr/colorPrimary" />
+
+                    <TextView
+                            android:id="@+id/known"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_columnWeight="1"
+                            tools:text="for acting" />
 
                     <TextView
                             android:layout_width="wrap_content"
@@ -91,7 +129,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_columnWeight="1"
-                            android:text="26 Dec 1986\nWorchester, England, UK \ndddd" />
+                            tools:text="26 Dec 1986\nWorchester, England, UK \ndddd" />
 
                     <TextView
                             android:id="@+id/deathTitle"
@@ -105,7 +143,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_columnWeight="1"
-                            android:text="15 Oct 2023\nLondon UK\nkkkkkkk" />
+                            tools:text="15 Oct 2023\nLondon UK\nkkkkkkk" />
 
                 </GridLayout>
 

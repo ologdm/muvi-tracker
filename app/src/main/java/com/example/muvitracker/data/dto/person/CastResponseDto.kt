@@ -24,7 +24,7 @@ fun CastResponseDto.toDomain() :CastAndCrew {
 
 data class CastMemberDto(
     val character: String?, // provide all the characters
-//    val characters: List<String>?,
+//    val characters: List<String>?,<
     val episodeCount :Int?, // only for shows
     val person: PersonBaseDto?
 )
