@@ -1,8 +1,6 @@
 package com.example.muvitracker.ui.main.search
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.View
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
@@ -38,37 +36,32 @@ class SearchFragment : Fragment(R.layout.fragm_search) {
             navigator.startPersonFragmentFromSearch(personIds)
         })
 
-    // TODO: eliminare
-    // Debouncing
-//    private val handler = Handler(Looper.getMainLooper())
-//    private var searchRunnable: Runnable? = null
-//    private val DEBOUNCE_DELAY: Long = 300L
-
-
-    // default values
-//    private var filterValue: String = MOVIE_SHOW_PERSON // todo default su viewmodel
-//    private var currentSearchText: String = ""
-
 
     override fun onViewCreated(
         view: View,
         savedInstanceState: Bundle?
     ) {
+        // 1) get search data
+        binding.recyclerView.layoutManager = GridLayoutManager(requireContext(), 3)
+        binding.recyclerView.adapter = adapter
 
-        // TODO: new OK
-        binding.searchEditText.doAfterTextChanged { s ->
-            // 3) cambia valore stringa + filter
-            viewModel.updateQuery(s.toString())
-            // chiamata risultati -> su viewmodel 4)
-
+        fragmentViewLifecycleScope.launch {
+            viewModel.searchResultFlow.collectLatest { listSearchResult ->
+                adapter.submitList(listSearchResult)
+                // TODO: with paging3 adapter
+            }
         }
 
 
-        // chip group OK
-        binding.searchChipGroup.isSingleSelection = true // selezione uno alla volta
-        binding.searchChipGroup.isSelectionRequired = true // selezione uno alla volta
-        binding.searchChipGroup.check(R.id.chipAll) // selezione chip default
-        binding.searchChipGroup.setOnCheckedChangeListener { chipGroup, checkedId ->
+        // 2) set search parameters
+        binding.searchEditText.doAfterTextChanged { s ->
+            viewModel.updateQuery(s.toString())
+        }
+
+        binding.searchChipGroup.isSingleSelection = true
+        binding.searchChipGroup.isSelectionRequired = true
+        binding.searchChipGroup.check(R.id.chipAll) // default selected chip
+        binding.searchChipGroup.setOnCheckedChangeListener { _, checkedId ->
             val filterValue = when (checkedId) {
                 R.id.chipAll -> MOVIE_SHOW_PERSON
                 R.id.chipMovies -> MOVIE
@@ -76,28 +69,8 @@ class SearchFragment : Fragment(R.layout.fragm_search) {
                 R.id.chipPeople -> PERSON
                 else -> MOVIE_SHOW_PERSON
             }
-
-            // 4 update filter value
             viewModel.updateFilterValue(filterValue)
         }
-
-
-        // update list TODO old, elimina
-//        viewModel.searchResultState.observe(viewLifecycleOwner) {
-//            adapter.submitList(it)
-//        }
-        // TODO: da livedata a stateFlow
-        fragmentViewLifecycleScope.launch {
-            viewModel.searchResultState.collectLatest {listSearchResult ->
-                adapter.submitList(listSearchResult)
-                println(listSearchResult.toString())
-            }
-        }
-
-
-
-
-        // TODO paging3
     }
 
 
@@ -107,7 +80,5 @@ class SearchFragment : Fragment(R.layout.fragm_search) {
         private const val SHOW = "show"
         private const val PERSON = "person"
     }
-
-
 }
 

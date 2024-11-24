@@ -14,9 +14,9 @@ class SearchRepository @Inject constructor(
 ) : SearchRepo {
 
     override
-    suspend fun getNetworkResult(typeFilter: String, queryText: String): List<SearchResult> {
+    suspend fun getNetworkResult(typeFilter: String, searchQuery: String): List<SearchResult> {
         try {
-            return traktApi.getSearch(typeFilter, queryText)
+            return traktApi.getSearch(typeFilter, searchQuery)
 //                .sortedByDescending { dto -> dto.score } // don't use
                 .map { dto -> dto.toDomain() }
         } catch (ex: CancellationException) {

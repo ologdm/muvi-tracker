@@ -1,21 +1,21 @@
 package com.example.muvitracker.ui.main.search
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.muvitracker.domain.model.SearchResult
 import com.example.muvitracker.domain.repo.SearchRepo
 import com.example.muvitracker.ui.main.search.SearchFragment.Companion.MOVIE_SHOW_PERSON
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
+@OptIn(FlowPreview::class)
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     private val searchRepository: SearchRepo
@@ -26,15 +26,14 @@ class SearchViewModel @Inject constructor(
     }
 
 
-    // 1) flow search
     private val searchQueryFlow = MutableStateFlow("")
+    private val filterValueFlow = MutableStateFlow(MOVIE_SHOW_PERSON)
+    val searchResultFlow = MutableStateFlow<List<SearchResult>>(emptyList())
+
 
     fun updateQuery(searchInput: String) {
         searchQueryFlow.value = searchInput
     }
-
-    // 2) flow filter
-    private val filterValueFlow = MutableStateFlow(MOVIE_SHOW_PERSON)
 
     fun updateFilterValue(filterValue: String) {
         filterValueFlow.value = filterValue
@@ -42,28 +41,25 @@ class SearchViewModel @Inject constructor(
 
 
     init {
-        // 4) fai chiamata -> quando dati cambiano, collect new result
         viewModelScope.launch {
             searchQueryFlow
                 .debounce(DEBOUNCE_DELAY)
-//                .filter { it.isNotBlank() }
-                .collectLatest {
-                    loadSearchResult(filterValueFlow.first(), it)
+//                .filter { searchQuery-> searchQuery.isNotBlank() } // not used
+                .combine(filterValueFlow) { queryValue, filterValue ->
+                    queryValue to filterValue
+                }
+                .collectLatest { (queryValue, filterValue) ->
+                    loadSearchResult(typeFilter = filterValue, searchQuery = queryValue)
                 }
         }
-
     }
 
 
-    // RISULTATI
-    // TODO StarteContainer con result, no internet, ecc
-//    val searchResultState1 = MutableLiveData<List<SearchResult>>()
-    val searchResultState = MutableStateFlow<List<SearchResult>>(emptyList())
-
-    private fun loadSearchResult(typeFilter: String, text: String) {
+    private fun loadSearchResult(typeFilter: String, searchQuery: String) {
         viewModelScope.launch {
-            searchResultState.value = searchRepository.getNetworkResult(typeFilter, text)
-            println()
+            searchResultFlow.value = searchRepository.getNetworkResult(typeFilter, searchQuery)
+
+            // TODO: StarteContainer con result, no internet, ecc
         }
     }
 
