@@ -47,9 +47,10 @@
 
 
     <!--search type -->
-    <string name="movie">movie</string>
-    <string name="show">show</string>
-    <string name="person">person</string>
+    <string name="search_all">All</string>
+    <string name="search_movies">Movies</string>
+    <string name="search_tv_series">TV Series</string>
+    <string name="search_people">People</string>
 
 
 </resources>
