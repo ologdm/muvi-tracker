@@ -53,7 +53,7 @@ class ShowsFragment : Fragment(R.layout.fragm_base_category) {
         binding.toolbar.text = requireContext().getString(R.string.shows)
 
         viewModel.getMoviesFromSelectFeedCategory(selectedFeed)
-        collectShowsPagingStates()
+        collectShowsPagingStates() // observe data and loadStateFlow
 
         // CHIPS
         // 1 create
@@ -75,8 +75,7 @@ class ShowsFragment : Fragment(R.layout.fragm_base_category) {
             val selectedChip = chipGroup.findViewById<Chip>(checkedId)
             selectedChip?.let { chip ->
                 selectedFeed = chip.text.toString()
-                viewModel.getMoviesFromSelectFeedCategory(selectedFeed) // ok todo
-                collectShowsPagingStates()
+                viewModel.getMoviesFromSelectFeedCategory(selectedFeed)
                 pagingAdapter.refresh()
             }
         }

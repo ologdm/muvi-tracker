@@ -7,7 +7,6 @@ import com.example.muvitracker.R
 import com.example.muvitracker.data.imagetmdb.glide.ImageTmdbRequest
 import com.example.muvitracker.databinding.VhSearchBinding
 import com.example.muvitracker.domain.model.SearchResult
-import com.example.muvitracker.utils.firstDecimalApproxToString
 
 class SearchVH(
     val binding: VhSearchBinding
@@ -20,9 +19,9 @@ class SearchVH(
 
             when (item) {
                 is SearchResult.MovieItem -> {
-                    typeItem.text = root.context.getString(R.string.movie)
+                    typeItem.text = root.context.getString(R.string.search_movies)
 //                    score.text = item.score.firstDecimalApproxToString()
-                    title.text = "${item.movie?.title} ${item.movie?.year.toString()}"
+                    title.text = "${item.movie?.title} (${item.movie?.year.toString()})"
 
                     Glide.with(root.context)
                         .load(ImageTmdbRequest.MovieVertical(item.movie.ids.tmdb))
@@ -33,9 +32,9 @@ class SearchVH(
                 }
 
                 is SearchResult.ShowItem -> {
-                    typeItem.text = root.context.getString(R.string.show)
+                    typeItem.text = root.context.getString(R.string.search_tv_series)
 //                    score.text = item.score.firstDecimalApproxToString()
-                    title.text = "${item.show.title} ${item.show.year.toString()}"
+                    title.text = "${item.show.title} (${item.show.year})"
 
                     Glide.with(root.context)
                         .load(ImageTmdbRequest.ShowVertical(item.show.ids.tmdb))
@@ -46,7 +45,7 @@ class SearchVH(
                 }
 
                 is SearchResult.PersonItem -> {
-                    typeItem.text = root.context.getString(R.string.person)
+                    typeItem.text = root.context.getString(R.string.search_people)
                     title.text = "${item.person.name}"
 
                     Glide.with(root.context)

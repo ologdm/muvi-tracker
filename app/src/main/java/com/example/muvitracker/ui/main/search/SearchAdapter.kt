@@ -28,7 +28,7 @@ class SearchAdapter(
     override fun onBindViewHolder(holder: SearchVH, position: Int) {
         val item = getItem(position)
 
-        holder.bind(item) // update on VH
+        holder.bind(item)
 
         holder.itemView.setOnClickListener {
             when (item) {

@@ -48,8 +48,8 @@ class SearchFragment : Fragment(R.layout.fragm_search) {
         fragmentViewLifecycleScope.launch {
             viewModel.searchResultFlow.collectLatest { listSearchResult ->
                 adapter.submitList(listSearchResult)
-                // TODO: with paging3 adapter
             }
+
         }
 
 
