@@ -46,20 +46,14 @@ class SearchViewModel @Inject constructor(
                 .debounce(DEBOUNCE_DELAY)
 //                .filter { searchQuery-> searchQuery.isNotBlank() } // not used
                 .combine(filterValueFlow) { queryValue, filterValue ->
-                    queryValue to filterValue
+                    queryValue to filterValue   // Pair(string, string)
                 }
                 .collectLatest { (queryValue, filterValue) ->
-                    loadSearchResult(typeFilter = filterValue, searchQuery = queryValue)
+                    searchResultFlow.value = searchRepository.getNetworkResult(
+                        searchQuery = queryValue,
+                        typeFilter = filterValue
+                    )
                 }
-        }
-    }
-
-
-    private fun loadSearchResult(typeFilter: String, searchQuery: String) {
-        viewModelScope.launch {
-            searchResultFlow.value = searchRepository.getNetworkResult(typeFilter, searchQuery)
-
-            // TODO: StarteContainer con result, no internet, ecc
         }
     }
 

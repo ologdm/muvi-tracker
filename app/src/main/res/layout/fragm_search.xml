@@ -72,5 +72,4 @@
             android:paddingVertical="8dp"
             tools:listitem="@layout/vh_search" />
 
-
 </androidx.constraintlayout.widget.ConstraintLayout>
