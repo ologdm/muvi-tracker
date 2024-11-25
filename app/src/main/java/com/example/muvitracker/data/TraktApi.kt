@@ -23,12 +23,16 @@ import retrofit2.http.Query
 
 interface TraktApi {
 
-    // SEARCH - TODO
+    companion object {
+        const val SEARCH_LIMIT = "24"
+    }
+
+    // SEARCH
     // type: movie, show, person
-    @GET("search/{filter_type}")
+    @GET("search/{type_filter}?limit=$SEARCH_LIMIT")
     suspend fun getSearch(
-        @Path("filter_type") filterType: String,
-        @Query("query") searchString: String
+        @Path("type_filter") typeFilter: String,
+        @Query("query") query: String
     ): List<SearchDto>
 
 
