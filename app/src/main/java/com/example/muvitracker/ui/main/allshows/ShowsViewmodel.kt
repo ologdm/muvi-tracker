@@ -10,6 +10,10 @@ import com.example.muvitracker.data.TraktApi
 import com.example.muvitracker.data.shows.ShowsPagingSource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.flatMapLatest
 import javax.inject.Inject
 
 @HiltViewModel
@@ -18,17 +22,20 @@ class ShowsViewmodel @Inject constructor(
     private val traktApi: TraktApi
 ) : ViewModel() {
 
-    private var feedCategory = ""
+    private val _selectedFeed = MutableStateFlow("")
+    val selectedFeed: StateFlow<String> = _selectedFeed
 
-    val statePaging = Pager(
-        config = PagingConfig(pageSize = 15, enablePlaceholders = false),
-        pagingSourceFactory = { ShowsPagingSource(applicationContext, feedCategory, traktApi) }
-    ).flow
-        .cachedIn(viewModelScope)
+    val statePaging = selectedFeed.flatMapLatest {
+        Pager(
+            config = PagingConfig(pageSize = 15, enablePlaceholders = false),
+            pagingSourceFactory = { ShowsPagingSource(applicationContext, it, traktApi) }
+        ).flow
+            .cachedIn(viewModelScope)
+    }
 
 
-    fun getMoviesFromSelectFeedCategory(selectedCategory: String) {
-        feedCategory = selectedCategory
+    fun updateSelectedFeed(feedCategory: String) {
+        _selectedFeed.value = feedCategory
     }
 
 }

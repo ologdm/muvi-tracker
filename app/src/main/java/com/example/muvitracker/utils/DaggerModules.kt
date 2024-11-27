@@ -65,13 +65,6 @@ class DaggerModules {
     }
 
 
-    @Provides
-    @Singleton
-    fun provideSharedPreferences(@ApplicationContext context: Context): SharedPreferences {
-        return context.getSharedPreferences("all_app_cache", Context.MODE_PRIVATE)
-    }
-
-
     // retrofit
     @Provides
     @Singleton
@@ -110,6 +103,13 @@ class DaggerModules {
             // e ne create uno nuovo
             .fallbackToDestructiveMigration()
             .build()
+    }
+
+
+    @Provides
+    @Singleton
+    fun provideSharedPreferences(@ApplicationContext context: Context): SharedPreferences {
+        return context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
     }
 
 

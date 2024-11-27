@@ -1,5 +1,6 @@
 package com.example.muvitracker.ui.main.allshows
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
@@ -23,17 +24,22 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class ShowsFragment : Fragment(R.layout.fragm_base_category) {
 
-    val binding by viewBinding(FragmBaseCategoryBinding::bind)
-    private val viewModel by viewModels<ShowsViewmodel>()
+    companion object {
+        private const val SELECTED_FEED_KEY = "movie_selected_feed_key"
+    }
+
+    @Inject
+    lateinit var sharedPrefs: SharedPreferences
 
     @Inject
     lateinit var navigator: Navigator
 
+    val binding by viewBinding(FragmBaseCategoryBinding::bind)
+    private val viewModel by viewModels<ShowsViewmodel>()
+
     private val pagingAdapter = ShowPagingAdapter(onClickVH = { showIds ->
         navigator.startShowDetailFragment(showIds)
     })
-
-    private var selectedFeed = "" // default, last from bundle
 
 
     override fun onViewCreated(
@@ -52,48 +58,54 @@ class ShowsFragment : Fragment(R.layout.fragm_base_category) {
         binding.recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
         binding.toolbar.text = requireContext().getString(R.string.shows)
 
-        viewModel.getMoviesFromSelectFeedCategory(selectedFeed)
-        collectShowsPagingStates() // observe data and loadStateFlow
+        setupChips(feedCategoryList)
+        binding.swipeRefreshLayout.setOnRefreshListener { pagingAdapter.refresh() }
 
-        // CHIPS
-        // 1 create
-        binding.chipGroupFeedCategory.removeAllViews()
-        feedCategoryList.forEach { feedText ->
-            val chip = Chip(context).apply {
-                text = feedText
-                isCheckable = true // clickable
-                tag = feedText
+        collectSelectedFeed() // observe selected feed
+        collectPagingStates() // observe paging data and loadStateFlow
+    }
+
+
+    // MY FUNCTIONS
+    private fun setupChips(feedCategoryList: List<String>) {
+        binding.chipGroupFeedCategory.apply {
+            removeAllViews()
+            feedCategoryList.forEach { feedText ->
+                val chip = Chip(context).apply {
+                    text = feedText
+                    isCheckable = true // clickable
+                    tag = feedText
+                }
+                binding.chipGroupFeedCategory.addView(chip)
             }
-            binding.chipGroupFeedCategory.addView(chip)
-        }
 
-        // 2 click
-        binding.chipGroupFeedCategory.isSingleSelection = true
-        binding.chipGroupFeedCategory.isSelectionRequired = true
-
-        binding.chipGroupFeedCategory.setOnCheckedChangeListener { chipGroup, checkedId ->
-            val selectedChip = chipGroup.findViewById<Chip>(checkedId)
-            selectedChip?.let { chip ->
-                selectedFeed = chip.text.toString()
-                viewModel.getMoviesFromSelectFeedCategory(selectedFeed)
-                pagingAdapter.refresh()
+            post {
+                val startSelectedFeed =
+                    sharedPrefs.getString(SELECTED_FEED_KEY, getString(R.string.popular))
+                val startSelectedChip =
+                    binding.chipGroupFeedCategory.findViewWithTag<Chip>(startSelectedFeed)
+                startSelectedChip?.let {
+                    it.isChecked = true // check the chip
+                    binding.chipsScrollView.smoothScrollTo(it.left, it.top)
+                }
             }
-        }
 
-        binding.chipGroupFeedCategory.post {
-            val defaultChip =
-                binding.chipGroupFeedCategory.findViewWithTag<Chip>(requireContext().getString(R.string.popular))
-            defaultChip?.isChecked = true
-        }
+            isSingleSelection = true
+            isSelectionRequired = true
 
-        binding.swipeRefreshLayout.setOnRefreshListener {
-            pagingAdapter.refresh()
+            setOnCheckedChangeListener { chipGroup, checkedId ->
+                chipGroup.findViewById<Chip>(checkedId)?.let { selectedChip ->
+                    val newSelectedFeed = selectedChip.text.toString()
+                    sharedPrefs.edit().putString(SELECTED_FEED_KEY, newSelectedFeed).apply()
+                    viewModel.updateSelectedFeed(newSelectedFeed)
+                    pagingAdapter.refresh()
+                }
+            }
         }
     }
 
 
-    // ok per shows
-    private fun collectShowsPagingStates() {
+    private fun collectPagingStates() {
         fragmentViewLifecycleScope.launch {
             viewModel.statePaging.collectLatest { pagingData ->
                 pagingAdapter.submitData(pagingData)
@@ -101,7 +113,6 @@ class ShowsFragment : Fragment(R.layout.fragm_base_category) {
                 binding.errorTextView.isVisible = false
             }
         }
-
         fragmentViewLifecycleScope.launch {
             pagingAdapter.loadStateFlow.collectLatest { loadState ->
                 // 1 progress
@@ -110,7 +121,6 @@ class ShowsFragment : Fragment(R.layout.fragm_base_category) {
                 if (loadState.refresh is LoadState.Error) {
                     binding.errorTextView.isVisible = true
                     val error = (loadState.refresh as LoadState.Error).error
-
                     binding.errorTextView.text = if (error is IOException) {
                         requireContext().getString(R.string.error_message_no_internet)
                     } else {
@@ -122,5 +132,12 @@ class ShowsFragment : Fragment(R.layout.fragm_base_category) {
         }
     }
 
+    private fun collectSelectedFeed() {
+        fragmentViewLifecycleScope.launch {
+            viewModel.selectedFeed.collectLatest { selectedFeed ->
+                viewModel.updateSelectedFeed(selectedFeed)
+            }
+        }
+    }
 
 }
