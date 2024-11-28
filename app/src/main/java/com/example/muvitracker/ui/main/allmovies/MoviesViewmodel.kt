@@ -16,8 +16,12 @@ import com.example.muvitracker.utils.IoResponse
 import com.example.muvitracker.utils.StateContainer
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.io.IOException
@@ -30,32 +34,29 @@ class MoviesViewmodel @Inject constructor(
     private val moviesRepository: MoviesRepo
 ) : ViewModel() {
 
-    private var feedCategory = ""
+    // STATES
+    private val _selectedFeed = MutableStateFlow("")
+    val selectedFeed: StateFlow<String> = _selectedFeed
 
-    // paging observable
-    val statePaging = Pager(
-        config = PagingConfig(pageSize = 15, enablePlaceholders = false),
-        pagingSourceFactory = {
-            MoviesPagingSource(
-                applicationContext,
-                feedCategory,
-                traktApi
-            )
-        }
-    ).flow
-        .cachedIn(viewModelScope) // scope a cui fa riferimento il paging attuale
-
-
-    // boxo observable
     private val _boxoState = MutableLiveData<StateContainer<List<Movie>>>()
     val boxoState: LiveData<StateContainer<List<Movie>>> get() = _boxoState
 
-
-    // paging categories
-    fun getMoviesFromSelectFeedCategory(selectedCategory: String) {
-        feedCategory = selectedCategory
+    @OptIn(ExperimentalCoroutinesApi::class) // because of -> flatMapLatest{..}
+    val statePaging = selectedFeed.flatMapLatest {
+        Pager(
+            config = PagingConfig(pageSize = 15, enablePlaceholders = false),
+            pagingSourceFactory = {
+                MoviesPagingSource(applicationContext, it, traktApi)
+            })
+            .flow
+            .cachedIn(viewModelScope)
     }
 
+
+    // FUNCTIONS
+    fun updateSelectedFeed(feedCategory: String) {
+        _selectedFeed.value = feedCategory
+    }
 
     // no paging, with caching
     fun loadBoxoMovies() {

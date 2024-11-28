@@ -1,5 +1,6 @@
 package com.example.muvitracker.ui.main.allmovies
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
@@ -26,11 +27,18 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MoviesFragment : Fragment(R.layout.fragm_base_category) {
 
-    private val binding by viewBinding(FragmBaseCategoryBinding::bind)
-    private val viewModel by viewModels<MoviesViewmodel>()
+    companion object {
+        private const val SELECTED_FEED_KEY = "show_selected_feed_key"
+    }
+
+    @Inject
+    lateinit var sharedPrefs: SharedPreferences
 
     @Inject
     lateinit var navigator: Navigator
+
+    private val binding by viewBinding(FragmBaseCategoryBinding::bind)
+    private val viewModel by viewModels<MoviesViewmodel>()
 
     private val pagingAdapter = MoviePagingAdapter(onClickVH = { movieIds ->
         navigator.startMovieDetailFragment(movieIds)
@@ -40,98 +48,112 @@ class MoviesFragment : Fragment(R.layout.fragm_base_category) {
     })
 
 
-    private var selectedFeed = "" // default, last from bundle
-
-
     override fun onViewCreated(
         view: View,
         savedInstanceState: Bundle?
     ) {
-
         val feedCategoryList = listOf(
             requireContext().getString(R.string.popular),
+            requireContext().getString(R.string.box_office),
             requireContext().getString(R.string.watched),
             requireContext().getString(R.string.favorited),
             requireContext().getString(R.string.anticipated),
-            requireContext().getString(R.string.box_office),
         )
 
-        // 2 adapter
         binding.recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
         binding.toolbar.text = requireContext().getString(R.string.movies)
 
-        // default call
-        viewModel.getMoviesFromSelectFeedCategory(selectedFeed)
-        collectMoviesPagingStates()
+        setupChipsAndObserveTheRightCategory(feedCategoryList)
+        setupSwipeRefresh()
 
-
-        // CHIPS
-        // 1.1 create feed chips from defined list - ok
-        // create
-        binding.chipGroupFeedCategory.removeAllViews()
-        feedCategoryList.forEach { feedText ->
-            val chip = Chip(context).apply {
-                text = feedText
-                isCheckable = true
-                tag = feedText // set a tag to use it for default selection todo
-            }
-            binding.chipGroupFeedCategory.addView(chip)
-        }
-
-        // select default chip (todo modificare da bundle)
-        binding.chipGroupFeedCategory.post {
-            val defaultChip =
-                binding.chipGroupFeedCategory.findViewWithTag<Chip>(requireContext().getString(R.string.popular))
-            defaultChip?.isChecked = true
-        }
-
-        // click on selected chips
-        binding.chipGroupFeedCategory.isSingleSelection = true
-        binding.chipGroupFeedCategory.isSelectionRequired = true
-
-        binding.chipGroupFeedCategory.setOnCheckedChangeListener { chipGroup, checkedId ->
-            val selectedChip = chipGroup.findViewById<Chip>(checkedId)
-            selectedChip?.let { chip ->
-                selectedFeed = chip.text.toString() // selectedFeed come chips clickato
-                if (selectedFeed == requireContext().getString(R.string.box_office)) {
-                    binding.recyclerView.adapter = adapter // switch to boxoffice adapter todo
-                    viewModel.loadBoxoMovies()
-                    collectBoxofficeState()
-                } else {
-                    binding.recyclerView.adapter = pagingAdapter // switch back to paging adapter
-                    viewModel.getMoviesFromSelectFeedCategory(selectedFeed) // ok todo
-                    collectMoviesPagingStates()
-                    pagingAdapter.refresh()
-                }
-            }
-        }
-
-
-        binding.swipeRefreshLayout.setOnRefreshListener {
-            if (selectedFeed == requireContext().getString(R.string.box_office)) {
-                adapter.submitList(emptyList()) // pulisci la lista per ricaricare
-                viewModel.loadBoxoMovies() // carica i film del boxoffice
-            } else {
-                pagingAdapter.refresh() // refresh per paging
-            }
-
-        }
+        // observe feed changes ->  and observe statePaging or boxoState
+        collectSelectedFeed()
 
     }
 
 
     // PRIVATE METHODS
-    private fun collectMoviesPagingStates() {
+    private fun setupChipsAndObserveTheRightCategory(feedCategoryList: List<String>) {
+        binding.chipGroupFeedCategory.apply {
+            removeAllViews()
+            // 1. create
+            feedCategoryList.forEach { feedText ->
+                val chip = Chip(context).apply {
+                    text = feedText
+                    isCheckable = true
+                    tag = feedText
+                }
+                binding.chipGroupFeedCategory.addView(chip)
+            }
+
+            // 2. post execute
+            // ...posticipa l'esecuzione {..}  fino a quando la view 'chipGroup' non e stata inizializzata
+            post {
+                // load last selected item or default
+                val startSelectedFeed =
+                    sharedPrefs.getString(SELECTED_FEED_KEY, getString(R.string.popular))
+                val startSelectedChip = binding.chipGroupFeedCategory
+                    .findViewWithTag<Chip>(startSelectedFeed)// find the chip
+
+                startSelectedChip?.let {
+                    it.isChecked = true // check the chip
+                    binding.chipsScrollView.smoothScrollTo(it.left, it.top)
+                    // smoothScrollTo -> scroll animato a x,y
+                    // (x.left, y.top) -> calcolare la posizione del chip selezionato
+                }
+            }
+
+            // 3. configutazions
+            isSingleSelection = true
+            isSelectionRequired = true
+
+            // 4. click on selected chips
+            setOnCheckedChangeListener { chipGroup, checkedId ->
+                chipGroup.findViewById<Chip>(checkedId)?.let { selectedChip ->
+                    val newSelectedFeed = selectedChip.text.toString()
+                    viewModel.updateSelectedFeed(newSelectedFeed)
+                    sharedPrefs.edit().putString(SELECTED_FEED_KEY, newSelectedFeed).apply()
+                    // switch RecyclerView Adapter, and reload data
+                    if (newSelectedFeed == getString(R.string.box_office)) {
+                        binding.recyclerView.adapter = adapter
+                        viewModel.loadBoxoMovies()
+                        collectBoxofficeList()
+                    } else {
+                        binding.recyclerView.adapter = pagingAdapter
+                        collectPagingStates()
+                        pagingAdapter.refresh()
+                    }
+                }
+            }
+        }
+    }
+
+    private fun setupSwipeRefresh() {
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            viewModel.selectedFeed.value.let { feed ->
+                if (feed == getString(R.string.box_office)) {
+                    adapter.submitList(emptyList())
+                    viewModel.loadBoxoMovies()
+                } else {
+                    pagingAdapter.refresh()
+                }
+            }
+
+        }
+    }
+
+
+    // with pagin
+    private fun collectPagingStates() {
         // 1 coroutines - data
         fragmentViewLifecycleScope.launch { // extended property
             viewModel.statePaging.collect { pagingData ->
                 pagingAdapter.submitData(pagingData)
                 binding.swipeRefreshLayout.isRefreshing = false
                 binding.errorTextView.isVisible = false
-                // basta qua, si spegne quando si ha la risposta dal pager (sia data che error)
+                // basta qua, si ferma quando si ha la risposta dal pager (sia data che error)
             }
         }
-
         // 2 coroutines - statesFlow
         fragmentViewLifecycleScope.launch {
             pagingAdapter.loadStateFlow.collectLatest { loadState ->
@@ -153,8 +175,8 @@ class MoviesFragment : Fragment(R.layout.fragm_base_category) {
         }
     }
 
-
-    private fun collectBoxofficeState() {
+    // no paging, cached list
+    private fun collectBoxofficeList() {
         // 2 observe boxoffice
         viewModel.boxoState.observe(viewLifecycleOwner) { stateContainer ->
             adapter.submitList(stateContainer.data)
@@ -163,6 +185,14 @@ class MoviesFragment : Fragment(R.layout.fragm_base_category) {
                 errorTextview = binding.errorTextView,
                 progressBar = binding.progressBar
             )
+        }
+    }
+
+    private fun collectSelectedFeed() {
+        fragmentViewLifecycleScope.launch {
+            viewModel.selectedFeed.collectLatest { selectedFeed ->
+                viewModel.updateSelectedFeed(selectedFeed)
+            }
         }
     }
 
