@@ -1,5 +1,6 @@
 package com.example.muvitracker.ui.main
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.muvitracker.R
@@ -16,14 +17,16 @@ import javax.inject.Inject
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
     companion object {
-        const val LAST_SELECTED_ID = "last_selected_id"
+        private const val LAST_SELECTED_ID = "last_selected_id"
     }
 
-    private lateinit var bottomNavigationView: BottomNavigationView
-    private val prefs by lazy { getSharedPreferences("app_prefs", MODE_PRIVATE) }
+    @Inject
+    lateinit var sharedPrefs: SharedPreferences
 
     @Inject
     lateinit var navigator: Navigator
+
+    private lateinit var bottomNavigationView: BottomNavigationView
 
     // Mappa tra ID e fragment
     private val fragmentMap = mapOf(
@@ -38,9 +41,9 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
         bottomNavigationView = findViewById(R.id.bottomNavigation)
 
-        // sequesta corretta per save istance
         // 1 Get saved Id from SharedPrefs
-        val lastSelectedId = prefs.getInt(LAST_SELECTED_ID, R.id.buttonSeries) // tv_series, default value
+        val lastSelectedId =
+            sharedPrefs.getInt(LAST_SELECTED_ID, R.id.buttonSeries) // tv_series, default value
         // 2 select the correct button
         bottomNavigationView.selectedItemId = lastSelectedId // default
         // 3 load the correct fragment based on saved Id
@@ -52,6 +55,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         bottomNavigationView.setOnItemSelectedListener(
             NavigationBarView.OnItemSelectedListener { item ->
                 val clickedId = item.itemId
+
                 when (clickedId) {
                     R.id.buttonMovies -> {
                         navigator.replaceFragment(MoviesFragment())
@@ -73,8 +77,10 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
                 }
 
                 // Salva l'ID dell'elemento selezionato nelle SharedPreferences
-                prefs.edit().putInt(LAST_SELECTED_ID, clickedId).apply()
-                true// return di ogni elemento selezionato
+                sharedPrefs.edit().putInt(LAST_SELECTED_ID, clickedId).apply()
+
+                // return di ogni elemento selezionato
+                true
             })
 
     }
