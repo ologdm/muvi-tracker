@@ -2,7 +2,6 @@ package com.example.muvitracker.data.database.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.muvitracker.data.WatchedDataModel
 import com.example.muvitracker.data.dto.season.SeasonExtenDto
 import com.example.muvitracker.data.dto.base.Ids
 import com.example.muvitracker.utils.firstDecimalApproxToString

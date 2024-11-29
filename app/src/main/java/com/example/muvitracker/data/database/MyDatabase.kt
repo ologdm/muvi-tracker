@@ -17,15 +17,15 @@ import com.example.muvitracker.data.database.entities.EpisodeEntity
 import com.example.muvitracker.data.database.entities.PrefsMovieEntity
 import com.example.muvitracker.data.database.entities.PrefsShowEntity
 import com.example.muvitracker.data.database.entities.SeasonEntity
-import com.example.muvitracker.data.imagetmdb.database.entities.ConvertersUtilsTmdb
-import com.example.muvitracker.data.imagetmdb.database.dao.EpisodeImageDao
-import com.example.muvitracker.data.imagetmdb.database.dao.MovieShowImageDao
-import com.example.muvitracker.data.imagetmdb.database.dao.PersonImageDao
-import com.example.muvitracker.data.imagetmdb.database.dao.SeasonImageDao
-import com.example.muvitracker.data.imagetmdb.database.entities.EpisodeImageEntity
-import com.example.muvitracker.data.imagetmdb.database.entities.MovieShowImageEntity
-import com.example.muvitracker.data.imagetmdb.database.entities.PersonImageEntity
-import com.example.muvitracker.data.imagetmdb.database.entities.SeasonImageEntity
+import com.example.muvitracker.data.repositories.imagetmdb.database.dao.EpisodeImageDao
+import com.example.muvitracker.data.repositories.imagetmdb.database.dao.MovieShowImageDao
+import com.example.muvitracker.data.repositories.imagetmdb.database.dao.PersonImageDao
+import com.example.muvitracker.data.repositories.imagetmdb.database.dao.SeasonImageDao
+import com.example.muvitracker.data.repositories.imagetmdb.database.entities.ConvertersUtilsTmdb
+import com.example.muvitracker.data.repositories.imagetmdb.database.entities.EpisodeImageEntity
+import com.example.muvitracker.data.repositories.imagetmdb.database.entities.MovieShowImageEntity
+import com.example.muvitracker.data.repositories.imagetmdb.database.entities.PersonImageEntity
+import com.example.muvitracker.data.repositories.imagetmdb.database.entities.SeasonImageEntity
 
 @Database(
     entities = [

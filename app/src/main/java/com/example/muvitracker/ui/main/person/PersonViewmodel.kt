@@ -4,7 +4,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.muvitracker.data.TraktApi
-import com.example.muvitracker.data.dto.person.PersonExtendedDto
 import com.example.muvitracker.data.dto.person.toDomain
 import com.example.muvitracker.domain.model.PersonExtended
 import dagger.hilt.android.lifecycle.HiltViewModel

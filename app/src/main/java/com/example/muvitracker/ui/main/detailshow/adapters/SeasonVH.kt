@@ -4,7 +4,6 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.muvitracker.R
 import com.example.muvitracker.databinding.VhSeasonsOnDetailshowBinding
 import com.example.muvitracker.domain.model.SeasonExtended
-import com.example.muvitracker.utils.firstDecimalApproxToString
 
 
 class SeasonVH(

@@ -1,9 +1,9 @@
 package com.example.muvitracker.data.dto
 
 
-import com.example.muvitracker.data.dto.movies.MovieBaseDto
+import com.example.muvitracker.data.dto.movie.MovieBaseDto
 import com.example.muvitracker.data.dto.show.ShowBaseDto
-import com.example.muvitracker.data.dto.movies.toDomain
+import com.example.muvitracker.data.dto.movie.toDomain
 import com.example.muvitracker.data.dto.show.toDomain
 import com.example.muvitracker.data.dto.person.PersonBaseDto
 import com.example.muvitracker.data.dto.person.toDomain

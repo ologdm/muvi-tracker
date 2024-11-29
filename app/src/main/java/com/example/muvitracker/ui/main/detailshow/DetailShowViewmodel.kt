@@ -3,11 +3,10 @@ package com.example.muvitracker.ui.main.detailshow
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.muvitracker.data.DetailShowRepository
-import com.example.muvitracker.data.PrefsShowRepository
-import com.example.muvitracker.data.SeasonRepository
+import com.example.muvitracker.data.repositories.DetailShowRepository
+import com.example.muvitracker.data.repositories.PrefsShowRepository
+import com.example.muvitracker.data.repositories.SeasonRepository
 import com.example.muvitracker.data.TraktApi
-import com.example.muvitracker.data.dto.person.CastResponseDto
 import com.example.muvitracker.data.dto.person.toDomain
 import com.example.muvitracker.domain.model.CastAndCrew
 import com.example.muvitracker.domain.model.DetailShow

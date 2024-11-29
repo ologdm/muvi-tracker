@@ -6,8 +6,6 @@ import androidx.room.TypeConverters
 import com.example.muvitracker.data.database.ConvertersUtils
 import com.example.muvitracker.data.dto.base.Ids
 import com.example.muvitracker.domain.model.DetailMovie
-import com.example.muvitracker.utils.dateFormatterInMMMyyy
-import com.example.muvitracker.utils.firstDecimalApproxToString
 
 
 @Entity(tableName = "detail_movie_entities")

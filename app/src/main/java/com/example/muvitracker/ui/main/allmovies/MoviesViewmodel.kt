@@ -9,7 +9,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import com.example.muvitracker.data.TraktApi
-import com.example.muvitracker.data.movies.MoviesPagingSource
+import com.example.muvitracker.data.repositories.movies.MoviesPagingSource
 import com.example.muvitracker.domain.model.base.Movie
 import com.example.muvitracker.domain.repo.MoviesRepo
 import com.example.muvitracker.utils.IoResponse

@@ -6,7 +6,6 @@ import androidx.room.TypeConverters
 import com.example.muvitracker.data.database.ConvertersUtils
 import com.example.muvitracker.data.dto.base.Ids
 import com.example.muvitracker.domain.model.DetailShow
-import com.example.muvitracker.utils.firstDecimalApproxToString
 
 @Entity(tableName = "detail_show_entities")
 data class DetailShowEntity(

@@ -7,7 +7,7 @@ import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.example.muvitracker.R
 import com.example.muvitracker.data.dto.base.Ids
-import com.example.muvitracker.data.imagetmdb.glide.ImageTmdbRequest
+import com.example.muvitracker.data.glide.ImageTmdbRequest
 import com.example.muvitracker.databinding.FragmPersonBinding
 import com.example.muvitracker.utils.viewBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment

@@ -143,7 +143,7 @@ class MoviesFragment : Fragment(R.layout.fragm_base_category) {
     }
 
 
-    // with pagin
+    // with paging
     private fun collectPagingStates() {
         // 1 coroutines - data
         fragmentViewLifecycleScope.launch { // extended property

@@ -6,10 +6,10 @@ import androidx.room.Room
 import com.example.muvitracker.BuildConfig
 import com.example.muvitracker.data.TraktApi
 import com.example.muvitracker.data.database.MyDatabase
-import com.example.muvitracker.data.DetailMovieRepository
-import com.example.muvitracker.data.PrefsMovieRepository
-import com.example.muvitracker.data.SearchRepository
-import com.example.muvitracker.data.movies.MoviesRepository
+import com.example.muvitracker.data.repositories.DetailMovieRepository
+import com.example.muvitracker.data.repositories.PrefsMovieRepository
+import com.example.muvitracker.data.repositories.SearchRepository
+import com.example.muvitracker.data.repositories.movies.MoviesRepository
 import com.example.muvitracker.domain.repo.DetailRepo
 import com.example.muvitracker.domain.repo.MoviesRepo
 import com.example.muvitracker.domain.repo.PrefsRepo

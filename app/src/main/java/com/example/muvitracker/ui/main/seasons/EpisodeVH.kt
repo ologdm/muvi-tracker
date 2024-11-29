@@ -4,7 +4,6 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.muvitracker.data.database.entities.EpisodeEntity
 import com.example.muvitracker.databinding.VhEpisodeOnseasonBinding
 import com.example.muvitracker.utils.episodesFormatNumber
-import com.example.muvitracker.utils.firstDecimalApproxToString
 
 class EpisodeVH(
     val binding: VhEpisodeOnseasonBinding

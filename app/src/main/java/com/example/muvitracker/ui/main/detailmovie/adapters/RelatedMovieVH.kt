@@ -4,10 +4,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.muvitracker.R
-import com.example.muvitracker.data.imagetmdb.glide.ImageTmdbRequest
+import com.example.muvitracker.data.glide.ImageTmdbRequest
 import com.example.muvitracker.databinding.VhRelatedListOnDetailBinding
 import com.example.muvitracker.domain.model.base.Movie
-import com.example.muvitracker.domain.model.base.Show
 
 class RelatedMovieVH(
     val binding: VhRelatedListOnDetailBinding,

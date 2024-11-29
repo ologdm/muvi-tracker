@@ -1,14 +1,14 @@
 package com.example.muvitracker.data
 
-import com.example.muvitracker.data.dto.movies.BoxofficeDtoM
-import com.example.muvitracker.data.dto.movies.DetailMovieDto
-import com.example.muvitracker.data.dto.show.DetailShowDto
+import com.example.muvitracker.data.dto.movie.BoxofficeDtoM
+import com.example.muvitracker.data.dto.DetailMovieDto
+import com.example.muvitracker.data.dto.DetailShowDto
 import com.example.muvitracker.data.dto.episode.EpisodeExtenDto
-import com.example.muvitracker.data.dto.movies.MovieBaseDto
+import com.example.muvitracker.data.dto.movie.MovieBaseDto
 import com.example.muvitracker.data.dto.SearchDto
-import com.example.muvitracker.data.dto.movies.AnticipatedDtoM
-import com.example.muvitracker.data.dto.movies.FavoritedDtoM
-import com.example.muvitracker.data.dto.movies.WatchedDtoM
+import com.example.muvitracker.data.dto.movie.AnticipatedDtoM
+import com.example.muvitracker.data.dto.movie.FavoritedDtoM
+import com.example.muvitracker.data.dto.movie.WatchedDtoM
 import com.example.muvitracker.data.dto.season.SeasonExtenDto
 import com.example.muvitracker.data.dto.show.AnticipatedDtoS
 import com.example.muvitracker.data.dto.show.FavoritedDtoS

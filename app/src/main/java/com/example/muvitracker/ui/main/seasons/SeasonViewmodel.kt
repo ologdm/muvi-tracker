@@ -3,19 +3,15 @@ package com.example.muvitracker.ui.main.seasons
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.muvitracker.data.EpisodeRepository
-import com.example.muvitracker.data.SeasonRepository
+import com.example.muvitracker.data.repositories.EpisodeRepository
+import com.example.muvitracker.data.repositories.SeasonRepository
 import com.example.muvitracker.data.database.entities.EpisodeEntity
-import com.example.muvitracker.data.database.entities.SeasonEntity
-import com.example.muvitracker.data.imagetmdb.TmdbRepository
 import com.example.muvitracker.domain.model.SeasonExtended
 import com.example.muvitracker.utils.IoResponse
 import com.example.muvitracker.utils.StateContainer
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.io.IOException
@@ -25,7 +21,6 @@ import javax.inject.Inject
 class SeasonViewmodel @Inject constructor(
     private val seasonRepository: SeasonRepository,
     private val episodeRepository: EpisodeRepository,
-    private val tmdbRepository: TmdbRepository
 ) : ViewModel() {
 
     val seasonInfoState = MutableLiveData<StateContainer<SeasonExtended>>()

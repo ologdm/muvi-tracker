@@ -5,7 +5,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.example.muvitracker.data.dto.base.Ids
-import com.example.muvitracker.data.dto.person.CastMemberDto
 import com.example.muvitracker.databinding.VhCastListOnDetailBinding
 import com.example.muvitracker.domain.model.CastMember
 
