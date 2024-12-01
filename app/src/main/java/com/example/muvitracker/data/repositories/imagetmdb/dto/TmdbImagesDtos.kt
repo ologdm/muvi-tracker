@@ -1,9 +1,9 @@
 package com.example.muvitracker.data.repositories.imagetmdb.dto
 
-import com.example.muvitracker.data.imagetmdb.database.entities.EpisodeImageEntity
-import com.example.muvitracker.data.imagetmdb.database.entities.MovieShowImageEntity
-import com.example.muvitracker.data.imagetmdb.database.entities.PersonImageEntity
-import com.example.muvitracker.data.imagetmdb.database.entities.SeasonImageEntity
+import com.example.muvitracker.data.repositories.imagetmdb.database.entities.EpisodeImageEntity
+import com.example.muvitracker.data.repositories.imagetmdb.database.entities.MovieShowImageEntity
+import com.example.muvitracker.data.repositories.imagetmdb.database.entities.PersonImageEntity
+import com.example.muvitracker.data.repositories.imagetmdb.database.entities.SeasonImageEntity
 import com.google.gson.annotations.SerializedName
 
 // tmdb - id univoco tra movie,show, season, episode
