@@ -19,7 +19,7 @@ class PrefsShowRepository @Inject constructor(
     //  override
     fun getListFLow(): Flow<List<DetailShow>> {
         // join: prefs + detail + watched episodes -> (caso tutto gia scaricato)
-        return prefsShowDao.getAllPrefsShows()
+        return prefsShowDao.getAllPrefs()
             .map { shows ->
                 shows.sortedByDescending { it.addedDateTime }
             }

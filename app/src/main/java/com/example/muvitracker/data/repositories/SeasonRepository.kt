@@ -37,7 +37,7 @@ class SeasonRepository @Inject constructor(
     private val episodeDao = database.episodesDao()
 
 
-    // store
+    // STORE
     private val seasonStore: Store<Int, List<SeasonExtended>> = StoreBuilder.from(
         fetcher = Fetcher.ofResult { showId ->
             try {
@@ -52,31 +52,30 @@ class SeasonRepository @Inject constructor(
         },
         sourceOfTruth = SourceOfTruth.of<Int, List<SeasonExtenDto>, List<SeasonExtended>>(
             reader = { showId ->
-                seasonDao.getAllSeasonsExtended(showId)
+                seasonDao.getAllSeasons(showId)
             },
             writer = { showId, dtos ->
-                saveSeasonDtosToDatabase(showId, dtos)
+                saveAllSeasonsDtoToDatabase(showId, dtos)
             }
         )
     ).build()
 
 
-    private suspend fun saveSeasonDtosToDatabase(showId: Int, dtos: List<SeasonExtenDto>) {
+    private suspend fun saveAllSeasonsDtoToDatabase(showId: Int, dtos: List<SeasonExtenDto>) {
         // if (non esiste) insertNuovo, else updateParziale
         for (seasonDto in dtos) {
             val dtoIndex = seasonDto.ids.trakt
-            val entity = seasonDao.readSingleSeasonById(dtoIndex)
+            val entity = seasonDao.readSingleById(dtoIndex)
             if (entity == null) {
                 seasonDao.insertSingle(seasonDto.toEntity(showId))
             } else {
                 val updatedEntity = entity.copyDtoData(seasonDto)
-                seasonDao.updateSingleSeasonDto(updatedEntity)
+                seasonDao.updateSingleByDto(updatedEntity)
             }
         }
     }
 
 
-    // 3. store stream
     fun getAllSeasonsFlow(showId: Int): Flow<IoResponse<List<SeasonExtended>>> {
         return seasonStore.stream(StoreRequest.cached(showId, refresh = true))
             .filterNot { storeResponse ->
@@ -104,70 +103,72 @@ class SeasonRepository @Inject constructor(
     }
 
 
-    // 1. solo lettura da db elemento singolo (elemento esiste sicuramente)
     fun getSingleSeasonFlow(showId: Int, seasonNr: Int): Flow<SeasonExtended> {
         // !!deve essere flow perchè stato watchedAll puo sempre cambiare
-        return seasonDao.getSingleSeasonExtended(showId, seasonNr)
+        return seasonDao.getSingleSeason(showId, seasonNr)
     }
 
 
-
-    // #############################################################################
     private suspend fun areEpisodesAvailableForSeason(
         showId: Int,
         seasonNr: Int
     ): Boolean {
-        return episodeDao.countEpisodesBySeason(showId, seasonNr) > 0
+        return episodeDao.countEpisodesOfSeason(showId, seasonNr) > 0
     }
 
 
-    // (click single season)
-    // for DetailFragment + SeasonFragment -> forceWatchedAll
-    suspend fun checkAndToggleWatchedAllSeasonEpisodes(
+
+    // (click - single season)
+    //  toggle single season -> from ShowFragment & SeasonFragment
+    suspend fun checkAndSetSeasonWatchedAllEpisodes(
         showId: Int,
         seasonNr: Int,
     ) {
         if (!areEpisodesAvailableForSeason(showId, seasonNr)) {
-            // 1. scarica tutti gli episodi stagione
+            // 1. download all season episodes
             episodeRepository.episodeStore
                 .fresh(ShowRequestKeys(showId = showId, seasonNr = seasonNr))
 
-            // aggiungi watched ai prefs se manca
+            // 2. add show to prefs -> if isWatched  at least one episode
             prefsShowRepository.addWatchedToPrefs(showId)
         }
 
-        // 2 toggle tutti episodi season
+        // 3 toggle all episodes from single season
         val seasonCountEpisodes =
-            seasonDao.readSingleSeason(showId, seasonNr)?.episodeCount ?: 0
-        val seasonWatchedAll =
+            seasonDao.readSingle(showId, seasonNr)?.episodeCount ?: 0
+
+        val seasonWatchedAllEpisodes =
             episodeDao.countSeasonWatchedEpisodes(showId, seasonNr).first()
-        if (seasonWatchedAll == seasonCountEpisodes) {
-            episodeDao.toggleSeasonAllWatchedAEpisodes(showId, seasonNr, false)
+
+        if (seasonWatchedAllEpisodes == seasonCountEpisodes) {
+            episodeDao.toggleSeasonWatchedAllEpisodes(showId, seasonNr, false)
         } else {
-            episodeDao.toggleSeasonAllWatchedAEpisodes(showId, seasonNr, true)
+            episodeDao.toggleSeasonWatchedAllEpisodes(showId, seasonNr, true)
         }
 
         // todo egde case
         // - se puntate aumentano, devo watchedAll scompare, airedEpisodes 10->13, 3 episodi non scaricati
     }
 
-    // /click all show seasons
-    // for ShowDetail -> forceWatchedAll
-    suspend fun checkAndSetWatchedAllSeasonEpisodes(
+    // (click - show watchedAll)
+    // from ShowDetail -> forceWatchedAll ()
+    suspend fun checkAndSetSeasonWatchedAllEpisodes(
         showId: Int,
         seasonNr: Int,
-        watchedAll: Boolean
+        watchedAllState: Boolean
     ) {
-        if (!areEpisodesAvailableForSeason(showId, seasonNr)) {
-            // 1. scarica tutti gli episodi stagione
-            episodeRepository.episodeStore
-                .fresh(ShowRequestKeys(showId = showId, seasonNr = seasonNr))
 
-            // aggiungi watched ai prefs se manca
+        if (!areEpisodesAvailableForSeason(showId, seasonNr)) {
+            // 1. download all season episodes ==
+            episodeRepository.episodeStore.fresh(
+                ShowRequestKeys(showId = showId, seasonNr = seasonNr)
+            )
+
+            // 2. add show to prefs -> if isWatched  at least one episode ==
             prefsShowRepository.addWatchedToPrefs(showId)
         }
-
-        episodeDao.toggleSeasonAllWatchedAEpisodes(showId, seasonNr, watchedAll)
+        // 3.
+        episodeDao.toggleSeasonWatchedAllEpisodes(showId, seasonNr, watchedAllState)
     }
 
 

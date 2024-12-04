@@ -6,8 +6,8 @@ import com.example.muvitracker.data.dto.episode.EpisodeExtenDto
 import com.example.muvitracker.data.dto.base.Ids
 import com.example.muvitracker.utils.firstDecimalApproxToString
 
-// completo - apertura season i
-// parziale - detail, watchedAll
+// extendedDto -> detail episode
+// baseDto -> for  episode list
 
 @Entity(tableName = "episode_entities")
 data class EpisodeEntity(

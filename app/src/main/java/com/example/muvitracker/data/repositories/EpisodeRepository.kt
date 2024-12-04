@@ -28,10 +28,10 @@ class EpisodeRepository @Inject constructor(
     database: MyDatabase,
     private val prefsShowRepository : PrefsShowRepository
 ) {
+
     private val episodeDao = database.episodesDao()
 
 
-    // STORE 0000
     val episodeStore: Store<ShowRequestKeys, List<EpisodeEntity>> = StoreBuilder.from(
         fetcher = Fetcher.ofResult { request ->
             try {
@@ -51,39 +51,38 @@ class EpisodeRepository @Inject constructor(
         sourceOfTruth = SourceOfTruth.of<ShowRequestKeys, List<EpisodeExtenDto>, List<EpisodeEntity>>(
             reader = { request ->
                 // flow
-                episodeDao.readAllEpisodesOfSeason(request.showId, request.seasonNr).map {
+                episodeDao.readAllOfSeason(request.showId, request.seasonNr).map {
                     // map list -> to return list or null
                     if (it.isEmpty()) null
                     else it
                 }
             },
-            writer = { request, dtos ->
+            writer = { request, dtoList ->
                 // ciclo for che paragona id di ogni elemento prima di inserirlo
-                saveDtosToDatabase(request.showId, dtos)
+                saveDtosToDatabase(request.showId, dtoList)
             }
         )
     ).build()
 
 
-    // 0000
-    private suspend fun saveDtosToDatabase(showId: Int, dtos: List<EpisodeExtenDto>) {
+    private suspend fun saveDtosToDatabase(showId: Int, dtoList: List<EpisodeExtenDto>) {
         // if (non esiste) insertNuovo, else updateParziale
-        for (episodeDto in dtos) { // check per ogni elemento dto
+        for (episodeDto in dtoList) { // check per ogni elemento dto
             val dtoIndex = episodeDto.ids.trakt
-            val entity = episodeDao.readSingleEpisodeById(dtoIndex)
+            val entity = episodeDao.readSingleById(dtoIndex)
             if (entity == null) {
                 episodeDao.insertSingle(episodeDto.toEntity(showId))
             } else {
                 // update only dto part (watchedState and showId don't change)
                 val updatedEntity = entity.copyDtoData(episodeDto)
-                episodeDao.updateDataSingleEpisode(updatedEntity)
+                episodeDao.updateDataOfSingle(updatedEntity)
             }
         }
     }
 
 
-    // Stream 0000
-    fun getSeasonEpisodesFlow(showId: Int, seasonNr: Int): Flow<IoResponse<List<EpisodeEntity>>> {
+
+    fun getSeasonAllEpisodesFlow(showId: Int, seasonNr: Int): Flow<IoResponse<List<EpisodeEntity>>> {
         return episodeStore.stream(
             StoreRequest.cached(
                 ShowRequestKeys(showId = showId, seasonNr = seasonNr),
@@ -116,21 +115,14 @@ class EpisodeRepository @Inject constructor(
 
     // ########################################################################################
     // WATCHED TOGGLE
-    suspend fun toggleSingleWatchedEpisode( // 000
+    suspend fun toggleSingleWatchedEpisode(
         showId: Int,
         seasonNr: Int,
         episodeNr: Int
     ) {
-        // watched / not watched
-        episodeDao.toggleWatchedSingleEpisode(showId, seasonNr, episodeNr)
-
-        // todo logica prefs add if watched
-        prefsShowRepository.addWatchedToPrefs (showId)
+        episodeDao.toggleWatchedSingle(showId, seasonNr, episodeNr)
+        prefsShowRepository.addWatchedToPrefs (showId) // add to prefs if watched
     }
-
-    // WATCHED READ - all'interno dell'entity
-
-
 
 }
 

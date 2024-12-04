@@ -9,45 +9,31 @@ import com.example.muvitracker.data.database.entities.SeasonEntity
 import com.example.muvitracker.domain.model.SeasonExtended
 import kotlinx.coroutines.flow.Flow
 
-// @Update - richiede l'intera entity da aggiornare
-// utilizzare episodi totali sempre
-
-// TODO
-//  1. read
-//  2. insert
-//  3.1 update from dto
 
 @Dao
 interface SeasonDao {
 
-    // 1. READ 000
     @Query("SELECT * FROM season_entities WHERE showId=:showId AND seasonNumber=:seasonNr")
-    suspend fun readSingleSeason(showId: Int, seasonNr: Int): SeasonEntity?
+    suspend fun readSingle(showId: Int, seasonNr: Int): SeasonEntity?
 
     @Query("SELECT * FROM season_entities WHERE seasonTraktId=:seasonTraktId")
-    suspend fun readSingleSeasonById(seasonTraktId: Int): SeasonEntity?
+    suspend fun readSingleById(seasonTraktId: Int): SeasonEntity?
 
+    @Insert
+    suspend fun insertSingle(entity: SeasonEntity)
+
+    @Update
+    suspend fun updateSingleByDto(entity: SeasonEntity)
+
+    @Update
+    suspend fun updateAllByDto(entities: List<SeasonEntity>)
 
     @Query("SELECT COUNT(*) FROM season_entities WHERE showId=:showId")
     suspend fun countAllSeasonsOfShow(showId: Int): Int
 
 
-    // 2. INSERT 000
-    // only new items
-    @Insert
-    suspend fun insertSingle(entity: SeasonEntity)
-
-
-    // TODO modificare codice repository
-    // 3.1 UPDATE dto
-    @Update
-    suspend fun updateSingleSeasonDto(entity: SeasonEntity)
-
-    @Update
-    suspend fun updateAllSeasonsDto(entities: List<SeasonEntity>)
-
-
-    // JOIN season + episodeEntity (watchedEpisode) -> ottengo domain
+    // Get Domain -> with join
+    // JOIN season + episodeEntity (watchedEpisode)
     @Transaction
     @Query(
         """
@@ -60,7 +46,7 @@ interface SeasonDao {
     GROUP BY s.seasonTraktId
 """
     )
-    fun getAllSeasonsExtended(showId: Int): Flow<List<SeasonExtended>>
+    fun getAllSeasons(showId: Int): Flow<List<SeasonExtended>>
 
 
     @Transaction
@@ -75,7 +61,7 @@ interface SeasonDao {
     GROUP BY s.seasonTraktId
 """
     )
-    fun getSingleSeasonExtended(showId: Int, seasonNumber: Int): Flow<SeasonExtended>
+    fun getSingleSeason(showId: Int, seasonNumber: Int): Flow<SeasonExtended>
 
 }
 

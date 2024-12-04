@@ -43,7 +43,7 @@ class SeasonViewmodel @Inject constructor(
     fun loadSeasonEpisodes(showId: Int, seasonNumber: Int) {
         // caching come in details
         viewModelScope.launch {
-            episodeRepository.getSeasonEpisodesFlow(showId, seasonNumber)
+            episodeRepository.getSeasonAllEpisodesFlow(showId, seasonNumber)
                 .map { response ->
                     when (response) {
                         is IoResponse.Success -> {
@@ -69,7 +69,7 @@ class SeasonViewmodel @Inject constructor(
 
     fun toggleSeasonAllWatchedEpisodes(showId: Int, seasonNr: Int) {
         viewModelScope.launch {
-            seasonRepository.checkAndToggleWatchedAllSeasonEpisodes(showId, seasonNr)
+            seasonRepository.checkAndSetSeasonWatchedAllEpisodes(showId, seasonNr)
         }
     }
 

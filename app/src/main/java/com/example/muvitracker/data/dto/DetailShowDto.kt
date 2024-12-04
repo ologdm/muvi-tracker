@@ -17,7 +17,7 @@ data class DetailShowDto(
     val overview: String?, // about movie
     @SerializedName("first_aired") val firstAired: String?,
 //    val airs : Airs // day, time, timezone
-    val runtime: Int? = 0, // 60
+    val runtime: Int?, // 60
 //    val certification: String,
     val network: String?, // hbo
     val country: String?, // us

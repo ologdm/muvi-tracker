@@ -45,7 +45,6 @@ class DetailShowRepository @Inject constructor(
     private val seasonDao = database.seasonsDao()
 
 
-    // store
     private val detailStore: Store<Int, DetailShow> = StoreBuilder.from(
         fetcher = Fetcher.ofResult { showId ->
             try {
@@ -60,7 +59,7 @@ class DetailShowRepository @Inject constructor(
         },
         sourceOfTruth = SourceOfTruth.of<Int, DetailShowDto, DetailShow>(
             reader = { showId ->
-                detailShowDao.getSingleDetailFlow(showId)
+                detailShowDao.getSingleFlow(showId)
                 // return->DetailShow,
                 // join detail + prefs + episodeCount
             },
@@ -70,7 +69,6 @@ class DetailShowRepository @Inject constructor(
                 } catch (ex: Exception) {
                     ex.printStackTrace()
                 }
-
             }
         )
     ).build()
@@ -108,7 +106,6 @@ class DetailShowRepository @Inject constructor(
         return try {
             IoResponse.Success(traktApi.getShowRelatedShows(showId)).ioMapper { dtos ->
                 dtos.map { dto ->
-                    println("YYY related dto:$dto")
                     dto.toDomain()
                 }
             }
@@ -116,7 +113,6 @@ class DetailShowRepository @Inject constructor(
             throw ex
         } catch (ex: Throwable) {
             ex.printStackTrace()
-            println("YYY related error type:$ex")
             IoResponse.Error(ex)
         }
     }
@@ -124,33 +120,26 @@ class DetailShowRepository @Inject constructor(
 
     // WATCHED ALL SU SHOW
     // 10 coroutines al massimo aperte in una volta
-
-    suspend fun checkAndSetShowAllWatchedEpisodes(showId: Int) = coroutineScope {
-        val showSeasons = seasonDao.countAllSeasonsOfShow(showId)
-        val isDetailWatchedStatus =
-            detailShowDao.getSingleDetailFlow(showId).firstOrNull()?.watchedAll
+    suspend fun checkAndSetShowWatchedAllSeasons(showId: Int) = coroutineScope {
+        val showAllSeasonsCount = seasonDao.countAllSeasonsOfShow(showId)
+        val isShowWatchedAll = detailShowDao.getSingleFlow(showId)
+                .firstOrNull()?.watchedAll // watchedAll calculated
                 ?: return@coroutineScope
 
         val semaphore = Semaphore(10)
-
-        val jobs = (1..showSeasons).map { season ->
+        val jobs = (1..showAllSeasonsCount).map { season ->
             async {
                 semaphore.withPermit {
-                    println("XXX async")
-//                    delay(5000) for test
-                    if (isDetailWatchedStatus) {
-                        seasonRepo.checkAndSetWatchedAllSeasonEpisodes(showId, season, false)
+                    if (isShowWatchedAll) {
+                        seasonRepo.checkAndSetSeasonWatchedAllEpisodes(showId, season, false)
                     } else {
-                        seasonRepo.checkAndSetWatchedAllSeasonEpisodes(showId, season, true)
+                        seasonRepo.checkAndSetSeasonWatchedAllEpisodes(showId, season, true)
                     }
                 }
             }
         }
         jobs.awaitAll()
     }
-
-
-    // CAST - repo separata todo
 
 }
 

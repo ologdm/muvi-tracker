@@ -14,8 +14,8 @@ data class SeasonExtenDto(
     val ids: Ids,
     val rating: Double?,
 //    val votes: Int?, // not use
-    @SerializedName("episode_count") val episodeCount: Int?, // total usare
-    @SerializedName("aired_episodes") val airedEpisodes: Int?, // released
+    @SerializedName("episode_count") val episodeCount: Int?, // tot planned
+    @SerializedName("aired_episodes") val airedEpisodes: Int?, // tot released
     val title: String?, // "season 1"
     val overview: String?,
     @SerializedName("first_aired") val firstAired: String?,

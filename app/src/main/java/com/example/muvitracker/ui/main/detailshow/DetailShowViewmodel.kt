@@ -72,24 +72,6 @@ class DetailShowViewmodel @Inject constructor(
     }
 
 
-    // like OK
-    fun toggleLikedShow(showId: Int) {
-        viewModelScope.launch {
-            prefsShowRepository.toggleLikedOnDB(showId)
-        }
-    }
-
-    // force show watchedAll OK
-    fun toggleWatchedAll(showId: Int, onComplete: () -> Unit) {
-        // add callback
-        viewModelScope.launch {
-            detailShowRepo.checkAndSetShowAllWatchedEpisodes(showId)
-            onComplete()
-        }
-    }
-
-
-    // OK
     fun loadAllSeasons(showId: Int) {
         viewModelScope.launch {
             seasonRepository.getAllSeasonsFlow(showId)
@@ -117,16 +99,26 @@ class DetailShowViewmodel @Inject constructor(
     }
 
 
-    // SEASON watchedAll OK todo eu
+    // TOGGLE
+    fun toggleLikedShow(showId: Int) {
+        viewModelScope.launch {
+            prefsShowRepository.toggleLikedOnDB(showId)
+        }
+    }
+
+    fun toggleWatchedAll(showId: Int, onComplete: () -> Unit) {
+        // add callback
+        viewModelScope.launch {
+            detailShowRepo.checkAndSetShowWatchedAllSeasons(showId)
+            onComplete()
+        }
+    }
 
     fun toggleSingleSeasonWatchedAll(showId: Int, seasonNr: Int, onComplete: () -> Unit) {
         viewModelScope.launch() {
             // 1 start loading  - su adapter - start al click
-
             // 2 toggle allEpisodes + season + showOnPrefs
-            seasonRepository.checkAndToggleWatchedAllSeasonEpisodes(showId, seasonNr)
-//            seasonRepository.updateSeasonWatchedCountAndAll(showId,seasonNr)
-
+            seasonRepository.checkAndSetSeasonWatchedAllEpisodes(showId, seasonNr)
             // 3 finish loading - chiama la callback con true o false (se l'operazione ha avuto successo o no)
             onComplete()
         }

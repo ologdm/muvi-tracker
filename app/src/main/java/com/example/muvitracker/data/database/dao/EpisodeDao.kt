@@ -7,21 +7,17 @@ import androidx.room.Update
 import com.example.muvitracker.data.database.entities.EpisodeEntity
 import kotlinx.coroutines.flow.Flow
 
-// accoppio in base al'utilizzo
-
-
 @Dao
 interface EpisodeDao {
 
-    // READ
-    // to aggiornamento da dto, check esistenza elemento || todo - fare true false
+    // to aggiornamento da dto, check esistenza elemento
     @Query(
         """
         SELECT * FROM episode_entities 
         WHERE episodeTraktId=:episodeTraktId 
         """
     )
-    suspend fun readSingleEpisodeById(episodeTraktId: Int): EpisodeEntity?
+    suspend fun readSingleById(episodeTraktId: Int): EpisodeEntity?
 
 
     // to episodeFragment
@@ -33,7 +29,7 @@ interface EpisodeDao {
             AND episodeNumber =:episodeNr
         """
     )
-    fun readSingleEpisode(showId: Int, seasonNr: Int, episodeNr: Int): Flow<EpisodeEntity>?
+    fun readSingle(showId: Int, seasonNr: Int, episodeNr: Int): Flow<EpisodeEntity>?
 
 
     // to seasonFragment
@@ -43,24 +39,21 @@ interface EpisodeDao {
         WHERE showId=:showId 
             AND seasonNumber =:seasonNr"""
     )
-    fun readAllEpisodesOfSeason(showId: Int, seasonNr: Int): Flow<List<EpisodeEntity>>
+    fun readAllOfSeason(showId: Int, seasonNr: Int): Flow<List<EpisodeEntity>>
 
 
-    // INSERT /UPDATE from dto (without watched status)
     // to episode store update
     @Insert
     suspend fun insertSingle(entity: EpisodeEntity)
 
     // per episode store update
     @Update
-    suspend fun updateDataSingleEpisode(entity: EpisodeEntity)
+    suspend fun updateDataOfSingle(entity: EpisodeEntity)
 
 
     // WATCHED
     // 1. CHECK/ TOGGLE WATCHED - SINGLE EPISODE
     // to seasonFragm, episode Fragm
-
-    // check - read single
 
     @Query(
         """
@@ -71,11 +64,11 @@ interface EpisodeDao {
             AND episodeNumber=:episodeNr
         """
     )
-    suspend fun toggleWatchedSingleEpisode(showId: Int, seasonNr: Int, episodeNr: Int)
+    suspend fun toggleWatchedSingle(showId: Int, seasonNr: Int, episodeNr: Int)
 
 
     // 2. COUNT/ TOGGLE WATCHED - SEASON EPISODES
-    // to detail, season fragment
+    // to show, season fragment
     @Query(
         """
         SELECT COUNT(*)
@@ -96,7 +89,7 @@ interface EpisodeDao {
             AND seasonNumber=:seasonNr
         """
     )
-    suspend fun toggleSeasonAllWatchedAEpisodes(showId: Int, seasonNr: Int, watched: Boolean)
+    suspend fun toggleSeasonWatchedAllEpisodes(showId: Int, seasonNr: Int, watched: Boolean)
 
 
     // 3. COUNT/TOGGLE WATCHED - SHOW EPISODES
@@ -119,7 +112,7 @@ interface EpisodeDao {
         WHERE showId=:showId
     """
     )
-    suspend fun toggleShowAllWatchedEpisodes(
+    suspend fun toggleShowWatchedALlEpisodes(
         showId: Int, watched: Boolean
     )
 
@@ -133,7 +126,7 @@ interface EpisodeDao {
             AND seasonNumber = :seasonNr 
         """
     )
-    suspend fun countEpisodesBySeason(showId: Int, seasonNr: Int): Int
+    suspend fun countEpisodesOfSeason(showId: Int, seasonNr: Int): Int
 
 
 }

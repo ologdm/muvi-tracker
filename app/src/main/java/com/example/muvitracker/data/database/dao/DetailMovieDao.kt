@@ -11,22 +11,15 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface DetailMovieDao {
 
-    // 1 - CREATE or UPDATE
-    // (use always suspend)
     @Insert(onConflict = OnConflictStrategy.REPLACE)
      suspend fun insertSingle(entity: DetailMovieEntity)
 
-
-    // 2 - READ
-    // (con flow) - osserva cambiamenti tabelle a cui fanno riferimento le query
     @Query("SELECT * FROM detail_movie_entities WHERE traktId=:inputId")
     fun readSingleFlow(inputId: Int): Flow<DetailMovieEntity?> // deve essere nullable
 
     @Query("SELECT * FROM detail_movie_entities")
     fun readAllFlow(): Flow<List<DetailMovieEntity?>>
 
-
-    // 3 - DELETE - nnot used
     @Delete
     fun deleteSingle(entity: DetailMovieEntity)
 

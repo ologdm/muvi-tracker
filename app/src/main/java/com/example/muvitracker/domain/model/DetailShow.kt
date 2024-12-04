@@ -31,17 +31,9 @@ data class DetailShow(
     val watchedCount: Int = 0, // default 0
 ) {
 
-    // imdb univoco tra show e movie
-    fun imageUrl(): String {
-        return "http://img.omdbapi.com/?apikey=ef6d3d4c&i=${ids.imdb}"
-    }
-
-
+    // TODO: edge case
+    // stato  -> solo a livello di Ui
     val watchedAll: Boolean
         get() = watchedCount == airedEpisodes
-
-//    fun watchedAll(): Boolean {
-//        return watchedCount == airedEpisodes
-//    }
 
 }

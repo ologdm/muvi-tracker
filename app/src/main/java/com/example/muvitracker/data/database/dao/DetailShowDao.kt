@@ -6,33 +6,27 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
-import com.example.muvitracker.data.database.entities.DetailMovieEntity
 import com.example.muvitracker.data.database.entities.DetailShowEntity
 import com.example.muvitracker.domain.model.DetailShow
 import kotlinx.coroutines.flow.Flow
 
-// 00 tutto
 @Dao
 interface DetailShowDao {
 
-    // 1 - CREATE or UPDATE
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertSingle(entity: DetailShowEntity)
 
-
-    // 2 - READ (con flow)
     @Query("SELECT * FROM detail_show_entities WHERE traktId=:inputId")
     fun readSingleFlow(inputId: Int): Flow<DetailShowEntity?> // deve essere nullable
 
     @Query("SELECT * FROM detail_show_entities")
     fun readAllFlow(): Flow<List<DetailShowEntity>>
 
-
-    // 3 - DELETE - not used
     @Delete
     fun deleteSingle(entity: DetailShowEntity)
 
 
+    // Get Domain -> with join
     // detail + prefs + episodeCount
     @Transaction
     @Query(
@@ -49,7 +43,7 @@ interface DetailShowDao {
     GROUP BY d.traktId
 """
     )
-    fun getSingleDetailFlow(showId: Int): Flow<DetailShow?>
+    fun getSingleFlow(showId: Int): Flow<DetailShow?>
     // campo where con campo select - devono coincidere!!!
 
 }
