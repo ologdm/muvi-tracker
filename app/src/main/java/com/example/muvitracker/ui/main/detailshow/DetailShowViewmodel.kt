@@ -118,7 +118,7 @@ class DetailShowViewmodel @Inject constructor(
         viewModelScope.launch() {
             // 1 start loading  - su adapter - start al click
             // 2 toggle allEpisodes + season + showOnPrefs
-            seasonRepository.checkAndSetSeasonWatchedAllEpisodes(showId, seasonNr)
+            seasonRepository.checkAndSetSingleSeasonWatchedAllEpisodes(showId, seasonNr)
             // 3 finish loading - chiama la callback con true o false (se l'operazione ha avuto successo o no)
             onComplete()
         }

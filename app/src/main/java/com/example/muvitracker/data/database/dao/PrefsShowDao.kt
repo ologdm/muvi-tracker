@@ -20,7 +20,7 @@ interface PrefsShowDao {
     suspend fun readSingle(id: Int): PrefsShowEntity?
 
     @Query("SELECT * FROM prefs_show_entities")
-    fun readAll(): Flow<List<PrefsShowEntity?>>
+    fun readAll(): Flow<List<PrefsShowEntity>>
 
     @Query("UPDATE prefs_show_entities SET liked = NOT liked WHERE traktId =:id")
     suspend fun toggleLiked(id: Int)

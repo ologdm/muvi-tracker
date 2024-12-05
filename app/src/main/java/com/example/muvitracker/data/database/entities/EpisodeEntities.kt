@@ -5,6 +5,7 @@ import androidx.room.PrimaryKey
 import com.example.muvitracker.data.dto.episode.EpisodeExtenDto
 import com.example.muvitracker.data.dto.base.Ids
 import com.example.muvitracker.utils.firstDecimalApproxToString
+import com.example.muvitracker.utils.formatToSqliteCompatibleDate
 
 // extendedDto -> detail episode
 // baseDto -> for  episode list
@@ -44,7 +45,7 @@ fun EpisodeEntity.copyDtoData(episodeDto: EpisodeExtenDto): EpisodeEntity {
         numberAbs = episodeDto.numberAbs ?: 0,
         overview = episodeDto.overview ?: "N/A",
         rating = episodeDto.rating?.firstDecimalApproxToString() ?: "0.0",
-        firstAiredFormatted = episodeDto.getDateFromFirsAired() ?: "N/A",
+        firstAiredFormatted = formatToSqliteCompatibleDate(episodeDto.firstAired) ?: "N/A",
         availableTranslations = episodeDto.availableTranslations ?: emptyList(),
         runtime = episodeDto.runtime ?: 0,
         episodeType = episodeDto.episodeType ?: "N/A",
@@ -52,3 +53,5 @@ fun EpisodeEntity.copyDtoData(episodeDto: EpisodeExtenDto): EpisodeEntity {
         // watched remain the same
     )
 }
+
+// no domain

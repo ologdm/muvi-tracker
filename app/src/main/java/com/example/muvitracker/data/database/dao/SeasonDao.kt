@@ -32,8 +32,9 @@ interface SeasonDao {
     suspend fun countAllSeasonsOfShow(showId: Int): Int
 
 
-    // Get Domain -> with join
-    // JOIN season + episodeEntity (watchedEpisode)
+    // entity -> to domain
+    // join -> season + episodeEntity (watchedEpisode)
+    //
     @Transaction
     @Query(
         """
@@ -61,7 +62,7 @@ interface SeasonDao {
     GROUP BY s.seasonTraktId
 """
     )
-    fun getSingleSeason(showId: Int, seasonNumber: Int): Flow<SeasonExtended>
+    fun getSingleSeason(showId: Int, seasonNumber: Int): Flow<SeasonExtended?>
 
 }
 

@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface EpisodeDao {
 
-    // to aggiornamento da dto, check esistenza elemento
+    // to update by dto, check if element exist
     @Query(
         """
         SELECT * FROM episode_entities 
@@ -42,18 +42,13 @@ interface EpisodeDao {
     fun readAllOfSeason(showId: Int, seasonNr: Int): Flow<List<EpisodeEntity>>
 
 
-    // to episode store update
+    // to episode store
     @Insert
     suspend fun insertSingle(entity: EpisodeEntity)
 
-    // per episode store update
     @Update
     suspend fun updateDataOfSingle(entity: EpisodeEntity)
 
-
-    // WATCHED
-    // 1. CHECK/ TOGGLE WATCHED - SINGLE EPISODE
-    // to seasonFragm, episode Fragm
 
     @Query(
         """
@@ -62,12 +57,14 @@ interface EpisodeDao {
         WHERE showId=:showId 
             AND seasonNumber=:seasonNr 
             AND episodeNumber=:episodeNr
+            AND firstAiredFormatted IS NOT NULL
+            AND firstAiredFormatted < DATETIME ('now')
         """
     )
     suspend fun toggleWatchedSingle(showId: Int, seasonNr: Int, episodeNr: Int)
 
 
-    // 2. COUNT/ TOGGLE WATCHED - SEASON EPISODES
+    // 2. SEASON EPISODES - COUNT/ SET
     // to show, season fragment
     @Query(
         """
@@ -78,7 +75,7 @@ interface EpisodeDao {
             AND watched = 1
         """
     )
-    fun countSeasonWatchedEpisodes(showId: Int, seasonNr: Int): Flow<Int>
+    suspend fun countSeasonWatchedEpisodes(showId: Int, seasonNr: Int): Int
 
 
     @Query(
@@ -87,13 +84,15 @@ interface EpisodeDao {
         SET watched=:watched
         WHERE showId=:showId 
             AND seasonNumber=:seasonNr
+            AND firstAiredFormatted IS NOT NULL
+            AND firstAiredFormatted < DATETIME('now')
         """
     )
-    suspend fun toggleSeasonWatchedAllEpisodes(showId: Int, seasonNr: Int, watched: Boolean)
+    suspend fun setSeasonWatchedAllEpisodes(showId: Int, seasonNr: Int, watched: Boolean)
 
 
-    // 3. COUNT/TOGGLE WATCHED - SHOW EPISODES
-    //to show fragment
+    // 3. SHOW EPISODES -  COUNT/SET
+    // to show fragment
     @Query(
         """
         SELECT COUNT (*)
@@ -102,7 +101,7 @@ interface EpisodeDao {
             AND watched = 1
     """
     )
-    fun countShowWatchedEpisodes(showId: Int): Flow<Int>
+    suspend fun countShowWatchedEpisodes(showId: Int): Int
 
 
     @Query(
@@ -110,15 +109,16 @@ interface EpisodeDao {
        UPDATE episode_entities
         SET watched=:watched
         WHERE showId=:showId
+            AND firstAiredFormatted IS NOT NULL
+            AND firstAiredFormatted < DATETIME('now')
     """
     )
-    suspend fun toggleShowWatchedALlEpisodes(
-        showId: Int, watched: Boolean
-    )
+    suspend fun setShowWatchedALlEpisodes(showId: Int, watched: Boolean)
 
 
-    // CONTEGGIO AL MOMENTO DEGLI EPISODI GIA' SCARICATO
+    // count already download episodes of the show
     // serve solo per scaricare nuovi episodi mancanti (force download episodes)
+    // it needs only in case -> to force download all the episodes
     @Query(
         """
         SELECT COUNT(*) FROM episode_entities 

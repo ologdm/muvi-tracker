@@ -126,14 +126,14 @@ class DetailShowRepository @Inject constructor(
                 .firstOrNull()?.watchedAll // watchedAll calculated
                 ?: return@coroutineScope
 
-        val semaphore = Semaphore(10)
+        val semaphore = Semaphore(20)
         val jobs = (1..showAllSeasonsCount).map { season ->
             async {
                 semaphore.withPermit {
                     if (isShowWatchedAll) {
-                        seasonRepo.checkAndSetSeasonWatchedAllEpisodes(showId, season, false)
+                        seasonRepo.checkAndSetSingleSeasonWatchedAllEpisodes(showId, season, false)
                     } else {
-                        seasonRepo.checkAndSetSeasonWatchedAllEpisodes(showId, season, true)
+                        seasonRepo.checkAndSetSingleSeasonWatchedAllEpisodes(showId, season, true)
                     }
                 }
             }

@@ -10,6 +10,7 @@ import com.example.muvitracker.data.dto.base.Ids
 import com.example.muvitracker.data.glide.ImageTmdbRequest
 import com.example.muvitracker.databinding.FragmEpisodeBottomsheetBinding
 import com.example.muvitracker.utils.episodesFormatNumber
+import com.example.muvitracker.utils.formatDateFromFirsAired
 import com.example.muvitracker.utils.viewBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -52,9 +53,9 @@ class EpisodeFragment : BottomSheetDialogFragment(R.layout.fragm_episode_bottoms
                             .replaceFirstChar { it.uppercaseChar() }
                     }"
 
-                val release = getString(R.string.release_date)
                 binding.info.text =
-                    "${getString(R.string.release_date)} ${episodeEntity.firstAiredFormatted} | ${episodeEntity.runtime} min "
+                    "${getString(R.string.release_date)} ${episodeEntity
+                        .firstAiredFormatted?.formatDateFromFirsAired() ?: "N/A"} | ${episodeEntity.runtime} min "
                 binding.overview.text = episodeEntity.overview
                 binding.traktRating.text = episodeEntity.rating.toString()
 

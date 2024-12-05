@@ -46,6 +46,8 @@ fun SeasonExtenDto.toEntity(showId: Int): SeasonEntity {
     )
 }
 
+// toDomain() : SeasonExtended {..} => on 'SeasonDao'
+
 
 /*
      {

@@ -17,7 +17,7 @@ interface PrefsMovieDao {
     fun readSingle(id: Int): Flow<PrefsMovieEntity?>
 
     @Query("SELECT * FROM prefs_movie_entities")
-    fun readAll(): Flow<List<PrefsMovieEntity?>>
+    fun readAll(): Flow<List<PrefsMovieEntity>>
 
     @Query("UPDATE prefs_movie_entities SET liked = NOT liked WHERE traktId =:id")
     suspend fun updateLiked(id: Int)

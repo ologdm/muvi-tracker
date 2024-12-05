@@ -41,7 +41,6 @@ fun DetailShowEntity.toDomain(prefsShowEntity: PrefsShowEntity?): DetailShow {
         //
         tagline = tagline,
         overview = overview,
-        firstAired = firstAired,
         runtime = runtime,
         network = network,
         country = country,

@@ -1,4 +1,4 @@
-package com.example.muvitracker.data.repositories.movies
+package com.example.muvitracker.data.repositories
 
 import com.dropbox.android.external.store4.Fetcher
 import com.dropbox.android.external.store4.FetcherResult
@@ -13,7 +13,6 @@ import com.example.muvitracker.data.database.entities.BoxofficeMovieEntity
 import com.example.muvitracker.data.database.entities.toDomain
 import com.example.muvitracker.data.dto.movie.BoxofficeDtoM
 import com.example.muvitracker.data.dto.movie.toEntity
-import com.example.muvitracker.data.dto.toEntity
 import com.example.muvitracker.domain.model.base.Movie
 import com.example.muvitracker.domain.repo.MoviesRepo
 import com.example.muvitracker.utils.IoResponse
@@ -51,6 +50,7 @@ class MoviesRepository @Inject constructor(
         sourceOfTruth = SourceOfTruth.of<Unit, List<BoxofficeDtoM>, List<BoxofficeMovieEntity>>(
             reader = { _ ->
                 boxofficeDao.readAll()
+                    .map { if (it.isEmpty()) null else it }
             },
             writer = { _, list ->
                 boxofficeDao.insertList(list.map { it.toEntity() })

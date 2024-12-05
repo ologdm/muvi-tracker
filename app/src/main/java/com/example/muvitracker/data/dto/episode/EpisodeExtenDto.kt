@@ -3,7 +3,11 @@ package com.example.muvitracker.data.dto.episode
 import com.example.muvitracker.data.database.entities.EpisodeEntity
 import com.example.muvitracker.data.dto.base.Ids
 import com.example.muvitracker.utils.firstDecimalApproxToString
+import com.example.muvitracker.utils.formatToSqliteCompatibleDate
 import com.google.gson.annotations.SerializedName
+
+// dto date (ISO 8601):              2015-09-21T17:30:00.000Z
+// entity date (sqlite compatible):  2015-09-21 17:30:00
 
 data class EpisodeExtenDto(
     val season: Int?,
@@ -20,14 +24,7 @@ data class EpisodeExtenDto(
     @SerializedName("available_translations") val availableTranslations: List<String>?,
     val runtime: Int?,
     @SerializedName("episode_type") val episodeType: String?
-) {
-
-    fun getDateFromFirsAired(): String? {
-        return firstAired?.let {
-            "${it.substring(8, 10)}.${it.substring(5, 7)}.${it.substring(0, 4)}"
-        }
-    }
-}
+)
 
 
 fun EpisodeExtenDto.toEntity(showId: Int): EpisodeEntity {
@@ -40,7 +37,7 @@ fun EpisodeExtenDto.toEntity(showId: Int): EpisodeEntity {
         numberAbs = numberAbs ?: 0,
         overview = overview ?: "N/A",
         rating = rating?.firstDecimalApproxToString() ?: "0.0",
-        firstAiredFormatted = getDateFromFirsAired() ?: "N/A",
+        firstAiredFormatted = formatToSqliteCompatibleDate(firstAired),
         availableTranslations = availableTranslations ?: emptyList(),
         runtime = runtime ?: 0,
         episodeType = episodeType ?: "N/A",

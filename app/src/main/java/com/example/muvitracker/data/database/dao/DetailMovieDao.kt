@@ -15,13 +15,11 @@ interface DetailMovieDao {
      suspend fun insertSingle(entity: DetailMovieEntity)
 
     @Query("SELECT * FROM detail_movie_entities WHERE traktId=:inputId")
-    fun readSingleFlow(inputId: Int): Flow<DetailMovieEntity?> // deve essere nullable
+    fun readSingleFlow(inputId: Int): Flow<DetailMovieEntity?>
 
     @Query("SELECT * FROM detail_movie_entities")
-    fun readAllFlow(): Flow<List<DetailMovieEntity?>>
+    fun readAllFlow(): Flow<List<DetailMovieEntity>>
 
     @Delete
     fun deleteSingle(entity: DetailMovieEntity)
-
-
 }

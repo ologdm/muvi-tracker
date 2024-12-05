@@ -48,7 +48,7 @@ class PrefsShowRepository @Inject constructor(
 
 
     // aggiungi elemento ai prefs se aggiungo watched ad un episodio
-    suspend fun addWatchedToPrefs(showId: Int) {
+    suspend fun checkAndAddIfWatchedToPrefs(showId: Int) {
         val prefsEntity = prefsShowDao.readSingle(showId)
         if (prefsEntity == null) {
             prefsShowDao.insertSingle(

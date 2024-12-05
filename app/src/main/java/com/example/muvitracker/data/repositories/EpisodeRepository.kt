@@ -26,7 +26,7 @@ import kotlin.coroutines.cancellation.CancellationException
 class EpisodeRepository @Inject constructor(
     private val traktApi: TraktApi,
     database: MyDatabase,
-    private val prefsShowRepository : PrefsShowRepository
+    private val prefsShowRepository: PrefsShowRepository
 ) {
 
     private val episodeDao = database.episodesDao()
@@ -51,11 +51,8 @@ class EpisodeRepository @Inject constructor(
         sourceOfTruth = SourceOfTruth.of<ShowRequestKeys, List<EpisodeExtenDto>, List<EpisodeEntity>>(
             reader = { request ->
                 // flow
-                episodeDao.readAllOfSeason(request.showId, request.seasonNr).map {
-                    // map list -> to return list or null
-                    if (it.isEmpty()) null
-                    else it
-                }
+                episodeDao.readAllOfSeason(request.showId, request.seasonNr)
+                    .map { if (it.isEmpty()) null else it }
             },
             writer = { request, dtoList ->
                 // ciclo for che paragona id di ogni elemento prima di inserirlo
@@ -81,8 +78,10 @@ class EpisodeRepository @Inject constructor(
     }
 
 
-
-    fun getSeasonAllEpisodesFlow(showId: Int, seasonNr: Int): Flow<IoResponse<List<EpisodeEntity>>> {
+    fun getSeasonAllEpisodesFlow(
+        showId: Int,
+        seasonNr: Int
+    ): Flow<IoResponse<List<EpisodeEntity>>> {
         return episodeStore.stream(
             StoreRequest.cached(
                 ShowRequestKeys(showId = showId, seasonNr = seasonNr),
@@ -120,8 +119,10 @@ class EpisodeRepository @Inject constructor(
         seasonNr: Int,
         episodeNr: Int
     ) {
+//        val x = episodeDao.readSingle(showId)
         episodeDao.toggleWatchedSingle(showId, seasonNr, episodeNr)
-        prefsShowRepository.addWatchedToPrefs (showId) // add to prefs if watched
+
+        prefsShowRepository.checkAndAddIfWatchedToPrefs(showId) // add to prefs if watched
     }
 
 }

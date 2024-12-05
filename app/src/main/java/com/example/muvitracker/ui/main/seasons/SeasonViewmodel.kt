@@ -69,7 +69,7 @@ class SeasonViewmodel @Inject constructor(
 
     fun toggleSeasonAllWatchedEpisodes(showId: Int, seasonNr: Int) {
         viewModelScope.launch {
-            seasonRepository.checkAndSetSeasonWatchedAllEpisodes(showId, seasonNr)
+            seasonRepository.checkAndSetSingleSeasonWatchedAllEpisodes(showId, seasonNr)
         }
     }
 

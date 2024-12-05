@@ -5,6 +5,7 @@ import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.lifecycleScope
 import java.text.SimpleDateFormat
 import java.time.LocalDate
+import java.time.OffsetDateTime
 import java.time.Period
 import java.time.format.DateTimeFormatter
 import java.util.Locale
@@ -86,6 +87,20 @@ fun calculatePersonAge(birthDate: String?, deathDate: String?): String {
         return Period.between(dateOfBirth, deathDate).years.toString()
     }
 }
+
+
+fun formatToSqliteCompatibleDate(isoDate: String?): String? {
+    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+    val offsetDateTime = OffsetDateTime.parse(isoDate)
+    return offsetDateTime.format(formatter)
+}
+
+
+    fun String.formatDateFromFirsAired(): String {
+        return this.let {
+            "${it.substring(8, 10)}.${it.substring(5, 7)}.${it.substring(0, 4)}"
+        }
+    }
 
 
 

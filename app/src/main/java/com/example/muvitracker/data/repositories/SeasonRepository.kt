@@ -19,6 +19,7 @@ import com.example.muvitracker.utils.IoResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filterNot
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -53,6 +54,7 @@ class SeasonRepository @Inject constructor(
         sourceOfTruth = SourceOfTruth.of<Int, List<SeasonExtenDto>, List<SeasonExtended>>(
             reader = { showId ->
                 seasonDao.getAllSeasons(showId)
+                    .map { if (it.isEmpty()) null else it }
             },
             writer = { showId, dtos ->
                 saveAllSeasonsDtoToDatabase(showId, dtos)
@@ -104,8 +106,11 @@ class SeasonRepository @Inject constructor(
 
 
     fun getSingleSeasonFlow(showId: Int, seasonNr: Int): Flow<SeasonExtended> {
-        // !!deve essere flow perchè stato watchedAll puo sempre cambiare
         return seasonDao.getSingleSeason(showId, seasonNr)
+            .map { season ->
+                season
+                    ?: throw IllegalStateException("Season not found for showId: $showId, seasonNr: $seasonNr")
+            }
     }
 
 
@@ -117,33 +122,32 @@ class SeasonRepository @Inject constructor(
     }
 
 
-
     // (click - single season)
     //  toggle single season -> from ShowFragment & SeasonFragment
-    suspend fun checkAndSetSeasonWatchedAllEpisodes(
+    suspend fun checkAndSetSingleSeasonWatchedAllEpisodes(
         showId: Int,
         seasonNr: Int,
     ) {
+        // 1. check and download all season episodes
+        // TODO edge case: download also if downloaded < aired
         if (!areEpisodesAvailableForSeason(showId, seasonNr)) {
-            // 1. download all season episodes
             episodeRepository.episodeStore
                 .fresh(ShowRequestKeys(showId = showId, seasonNr = seasonNr))
-
-            // 2. add show to prefs -> if isWatched  at least one episode
-            prefsShowRepository.addWatchedToPrefs(showId)
         }
+
+        // 2. add show to prefs -> if isWatched  at least one episode
+        prefsShowRepository.checkAndAddIfWatchedToPrefs(showId)
 
         // 3 toggle all episodes from single season
         val seasonCountEpisodes =
             seasonDao.readSingle(showId, seasonNr)?.episodeCount ?: 0
-
         val seasonWatchedAllEpisodes =
-            episodeDao.countSeasonWatchedEpisodes(showId, seasonNr).first()
+            episodeDao.countSeasonWatchedEpisodes(showId, seasonNr)
 
         if (seasonWatchedAllEpisodes == seasonCountEpisodes) {
-            episodeDao.toggleSeasonWatchedAllEpisodes(showId, seasonNr, false)
+            episodeDao.setSeasonWatchedAllEpisodes(showId, seasonNr, false)
         } else {
-            episodeDao.toggleSeasonWatchedAllEpisodes(showId, seasonNr, true)
+            episodeDao.setSeasonWatchedAllEpisodes(showId, seasonNr, true)
         }
 
         // todo egde case
@@ -152,23 +156,23 @@ class SeasonRepository @Inject constructor(
 
     // (click - show watchedAll)
     // from ShowDetail -> forceWatchedAll ()
-    suspend fun checkAndSetSeasonWatchedAllEpisodes(
+    suspend fun checkAndSetSingleSeasonWatchedAllEpisodes(
         showId: Int,
         seasonNr: Int,
         watchedAllState: Boolean
     ) {
-
+        // 1. check and download all season episodes  ==
         if (!areEpisodesAvailableForSeason(showId, seasonNr)) {
-            // 1. download all season episodes ==
             episodeRepository.episodeStore.fresh(
                 ShowRequestKeys(showId = showId, seasonNr = seasonNr)
             )
-
-            // 2. add show to prefs -> if isWatched  at least one episode ==
-            prefsShowRepository.addWatchedToPrefs(showId)
         }
+
+        // 2. add show to prefs -> if isWatched  at least one episode ==
+        prefsShowRepository.checkAndAddIfWatchedToPrefs(showId)
+
         // 3.
-        episodeDao.toggleSeasonWatchedAllEpisodes(showId, seasonNr, watchedAllState)
+        episodeDao.setSeasonWatchedAllEpisodes(showId, seasonNr, watchedAllState)
     }
 
 

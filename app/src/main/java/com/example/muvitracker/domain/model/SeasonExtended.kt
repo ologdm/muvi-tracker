@@ -17,12 +17,11 @@ data class SeasonExtended(
     // computed data from episodeRepository
     val watchedCount: Int = 0, // default 0
 ) {
-
     // property al posto di fun
     val watchedAll: Boolean
         get() = (episodeCount > 0) && (watchedCount == episodeCount)
-
 }
 
+// SeasonEntity -> SeasonExtended : on SeasonDao
 
 
