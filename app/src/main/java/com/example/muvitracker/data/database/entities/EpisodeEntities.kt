@@ -19,8 +19,7 @@ data class EpisodeEntity(
     val title: String,
     val ids: Ids,
     val showId: Int, // X, passed through parameter .toEntity(showId)
-
-    // todo - test salvataggio parziale
+    // extended data
     val numberAbs: Int? = null,
     val overview: String? = null,
     val rating: String? = null,
@@ -28,7 +27,6 @@ data class EpisodeEntity(
     val availableTranslations: List<String>? = null,
     val runtime: Int? = null,
     val episodeType: String? = null,
-
     //save
     val watched: Boolean = false
 )
@@ -55,3 +53,4 @@ fun EpisodeEntity.copyDtoData(episodeDto: EpisodeExtenDto): EpisodeEntity {
 }
 
 // no domain
+// case (firstAiredFormatted? = null) -> gestione su EpisodeVH,

@@ -90,17 +90,23 @@ fun calculatePersonAge(birthDate: String?, deathDate: String?): String {
 
 
 fun formatToSqliteCompatibleDate(isoDate: String?): String? {
+    if (isoDate.isNullOrBlank()) return null // null case, OffsetDateTime doesn't accept null values
+
     val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
     val offsetDateTime = OffsetDateTime.parse(isoDate)
     return offsetDateTime.format(formatter)
 }
 
 
-    fun String.formatDateFromFirsAired(): String {
-        return this.let {
+fun String?.formatDateFromFirsAired(): String {
+    return this?.let {
+        if (it.length >=10){
             "${it.substring(8, 10)}.${it.substring(5, 7)}.${it.substring(0, 4)}"
+        }else{
+            "N/A"
         }
-    }
+    } ?: "N/A"
+}
 
 
 

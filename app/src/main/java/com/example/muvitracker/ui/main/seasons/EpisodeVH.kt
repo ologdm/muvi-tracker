@@ -10,12 +10,14 @@ class EpisodeVH(
     val binding: VhEpisodeOnseasonBinding
 ) : ViewHolder(binding.root) {
 
-    fun bind(item: EpisodeEntity) {
 
+    fun bind(item: EpisodeEntity) {
         binding.episodeNumberAndRelease.text =
-            "E.${item.episodeNumber.episodesFormatNumber()} • ${item.firstAiredFormatted?.formatDateFromFirsAired() ?: "N/A"}"
+            "E.${item.episodeNumber.episodesFormatNumber()} • ${item.firstAiredFormatted.formatDateFromFirsAired()}"
+
         binding.episodeTitleAndRuntime.text =
             "${item.title} (${item.runtime} min)"
+
         binding.traktRating.text = item.rating
     }
 
