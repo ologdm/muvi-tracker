@@ -24,13 +24,6 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class ShowsFragment : Fragment(R.layout.fragm_base_category) {
 
-    companion object {
-        private const val SELECTED_FEED_KEY = "movie_selected_feed_key"
-    }
-
-    @Inject
-    lateinit var sharedPrefs: SharedPreferences
-
     @Inject
     lateinit var navigator: Navigator
 
@@ -58,7 +51,7 @@ class ShowsFragment : Fragment(R.layout.fragm_base_category) {
         binding.recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
         binding.toolbar.text = requireContext().getString(R.string.shows)
 
-        setupChips(feedCategoryList)
+        setupChips(ShowsType.entries) // entries rispetta ordine
         binding.swipeRefreshLayout.setOnRefreshListener { pagingAdapter.refresh() }
 
         collectSelectedFeed() // observe selected feed
@@ -67,38 +60,33 @@ class ShowsFragment : Fragment(R.layout.fragm_base_category) {
 
 
     // MY FUNCTIONS
-    private fun setupChips(feedCategoryList: List<String>) {
+    private fun setupChips(feedCategoryList: List<ShowsType>) {
         binding.chipGroupFeedCategory.apply {
             removeAllViews()
-            feedCategoryList.forEach { feedText ->
+            feedCategoryList.forEach { type ->
                 val chip = Chip(context).apply {
-                    text = feedText
+                    text = getString(type.stringRes)
                     isCheckable = true // clickable
-                    tag = feedText
+                    tag = type
                 }
                 binding.chipGroupFeedCategory.addView(chip)
-            }
-
-            post {
-                val startSelectedFeed =
-                    sharedPrefs.getString(SELECTED_FEED_KEY, getString(R.string.popular))
-                val startSelectedChip =
-                    binding.chipGroupFeedCategory.findViewWithTag<Chip>(startSelectedFeed)
-                startSelectedChip?.let {
-                    it.isChecked = true // check the chip
-                    binding.chipsScrollView.smoothScrollTo(it.left, it.top)
-                }
             }
 
             isSingleSelection = true
             isSelectionRequired = true
 
+            val startSelectedFeed = viewModel.getLastFeed()
+            val startSelectedChip =
+                binding.chipGroupFeedCategory.findViewWithTag<Chip>(startSelectedFeed)
+            startSelectedChip?.let {
+                it.isChecked = true // check the chip
+                binding.chipsScrollView.smoothScrollTo(it.left, it.top)
+            }
+
             setOnCheckedChangeListener { chipGroup, checkedId ->
                 chipGroup.findViewById<Chip>(checkedId)?.let { selectedChip ->
-                    val newSelectedFeed = selectedChip.text.toString()
-                    sharedPrefs.edit().putString(SELECTED_FEED_KEY, newSelectedFeed).apply()
+                    val newSelectedFeed = selectedChip.tag as ShowsType // tag lo forza a cast
                     viewModel.updateSelectedFeed(newSelectedFeed)
-                    pagingAdapter.refresh()
                 }
             }
         }

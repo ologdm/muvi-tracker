@@ -9,11 +9,11 @@
 
 
     <!--base categories -->
-    <string name="popular">popular</string>
-    <string name="box_office">box office</string>
-    <string name="watched">watched</string>
-    <string name="favorited">favorited</string>
-    <string name="anticipated">coming soon</string>
+    <string name="popular">Popular</string>
+    <string name="box_office">Box office</string>
+    <string name="watched">Watched</string>
+    <string name="favorited">Favorited</string>
+    <string name="anticipated">Coming soon</string>
 
 
     <!--detail-->

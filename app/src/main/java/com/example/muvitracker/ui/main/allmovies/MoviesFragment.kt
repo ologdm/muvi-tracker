@@ -28,7 +28,7 @@ import javax.inject.Inject
 class MoviesFragment : Fragment(R.layout.fragm_base_category) {
 
     companion object {
-        private const val SELECTED_FEED_KEY = "show_selected_feed_key"
+        private const val SELECTED_FEED_KEY = "movie_selected_feed_key"
     }
 
     @Inject

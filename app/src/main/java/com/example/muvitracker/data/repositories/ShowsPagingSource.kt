@@ -7,6 +7,7 @@ import com.example.muvitracker.R
 import com.example.muvitracker.data.TraktApi
 import com.example.muvitracker.data.dto.show.toDomain
 import com.example.muvitracker.domain.model.base.Show
+import com.example.muvitracker.ui.main.allshows.ShowsType
 import java.util.concurrent.CancellationException
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -14,7 +15,7 @@ import javax.inject.Singleton
 @Singleton
 class ShowsPagingSource @Inject constructor(
     private val context: Context,
-    private val feedCategory: String,
+    private val feedCategory: ShowsType,
     private val traktApi: TraktApi
 ) : PagingSource<Int, Show>() {
 
@@ -26,19 +27,10 @@ class ShowsPagingSource @Inject constructor(
         val currentPage = params.key ?: 1
         return try {
             val response = when (feedCategory) {
-                context.getString(R.string.popular) ->
-                    traktApi.getPopularShows(currentPage, params.loadSize).map { it.toDomain() }
-
-                context.getString(R.string.watched) ->
-                    traktApi.getWatchedShows(currentPage, params.loadSize).map { it.toDomain() }
-
-                context.getString(R.string.favorited) ->
-                    traktApi.getFavoritedShows(currentPage, params.loadSize).map { it.toDomain() }
-
-                context.getString(R.string.anticipated) ->
-                    traktApi.getAnticipatedShows(currentPage, params.loadSize).map { it.toDomain() }
-
-                else -> emptyList()
+                ShowsType.Popular -> traktApi.getPopularShows(currentPage, params.loadSize).map { it.toDomain() }
+                ShowsType.Watched -> traktApi.getWatchedShows(currentPage, params.loadSize).map { it.toDomain() }
+                ShowsType.Favorites -> traktApi.getFavoritedShows(currentPage, params.loadSize).map { it.toDomain() }
+                ShowsType.ComingSoon -> traktApi.getAnticipatedShows(currentPage, params.loadSize).map { it.toDomain() }
             }
 
             LoadResult.Page(  // #1
