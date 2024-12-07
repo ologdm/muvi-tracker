@@ -4,13 +4,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.muvitracker.data.TraktApi
-import com.example.muvitracker.data.dto.person.CastResponseDto
 import com.example.muvitracker.data.dto.person.toDomain
 import com.example.muvitracker.domain.model.CastAndCrew
 import com.example.muvitracker.domain.model.DetailMovie
 import com.example.muvitracker.domain.model.base.Movie
-import com.example.muvitracker.domain.repo.DetailRepo
-import com.example.muvitracker.domain.repo.PrefsRepo
+import com.example.muvitracker.domain.repo.DetailMovieRepo
+import com.example.muvitracker.domain.repo.PrefsMovieRepo
 import com.example.muvitracker.utils.IoResponse
 import com.example.muvitracker.utils.StateContainer
 import com.example.muvitracker.utils.ioMapper
@@ -24,8 +23,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DetailMovieViewmodel @Inject constructor(
-    private val detailMovieRepository: DetailRepo,
-    private val prefsRepository: PrefsRepo,
+    private val detailMovieRepository: DetailMovieRepo,
+    private val prefsMovieRepository: PrefsMovieRepo,
     private val traktApi: TraktApi
 ) : ViewModel() {
 
@@ -41,21 +40,18 @@ class DetailMovieViewmodel @Inject constructor(
                 .map { response ->
                     when (response) {
                         is IoResponse.Success -> {
-                            println("ZZZ_VM_S${response.dataValue}")
                             cachedMovie = response.dataValue
                             StateContainer(data = response.dataValue)
                         }
 
                         is IoResponse.Error -> {
                             if (response.t is IOException) {
-                                println("ZZZ_VM_E1${response.t}")
                                 // non printare come stringa
                                 StateContainer(
                                     data = cachedMovie,
                                     isNetworkError = true
                                 )
                             } else {
-                                println("ZZZ_VM_E2${response.t}")
                                 StateContainer(
                                     data = cachedMovie,
                                     isOtherError = true
@@ -76,16 +72,16 @@ class DetailMovieViewmodel @Inject constructor(
 
 
     // SET
-    fun toggleLikedMovie(id: Int) {
+    fun toggleLikedMovie(movieId: Int) {
         viewModelScope.launch {
-            prefsRepository.toggleLikedOnDB(id)
+            prefsMovieRepository.toggleLikedOnDB(movieId)
         }
     }
 
 
-    fun updateWatched(id: Int, watched: Boolean) {
+    fun updateWatched(movieId: Int, watched: Boolean) {
         viewModelScope.launch {
-            prefsRepository.updateWatchedOnDB(id, watched)
+            prefsMovieRepository.updateWatchedOnDB(movieId, watched)
         }
 
     }

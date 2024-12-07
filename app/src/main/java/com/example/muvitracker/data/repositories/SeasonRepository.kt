@@ -1,12 +1,6 @@
 package com.example.muvitracker.data.repositories
 
-import com.dropbox.android.external.store4.Fetcher
-import com.dropbox.android.external.store4.FetcherResult
-import com.dropbox.android.external.store4.SourceOfTruth
-import com.dropbox.android.external.store4.Store
-import com.dropbox.android.external.store4.StoreBuilder
 import com.dropbox.android.external.store4.StoreRequest
-import com.dropbox.android.external.store4.StoreResponse
 import com.dropbox.android.external.store4.fresh
 import com.example.muvitracker.data.TraktApi
 import com.example.muvitracker.data.database.MyDatabase
@@ -14,18 +8,15 @@ import com.example.muvitracker.data.database.entities.copyDtoData
 import com.example.muvitracker.data.dto.season.SeasonExtenDto
 import com.example.muvitracker.data.dto.season.toEntity
 import com.example.muvitracker.data.utils.ShowRequestKeys
+import com.example.muvitracker.data.utils.mapToIoResponse
+import com.example.muvitracker.data.utils.storeFactory
 import com.example.muvitracker.domain.model.SeasonExtended
 import com.example.muvitracker.utils.IoResponse
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.filterNot
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
-import kotlin.coroutines.cancellation.CancellationException
 
-// contiene lista episodi totale
 
 @Singleton
 class SeasonRepository @Inject constructor(
@@ -38,29 +29,18 @@ class SeasonRepository @Inject constructor(
     private val episodeDao = database.episodesDao()
 
 
-    // STORE
-    private val seasonStore: Store<Int, List<SeasonExtended>> = StoreBuilder.from(
-        fetcher = Fetcher.ofResult { showId ->
-            try {
-                FetcherResult.Data(traktApi.getAllSeasons(showId)
-                    .filter { it.number != 0 })// exclude season 0, specials
-            } catch (ex: CancellationException) {
-                throw ex
-            } catch (ex: Throwable) {
-                ex.printStackTrace()
-                FetcherResult.Error.Exception(ex)
-            }
+    private val seasonStore = storeFactory<Int, List<SeasonExtenDto>, List<SeasonExtended>>(
+        fetcher = { showId ->
+            traktApi.getAllSeasons(showId)
         },
-        sourceOfTruth = SourceOfTruth.of<Int, List<SeasonExtenDto>, List<SeasonExtended>>(
-            reader = { showId ->
-                seasonDao.getAllSeasons(showId)
-                    .map { if (it.isEmpty()) null else it }
-            },
-            writer = { showId, dtos ->
-                saveAllSeasonsDtoToDatabase(showId, dtos)
-            }
-        )
-    ).build()
+        reader = { showId ->
+            seasonDao.getAllSeasons(showId)
+                .map { if (it.isEmpty()) null else it }
+        },
+        writer = { showId, dtos ->
+            saveAllSeasonsDtoToDatabase(showId, dtos)
+        }
+    )
 
 
     private suspend fun saveAllSeasonsDtoToDatabase(showId: Int, dtos: List<SeasonExtenDto>) {
@@ -80,28 +60,7 @@ class SeasonRepository @Inject constructor(
 
     fun getAllSeasonsFlow(showId: Int): Flow<IoResponse<List<SeasonExtended>>> {
         return seasonStore.stream(StoreRequest.cached(showId, refresh = true))
-            .filterNot { storeResponse ->
-                storeResponse is StoreResponse.Loading || storeResponse is StoreResponse.NoNewData
-            }
-            .map { storeResponse ->
-                when (storeResponse) {
-                    is StoreResponse.Data -> {
-                        IoResponse.Success(storeResponse.value)
-                    }
-
-                    is StoreResponse.Error.Exception -> {
-                        IoResponse.Error(storeResponse.error)
-                    }
-
-                    is StoreResponse.Error.Message -> {
-                        IoResponse.Error(RuntimeException(storeResponse.message))
-                    }
-
-                    is StoreResponse.Loading,
-                    is StoreResponse.NoNewData -> error("should be filtered upstream")
-
-                }
-            }
+            .mapToIoResponse()
     }
 
 
@@ -114,7 +73,7 @@ class SeasonRepository @Inject constructor(
     }
 
 
-    private suspend fun areEpisodesAvailableForSeason(
+    private suspend fun areEpisodesAvailableForSeasonOnDB(
         showId: Int,
         seasonNr: Int
     ): Boolean {
@@ -129,15 +88,13 @@ class SeasonRepository @Inject constructor(
         seasonNr: Int,
     ) {
         // 1. check and download all season episodes
-        // TODO edge case: download also if downloaded < aired
-        if (!areEpisodesAvailableForSeason(showId, seasonNr)) {
-            episodeRepository.episodeStore
+        if (!areEpisodesAvailableForSeasonOnDB(showId, seasonNr)) {
+            // if (ep == 0), download episodes
+            episodeRepository.seasonEpisodesStore
                 .fresh(ShowRequestKeys(showId = showId, seasonNr = seasonNr))
         }
-
         // 2. add show to prefs -> if isWatched  at least one episode
         prefsShowRepository.checkAndAddIfWatchedToPrefs(showId)
-
         // 3 toggle all episodes from single season
         val seasonCountEpisodes =
             seasonDao.readSingle(showId, seasonNr)?.episodeCount ?: 0
@@ -154,6 +111,7 @@ class SeasonRepository @Inject constructor(
         // - se puntate aumentano, devo watchedAll scompare, airedEpisodes 10->13, 3 episodi non scaricati
     }
 
+
     // (click - show watchedAll)
     // from ShowDetail -> forceWatchedAll ()
     suspend fun checkAndSetSingleSeasonWatchedAllEpisodes(
@@ -162,18 +120,15 @@ class SeasonRepository @Inject constructor(
         watchedAllState: Boolean
     ) {
         // 1. check and download all season episodes  ==
-        if (!areEpisodesAvailableForSeason(showId, seasonNr)) {
-            episodeRepository.episodeStore.fresh(
+        if (!areEpisodesAvailableForSeasonOnDB(showId, seasonNr)) {
+            episodeRepository.seasonEpisodesStore.fresh(
                 ShowRequestKeys(showId = showId, seasonNr = seasonNr)
             )
         }
-
         // 2. add show to prefs -> if isWatched  at least one episode ==
         prefsShowRepository.checkAndAddIfWatchedToPrefs(showId)
-
         // 3.
         episodeDao.setSeasonWatchedAllEpisodes(showId, seasonNr, watchedAllState)
     }
-
 
 }

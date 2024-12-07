@@ -19,19 +19,16 @@ class EpisodeViewmodel @Inject constructor(
     private val episodeRepository: EpisodeRepository
 ) : ViewModel() {
 
-    private val episodeDao = database.episodesDao()
-
-    val state = MutableLiveData<EpisodeEntity>()
+    val state = MutableLiveData<EpisodeEntity?>()
 
 
-    // se elemento nella RV, elemento già nel database
     fun loadEpisode(showTraktId: Int, seasonNr: Int, episodeNr: Int) {
         viewModelScope.launch {
-            episodeDao.readSingle(showTraktId, seasonNr, episodeNr)
-                ?.catch {
+            episodeRepository.getSingleEpisode(showTraktId, seasonNr, episodeNr)
+                .catch {
                     it.printStackTrace()
                 }
-                ?.collectLatest { episode ->
+                .collectLatest { episode ->
                     state.value = episode
                 }
         }

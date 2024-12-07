@@ -12,13 +12,12 @@ import javax.inject.Singleton
 class PrefsShowRepository @Inject constructor(
     database: MyDatabase
 ) {
-
     private val prefsShowDao = database.prefsShowDao()
 
 
-    //  override
     fun getListFLow(): Flow<List<DetailShow>> {
-        // join: prefs + detail + watched episodes -> (caso tutto gia scaricato)
+        // (already downloaded case)
+        // join on db: prefs + detail + watched episodes ->
         return prefsShowDao.getAllPrefs()
             .map { shows ->
                 shows.sortedByDescending { it.addedDateTime }
@@ -26,13 +25,12 @@ class PrefsShowRepository @Inject constructor(
     }
 
 
-    // LIKED OK
-    // new or update
-//    override
+    // LIKED CLICK
+    // add new or update
     suspend fun toggleLikedOnDB(id: Int) {
         // switch state on repository & update db
         val entity =
-            prefsShowDao.readSingle(id) //  flow closing function
+            prefsShowDao.readSingle(id)
         if (entity != null) {
             prefsShowDao.toggleLiked(id)
         } else {
@@ -46,8 +44,8 @@ class PrefsShowRepository @Inject constructor(
         }
     }
 
-
-    // aggiungi elemento ai prefs se aggiungo watched ad un episodio
+    // WATCHED CLICK
+    // add prefs item, if I added watched on episode
     suspend fun checkAndAddIfWatchedToPrefs(showId: Int) {
         val prefsEntity = prefsShowDao.readSingle(showId)
         if (prefsEntity == null) {
@@ -62,7 +60,6 @@ class PrefsShowRepository @Inject constructor(
     }
 
 
-    //    override
     suspend fun deleteItemOnDB(id: Int) {
         prefsShowDao.deleteSingle(id)
     }

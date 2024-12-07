@@ -7,7 +7,7 @@ import com.example.muvitracker.domain.model.base.Movie
 import com.example.muvitracker.utils.IoResponse
 import kotlinx.coroutines.flow.Flow
 
-interface DetailRepo {
+interface DetailMovieRepo {
 
     fun getSingleDetailMovieFlow(id: Int): Flow<IoResponse<DetailMovie>>
 

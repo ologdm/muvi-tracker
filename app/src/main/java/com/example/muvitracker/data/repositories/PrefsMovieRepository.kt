@@ -4,7 +4,7 @@ import com.example.muvitracker.data.database.MyDatabase
 import com.example.muvitracker.data.database.entities.PrefsMovieEntity
 import com.example.muvitracker.data.database.entities.toDomain
 import com.example.muvitracker.domain.model.DetailMovie
-import com.example.muvitracker.domain.repo.PrefsRepo
+import com.example.muvitracker.domain.repo.PrefsMovieRepo
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.firstOrNull
@@ -16,44 +16,37 @@ import javax.inject.Singleton
 class PrefsMovieRepository @Inject constructor(
     database: MyDatabase,
     private val detailMovieRepository: DetailMovieRepository
-) : PrefsRepo {
+) : PrefsMovieRepo {
 
     private val prefsDao = database.prefsMovieDao()
 
 
-    // GET
-    override
-    fun getListFLow(): Flow<List<DetailMovie>> {
+    override fun getListFLow(): Flow<List<DetailMovie>> {
         val detailListFLow = detailMovieRepository.getDetailListFlow()
         val prefsListFLow = prefsDao.readAll()
 
-        return detailListFLow
-            .combine(prefsListFLow) { detailList, prefsList ->
-                // mappa valori non nulli
-                prefsList.mapNotNull { prefsEntityR ->
-                    val detailItem = detailList.find { detailEntityR ->
-                        detailEntityR?.traktId == prefsEntityR?.traktId
-                    }
-                    detailItem?.toDomain(prefsEntityR)
-                }.sortedByDescending {
-                    it.addedDateTime
+        return detailListFLow.combine(prefsListFLow) { detailList, prefsList ->
+            prefsList.mapNotNull { prefsEntity ->
+                val detailEntity = detailList.find { detailEntity ->
+                    detailEntity.traktId == prefsEntity.traktId
                 }
+                detailEntity?.toDomain(prefsEntity)
+            }.sortedByDescending {
+                it.addedDateTime
             }
+        }
     }
 
 
-    // SET
-    override
-    suspend fun toggleLikedOnDB(id: Int) {
-        // switch state on repository & update db
+    override suspend fun toggleLikedOnDB(movieId: Int) {
         val entity =
-            prefsDao.readSingle(id).firstOrNull() //  flow closing function
+            prefsDao.readSingle(movieId).firstOrNull() //  flow closing function
         if (entity != null) {
-            prefsDao.updateLiked(id)
+            prefsDao.updateLiked(movieId)
         } else {
             prefsDao.insertSingle(
                 PrefsMovieEntity(
-                    traktId = id,
+                    traktId = movieId,
                     liked = true,
                     watched = false,
                     addedDateTime = System.currentTimeMillis()
@@ -63,16 +56,14 @@ class PrefsMovieRepository @Inject constructor(
     }
 
 
-    override
-    suspend fun updateWatchedOnDB(id: Int, watched: Boolean) {
-        // only update db
-        val entity = prefsDao.readSingle(id).firstOrNull()
+    override suspend fun updateWatchedOnDB(movieId: Int, watched: Boolean) {
+        val entity = prefsDao.readSingle(movieId).firstOrNull()
         if (entity != null) {
-            prefsDao.updateWatched(id, watched)
+            prefsDao.updateWatched(movieId, watched)
         } else {
             prefsDao.insertSingle(
                 PrefsMovieEntity(
-                    traktId = id,
+                    traktId = movieId,
                     liked = false,
                     watched = watched,
                     addedDateTime = System.currentTimeMillis()
@@ -83,8 +74,8 @@ class PrefsMovieRepository @Inject constructor(
 
 
     override
-    suspend fun deleteItemOnDB(id: Int) {
-        prefsDao.deleteSingle(id)
+    suspend fun deleteItemOnDB(movieId: Int) {
+        prefsDao.deleteSingle(movieId)
     }
 
 

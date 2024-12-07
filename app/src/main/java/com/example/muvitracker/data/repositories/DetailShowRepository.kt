@@ -23,11 +23,6 @@ import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.coroutines.cancellation.CancellationException
 
-// solo per detail fragment
-// 1. detail base
-// 2. season
-// 3. relatedShows
-
 
 @Singleton
 class DetailShowRepository @Inject constructor(
@@ -38,7 +33,7 @@ class DetailShowRepository @Inject constructor(
     private val detailShowDao = database.detailShowDao()
     private val seasonDao = database.seasonsDao()
 
-    private val detailStore = storeFactory<Int, DetailShowDto, DetailShow>(
+    private val store = storeFactory<Int, DetailShowDto, DetailShow>(
         fetcher = { showId ->
             traktApi.getShowDetail(showId)
         },
@@ -52,7 +47,7 @@ class DetailShowRepository @Inject constructor(
 
 
     fun getSingleDetailShowFlow(showId: Int): Flow<IoResponse<DetailShow?>> {
-        return detailStore.stream(StoreRequest.cached(key = showId, refresh = true))
+        return store.stream(StoreRequest.cached(key = showId, refresh = true))
             .mapToIoResponse()
     }
 
@@ -74,8 +69,7 @@ class DetailShowRepository @Inject constructor(
     }
 
 
-    // WATCHED ALL SU SHOW
-    // 10 coroutines al massimo aperte in una volta
+    // WATCHED_ALL SU SHOW
     suspend fun checkAndSetShowWatchedAllSeasons(showId: Int) = coroutineScope {
         val showAllSeasonsCount = seasonDao.countAllSeasonsOfShow(showId)
         val isShowWatchedAll = detailShowDao.getSingleFlow(showId)
