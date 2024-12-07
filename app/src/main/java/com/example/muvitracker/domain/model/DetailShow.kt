@@ -32,6 +32,6 @@ data class DetailShow(
     // TODO: edge case
     // stato  -> solo a livello di Ui
     val watchedAll: Boolean
-        get() = watchedCount == airedEpisodes
+        get() = watchedCount >= airedEpisodes
 
 }

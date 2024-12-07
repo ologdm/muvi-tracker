@@ -43,7 +43,7 @@ fun EpisodeEntity.copyDtoData(episodeDto: EpisodeExtenDto): EpisodeEntity {
         numberAbs = episodeDto.numberAbs ?: 0,
         overview = episodeDto.overview ?: "N/A",
         rating = episodeDto.rating?.firstDecimalApproxToString() ?: "0.0",
-        firstAiredFormatted = formatToSqliteCompatibleDate(episodeDto.firstAired) ?: "N/A",
+        firstAiredFormatted = formatToSqliteCompatibleDate(episodeDto.firstAired),
         availableTranslations = episodeDto.availableTranslations ?: emptyList(),
         runtime = episodeDto.runtime ?: 0,
         episodeType = episodeDto.episodeType ?: "N/A",

@@ -28,9 +28,9 @@ import javax.inject.Inject
 
 
 // 1. DetailShow
-// 2. Seasons OK
-// 3. RelatedShows OK
-// 4. CastPerson TODO
+// 2. Seasons
+// 3. RelatedShows
+// 4. CastPerson
 
 
 @AndroidEntryPoint
@@ -80,13 +80,13 @@ class DetailShowFragment : Fragment(R.layout.fragm_detail_show) {
             currentShowIds = bundle.getParcelable(SHOW_IDS_KEY) ?: Ids()
         }
 
-        // SHOW DETAIL
+        // SHOW DETAIL ##########################################################
         viewModel.loadShowDetailFlow(currentShowIds.trakt)
 
         viewModel.detailState.observe(viewLifecycleOwner) { stateContainer ->
             // 1
             stateContainer.data?.let { detailShow ->
-                updateDetailUi(detailShow)
+                updateShowDetailPartOfUi(detailShow)
                 updateLikedIcon(detailShow.liked)
                 updateWatchedCheckboxAndCounters(detailShow)
             }
@@ -99,21 +99,24 @@ class DetailShowFragment : Fragment(R.layout.fragm_detail_show) {
 
 
         // BUTTONS CLICK
+        // 1
         binding.buttonBack.setOnClickListener {
             requireActivity().onBackPressed()
         }
 
+        // 2
         binding.floatingLikedButton.setOnClickListener {
             viewModel.toggleLikedShow(currentShowIds.trakt)
         }
 
+        // 3 comportamento watchedAllShow al click
         binding.watchedAllCheckbox.setOnCheckedChangeListener { _, _ ->
-            //avvia caricamento
+            //
             binding.watchedAllCheckboxLoadingBar.visibility = View.VISIBLE
             binding.watchedAllCheckbox.isEnabled = false
-
+            // update
             viewModel.toggleWatchedAll(currentShowIds.trakt, onComplete = {
-                // spegni caricamento
+                // callback spegni caricamento
                 binding.watchedAllCheckboxLoadingBar.visibility = View.GONE
                 binding.watchedAllCheckbox.isEnabled = true
             })
@@ -133,22 +136,6 @@ class DetailShowFragment : Fragment(R.layout.fragm_detail_show) {
             isTextExpanded = !isTextExpanded // toggle state
         }
 
-
-        // SEASONS
-        binding.seasonsRV.adapter = detailSeasonsAdapter
-        binding.seasonsRV.layoutManager = LinearLayoutManager(requireContext())
-
-        viewModel.loadAllSeasons(currentShowIds.trakt)
-
-        viewModel.allSeasonsState.observe(viewLifecycleOwner) { stateContainer ->
-            // 1 ok
-            totSeasonsNumber = stateContainer.data?.size ?: 0
-            binding.airedSeasons.text = "${totSeasonsNumber} seasons"
-            // 2 ok
-            detailSeasonsAdapter.submitList(stateContainer.data)
-        }
-
-
         // TMDB IMAGES - with custom glide
         Glide.with(requireContext())
             .load(ImageTmdbRequest.ShowHorizontal(currentShowIds.tmdb))
@@ -166,18 +153,33 @@ class DetailShowFragment : Fragment(R.layout.fragm_detail_show) {
             .into(binding.imageVertical)
 
 
-        // RELATED SHOWS
+        // SEASONS ###############################################################
+        binding.seasonsRV.adapter = detailSeasonsAdapter
+        binding.seasonsRV.layoutManager = LinearLayoutManager(requireContext())
+
+        viewModel.loadAllSeasons(currentShowIds.trakt)
+
+        viewModel.allSeasonsState.observe(viewLifecycleOwner) { stateContainer ->
+            // 1
+            totSeasonsNumber = stateContainer.data?.size ?: 0
+            binding.airedSeasons.text = "${totSeasonsNumber} seasons"
+            // 2
+            detailSeasonsAdapter.submitList(stateContainer.data)
+        }
+
+
+        // RELATED SHOWS ###############################################################
         binding.relatedShowsRV.adapter = relatedShowsAdapter
         binding.relatedShowsRV.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
         viewModel.loadRelatedShows(showId = currentShowIds.trakt)
         viewModel.relatedShowsStatus.observe(viewLifecycleOwner) { response ->
-            // related adapter
             relatedShowsAdapter.submitList(response)
         }
 
 
+        // CAST SHOWS ###############################################################
         binding.castRV.adapter = castMovieAdapter
         binding.castRV.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
@@ -185,13 +187,13 @@ class DetailShowFragment : Fragment(R.layout.fragm_detail_show) {
         viewModel.loadCast(currentShowIds.trakt)
         viewModel.castState.observe(viewLifecycleOwner) {
             castMovieAdapter.submitList(it.castMembers)
-            println("XXX SHOW CASH ${it.castMembers.toString()}")
         }
     }
 
 
+    // PRIVATE FUNCTIONS
     // show detail
-    private fun updateDetailUi(detailShow: DetailShow) {
+    private fun updateShowDetailPartOfUi(detailShow: DetailShow) {
         currentShowTitle = detailShow.title
 
         with(binding) {
@@ -240,6 +242,7 @@ class DetailShowFragment : Fragment(R.layout.fragm_detail_show) {
     }
 
 
+    // TODO: check
     private fun updateWatchedCheckboxAndCounters(detailShow: DetailShow) {
         binding.watchedCounterTextview.text =
             "${detailShow.watchedCount}/${detailShow.airedEpisodes}"

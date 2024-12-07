@@ -28,7 +28,6 @@ class EpisodeRepository @Inject constructor(
     database: MyDatabase,
     private val prefsShowRepository: PrefsShowRepository
 ) {
-
     private val episodeDao = database.episodesDao()
 
 
@@ -126,16 +125,3 @@ class EpisodeRepository @Inject constructor(
     }
 
 }
-
-
-//suspend fun toggleSeasonAllWatchedEpisodes(
-//    //
-//    showId: Int,
-//    seasonNr: Int,
-//) {
-//        val seasonWatchedAll = seasonDao.readSingleSeason(showId, seasonNr)?.watchedAll
-//        if (seasonWatchedAll == true) {
-//            episodeDao.toggleWatchedAllEpisodes(showId, seasonNr, false)
-//        } else {
-//            episodeDao.toggleWatchedAllEpisodes(showId, seasonNr, true)
-//        }

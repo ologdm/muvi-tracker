@@ -144,7 +144,7 @@ class SeasonRepository @Inject constructor(
         val seasonWatchedAllEpisodes =
             episodeDao.countSeasonWatchedEpisodes(showId, seasonNr)
 
-        if (seasonWatchedAllEpisodes == seasonCountEpisodes) {
+        if (seasonWatchedAllEpisodes >= seasonCountEpisodes) {
             episodeDao.setSeasonWatchedAllEpisodes(showId, seasonNr, false)
         } else {
             episodeDao.setSeasonWatchedAllEpisodes(showId, seasonNr, true)
