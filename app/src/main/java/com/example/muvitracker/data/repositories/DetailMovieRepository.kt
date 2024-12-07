@@ -1,10 +1,5 @@
 package com.example.muvitracker.data.repositories
 
-import com.dropbox.android.external.store4.Fetcher
-import com.dropbox.android.external.store4.FetcherResult
-import com.dropbox.android.external.store4.SourceOfTruth
-import com.dropbox.android.external.store4.Store
-import com.dropbox.android.external.store4.StoreBuilder
 import com.dropbox.android.external.store4.StoreRequest
 import com.dropbox.android.external.store4.StoreResponse
 import com.example.muvitracker.data.TraktApi
@@ -14,6 +9,7 @@ import com.example.muvitracker.data.database.entities.toDomain
 import com.example.muvitracker.data.dto.DetailMovieDto
 import com.example.muvitracker.data.dto.movie.toDomain
 import com.example.muvitracker.data.dto.toEntity
+import com.example.muvitracker.data.utils.storeFactory
 import com.example.muvitracker.domain.model.DetailMovie
 import com.example.muvitracker.domain.model.base.Movie
 import com.example.muvitracker.domain.repo.DetailRepo
@@ -36,50 +32,54 @@ class DetailMovieRepository @Inject constructor(
     private val detailDao = database.detailMovieDao()
     private val prefsDao = database.prefsMovieDao()
 
+// old
+//    private val olddetailStore: Store<Int, DetailMovieEntity> = StoreBuilder.from(
+//        fetcher = Fetcher.ofResult { key ->
+//            try {
+//                FetcherResult.Data(traktApi.getMovieDetail(key))
+//
+//            } catch (ex: CancellationException) {
+//                throw ex
+//            } catch (ex: Throwable) {
+//                ex.printStackTrace()
+//                FetcherResult.Error.Exception(ex)
+//            }
+//        },
+//        sourceOfTruth = SourceOfTruth.of<Int, DetailMovieDto, DetailMovieEntity>(
+//            reader = { key ->
+//                getDetailEntity(key)
+//            },
+//            writer = { _, dto ->
+//                try {
+//                    saveDtoToDatabase(dto)
+//                } catch (ex: Exception) {
+//                    ex.printStackTrace()
+//                }
+//
+//            }
+//        )
+//    ).build()
 
-    private val detailStore: Store<Int, DetailMovieEntity> = StoreBuilder.from(
-        fetcher = Fetcher.ofResult { key ->
-            try {
-                FetcherResult.Data(traktApi.getMovieDetail(key))
-
-            } catch (ex: CancellationException) {
-                throw ex
-            } catch (ex: Throwable) {
-                ex.printStackTrace()
-                FetcherResult.Error.Exception(ex)
-            }
+    // no wrap todo
+    private val store = storeFactory<Int, DetailMovieDto, DetailMovieEntity>(
+        fetcher = { movieId ->
+            traktApi.getMovieDetail(movieId)
         },
-        sourceOfTruth = SourceOfTruth.of<Int, DetailMovieDto, DetailMovieEntity>(
-            reader = { key ->
-                getDetailEntity(key)
-            },
-            writer = { _, dto ->
-                try {
-                    saveDtoToDatabase(dto)
-                } catch (ex: Exception) {
-                    ex.printStackTrace()
-                }
+        reader = { movieId ->
+            detailDao.readSingleFlow(movieId)
+        },
+        writer = { _, movieDto ->
+            detailDao.insertSingle(movieDto.toEntity())
+        }
+    )
 
-            }
-        )
-    ).build()
-
-
-    private fun getDetailEntity(id: Int): Flow<DetailMovieEntity?> {
-        return detailDao.readSingleFlow(id) // with flow, observable db
-    }
-
-    private suspend fun saveDtoToDatabase(dto: DetailMovieDto) {
-        detailDao.insertSingle(dto.toEntity()) // suspend dao fun
-    }
-
-
+    // senza wrap todo
     // CONTRACT METHODS
     // for detail view
     override
     fun getSingleDetailMovieFlow(id: Int): Flow<IoResponse<DetailMovie>> {
         // flow1
-        val detailFlow = detailStore.stream(StoreRequest.cached(key = id, refresh = true))
+        val detailFlow = store.stream(StoreRequest.cached(key = id, refresh = true))
             .filterNot { response ->
                 response is StoreResponse.Loading || response is StoreResponse.NoNewData
             }
@@ -92,7 +92,7 @@ class DetailMovieRepository @Inject constructor(
                 when (storeResponse) {
                     is StoreResponse.Data -> {
                         val prefsEntity = prefList.find { entity ->
-                            entity?.traktId == storeResponse.value.ids.trakt
+                            entity.traktId == storeResponse.value.ids.trakt
                         }
                         val detailMovie = storeResponse.value.toDomain(prefsEntity)
                         IoResponse.Success(detailMovie)

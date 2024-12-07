@@ -2,6 +2,7 @@ package com.example.muvitracker.ui.main.search
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.example.muvitracker.data.dto.base.Ids
@@ -15,7 +16,7 @@ class SearchAdapter(
     private var onClickVHMovie: (Ids) -> Unit,
     private var onClickVHShow: (Ids) -> Unit,
     private var onClickVHPerson: (Ids) -> Unit
-) : ListAdapter<SearchResult, SearchVH>(SearchAdapter) {
+) : PagingDataAdapter<SearchResult, SearchVH>(SearchAdapter) {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchVH {
@@ -26,7 +27,7 @@ class SearchAdapter(
 
 
     override fun onBindViewHolder(holder: SearchVH, position: Int) {
-        val item = getItem(position)
+        val item = getItem(position) ?: return
 
         holder.bind(item)
 

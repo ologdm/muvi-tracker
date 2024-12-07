@@ -1,4 +1,4 @@
-package com.example.muvitracker.data.repositories
+package com.example.muvitracker.data.utils
 
 import com.dropbox.android.external.store4.Fetcher
 import com.dropbox.android.external.store4.FetcherResult
@@ -15,8 +15,8 @@ import kotlin.coroutines.cancellation.CancellationException
 // Input, Ouput - generici con momi specifici
 // T Any? default; 'Any' not nullable come store richiede
 
-
-fun <Key : Any, DtoInput : Any, DomainOutput : Any> store(
+// 1. factory -> for store builder
+fun <Key : Any, DtoInput : Any, DomainOutput : Any> storeFactory(
     fetcher: suspend (Key) -> DtoInput,
     reader: (Key) -> Flow<DomainOutput?>,
     writer: suspend (Key, DtoInput) -> Unit
@@ -48,7 +48,9 @@ fun <Key : Any, DtoInput : Any, DomainOutput : Any> store(
     ).build()
 }
 
-fun <T> Flow<StoreResponse<T>>.convertIoResponse(): Flow<IoResponse<T>> {
+
+// 2. extended function for
+fun <T> Flow<StoreResponse<T>>.mapToIoResponse(): Flow<IoResponse<T>> {
     return this
         .filterNot { response ->
             response is StoreResponse.Loading || response is StoreResponse.NoNewData

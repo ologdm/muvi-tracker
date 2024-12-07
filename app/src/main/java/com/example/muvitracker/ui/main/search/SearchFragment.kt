@@ -46,8 +46,8 @@ class SearchFragment : Fragment(R.layout.fragm_search) {
         binding.recyclerView.adapter = adapter
 
         fragmentViewLifecycleScope.launch {
-            viewModel.searchResultFlow.collectLatest { listSearchResult ->
-                adapter.submitList(listSearchResult)
+            viewModel.statePaging.collectLatest { data ->
+                adapter.submitData(data)
             }
 
         }

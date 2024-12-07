@@ -39,14 +39,6 @@ class ShowsFragment : Fragment(R.layout.fragm_base_category) {
         view: View,
         savedInstanceState: Bundle?
     ) {
-
-        val feedCategoryList = listOf(
-            requireContext().getString(R.string.popular),
-            requireContext().getString(R.string.watched),
-            requireContext().getString(R.string.favorited),
-            requireContext().getString(R.string.anticipated)
-        )
-
         binding.recyclerView.adapter = pagingAdapter
         binding.recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
         binding.toolbar.text = requireContext().getString(R.string.shows)

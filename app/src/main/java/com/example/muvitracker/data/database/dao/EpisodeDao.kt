@@ -37,7 +37,8 @@ interface EpisodeDao {
         """
         SELECT * FROM episode_entities 
         WHERE showId=:showId 
-            AND seasonNumber =:seasonNr"""
+            AND seasonNumber =:seasonNr
+        """
     )
     fun readAllOfSeason(showId: Int, seasonNr: Int): Flow<List<EpisodeEntity>>
 
@@ -50,6 +51,13 @@ interface EpisodeDao {
     suspend fun updateDataOfSingle(entity: EpisodeEntity)
 
 
+    // WATCHED ################################################
+    // added constraint to set watched:
+    //  1. firstAiredFormatted: not null,< now => only for last season
+    //  2.
+
+
+    // 1. SINGLE EPISODE
     @Query(
         """
         UPDATE episode_entities
@@ -57,14 +65,24 @@ interface EpisodeDao {
         WHERE showId=:showId 
             AND seasonNumber=:seasonNr 
             AND episodeNumber=:episodeNr
-            AND firstAiredFormatted IS NOT NULL
-            AND firstAiredFormatted < DATETIME ('now')
+            AND (
+            (seasonNumber = (
+                SELECT MAX(seasonNumber)
+                FROM episode_entities
+                WHERE showId = :showId
+            ) AND firstAiredFormatted < DATETIME('now'))
+            OR seasonNumber != (
+                SELECT MAX(seasonNumber)
+                FROM episode_entities
+                WHERE showId = :showId
+            )
+        )
         """
     )
     suspend fun toggleWatchedSingle(showId: Int, seasonNr: Int, episodeNr: Int)
 
 
-    // 2. SEASON EPISODES - COUNT/ SET
+    // 2. SEASON EPISODES
     // to show, season fragment
     @Query(
         """
@@ -78,47 +96,49 @@ interface EpisodeDao {
     suspend fun countSeasonWatchedEpisodes(showId: Int, seasonNr: Int): Int
 
 
+//    @Query(
+//        """
+//        UPDATE episode_entities
+//        SET watched=:watched
+//        WHERE showId=:showId
+//            AND seasonNumber=:seasonNr
+//            AND (
+//                (
+//                    seasonNumber = (
+//                        SELECT MAX(seasonNumber)
+//                        FROM episode_entities
+//                        WHERE showId = :showId
+//                    )
+//                    AND firstAiredFormatted < DATETIME('now')
+//                )
+//                OR seasonNumber != (
+//                    SELECT MAX(seasonNumber)
+//                    FROM episode_entities
+//                    WHERE showId = :showId
+//                )
+//            )
+//        """
+//    )
+//    suspend fun setSeasonWatchedAllEpisodes(showId: Int, seasonNr: Int, watched: Boolean)
+
     @Query(
         """
         UPDATE episode_entities
         SET watched=:watched
         WHERE showId=:showId 
             AND seasonNumber=:seasonNr
-            AND firstAiredFormatted IS NOT NULL
-            AND firstAiredFormatted < DATETIME('now')
+            AND (
+                CASE
+                    WHEN seasonNumber = (SELECT MAX(seasonNumber) FROM episode_entities WHERE showId = :showId) 
+                    THEN firstAiredFormatted < DATETIME('now')
+                    ELSE 1
+            END
+            )
         """
     )
     suspend fun setSeasonWatchedAllEpisodes(showId: Int, seasonNr: Int, watched: Boolean)
 
 
-    // 3. SHOW EPISODES -  COUNT/SET
-    // to show fragment
-    @Query(
-        """
-        SELECT COUNT (*)
-        FROM episode_entities
-        WHERE showId=:showId 
-            AND watched = 1
-    """
-    )
-    suspend fun countShowWatchedEpisodes(showId: Int): Int
-
-
-    @Query(
-        """
-       UPDATE episode_entities
-        SET watched=:watched
-        WHERE showId=:showId
-            AND firstAiredFormatted IS NOT NULL
-            AND firstAiredFormatted < DATETIME('now')
-    """
-    )
-    suspend fun setShowWatchedALlEpisodes(showId: Int, watched: Boolean)
-
-
-    // count already download episodes of the show
-    // serve solo per scaricare nuovi episodi mancanti (force download episodes)
-    // it needs only in case -> to force download all the episodes
     @Query(
         """
         SELECT COUNT(*) FROM episode_entities 
