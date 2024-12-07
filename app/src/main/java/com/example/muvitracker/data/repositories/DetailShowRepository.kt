@@ -45,59 +45,23 @@ class DetailShowRepository @Inject constructor(
     private val seasonDao = database.seasonsDao()
 
 
-    private val detailStore: Store<Int, DetailShow> = StoreBuilder.from(
-        fetcher = Fetcher.ofResult { showId ->
-            try {
-                FetcherResult.Data(traktApi.getShowDetail(showId))
-
-            } catch (ex: CancellationException) {
-                throw ex
-            } catch (ex: Throwable) {
-                ex.printStackTrace()
-                FetcherResult.Error.Exception(ex)
-            }
+    private val detailStore = store<Int, DetailShowDto, DetailShow>(
+        fetcher = { showId ->
+            traktApi.getShowDetail(showId)
         },
-        sourceOfTruth = SourceOfTruth.of<Int, DetailShowDto, DetailShow>(
-            reader = { showId ->
-                detailShowDao.getSingleFlow(showId)
-                // return->DetailShow,
-                // join detail + prefs + episodeCount
-            },
-            writer = { _, dto ->
-                try {
-                    detailShowDao.insertSingle(dto.toEntity())
-                } catch (ex: Exception) {
-                    ex.printStackTrace()
-                }
-            }
-        )
-    ).build()
+        reader = {showId ->
+            detailShowDao.getSingleFlow(showId)
+        } ,
+        writer = {_,dto   ->
+            detailShowDao.insertSingle(dto.toEntity())
+        }
+    )
+
 
 
     fun getSingleDetailShowFlow(showId: Int): Flow<IoResponse<DetailShow?>> {
         return detailStore.stream(StoreRequest.cached(key = showId, refresh = true))
-            .filterNot { response ->
-                response is StoreResponse.Loading || response is StoreResponse.NoNewData
-            }
-            .map { storeResponse ->
-                when (storeResponse) {
-                    is StoreResponse.Data -> {
-                        val detailShow = storeResponse.value
-                        IoResponse.Success(detailShow)
-                    }
-
-                    is StoreResponse.Error.Exception -> {
-                        IoResponse.Error(storeResponse.error)
-                    }
-
-                    is StoreResponse.Error.Message -> {
-                        IoResponse.Error(RuntimeException(storeResponse.message))
-                    }
-
-                    is StoreResponse.Loading,
-                    is StoreResponse.NoNewData -> error("should be filtered upstream")
-                }
-            }
+            .convertIoResponse()
     }
 
 
