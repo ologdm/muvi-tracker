@@ -1,6 +1,5 @@
 package com.example.muvitracker.data.dto.movie
 
-import com.example.muvitracker.data.database.entities.BoxofficeMovieEntity
 import com.example.muvitracker.domain.model.base.Movie
 
 
@@ -15,16 +14,6 @@ fun BoxofficeDtoM.toDomain(): Movie {
         movie.title,
         movie.year,
         movie.ids
-    )
-}
-
-
-fun BoxofficeDtoM.toEntity(): BoxofficeMovieEntity {
-    return BoxofficeMovieEntity(
-        traktId = movie.ids.trakt,
-        title = movie.title,
-        year = movie.year,
-        ids = movie.ids
     )
 }
 

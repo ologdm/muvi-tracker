@@ -1,14 +1,13 @@
 package com.example.muvitracker.data.repositories
 
-import android.content.Context
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.example.muvitracker.R
 import com.example.muvitracker.data.TraktApi
 import com.example.muvitracker.data.dto.movie.toDomain
 import com.example.muvitracker.domain.model.base.Movie
+import com.example.muvitracker.ui.main.allmovies.MovieType
+import com.example.muvitracker.ui.main.allshows.ShowsType
 import java.util.concurrent.CancellationException
-import javax.inject.Singleton
 
 // PagingSource<key,resultValue> - due metodi da implementare
 //   1. getRefreshKey
@@ -20,34 +19,32 @@ import javax.inject.Singleton
 //   - LoadResult.Invalid -  if the PagingSource should be invalidated because it can no longer guarantee the integrity of its results.
 
 
-@Singleton
 class MoviesPagingSource(
-    val context: Context,
-    private val feedCategory: String, // feedCategory -> solo indicative, le chiamate sono implementate separatamente
+    private val feedCategory: MovieType,
     private val traktApi: TraktApi
 ) : PagingSource<Int, Movie>() {
 
 
-    // parameters - (currentPage, loadSize)
     override suspend fun load(
         params: LoadParams<Int>
     ): LoadResult<Int, Movie> {
         val currentPage = params.key ?: 1
         return try {
             val response = when (feedCategory) {
-                context.getString(R.string.popular) -> traktApi.getPopularMovies(currentPage, params.loadSize)
+                MovieType.Popular -> traktApi.getPopularMovies(currentPage, params.loadSize)
                     .map { it.toDomain() }
 
-                context.getString(R.string.watched) -> traktApi.getWatchedMovies(currentPage, params.loadSize)
+                MovieType.BoxOffice -> traktApi.getBoxoMovies() // only 10 results
                     .map { it.toDomain() }
 
-                context.getString(R.string.favorited) -> traktApi.getFavoritedMovies(currentPage, params.loadSize)
+                MovieType.Watched -> traktApi.getWatchedMovies(currentPage, params.loadSize)
                     .map { it.toDomain() }
 
-                context.getString(R.string.anticipated) -> traktApi.getAnticipatedMovies(currentPage, params.loadSize)
+                MovieType.Favorited -> traktApi.getFavoritedMovies(currentPage, params.loadSize)
                     .map { it.toDomain() }
 
-                else -> emptyList()
+                MovieType.ComingSoon -> traktApi.getAnticipatedMovies(currentPage, params.loadSize)
+                    .map { it.toDomain() }
             }
 
             LoadResult.Page(  // #1
@@ -63,7 +60,6 @@ class MoviesPagingSource(
     }
 
 
-    // OK - default implementation
     override fun getRefreshKey(
         state: PagingState<Int, Movie>
     ): Int? {

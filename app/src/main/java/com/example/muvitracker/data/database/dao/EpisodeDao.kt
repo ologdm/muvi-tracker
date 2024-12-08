@@ -29,7 +29,7 @@ interface EpisodeDao {
             AND episodeNumber =:episodeNr
         """
     )
-    fun readSingle(showId: Int, seasonNr: Int, episodeNr: Int): Flow<EpisodeEntity>?
+    fun readSingle(showId: Int, seasonNr: Int, episodeNr: Int): Flow<EpisodeEntity?>
 
 
     // to seasonFragment

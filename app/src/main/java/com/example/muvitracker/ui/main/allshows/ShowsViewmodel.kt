@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
-import androidx.paging.PagingSource
 import androidx.paging.cachedIn
 import com.example.muvitracker.R
 import com.example.muvitracker.data.TraktApi
@@ -32,12 +31,11 @@ class ShowsViewmodel @Inject constructor(
     private val _selectedFeed = MutableStateFlow(getLastFeed())
     val selectedFeed: StateFlow<ShowsType> = _selectedFeed
 
-    val statePaging = selectedFeed.flatMapLatest {
+    val statePaging = selectedFeed.flatMapLatest { type ->
         Pager(
             config = PagingConfig(pageSize = 15, enablePlaceholders = false),
-            pagingSourceFactory = { ShowsPagingSource(applicationContext, it, traktApi) }
-        ).flow
-            .cachedIn(viewModelScope)
+            pagingSourceFactory = { ShowsPagingSource(type, traktApi) }
+        ).flow.cachedIn(viewModelScope)
     }
 
 
@@ -56,7 +54,7 @@ class ShowsViewmodel @Inject constructor(
 enum class ShowsType {
     Popular,
     Watched,
-    Favorites,
+    Favorited,
     ComingSoon;
 
 
@@ -64,7 +62,7 @@ enum class ShowsType {
         get() = when (this) {
             Popular -> R.string.popular
             Watched -> R.string.watched
-            Favorites -> R.string.favorited
+            Favorited -> R.string.favorited
             ComingSoon -> R.string.anticipated
         }
 
@@ -72,7 +70,7 @@ enum class ShowsType {
         get() = when (this) {
             Popular -> "popular"
             Watched -> "watched"
-            Favorites -> "favorited"
+            Favorited -> "favorited"
             ComingSoon -> "anticipated"
         }
 

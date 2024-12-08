@@ -3,14 +3,12 @@ package com.example.muvitracker.data.database
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.example.muvitracker.data.database.dao.BoxofficeDao
 import com.example.muvitracker.data.database.dao.DetailMovieDao
 import com.example.muvitracker.data.database.dao.DetailShowDao
 import com.example.muvitracker.data.database.dao.EpisodeDao
 import com.example.muvitracker.data.database.dao.PrefsMovieDao
 import com.example.muvitracker.data.database.dao.PrefsShowDao
 import com.example.muvitracker.data.database.dao.SeasonDao
-import com.example.muvitracker.data.database.entities.BoxofficeMovieEntity
 import com.example.muvitracker.data.database.entities.DetailMovieEntity
 import com.example.muvitracker.data.database.entities.DetailShowEntity
 import com.example.muvitracker.data.database.entities.EpisodeEntity
@@ -30,7 +28,6 @@ import com.example.muvitracker.data.repositories.imagetmdb.database.entities.Sea
 @Database(
     entities = [
         // trakt
-        BoxofficeMovieEntity::class,
         DetailMovieEntity::class,
         DetailShowEntity::class,
         PrefsMovieEntity::class,
@@ -47,9 +44,6 @@ import com.example.muvitracker.data.repositories.imagetmdb.database.entities.Sea
 )
 @TypeConverters(ConvertersUtils::class, ConvertersUtilsTmdb::class)
 abstract class MyDatabase : RoomDatabase() {
-
-    // trakt
-    abstract fun boxofficeDao(): BoxofficeDao // movies feed - list with caching
 
     abstract fun detailMovieDao(): DetailMovieDao
     abstract fun detailShowDao(): DetailShowDao

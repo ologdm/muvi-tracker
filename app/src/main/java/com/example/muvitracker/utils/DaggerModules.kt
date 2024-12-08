@@ -9,11 +9,9 @@ import com.example.muvitracker.data.database.MyDatabase
 import com.example.muvitracker.data.repositories.DetailMovieRepository
 import com.example.muvitracker.data.repositories.DetailShowRepository
 import com.example.muvitracker.data.repositories.PrefsMovieRepository
-import com.example.muvitracker.data.repositories.MoviesRepository
 import com.example.muvitracker.data.repositories.PrefsShowRepository
 import com.example.muvitracker.domain.repo.DetailMovieRepo
 import com.example.muvitracker.domain.repo.DetailShowRepo
-import com.example.muvitracker.domain.repo.MoviesRepo
 import com.example.muvitracker.domain.repo.PrefsMovieRepo
 import com.example.muvitracker.domain.repo.PrefsShowRepo
 import com.google.gson.Gson
@@ -30,13 +28,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 class DaggerModules {
-
-
-    @Provides
-    @Singleton
-    fun providedMoviesRepo(impl: MoviesRepository): MoviesRepo {
-        return impl
-    }
 
 
     @Provides

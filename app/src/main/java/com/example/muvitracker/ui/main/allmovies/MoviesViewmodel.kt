@@ -1,92 +1,87 @@
 package com.example.muvitracker.ui.main.allmovies
 
 import android.content.Context
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import android.content.SharedPreferences
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
+import com.example.muvitracker.R
 import com.example.muvitracker.data.TraktApi
 import com.example.muvitracker.data.repositories.MoviesPagingSource
-import com.example.muvitracker.domain.model.base.Movie
-import com.example.muvitracker.domain.repo.MoviesRepo
-import com.example.muvitracker.utils.IoResponse
-import com.example.muvitracker.utils.StateContainer
+import com.example.muvitracker.ui.main.allshows.ShowsType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
-import java.io.IOException
 import javax.inject.Inject
 
 @HiltViewModel
 class MoviesViewmodel @Inject constructor(
     @ApplicationContext private val applicationContext: Context,
     private val traktApi: TraktApi,
-    private val moviesRepository: MoviesRepo
+    private val sharedPrefs: SharedPreferences
 ) : ViewModel() {
 
-    // STATES
-    private val _selectedFeed = MutableStateFlow("")
-    val selectedFeed: StateFlow<String> = _selectedFeed
+    companion object {
+        private const val SELECTED_FEED_KEY = "movie_selected_feed_key"
+    }
 
-    private val _boxoState = MutableLiveData<StateContainer<List<Movie>>>()
-    val boxoState: LiveData<StateContainer<List<Movie>>> get() = _boxoState
+    private val _selectedFeed = MutableStateFlow(getLastFeed()) // valore default
+    val selectedFeed: StateFlow<MovieType> = _selectedFeed
 
-    @OptIn(ExperimentalCoroutinesApi::class) // because of -> flatMapLatest{..}
-    val statePaging = selectedFeed.flatMapLatest {
+
+    val statePaging = selectedFeed.flatMapLatest { type ->
         Pager(
             config = PagingConfig(pageSize = 15, enablePlaceholders = false),
             pagingSourceFactory = {
-                MoviesPagingSource(applicationContext, it, traktApi)
-            })
-            .flow
-            .cachedIn(viewModelScope)
+                MoviesPagingSource(type, traktApi)
+            }).flow.cachedIn(viewModelScope)
     }
 
-
-    // FUNCTIONS
-    fun updateSelectedFeed(feedCategory: String) {
-        _selectedFeed.value = feedCategory
+    // set feed
+    fun updateSelectedFeed(newSelectedFeed: MovieType) {
+        _selectedFeed.value = newSelectedFeed
+        sharedPrefs.edit().putString(SELECTED_FEED_KEY, newSelectedFeed.sharedPrefsValue).apply()
     }
 
-    // no paging, with caching
-    fun loadBoxoMovies() {
-        viewModelScope.launch {
-            var maintainedData: List<Movie>? = null
+    // getFeed
+    fun getLastFeed(): MovieType {
+        // from shared value -> MoviesType enum
+        val stringValue = sharedPrefs.getString(SELECTED_FEED_KEY, null)
+        return MovieType.entries.find { it.sharedPrefsValue == stringValue } ?: MovieType.Popular
+    }
 
-            moviesRepository.getBoxoStoreStream()
-                .catch {
-                    it.printStackTrace()
-                }
-                .map { response ->
-                    when (response) {
-                        is IoResponse.Success -> {
-                            maintainedData = response.dataValue
-                            StateContainer(data = response.dataValue)
-                        }
+}
 
-                        is IoResponse.Error -> {
-                            if (response.t is IOException) {
-                                StateContainer(data = maintainedData, isNetworkError = true)
-                            } else {
-                                StateContainer(data = maintainedData, isOtherError = true)
-                            }
-                        }
-                    }
-                }.collectLatest {
-                    _boxoState.value = it
-                }
+
+enum class MovieType {
+    Popular,
+    BoxOffice,
+    Watched,
+    Favorited,
+    ComingSoon;
+
+    val stringRes: Int
+        get() = when (this) {
+            Popular -> R.string.popular
+            BoxOffice -> R.string.box_office
+            Watched -> R.string.watched
+            Favorited -> R.string.favorited
+            ComingSoon -> R.string.anticipated
         }
-    }
+
+    val sharedPrefsValue: String
+        get() = when (this) {
+            Popular -> "popular"
+            BoxOffice -> "boxoffice"
+            Watched -> "watched"
+            Favorited -> "favorited"
+            ComingSoon -> "anticipated"
+        }
+
 
 }
 

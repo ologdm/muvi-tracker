@@ -39,9 +39,10 @@ class ShowsFragment : Fragment(R.layout.fragm_base_category) {
         view: View,
         savedInstanceState: Bundle?
     ) {
+        binding.toolbar.text = getString(R.string.shows)
+
         binding.recyclerView.adapter = pagingAdapter
         binding.recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
-        binding.toolbar.text = requireContext().getString(R.string.shows)
 
         setupChips(ShowsType.entries) // entries rispetta ordine
         binding.swipeRefreshLayout.setOnRefreshListener { pagingAdapter.refresh() }
