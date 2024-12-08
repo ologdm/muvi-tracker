@@ -5,13 +5,8 @@ import com.example.muvitracker.domain.model.DetailShow
 import kotlinx.coroutines.flow.Flow
 
 interface PrefsShowRepo {
-
     fun getListFLow(): Flow<List<DetailShow>>
-
-    suspend fun toggleFavoriteOnDB(id: Int)
-
+    suspend fun toggleLikedOnDB(id: Int)
+    suspend fun checkAndAddIfWatchedToPrefs(showId: Int)
     suspend fun deleteItemOnDB(id: Int)
-
-    // TODO read watched count from Episodes
-
 }

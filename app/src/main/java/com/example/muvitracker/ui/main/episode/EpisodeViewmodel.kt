@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.muvitracker.data.repositories.EpisodeRepository
 import com.example.muvitracker.data.database.MyDatabase
 import com.example.muvitracker.data.database.entities.EpisodeEntity
+import com.example.muvitracker.domain.model.EpisodeExtended
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
@@ -19,7 +20,7 @@ class EpisodeViewmodel @Inject constructor(
     private val episodeRepository: EpisodeRepository
 ) : ViewModel() {
 
-    val state = MutableLiveData<EpisodeEntity?>()
+    val state = MutableLiveData<EpisodeExtended?>()
 
 
     fun loadEpisode(showTraktId: Int, seasonNr: Int, episodeNr: Int) {

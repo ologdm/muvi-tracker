@@ -7,11 +7,15 @@ import com.example.muvitracker.BuildConfig
 import com.example.muvitracker.data.TraktApi
 import com.example.muvitracker.data.database.MyDatabase
 import com.example.muvitracker.data.repositories.DetailMovieRepository
+import com.example.muvitracker.data.repositories.DetailShowRepository
 import com.example.muvitracker.data.repositories.PrefsMovieRepository
 import com.example.muvitracker.data.repositories.MoviesRepository
+import com.example.muvitracker.data.repositories.PrefsShowRepository
 import com.example.muvitracker.domain.repo.DetailMovieRepo
+import com.example.muvitracker.domain.repo.DetailShowRepo
 import com.example.muvitracker.domain.repo.MoviesRepo
 import com.example.muvitracker.domain.repo.PrefsMovieRepo
+import com.example.muvitracker.domain.repo.PrefsShowRepo
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
@@ -37,14 +41,26 @@ class DaggerModules {
 
     @Provides
     @Singleton
-    fun providedDetailRepo(impl: DetailMovieRepository): DetailMovieRepo {
+    fun providedDetailMovieRepo(impl: DetailMovieRepository): DetailMovieRepo {
+        return impl
+    }
+
+    @Provides
+    @Singleton
+    fun providedDetailShowRepo(impl: DetailShowRepository): DetailShowRepo {
         return impl
     }
 
 
     @Provides
     @Singleton
-    fun providePrefsRepo(impl: PrefsMovieRepository): PrefsMovieRepo {
+    fun providePrefsMovieRepo(impl: PrefsMovieRepository): PrefsMovieRepo {
+        return impl
+    }
+
+    @Provides
+    @Singleton
+    fun providePrefsShowRepo(impl: PrefsShowRepository): PrefsShowRepo {
         return impl
     }
 

@@ -10,11 +10,12 @@ import androidx.recyclerview.widget.ListAdapter
 import com.example.muvitracker.R
 import com.example.muvitracker.data.database.entities.EpisodeEntity
 import com.example.muvitracker.databinding.VhEpisodeOnseasonBinding
+import com.example.muvitracker.domain.model.EpisodeExtended
 
 class SeasonEpisodesAdapter(
     val onCLickVH: (Int) -> Unit,
     val onCLickWatched: (Int) -> Unit
-) : ListAdapter<EpisodeEntity, EpisodeVH>(DIFF_CALLBACK) {
+) : ListAdapter<EpisodeExtended, EpisodeVH>(DIFF_CALLBACK) {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EpisodeVH {
@@ -41,18 +42,14 @@ class SeasonEpisodesAdapter(
                 onCLickWatched.invoke(currentItem.episodeNumber)
                 // leggi nuovo stato
                 updateWatchedIcon(watchedIcon, currentItem.watched, iconFilled, iconEmpty)
-
             }
-
         }
-
 
         holder.bind(currentItem)
 
         holder.itemView.setOnClickListener {
             onCLickVH(currentItem.episodeNumber)
         }
-
     }
 
 
@@ -69,19 +66,18 @@ class SeasonEpisodesAdapter(
     }
 
 
-    // OK
     companion object {
-        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<EpisodeEntity>() {
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<EpisodeExtended>() {
             override fun areItemsTheSame(
-                oldItem: EpisodeEntity,
-                newItem: EpisodeEntity
+                oldItem: EpisodeExtended,
+                newItem: EpisodeExtended
             ): Boolean {
                 return oldItem.episodeTraktId == newItem.episodeTraktId
             }
 
             override fun areContentsTheSame(
-                oldItem: EpisodeEntity,
-                newItem: EpisodeEntity
+                oldItem: EpisodeExtended,
+                newItem: EpisodeExtended
             ): Boolean {
                 return oldItem == newItem
             }

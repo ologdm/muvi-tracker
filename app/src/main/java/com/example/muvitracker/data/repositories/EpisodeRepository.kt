@@ -5,11 +5,13 @@ import com.example.muvitracker.data.TraktApi
 import com.example.muvitracker.data.database.MyDatabase
 import com.example.muvitracker.data.database.entities.EpisodeEntity
 import com.example.muvitracker.data.database.entities.copyDtoData
+import com.example.muvitracker.data.database.entities.toDomain
 import com.example.muvitracker.data.dto.episode.EpisodeExtenDto
 import com.example.muvitracker.data.dto.episode.toEntity
 import com.example.muvitracker.data.utils.ShowRequestKeys
 import com.example.muvitracker.data.utils.mapToIoResponse
 import com.example.muvitracker.data.utils.storeFactory
+import com.example.muvitracker.domain.model.EpisodeExtended
 import com.example.muvitracker.utils.IoResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -25,13 +27,16 @@ class EpisodeRepository @Inject constructor(
     private val episodeDao = database.episodesDao()
 
     val seasonEpisodesStore =
-        storeFactory<ShowRequestKeys, List<EpisodeExtenDto>, List<EpisodeEntity>>(
+        storeFactory<ShowRequestKeys, List<EpisodeExtenDto>, List<EpisodeExtended>>(
             fetcher = { request ->
                 traktApi.getSeasonWithEpisodes(request.showId, request.seasonNr)
             },
             reader = { request ->
                 episodeDao.readAllOfSeason(request.showId, request.seasonNr)
-                    .map { if (it.isEmpty()) null else it }
+                    .map { episodes ->
+                        if (episodes.isEmpty()) null
+                        else episodes.map { it.toDomain() }
+                    }
             },
             writer = { request, episodeDtos ->
                 saveDtosToDatabase(request.showId, episodeDtos)
@@ -57,7 +62,7 @@ class EpisodeRepository @Inject constructor(
     fun getSeasonAllEpisodesFlow(
         showId: Int,
         seasonNr: Int
-    ): Flow<IoResponse<List<EpisodeEntity>>> {
+    ): Flow<IoResponse<List<EpisodeExtended>>> {
         return seasonEpisodesStore
             .stream(
                 StoreRequest.cached(
@@ -73,9 +78,11 @@ class EpisodeRepository @Inject constructor(
         showId: Int,
         seasonNr: Int,
         episodeNr: Int
-    ): Flow<EpisodeEntity?> {
+    ): Flow<EpisodeExtended?> {
         // read from db - single episode always on db
-        return episodeDao.readSingle(showId, seasonNr, episodeNr)
+        return episodeDao.readSingle(showId, seasonNr, episodeNr).map {entity->
+            entity?.toDomain()
+        }
     }
 
 

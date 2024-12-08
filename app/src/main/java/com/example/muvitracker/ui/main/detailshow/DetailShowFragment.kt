@@ -115,7 +115,7 @@ class DetailShowFragment : Fragment(R.layout.fragm_detail_show) {
             binding.watchedAllCheckboxLoadingBar.visibility = View.VISIBLE
             binding.watchedAllCheckbox.isEnabled = false
             // update
-            viewModel.toggleWatchedAll(currentShowIds.trakt, onComplete = {
+            viewModel.toggleShowWatchedAll(currentShowIds.trakt, onComplete = {
                 // callback spegni caricamento
                 binding.watchedAllCheckboxLoadingBar.visibility = View.GONE
                 binding.watchedAllCheckbox.isEnabled = true
@@ -257,7 +257,7 @@ class DetailShowFragment : Fragment(R.layout.fragm_detail_show) {
             binding.watchedAllCheckboxLoadingBar.visibility = View.VISIBLE
             binding.watchedAllCheckbox.isEnabled = false
 
-            viewModel.toggleWatchedAll(currentShowIds.trakt, onComplete = {
+            viewModel.toggleShowWatchedAll(currentShowIds.trakt, onComplete = {
                 // spegni caricamento
                 binding.watchedAllCheckboxLoadingBar.visibility = View.GONE
                 binding.watchedAllCheckbox.isEnabled = true

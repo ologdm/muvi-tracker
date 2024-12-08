@@ -42,10 +42,10 @@ class EpisodeFragment : BottomSheetDialogFragment(R.layout.fragm_episode_bottoms
             seasonNr = currentSeasonNr,
             episodeNr = currentEpisodeNr
         )
-        viewModel.state.observe(viewLifecycleOwner) { episodeEntity ->
-            episodeEntity?.let {
+        viewModel.state.observe(viewLifecycleOwner) { episode ->
+            episode?.let {
                 binding.title.text =
-                    "E.${it.episodeNumber.episodesFormatNumber()} • ${it.title}"
+                    "E.${it.episodeNumber?.episodesFormatNumber()} • ${it.title}"
                 binding.episodeType.text =
                     "${
                         it.episodeType.toString()
@@ -54,10 +54,10 @@ class EpisodeFragment : BottomSheetDialogFragment(R.layout.fragm_episode_bottoms
                     }"
 
                 binding.info.text =
-                    "${getString(R.string.release_date)} ${episodeEntity
-                        .firstAiredFormatted.formatDateFromFirsAired()} | ${episodeEntity.runtime} min "
-                binding.overview.text = episodeEntity.overview
-                binding.traktRating.text = episodeEntity.rating.toString()
+                    "${getString(R.string.release_date)} ${episode
+                        .firstAiredFormatted.formatDateFromFirsAired()} | ${episode.runtime} min "
+                binding.overview.text = episode.overview
+                binding.traktRating.text = episode.rating.toString()
 
                 updateWatchedIcon(it.watched)
             }

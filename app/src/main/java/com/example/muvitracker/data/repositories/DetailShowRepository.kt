@@ -10,6 +10,8 @@ import com.example.muvitracker.data.utils.mapToIoResponse
 import com.example.muvitracker.data.utils.storeFactory
 import com.example.muvitracker.domain.model.DetailShow
 import com.example.muvitracker.domain.model.base.Show
+import com.example.muvitracker.domain.repo.DetailShowRepo
+import com.example.muvitracker.domain.repo.PrefsShowRepo
 import com.example.muvitracker.utils.IoResponse
 import com.example.muvitracker.utils.ioMapper
 import kotlinx.coroutines.async
@@ -27,9 +29,10 @@ import kotlin.coroutines.cancellation.CancellationException
 @Singleton
 class DetailShowRepository @Inject constructor(
     private val traktApi: TraktApi,
+    private val prefsShowRepository: PrefsShowRepo,
     private val seasonRepo: SeasonRepository,
     database: MyDatabase,
-) {
+) : DetailShowRepo {
     private val detailShowDao = database.detailShowDao()
     private val seasonDao = database.seasonsDao()
 
@@ -46,19 +49,17 @@ class DetailShowRepository @Inject constructor(
     )
 
 
-    fun getSingleDetailShowFlow(showId: Int): Flow<IoResponse<DetailShow?>> {
+    override fun getSingleDetailShowFlow(showId: Int): Flow<IoResponse<DetailShow>> {
         return store.stream(StoreRequest.cached(key = showId, refresh = true))
             .mapToIoResponse()
     }
 
 
     // RELATED SHOWS
-    suspend fun getRelatedShows(showId: Int): IoResponse<List<Show>> {
+    override suspend fun getRelatedShows(showId: Int): IoResponse<List<Show>> {
         return try {
             IoResponse.Success(traktApi.getShowRelatedShows(showId)).ioMapper { dtos ->
-                dtos.map { dto ->
-                    dto.toDomain()
-                }
+                dtos.map { dto -> dto.toDomain() }
             }
         } catch (ex: CancellationException) {
             throw ex
@@ -68,9 +69,13 @@ class DetailShowRepository @Inject constructor(
         }
     }
 
+    override suspend fun toggleLikedShow(showId: Int) {
+        prefsShowRepository.toggleLikedOnDB(showId)
+    }
+
 
     // WATCHED_ALL SU SHOW
-    suspend fun checkAndSetShowWatchedAllSeasons(showId: Int) = coroutineScope {
+    override suspend fun checkAndSetShowWatchedAllSeasons(showId: Int) = coroutineScope {
         val showAllSeasonsCount = seasonDao.countAllSeasonsOfShow(showId)
         val isShowWatchedAll = detailShowDao.getSingleFlow(showId)
             .firstOrNull()?.watchedAll // watchedAll calculated
@@ -90,6 +95,7 @@ class DetailShowRepository @Inject constructor(
         }
         jobs.awaitAll()
     }
+
 
 }
 

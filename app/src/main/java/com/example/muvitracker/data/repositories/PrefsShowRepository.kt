@@ -3,6 +3,7 @@ package com.example.muvitracker.data.repositories
 import com.example.muvitracker.data.database.MyDatabase
 import com.example.muvitracker.data.database.entities.PrefsShowEntity
 import com.example.muvitracker.domain.model.DetailShow
+import com.example.muvitracker.domain.repo.PrefsShowRepo
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -11,11 +12,11 @@ import javax.inject.Singleton
 @Singleton
 class PrefsShowRepository @Inject constructor(
     database: MyDatabase
-) {
+) : PrefsShowRepo {
     private val prefsShowDao = database.prefsShowDao()
 
 
-    fun getListFLow(): Flow<List<DetailShow>> {
+    override fun getListFLow(): Flow<List<DetailShow>> {
         // (already downloaded case)
         // join on db: prefs + detail + watched episodes ->
         return prefsShowDao.getAllPrefs()
@@ -27,7 +28,7 @@ class PrefsShowRepository @Inject constructor(
 
     // LIKED CLICK
     // add new or update
-    suspend fun toggleLikedOnDB(id: Int) {
+    override suspend fun toggleLikedOnDB(id: Int) {
         // switch state on repository & update db
         val entity =
             prefsShowDao.readSingle(id)
@@ -46,7 +47,7 @@ class PrefsShowRepository @Inject constructor(
 
     // WATCHED CLICK
     // add prefs item, if I added watched on episode
-    suspend fun checkAndAddIfWatchedToPrefs(showId: Int) {
+    override suspend fun checkAndAddIfWatchedToPrefs(showId: Int) {
         val prefsEntity = prefsShowDao.readSingle(showId)
         if (prefsEntity == null) {
             prefsShowDao.insertSingle(
@@ -60,7 +61,7 @@ class PrefsShowRepository @Inject constructor(
     }
 
 
-    suspend fun deleteItemOnDB(id: Int) {
+    override suspend fun deleteItemOnDB(id: Int) {
         prefsShowDao.deleteSingle(id)
     }
 

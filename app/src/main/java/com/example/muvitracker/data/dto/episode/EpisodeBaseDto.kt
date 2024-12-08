@@ -12,17 +12,6 @@ data class EpisodeBaseDto(
 //    val show: ShowBaseDto // doesn't need
 )
 
-// minimal data to create a episode entity
-fun EpisodeBaseDto.toPartialEntity(showId: Int): EpisodeEntity {
-    return EpisodeEntity(
-        episodeTraktId = ids.trakt,
-        seasonNumber = season,
-        episodeNumber = number,
-        title = title,
-        ids = ids,
-        showId = showId
-    )
-}
 
 
 //fun EpisodeBaseDto.toDomain(): Episode {

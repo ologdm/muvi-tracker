@@ -3,6 +3,7 @@ package com.example.muvitracker.ui.main.seasons
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.muvitracker.data.database.entities.EpisodeEntity
 import com.example.muvitracker.databinding.VhEpisodeOnseasonBinding
+import com.example.muvitracker.domain.model.EpisodeExtended
 import com.example.muvitracker.utils.episodesFormatNumber
 import com.example.muvitracker.utils.formatDateFromFirsAired
 
@@ -11,7 +12,7 @@ class EpisodeVH(
 ) : ViewHolder(binding.root) {
 
 
-    fun bind(item: EpisodeEntity) {
+    fun bind(item: EpisodeExtended) {
         binding.episodeNumberAndRelease.text =
             "E.${item.episodeNumber.episodesFormatNumber()} • ${item.firstAiredFormatted.formatDateFromFirsAired()}"
 
