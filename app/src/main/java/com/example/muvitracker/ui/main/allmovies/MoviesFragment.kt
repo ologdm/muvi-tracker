@@ -44,13 +44,11 @@ class MoviesFragment : Fragment(R.layout.fragm_base_category) {
         binding.recyclerView.adapter = pagingAdapter
         binding.recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
 
-        binding.swipeRefreshLayout.setOnRefreshListener { pagingAdapter.refresh() }
-
         setupChips(MovieType.entries)
+        binding.swipeRefreshLayout.setOnRefreshListener { pagingAdapter.refresh() }
 
         collectSelectedFeed()
         collectPagingStates()
-
     }
 
 
@@ -58,7 +56,6 @@ class MoviesFragment : Fragment(R.layout.fragm_base_category) {
     private fun setupChips(feedCategoryList: List<MovieType>) {
         binding.chipGroupFeedCategory.apply {
             removeAllViews()
-            // 1. create
             feedCategoryList.forEach { type ->
                 val chip = Chip(context).apply {
                     text = getString(type.stringRes)
@@ -67,7 +64,6 @@ class MoviesFragment : Fragment(R.layout.fragm_base_category) {
                 }
                 binding.chipGroupFeedCategory.addView(chip)
             }
-
             isSingleSelection = true
             isSelectionRequired = true
 
@@ -85,10 +81,10 @@ class MoviesFragment : Fragment(R.layout.fragm_base_category) {
                 chipGroup.findViewById<Chip>(checkedId)?.let { selectedChip ->
                     val newSelectedFeed = selectedChip.tag as MovieType
                     viewModel.updateSelectedFeed(newSelectedFeed)
-                    }
                 }
             }
         }
+    }
 
 
     // with paging
@@ -102,6 +98,7 @@ class MoviesFragment : Fragment(R.layout.fragm_base_category) {
                 // basta qua, si ferma quando si ha la risposta dal pager (sia data che error)
             }
         }
+
         // 2 coroutines - statesFlow
         fragmentViewLifecycleScope.launch {
             pagingAdapter.loadStateFlow.collectLatest { loadState ->
@@ -110,7 +107,6 @@ class MoviesFragment : Fragment(R.layout.fragm_base_category) {
                 // 2 error
                 if (loadState.refresh is LoadState.Error) {
                     binding.errorTextView.isVisible = true
-
                     val error = (loadState.refresh as LoadState.Error).error
                     binding.errorTextView.text = if (error is IOException) {
                         requireContext().getString(R.string.error_message_no_internet)

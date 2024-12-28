@@ -1,4 +1,4 @@
-package com.example.muvitracker.ui.main.search
+package com.example.muvitracker.data.repositories
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState

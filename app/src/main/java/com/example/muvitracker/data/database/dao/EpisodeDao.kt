@@ -23,7 +23,8 @@ interface EpisodeDao {
     // to episodeFragment
     @Query(
         """
-        SELECT * FROM episode_entities 
+        SELECT * 
+        FROM episode_entities 
         WHERE showId=:showId 
             AND seasonNumber=:seasonNr 
             AND episodeNumber =:episodeNr
@@ -35,7 +36,8 @@ interface EpisodeDao {
     // to seasonFragment
     @Query(
         """
-        SELECT * FROM episode_entities 
+        SELECT * 
+        FROM episode_entities 
         WHERE showId=:showId 
             AND seasonNumber =:seasonNr
         """

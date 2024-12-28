@@ -1,6 +1,5 @@
 package com.example.muvitracker.ui.main.allshows
 
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
@@ -40,7 +39,6 @@ class ShowsFragment : Fragment(R.layout.fragm_base_category) {
         savedInstanceState: Bundle?
     ) {
         binding.toolbar.text = getString(R.string.shows)
-
         binding.recyclerView.adapter = pagingAdapter
         binding.recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
 
@@ -59,12 +57,11 @@ class ShowsFragment : Fragment(R.layout.fragm_base_category) {
             feedCategoryList.forEach { type ->
                 val chip = Chip(context).apply {
                     text = getString(type.stringRes)
-                    isCheckable = true // clickable
+                    isCheckable = true
                     tag = type
                 }
                 binding.chipGroupFeedCategory.addView(chip)
             }
-
             isSingleSelection = true
             isSelectionRequired = true
 
@@ -94,6 +91,7 @@ class ShowsFragment : Fragment(R.layout.fragm_base_category) {
                 binding.errorTextView.isVisible = false
             }
         }
+        
         fragmentViewLifecycleScope.launch {
             pagingAdapter.loadStateFlow.collectLatest { loadState ->
                 // 1 progress

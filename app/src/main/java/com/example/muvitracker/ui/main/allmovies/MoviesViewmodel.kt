@@ -1,6 +1,6 @@
 package com.example.muvitracker.ui.main.allmovies
 
-import android.content.Context
+
 import android.content.SharedPreferences
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,17 +10,15 @@ import androidx.paging.cachedIn
 import com.example.muvitracker.R
 import com.example.muvitracker.data.TraktApi
 import com.example.muvitracker.data.repositories.MoviesPagingSource
-import com.example.muvitracker.ui.main.allshows.ShowsType
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flatMapLatest
 import javax.inject.Inject
 
+
 @HiltViewModel
 class MoviesViewmodel @Inject constructor(
-    @ApplicationContext private val applicationContext: Context,
     private val traktApi: TraktApi,
     private val sharedPrefs: SharedPreferences
 ) : ViewModel() {
@@ -36,9 +34,8 @@ class MoviesViewmodel @Inject constructor(
     val statePaging = selectedFeed.flatMapLatest { type ->
         Pager(
             config = PagingConfig(pageSize = 15, enablePlaceholders = false),
-            pagingSourceFactory = {
-                MoviesPagingSource(type, traktApi)
-            }).flow.cachedIn(viewModelScope)
+            pagingSourceFactory = { MoviesPagingSource(type, traktApi) }
+        ).flow.cachedIn(viewModelScope)
     }
 
     // set feed

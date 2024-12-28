@@ -32,7 +32,8 @@ interface TraktApi {
     @GET("search/{type_filter}?limit=$SEARCH_LIMIT")
     suspend fun getSearch(
         @Path("type_filter") typeFilter: String,
-        @Query("query") query: String
+        @Query("query") query: String,
+        @Query("page") page: Int
     ): List<SearchDto>
 
 
@@ -64,7 +65,7 @@ interface TraktApi {
         @Query("limit") limit: Int
     ): List<AnticipatedDtoM>
 
-    @GET("movies/boxoffice") // no paging, only 10 results
+    @GET("movies/boxoffice")
     suspend fun getBoxoMovies(): List<BoxofficeDtoM>
 
 

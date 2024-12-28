@@ -175,7 +175,8 @@ class DetailMovieFragment : Fragment(R.layout.fragm_detail_movie) {
     private fun updateWatchedCheckbox(isWatched: Boolean) {
         binding.watchedCheckbox.setOnCheckedChangeListener(null)
         binding.watchedCheckbox.isChecked = isWatched
-        binding.watchedCheckbox.setOnCheckedChangeListener { _, isChecked ->
+        
+        binding.watchedCheckbox.setOnCheckedChangeListener { compoundButton, isChecked ->
             viewModel.updateWatched(currentMovieIds.trakt, isChecked)
         }
     }

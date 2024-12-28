@@ -1,6 +1,5 @@
 package com.example.muvitracker.ui.main.allshows
 
-import android.content.Context
 import android.content.SharedPreferences
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,15 +10,14 @@ import com.example.muvitracker.R
 import com.example.muvitracker.data.TraktApi
 import com.example.muvitracker.data.repositories.ShowsPagingSource
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flatMapLatest
 import javax.inject.Inject
 
+
 @HiltViewModel
 class ShowsViewmodel @Inject constructor(
-    @ApplicationContext val applicationContext: Context,
     private val traktApi: TraktApi,
     private val sharedPrefs: SharedPreferences,
 ) : ViewModel() {
@@ -51,12 +49,12 @@ class ShowsViewmodel @Inject constructor(
 
 }
 
+
 enum class ShowsType {
     Popular,
     Watched,
     Favorited,
     ComingSoon;
-
 
     val stringRes: Int
         get() = when (this) {

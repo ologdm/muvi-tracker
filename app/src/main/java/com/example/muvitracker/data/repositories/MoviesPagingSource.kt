@@ -28,14 +28,16 @@ class MoviesPagingSource(
     override suspend fun load(
         params: LoadParams<Int>
     ): LoadResult<Int, Movie> {
+
         val currentPage = params.key ?: 1
+
         return try {
             val response = when (feedCategory) {
                 MovieType.Popular -> traktApi.getPopularMovies(currentPage, params.loadSize)
                     .map { it.toDomain() }
 
-                MovieType.BoxOffice -> traktApi.getBoxoMovies() // only 10 results
-                    .map { it.toDomain() }
+                MovieType.BoxOffice -> traktApi.getBoxoMovies()
+                    .map { it.toDomain() }   // only 10 results
 
                 MovieType.Watched -> traktApi.getWatchedMovies(currentPage, params.loadSize)
                     .map { it.toDomain() }

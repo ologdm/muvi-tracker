@@ -1,6 +1,5 @@
 package com.example.muvitracker.data.repositories
 
-import android.content.Context
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.muvitracker.data.TraktApi
@@ -20,6 +19,7 @@ class ShowsPagingSource(
     ): LoadResult<Int, Show> {
 
         val currentPage = params.key ?: 1
+
         return try {
             val response = when (feedCategory) {
                 ShowsType.Popular -> traktApi.getPopularShows(currentPage, params.loadSize)

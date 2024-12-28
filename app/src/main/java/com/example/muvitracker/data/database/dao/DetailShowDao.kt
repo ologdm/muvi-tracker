@@ -31,16 +31,25 @@ interface DetailShowDao {
     @Transaction
     @Query(
         """
-    SELECT d.title, d.year, d.ids, d.tagline, d.overview, d.firstAired, d.runtime, 
-           d.network, d.country, d.trailer, d.homepage, d.status, d.rating, d.votes, 
-           d.language, d.languages, d.genres, d.airedEpisodes,
-           p.liked, p.addedDateTime,
-           SUM(CASE WHEN e.watched = 1 THEN 1 ELSE 0 END) AS watchedCount
-    FROM detail_show_entities AS d
-    LEFT JOIN prefs_show_entities AS p ON  d.traktId = p.traktId
-    LEFT JOIN episode_entities AS e ON d.traktId = e.showId
-    WHERE d.traktId = :showId
-    GROUP BY d.traktId
+    SELECT 
+        d.title, d.year, d.ids, d.tagline, d.overview, d.firstAired, d.runtime,
+        d.network, d.country, d.trailer, d.homepage, d.status, d.rating, d.votes, 
+        d.language, d.languages, d.genres, d.airedEpisodes, p.liked, p.addedDateTime,
+        SUM(CASE WHEN e.watched = 1 THEN 1 ELSE 0 END) AS watchedCount
+    FROM 
+        detail_show_entities AS d
+    LEFT JOIN 
+        prefs_show_entities AS p 
+    ON 
+        d.traktId = p.traktId
+    LEFT JOIN 
+        episode_entities AS e 
+    ON 
+        d.traktId = e.showId
+    WHERE 
+        d.traktId = :showId
+    GROUP BY 
+        d.traktId
 """
     )
     fun getSingleFlow(showId: Int): Flow<DetailShow?>
