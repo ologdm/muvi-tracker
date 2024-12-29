@@ -14,6 +14,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 
@@ -31,12 +32,13 @@ class MoviesViewmodel @Inject constructor(
     val selectedFeed: StateFlow<MovieType> = _selectedFeed
 
 
-    val statePaging = selectedFeed.flatMapLatest { type ->
-        Pager(
-            config = PagingConfig(pageSize = 15, enablePlaceholders = false),
-            pagingSourceFactory = { MoviesPagingSource(type, traktApi) }
-        ).flow.cachedIn(viewModelScope)
-    }
+    val statePaging = selectedFeed
+        .flatMapLatest { type ->
+            Pager(
+                config = PagingConfig(pageSize = 15, enablePlaceholders = false),
+                pagingSourceFactory = { MoviesPagingSource(type, traktApi) }
+            ).flow.cachedIn(viewModelScope)
+        }
 
     // set feed
     fun updateSelectedFeed(newSelectedFeed: MovieType) {

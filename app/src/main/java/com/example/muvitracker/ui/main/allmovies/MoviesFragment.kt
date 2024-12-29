@@ -81,6 +81,7 @@ class MoviesFragment : Fragment(R.layout.fragm_base_category) {
                 chipGroup.findViewById<Chip>(checkedId)?.let { selectedChip ->
                     val newSelectedFeed = selectedChip.tag as MovieType
                     viewModel.updateSelectedFeed(newSelectedFeed)
+                    pagingAdapter.refresh() // TODO
                 }
             }
         }

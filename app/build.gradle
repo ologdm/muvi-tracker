@@ -15,6 +15,17 @@ if (localPropertiesFile.exists()) {
     }
 }
 
+// TODO eu
+// (eu) - predisporre build variants - release:  leggi file da keystore.properties
+// simile a local properties
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
+
+
+
+
 android {
     namespace 'com.example.muvitracker'
     compileSdk 34
@@ -34,15 +45,42 @@ android {
     }
 
 
-    buildTypes {
+    // TODO eu
+    signingConfigs{
         release {
-            // disables minification, so the code will not be removed or reduced.
-            minifyEnabled false
-            // uses ProGuard/R8 configuration files for optimization and obfuscation.
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
         }
     }
 
+
+    buildTypes {
+        release {
+            // disables minification, so the code will not be removed or reduced.
+            // only for the release version, so true it's ok
+            minifyEnabled false // (true) TODO next time
+
+            // uses ProGuard/R8 configuration files for optimization and obfuscation.
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+
+        debug{ // default settings
+//             minifyEnabled false
+//            debuggable true
+        }
+    }
+
+
+
+
+
+    lint{
+        // eliminate forces checks on build release
+        checkReleaseBuilds = false
+    }
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17 //  use java 17 for source code compatibility
