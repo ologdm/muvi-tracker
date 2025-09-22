@@ -15,25 +15,15 @@ if (localPropertiesFile.exists()) {
     }
 }
 
-// TODO eu
-// (eu) - predisporre build variants - release:  leggi file da keystore.properties
-// simile a local properties
-def keystorePropertiesFile = rootProject.file("keystore.properties")
-def keystoreProperties = new Properties()
-keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
-
-
-
-
 
 android {
     namespace 'com.example.muvitracker'
     compileSdk 34
 
     defaultConfig {
-        applicationId "dev.dimao.muvitracker"
+        applicationId "dev.dimao.muvitracker" // modificato per release
         minSdk 26
-        targetSdk 34
+        targetSdk 34// update 35
         versionCode 1
         versionName "1.0"
 
@@ -45,31 +35,23 @@ android {
     }
 
 
-    // TODO eu
-    signingConfigs{
-        release {
-            keyAlias keystoreProperties['keyAlias']
-            keyPassword keystoreProperties['keyPassword']
-            storeFile file(keystoreProperties['storeFile'])
-            storePassword keystoreProperties['storePassword']
-        }
-    }
-
-
     buildTypes {
         release {
+            // debuggable = false -> di default
             // disables minification, so the code will not be removed or reduced.
             // only for the release version, so true it's ok
             minifyEnabled false // (true) TODO next time
 
             // uses ProGuard/R8 configuration files for optimization and obfuscation.
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile(
+                    'proguard-android-optimize.txt'
+            ), 'proguard-rules.pro'
         }
 
-        debug{ // default settings
+        debug{ // default settings, di base non specificato
+            applicationIdSuffix = ".debug"
 //             minifyEnabled false
-//            debuggable true
+//            debuggable true // e ridondante, di default true
         }
     }
 
@@ -107,13 +89,13 @@ dependencies {
     // core android libraries
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'androidx.core:core-ktx:1.12.0'
+    implementation 'androidx.core:core-ktx:1.12.0' // era ktx:1.12.0 (1.10.1 per sdk33)
     implementation 'com.google.android.material:material:1.12.0'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0' // swipe refresh
 
     // kotlin libraries
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.8.0"  // base features of kotlin
-    implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.0-RC'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.9.24"  // base features of kotlin
+    implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.1'
 
     // retrofit
     def retrofit_version = "2.10.0"
@@ -122,7 +104,7 @@ dependencies {
 //    implementation "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0" //  koltin serialization for retrofit
 
     // fragment ktx extension: of base 'androidx.fragment', for 'livedata', etc
-    implementation "androidx.fragment:fragment-ktx:1.7.1"
+    implementation "androidx.fragment:fragment-ktx:1.7.1" // era ktx:1.7.1 (ktx:1.6.1 per sdk 33)
 
     // glide
     def glide_version = "4.16.0"
@@ -175,5 +157,4 @@ dependencies {
 // like annotation for room, dagger etc
 kapt {
     correctErrorTypes true
-
 }
