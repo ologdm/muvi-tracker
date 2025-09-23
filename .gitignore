@@ -17,3 +17,14 @@ local.properties
 keystore.properties
 
 key_store_muvitraker
+
+/.idea/AndroidProjectSystem.xml
+/.idea/deviceManager.xml
+/.idea/studiobot.xml
+
+.idea/appInsightsSettings.xml
+.idea/deploymentTargetSelector.xml
+.idea/gradle.xml
+.idea/kotlinc.xml
+.idea/misc.xml
+.idea/runConfigurations.xml
