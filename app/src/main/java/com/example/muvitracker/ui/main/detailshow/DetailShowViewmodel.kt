@@ -105,7 +105,7 @@ class DetailShowViewmodel @Inject constructor(
     }
 
 
-    fun toggleShowWatchedAll(showId: Int, onComplete: () -> Unit) {
+    fun toggleWatchedAllShowEpisodes(showId: Int, onComplete: () -> Unit) {
         // add callback
         viewModelScope.launch {
             detailShowRepo.checkAndSetShowWatchedAllSeasons(showId)
