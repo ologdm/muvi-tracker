@@ -45,7 +45,7 @@ class PrefsShowViewModel @Inject constructor(
         viewModelScope.launch {
             // 1 start loading on adapter
             // 2 chiama funzione su repository - stessa di detail
-            detailShowRepository.checkAndSetShowWatchedAllSeasons(showId)
+            detailShowRepository.checkAndSetWatchedAllShowEpisodes(showId)
             // 3 finish
             onComplete()
         }

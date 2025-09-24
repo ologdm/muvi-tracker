@@ -57,7 +57,7 @@ class DetailShowFragment : Fragment(R.layout.fragm_detail_show) {
             )
         },
         onClickWatchedAllCheckbox = { seasonNr, adapterCallback ->
-            viewModel.toggleSingleSeasonWatchedAll(currentShowIds.trakt, seasonNr, onComplete = {
+            viewModel.toggleWatchedAllSingleSeasonEp(currentShowIds.trakt, seasonNr, onComplete = {
                 adapterCallback()
             })
         }
@@ -81,7 +81,7 @@ class DetailShowFragment : Fragment(R.layout.fragm_detail_show) {
         }
 
         // SHOW DETAIL ##########################################################
-        viewModel.loadShowDetailFlow(currentShowIds.trakt)
+        viewModel.loadShowDetail(currentShowIds.trakt)
 
         viewModel.detailState.observe(viewLifecycleOwner) { stateContainer ->
             // 1
@@ -244,20 +244,22 @@ class DetailShowFragment : Fragment(R.layout.fragm_detail_show) {
 
     // TODO: check
     private fun updateWatchedCheckboxAndCounters(detailShow: DetailShow) {
-        // TODO: 24/09/2025
         binding.watchedCounterTextview.text =
             "${detailShow.watchedCount}/${detailShow.airedEpisodes}"
         binding.watchedCounterProgressBar.max = detailShow.airedEpisodes
         binding.watchedCounterProgressBar.progress = detailShow.watchedCount
 
-        // sempre insieme (togli listener, leggi, rimetti listener)
+        // vanno sempre insieme
+        // 1. togli listener - per non farlo scattare, aggiorna dato, rimetti listener
         binding.watchedAllCheckbox.setOnCheckedChangeListener(null)
+        // 2. leggi
         binding.watchedAllCheckbox.isChecked = detailShow.watchedAll
-
+        // 3. rimetti listener, triggera il cambiamento di stato a db
         binding.watchedAllCheckbox.setOnCheckedChangeListener { _, _ ->
+            // 3.1 stato iniziale
             binding.watchedAllCheckboxLoadingBar.visibility = View.VISIBLE
             binding.watchedAllCheckbox.isEnabled = false
-
+            // 3.2 stato concluso
             viewModel.toggleWatchedAllShowEpisodes(currentShowIds.trakt, onComplete = {
                 // spegni caricamento
                 binding.watchedAllCheckboxLoadingBar.visibility = View.GONE

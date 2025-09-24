@@ -34,8 +34,8 @@ class DetailShowViewmodel @Inject constructor(
     val relatedShowsStatus = MutableLiveData<List<Show>>()
     val castState = MutableLiveData<CastAndCrew>()
 
-    // SHOW
-    fun loadShowDetailFlow(showId: Int) {
+    // SHOW - flow
+    fun loadShowDetail(showId: Int) {
         var cachedItem: DetailShow? = null
         viewModelScope.launch {
             detailShowRepo.getSingleDetailShowFlow(showId)
@@ -69,7 +69,7 @@ class DetailShowViewmodel @Inject constructor(
         }
     }
 
-
+    // flow
     fun loadAllSeasons(showId: Int) {
         viewModelScope.launch {
             seasonRepository.getAllSeasonsFlow(showId)
@@ -108,12 +108,13 @@ class DetailShowViewmodel @Inject constructor(
     fun toggleWatchedAllShowEpisodes(showId: Int, onComplete: () -> Unit) {
         // add callback
         viewModelScope.launch {
-            detailShowRepo.checkAndSetShowWatchedAllSeasons(showId)
+            detailShowRepo.checkAndSetWatchedAllShowEpisodes(showId)
             onComplete()
         }
     }
 
-    fun toggleSingleSeasonWatchedAll(showId: Int, seasonNr: Int, onComplete: () -> Unit) {
+
+    fun toggleWatchedAllSingleSeasonEp(showId: Int, seasonNr: Int, onComplete: () -> Unit) {
         viewModelScope.launch() {
             // 1 start loading  - su adapter - start al click
             // 2 toggle allEpisodes + season + showOnPrefs

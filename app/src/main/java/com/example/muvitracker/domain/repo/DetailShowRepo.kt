@@ -13,5 +13,5 @@ interface DetailShowRepo {
 
     suspend fun toggleLikedShow (showId: Int)
 
-    suspend fun checkAndSetShowWatchedAllSeasons(showId: Int)
+    suspend fun checkAndSetWatchedAllShowEpisodes(showId: Int)
 }

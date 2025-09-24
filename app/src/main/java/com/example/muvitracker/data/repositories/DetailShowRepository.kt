@@ -75,7 +75,7 @@ class DetailShowRepository @Inject constructor(
 
 
     // WATCHED_ALL SU SHOW
-    override suspend fun checkAndSetShowWatchedAllSeasons(showId: Int) = coroutineScope {
+    override suspend fun checkAndSetWatchedAllShowEpisodes(showId: Int) = coroutineScope {
         val showAllSeasonsCount = seasonDao.countAllSeasonsOfShow(showId)
         val isShowWatchedAll = detailShowDao.getSingleFlow(showId)
             .firstOrNull()?.watchedAll // watchedAll calculated
