@@ -42,10 +42,13 @@ class SeasonRepository @Inject constructor(
         }
     )
 
-
+    // TICKET: Crash su click WatchedAllShow, in presenza di stagione specials, numero 0
     private suspend fun saveAllSeasonsDtoToDatabase(showId: Int, dtos: List<SeasonExtenDto>) {
         // if (non esiste) insertNuovo, else updateParziale
         for (seasonDto in dtos) {
+            val seasonNumber = seasonDto.number
+            if (seasonNumber == null || seasonNumber < 1) continue
+
             val dtoIndex = seasonDto.ids.trakt
             val entity = seasonDao.readSingleById(dtoIndex)
             if (entity == null) {
