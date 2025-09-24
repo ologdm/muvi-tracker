@@ -29,9 +29,8 @@ data class DetailShow(
     val watchedCount: Int = 0, // computed data from episodeRepository
 ) {
 
-    // TODO: edge case
-    // stato  -> solo a livello di Ui
-    val watchedAll: Boolean
-        get() = watchedCount >= airedEpisodes
+    // TICKET: watchedAll marked for shows not yet released (anticipated)
+    val watchedAll: Boolean // stato  -> solo a livello di Ui
+        get() = airedEpisodes > 0 && watchedCount >= airedEpisodes
 
 }
