@@ -1,16 +1,16 @@
 package com.example.muvitracker.ui.main.seasons
 
 import android.content.Context
-import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.example.muvitracker.R
-import com.example.muvitracker.data.database.entities.EpisodeEntity
 import com.example.muvitracker.databinding.VhEpisodeOnseasonBinding
 import com.example.muvitracker.domain.model.EpisodeExtended
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class SeasonEpisodesAdapter(
     val onCLickVH: (Int) -> Unit,
@@ -25,44 +25,61 @@ class SeasonEpisodesAdapter(
     }
 
     override fun onBindViewHolder(holder: EpisodeVH, position: Int) {
-        val currentItem = getItem(position)
+        val episode = getItem(position)
 
-        // icons
+        holder.bind(episode)
+
         val context: Context = holder.itemView.context
-        val iconFilled = context.getDrawable(R.drawable.episode_watched_eye_filled)
-        val iconEmpty = context.getDrawable(R.drawable.episode_watched_eye_empty)
+        val b = holder.binding
 
-
-        holder.binding.run {
-            // leggi stato iniziale
-            updateWatchedIcon(watchedIcon, currentItem.watched, iconFilled, iconEmpty) // 00
-
-            watchedIcon.setOnClickListener {
-                //cambia stato
-                onCLickWatched.invoke(currentItem.episodeNumber)
-                // leggi nuovo stato
-                updateWatchedIcon(watchedIcon, currentItem.watched, iconFilled, iconEmpty)
-            }
+        // leggi stato iniziale
+        updateWatchedIcon(context, b.watchedIcon, episode = episode)
+        b.watchedIcon.setOnClickListener {
+            //cambia stato
+            onCLickWatched.invoke(episode.episodeNumber)
+            // leggi nuovo stato
+            updateWatchedIcon(context, b.watchedIcon, episode)
         }
 
-        holder.bind(currentItem)
 
         holder.itemView.setOnClickListener {
-            onCLickVH(currentItem.episodeNumber)
+            onCLickVH(episode.episodeNumber)
         }
     }
 
 
     private fun updateWatchedIcon(
+        context: Context,
         watchedIcon: ImageView,
-        isWatched: Boolean,
-        iconFilled: Drawable?,
-        iconEmpty: Drawable?
+        episode: EpisodeExtended
     ) {
-        if (isWatched)
-            watchedIcon.setImageDrawable(iconFilled)
-        else
+        val iconEmpty = context.getDrawable(R.drawable.episode_watched_eye_empty)?.mutate()
+        val iconFilled = context.getDrawable(R.drawable.episode_watched_eye_filled)
+
+        val nowFormatted = getNowFormattedDateTime()
+
+        val isDisabled = episode.firstAiredFormatted != null &&
+                episode.firstAiredFormatted > nowFormatted // !! formato SQLite che permette di paragonare in ordine cronologico
+
+        if (isDisabled) {
+            iconEmpty?.alpha = setAlphaForDrawable(0.38f)
             watchedIcon.setImageDrawable(iconEmpty)
+        } else {
+            watchedIcon.setImageDrawable(if (episode.watched) iconFilled else iconEmpty)
+        }
+    }
+
+
+    // data corrente in formato compatibile con "yyyy-MM-dd HH:mm:ss" di SQLite
+    private fun getNowFormattedDateTime(): String {
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+        val nowFormatted = LocalDateTime.now().format(formatter)
+        return nowFormatted
+    }
+
+
+    private fun setAlphaForDrawable(floatAlpha: Float): Int {
+        return (floatAlpha * 255).toInt()
     }
 
 

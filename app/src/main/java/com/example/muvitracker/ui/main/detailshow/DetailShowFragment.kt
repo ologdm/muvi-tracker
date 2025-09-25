@@ -80,6 +80,9 @@ class DetailShowFragment : Fragment(R.layout.fragm_detail_show) {
             currentShowIds = bundle.getParcelable(SHOW_IDS_KEY) ?: Ids()
         }
 
+        expandOverview()
+        loadTMDBImagesWithCustomGlide()
+
         // SHOW DETAIL ##########################################################
         viewModel.loadShowDetail(currentShowIds.trakt)
 
@@ -99,26 +102,19 @@ class DetailShowFragment : Fragment(R.layout.fragm_detail_show) {
 
 
         // BUTTONS CLICK
-        // 1
         binding.buttonBack.setOnClickListener {
             requireActivity().onBackPressed()
         }
 
-        // 2
         binding.floatingLikedButton.setOnClickListener {
             viewModel.toggleLikedShow(currentShowIds.trakt)
         }
-
-        expandOverview()
-        loadTMDBImagesWithGlide()
 
 
         // SEASONS ###############################################################
         binding.seasonsRV.adapter = detailSeasonsAdapter
         binding.seasonsRV.layoutManager = LinearLayoutManager(requireContext())
-
         viewModel.loadAllSeasons(currentShowIds.trakt)
-
         viewModel.allSeasonsState.observe(viewLifecycleOwner) { stateContainer ->
             // 1
             totSeasonsNumber = stateContainer.data?.size ?: 0
@@ -132,7 +128,6 @@ class DetailShowFragment : Fragment(R.layout.fragm_detail_show) {
         binding.relatedShowsRV.adapter = relatedShowsAdapter
         binding.relatedShowsRV.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-
         viewModel.loadRelatedShows(showId = currentShowIds.trakt)
         viewModel.relatedShowsStatus.observe(viewLifecycleOwner) { response ->
             relatedShowsAdapter.submitList(response)
@@ -143,7 +138,6 @@ class DetailShowFragment : Fragment(R.layout.fragm_detail_show) {
         binding.castRV.adapter = castMovieAdapter
         binding.castRV.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-
         viewModel.loadCast(currentShowIds.trakt)
         viewModel.castState.observe(viewLifecycleOwner) {
             castMovieAdapter.submitList(it.castMembers)
@@ -192,7 +186,7 @@ class DetailShowFragment : Fragment(R.layout.fragm_detail_show) {
                 }
             }
 
-            // upgrade – disable checkbox click if no episodes have been aired
+            // upgrade  – disable checkbox click if no episodes have been aired
             binding.watchedAllCheckbox.isEnabled = detailShow.airedEpisodes != 0
         }
     }
@@ -246,7 +240,7 @@ class DetailShowFragment : Fragment(R.layout.fragm_detail_show) {
     }
 
 
-    private fun loadTMDBImagesWithGlide() {
+    private fun loadTMDBImagesWithCustomGlide() {
         Glide.with(requireContext())
             .load(ImageTmdbRequest.ShowHorizontal(currentShowIds.tmdb))
             .transition(DrawableTransitionOptions.withCrossFade(300))

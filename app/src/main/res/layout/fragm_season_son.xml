@@ -82,15 +82,16 @@
                         app:layout_constraintBottom_toBottomOf="parent"/>
 
                 <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="All"
-                        android:textStyle="bold"
-                        app:layout_constraintEnd_toStartOf="@id/watchedAllIcon"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        android:textSize="16sp"
-                        android:layout_marginEnd="4dp" />
+                    android:id="@+id/watchedAllText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="All"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toStartOf="@id/watchedAllIcon"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:textSize="16sp"
+                    android:layout_marginEnd="4dp" />
 
 <!--                <ImageView-->
 <!--                        android:id="@+id/watchedAllIcon"-->

@@ -3,6 +3,8 @@ package com.example.muvitracker.ui.main.seasons
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.ColorUtils
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,8 +14,10 @@ import com.example.muvitracker.R
 import com.example.muvitracker.data.dto.base.Ids
 import com.example.muvitracker.data.glide.ImageTmdbRequest
 import com.example.muvitracker.databinding.FragmSeasonSonBinding
+import com.example.muvitracker.domain.model.SeasonExtended
 import com.example.muvitracker.ui.main.Navigator
 import com.example.muvitracker.utils.viewBinding
+import com.google.android.material.color.MaterialColors
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -55,11 +59,11 @@ class SeasonFragment : Fragment(R.layout.fragm_season_son) {
         viewModel.loadSeasonInfo(showId = currentShowIds.trakt, seasonNumber = currentSeasonNr)
 
         viewModel.seasonInfoState.observe(viewLifecycleOwner) { stateContainer ->
-            val entity = stateContainer.data
-            if (entity != null) {
-                binding.seasonTitle.text = entity.title
-                binding.seasonOverview.text = entity.overview
-                updateIconWatchedAll(entity.watchedAll)
+            val season = stateContainer.data
+            if (season != null) {
+                binding.seasonTitle.text = season.title
+                binding.seasonOverview.text = season.overview
+                updateIconsWatchedAll(season)
             }
         }
 
@@ -79,17 +83,23 @@ class SeasonFragment : Fragment(R.layout.fragm_season_son) {
         }
 
 
-        // IMAGE TMDB - custom glide
-            Glide.with(requireContext())
-                .load(ImageTmdbRequest.Season(currentShowIds.tmdb,currentSeasonNr))
-                .transition(DrawableTransitionOptions.withCrossFade(300))
-                .placeholder(R.drawable.glide_placeholder_base)
-                .error(R.drawable.glide_placeholder_base)
-                .into(binding.seasonPoster)
+        loadTMDBImagesWithCustomGlide()
+        expandOverview()
+    }
 
 
+    // PRIVATE FUNCTIONS #########################################
+    private fun loadTMDBImagesWithCustomGlide() {
+        Glide.with(requireContext())
+            .load(ImageTmdbRequest.Season(currentShowIds.tmdb, currentSeasonNr))
+            .transition(DrawableTransitionOptions.withCrossFade(300))
+            .placeholder(R.drawable.glide_placeholder_base)
+            .error(R.drawable.glide_placeholder_base)
+            .into(binding.seasonPoster)
+    }
 
-        // Espansione e riduzione overview - OK
+
+    private fun expandOverview() {
         var isTextExpanded = false // initial state, fragment opening
         binding.seasonOverview.setOnClickListener {
             if (isTextExpanded) { // expanded==true -> contract
@@ -101,15 +111,32 @@ class SeasonFragment : Fragment(R.layout.fragm_season_son) {
             }
             isTextExpanded = !isTextExpanded // toggle state
         }
+    }
+
+
+    // CAMBIA ICONA COLOR
+    private fun updateIconsWatchedAll(season: SeasonExtended) {
+        // icon - empty(3 colori) / filled
+        val iconEmpty = context?.getDrawable(R.drawable.episode_watched_all_empty)?.mutate()
+        val iconFilled = context?.getDrawable(R.drawable.episode_watched_all_filled)
+        val isDisabled = season.airedEpisodes == 0
+
+        if (isDisabled) {
+            // Icona disabilitata
+            iconEmpty?.alpha = setAlphaForDrawable(0.38f) // da 0 a 255
+            binding.watchedAllIcon.setImageDrawable(iconEmpty)
+            binding.watchedAllText.alpha = 0.38f // (da 0 a 1f)
+        } else {
+            // Icona normale
+            binding.watchedAllIcon.setImageDrawable(if (season.watchedAll) iconFilled else iconEmpty)
+            binding.watchedAllText.alpha = 1f
+        }
 
     }
 
 
-    // CAMBIA ICONA COLORE
-    private fun updateIconWatchedAll(isWatched: Boolean) {
-        val iconEmpty = context?.getDrawable(R.drawable.episode_watched_all_empty)
-        val iconFilled = context?.getDrawable(R.drawable.episode_watched_all_filled)
-        binding.watchedAllIcon.setImageDrawable(if (isWatched) iconFilled else iconEmpty)
+    private fun setAlphaForDrawable(floatAlpha: Float): Int {
+        return (floatAlpha * 255).toInt()
     }
 
 
