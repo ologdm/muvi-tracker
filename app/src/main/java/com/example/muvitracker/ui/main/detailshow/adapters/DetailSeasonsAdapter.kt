@@ -34,12 +34,12 @@ class DetailSeasonsAdapter(
         }
 
         // WATCHED CHECKBOX
-        // stato default sempre iniziale per il nuovo elemento
-        // (per evitare animaz e stati elementi precedenti)
-        holder.binding.seasonCheckbox.isEnabled = true
+        // stato default sempre iniziale per il nuovo elemento (per evitare animaz e stati elementi precedenti)
+        holder.binding.seasonCheckbox.isEnabled = seasonItem.airedEpisodes != 0
+
         holder.binding.watchedAllCheckboxLoadingBar.visibility = View.GONE
 
-        // sempre set(null) -> sempre prima di update
+        // sempre set(null) -> sempre prima di update -> aggiornamento checkbox senza trigger del listener
         holder.binding.seasonCheckbox.setOnCheckedChangeListener(null)
         holder.binding.seasonCheckbox.isChecked = seasonItem.watchedAll
 
@@ -49,7 +49,7 @@ class DetailSeasonsAdapter(
                 holder.binding.seasonCheckbox.isEnabled = false
                 holder.binding.watchedAllCheckboxLoadingBar.visibility = View.VISIBLE
 
-                // ad operazione conclusa, la viewmodel callback chiama questa callabck
+                // ad operazione loading conclusa, la viewmodel callback chiama questa callabck
                 onClickWatchedAllCheckbox.invoke(seasonItem.seasonNumber) {
                     holder.binding.watchedAllCheckboxLoadingBar.visibility = View.GONE
                     holder.binding.seasonCheckbox.isEnabled = true

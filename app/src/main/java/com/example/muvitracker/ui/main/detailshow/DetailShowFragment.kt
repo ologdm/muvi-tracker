@@ -191,6 +191,9 @@ class DetailShowFragment : Fragment(R.layout.fragm_detail_show) {
                     ).show()
                 }
             }
+
+            // upgrade – disable checkbox click if no episodes have been aired
+            binding.watchedAllCheckbox.isEnabled = detailShow.airedEpisodes != 0
         }
     }
 
@@ -227,6 +230,7 @@ class DetailShowFragment : Fragment(R.layout.fragm_detail_show) {
         }
     }
 
+
     private fun expandOverview() {
         var isTextExpanded = false // initial state, fragment opening
         binding.overview.setOnClickListener {
@@ -241,6 +245,7 @@ class DetailShowFragment : Fragment(R.layout.fragm_detail_show) {
         }
     }
 
+
     private fun loadTMDBImagesWithGlide() {
         Glide.with(requireContext())
             .load(ImageTmdbRequest.ShowHorizontal(currentShowIds.tmdb))
@@ -248,7 +253,6 @@ class DetailShowFragment : Fragment(R.layout.fragm_detail_show) {
             .placeholder(R.drawable.glide_placeholder_base)
             .error(R.drawable.glide_placeholder_base)
             .into(binding.imageHorizontal)
-
 
         Glide.with(requireContext())
             .load(ImageTmdbRequest.ShowVertical(currentShowIds.tmdb))
