@@ -108,19 +108,6 @@ class DetailShowFragment : Fragment(R.layout.fragm_detail_show) {
         binding.floatingLikedButton.setOnClickListener {
             viewModel.toggleLikedShow(currentShowIds.trakt)
         }
-        // TODO: tutti i season vengono checkati
-        // 3 comportamento watchedAllShow al click
-        binding.watchedAllCheckbox.setOnCheckedChangeListener { _, _ ->
-            //
-            binding.watchedAllCheckboxLoadingBar.visibility = View.VISIBLE
-            binding.watchedAllCheckbox.isEnabled = false
-            // update quando finisce
-            viewModel.toggleWatchedAllShowEpisodes(currentShowIds.trakt, onComplete = {
-                // callback spegni caricamento
-                binding.watchedAllCheckboxLoadingBar.visibility = View.GONE
-                binding.watchedAllCheckbox.isEnabled = true
-            })
-        }
 
 
         // overview expanded
