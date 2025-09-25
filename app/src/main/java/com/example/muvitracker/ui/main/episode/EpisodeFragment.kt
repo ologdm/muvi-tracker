@@ -12,6 +12,7 @@ import com.example.muvitracker.databinding.FragmEpisodeBottomsheetBinding
 import com.example.muvitracker.domain.model.EpisodeExtended
 import com.example.muvitracker.utils.episodesFormatNumber
 import com.example.muvitracker.utils.formatDateFromFirsAired
+import com.example.muvitracker.utils.getNowFormattedDateTime
 import com.example.muvitracker.utils.viewBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -113,11 +114,7 @@ class EpisodeFragment : BottomSheetDialogFragment(R.layout.fragm_episode_bottoms
         return (floatAlpha * 255).toInt()
     }
 
-    private fun getNowFormattedDateTime(): String {
-        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-        val nowFormatted = LocalDateTime.now().format(formatter)
-        return nowFormatted
-    }
+
 
 
     companion object {

@@ -18,11 +18,12 @@ import com.example.muvitracker.domain.model.DetailMovie
 import com.example.muvitracker.ui.main.Navigator
 import com.example.muvitracker.ui.main.person.adapters.CastAdapter
 import com.example.muvitracker.ui.main.detailmovie.adapters.RelatedMovieAdapter
-import com.example.muvitracker.utils.statesFlow
 import com.example.muvitracker.utils.statesFlow1
 import com.example.muvitracker.utils.viewBinding
 import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -86,7 +87,7 @@ class DetailMovieFragment : Fragment(R.layout.fragm_detail_movie) {
         }
 
 
-        loadTMDBImagesWithGlide()
+        loadTMDBImagesWithCustomGlide()
 
 
         // RELATED MOVIES
@@ -113,6 +114,7 @@ class DetailMovieFragment : Fragment(R.layout.fragm_detail_movie) {
     }
 
 
+    // PRIVATE FUNCTIONS ###############################################
     // movie detail
     private fun updateDetailUi(detailMovie: DetailMovie) {
         with(binding) {
@@ -160,15 +162,25 @@ class DetailMovieFragment : Fragment(R.layout.fragm_detail_movie) {
     }
 
     private fun updateWatchedCheckbox(isWatched: Boolean) {
+//    private fun updateWatchedCheckbox(movie: DetailMovie) {
         binding.watchedCheckbox.setOnCheckedChangeListener(null)
         binding.watchedCheckbox.isChecked = isWatched
+
+//        val isDisabled = movie != null && movie.
+
         
         binding.watchedCheckbox.setOnCheckedChangeListener { compoundButton, isChecked ->
             viewModel.updateWatched(currentMovieIds.trakt, isChecked)
         }
     }
 
-    private fun loadTMDBImagesWithGlide() {
+
+    private fun setAlphaForDrawable(floatAlpha: Float): Int {
+        return (floatAlpha * 255).toInt()
+    }
+
+
+    private fun loadTMDBImagesWithCustomGlide() {
         Glide.with(requireContext())
             .load(ImageTmdbRequest.MovieHorizontal(currentMovieIds.tmdb))
             .transition(DrawableTransitionOptions.withCrossFade(300))

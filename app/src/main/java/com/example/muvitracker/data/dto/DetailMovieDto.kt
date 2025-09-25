@@ -2,8 +2,8 @@ package com.example.muvitracker.data.dto
 
 import com.example.muvitracker.data.database.entities.DetailMovieEntity
 import com.example.muvitracker.data.dto.base.Ids
-import com.example.muvitracker.utils.dateFormatterInMMMyyy
 import com.example.muvitracker.utils.firstDecimalApproxToString
+import com.example.muvitracker.utils.formatToSqliteCompatibleDate
 
 
 data class DetailMovieDto(
@@ -29,7 +29,7 @@ data class DetailMovieDto(
 //    val certification: String?
 )
 
-
+// TODO: lasciare campi nulli, togliere N/A
 fun DetailMovieDto.toEntity(): DetailMovieEntity {
     return DetailMovieEntity(
         traktId = ids.trakt,
@@ -38,7 +38,7 @@ fun DetailMovieDto.toEntity(): DetailMovieEntity {
         ids = ids,
         tagline = tagline ?: "N/A",
         overview = overview ?: "N/A",
-        released = released?.dateFormatterInMMMyyy() ?: "N/A",
+        released = formatToSqliteCompatibleDate(released),
         runtime = runtime ?: 0,
         country = country ?: "N/A",
         trailer = trailer ?: "",

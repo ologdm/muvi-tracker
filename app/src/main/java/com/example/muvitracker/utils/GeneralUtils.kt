@@ -5,6 +5,7 @@ import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.lifecycleScope
 import java.text.SimpleDateFormat
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.OffsetDateTime
 import java.time.Period
 import java.time.format.DateTimeFormatter
@@ -89,24 +90,46 @@ fun calculatePersonAge(birthDate: String?, deathDate: String?): String {
 }
 
 
-fun formatToSqliteCompatibleDate(isoDate: String?): String? {
-    if (isoDate.isNullOrBlank()) return null // null case, OffsetDateTime doesn't accept null values
-
-    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-    val offsetDateTime = OffsetDateTime.parse(isoDate)
-    return offsetDateTime.format(formatter)
-}
-
-
 fun String?.formatDateFromFirsAired(): String {
     return this?.let {
-        if (it.length >=10){
+        if (it.length >= 10) {
             "${it.substring(8, 10)}.${it.substring(5, 7)}.${it.substring(0, 4)}"
-        }else{
+        } else {
             "N/A"
         }
     } ?: "N/A"
 }
+
+
+// data corrente in formato compatibile con "yyyy-MM-dd HH:mm:ss" di SQLite
+fun getNowFormattedDateTime(): String {
+    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+    val nowFormatted = LocalDateTime.now().format(formatter)
+    return nowFormatted
+}
+
+
+//NEW
+fun formatToSqliteCompatibleDate(isoDate: String?): String? {
+    if (isoDate.isNullOrBlank()) return null
+
+    return if (isoDate.length == 10) {
+        // Caso solo data, es: "2025-12-19"
+        "$isoDate 00:00:00"
+    } else {
+
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+        // Caso ISO con T e Z, es: "2011-04-25T01:00:00.000Z"
+        OffsetDateTime.parse(isoDate)
+//            .withOffsetSameInstant(ZoneOffset.UTC)
+//            .toLocalDateTime()
+            .format(formatter)
+    }
+}
+
+
+
+
 
 
 

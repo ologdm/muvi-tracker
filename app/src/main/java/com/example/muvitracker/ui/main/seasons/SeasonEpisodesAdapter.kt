@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.ListAdapter
 import com.example.muvitracker.R
 import com.example.muvitracker.databinding.VhEpisodeOnseasonBinding
 import com.example.muvitracker.domain.model.EpisodeExtended
+import com.example.muvitracker.utils.getNowFormattedDateTime
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -67,14 +68,6 @@ class SeasonEpisodesAdapter(
         } else {
             watchedIcon.setImageDrawable(if (episode.watched) iconFilled else iconEmpty)
         }
-    }
-
-
-    // data corrente in formato compatibile con "yyyy-MM-dd HH:mm:ss" di SQLite
-    private fun getNowFormattedDateTime(): String {
-        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-        val nowFormatted = LocalDateTime.now().format(formatter)
-        return nowFormatted
     }
 
 

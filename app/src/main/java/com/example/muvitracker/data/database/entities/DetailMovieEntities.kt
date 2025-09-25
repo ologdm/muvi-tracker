@@ -17,7 +17,7 @@ data class DetailMovieEntity(
     //
     val tagline: String, // new
     val overview: String,
-    val released: String,
+    val released: String?,
     val runtime: Int,
     val country: String,
     val trailer: String, // new

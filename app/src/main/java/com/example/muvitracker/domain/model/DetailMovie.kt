@@ -9,7 +9,7 @@ data class DetailMovie(
     val ids: Ids,
     val tagline: String, // new
     val overview: String,
-    val released: String, // converted -> (from yyyy-MM-dd in MMMyyy)
+    val released: String?, // TODO spostare N/A su Ui    // OLD converted -> (from yyyy-MM-dd in MMMyyy)
     val runtime: Int,
     val country: String,
     val trailer: String, // new
