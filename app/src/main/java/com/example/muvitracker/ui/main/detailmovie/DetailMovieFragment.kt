@@ -19,6 +19,7 @@ import com.example.muvitracker.ui.main.Navigator
 import com.example.muvitracker.ui.main.person.adapters.CastAdapter
 import com.example.muvitracker.ui.main.detailmovie.adapters.RelatedMovieAdapter
 import com.example.muvitracker.utils.statesFlow
+import com.example.muvitracker.utils.statesFlow1
 import com.example.muvitracker.utils.viewBinding
 import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
@@ -64,7 +65,7 @@ class DetailMovieFragment : Fragment(R.layout.fragm_detail_movie) {
                 updateWatchedCheckbox(detailMovie.watched)
             }
             // 2
-            stateContainer.statesFlow(
+            stateContainer.statesFlow1(
                 binding.errorTextView,
                 binding.progressBar
             )
@@ -85,21 +86,7 @@ class DetailMovieFragment : Fragment(R.layout.fragm_detail_movie) {
         }
 
 
-        // TMDB IMAGES - with custom glide
-        Glide.with(requireContext())
-            .load(ImageTmdbRequest.MovieHorizontal(currentMovieIds.tmdb))
-            .transition(DrawableTransitionOptions.withCrossFade(300))
-            .placeholder(R.drawable.glide_placeholder_base)
-            .error(R.drawable.glide_placeholder_base)
-            .into(binding.imageHorizontal)
-
-
-        Glide.with(requireContext())
-            .load(ImageTmdbRequest.MovieVertical(currentMovieIds.tmdb))
-            .transition(DrawableTransitionOptions.withCrossFade(300))
-            .placeholder(R.drawable.glide_placeholder_base)
-            .error(R.drawable.glide_placeholder_base)
-            .into(binding.imageVertical)
+        loadTMDBImagesWithGlide()
 
 
         // RELATED MOVIES
@@ -179,6 +166,23 @@ class DetailMovieFragment : Fragment(R.layout.fragm_detail_movie) {
         binding.watchedCheckbox.setOnCheckedChangeListener { compoundButton, isChecked ->
             viewModel.updateWatched(currentMovieIds.trakt, isChecked)
         }
+    }
+
+    private fun loadTMDBImagesWithGlide() {
+        Glide.with(requireContext())
+            .load(ImageTmdbRequest.MovieHorizontal(currentMovieIds.tmdb))
+            .transition(DrawableTransitionOptions.withCrossFade(300))
+            .placeholder(R.drawable.glide_placeholder_base)
+            .error(R.drawable.glide_placeholder_base)
+            .into(binding.imageHorizontal)
+
+
+        Glide.with(requireContext())
+            .load(ImageTmdbRequest.MovieVertical(currentMovieIds.tmdb))
+            .transition(DrawableTransitionOptions.withCrossFade(300))
+            .placeholder(R.drawable.glide_placeholder_base)
+            .error(R.drawable.glide_placeholder_base)
+            .into(binding.imageVertical)
     }
 
 

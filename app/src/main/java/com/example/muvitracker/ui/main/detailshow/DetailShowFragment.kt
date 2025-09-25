@@ -20,7 +20,7 @@ import com.example.muvitracker.ui.main.Navigator
 import com.example.muvitracker.ui.main.detailmovie.adapter.DetailSeasonsAdapter
 import com.example.muvitracker.ui.main.detailshow.adapters.RelatedShowsAdapter
 import com.example.muvitracker.ui.main.person.adapters.CastAdapter
-import com.example.muvitracker.utils.statesFlow
+import com.example.muvitracker.utils.statesFlow1
 import com.example.muvitracker.utils.viewBinding
 import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
@@ -91,7 +91,7 @@ class DetailShowFragment : Fragment(R.layout.fragm_detail_show) {
                 updateWatchedCheckboxAndCounters(detailShow)
             }
             // 2
-            stateContainer.statesFlow(
+            stateContainer.statesFlow1(
                 binding.errorTextView,
                 binding.progressBar
             )
@@ -109,35 +109,8 @@ class DetailShowFragment : Fragment(R.layout.fragm_detail_show) {
             viewModel.toggleLikedShow(currentShowIds.trakt)
         }
 
-
-        // overview expanded
-        var isTextExpanded = false // initial state, fragment opening
-        binding.overview.setOnClickListener {
-            if (isTextExpanded) { // expanded==true -> contract
-                binding.overview.maxLines = 3
-                binding.overview.ellipsize = TextUtils.TruncateAt.END
-            } else { // expanded==false -> expand
-                binding.overview.maxLines = Int.MAX_VALUE
-                binding.overview.ellipsize = null
-            }
-            isTextExpanded = !isTextExpanded // toggle state
-        }
-
-        // TMDB IMAGES - with custom glide
-        Glide.with(requireContext())
-            .load(ImageTmdbRequest.ShowHorizontal(currentShowIds.tmdb))
-            .transition(DrawableTransitionOptions.withCrossFade(300))
-            .placeholder(R.drawable.glide_placeholder_base)
-            .error(R.drawable.glide_placeholder_base)
-            .into(binding.imageHorizontal)
-
-
-        Glide.with(requireContext())
-            .load(ImageTmdbRequest.ShowVertical(currentShowIds.tmdb))
-            .transition(DrawableTransitionOptions.withCrossFade(300))
-            .placeholder(R.drawable.glide_placeholder_base)
-            .error(R.drawable.glide_placeholder_base)
-            .into(binding.imageVertical)
+        expandOverview()
+        loadTMDBImagesWithGlide()
 
 
         // SEASONS ###############################################################
@@ -178,7 +151,7 @@ class DetailShowFragment : Fragment(R.layout.fragm_detail_show) {
     }
 
 
-    // PRIVATE FUNCTIONS
+    // PRIVATE FUNCTIONS ###################################################
     // show detail
     private fun updateShowDetailPartOfUi(detailShow: DetailShow) {
         currentShowTitle = detailShow.title
@@ -229,7 +202,6 @@ class DetailShowFragment : Fragment(R.layout.fragm_detail_show) {
     }
 
 
-    // TODO: check
     private fun updateWatchedCheckboxAndCounters(detailShow: DetailShow) {
         binding.watchedCounterTextview.text =
             "${detailShow.watchedCount}/${detailShow.airedEpisodes}"
@@ -253,6 +225,37 @@ class DetailShowFragment : Fragment(R.layout.fragm_detail_show) {
                 binding.watchedAllCheckbox.isEnabled = true
             })
         }
+    }
+
+    private fun expandOverview() {
+        var isTextExpanded = false // initial state, fragment opening
+        binding.overview.setOnClickListener {
+            if (isTextExpanded) { // expanded==true -> contract
+                binding.overview.maxLines = 3
+                binding.overview.ellipsize = TextUtils.TruncateAt.END
+            } else { // expanded==false -> expand
+                binding.overview.maxLines = Int.MAX_VALUE
+                binding.overview.ellipsize = null
+            }
+            isTextExpanded = !isTextExpanded // toggle state
+        }
+    }
+
+    private fun loadTMDBImagesWithGlide() {
+        Glide.with(requireContext())
+            .load(ImageTmdbRequest.ShowHorizontal(currentShowIds.tmdb))
+            .transition(DrawableTransitionOptions.withCrossFade(300))
+            .placeholder(R.drawable.glide_placeholder_base)
+            .error(R.drawable.glide_placeholder_base)
+            .into(binding.imageHorizontal)
+
+
+        Glide.with(requireContext())
+            .load(ImageTmdbRequest.ShowVertical(currentShowIds.tmdb))
+            .transition(DrawableTransitionOptions.withCrossFade(300))
+            .placeholder(R.drawable.glide_placeholder_base)
+            .error(R.drawable.glide_placeholder_base)
+            .into(binding.imageVertical)
     }
 
 

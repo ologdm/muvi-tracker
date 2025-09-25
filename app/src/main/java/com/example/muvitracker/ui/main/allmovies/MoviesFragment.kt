@@ -11,7 +11,6 @@ import com.example.muvitracker.R
 import com.example.muvitracker.databinding.FragmBaseCategoryBinding
 import com.example.muvitracker.ui.main.Navigator
 import com.example.muvitracker.ui.main.allmovies.base.MoviePagingAdapter
-import com.example.muvitracker.ui.main.allshows.ShowsType
 import com.example.muvitracker.utils.viewBinding
 import com.example.muvitracker.utils.fragmentViewLifecycleScope
 import com.google.android.material.chip.Chip
@@ -110,7 +109,7 @@ class MoviesFragment : Fragment(R.layout.fragm_base_category) {
                     binding.errorTextView.isVisible = true
                     val error = (loadState.refresh as LoadState.Error).error
                     binding.errorTextView.text = if (error is IOException) {
-                        requireContext().getString(R.string.error_message_no_internet)
+                        requireContext().getString(R.string.error_message_no_internet_swipe_down)
                     } else {
                         requireContext().getString(R.string.error_message_other)
                     }

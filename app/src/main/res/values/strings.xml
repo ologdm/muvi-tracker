@@ -42,7 +42,8 @@
 
 
     <!--error messages -->
-    <string name="error_message_no_internet">no internet connection, swipe down</string>
+    <string name="error_message_no_internet_swipe_down">no internet connection, swipe down</string>
+    <string name="error_message_no_internet">no internet connection</string>
     <string name="error_message_other">something went wrong :(</string>
 
 

@@ -35,7 +35,8 @@
     <string name="release_date">Prima uscita:</string>
 
 
-    <string name="error_message_no_internet">nessuna connessione internet, scorri verso il basso</string>
+    <string name="error_message_no_internet_swipe_down">nessuna connessione internet, scorri verso il basso</string>
+    <string name="error_message_no_internet">nessuna connessione internet</string>
     <string name="error_message_other">qualcosa e andato storto :(</string>
 
 
