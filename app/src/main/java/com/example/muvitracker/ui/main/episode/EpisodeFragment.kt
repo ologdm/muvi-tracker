@@ -9,11 +9,14 @@ import com.example.muvitracker.R
 import com.example.muvitracker.data.dto.base.Ids
 import com.example.muvitracker.data.glide.ImageTmdbRequest
 import com.example.muvitracker.databinding.FragmEpisodeBottomsheetBinding
+import com.example.muvitracker.domain.model.EpisodeExtended
 import com.example.muvitracker.utils.episodesFormatNumber
 import com.example.muvitracker.utils.formatDateFromFirsAired
 import com.example.muvitracker.utils.viewBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 @AndroidEntryPoint
 class EpisodeFragment : BottomSheetDialogFragment(R.layout.fragm_episode_bottomsheet) {
@@ -54,12 +57,14 @@ class EpisodeFragment : BottomSheetDialogFragment(R.layout.fragm_episode_bottoms
                     }"
 
                 binding.info.text =
-                    "${getString(R.string.release_date)} ${episode
-                        .firstAiredFormatted.formatDateFromFirsAired()} | ${episode.runtime} min "
+                    "${getString(R.string.release_date)} ${
+                        episode
+                            .firstAiredFormatted.formatDateFromFirsAired()
+                    } | ${episode.runtime} min "
                 binding.overview.text = episode.overview
                 binding.traktRating.text = episode.rating.toString()
 
-                updateWatchedIcon(it.watched)
+                updateWatchedIcon(it)
             }
         }
 
@@ -86,10 +91,32 @@ class EpisodeFragment : BottomSheetDialogFragment(R.layout.fragm_episode_bottoms
 
     }
 
-    private fun updateWatchedIcon(isWatched: Boolean) {
+    //    private fun updateWatchedIcon(isWatched: Boolean) {
+    private fun updateWatchedIcon(episode: EpisodeExtended) {
+        val iconEmpty = context?.getDrawable(R.drawable.episode_watched_eye_empty)?.mutate()
         val iconFilled = context?.getDrawable(R.drawable.episode_watched_eye_filled)
-        val iconEmpty = context?.getDrawable(R.drawable.episode_watched_eye_empty)
-        binding.watchedIcon.setImageDrawable(if (isWatched) iconFilled else iconEmpty)
+
+        val nowFormatted = getNowFormattedDateTime()
+        val isDisabled = episode.firstAiredFormatted != null &&
+                episode.firstAiredFormatted > nowFormatted // formato SQLite che permette di paragonare in ordine cronologico
+
+        if (isDisabled) {
+            iconEmpty?.alpha = setAlphaForDrawable(0.38f)
+            binding.watchedIcon.setImageDrawable(iconEmpty)
+        } else {
+            binding.watchedIcon.setImageDrawable(if (episode.watched) iconFilled else iconEmpty)
+        }
+    }
+
+
+    private fun setAlphaForDrawable(floatAlpha: Float): Int {
+        return (floatAlpha * 255).toInt()
+    }
+
+    private fun getNowFormattedDateTime(): String {
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+        val nowFormatted = LocalDateTime.now().format(formatter)
+        return nowFormatted
     }
 
 
