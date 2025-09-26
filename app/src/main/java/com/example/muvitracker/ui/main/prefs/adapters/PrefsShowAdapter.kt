@@ -58,10 +58,10 @@ class PrefsShowAdapter(
             watchedAllCheckBox.setOnCheckedChangeListener(null)
             watchedAllCheckBox.isChecked = currentItem.watchedAll
 
-
+            // UPDATE SDK 34 to 36
             watchedAllCheckBox.setOnCheckedChangeListener(object :
                 CompoundButton.OnCheckedChangeListener {
-                override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
+                override fun onCheckedChanged(buttonView: CompoundButton, isChecked: Boolean) {
                     watchedAllCheckBox.isEnabled = false
                     watchedAllCheckboxLoadingBar.visibility = View.VISIBLE
 

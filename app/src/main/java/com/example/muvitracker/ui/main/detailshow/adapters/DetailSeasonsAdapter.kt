@@ -43,9 +43,10 @@ class DetailSeasonsAdapter(
         holder.binding.seasonCheckbox.setOnCheckedChangeListener(null)
         holder.binding.seasonCheckbox.isChecked = seasonItem.watchedAll
 
+        // UPDATE SDK 34 to 36
         holder.binding.seasonCheckbox.setOnCheckedChangeListener(object :
             CompoundButton.OnCheckedChangeListener {
-            override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
+            override fun onCheckedChanged(buttonView: CompoundButton, isChecked: Boolean) {
                 holder.binding.seasonCheckbox.isEnabled = false
                 holder.binding.watchedAllCheckboxLoadingBar.visibility = View.VISIBLE
 

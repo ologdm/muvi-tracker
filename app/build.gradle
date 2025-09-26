@@ -18,12 +18,12 @@ if (localPropertiesFile.exists()) {
 
 android {
     namespace 'com.example.muvitracker'
-    compileSdk 34
+    compileSdk 36
 
     defaultConfig {
         applicationId "dev.dimao.muvitracker" // modificato per release
         minSdk 26
-        targetSdk 34// update 35
+        targetSdk 36// TODO  update 35, meglio 36
         versionCode 1
         versionName "1.0"
 
