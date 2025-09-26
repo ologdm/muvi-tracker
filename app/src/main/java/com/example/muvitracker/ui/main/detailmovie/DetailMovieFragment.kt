@@ -171,7 +171,7 @@ class DetailMovieFragment : Fragment(R.layout.fragm_detail_movie) {
 
         val isDisabled = movie.released != null && movie.released > getNowFormattedDateTime()
         binding.watchedCheckbox.isEnabled = !isDisabled
-        binding.watchedTextview.alpha = if (isDisabled)  0.38f else 1f
+        binding.watchedTextview.isEnabled = !isDisabled
 
         binding.watchedCheckbox.setOnCheckedChangeListener { compoundButton, isChecked ->
             viewModel.updateWatched(currentMovieIds.trakt, isChecked)
@@ -179,9 +179,6 @@ class DetailMovieFragment : Fragment(R.layout.fragm_detail_movie) {
     }
 
 
-    private fun setAlphaForDrawable(floatAlpha: Float): Int {
-        return (floatAlpha * 255).toInt()
-    }
 
 
     private fun loadTMDBImagesWithCustomGlide() {

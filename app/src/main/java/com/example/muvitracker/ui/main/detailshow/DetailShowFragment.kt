@@ -187,7 +187,9 @@ class DetailShowFragment : Fragment(R.layout.fragm_detail_show) {
             }
 
             // upgrade  – disable checkbox click if no episodes have been aired
-            binding.watchedAllCheckbox.isEnabled = detailShow.airedEpisodes != 0
+            val isEnabled = detailShow.airedEpisodes != 0
+            binding.watchedAllCheckbox.isEnabled = isEnabled
+            binding.watchedAllTextview.isEnabled = isEnabled
         }
     }
 
