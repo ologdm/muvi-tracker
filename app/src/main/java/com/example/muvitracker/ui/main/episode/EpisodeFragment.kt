@@ -16,8 +16,6 @@ import com.example.muvitracker.utils.getNowFormattedDateTime
 import com.example.muvitracker.utils.viewBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 @AndroidEntryPoint
 class EpisodeFragment : BottomSheetDialogFragment(R.layout.fragm_episode_bottomsheet) {
@@ -69,8 +67,16 @@ class EpisodeFragment : BottomSheetDialogFragment(R.layout.fragm_episode_bottoms
             }
         }
 
+        binding.watchedIcon.setOnClickListener {
+            viewModel.toggleWatchedEpisode(currentShowIds.trakt, currentSeasonNr, currentEpisodeNr)
+        }
 
-        // IMAGE TMDB - custom glide
+        loadTMDBImagesWithCustomGlide()
+    }
+
+
+    // PRIVATE FUNCTIONS ##########################################
+    private fun loadTMDBImagesWithCustomGlide() {
         Glide.with(requireContext())
             .load(
                 ImageTmdbRequest.Episode(
@@ -83,16 +89,9 @@ class EpisodeFragment : BottomSheetDialogFragment(R.layout.fragm_episode_bottoms
             .placeholder(R.drawable.glide_placeholder_base)
             .error(R.drawable.glide_placeholder_base)
             .into(binding.episodeImageBackdrop)
-
-
-        binding.watchedIcon.setOnClickListener {
-            viewModel.toggleWatchedEpisode(currentShowIds.trakt, currentSeasonNr, currentEpisodeNr)
-        }
-
-
     }
 
-    //    private fun updateWatchedIcon(isWatched: Boolean) {
+
     private fun updateWatchedIcon(episode: EpisodeExtended) {
         val iconEmpty = context?.getDrawable(R.drawable.episode_watched_eye_empty)?.mutate()
         val iconFilled = context?.getDrawable(R.drawable.episode_watched_eye_filled)
@@ -113,8 +112,6 @@ class EpisodeFragment : BottomSheetDialogFragment(R.layout.fragm_episode_bottoms
     private fun setAlphaForDrawable(floatAlpha: Float): Int {
         return (floatAlpha * 255).toInt()
     }
-
-
 
 
     companion object {

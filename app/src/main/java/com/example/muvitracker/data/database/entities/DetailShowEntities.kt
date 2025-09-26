@@ -55,6 +55,6 @@ fun DetailShowEntity.toDomain(prefsShowEntity: PrefsShowEntity?): DetailShow {
         airedEpisodes = airedEpisodes,
         // prefs
         liked = prefsShowEntity?.liked ?: false,
-        addedDateTime = prefsShowEntity?.addedDateTime
+        addedDateTime = prefsShowEntity?.addedDateTime // Timestamp when added to db
     )
 }

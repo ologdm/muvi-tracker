@@ -51,6 +51,6 @@ fun DetailMovieEntity.toDomain(prefsMovieEntity: PrefsMovieEntity?): DetailMovie
         // prefs
         liked = prefsMovieEntity?.liked ?: false,
         watched = prefsMovieEntity?.watched ?: false,
-        addedDateTime = prefsMovieEntity?.addedDateTime
+        addedDateTime = prefsMovieEntity?.addedDateTime // Timestamp when added to db
     )
 }
