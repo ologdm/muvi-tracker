@@ -109,7 +109,7 @@ fun getNowFormattedDateTime(): String {
 }
 
 
-//NEW
+// data in formato compatibile con "yyyy-MM-dd HH:mm:ss" di SQLite
 fun formatToSqliteCompatibleDate(isoDate: String?): String? {
     if (isoDate.isNullOrBlank()) return null
 
@@ -124,6 +124,14 @@ fun formatToSqliteCompatibleDate(isoDate: String?): String? {
 //            .withOffsetSameInstant(ZoneOffset.UTC)
 //            .toLocalDateTime()
             .format(formatter)
+    }
+}
+
+fun String?.formatToReadableDate(): String? {
+    return this.let {
+        val dt =
+            LocalDateTime.parse(it, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+        dt.format(DateTimeFormatter.ofPattern("dd MMM yyyy", Locale("en")))
     }
 }
 

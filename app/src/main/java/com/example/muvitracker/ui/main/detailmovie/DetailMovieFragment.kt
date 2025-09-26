@@ -18,6 +18,8 @@ import com.example.muvitracker.domain.model.DetailMovie
 import com.example.muvitracker.ui.main.Navigator
 import com.example.muvitracker.ui.main.person.adapters.CastAdapter
 import com.example.muvitracker.ui.main.detailmovie.adapters.RelatedMovieAdapter
+import com.example.muvitracker.utils.formatToReadableDate
+import com.example.muvitracker.utils.getNowFormattedDateTime
 import com.example.muvitracker.utils.statesFlow1
 import com.example.muvitracker.utils.viewBinding
 import com.google.android.material.chip.Chip
@@ -63,7 +65,7 @@ class DetailMovieFragment : Fragment(R.layout.fragm_detail_movie) {
             stateContainer.data?.let { detailMovie ->
                 updateDetailUi(detailMovie)
                 updateFavoriteIcon(detailMovie.liked)
-                updateWatchedCheckbox(detailMovie.watched)
+                updateWatchedCheckbox(detailMovie)
             }
             // 2
             stateContainer.statesFlow1(
@@ -119,8 +121,9 @@ class DetailMovieFragment : Fragment(R.layout.fragm_detail_movie) {
     private fun updateDetailUi(detailMovie: DetailMovie) {
         with(binding) {
             title.text = detailMovie.title
+            val yearString = detailMovie.released?.formatToReadableDate() ?: "N/A"
             releasedYearAndCountry.text =
-                "${detailMovie.released} (${detailMovie.country.uppercase()})"
+                "${yearString} (${detailMovie.country.uppercase()})"
             status.text = detailMovie.status.replaceFirstChar { it.uppercaseChar() } // es released
             runtime.text =
                 getString(R.string.runtime_description, detailMovie.runtime.toString())  // string
@@ -161,14 +164,15 @@ class DetailMovieFragment : Fragment(R.layout.fragm_detail_movie) {
         binding.floatingLikedButton.setImageDrawable(if (isFavorite) iconFilled else iconEmpty)
     }
 
-    private fun updateWatchedCheckbox(isWatched: Boolean) {
-//    private fun updateWatchedCheckbox(movie: DetailMovie) {
+    //    private fun updateWatchedCheckbox(isWatched: Boolean) {
+    private fun updateWatchedCheckbox(movie: DetailMovie) {
         binding.watchedCheckbox.setOnCheckedChangeListener(null)
-        binding.watchedCheckbox.isChecked = isWatched
+        binding.watchedCheckbox.isChecked = movie.watched
 
-//        val isDisabled = movie != null && movie.
+        val isDisabled = movie.released != null && movie.released > getNowFormattedDateTime()
+        binding.watchedCheckbox.isEnabled = !isDisabled
+        binding.watchedTextview.alpha = if (isDisabled)  0.38f else 1f
 
-        
         binding.watchedCheckbox.setOnCheckedChangeListener { compoundButton, isChecked ->
             viewModel.updateWatched(currentMovieIds.trakt, isChecked)
         }
