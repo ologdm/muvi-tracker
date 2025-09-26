@@ -96,9 +96,10 @@ class EpisodeFragment : BottomSheetDialogFragment(R.layout.fragm_episode_bottoms
         val iconEmpty = context?.getDrawable(R.drawable.episode_watched_eye_empty)?.mutate()
         val iconFilled = context?.getDrawable(R.drawable.episode_watched_eye_filled)
 
+        // ! formato SQLite che permette di paragonare in ordine cronologico
         val nowFormatted = getNowFormattedDateTime()
-        val isDisabled = episode.firstAiredFormatted != null &&
-                episode.firstAiredFormatted > nowFormatted // formato SQLite che permette di paragonare in ordine cronologico
+        // CASE: episode.firstAiredFormatted == null  ->  isDisable
+        val isDisabled = episode.firstAiredFormatted?.let { it > nowFormatted } ?: true
 
         if (isDisabled) {
             iconEmpty?.alpha = setAlphaForDrawable(0.38f)

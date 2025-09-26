@@ -59,8 +59,8 @@ class SeasonEpisodesAdapter(
 
         val nowFormatted = getNowFormattedDateTime()
 
-        val isDisabled = episode.firstAiredFormatted != null &&
-                episode.firstAiredFormatted > nowFormatted // !! formato SQLite che permette di paragonare in ordine cronologico
+        val isDisabled = episode.firstAiredFormatted?.let { it > nowFormatted } ?: true
+        // !! formato SQLite che permette di paragonare in ordine cronologico
 
         if (isDisabled) {
             iconEmpty?.alpha = setAlphaForDrawable(0.38f)
