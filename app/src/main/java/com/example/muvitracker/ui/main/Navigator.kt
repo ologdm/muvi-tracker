@@ -31,7 +31,7 @@ class Navigator @Inject constructor(
 
 
     fun startMovieDetailFragment(
-        movieIds: Ids // TODO ids
+        movieIds: Ids
     ) {
         val manager = fragmentActivity.supportFragmentManager
         manager.beginTransaction()
