@@ -3,16 +3,16 @@
 
     <!--navigation bar names -->
     <string name="movies">Film</string>
-    <string name="shows">Series TV</string>
+    <string name="shows">Serie TV</string>
     <string name="my_list">La Mia Lista</string>
     <string name="search">Cerca</string>
 
     <!--base categories -->
-    <string name="popular">popolari</string>
-    <string name="box_office">al cinema</string>
-    <string name="watched">più guardati</string>
-    <string name="favorited">favoriti</string>
-    <string name="anticipated">prossimamente</string>
+    <string name="popular">Popolari</string>
+    <string name="box_office">Al cinema</string>
+    <string name="watched">Più guardati</string>
+    <string name="favorited">Favoriti</string>
+    <string name="anticipated">Prossimamente</string>
 
     <!--detail-->
     <string name="aired_episodes">%1$s episodi </string>
