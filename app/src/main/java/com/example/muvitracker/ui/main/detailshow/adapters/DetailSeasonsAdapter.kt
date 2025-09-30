@@ -26,7 +26,8 @@ class DetailSeasonsAdapter(
     override fun onBindViewHolder(holder: SeasonVH, position: Int) {
         val seasonItem = getItem(position)
 
-        holder.bind(seasonItem)
+        val context = holder.binding.root.context
+        holder.bind(seasonItem, context)
 
         // click - apri season fragment
         holder.itemView.setOnClickListener {
@@ -59,7 +60,7 @@ class DetailSeasonsAdapter(
                     holder.binding.seasonCheckbox.isChecked = seasonItem.watchedAll
                     holder.binding.seasonCheckbox.setOnCheckedChangeListener(this)
 
-                    holder.bind(seasonItem) // Re-bind per aggiornare i dati visualizzati
+                    holder.bind(seasonItem, context) // Re-bind per aggiornare i dati visualizzati
                 }
             }
         })
