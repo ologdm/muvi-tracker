@@ -52,6 +52,8 @@
     <string name="search_movies">Movies</string>
     <string name="search_tv_series">TV Series</string>
     <string name="search_people">People</string>
+    <string name="episodes">Episodes:</string>
+    <string name="all">All</string>
 
 
 </resources>

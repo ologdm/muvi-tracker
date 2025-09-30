@@ -44,5 +44,7 @@
     <string name="search_movies">Film</string>
     <string name="search_tv_series">Serie TV</string>
     <string name="search_people">Persone</string>
+    <string name="episodes">Episodi:</string>
+    <string name="all">Tutti</string>
 
 </resources>

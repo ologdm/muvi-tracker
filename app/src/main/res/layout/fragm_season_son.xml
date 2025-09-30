@@ -72,11 +72,13 @@
                     android:layout_height="wrap_content">
 
                 <TextView
+                        android:id="@+id/SeasonEpisodes"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text=" Episodes:"
+                        android:text="@string/episodes"
                         android:textStyle="bold"
                         android:textSize="16sp"
+                        android:layout_marginStart="6dp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"/>
@@ -85,7 +87,7 @@
                     android:id="@+id/watchedAllText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="All"
+                    android:text="@string/all"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toStartOf="@id/watchedAllIcon"
                     app:layout_constraintTop_toTopOf="parent"
