@@ -22,7 +22,10 @@ class Navigator @Inject constructor(
     fun replaceFragment(
         fragment: Fragment
     ) {
-        val manager: FragmentManager = fragmentActivity.supportFragmentManager
+        val manager = fragmentActivity.supportFragmentManager
+        // fix r1.1.2
+        manager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+
         manager.beginTransaction()
             .replace(R.id.frameLayout, fragment)
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
