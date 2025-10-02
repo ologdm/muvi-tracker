@@ -25,28 +25,31 @@ class MoviesViewmodel @Inject constructor(
 ) : ViewModel() {
 
     companion object {
+        // key saved element in sharedPrefs
         private const val SELECTED_FEED_KEY = "movie_selected_feed_key"
     }
 
+    // prende l'ultimo valore registrato su prefs, o Popular
     private val _selectedFeed = MutableStateFlow(getLastFeed()) // valore default
     val selectedFeed: StateFlow<MovieType> = _selectedFeed
 
 
     val statePaging = selectedFeed
-        .flatMapLatest { type ->
+        .flatMapLatest { selectedFeed ->
             Pager(
                 config = PagingConfig(pageSize = 15, enablePlaceholders = false),
-                pagingSourceFactory = { MoviesPagingSource(type, traktApi) }
-            ).flow.cachedIn(viewModelScope)
+                pagingSourceFactory = { MoviesPagingSource(selectedFeed, traktApi) }
+            ).flow
         }
+        .cachedIn(viewModelScope)
 
-    // set feed
-    fun updateSelectedFeed(newSelectedFeed: MovieType) {
-        _selectedFeed.value = newSelectedFeed
-        sharedPrefs.edit().putString(SELECTED_FEED_KEY, newSelectedFeed.sharedPrefsValue).apply()
+
+    // SET/GET FEED - da sharedPrefs
+    fun setFeed(selectedFeed: MovieType) {
+        _selectedFeed.value = selectedFeed
+        sharedPrefs.edit().putString(SELECTED_FEED_KEY, selectedFeed.sharedPrefsValue).apply()
     }
 
-    // getFeed
     fun getLastFeed(): MovieType {
         // from shared value -> MoviesType enum
         val stringValue = sharedPrefs.getString(SELECTED_FEED_KEY, null)

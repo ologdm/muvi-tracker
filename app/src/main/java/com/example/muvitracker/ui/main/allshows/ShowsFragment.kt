@@ -52,7 +52,7 @@ class ShowsFragment : Fragment(R.layout.fragm_base_category) {
 
     // MY FUNCTIONS
     private fun setupChips(feedCategoryList: List<ShowsType>) {
-        binding.chipGroupFeedCategory.apply {
+        binding.chipGroupFeed.apply {
             removeAllViews()
             feedCategoryList.forEach { type ->
                 val chip = Chip(context).apply {
@@ -60,14 +60,14 @@ class ShowsFragment : Fragment(R.layout.fragm_base_category) {
                     isCheckable = true
                     tag = type
                 }
-                binding.chipGroupFeedCategory.addView(chip)
+                binding.chipGroupFeed.addView(chip)
             }
             isSingleSelection = true
             isSelectionRequired = true
 
             val startSelectedFeed = viewModel.getLastFeed()
             val startSelectedChip =
-                binding.chipGroupFeedCategory.findViewWithTag<Chip>(startSelectedFeed)
+                binding.chipGroupFeed.findViewWithTag<Chip>(startSelectedFeed)
             startSelectedChip?.let {
                 it.isChecked = true // check the chip
                 binding.chipsScrollView.smoothScrollTo(it.left, it.top)
