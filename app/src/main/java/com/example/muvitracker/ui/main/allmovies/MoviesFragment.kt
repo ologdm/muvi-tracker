@@ -35,6 +35,7 @@ class MoviesFragment : Fragment(R.layout.fragm_base_category) {
         navigator.startMovieDetailFragment(movieIds)
     })
 
+    var shouldScrollToTop = false
 
 
     override fun onViewCreated(
@@ -89,6 +90,7 @@ class MoviesFragment : Fragment(R.layout.fragm_base_category) {
             chipGroup.findViewById<Chip>(checkedId)?.let { chip ->
                 val newFeed = chip.tag as MovieType
                 viewModel.setFeed(newFeed)
+                shouldScrollToTop = true
 //                    pagingAdapter.refresh() non serve?
             }
         }
@@ -123,6 +125,13 @@ class MoviesFragment : Fragment(R.layout.fragm_base_category) {
                     requireContext().getString(R.string.error_message_no_internet_swipe_down)
                 } else {
                     requireContext().getString(R.string.error_message_other)
+                }
+
+
+                // fix 1.1.2 - paging does not invalidate when filter changes
+                if (combLoadStates.refresh is LoadState.NotLoading && shouldScrollToTop) {
+                    b.recyclerView.scrollToPosition(0)
+                    shouldScrollToTop = false
                 }
             }
         }

@@ -90,6 +90,7 @@ class ShowsFragment : Fragment(R.layout.fragm_base_category) {
             chipGroup.findViewById<Chip>(checkedId)?.let { chip ->
                 val newFeed = chip.tag as ShowsType
                 viewModel.setFeed(newFeed)
+                shouldScrollToTop = true
             }
         }
     }
@@ -103,14 +104,14 @@ class ShowsFragment : Fragment(R.layout.fragm_base_category) {
         }
 
         fragmentViewLifecycleScope.launch {
-            pagingAdapter.loadStateFlow.collectLatest { combLoadState ->
+            pagingAdapter.loadStateFlow.collectLatest { combLoadStates ->
                 // 1. loading
-                b.progressBar.isVisible = combLoadState.refresh is LoadState.Loading
-                b.swipeRefreshLayout.isRefreshing = combLoadState.refresh is LoadState.Loading
+                b.progressBar.isVisible = combLoadStates.refresh is LoadState.Loading
+                b.swipeRefreshLayout.isRefreshing = combLoadStates.refresh is LoadState.Loading
 
                 // 2 error
                 val errorState =
-                    listOf(combLoadState.refresh, combLoadState.prepend, combLoadState.append)
+                    listOf(combLoadStates.refresh, combLoadStates.prepend, combLoadStates.append)
                         .filterIsInstance<LoadState.Error>()
                         .firstOrNull()
 
@@ -120,6 +121,12 @@ class ShowsFragment : Fragment(R.layout.fragm_base_category) {
                     requireContext().getString(R.string.error_message_no_internet_swipe_down)
                 } else {
                     requireContext().getString(R.string.error_message_other)
+                }
+
+                // fix 1.1.2 - paging does not invalidate when filter changes
+                if (combLoadStates.refresh is LoadState.NotLoading && shouldScrollToTop) {
+                    b.recyclerView.scrollToPosition(0)
+                    shouldScrollToTop = false
                 }
             }
 
