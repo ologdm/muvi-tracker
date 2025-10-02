@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.muvitracker.R
 import com.example.muvitracker.databinding.FragmBaseCategoryBinding
 import com.example.muvitracker.ui.main.Navigator
-import com.example.muvitracker.ui.main.allmovies.MovieType
 import com.example.muvitracker.ui.main.allshows.base.ShowPagingAdapter
 import com.example.muvitracker.utils.fragmentViewLifecycleScope
 import com.example.muvitracker.utils.viewBinding
@@ -34,6 +33,8 @@ class ShowsFragment : Fragment(R.layout.fragm_base_category) {
     private val pagingAdapter = ShowPagingAdapter(onClickVH = { showIds ->
         navigator.startShowDetailFragment(showIds)
     })
+
+    var shouldScrollToTop = false
 
 
     override fun onViewCreated(
@@ -59,26 +60,6 @@ class ShowsFragment : Fragment(R.layout.fragm_base_category) {
 
 
     // PRIVATE FUNCTIONS
-    private fun ChipGroup.setupChips() {
-        this.apply {
-
-
-            b.chipGroupFeed.findViewWithTag<Chip>(viewModel.selectedFeed.value)
-                ?.let {
-                    it.isChecked = true // check the chip
-                    b.chipsScrollView.smoothScrollTo(it.left, it.top)
-                }
-
-            setOnCheckedChangeListener { chipGroup, checkedId ->
-                chipGroup.findViewById<Chip>(checkedId)?.let { chip ->
-                    val newSelectedFeed = chip.tag as ShowsType
-                    viewModel.setFeed(newSelectedFeed)
-                }
-            }
-        }
-    }
-
-
     private fun ChipGroup.createChipGroup() {
         // 1. creo i chip in base alla lista Enum
         this.removeAllViews()
@@ -93,6 +74,24 @@ class ShowsFragment : Fragment(R.layout.fragm_base_category) {
         this.isSingleSelection = true
         this.isSelectionRequired = true
 
+    }
+
+
+    private fun ChipGroup.setupChips() {
+        // 1. inizializzo chip con feed attuale
+        this.findViewWithTag<Chip>(viewModel.selectedFeed.value)
+            ?.let {
+                it.isChecked = true // check the chip
+                b.chipsScrollView.smoothScrollTo(it.left, it.top)
+            }
+
+        // 2. set chip con feed attuale
+        this.setOnCheckedChangeListener { chipGroup, checkedId ->
+            chipGroup.findViewById<Chip>(checkedId)?.let { chip ->
+                val newFeed = chip.tag as ShowsType
+                viewModel.setFeed(newFeed)
+            }
+        }
     }
 
 

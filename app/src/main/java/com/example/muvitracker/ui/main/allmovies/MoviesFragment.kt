@@ -36,6 +36,7 @@ class MoviesFragment : Fragment(R.layout.fragm_base_category) {
     })
 
 
+
     override fun onViewCreated(
         view: View,
         savedInstanceState: Bundle?
@@ -56,34 +57,6 @@ class MoviesFragment : Fragment(R.layout.fragm_base_category) {
         collectPagingStates()
     }
 
-
-    // PRIVATE METHODS
-    private fun ChipGroup.setupChips() {
-        this.apply {
-            // 1. inizializzo chip con feed attuale
-            val chip = findViewWithTag<Chip>(viewModel.selectedFeed.value) // value MovieType
-            chip?.let { it ->
-                it.isChecked = true
-                b.chipsScrollView.smoothScrollTo(it.left, it.top)
-                // smoothScrollTo -> scroll animato a x,y
-                // (x.left, y.top) -> calcolare la posizione del chip selezionato
-            }
-
-            // 2. set chip con feed attuale
-            setOnCheckedChangeListener { chipGroup, checkedId ->
-                chipGroup.findViewById<Chip>(checkedId)?.let { chip ->
-                    val newFeed = chip.tag as MovieType
-                    val currentFeed = viewModel.selectedFeed.value
-                    if (newFeed != currentFeed) {
-                        viewModel.setFeed(newFeed)
-                        // x
-                        pagingAdapter.refresh()
-                    }
-                }
-            }
-        }
-    }
-
     private fun ChipGroup.createChipGroup() {
         // 1. creo i chip in base alla lista Enum
         this.removeAllViews()
@@ -98,6 +71,27 @@ class MoviesFragment : Fragment(R.layout.fragm_base_category) {
         this.isSingleSelection = true
         this.isSelectionRequired = true
 
+    }
+
+    // PRIVATE METHODS
+    private fun ChipGroup.setupChips() {
+        // 1. inizializzo chip con feed attuale
+        this.findViewWithTag<Chip>(viewModel.selectedFeed.value) // value MovieType
+            ?.let { it ->
+                it.isChecked = true
+                b.chipsScrollView.smoothScrollTo(it.left, it.top)
+                // smoothScrollTo -> scroll animato a x,y
+                // (x.left, y.top) -> calcolare la posizione del chip selezionato
+            }
+
+        // 2. set chip con feed attuale
+        this.setOnCheckedChangeListener { chipGroup, checkedId ->
+            chipGroup.findViewById<Chip>(checkedId)?.let { chip ->
+                val newFeed = chip.tag as MovieType
+                viewModel.setFeed(newFeed)
+//                    pagingAdapter.refresh() non serve?
+            }
+        }
     }
 
 
@@ -124,11 +118,11 @@ class MoviesFragment : Fragment(R.layout.fragm_base_category) {
                         .filterIsInstance<LoadState.Error>()
                         .firstOrNull()
 
-                b.errorTextView.isVisible = errorState != null
+                b.errorTextView.isVisible = (errorState != null)
                 b.errorTextView.text = if (errorState?.error is IOException) {
                     requireContext().getString(R.string.error_message_no_internet_swipe_down)
                 } else {
-                    requireContext().getString(R.string.error_message_no_internet_swipe_down)
+                    requireContext().getString(R.string.error_message_other)
                 }
             }
         }
