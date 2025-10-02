@@ -29,17 +29,19 @@ class ShowsViewmodel @Inject constructor(
     private val _selectedFeed = MutableStateFlow(getLastFeed())
     val selectedFeed: StateFlow<ShowsType> = _selectedFeed
 
-    val statePaging = selectedFeed.flatMapLatest { type ->
-        Pager(
-            config = PagingConfig(pageSize = 15, enablePlaceholders = false),
-            pagingSourceFactory = { ShowsPagingSource(type, traktApi) }
-        ).flow.cachedIn(viewModelScope)
-    }
+    val statePaging = selectedFeed
+        .flatMapLatest { selectedFeed ->
+            Pager(
+                config = PagingConfig(pageSize = 15, enablePlaceholders = false),
+                pagingSourceFactory = { ShowsPagingSource(selectedFeed, traktApi) }
+            ).flow
+        }
+        .cachedIn(viewModelScope)
 
 
-    fun updateSelectedFeed(newSelectedFeed: ShowsType) {
-        _selectedFeed.value = newSelectedFeed
-        sharedPrefs.edit().putString(SELECTED_FEED_KEY, newSelectedFeed.sharedPrefsValue).apply()
+    fun setFeed(selectedFeed: ShowsType) {
+        _selectedFeed.value = selectedFeed
+        sharedPrefs.edit().putString(SELECTED_FEED_KEY, selectedFeed.sharedPrefsValue).apply()
     }
 
     fun getLastFeed(): ShowsType {

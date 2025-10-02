@@ -10,10 +10,12 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.muvitracker.R
 import com.example.muvitracker.databinding.FragmBaseCategoryBinding
 import com.example.muvitracker.ui.main.Navigator
+import com.example.muvitracker.ui.main.allmovies.MovieType
 import com.example.muvitracker.ui.main.allshows.base.ShowPagingAdapter
 import com.example.muvitracker.utils.fragmentViewLifecycleScope
 import com.example.muvitracker.utils.viewBinding
 import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -26,7 +28,7 @@ class ShowsFragment : Fragment(R.layout.fragm_base_category) {
     @Inject
     lateinit var navigator: Navigator
 
-    val binding by viewBinding(FragmBaseCategoryBinding::bind)
+    val b by viewBinding(FragmBaseCategoryBinding::bind)
     private val viewModel by viewModels<ShowsViewmodel>()
 
     private val pagingAdapter = ShowPagingAdapter(onClickVH = { showIds ->
@@ -38,48 +40,59 @@ class ShowsFragment : Fragment(R.layout.fragm_base_category) {
         view: View,
         savedInstanceState: Bundle?
     ) {
-        binding.toolbar.text = getString(R.string.shows)
-        binding.recyclerView.adapter = pagingAdapter
-        binding.recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
+        b.toolbar.text = getString(R.string.shows)
+        b.recyclerView.adapter = pagingAdapter
+        b.recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
 
-        setupChips(ShowsType.entries) // entries rispetta ordine
-        binding.swipeRefreshLayout.setOnRefreshListener { pagingAdapter.refresh() }
+        b.chipGroupFeed.apply {
+            createChipGroup()
+            setupChips()
+        }
 
-        collectSelectedFeed() // observe selected feed
+
+        b.swipeRefreshLayout.setOnRefreshListener {
+            pagingAdapter.refresh()
+        }
+
         collectPagingStates() // observe paging data and loadStateFlow
     }
 
 
-    // MY FUNCTIONS
-    private fun setupChips(feedCategoryList: List<ShowsType>) {
-        binding.chipGroupFeed.apply {
-            removeAllViews()
-            feedCategoryList.forEach { type ->
-                val chip = Chip(context).apply {
-                    text = getString(type.stringRes)
-                    isCheckable = true
-                    tag = type
-                }
-                binding.chipGroupFeed.addView(chip)
-            }
-            isSingleSelection = true
-            isSelectionRequired = true
+    // PRIVATE FUNCTIONS
+    private fun ChipGroup.setupChips() {
+        this.apply {
 
-            val startSelectedFeed = viewModel.getLastFeed()
-            val startSelectedChip =
-                binding.chipGroupFeed.findViewWithTag<Chip>(startSelectedFeed)
-            startSelectedChip?.let {
-                it.isChecked = true // check the chip
-                binding.chipsScrollView.smoothScrollTo(it.left, it.top)
-            }
+
+            b.chipGroupFeed.findViewWithTag<Chip>(viewModel.selectedFeed.value)
+                ?.let {
+                    it.isChecked = true // check the chip
+                    b.chipsScrollView.smoothScrollTo(it.left, it.top)
+                }
 
             setOnCheckedChangeListener { chipGroup, checkedId ->
-                chipGroup.findViewById<Chip>(checkedId)?.let { selectedChip ->
-                    val newSelectedFeed = selectedChip.tag as ShowsType // tag lo forza a cast
-                    viewModel.updateSelectedFeed(newSelectedFeed)
+                chipGroup.findViewById<Chip>(checkedId)?.let { chip ->
+                    val newSelectedFeed = chip.tag as ShowsType
+                    viewModel.setFeed(newSelectedFeed)
                 }
             }
         }
+    }
+
+
+    private fun ChipGroup.createChipGroup() {
+        // 1. creo i chip in base alla lista Enum
+        this.removeAllViews()
+        ShowsType.entries.forEach { feed ->
+            val chip = Chip(context).apply {
+                text = getString(feed.stringRes)
+                isCheckable = true
+                tag = feed // tag type object
+            }
+            addView(chip)
+        }
+        this.isSingleSelection = true
+        this.isSelectionRequired = true
+
     }
 
 
@@ -87,36 +100,31 @@ class ShowsFragment : Fragment(R.layout.fragm_base_category) {
         fragmentViewLifecycleScope.launch {
             viewModel.statePaging.collectLatest { pagingData ->
                 pagingAdapter.submitData(pagingData)
-                binding.swipeRefreshLayout.isRefreshing = false
-                binding.errorTextView.isVisible = false
             }
         }
-        
+
         fragmentViewLifecycleScope.launch {
-            pagingAdapter.loadStateFlow.collectLatest { loadState ->
-                // 1 progress
-                binding.progressBar.isVisible = loadState.refresh is LoadState.Loading
+            pagingAdapter.loadStateFlow.collectLatest { combLoadState ->
+                // 1. loading
+                b.progressBar.isVisible = combLoadState.refresh is LoadState.Loading
+                b.swipeRefreshLayout.isRefreshing = combLoadState.refresh is LoadState.Loading
+
                 // 2 error
-                if (loadState.refresh is LoadState.Error) {
-                    binding.errorTextView.isVisible = true
-                    val error = (loadState.refresh as LoadState.Error).error
-                    binding.errorTextView.text = if (error is IOException) {
-                        requireContext().getString(R.string.error_message_no_internet_swipe_down)
-                    } else {
-                        requireContext().getString(R.string.error_message_other)
-                    }
-                    binding.swipeRefreshLayout.isRefreshing = false
+                val errorState =
+                    listOf(combLoadState.refresh, combLoadState.prepend, combLoadState.append)
+                        .filterIsInstance<LoadState.Error>()
+                        .firstOrNull()
+
+
+                b.errorTextView.isVisible = (errorState != null)
+                b.errorTextView.text = if (errorState?.error is IOException) {
+                    requireContext().getString(R.string.error_message_no_internet_swipe_down)
+                } else {
+                    requireContext().getString(R.string.error_message_other)
                 }
             }
+
         }
     }
-
-    private fun collectSelectedFeed() {
-        fragmentViewLifecycleScope.launch {
-            viewModel.selectedFeed.collectLatest { selectedFeed ->
-                viewModel.updateSelectedFeed(selectedFeed)
-            }
-        }
-    }
-
 }
+
