@@ -24,8 +24,8 @@ android {
         applicationId "dev.dimao.muvitracker" // modificato per release
         minSdk 26
         targetSdk 36
-        versionCode 1_01_01
-        versionName "1.1.1"
+        versionCode 1_01_02
+        versionName "1.1.2"
 
         // for api keys on 'local.properties' (2/3)
         buildConfigField 'String', "TRAKT_API_KEY", "\"" + localProperties.trakt_api_key + "\""
