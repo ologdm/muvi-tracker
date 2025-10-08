@@ -11,7 +11,7 @@ import com.example.muvitracker.data.repositories.DetailShowRepositoryImpl
 import com.example.muvitracker.data.repositories.PrefsMovieRepository
 import com.example.muvitracker.data.repositories.PrefsShowRepository
 import com.example.muvitracker.domain.repo.DetailMovieRepository
-import com.example.muvitracker.domain.repo.DetailShowRepo
+import com.example.muvitracker.domain.repo.DetailShowRepository
 import com.example.muvitracker.domain.repo.PrefsMovieRepo
 import com.example.muvitracker.domain.repo.PrefsShowRepo
 import com.google.gson.Gson
@@ -38,7 +38,7 @@ class DaggerModules {
 
     @Provides
     @Singleton
-    fun providedDetailShowRepo(impl: DetailShowRepositoryImpl): DetailShowRepo {
+    fun providedDetailShowRepo(impl: DetailShowRepositoryImpl): DetailShowRepository {
         return impl
     }
 

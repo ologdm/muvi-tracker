@@ -10,7 +10,7 @@ import com.example.muvitracker.domain.model.CastAndCrew
 import com.example.muvitracker.domain.model.DetailShow
 import com.example.muvitracker.domain.model.SeasonExtended
 import com.example.muvitracker.domain.model.base.Show
-import com.example.muvitracker.domain.repo.DetailShowRepo
+import com.example.muvitracker.domain.repo.DetailShowRepository
 import com.example.muvitracker.utils.IoResponse
 import com.example.muvitracker.utils.StateContainer
 import com.example.muvitracker.utils.ioMapper
@@ -24,7 +24,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DetailShowViewmodel @Inject constructor(
-    private val detailShowRepo: DetailShowRepo,
+    private val detailShowRepository: DetailShowRepository,
     private val seasonRepository: SeasonRepository,
     private val traktApi: TraktApi
 ) : ViewModel() {
@@ -38,7 +38,7 @@ class DetailShowViewmodel @Inject constructor(
     fun loadShowDetail(showId: Int) {
         var cachedItem: DetailShow? = null
         viewModelScope.launch {
-            detailShowRepo.getSingleDetailShowFlow(showId)
+            detailShowRepository.getSingleDetailShowFlow(showId)
                 .map { response ->
                     when (response) {
                         is IoResponse.Success -> {
@@ -100,7 +100,7 @@ class DetailShowViewmodel @Inject constructor(
     // TOGGLE
     fun toggleLikedShow(showId: Int) {
         viewModelScope.launch {
-            detailShowRepo.toggleLikedShow(showId)
+            detailShowRepository.toggleLikedShow(showId)
         }
     }
 
@@ -108,7 +108,7 @@ class DetailShowViewmodel @Inject constructor(
     fun toggleWatchedAllShowEpisodes(showId: Int, onComplete: () -> Unit) {
         // add callback
         viewModelScope.launch {
-            detailShowRepo.checkAndSetWatchedAllShowEpisodes(showId)
+            detailShowRepository.checkAndSetWatchedAllShowEpisodes(showId)
             onComplete()
         }
     }
@@ -128,7 +128,7 @@ class DetailShowViewmodel @Inject constructor(
     // RELATED SHOWS
     fun loadRelatedShows(showId: Int) {
         viewModelScope.launch {
-            detailShowRepo.getRelatedShows(showId).ioMapper {
+            detailShowRepository.getRelatedShows(showId).ioMapper {
                 relatedShowsStatus.value = it
             }
         }

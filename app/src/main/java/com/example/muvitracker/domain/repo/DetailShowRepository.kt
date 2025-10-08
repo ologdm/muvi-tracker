@@ -5,7 +5,7 @@ import com.example.muvitracker.domain.model.base.Show
 import com.example.muvitracker.utils.IoResponse
 import kotlinx.coroutines.flow.Flow
 
-interface DetailShowRepo {
+interface DetailShowRepository {
 
     fun getSingleDetailShowFlow(showId: Int): Flow<IoResponse<DetailShow>>
 
