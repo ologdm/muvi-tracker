@@ -3,9 +3,11 @@ package com.example.muvitracker.ui.main.prefs
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.muvitracker.data.repositories.DetailShowRepository
+import com.example.muvitracker.data.repositories.DetailShowRepositoryImpl
 import com.example.muvitracker.data.repositories.PrefsShowRepository
 import com.example.muvitracker.domain.model.DetailShow
+import com.example.muvitracker.domain.repo.DetailShowRepo
+import com.example.muvitracker.domain.repo.PrefsShowRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -13,8 +15,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PrefsShowViewModel @Inject constructor(
-    private val prefsShowRepository: PrefsShowRepository,
-    private val detailShowRepository: DetailShowRepository
+    private val prefsShowRepository: PrefsShowRepo,
+    private val detailShowRepo: DetailShowRepo
 ) : ViewModel() {
 
     val prefsList = MutableLiveData<List<DetailShow>>()
@@ -45,7 +47,7 @@ class PrefsShowViewModel @Inject constructor(
         viewModelScope.launch {
             // 1 start loading on adapter
             // 2 chiama funzione su repository - stessa di detail
-            detailShowRepository.checkAndSetWatchedAllShowEpisodes(showId)
+            detailShowRepo.checkAndSetWatchedAllShowEpisodes(showId)
             // 3 finish
             onComplete()
         }

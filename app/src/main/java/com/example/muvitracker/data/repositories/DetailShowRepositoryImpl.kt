@@ -27,7 +27,7 @@ import kotlin.coroutines.cancellation.CancellationException
 
 
 @Singleton
-class DetailShowRepository @Inject constructor(
+class DetailShowRepositoryImpl @Inject constructor(
     private val traktApi: TraktApi,
     private val prefsShowRepository: PrefsShowRepo,
     private val seasonRepo: SeasonRepository,

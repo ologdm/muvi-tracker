@@ -7,7 +7,7 @@ import com.example.muvitracker.BuildConfig
 import com.example.muvitracker.data.TraktApi
 import com.example.muvitracker.data.database.MyDatabase
 import com.example.muvitracker.data.repositories.DetailMovieRepositoryImpl
-import com.example.muvitracker.data.repositories.DetailShowRepository
+import com.example.muvitracker.data.repositories.DetailShowRepositoryImpl
 import com.example.muvitracker.data.repositories.PrefsMovieRepository
 import com.example.muvitracker.data.repositories.PrefsShowRepository
 import com.example.muvitracker.domain.repo.DetailMovieRepository
@@ -38,7 +38,7 @@ class DaggerModules {
 
     @Provides
     @Singleton
-    fun providedDetailShowRepo(impl: DetailShowRepository): DetailShowRepo {
+    fun providedDetailShowRepo(impl: DetailShowRepositoryImpl): DetailShowRepo {
         return impl
     }
 
