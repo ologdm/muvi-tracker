@@ -12,22 +12,21 @@ import com.example.muvitracker.data.utils.mapToIoResponse
 import com.example.muvitracker.data.utils.storeFactory
 import com.example.muvitracker.domain.model.DetailMovie
 import com.example.muvitracker.domain.model.base.Movie
-import com.example.muvitracker.domain.repo.DetailMovieRepo
+import com.example.muvitracker.domain.repo.DetailMovieRepository
 import com.example.muvitracker.utils.IoResponse
 import com.example.muvitracker.utils.ioMapper
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.filterNot
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.coroutines.cancellation.CancellationException
 
 
 @Singleton
-class DetailMovieRepository @Inject constructor(
+class DetailMovieRepositoryImpl @Inject constructor(
     private val traktApi: TraktApi,
     database: MyDatabase
-) : DetailMovieRepo {
+) : DetailMovieRepository {
 
     private val detailDao = database.detailMovieDao()
     private val prefsMoviesDao = database.prefsMovieDao()
