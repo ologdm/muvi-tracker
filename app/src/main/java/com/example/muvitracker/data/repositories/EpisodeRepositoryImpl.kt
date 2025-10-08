@@ -3,7 +3,6 @@ package com.example.muvitracker.data.repositories
 import com.dropbox.android.external.store4.StoreRequest
 import com.example.muvitracker.data.TraktApi
 import com.example.muvitracker.data.database.MyDatabase
-import com.example.muvitracker.data.database.entities.EpisodeEntity
 import com.example.muvitracker.data.database.entities.copyDtoData
 import com.example.muvitracker.data.database.entities.toDomain
 import com.example.muvitracker.data.dto.episode.EpisodeExtenDto
@@ -12,6 +11,7 @@ import com.example.muvitracker.data.utils.ShowRequestKeys
 import com.example.muvitracker.data.utils.mapToIoResponse
 import com.example.muvitracker.data.utils.storeFactory
 import com.example.muvitracker.domain.model.EpisodeExtended
+import com.example.muvitracker.domain.repo.EpisodeRepository
 import com.example.muvitracker.utils.IoResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -19,11 +19,11 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class EpisodeRepository @Inject constructor(
+class EpisodeRepositoryImpl @Inject constructor(
     private val traktApi: TraktApi,
     database: MyDatabase,
     private val prefsShowRepository: PrefsShowRepository
-) {
+) : EpisodeRepository {
     private val episodeDao = database.episodesDao()
 
     val seasonEpisodesStore =
@@ -59,6 +59,8 @@ class EpisodeRepository @Inject constructor(
         }
     }
 
+
+    override
     fun getSeasonAllEpisodesFlow(
         showId: Int,
         seasonNr: Int
@@ -74,6 +76,7 @@ class EpisodeRepository @Inject constructor(
     }
 
 
+    override
     fun getSingleEpisode(
         showId: Int,
         seasonNr: Int,
@@ -86,6 +89,7 @@ class EpisodeRepository @Inject constructor(
     }
 
 
+    override
     suspend fun toggleSingleWatchedEpisode(
         showId: Int,
         seasonNr: Int,

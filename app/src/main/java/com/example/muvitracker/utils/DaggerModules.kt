@@ -8,11 +8,13 @@ import com.example.muvitracker.data.TraktApi
 import com.example.muvitracker.data.database.MyDatabase
 import com.example.muvitracker.data.repositories.DetailMovieRepositoryImpl
 import com.example.muvitracker.data.repositories.DetailShowRepositoryImpl
+import com.example.muvitracker.data.repositories.EpisodeRepositoryImpl
 import com.example.muvitracker.data.repositories.PrefsMovieRepository
 import com.example.muvitracker.data.repositories.PrefsShowRepository
 import com.example.muvitracker.data.repositories.SeasonRepositoryImpl
 import com.example.muvitracker.domain.repo.DetailMovieRepository
 import com.example.muvitracker.domain.repo.DetailShowRepository
+import com.example.muvitracker.domain.repo.EpisodeRepository
 import com.example.muvitracker.domain.repo.PrefsMovieRepo
 import com.example.muvitracker.domain.repo.PrefsShowRepo
 import com.example.muvitracker.domain.repo.SeasonRepository
@@ -65,7 +67,14 @@ class DaggerModules {
     }
 
 
+    @Provides
+    @Singleton
+    fun provideEpisodeRepo(impl: EpisodeRepositoryImpl): EpisodeRepository {
+        return impl
+    }
 
+
+    // ######################################################################
 
     // shared preferences
     @Provides
