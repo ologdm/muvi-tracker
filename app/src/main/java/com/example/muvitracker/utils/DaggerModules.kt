@@ -58,6 +58,8 @@ class DaggerModules {
     }
 
 
+    @Provides
+    @Singleton
     fun provideSeasonRepo(impl: SeasonRepositoryImpl): SeasonRepository {
         return impl
     }
