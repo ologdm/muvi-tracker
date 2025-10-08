@@ -11,6 +11,7 @@ import com.example.muvitracker.data.utils.ShowRequestKeys
 import com.example.muvitracker.data.utils.mapToIoResponse
 import com.example.muvitracker.data.utils.storeFactory
 import com.example.muvitracker.domain.model.SeasonExtended
+import com.example.muvitracker.domain.repo.SeasonRepository
 import com.example.muvitracker.utils.IoResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -19,12 +20,12 @@ import javax.inject.Singleton
 
 
 @Singleton
-class SeasonRepository @Inject constructor(
+class SeasonRepositoryImpl @Inject constructor(
     private val traktApi: TraktApi,
     database: MyDatabase,
     private val episodeRepository: EpisodeRepository,
     private val prefsShowRepository: PrefsShowRepository
-) {
+) : SeasonRepository {
     private val seasonDao = database.seasonsDao()
     private val episodeDao = database.episodesDao()
 
@@ -60,13 +61,13 @@ class SeasonRepository @Inject constructor(
         }
     }
 
-
+    override
     fun getAllSeasonsFlow(showId: Int): Flow<IoResponse<List<SeasonExtended>>> {
         return seasonStore.stream(StoreRequest.cached(showId, refresh = true))
             .mapToIoResponse()
     }
 
-
+    override
     fun getSingleSeasonFlow(showId: Int, seasonNr: Int): Flow<SeasonExtended> {
         return seasonDao.getSingleSeason(showId, seasonNr)
             .map { season ->
@@ -86,9 +87,10 @@ class SeasonRepository @Inject constructor(
 
     // (click - single season)
     //  toggle single season -> from ShowFragment & SeasonFragment
+    override
     suspend fun checkAndSetSingleSeasonWatchedAllEpisodes(
         showId: Int,
-        seasonNr: Int,
+        seasonNr: Int
     ) {
         // 1. check and download all season episodes
         if (!areEpisodesAvailableForSeasonOnDB(showId, seasonNr)) {
@@ -117,6 +119,7 @@ class SeasonRepository @Inject constructor(
 
     // (click - show watchedAll)
     // from ShowDetail -> forceWatchedAll ()
+    override
     suspend fun checkAndSetSingleSeasonWatchedAllEpisodes(
         showId: Int,
         seasonNr: Int,

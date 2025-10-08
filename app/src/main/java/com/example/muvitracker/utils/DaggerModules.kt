@@ -10,10 +10,12 @@ import com.example.muvitracker.data.repositories.DetailMovieRepositoryImpl
 import com.example.muvitracker.data.repositories.DetailShowRepositoryImpl
 import com.example.muvitracker.data.repositories.PrefsMovieRepository
 import com.example.muvitracker.data.repositories.PrefsShowRepository
+import com.example.muvitracker.data.repositories.SeasonRepositoryImpl
 import com.example.muvitracker.domain.repo.DetailMovieRepository
 import com.example.muvitracker.domain.repo.DetailShowRepository
 import com.example.muvitracker.domain.repo.PrefsMovieRepo
 import com.example.muvitracker.domain.repo.PrefsShowRepo
+import com.example.muvitracker.domain.repo.SeasonRepository
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
@@ -54,6 +56,13 @@ class DaggerModules {
     fun providePrefsShowRepo(impl: PrefsShowRepository): PrefsShowRepo {
         return impl
     }
+
+
+    fun provideSeasonRepo(impl: SeasonRepositoryImpl): SeasonRepository {
+        return impl
+    }
+
+
 
 
     // shared preferences

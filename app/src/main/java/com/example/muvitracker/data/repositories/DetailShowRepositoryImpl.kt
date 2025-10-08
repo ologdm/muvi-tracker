@@ -12,6 +12,7 @@ import com.example.muvitracker.domain.model.DetailShow
 import com.example.muvitracker.domain.model.base.Show
 import com.example.muvitracker.domain.repo.DetailShowRepository
 import com.example.muvitracker.domain.repo.PrefsShowRepo
+import com.example.muvitracker.domain.repo.SeasonRepository
 import com.example.muvitracker.utils.IoResponse
 import com.example.muvitracker.utils.ioMapper
 import kotlinx.coroutines.async
@@ -30,7 +31,7 @@ import kotlin.coroutines.cancellation.CancellationException
 class DetailShowRepositoryImpl @Inject constructor(
     private val traktApi: TraktApi,
     private val prefsShowRepository: PrefsShowRepo,
-    private val seasonRepo: SeasonRepository,
+    private val seasonRepository: SeasonRepository,
     database: MyDatabase,
 ) : DetailShowRepository {
     private val detailShowDao = database.detailShowDao()
@@ -86,9 +87,9 @@ class DetailShowRepositoryImpl @Inject constructor(
             async {
                 semaphore.withPermit {
                     if (isShowWatchedAll) {
-                        seasonRepo.checkAndSetSingleSeasonWatchedAllEpisodes(showId, season, false)
+                        seasonRepository.checkAndSetSingleSeasonWatchedAllEpisodes(showId, season, false)
                     } else {
-                        seasonRepo.checkAndSetSingleSeasonWatchedAllEpisodes(showId, season, true)
+                        seasonRepository.checkAndSetSingleSeasonWatchedAllEpisodes(showId, season, true)
                     }
                 }
             }
