@@ -1,6 +1,7 @@
 package com.example.muvitracker.data.repositories
 
 import com.dropbox.android.external.store4.StoreRequest
+import com.dropbox.android.external.store4.fresh
 import com.example.muvitracker.data.TraktApi
 import com.example.muvitracker.data.database.MyDatabase
 import com.example.muvitracker.data.database.entities.copyDtoData
@@ -57,6 +58,10 @@ class EpisodeRepositoryImpl @Inject constructor(
                 episodeDao.updateDataOfSingle(updatedEntity)
             }
         }
+    }
+
+    override suspend fun fetchSeasonEpisodes(showId: Int, seasonNr: Int) {
+        seasonEpisodesStore.fresh(ShowRequestKeys(showId, seasonNr))
     }
 
 

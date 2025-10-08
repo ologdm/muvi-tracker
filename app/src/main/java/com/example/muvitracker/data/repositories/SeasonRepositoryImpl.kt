@@ -1,16 +1,15 @@
 package com.example.muvitracker.data.repositories
 
 import com.dropbox.android.external.store4.StoreRequest
-import com.dropbox.android.external.store4.fresh
 import com.example.muvitracker.data.TraktApi
 import com.example.muvitracker.data.database.MyDatabase
 import com.example.muvitracker.data.database.entities.copyDtoData
 import com.example.muvitracker.data.dto.season.SeasonExtenDto
 import com.example.muvitracker.data.dto.season.toEntity
-import com.example.muvitracker.data.utils.ShowRequestKeys
 import com.example.muvitracker.data.utils.mapToIoResponse
 import com.example.muvitracker.data.utils.storeFactory
 import com.example.muvitracker.domain.model.SeasonExtended
+import com.example.muvitracker.domain.repo.EpisodeRepository
 import com.example.muvitracker.domain.repo.SeasonRepository
 import com.example.muvitracker.utils.IoResponse
 import kotlinx.coroutines.flow.Flow
@@ -95,8 +94,7 @@ class SeasonRepositoryImpl @Inject constructor(
         // 1. check and download all season episodes
         if (!areEpisodesAvailableForSeasonOnDB(showId, seasonNr)) {
             // if (ep == 0), download episodes
-            episodeRepository.seasonEpisodesStore
-                .fresh(ShowRequestKeys(showId = showId, seasonNr = seasonNr))
+            episodeRepository.fetchSeasonEpisodes(showId = showId, seasonNr = seasonNr)
         }
         // 2. add show to prefs -> if isWatched  at least one episode
         prefsShowRepository.checkAndAddIfWatchedToPrefs(showId)
@@ -127,9 +125,7 @@ class SeasonRepositoryImpl @Inject constructor(
     ) {
         // 1. check and download all season episodes  ==
         if (!areEpisodesAvailableForSeasonOnDB(showId, seasonNr)) {
-            episodeRepository.seasonEpisodesStore.fresh(
-                ShowRequestKeys(showId = showId, seasonNr = seasonNr)
-            )
+            episodeRepository.fetchSeasonEpisodes(showId = showId, seasonNr = seasonNr)
         }
         // 2. add show to prefs -> if isWatched  at least one episode ==
         prefsShowRepository.checkAndAddIfWatchedToPrefs(showId)

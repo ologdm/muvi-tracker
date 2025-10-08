@@ -3,9 +3,9 @@ package com.example.muvitracker.ui.main.seasons
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.muvitracker.data.repositories.EpisodeRepository
 import com.example.muvitracker.domain.model.EpisodeExtended
 import com.example.muvitracker.domain.model.SeasonExtended
+import com.example.muvitracker.domain.repo.EpisodeRepository
 import com.example.muvitracker.domain.repo.SeasonRepository
 import com.example.muvitracker.utils.IoResponse
 import com.example.muvitracker.utils.StateContainer
