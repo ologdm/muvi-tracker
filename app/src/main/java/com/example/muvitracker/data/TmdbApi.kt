@@ -1,4 +1,4 @@
-package com.example.muvitracker.data.repositories.imagetmdb
+package com.example.muvitracker.data
 
 import com.example.muvitracker.BuildConfig
 import com.example.muvitracker.data.repositories.imagetmdb.dto.EpisodeImageDto

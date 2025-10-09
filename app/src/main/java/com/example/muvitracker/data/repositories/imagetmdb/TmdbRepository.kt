@@ -7,6 +7,7 @@ import com.dropbox.android.external.store4.Store
 import com.dropbox.android.external.store4.StoreBuilder
 import com.dropbox.android.external.store4.StoreRequest
 import com.dropbox.android.external.store4.StoreResponse
+import com.example.muvitracker.data.TmdbApi
 import com.example.muvitracker.data.database.MyDatabase
 import com.example.muvitracker.data.repositories.imagetmdb.database.entities.EpisodeImageEntity
 import com.example.muvitracker.data.repositories.imagetmdb.database.entities.MovieShowImageEntity
