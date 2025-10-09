@@ -5,7 +5,7 @@ import com.example.muvitracker.data.database.entities.PrefsMovieEntity
 import com.example.muvitracker.data.database.entities.toDomain
 import com.example.muvitracker.domain.model.DetailMovie
 import com.example.muvitracker.domain.repo.DetailMovieRepository
-import com.example.muvitracker.domain.repo.PrefsMovieRepo
+import com.example.muvitracker.domain.repo.PrefsMovieRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.firstOrNull
@@ -14,16 +14,16 @@ import javax.inject.Singleton
 
 
 @Singleton
-class PrefsMovieRepository @Inject constructor(
+class PrefsMovieRepositoryImpl @Inject constructor(
     database: MyDatabase,
-    private val detailMovieRepositoryImpl: DetailMovieRepository
-) : PrefsMovieRepo {
+    private val detailMovieRepository: DetailMovieRepository
+) : PrefsMovieRepository {
 
     private val prefsDao = database.prefsMovieDao()
 
 
     override fun getListFLow(): Flow<List<DetailMovie>> {
-        val detailListFLow = detailMovieRepositoryImpl.getDetailListFlow()
+        val detailListFLow = detailMovieRepository.getDetailListFlow()
         val prefsListFLow = prefsDao.readAll()
 
         return detailListFLow.combine(prefsListFLow) { detailList, prefsList ->

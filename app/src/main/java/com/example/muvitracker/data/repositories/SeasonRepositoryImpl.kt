@@ -10,6 +10,7 @@ import com.example.muvitracker.data.utils.mapToIoResponse
 import com.example.muvitracker.data.utils.storeFactory
 import com.example.muvitracker.domain.model.SeasonExtended
 import com.example.muvitracker.domain.repo.EpisodeRepository
+import com.example.muvitracker.domain.repo.PrefsShowRepository
 import com.example.muvitracker.domain.repo.SeasonRepository
 import com.example.muvitracker.utils.IoResponse
 import kotlinx.coroutines.flow.Flow

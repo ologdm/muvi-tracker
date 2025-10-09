@@ -3,16 +3,16 @@ package com.example.muvitracker.data.repositories
 import com.example.muvitracker.data.database.MyDatabase
 import com.example.muvitracker.data.database.entities.PrefsShowEntity
 import com.example.muvitracker.domain.model.DetailShow
-import com.example.muvitracker.domain.repo.PrefsShowRepo
+import com.example.muvitracker.domain.repo.PrefsShowRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class PrefsShowRepository @Inject constructor(
+class PrefsShowRepositoryImpl @Inject constructor(
     database: MyDatabase
-) : PrefsShowRepo {
+) : PrefsShowRepository {
     private val prefsShowDao = database.prefsShowDao()
 
 

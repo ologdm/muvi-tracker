@@ -9,14 +9,14 @@ import com.example.muvitracker.data.database.MyDatabase
 import com.example.muvitracker.data.repositories.DetailMovieRepositoryImpl
 import com.example.muvitracker.data.repositories.DetailShowRepositoryImpl
 import com.example.muvitracker.data.repositories.EpisodeRepositoryImpl
-import com.example.muvitracker.data.repositories.PrefsMovieRepository
-import com.example.muvitracker.data.repositories.PrefsShowRepository
+import com.example.muvitracker.data.repositories.PrefsMovieRepositoryImpl
+import com.example.muvitracker.data.repositories.PrefsShowRepositoryImpl
 import com.example.muvitracker.data.repositories.SeasonRepositoryImpl
 import com.example.muvitracker.domain.repo.DetailMovieRepository
 import com.example.muvitracker.domain.repo.DetailShowRepository
 import com.example.muvitracker.domain.repo.EpisodeRepository
-import com.example.muvitracker.domain.repo.PrefsMovieRepo
-import com.example.muvitracker.domain.repo.PrefsShowRepo
+import com.example.muvitracker.domain.repo.PrefsMovieRepository
+import com.example.muvitracker.domain.repo.PrefsShowRepository
 import com.example.muvitracker.domain.repo.SeasonRepository
 import com.google.gson.Gson
 import dagger.Module
@@ -33,13 +33,14 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 class DaggerModules {
 
-
+    // ok
     @Provides
     @Singleton
     fun providedDetailMovieRepo(impl: DetailMovieRepositoryImpl): DetailMovieRepository {
         return impl
     }
 
+    // ok
     @Provides
     @Singleton
     fun providedDetailShowRepo(impl: DetailShowRepositoryImpl): DetailShowRepository {
@@ -49,13 +50,14 @@ class DaggerModules {
 
     @Provides
     @Singleton
-    fun providePrefsMovieRepo(impl: PrefsMovieRepository): PrefsMovieRepo {
+    fun providePrefsMovieRepo(impl: PrefsMovieRepositoryImpl): PrefsMovieRepository {
         return impl
     }
 
+
     @Provides
     @Singleton
-    fun providePrefsShowRepo(impl: PrefsShowRepository): PrefsShowRepo {
+    fun providePrefsShowRepo(impl: PrefsShowRepositoryImpl): PrefsShowRepository {
         return impl
     }
 

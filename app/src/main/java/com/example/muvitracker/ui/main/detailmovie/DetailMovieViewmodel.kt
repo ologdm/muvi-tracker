@@ -9,7 +9,7 @@ import com.example.muvitracker.domain.model.CastAndCrew
 import com.example.muvitracker.domain.model.DetailMovie
 import com.example.muvitracker.domain.model.base.Movie
 import com.example.muvitracker.domain.repo.DetailMovieRepository
-import com.example.muvitracker.domain.repo.PrefsMovieRepo
+import com.example.muvitracker.domain.repo.PrefsMovieRepository
 import com.example.muvitracker.utils.IoResponse
 import com.example.muvitracker.utils.StateContainer
 import com.example.muvitracker.utils.ioMapper
@@ -24,7 +24,7 @@ import javax.inject.Inject
 @HiltViewModel
 class DetailMovieViewmodel @Inject constructor(
     private val detailMovieRepository: DetailMovieRepository,
-    private val prefsMovieRepository: PrefsMovieRepo,
+    private val prefsMovieRepository: PrefsMovieRepository,
     private val traktApi: TraktApi
 ) : ViewModel() {
 

@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.muvitracker.domain.model.DetailMovie
-import com.example.muvitracker.domain.repo.PrefsMovieRepo
+import com.example.muvitracker.domain.repo.PrefsMovieRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PrefsMovieViewModel @Inject constructor(
-    private val prefsMovieRepository: PrefsMovieRepo
+    private val prefsMovieRepository: PrefsMovieRepository
 ) : ViewModel() {
 
     val prefsList = MutableLiveData<List<DetailMovie>>()

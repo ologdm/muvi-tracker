@@ -3,7 +3,7 @@ package com.example.muvitracker.domain.repo
 import com.example.muvitracker.domain.model.DetailMovie
 import kotlinx.coroutines.flow.Flow
 
-interface PrefsMovieRepo {
+interface PrefsMovieRepository {
 
     //    fun getList(): LiveData<List<DetailMovie>>
     fun getListFLow(): Flow<List<DetailMovie>>
