@@ -1,6 +1,7 @@
 package com.example.muvitracker.ui.main
 
 import android.content.SharedPreferences
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -53,6 +54,12 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        /** Locks the Activity orientation to portrait mode.
+         * NOTE: Starting from SDK 36, this lock will be automatically skipped for screens with -> sw >= 600dp
+         */
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+
         // Inizializzi il binding
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
