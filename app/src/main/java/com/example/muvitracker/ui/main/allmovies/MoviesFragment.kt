@@ -19,6 +19,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.io.IOException
+import java.util.Locale
 import javax.inject.Inject
 
 
@@ -56,6 +57,18 @@ class MoviesFragment : Fragment(R.layout.fragm_base_category) {
         }
 
         collectPagingStates()
+
+
+        // TODOper test:
+        b.toolbar.setOnClickListener {
+            // retrofit, fai chiamata
+            fragmentViewLifecycleScope.launch {
+                val x1 = Locale.getDefault().toLanguageTag()
+                val x2 = Locale.getDefault().language
+                println("x1=$x1")
+            }
+
+        }
     }
 
     private fun ChipGroup.createChipGroup() {
