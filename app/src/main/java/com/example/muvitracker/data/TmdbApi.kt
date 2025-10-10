@@ -10,15 +10,10 @@ import com.example.muvitracker.data.repositories.imagetmdb.dto.TmdbMovieDto
 import com.example.muvitracker.data.repositories.imagetmdb.dto.TmdbPersonDto
 import com.example.muvitracker.data.repositories.imagetmdb.dto.TmdbSeasonDto
 import com.example.muvitracker.data.repositories.imagetmdb.dto.TmdbShowDto
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Path
-import javax.inject.Singleton
+import retrofit2.http.Query
+import java.util.Locale
 
 // esempio: movie=deadpool
 // dto - https://api.themoviedb.org/3/movie/293660?api_key=36b68580564c93f78a52fc28c15c44e5
@@ -27,16 +22,55 @@ import javax.inject.Singleton
 
 interface TmdbApi {
 
+    // TODO: BuildConfig prende valore da local propreties
     companion object {
         const val API_KEY_QUERY = "api_key=${BuildConfig.TMDB_API_KEY}"
+        const val API_KEY_QUERY_MOD = BuildConfig.TMDB_API_KEY
+
+        //        const val LANGUAGE_SYSTEM = "language=${"it-IT"}"
+        var systemLanguage = Locale.getDefault().toLanguageTag() // formato per tmdb
     }
 
+
     // DIRECT CALLS - with custom glide ###########################################################
-    @GET("movie/{movie_id}?$API_KEY_QUERY")
-    suspend fun getMovieDto(@Path("movie_id") movieId: Int): TmdbMovieDto
+//    @GET("movie/{movie_id}?$API_KEY_QUERY")
+//    suspend fun getMovieDto(
+//        @Path("movie_id") movieId: Int
+//    ): TmdbMovieDto
+
+    // TODO: 1.1.3 chiamate per dto classico, test OK
+    @GET("movie/{movie_id}")
+    suspend fun getMovieDto(
+        @Path("movie_id") movieId: Int,
+        @Query("api_key") apiKey: String = API_KEY_QUERY_MOD,
+//        @Query("language") language :String = systemLanguage
+        @Query("language") language: String = "it-IT"
+    ): TmdbMovieDto
+
+    // TODO: note
+    // GPT - trovare lingua di sistema
+//    val locale = Resources.getSystem().configuration.locales.get(0)
+//    val locale = Locale.getDefault()
+    // nome abbrev
+//    val language = locale.language       // es: "it"
+    // nome completo lingua
+//    val languageName = locale.displayLanguage // es: "italiano"
+
+//    val country = locale.country         // es: "IT"
+
+//    language restituisce il codice della lingua (ISO 639-1), es. "en", "it".
+//    country restituisce il codice del paese (ISO 3166-1), es. "US", "IT".
+
+    // tmdb usa ISO 639-1 come il sistema operativo
+
+    // trailer tradotto
+//    https://api.themoviedb.org/3/tv/{series_id}/videos?language=it-IT
+
 
     @GET("tv/{show_id}?$API_KEY_QUERY")
-    suspend fun getShowDto(@Path("show_id") showId: Int): TmdbShowDto
+    suspend fun getShowDto(
+        @Path("show_id") showId: Int
+    ): TmdbShowDto
 
     @GET("tv/{series_id}/season/{season_number}?$API_KEY_QUERY")
     suspend fun getSeasonDto(
@@ -92,22 +126,5 @@ interface TmdbApi {
         @Path("person_id") personId: Int
     ): PersonImageDto
 
-}
-
-
-// DAGGER
-@Module
-@InstallIn(SingletonComponent::class)
-object NetworkModule {
-    @Provides
-    @Singleton
-    fun getApi(): TmdbApi {
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://api.themoviedb.org/3/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-
-        return retrofit.create(TmdbApi::class.java)
-    }
 }
 
