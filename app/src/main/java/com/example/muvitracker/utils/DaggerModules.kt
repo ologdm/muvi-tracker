@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.room.Room
 import com.example.muvitracker.BuildConfig
+import com.example.muvitracker.data.TmdbApi
 import com.example.muvitracker.data.TraktApi
 import com.example.muvitracker.data.database.MyDatabase
 import com.example.muvitracker.data.repositories.DetailMovieRepositoryImpl
@@ -86,32 +87,6 @@ class DaggerModules {
     }
 
 
-    // retrofit
-    @Provides
-    @Singleton
-    fun getApi(): TraktApi {
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://api.trakt.tv/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .callFactory(
-                OkHttpClient.Builder()
-                    .addInterceptor { chain ->
-                        val newRequest = chain.request().newBuilder()
-                            .addHeader(
-                                "trakt-api-key",
-                                BuildConfig.TRAKT_API_KEY
-                            )
-                            .build()
-                        chain.proceed(newRequest)
-                    }
-                    .build()
-            )
-            .build()
-
-        return retrofit.create(TraktApi::class.java)
-    }
-
-
     @Provides
     @Singleton
     fun getMyDatabase(@ApplicationContext context: Context): MyDatabase {
@@ -131,6 +106,45 @@ class DaggerModules {
     @Singleton
     fun provideSharedPreferences(@ApplicationContext context: Context): SharedPreferences {
         return context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+    }
+
+
+    // retrofit
+    @Provides
+    @Singleton
+    fun getTraktApi(): TraktApi {
+        val retrofit = Retrofit.Builder()
+            .baseUrl("https://api.trakt.tv/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .callFactory(
+                OkHttpClient.Builder()
+                    .addInterceptor { chain ->
+                        val newRequest = chain.request().newBuilder()
+                            .addHeader("trakt-api-key", BuildConfig.TRAKT_API_KEY)
+                            .build()
+                        chain.proceed(newRequest)
+                    }
+                    .build()
+            )
+            .build()
+
+        return retrofit.create(TraktApi::class.java)
+    }
+
+
+    // DAGGER TODO: spostato da tmdbApi
+//    @Module
+//    @InstallIn(SingletonComponent::class)
+//    object NetworkModule {
+    @Provides
+    @Singleton
+    fun getTmdbApi(): TmdbApi {
+        val retrofit = Retrofit.Builder()
+            .baseUrl("https://api.themoviedb.org/3/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        return retrofit.create(TmdbApi::class.java)
     }
 
 
