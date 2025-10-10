@@ -1,4 +1,4 @@
-package com.example.muvitracker.data.repositories.imagetmdb
+package com.example.muvitracker.data.database.all_images_tmdb
 
 import com.dropbox.android.external.store4.Fetcher
 import com.dropbox.android.external.store4.FetcherResult
@@ -9,17 +9,17 @@ import com.dropbox.android.external.store4.StoreRequest
 import com.dropbox.android.external.store4.StoreResponse
 import com.example.muvitracker.data.TmdbApi
 import com.example.muvitracker.data.database.MyDatabase
-import com.example.muvitracker.data.repositories.imagetmdb.database.entities.EpisodeImageEntity
-import com.example.muvitracker.data.repositories.imagetmdb.database.entities.MovieShowImageEntity
-import com.example.muvitracker.data.repositories.imagetmdb.database.entities.PersonImageEntity
-import com.example.muvitracker.data.repositories.imagetmdb.database.entities.SeasonImageEntity
-import com.example.muvitracker.data.repositories.imagetmdb.dto.EpisodeImageDto
-import com.example.muvitracker.data.repositories.imagetmdb.dto.MovieShowImagesDto
-import com.example.muvitracker.data.repositories.imagetmdb.dto.PersonImageDto
-import com.example.muvitracker.data.repositories.imagetmdb.dto.SeasonImageDto
-import com.example.muvitracker.data.repositories.imagetmdb.dto.filterNotUhdBackdrops
-import com.example.muvitracker.data.repositories.imagetmdb.dto.filterNotUhdPosters
-import com.example.muvitracker.data.repositories.imagetmdb.dto.toEntity
+import com.example.muvitracker.data.database.all_images_tmdb.database.entities.EpisodeImageEntity
+import com.example.muvitracker.data.database.all_images_tmdb.database.entities.MovieShowImageEntity
+import com.example.muvitracker.data.database.all_images_tmdb.database.entities.PersonImageEntity
+import com.example.muvitracker.data.database.all_images_tmdb.database.entities.SeasonImageEntity
+import com.example.muvitracker.data.dto.tmdb.EpisodeImageDto
+import com.example.muvitracker.data.dto.tmdb.MovieShowImagesDto
+import com.example.muvitracker.data.dto.tmdb.PersonImageDto
+import com.example.muvitracker.data.dto.tmdb.SeasonImageDto
+import com.example.muvitracker.data.dto.tmdb.filterNotUhdBackdrops
+import com.example.muvitracker.data.dto.tmdb.filterNotUhdPosters
+import com.example.muvitracker.data.dto.tmdb.toEntity
 import com.example.muvitracker.data.utils.ShowRequestKeys
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filterNot

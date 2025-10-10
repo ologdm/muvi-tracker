@@ -15,15 +15,15 @@ import com.example.muvitracker.data.database.entities.EpisodeEntity
 import com.example.muvitracker.data.database.entities.PrefsMovieEntity
 import com.example.muvitracker.data.database.entities.PrefsShowEntity
 import com.example.muvitracker.data.database.entities.SeasonEntity
-import com.example.muvitracker.data.repositories.imagetmdb.database.dao.EpisodeImageDao
-import com.example.muvitracker.data.repositories.imagetmdb.database.dao.MovieShowImageDao
-import com.example.muvitracker.data.repositories.imagetmdb.database.dao.PersonImageDao
-import com.example.muvitracker.data.repositories.imagetmdb.database.dao.SeasonImageDao
-import com.example.muvitracker.data.repositories.imagetmdb.database.entities.ConvertersUtilsTmdb
-import com.example.muvitracker.data.repositories.imagetmdb.database.entities.EpisodeImageEntity
-import com.example.muvitracker.data.repositories.imagetmdb.database.entities.MovieShowImageEntity
-import com.example.muvitracker.data.repositories.imagetmdb.database.entities.PersonImageEntity
-import com.example.muvitracker.data.repositories.imagetmdb.database.entities.SeasonImageEntity
+import com.example.muvitracker.data.database.all_images_tmdb.database.dao.EpisodeImageDao
+import com.example.muvitracker.data.database.all_images_tmdb.database.dao.MovieShowImageDao
+import com.example.muvitracker.data.database.all_images_tmdb.database.dao.PersonImageDao
+import com.example.muvitracker.data.database.all_images_tmdb.database.dao.SeasonImageDao
+import com.example.muvitracker.data.database.all_images_tmdb.database.entities.ConvertersUtilsTmdb
+import com.example.muvitracker.data.database.all_images_tmdb.database.entities.EpisodeImageEntity
+import com.example.muvitracker.data.database.all_images_tmdb.database.entities.MovieShowImageEntity
+import com.example.muvitracker.data.database.all_images_tmdb.database.entities.PersonImageEntity
+import com.example.muvitracker.data.database.all_images_tmdb.database.entities.SeasonImageEntity
 
 @Database(
     entities = [
@@ -39,6 +39,7 @@ import com.example.muvitracker.data.repositories.imagetmdb.database.entities.Sea
         SeasonImageEntity::class,
         EpisodeImageEntity::class,
         PersonImageEntity::class,
+        // tmdb new details
     ],
     version = 1
 )

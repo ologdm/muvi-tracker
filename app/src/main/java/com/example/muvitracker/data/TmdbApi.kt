@@ -1,15 +1,15 @@
 package com.example.muvitracker.data
 
 import com.example.muvitracker.BuildConfig
-import com.example.muvitracker.data.repositories.imagetmdb.dto.EpisodeImageDto
-import com.example.muvitracker.data.repositories.imagetmdb.dto.MovieShowImagesDto
-import com.example.muvitracker.data.repositories.imagetmdb.dto.PersonImageDto
-import com.example.muvitracker.data.repositories.imagetmdb.dto.SeasonImageDto
-import com.example.muvitracker.data.repositories.imagetmdb.dto.TmdbEpisodeDto
-import com.example.muvitracker.data.repositories.imagetmdb.dto.TmdbMovieDto
-import com.example.muvitracker.data.repositories.imagetmdb.dto.TmdbPersonDto
-import com.example.muvitracker.data.repositories.imagetmdb.dto.TmdbSeasonDto
-import com.example.muvitracker.data.repositories.imagetmdb.dto.TmdbShowDto
+import com.example.muvitracker.data.dto.tmdb.EpisodeImageDto
+import com.example.muvitracker.data.dto.tmdb.MovieShowImagesDto
+import com.example.muvitracker.data.dto.tmdb.PersonImageDto
+import com.example.muvitracker.data.dto.tmdb.SeasonImageDto
+import com.example.muvitracker.data.dto.tmdb.TmdbEpisodeDto
+import com.example.muvitracker.data.dto.tmdb.TmdbMovieDto
+import com.example.muvitracker.data.dto.tmdb.TmdbPersonDto
+import com.example.muvitracker.data.dto.tmdb.TmdbSeasonDto
+import com.example.muvitracker.data.dto.tmdb.TmdbShowDto
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -96,7 +96,11 @@ interface TmdbApi {
     ): TmdbPersonDto
 
 
-    // REPOSITORY CALLS - all images for item  #####################################################
+
+
+
+    // REPOSITORY CALLS - all images for item  ----------------------------------------------------------
+    // non utilizzate
 
     // movie - https://api.themoviedb.org/3/movie/{movie_id}/images
     @GET("movie/{movie_id}/images?$API_KEY_QUERY")

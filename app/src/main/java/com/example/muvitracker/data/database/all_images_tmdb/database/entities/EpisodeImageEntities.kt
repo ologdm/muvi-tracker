@@ -1,9 +1,9 @@
-package com.example.muvitracker.data.repositories.imagetmdb.database.entities
+package com.example.muvitracker.data.database.all_images_tmdb.database.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
-import com.example.muvitracker.data.repositories.imagetmdb.dto.MediaItem
+import com.example.muvitracker.data.dto.tmdb.MediaItem
 
 @Entity(tableName = "episode_image_entities")
 data class EpisodeImageEntity (

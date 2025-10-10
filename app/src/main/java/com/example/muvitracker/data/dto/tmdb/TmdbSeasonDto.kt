@@ -1,4 +1,4 @@
-package com.example.muvitracker.data.repositories.imagetmdb.dto
+package com.example.muvitracker.data.dto.tmdb
 
 import com.google.gson.annotations.SerializedName
 

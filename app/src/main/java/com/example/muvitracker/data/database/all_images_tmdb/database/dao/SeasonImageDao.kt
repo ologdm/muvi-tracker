@@ -1,10 +1,10 @@
-package com.example.muvitracker.data.repositories.imagetmdb.database.dao
+package com.example.muvitracker.data.database.all_images_tmdb.database.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.muvitracker.data.repositories.imagetmdb.database.entities.SeasonImageEntity
+import com.example.muvitracker.data.database.all_images_tmdb.database.entities.SeasonImageEntity
 import kotlinx.coroutines.flow.Flow
 
 // save - with id, + showId&seasonNr
