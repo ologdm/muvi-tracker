@@ -32,19 +32,23 @@ interface TmdbApi {
     }
 
 
-    // DIRECT CALLS - with custom glide ###########################################################
+    // DIRECT CALLS - WITH CUSTOM GLIDE -----------------------------------------------------
+
+    // TODO: 1.1.3 chiamate per dto classico, test OK
+    // old
 //    @GET("movie/{movie_id}?$API_KEY_QUERY")
 //    suspend fun getMovieDto(
 //        @Path("movie_id") movieId: Int
 //    ): TmdbMovieDto
 
-    // TODO: 1.1.3 chiamate per dto classico, test OK
+    // new
     @GET("movie/{movie_id}")
     suspend fun getMovieDto(
         @Path("movie_id") movieId: Int,
         @Query("api_key") apiKey: String = API_KEY_QUERY_MOD,
 //        @Query("language") language :String = systemLanguage
-        @Query("language") language: String = "it-IT"
+        @Query("language") language: String = "it-IT",
+//        @Query("videos") language: String = "it-IT",
     ): TmdbMovieDto
 
     // TODO: note
@@ -63,7 +67,7 @@ interface TmdbApi {
 
     // tmdb usa ISO 639-1 come il sistema operativo
 
-    // trailer tradotto
+    // trailer tradotto -> comporre link
 //    https://api.themoviedb.org/3/tv/{series_id}/videos?language=it-IT
 
 

@@ -1,6 +1,7 @@
 package com.example.muvitracker.data.repositories
 
 import com.dropbox.android.external.store4.StoreRequest
+import com.example.muvitracker.data.TmdbApi
 import com.example.muvitracker.data.TraktApi
 import com.example.muvitracker.data.database.MyDatabase
 import com.example.muvitracker.data.database.entities.DetailMovieEntity
@@ -15,6 +16,8 @@ import com.example.muvitracker.domain.model.base.Movie
 import com.example.muvitracker.domain.repo.DetailMovieRepository
 import com.example.muvitracker.utils.IoResponse
 import com.example.muvitracker.utils.ioMapper
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import javax.inject.Inject
@@ -22,9 +25,14 @@ import javax.inject.Singleton
 import kotlin.coroutines.cancellation.CancellationException
 
 
+// TODO:
+//
+
 @Singleton
 class DetailMovieRepositoryImpl @Inject constructor(
     private val traktApi: TraktApi,
+    // TODO add tmdb
+    private val tmdbApi: TmdbApi,
     database: MyDatabase
 ) : DetailMovieRepository {
 
@@ -43,6 +51,7 @@ class DetailMovieRepositoryImpl @Inject constructor(
         }
     )
 
+    // TODO: unire flow di trakt, tmdb, e prefs
     private fun combineWithPrefsAndMapToDomainAsFlow(movieId: Int): Flow<DetailMovie?> {
         val prefsListFlow = prefsMoviesDao.readAll()
         return detailDao.readSingleFlow(movieId)
