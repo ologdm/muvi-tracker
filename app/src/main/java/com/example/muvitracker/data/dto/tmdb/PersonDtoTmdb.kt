@@ -2,7 +2,7 @@ package com.example.muvitracker.data.dto.tmdb
 
 import com.google.gson.annotations.SerializedName
 
-data class TmdbPersonDto(
+data class PersonDtoTmdb(
 //    val adult: Boolean,
 //    @SerializedName("also_known_as") val alsoKnownAs: List<String>,
 //    val biography: String,

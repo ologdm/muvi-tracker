@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName
 //    status (no)
 
 
-data class TmdbMovieDto(
+data class DetailMovieDtoTmdb(
 //    val adult: Boolean,
     @SerializedName("backdrop_path") val backdropPath: String?,
 //    @SerializedName("belongs_to_collection") val belongsToCollection: BelongsToCollection?,

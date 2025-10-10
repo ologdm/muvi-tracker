@@ -1,4 +1,4 @@
-package com.example.muvitracker.data.dto.tmdb
+package com.example.muvitracker.data.dto.tmdb.old
 
 import com.example.muvitracker.data.database.all_images_tmdb.database.entities.EpisodeImageEntity
 import com.example.muvitracker.data.database.all_images_tmdb.database.entities.MovieShowImageEntity

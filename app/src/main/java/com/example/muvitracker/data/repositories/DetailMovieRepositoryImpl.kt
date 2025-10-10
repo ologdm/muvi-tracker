@@ -51,6 +51,21 @@ class DetailMovieRepositoryImpl @Inject constructor(
         }
     )
 
+
+//    private val tmdbStore = storeFactory<Int, DetailMovieDto, DetailMovie>(
+//        fetcher = { movieId ->
+//            traktApi.getMovieDetail(movieId)
+//        },
+//        reader = { movieId ->
+//            combineWithPrefsAndMapToDomainAsFlow(movieId)
+//        },
+//        writer = { _, movieDto ->
+//            detailDao.insertSingle(movieDto.toEntity())
+//        }
+//    )
+
+
+
     // TODO: unire flow di trakt, tmdb, e prefs
     private fun combineWithPrefsAndMapToDomainAsFlow(movieId: Int): Flow<DetailMovie?> {
         val prefsListFlow = prefsMoviesDao.readAll()

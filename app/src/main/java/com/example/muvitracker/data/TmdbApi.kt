@@ -1,15 +1,15 @@
 package com.example.muvitracker.data
 
 import com.example.muvitracker.BuildConfig
-import com.example.muvitracker.data.dto.tmdb.EpisodeImageDto
-import com.example.muvitracker.data.dto.tmdb.MovieShowImagesDto
-import com.example.muvitracker.data.dto.tmdb.PersonImageDto
-import com.example.muvitracker.data.dto.tmdb.SeasonImageDto
-import com.example.muvitracker.data.dto.tmdb.TmdbEpisodeDto
-import com.example.muvitracker.data.dto.tmdb.TmdbMovieDto
-import com.example.muvitracker.data.dto.tmdb.TmdbPersonDto
-import com.example.muvitracker.data.dto.tmdb.TmdbSeasonDto
-import com.example.muvitracker.data.dto.tmdb.TmdbShowDto
+import com.example.muvitracker.data.dto.tmdb.old.EpisodeImageDto
+import com.example.muvitracker.data.dto.tmdb.old.MovieShowImagesDto
+import com.example.muvitracker.data.dto.tmdb.old.PersonImageDto
+import com.example.muvitracker.data.dto.tmdb.old.SeasonImageDto
+import com.example.muvitracker.data.dto.tmdb.EpisodeDtoTmdb
+import com.example.muvitracker.data.dto.tmdb.DetailMovieDtoTmdb
+import com.example.muvitracker.data.dto.tmdb.PersonDtoTmdb
+import com.example.muvitracker.data.dto.tmdb.SeasonDtoTmdb
+import com.example.muvitracker.data.dto.tmdb.ShowDtoTmdb
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -49,7 +49,7 @@ interface TmdbApi {
 //        @Query("language") language :String = systemLanguage
         @Query("language") language: String = "it-IT",
 //        @Query("videos") language: String = "it-IT",
-    ): TmdbMovieDto
+    ): DetailMovieDtoTmdb
 
     // TODO: note
     // GPT - trovare lingua di sistema
@@ -74,26 +74,26 @@ interface TmdbApi {
     @GET("tv/{show_id}?$API_KEY_QUERY")
     suspend fun getShowDto(
         @Path("show_id") showId: Int
-    ): TmdbShowDto
+    ): ShowDtoTmdb
 
     @GET("tv/{series_id}/season/{season_number}?$API_KEY_QUERY")
     suspend fun getSeasonDto(
         @Path("series_id") seriesId: Int,
         @Path("season_number") seasonNumber: Int,
-    ): TmdbSeasonDto
+    ): SeasonDtoTmdb
 
     @GET("tv/{series_id}/season/{season_number}/episode/{episode_number}?$API_KEY_QUERY")
     suspend fun getEpisodeDto(
         @Path("series_id") seasonId: Int,
         @Path("season_number") seasonNumber: Int,
         @Path("episode_number") episodeNumber: Int,
-    ): TmdbEpisodeDto
+    ): EpisodeDtoTmdb
 
 
     @GET("person/{person_id}?$API_KEY_QUERY")
     suspend fun getPersonDto(
         @Path("person_id") personId: Int
-    ): TmdbPersonDto
+    ): PersonDtoTmdb
 
 
 

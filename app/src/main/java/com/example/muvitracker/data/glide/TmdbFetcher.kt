@@ -6,8 +6,8 @@ import com.bumptech.glide.load.data.DataFetcher
 import com.bumptech.glide.load.data.HttpUrlFetcher
 import com.bumptech.glide.load.model.GlideUrl
 import com.example.muvitracker.data.TmdbApi
-import com.example.muvitracker.data.dto.tmdb.TmdbMovieDto
-import com.example.muvitracker.data.dto.tmdb.TmdbShowDto
+import com.example.muvitracker.data.dto.tmdb.DetailMovieDtoTmdb
+import com.example.muvitracker.data.dto.tmdb.ShowDtoTmdb
 import kotlinx.coroutines.runBlocking
 import java.io.InputStream
 
@@ -63,7 +63,7 @@ class TmdbFetcher(
 
     private suspend fun fetchMovieImage(
         movieId: Int,
-        imagePathType: (TmdbMovieDto) -> String?,
+        imagePathType: (DetailMovieDtoTmdb) -> String?,
         priority: Priority,
         callback: DataFetcher.DataCallback<in InputStream>,
     ) {
@@ -81,7 +81,7 @@ class TmdbFetcher(
 
     private suspend fun fetchShowImage(
         showId: Int,
-        imagePathType: (TmdbShowDto) -> String?,
+        imagePathType: (ShowDtoTmdb) -> String?,
         priority: Priority,
         callback: DataFetcher.DataCallback<in InputStream>,
     ) {

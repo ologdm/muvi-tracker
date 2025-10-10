@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 // attivi solo i campi utilizzati per ora
 
-data class TmdbSeasonDto(
+data class SeasonDtoTmdb(
 //    val _id: String,
 //    @SerializedName("air_date") val airDate: String,
 //    val episodes: List<EpisodeDto>,

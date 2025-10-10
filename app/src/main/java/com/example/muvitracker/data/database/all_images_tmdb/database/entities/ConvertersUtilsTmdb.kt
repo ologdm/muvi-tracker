@@ -1,7 +1,7 @@
 package com.example.muvitracker.data.database.all_images_tmdb.database.entities
 
 import androidx.room.TypeConverter
-import com.example.muvitracker.data.dto.tmdb.MediaItem
+import com.example.muvitracker.data.dto.tmdb.old.MediaItem
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 

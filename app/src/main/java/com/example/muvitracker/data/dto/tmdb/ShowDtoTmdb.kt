@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 // attivi solo i campi utilizzati per ora
 
-data class TmdbShowDto(
+data class ShowDtoTmdb(
 //    val adult: Boolean,
     @SerializedName("backdrop_path") val backdropPath: String?,
 //    @SerializedName("created_by") val createdBy: List<CreatorDto>,
