@@ -19,11 +19,13 @@ import com.example.muvitracker.data.database.all_images_tmdb.database.dao.Episod
 import com.example.muvitracker.data.database.all_images_tmdb.database.dao.MovieShowImageDao
 import com.example.muvitracker.data.database.all_images_tmdb.database.dao.PersonImageDao
 import com.example.muvitracker.data.database.all_images_tmdb.database.dao.SeasonImageDao
-import com.example.muvitracker.data.database.all_images_tmdb.database.entities.ConvertersUtilsTmdb
+import com.example.muvitracker.data.database.all_images_tmdb.database.entities.ConvertersUtilsImagesTmdb
 import com.example.muvitracker.data.database.all_images_tmdb.database.entities.EpisodeImageEntity
 import com.example.muvitracker.data.database.all_images_tmdb.database.entities.MovieShowImageEntity
 import com.example.muvitracker.data.database.all_images_tmdb.database.entities.PersonImageEntity
 import com.example.muvitracker.data.database.all_images_tmdb.database.entities.SeasonImageEntity
+import com.example.muvitracker.data.database.dao.DetailMovieDaoTmdb
+import com.example.muvitracker.data.database.entities.DetailMovieEntityTmdb
 
 @Database(
     entities = [
@@ -40,10 +42,12 @@ import com.example.muvitracker.data.database.all_images_tmdb.database.entities.S
         EpisodeImageEntity::class,
         PersonImageEntity::class,
         // tmdb new details
+        DetailMovieEntityTmdb::class
     ],
-    version = 1
+    version = 2
 )
-@TypeConverters(ConvertersUtils::class, ConvertersUtilsTmdb::class)
+// TODO potrebbe crashare,
+@TypeConverters(ConvertersUtils::class, ConvertersUtilsImagesTmdb::class)
 abstract class MyDatabase : RoomDatabase() {
 
     abstract fun detailMovieDao(): DetailMovieDao
@@ -55,10 +59,17 @@ abstract class MyDatabase : RoomDatabase() {
     abstract fun seasonsDao(): SeasonDao
     abstract fun episodesDao(): EpisodeDao
 
-
-    // tmdb
+    // tmdb images - not used !!!
     abstract fun movieShowImageDao() : MovieShowImageDao
     abstract fun seasonImageDao() : SeasonImageDao
     abstract fun episodeImageDao() : EpisodeImageDao
     abstract fun personImageDao() : PersonImageDao
+
+    // tmdb base
+    abstract fun detailMovieDaoTmdb() : DetailMovieDaoTmdb
+    // TODO le altre
+//    abstract fun detailShowDaoTmdb() : DetailMovieDaoTmdb
+//    abstract fun detailSeasonDaoTmdb() : DetailMovieDaoTmdb
+//    abstract fun detailEpisodeDaoTmdb() : DetailMovieDaoTmdb
+
 }
