@@ -7,7 +7,6 @@ import com.dropbox.android.external.store4.Store
 import com.dropbox.android.external.store4.StoreBuilder
 import com.dropbox.android.external.store4.StoreRequest
 import com.dropbox.android.external.store4.StoreResponse
-import com.example.muvitracker.data.TmdbApi
 import com.example.muvitracker.data.database.MyDatabase
 import com.example.muvitracker.data.database.all_images_tmdb.database.entities.EpisodeImageEntity
 import com.example.muvitracker.data.database.all_images_tmdb.database.entities.MovieShowImageEntity
@@ -40,8 +39,8 @@ import javax.inject.Singleton
 
 // NON USED
 @Singleton
-class TmdbRepository @Inject constructor(
-    private val tmdbApi: TmdbApi,
+class TmdbAllImagesRepository @Inject constructor(
+    private val tmdbAllImagesApi: TmdbAllImagesApi,
     private val database: MyDatabase
 ) {
 
@@ -62,7 +61,7 @@ class TmdbRepository @Inject constructor(
     private val moviesImageStore: Store<Int, MovieShowImageEntity> = StoreBuilder.from(
         fetcher = Fetcher.ofResult { movieId ->
             try {
-                FetcherResult.Data(tmdbApi.getMovieAllImages(movieId))
+                FetcherResult.Data(tmdbAllImagesApi.getMovieAllImages(movieId))
             } catch (ex: CancellationException) {
                 throw ex
             } catch (ex: Throwable) {
@@ -111,7 +110,7 @@ class TmdbRepository @Inject constructor(
         fetcher = Fetcher.ofResult { showId ->
             // try catch
             try {
-                FetcherResult.Data(tmdbApi.getShowAllImages(showId))
+                FetcherResult.Data(tmdbAllImagesApi.getShowAllImages(showId))
             } catch (ex: CancellationException) {
                 throw ex
             } catch (ex: Throwable) {
@@ -165,7 +164,7 @@ class TmdbRepository @Inject constructor(
         fetcher = Fetcher.ofResult { requestKeys ->
             try {
                 FetcherResult.Data(
-                    tmdbApi.getSeasonAllImages(
+                    tmdbAllImagesApi.getSeasonAllImages(
                         requestKeys.showId,
                         requestKeys.seasonNr
                     )
@@ -222,7 +221,7 @@ class TmdbRepository @Inject constructor(
         fetcher = Fetcher.ofResult { requestKeys ->
             try {
                 FetcherResult.Data(
-                    tmdbApi.getEpisodeAllImages(
+                    tmdbAllImagesApi.getEpisodeAllImages(
                         requestKeys.showId,
                         requestKeys.seasonNr,
                         requestKeys.episodeNr
@@ -284,7 +283,7 @@ class TmdbRepository @Inject constructor(
     private val personImageStore: Store<Int, PersonImageEntity> = StoreBuilder.from(
         fetcher = Fetcher.ofResult { personId ->
             try {
-                FetcherResult.Data(tmdbApi.getPersonAllImages(personId))
+                FetcherResult.Data(tmdbAllImagesApi.getPersonAllImages(personId))
             } catch (ex: CancellationException) {
                 throw ex
             } catch (ex: Throwable) {

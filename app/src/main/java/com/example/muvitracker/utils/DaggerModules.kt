@@ -7,6 +7,7 @@ import com.example.muvitracker.BuildConfig
 import com.example.muvitracker.data.TmdbApi
 import com.example.muvitracker.data.TraktApi
 import com.example.muvitracker.data.database.MyDatabase
+import com.example.muvitracker.data.database.all_images_tmdb.TmdbAllImagesApi
 import com.example.muvitracker.data.repositories.DetailMovieRepositoryImpl
 import com.example.muvitracker.data.repositories.DetailShowRepositoryImpl
 import com.example.muvitracker.data.repositories.EpisodeRepositoryImpl
@@ -77,7 +78,22 @@ class DaggerModules {
     }
 
 
-    // ######################################################################
+    // DATABASING ---------------------------------------------------------------------------------
+
+    @Provides
+    @Singleton
+    fun getMyDatabase(@ApplicationContext context: Context): MyDatabase {
+        return Room.databaseBuilder(
+            context,
+            MyDatabase::class.java,
+            "muvi-tracker-db"
+        )
+            // non crasha quando modifichi lo schema del DB, ma lo cancella, e ne create uno nuovo
+//            .fallbackToDestructiveMigration()
+            // TODO
+//            .addMigrations(MIGRATION_1_2)
+            .build()
+    }
 
     // shared preferences
     @Provides
@@ -89,30 +105,15 @@ class DaggerModules {
 
     @Provides
     @Singleton
-    fun getMyDatabase(@ApplicationContext context: Context): MyDatabase {
-        return Room.databaseBuilder(
-            context,
-            MyDatabase::class.java,
-            "muvi-tracker-db"
-        )
-            // non crasha quando modifichi lo schema del DB, ma lo cancella
-            // e ne create uno nuovo
-            .fallbackToDestructiveMigration()
-            .build()
-    }
-
-
-    @Provides
-    @Singleton
     fun provideSharedPreferences(@ApplicationContext context: Context): SharedPreferences {
         return context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
     }
 
 
-    // retrofit
+    // CHIAMATE INTERNET
     @Provides
     @Singleton
-    fun getTraktApi(): TraktApi {
+    fun provideTraktApi(): TraktApi {
         val retrofit = Retrofit.Builder()
             .baseUrl("https://api.trakt.tv/")
             .addConverterFactory(GsonConverterFactory.create())
@@ -123,28 +124,30 @@ class DaggerModules {
                             .addHeader("trakt-api-key", BuildConfig.TRAKT_API_KEY)
                             .build()
                         chain.proceed(newRequest)
-                    }
-                    .build()
-            )
-            .build()
-
+                    }.build()
+            ).build()
         return retrofit.create(TraktApi::class.java)
     }
 
 
-    // DAGGER TODO: spostato da tmdbApi
-//    @Module
-//    @InstallIn(SingletonComponent::class)
-//    object NetworkModule {
     @Provides
     @Singleton
-    fun getTmdbApi(): TmdbApi {
+    fun provideTmdbApi(): TmdbApi {
         val retrofit = Retrofit.Builder()
             .baseUrl("https://api.themoviedb.org/3/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-
         return retrofit.create(TmdbApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideTmdbAllImagesApi(): TmdbAllImagesApi {
+        val retrofit = Retrofit.Builder()
+            .baseUrl("https://api.themoviedb.org/3/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+        return retrofit.create(TmdbAllImagesApi::class.java)
     }
 
 
