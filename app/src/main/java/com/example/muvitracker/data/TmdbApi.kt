@@ -24,9 +24,7 @@ interface TmdbApi {
 
     // TODO: BuildConfig prende valore da local propreties
     companion object {
-        const val API_KEY_QUERY = "api_key=${BuildConfig.TMDB_API_KEY}"
         const val API_KEY_QUERY_MOD = BuildConfig.TMDB_API_KEY
-
         //        const val LANGUAGE_SYSTEM = "language=${"it-IT"}"
         var systemLanguage = Locale.getDefault().toLanguageTag() // formato per tmdb
     }
@@ -41,14 +39,16 @@ interface TmdbApi {
 //        @Path("movie_id") movieId: Int
 //    ): TmdbMovieDto
 
-    // new
+    // NEW
+    // filtro language
+    // add all videos, con filtro lingua
     @GET("movie/{movie_id}")
     suspend fun getMovieDto(
         @Path("movie_id") movieId: Int,
         @Query("api_key") apiKey: String = API_KEY_QUERY_MOD,
 //        @Query("language") language :String = systemLanguage
         @Query("language") language: String = "it-IT",
-//        @Query("videos") language: String = "it-IT",
+        @Query("append_to_response") appendToResponse: String = "videos",
     ): DetailMovieDtoTmdb
 
     // TODO: note
@@ -71,67 +71,80 @@ interface TmdbApi {
 //    https://api.themoviedb.org/3/tv/{series_id}/videos?language=it-IT
 
 
-    @GET("tv/{show_id}?$API_KEY_QUERY")
+    // TODO
+    @GET("tv/{show_id}")
     suspend fun getShowDto(
-        @Path("show_id") showId: Int
+        @Path("show_id") showId: Int,
+        @Query("api_key") apiKey: String = API_KEY_QUERY_MOD,
     ): ShowDtoTmdb
 
-    @GET("tv/{series_id}/season/{season_number}?$API_KEY_QUERY")
+
+    @GET("tv/{series_id}/season/{season_number}")
     suspend fun getSeasonDto(
         @Path("series_id") seriesId: Int,
         @Path("season_number") seasonNumber: Int,
+        @Query("api_key") apiKey: String = API_KEY_QUERY_MOD,
     ): SeasonDtoTmdb
 
-    @GET("tv/{series_id}/season/{season_number}/episode/{episode_number}?$API_KEY_QUERY")
+
+    @GET("tv/{series_id}/season/{season_number}/episode/{episode_number}")
     suspend fun getEpisodeDto(
         @Path("series_id") seasonId: Int,
         @Path("season_number") seasonNumber: Int,
         @Path("episode_number") episodeNumber: Int,
+        @Query("api_key") apiKey: String = API_KEY_QUERY_MOD,
     ): EpisodeDtoTmdb
 
 
-    @GET("person/{person_id}?$API_KEY_QUERY")
+    @GET("person/{person_id}")
     suspend fun getPersonDto(
-        @Path("person_id") personId: Int
+        @Path("person_id") personId: Int,
+        @Query("api_key") apiKey: String = API_KEY_QUERY_MOD,
     ): PersonDtoTmdb
-
-
-
 
 
     // REPOSITORY CALLS - all images for item  ----------------------------------------------------------
     // non utilizzate
 
     // movie - https://api.themoviedb.org/3/movie/{movie_id}/images
-    @GET("movie/{movie_id}/images?$API_KEY_QUERY")
-    suspend fun getMovieAllImages(@Path("movie_id") movieId: Int): MovieShowImagesDto
+    @GET("movie/{movie_id}/images")
+    suspend fun getMovieAllImages(
+        @Path("movie_id") movieId: Int,
+        @Query("api_key") apiKey: String = API_KEY_QUERY_MOD,
+    ): MovieShowImagesDto
 
 
     // show - https://api.themoviedb.org/3/tv/{series_id}/images
-    @GET("tv/{series_id}/images?$API_KEY_QUERY")
-    suspend fun getShowAllImages(@Path("series_id") seriesId: Int): MovieShowImagesDto
+    @GET("tv/{series_id}/images")
+    suspend fun getShowAllImages(
+        @Path("series_id") seriesId: Int,
+        @Query("api_key") apiKey: String = API_KEY_QUERY_MOD,
+    ): MovieShowImagesDto
 
 
     // season - https://api.themoviedb.org/3/tv/{series_id}/season/{season_number}/images
-    @GET("tv/{series_id}/season/{season_number}/images?$API_KEY_QUERY")
+    @GET("tv/{series_id}/season/{season_number}/images")
     suspend fun getSeasonAllImages(
         @Path("series_id") seriesId: Int,
         @Path("season_number") seasonNumber: Int,
+        @Query("api_key") apiKey: String = API_KEY_QUERY_MOD,
     ): SeasonImageDto
 
     // episode - https://api.themoviedb.org/3/tv/{series_id}/season/{season_number}/episode/{episode_number}/images
-    @GET("tv/{series_id}/season/{season_number}/episode/{episode_number}/images?$API_KEY_QUERY")
+    @GET("tv/{series_id}/season/{season_number}/episode/{episode_number}/images")
     suspend fun getEpisodeAllImages(
         @Path("series_id") seasonId: Int,
         @Path("season_number") seasonNumber: Int,
         @Path("episode_number") episodeNumber: Int,
+        @Query("api_key") apiKey: String = API_KEY_QUERY_MOD,
     ): EpisodeImageDto
 
 
     // people - https://api.themoviedb.org/3/person/{person_id}/images
-    @GET("person/{person_id}/images?$API_KEY_QUERY")
+    @GET("person/{person_id}/images")
     suspend fun getPersonAllImages(
-        @Path("person_id") personId: Int
+        @Path("person_id") personId: Int,
+        @Query("api_key") apiKey: String = API_KEY_QUERY_MOD,
     ): PersonImageDto
 
 }
