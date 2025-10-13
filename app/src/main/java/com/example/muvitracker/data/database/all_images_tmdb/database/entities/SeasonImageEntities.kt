@@ -9,7 +9,7 @@ import com.example.muvitracker.data.dto.tmdb.old.MediaItem
 data class SeasonImageEntity(
     @PrimaryKey val id: Int,
 
-    @TypeConverters(ConvertersUtilsTmdb::class)
+    @TypeConverters(ConvertersUtilsImagesTmdb::class)
     val posters: List<MediaItem>, // ratio 2/3
 
     val tmdbShowId :Int,

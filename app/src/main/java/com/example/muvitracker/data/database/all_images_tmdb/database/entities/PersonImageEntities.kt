@@ -12,6 +12,6 @@ import com.example.muvitracker.data.dto.tmdb.old.MediaItem
 data class PersonImageEntity (
     @PrimaryKey val id: Int,
 
-    @TypeConverters(ConvertersUtilsTmdb::class)
+    @TypeConverters(ConvertersUtilsImagesTmdb::class)
     val profiles: List<MediaItem> // dimensione - 2/3
 )

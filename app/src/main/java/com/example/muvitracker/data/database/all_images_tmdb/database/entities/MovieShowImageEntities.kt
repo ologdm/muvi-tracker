@@ -10,9 +10,9 @@ import com.example.muvitracker.data.dto.tmdb.old.MediaItem
 data class MovieShowImageEntity(
     @PrimaryKey val id: Int,
 
-    @TypeConverters(ConvertersUtilsTmdb::class)
+    @TypeConverters(ConvertersUtilsImagesTmdb::class)
     val backdrops: List<MediaItem>, // 16/9 horizontal
 
-    @TypeConverters(ConvertersUtilsTmdb::class)
+    @TypeConverters(ConvertersUtilsImagesTmdb::class)
     val posters: List<MediaItem>  // 2/3 vertical
 )

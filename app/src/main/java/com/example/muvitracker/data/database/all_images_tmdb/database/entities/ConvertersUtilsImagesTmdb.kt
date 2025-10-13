@@ -5,7 +5,7 @@ import com.example.muvitracker.data.dto.tmdb.old.MediaItem
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
-class ConvertersUtilsTmdb {
+class ConvertersUtilsImagesTmdb {
 
     // MEDIA ITEM
     @TypeConverter

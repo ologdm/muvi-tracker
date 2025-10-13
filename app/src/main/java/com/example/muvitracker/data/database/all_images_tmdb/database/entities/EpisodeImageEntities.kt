@@ -9,7 +9,7 @@ import com.example.muvitracker.data.dto.tmdb.old.MediaItem
 data class EpisodeImageEntity (
     @PrimaryKey val id: Int,
 
-    @TypeConverters(ConvertersUtilsTmdb::class)
+    @TypeConverters(ConvertersUtilsImagesTmdb::class)
     val stills: List<MediaItem>, // dimensione - hor 16/9
 
     val tmdbShowId :Int,
