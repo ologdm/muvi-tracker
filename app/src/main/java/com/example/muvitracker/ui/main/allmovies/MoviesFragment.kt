@@ -8,6 +8,7 @@ import androidx.fragment.app.viewModels
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.muvitracker.R
+import com.example.muvitracker.data.TmdbApi
 import com.example.muvitracker.databinding.FragmBaseCategoryBinding
 import com.example.muvitracker.ui.main.Navigator
 import com.example.muvitracker.ui.main.allmovies.base.MoviePagingAdapter
@@ -19,12 +20,14 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.io.IOException
-import java.util.Locale
 import javax.inject.Inject
 
 
 @AndroidEntryPoint
 class MoviesFragment : Fragment(R.layout.fragm_base_category) {
+
+    @Inject
+    lateinit var tmdbApi: TmdbApi
 
     @Inject
     lateinit var navigator: Navigator
@@ -58,14 +61,24 @@ class MoviesFragment : Fragment(R.layout.fragm_base_category) {
 
         collectPagingStates()
 
-
-        // TODOper test:
+        // test deadpool
+        // https://api.themoviedb.org/3/movie/293660?api_key=36b68580564c93f78a52fc28c15c44e5&language=it-IT&append_to_response=videos
+        // TODO per test:
         b.toolbar.setOnClickListener {
             // retrofit, fai chiamata
             fragmentViewLifecycleScope.launch {
-                val x1 = Locale.getDefault().toLanguageTag()
-                val x2 = Locale.getDefault().language
-                println("x1=$x1")
+//                val x1 = Locale.getDefault().toLanguageTag()
+//                val x2 = Locale.getDefault().language
+//                println("x1=$x1")
+
+                val detailMovieDtoTmdb = tmdbApi.getMovieDto(
+                    movieId = 293660,
+                    language = "it-IT"
+                )
+                println(detailMovieDtoTmdb)
+
+
+
             }
 
         }
