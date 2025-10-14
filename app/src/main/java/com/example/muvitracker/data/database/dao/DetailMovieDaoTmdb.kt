@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Upsert
 import com.example.muvitracker.data.database.entities.DetailMovieEntityTmdb
 import kotlinx.coroutines.flow.Flow
 
@@ -12,6 +13,7 @@ import kotlinx.coroutines.flow.Flow
 interface DetailMovieDaoTmdb {
 
     // replace ==> delete + insert
+//    @Upsert(onConflict = OnConflictStrategy.REPLACE)
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertSingle(entity: DetailMovieEntityTmdb)
 

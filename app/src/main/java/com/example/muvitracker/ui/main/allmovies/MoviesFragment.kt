@@ -8,8 +8,10 @@ import androidx.fragment.app.viewModels
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.muvitracker.R
+import com.example.muvitracker.data.LanguageManager
 import com.example.muvitracker.data.TmdbApi
 import com.example.muvitracker.databinding.FragmBaseCategoryBinding
+import com.example.muvitracker.domain.repo.DetailMovieRepository
 import com.example.muvitracker.ui.main.Navigator
 import com.example.muvitracker.ui.main.allmovies.base.MoviePagingAdapter
 import com.example.muvitracker.utils.viewBinding
@@ -28,6 +30,8 @@ class MoviesFragment : Fragment(R.layout.fragm_base_category) {
 
     @Inject
     lateinit var tmdbApi: TmdbApi
+    @Inject
+    lateinit var detailMoviesRepo : DetailMovieRepository
 
     @Inject
     lateinit var navigator: Navigator
@@ -71,13 +75,25 @@ class MoviesFragment : Fragment(R.layout.fragm_base_category) {
 //                val x2 = Locale.getDefault().language
 //                println("x1=$x1")
 
+                // test movie
                 val detailMovieDtoTmdb = tmdbApi.getMovieDto(
                     movieId = 293660,
-                    language = "it-IT"
+                    language = LanguageManager.getSystemLocaleTag()
                 )
                 println(detailMovieDtoTmdb)
 
+                // tewst show
+                val detailShowDtoTmdb = tmdbApi.getShowDto(
+                    showId = 1399,
+                    language = LanguageManager.getSystemLocaleTag()
+                )
+                println(detailShowDtoTmdb)
 
+
+                // tmdbId - 293660 deadpool
+//                detailMoviesRepo.getTmdbFlowTest(293660)
+                val y = detailMoviesRepo.getTmdbOnce(293660)
+                println(y)
 
             }
 

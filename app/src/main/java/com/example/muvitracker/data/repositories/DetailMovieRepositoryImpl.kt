@@ -1,13 +1,19 @@
 package com.example.muvitracker.data.repositories
 
+import android.util.Log
 import com.dropbox.android.external.store4.StoreRequest
+import com.dropbox.android.external.store4.StoreResponse
+import com.example.muvitracker.data.LanguageManager
 import com.example.muvitracker.data.TmdbApi
 import com.example.muvitracker.data.TraktApi
 import com.example.muvitracker.data.database.MyDatabase
 import com.example.muvitracker.data.database.entities.DetailMovieEntity
+import com.example.muvitracker.data.database.entities.DetailMovieEntityTmdb
 import com.example.muvitracker.data.database.entities.toDomain
 import com.example.muvitracker.data.dto.DetailMovieDto
 import com.example.muvitracker.data.dto.movie.toDomain
+import com.example.muvitracker.data.dto.tmdb.DetailMovieDtoTmdb
+import com.example.muvitracker.data.dto.tmdb.toEntity
 import com.example.muvitracker.data.dto.toEntity
 import com.example.muvitracker.data.utils.mapToIoResponse
 import com.example.muvitracker.data.utils.storeFactory
@@ -16,27 +22,27 @@ import com.example.muvitracker.domain.model.base.Movie
 import com.example.muvitracker.domain.repo.DetailMovieRepository
 import com.example.muvitracker.utils.IoResponse
 import com.example.muvitracker.utils.ioMapper
-import kotlinx.coroutines.async
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.mapNotNull
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.coroutines.cancellation.CancellationException
 
 
 // TODO:
-//
+// combinare i 2 flow trakt+tmdb in uno solo
 
 @Singleton
 class DetailMovieRepositoryImpl @Inject constructor(
     private val traktApi: TraktApi,
-    // TODO add tmdb
-    private val tmdbApi: TmdbApi,
+    private val tmdbApi: TmdbApi, // OK
     database: MyDatabase
 ) : DetailMovieRepository {
 
-    private val detailDao = database.detailMovieDao()
+    private val detailTraktDao = database.detailMovieDao()
+    private val detailTmdbDao = database.detailMovieDaoTmdb()
     private val prefsMoviesDao = database.prefsMovieDao()
 
     private val store = storeFactory<Int, DetailMovieDto, DetailMovie>(
@@ -44,32 +50,61 @@ class DetailMovieRepositoryImpl @Inject constructor(
             traktApi.getMovieDetail(movieId)
         },
         reader = { movieId ->
+            // TODO modificare, unire con prefs solo alla fine
             combineWithPrefsAndMapToDomainAsFlow(movieId)
         },
         writer = { _, movieDto ->
-            detailDao.insertSingle(movieDto.toEntity())
+            detailTraktDao.insertSingle(movieDto.toEntity())
         }
     )
 
 
-//    private val tmdbStore = storeFactory<Int, DetailMovieDto, DetailMovie>(
-//        fetcher = { movieId ->
-//            traktApi.getMovieDetail(movieId)
-//        },
-//        reader = { movieId ->
+    // TODO STORE TMDB
+    private val tmdbStore = storeFactory<Int, DetailMovieDtoTmdb, DetailMovieEntityTmdb>(
+        fetcher = { movieId ->
+            tmdbApi.getMovieDto(movieId) // OK
+        },
+        reader = { movieId ->
 //            combineWithPrefsAndMapToDomainAsFlow(movieId)
-//        },
-//        writer = { _, movieDto ->
-//            detailDao.insertSingle(movieDto.toEntity())
-//        }
-//    )
+            detailTmdbDao.readSingleFlow(movieId)
+        },
+        writer = { _, movieDtoTmdb ->
+            // inserisci, cioe replace il vecchio
+            println()
+            detailTmdbDao.insertSingle(movieDtoTmdb.toEntity())
+        }
+    )
 
+    override
+    fun getTmdbFlowTest(key: Int): Flow<StoreResponse<DetailMovieEntityTmdb>> {
+        val x =
+            tmdbStore.stream(StoreRequest.cached(key = key, refresh = true))
+        return x
+    }
+
+    override fun getTmdbFlowTest2(key: Int): Flow<DetailMovieEntityTmdb> {
+        return tmdbStore.stream(StoreRequest.cached(key = key, refresh = true))
+            .mapNotNull { response ->
+                when (response) {
+                    is StoreResponse.Data -> response.value
+                    else -> null // ignora Loading, Error, ecc.
+                }
+            }
+    }
+
+    override
+    suspend fun getTmdbOnce(key: Int): DetailMovieEntityTmdb? {
+        return tmdbStore.stream(StoreRequest.cached(key = key, refresh = true))
+//        return tmdbStore.stream(StoreRequest.fresh(key))
+            .mapNotNull { it -> it.dataOrNull() }
+            .firstOrNull()
+    }
 
 
     // TODO: unire flow di trakt, tmdb, e prefs
     private fun combineWithPrefsAndMapToDomainAsFlow(movieId: Int): Flow<DetailMovie?> {
         val prefsListFlow = prefsMoviesDao.readAll()
-        return detailDao.readSingleFlow(movieId)
+        return detailTraktDao.readSingleFlow(movieId)
             .combine(prefsListFlow) { movieEntity, prefsList ->
                 val prefsEntity = prefsList.find { entity ->
                     entity.traktId == movieId
@@ -89,7 +124,7 @@ class DetailMovieRepositoryImpl @Inject constructor(
 
     // for prefs view
     override fun getDetailListFlow(): Flow<List<DetailMovieEntity>> {
-        return detailDao.readAllFlow()
+        return detailTraktDao.readAllFlow()
     }
 
 

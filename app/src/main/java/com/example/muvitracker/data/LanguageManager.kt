@@ -20,9 +20,9 @@ object LanguageManager {
             Locale.getDefault()
         }
 //        return locale.toLanguageTag()
-        return "it-IT"
+//        return "it-IT"
 //        return "en-EN"
-//        return "es-ES"
+        return "es-ES"
     }
 
 

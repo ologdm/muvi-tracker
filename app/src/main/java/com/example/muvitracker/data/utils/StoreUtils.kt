@@ -45,7 +45,9 @@ fun <Key : Any, DtoInput : Any, DomainOutput : Any> storeFactory(
                 }
             }
         )
-    ).build()
+    )
+        .disableCache() // livello cache interno di store
+        .build()
 }
 
 
