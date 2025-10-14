@@ -22,14 +22,12 @@ val MIGRATION_1_2 = object : Migration(1, 2) {
                 status TEXT,
                 voteTmdb REAL,
                 trailerLink TEXT,
-                genres TEXT,
+                genres TEXT NOT NULL,
                 backdropPath TEXT,
                 posterPath TEXT
             )
             """.trimIndent()
         )
-        // TODO aggiungi tabella show
-        // TODO modifica nomi tab
     }
 }
 
