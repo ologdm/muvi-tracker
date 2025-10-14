@@ -32,3 +32,25 @@ val MIGRATION_1_2 = object : Migration(1, 2) {
 }
 
 
+val MIGRATION_2_3 = object : Migration(2, 3) {
+    override fun migrate(database: SupportSQLiteDatabase) {
+        database.execSQL(
+            """
+            CREATE TABLE IF NOT EXISTS detail_show_entities_tmdb  (
+                tmdbId INTEGER NOT NULL PRIMARY KEY,
+                translation TEXT NOT NULL,
+                title TEXT,
+                tagline TEXT,
+                overview TEXT,
+                voteTmdb REAL,
+                trailerLink TEXT,
+                genres TEXT NOT NULL,
+                backdropPath TEXT,
+                posterPath TEXT
+            )
+            """.trimIndent()
+        )
+    }
+}
+
+

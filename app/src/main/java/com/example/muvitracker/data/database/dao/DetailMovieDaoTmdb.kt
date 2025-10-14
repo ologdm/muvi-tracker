@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface DetailMovieDaoTmdb {
 
+    // replace ==> delete + insert
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertSingle(entity: DetailMovieEntityTmdb)
 
