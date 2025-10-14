@@ -1,5 +1,6 @@
 package com.example.muvitracker.data.dto.tmdb
 
+import com.example.muvitracker.data.LanguageManager
 import com.example.muvitracker.data.database.entities.DetailMovieEntityTmdb
 import com.google.gson.annotations.SerializedName
 
@@ -13,7 +14,7 @@ data class DetailMovieDtoTmdb(
     @SerializedName("backdrop_path") val backdropPath: String?,
 //    @SerializedName("belongs_to_collection") val belongsToCollection: BelongsToCollection?,
 //    val budget: Int,
-    val genres: List<Genre>, // tradotto
+    val genres: List<GenreDto>?, // tradotto
 //    @SerializedName("homepage") val homepage: String?,
     @SerializedName("id") val id: Int,
 //    val imdbId: String?,
@@ -38,17 +39,19 @@ data class DetailMovieDtoTmdb(
     val videos: VideosResult
 )
 
+val systemLanguage = LanguageManager.getSystemLocaleTag()
+
 fun DetailMovieDtoTmdb.toEntity(): DetailMovieEntityTmdb {
     return DetailMovieEntityTmdb(
         tmdbId = id,
-        translation = "it",
-        title = "title",
+        translation = systemLanguage,
+        title = title,
         tagline = tagline,
         overview = overview,
         status = status,
         voteTmdb = voteAverage,
         trailerLink = videos.youtubeLinkTransformation(), // nullable
-        genres = genres.map { it.name },
+        genres = genres?.map { it.name } ?: emptyList(),
         backdropPath = backdropPath,
         posterPath = posterPath
     )
@@ -57,10 +60,10 @@ fun DetailMovieDtoTmdb.toEntity(): DetailMovieEntityTmdb {
 
 // CLASSI AGGIUNTIVE ---------------------------------------------------------------
 data class VideosResult(
-    val results: List<Video>
+    val results: List<VideoDto>
 )
 
-data class Video(
+data class VideoDto(
     val key: String, // result = "CzCEe0svL7k" -> "https://www.youtube.com/watch?v= + $result"
     val site: String, // 95% youtube
     val size: String, // 1080
@@ -68,7 +71,7 @@ data class Video(
     val official: Boolean
 )
 
-data class Genre(
+data class GenreDto(
     val id: Int,
     val name: String
 )
