@@ -56,6 +56,7 @@ interface TmdbApi {
     suspend fun getSeasonDto(
         @Path("series_id") seriesId: Int,
         @Path("season_number") seasonNumber: Int,
+        @Query("language") language: String = systemLanguage,
         @Query("api_key") apiKey: String = API_KEY_QUERY_MOD,
     ): SeasonDtoTmdb
 
