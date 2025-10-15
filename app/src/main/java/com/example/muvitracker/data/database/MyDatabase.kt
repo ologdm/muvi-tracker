@@ -24,10 +24,6 @@ import com.example.muvitracker.data.database.all_images_tmdb.database.entities.E
 import com.example.muvitracker.data.database.all_images_tmdb.database.entities.MovieShowImageEntity
 import com.example.muvitracker.data.database.all_images_tmdb.database.entities.PersonImageEntity
 import com.example.muvitracker.data.database.all_images_tmdb.database.entities.SeasonImageEntity
-import com.example.muvitracker.data.database.dao.DetailMovieDaoTmdb
-import com.example.muvitracker.data.database.dao.DetailShowDaoTmdb
-import com.example.muvitracker.data.database.entities.DetailMovieEntityTmdb
-import com.example.muvitracker.data.database.entities.DetailShowEntityTmdb
 
 @Database(
     entities = [
@@ -43,11 +39,8 @@ import com.example.muvitracker.data.database.entities.DetailShowEntityTmdb
         SeasonImageEntity::class,
         EpisodeImageEntity::class,
         PersonImageEntity::class,
-        // tmdb new details
-        DetailMovieEntityTmdb::class,
-        DetailShowEntityTmdb::class
     ],
-    version = 3
+    version = 1
 )
 @TypeConverters(ConvertersUtils::class, ConvertersUtilsImagesTmdb::class)
 abstract class MyDatabase : RoomDatabase() {
@@ -67,11 +60,6 @@ abstract class MyDatabase : RoomDatabase() {
     abstract fun episodeImageDao() : EpisodeImageDao
     abstract fun personImageDao() : PersonImageDao
 
-    // tmdb base
-    abstract fun detailMovieDaoTmdb() : DetailMovieDaoTmdb
-    // TODO le altre
-    abstract fun detailShowDaoTmdb() : DetailShowDaoTmdb
-//    abstract fun detailSeasonDaoTmdb() : DetailMovieDaoTmdb
-//    abstract fun detailEpisodeDaoTmdb() : DetailMovieDaoTmdb
+    // tmdb - non ho entities nuove
 
 }

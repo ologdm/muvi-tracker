@@ -17,9 +17,5 @@ interface DetailMovieRepository {
 
     suspend fun getRelatedMovies(movieId: Int): IoResponse<List<Movie>>
 
-    // TODO tesrt fun
-    fun getTmdbFlowTest(key: Int): Flow<StoreResponse<DetailMovieEntityTmdb>>
-    fun getTmdbFlowTest2(key: Int): Flow<DetailMovieEntityTmdb>
-    suspend fun getTmdbOnce(key: Int): DetailMovieEntityTmdb?
 
 }

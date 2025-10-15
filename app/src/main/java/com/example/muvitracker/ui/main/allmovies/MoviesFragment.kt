@@ -75,30 +75,23 @@ class MoviesFragment : Fragment(R.layout.fragm_base_category) {
 //                val x2 = Locale.getDefault().language
 //                println("x1=$x1")
 
-                // test movie
+                // test movie - 293660 deadpool
                 val detailMovieDtoTmdb = tmdbApi.getMovieDto(
                     movieId = 293660,
                     language = LanguageManager.getSystemLocaleTag()
                 )
                 println(detailMovieDtoTmdb)
 
-                // tewst show
+                // test show - 1399 games of thrones
                 val detailShowDtoTmdb = tmdbApi.getShowDto(
                     showId = 1399,
                     language = LanguageManager.getSystemLocaleTag()
                 )
                 println(detailShowDtoTmdb)
-
-
-                // tmdbId - 293660 deadpool
-//                detailMoviesRepo.getTmdbFlowTest(293660)
-                val y = detailMoviesRepo.getTmdbOnce(293660)
-                println(y)
-
             }
-
         }
     }
+
 
     private fun ChipGroup.createChipGroup() {
         // 1. creo i chip in base alla lista Enum

@@ -37,12 +37,11 @@ import kotlin.coroutines.cancellation.CancellationException
 @Singleton
 class DetailMovieRepositoryImpl @Inject constructor(
     private val traktApi: TraktApi,
-    private val tmdbApi: TmdbApi, // OK
+    private val tmdbApi: TmdbApi,
     database: MyDatabase
 ) : DetailMovieRepository {
 
     private val detailTraktDao = database.detailMovieDao()
-    private val detailTmdbDao = database.detailMovieDaoTmdb()
     private val prefsMoviesDao = database.prefsMovieDao()
 
     private val store = storeFactory<Int, DetailMovieDto, DetailMovie>(
@@ -57,48 +56,6 @@ class DetailMovieRepositoryImpl @Inject constructor(
             detailTraktDao.insertSingle(movieDto.toEntity())
         }
     )
-
-
-    // TODO STORE TMDB
-    private val tmdbStore = storeFactory<Int, DetailMovieDtoTmdb, DetailMovieEntityTmdb>(
-        fetcher = { movieId ->
-            tmdbApi.getMovieDto(movieId) // OK
-        },
-        reader = { movieId ->
-//            combineWithPrefsAndMapToDomainAsFlow(movieId)
-            detailTmdbDao.readSingleFlow(movieId)
-        },
-        writer = { _, movieDtoTmdb ->
-            // inserisci, cioe replace il vecchio
-            println()
-            detailTmdbDao.insertSingle(movieDtoTmdb.toEntity())
-        }
-    )
-
-    override
-    fun getTmdbFlowTest(key: Int): Flow<StoreResponse<DetailMovieEntityTmdb>> {
-        val x =
-            tmdbStore.stream(StoreRequest.cached(key = key, refresh = true))
-        return x
-    }
-
-    override fun getTmdbFlowTest2(key: Int): Flow<DetailMovieEntityTmdb> {
-        return tmdbStore.stream(StoreRequest.cached(key = key, refresh = true))
-            .mapNotNull { response ->
-                when (response) {
-                    is StoreResponse.Data -> response.value
-                    else -> null // ignora Loading, Error, ecc.
-                }
-            }
-    }
-
-    override
-    suspend fun getTmdbOnce(key: Int): DetailMovieEntityTmdb? {
-        return tmdbStore.stream(StoreRequest.cached(key = key, refresh = true))
-//        return tmdbStore.stream(StoreRequest.fresh(key))
-            .mapNotNull { it -> it.dataOrNull() }
-            .firstOrNull()
-    }
 
 
     // TODO: unire flow di trakt, tmdb, e prefs
