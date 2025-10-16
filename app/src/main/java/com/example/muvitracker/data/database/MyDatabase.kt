@@ -40,11 +40,13 @@ import com.example.muvitracker.data.database.all_images_tmdb.database.entities.S
         EpisodeImageEntity::class,
         PersonImageEntity::class,
     ],
-    version = 1
+    version = 2
 )
-@TypeConverters(ConvertersUtils::class, ConvertersUtilsImagesTmdb::class)
+@TypeConverters(
+    ConvertersUtils::class,
+    ConvertersUtilsImagesTmdb::class // not used !!!
+)
 abstract class MyDatabase : RoomDatabase() {
-
     abstract fun detailMovieDao(): DetailMovieDao
     abstract fun detailShowDao(): DetailShowDao
 
@@ -54,11 +56,12 @@ abstract class MyDatabase : RoomDatabase() {
     abstract fun seasonsDao(): SeasonDao
     abstract fun episodesDao(): EpisodeDao
 
+
     // tmdb images - not used !!!
-    abstract fun movieShowImageDao() : MovieShowImageDao
-    abstract fun seasonImageDao() : SeasonImageDao
-    abstract fun episodeImageDao() : EpisodeImageDao
-    abstract fun personImageDao() : PersonImageDao
+    abstract fun movieShowImageDao(): MovieShowImageDao
+    abstract fun seasonImageDao(): SeasonImageDao
+    abstract fun episodeImageDao(): EpisodeImageDao
+    abstract fun personImageDao(): PersonImageDao
 
     // tmdb - non ho entities nuove
 

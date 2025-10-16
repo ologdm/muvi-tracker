@@ -8,9 +8,9 @@ import com.example.muvitracker.data.TmdbApi
 import com.example.muvitracker.data.TraktApi
 import com.example.muvitracker.data.database.MyDatabase
 import com.example.muvitracker.data.database.entities.DetailMovieEntity
-import com.example.muvitracker.data.database.entities.DetailMovieEntityTmdb
 import com.example.muvitracker.data.database.entities.toDomain
 import com.example.muvitracker.data.dto.DetailMovieDto
+import com.example.muvitracker.data.dto.mergeMoviesDtoToEntity
 import com.example.muvitracker.data.dto.movie.toDomain
 import com.example.muvitracker.data.dto.tmdb.DetailMovieDtoTmdb
 import com.example.muvitracker.data.dto.tmdb.toEntity
@@ -44,16 +44,31 @@ class DetailMovieRepositoryImpl @Inject constructor(
     private val detailTraktDao = database.detailMovieDao()
     private val prefsMoviesDao = database.prefsMovieDao()
 
-    private val store = storeFactory<Int, DetailMovieDto, DetailMovie>(
+    // old
+//    private val store = storeFactory<Int, DetailMovieDto, DetailMovie>(
+//        fetcher = { movieId ->
+//            traktApi.getMovieDetail(movieId)
+//        },
+//        reader = { movieId ->
+//            combineWithPrefsAndMapToDomainAsFlow(movieId)
+//        },
+//        writer = { _, movieDto ->
+//            detailTraktDao.insertSingle(movieDto.toEntity())
+//        }
+//    )
+
+    // TODO new - input entity, output domain
+    private val store = storeFactory<Int, DetailMovieEntity, DetailMovie>(
         fetcher = { movieId ->
-            traktApi.getMovieDetail(movieId)
+            val traktDto = traktApi.getMovieDetail(movieId)
+            val tmdbDto= tmdbApi.getMovieDto(traktDto.ids.tmdb)
+            mergeMoviesDtoToEntity(traktDto,tmdbDto)
         },
         reader = { movieId ->
-            // TODO modificare, unire con prefs solo alla fine
             combineWithPrefsAndMapToDomainAsFlow(movieId)
         },
-        writer = { _, movieDto ->
-            detailTraktDao.insertSingle(movieDto.toEntity())
+        writer = { _, movieEntity ->
+            detailTraktDao.insertSingle(movieEntity)
         }
     )
 

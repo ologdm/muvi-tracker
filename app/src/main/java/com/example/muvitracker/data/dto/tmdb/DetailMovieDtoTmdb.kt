@@ -1,61 +1,43 @@
 package com.example.muvitracker.data.dto.tmdb
 
-import com.example.muvitracker.data.LanguageManager
-import com.example.muvitracker.data.database.entities.DetailMovieEntityTmdb
 import com.google.gson.annotations.SerializedName
 
-// TODO 1.1.3 traduzioni
-//    overview, tagline, title, voteAverage tmdb
-//    status (no)
 
 
+// tmdb dto - deadpool - 293660 - it
 data class DetailMovieDtoTmdb(
 //    val adult: Boolean,
     @SerializedName("backdrop_path") val backdropPath: String?,
-//    @SerializedName("belongs_to_collection") val belongsToCollection: BelongsToCollection?,
+//    @SerializedName("belongs_to_collection")
+//    val belongsToCollection: BelongsToCollection?,
 //    val budget: Int,
-    val genres: List<GenreDto>?, // tradotto
-//    @SerializedName("homepage") val homepage: String?,
-    @SerializedName("id") val id: Int,
+    val genres: List<GenreDto>?, // X
+    @SerializedName("homepage") val homepage: String?, // X
+    @SerializedName("id") val id: Int, // tmdb id
 //    val imdbId: String?,
-//    @SerializedName("origin_country") val originCountry: List<String>, // ["US"]
-//    @SerializedName("original_language") val originalLanguage: String?, // "en"
-//    @SerializedName("original_title") val originalTitle: String,
-    val overview: String?,
+//    @SerializedName("origin_country")
+    @SerializedName("origin_country")val originCountry: List<String>?, // US,GB
+    @SerializedName("original_language") val originalLanguage: String?, // "en"
+    @SerializedName("original_title") val originalTitle: String?,
+    val overview: String?, // X
 //    val popularity: Double, // 13.3693
     @SerializedName("poster_path") val posterPath: String?,
 //    @SerializedName("production_companies") val productionCompanies: List<ProductionCompany>,
 //    @SerializedName("production_countries") val productionCountries: List<ProductionCountry>,
-//    @SerializedName("release_date") val releaseDate: String,
+    @SerializedName("release_date") val releaseDate: String?, // 2016-02-09
 //    val revenue: Long,
-//    val runtime: Int?,
+    val runtime: Int?, // 108
 //    @SerializedName("spoken_languages") val spokenLanguages: List<SpokenLanguage>,
-    val status: String, // "Released"
-    val tagline: String?,
-    val title: String,
+    val status: String?, // "Released"
+    val tagline: String?, // X
+    val title: String?, // X
 //    val video: Boolean,
-    @SerializedName("vote_average") val voteAverage: Double,
-//    @SerializedName("vote_count") val voteCount: Int
-    val videos: VideosResult
+    @SerializedName("vote_average") val voteAverage: Double?, // 7.6 tmdb
+//    @SerializedName("vote_count")
+//    val voteCount: Int
+    val videos: VideosResult? // lista video - trailer
 )
 
-val systemLanguage = LanguageManager.getSystemLocaleTag()
-
-fun DetailMovieDtoTmdb.toEntity(): DetailMovieEntityTmdb {
-    return DetailMovieEntityTmdb(
-        tmdbId = id,
-        translation = systemLanguage,
-        title = title,
-        tagline = tagline,
-        overview = overview,
-        status = status,
-        voteTmdb = voteAverage,
-        trailerLink = videos.youtubeLinkTransformation(), // nullable
-        genres = genres?.map { it.name } ?: emptyList(),
-        backdropPath = backdropPath,
-        posterPath = posterPath
-    )
-}
 
 
 // CLASSI AGGIUNTIVE ---------------------------------------------------------------
@@ -74,6 +56,10 @@ data class VideoDto(
 data class GenreDto(
     val id: Int,
     val name: String
+)
+
+data class SpokenLanguageDto (
+    @SerializedName("english_name") val englishName: Int
 )
 
 

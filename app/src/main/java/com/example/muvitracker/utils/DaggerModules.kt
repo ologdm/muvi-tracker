@@ -6,6 +6,7 @@ import androidx.room.Room
 import com.example.muvitracker.BuildConfig
 import com.example.muvitracker.data.TmdbApi
 import com.example.muvitracker.data.TraktApi
+import com.example.muvitracker.data.database.MIGRATION_1_2
 import com.example.muvitracker.data.database.MyDatabase
 import com.example.muvitracker.data.database.all_images_tmdb.TmdbAllImagesApi
 import com.example.muvitracker.data.repositories.DetailMovieRepositoryImpl
@@ -89,7 +90,7 @@ class DaggerModules {
         )
             // calcella db e ne create uno nuovo - non crasha quando modifichi lo schema del DB
 //            .fallbackToDestructiveMigration()
-//            .addMigrations(MIGRATION_1_2) // add movie tmdb elements
+            .addMigrations(MIGRATION_1_2) // add movie tmdb elements
 //            .addMigrations(MIGRATION_2_3) // add show tmdb elements
 //            .addMigrations(MIGRATION_3_4) // add season tmdb elements
             .build()
