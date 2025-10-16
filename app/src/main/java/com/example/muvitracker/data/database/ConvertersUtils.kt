@@ -14,7 +14,6 @@ class ConvertersUtils {
         return Gson().toJson(ids)
     }
 
-
     @TypeConverter
     fun toIds(idsString: String): Ids {
         val objectType = object : TypeToken<Ids>() {}.type
@@ -22,15 +21,14 @@ class ConvertersUtils {
     }
 
 
-    // GENRES LIST
+    // LISTE STRINGHE
     @TypeConverter
-    fun fromGenreslist(list: List<String>): String {
+    fun fromStringList(list: List<String>): String {
         return Gson().toJson(list)
     }
 
-
     @TypeConverter
-    fun toGenreslist(genresString: String): List<String> {
+    fun toStringList(genresString: String): List<String> {
         val objectType = object : TypeToken<List<String>>() {}.type
         return Gson().fromJson(genresString, objectType)
     }

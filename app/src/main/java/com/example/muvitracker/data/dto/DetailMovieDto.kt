@@ -4,13 +4,12 @@ import com.example.muvitracker.data.LanguageManager
 import com.example.muvitracker.data.database.entities.DetailMovieEntity
 import com.example.muvitracker.data.dto.base.Ids
 import com.example.muvitracker.data.dto.tmdb.DetailMovieDtoTmdb
-import com.example.muvitracker.data.dto.tmdb.VideosResult
 import com.example.muvitracker.data.dto.tmdb.youtubeLinkTransformation
 import com.example.muvitracker.utils.firstDecimalApproxToString
 import com.example.muvitracker.utils.formatToSqliteCompatibleDate
 
 
-// used - base,rating
+// only base + rating
 
 // traktDto - es deadpool - 190430
 data class DetailMovieDto(
@@ -18,6 +17,7 @@ data class DetailMovieDto(
 //    val title: String?, // Deadpool
     val year: Int?,  // 2016
     val ids: Ids,
+
     // extended
 //    val tagline: String?, // Feel the love
 //    val overview: String?, // The origin story of former Special Forces...
@@ -41,7 +41,7 @@ data class DetailMovieDto(
 )
 
 
-// TODO ok
+// Unione 2 dto utilizzate in un entity
 fun mergeMoviesDtoToEntity(
     trakt: DetailMovieDto, tmdb: DetailMovieDtoTmdb
 ): DetailMovieEntity {
@@ -56,7 +56,7 @@ fun mergeMoviesDtoToEntity(
         overview = tmdb.overview,
         status = tmdb.status,
         releaseDate = formatToSqliteCompatibleDate(tmdb.releaseDate),
-        country = tmdb.originCountry?.joinToString(", "){ it.uppercase() },
+        country = tmdb.originCountry ?: emptyList(),
         runtime = tmdb.runtime,
         originalLanguage = tmdb.originalLanguage,
         originalTitle = tmdb.originalTitle,

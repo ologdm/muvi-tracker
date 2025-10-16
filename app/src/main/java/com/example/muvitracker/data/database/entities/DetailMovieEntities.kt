@@ -7,63 +7,44 @@ import com.example.muvitracker.data.database.ConvertersUtils
 import com.example.muvitracker.data.dto.base.Ids
 import com.example.muvitracker.domain.model.DetailMovie
 import com.google.gson.annotations.SerializedName
+import kotlin.collections.joinToString
 
-// old
-//@Entity(tableName = "detail_movie_entities")
-//data class DetailMovieEntity(
-//    @PrimaryKey val traktId: Int,
-//    val title: String,
-//    val year: Int,
-//    @TypeConverters(ConvertersUtils::class) val ids: Ids,
-//
-//    val tagline: String, // new
-//    val overview: String,
-//    val released: String?,
-//    val runtime: Int,
-//    val country: String,
-//    val trailer: String, // new
-//    val homepage: String, // new
-//    val status: String, // new
-//    val rating: String,
-//    val votes: Int, // new
-//    val language: String, // new
-//    @TypeConverters(ConvertersUtils::class) val genres: List<String>,
-//)
+// all elements - null
+// lists notnull
+// currentTranslation - notnull
 
-
-// TODO new, READY
-@Entity(tableName = "detail_movie") // old detail_movie_entities
+@Entity(tableName = "detail_movie")
 data class DetailMovieEntity(
     // trakt base
     @PrimaryKey val traktId: Int,
     val year: Int?, // 2016
     @TypeConverters(ConvertersUtils::class) val ids: Ids,
+
     // tmdb
     val title: String?,
     val tagline: String?,
     val overview: String?,
     val status: String?, // released
     val releaseDate: String?, // 2016-02-12
-    val country: String?,
-    val runtime: Int?,
-    val originalLanguage: String?, // "en" // modif: language->originalLanguage
-    val originalTitle: String?, // new
-    @TypeConverters(ConvertersUtils::class) val genres: List<String>, // not null !!
+    @TypeConverters(ConvertersUtils::class) val country: List<String>, // not null
+    val runtime: Int?, // 106
+    val originalLanguage: String?, // en
+    val originalTitle: String?, // Deadpool
+    @TypeConverters(ConvertersUtils::class) val genres: List<String>, // azione, storico - not null
     val youtubeTrailer: String?, // https://youtube.com/watch?v=9vN6DHB6bJc
     val homepage: String?, // http://www.20thcenturystudios.com/movies/deadpool
-    // other
-    val backdropPath: String?, // new
-    val posterPath: String?, // new
+    // path link immagini
+    val backdropPath: String?,  // /en971MEXui9diirXlogOrPKmsEn.jpg
+    val posterPath: String?,    // /zoSiiUUzg2ny6uzuil7PbP13z53.jpg
 
-    // rating
-    val traktRating: String?, // modif: rating->traktRating
-    val tmdbRating: String?, // new
+    // ratings
+    val traktRating: String?, // 8.3
+    val tmdbRating: String?, // 7.9
+    // TODO  other ratings - Imdb, Metacritic, Rotten Tomatoes
 
     // da sistema
     val currentTranslation: String, // not null, new
 
-
-    // TODO  other ratings - Imdb, Metacritic, Rotten Tomatoes
     )
 
 
@@ -77,7 +58,7 @@ fun DetailMovieEntity.toDomain(prefsMovieEntity: PrefsMovieEntity?): DetailMovie
         overview = overview?: "",
         released = releaseDate,
         runtime = runtime ?: 0,
-        country = country?: "",
+        country = country.joinToString(", "),
         trailer = youtubeTrailer?: "",
         homepage = homepage?: "" ,
         status = status ?: "",

@@ -2,7 +2,7 @@ package com.example.muvitracker.data.dto.tmdb
 
 import com.google.gson.annotations.SerializedName
 
-
+// tutti elementi nullable
 
 // tmdb dto - deadpool - 293660 - it
 data class DetailMovieDtoTmdb(
@@ -11,15 +11,17 @@ data class DetailMovieDtoTmdb(
 //    @SerializedName("belongs_to_collection")
 //    val belongsToCollection: BelongsToCollection?,
 //    val budget: Int,
-    val genres: List<GenreDto>?, // X
-    @SerializedName("homepage") val homepage: String?, // X
+    val genres: List<GenreDto>?,
+//    val homepage: String?,
+    @SerializedName("homepage") val homepage: String?, // http://www.20thcenturystudios.com/movies/deadpool
+//    val id: Int,
     @SerializedName("id") val id: Int, // tmdb id
 //    val imdbId: String?,
 //    @SerializedName("origin_country")
-    @SerializedName("origin_country")val originCountry: List<String>?, // US,GB
-    @SerializedName("original_language") val originalLanguage: String?, // "en"
+    @SerializedName("origin_country")val originCountry: List<String>?, // US,GB - iso_3166_1
+    @SerializedName("original_language") val originalLanguage: String?, // "en" - iso_639_1
     @SerializedName("original_title") val originalTitle: String?,
-    val overview: String?, // X
+    val overview: String?, // The origin story of former Special Forces ...
 //    val popularity: Double, // 13.3693
     @SerializedName("poster_path") val posterPath: String?,
 //    @SerializedName("production_companies") val productionCompanies: List<ProductionCompany>,
@@ -55,15 +57,10 @@ data class VideoDto(
 
 data class GenreDto(
     val id: Int,
-    val name: String
-)
-
-data class SpokenLanguageDto (
-    @SerializedName("english_name") val englishName: Int
+    val name: String  // action
 )
 
 
-// deve essere nullable, per verificare se ho risultato da tmdb
 fun VideosResult.youtubeLinkTransformation(): String? {
     // trova officiale
     val video = results.firstOrNull { video ->
@@ -75,12 +72,11 @@ fun VideosResult.youtubeLinkTransformation(): String? {
             video.site == "YouTube" && video.type == "Trailer"
         }
     }
-
     return video?.key?.let { "https://www.youtube.com/watch?v=${it}" }
 }
 
 
-// struttura JSON video
+// struttura JSON video ---------------------------------------------------------
 /*
 "results": [
     {
@@ -95,6 +91,10 @@ fun VideosResult.youtubeLinkTransformation(): String? {
         "official": true,
         "id": "5692c4f692514144530006c2"
     },
+    {
+        ...
+        ...
+    }
  */
 
 
