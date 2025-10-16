@@ -1,6 +1,6 @@
 package com.example.muvitracker.data.dto.movie
 
-import com.example.muvitracker.data.dto.base.Ids
+import com.example.muvitracker.data.dto.utilsdto.Ids
 import com.example.muvitracker.domain.model.base.Movie
 
 // used for popular

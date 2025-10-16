@@ -8,7 +8,7 @@ import android.widget.ImageButton
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.example.muvitracker.R
-import com.example.muvitracker.data.dto.base.Ids
+import com.example.muvitracker.data.dto.utilsdto.Ids
 import com.example.muvitracker.databinding.VhPrefsMovieBinding
 import com.example.muvitracker.domain.model.DetailMovie
 

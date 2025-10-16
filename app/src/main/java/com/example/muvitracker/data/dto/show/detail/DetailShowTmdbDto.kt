@@ -1,7 +1,10 @@
-package com.example.muvitracker.data.dto.tmdb
+package com.example.muvitracker.data.dto.show.detail
 
 import com.example.muvitracker.data.LanguageManager
 import com.example.muvitracker.data.database.entities.DetailShowEntityTmdb
+import com.example.muvitracker.data.dto.movie.detail.GenreDto
+import com.example.muvitracker.data.dto.movie.detail.VideosResult
+import com.example.muvitracker.data.dto.movie.detail.youtubeLinkTransformation
 import com.google.gson.annotations.SerializedName
 
 // attivi solo i campi utilizzati per ora

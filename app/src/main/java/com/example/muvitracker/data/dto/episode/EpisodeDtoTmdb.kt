@@ -1,9 +1,6 @@
-package com.example.muvitracker.data.dto.tmdb
+package com.example.muvitracker.data.dto.episode
 
 import com.google.gson.annotations.SerializedName
-
-// attivi solo i campi utilizzati per ora
-
 
 data class EpisodeDtoTmdb(
 //    @SerializedName("air_date") val airDate: String,
@@ -20,6 +17,3 @@ data class EpisodeDtoTmdb(
 //    @SerializedName("vote_average") val voteAverage: Double,
 //    @SerializedName("vote_count") val voteCount: Int,
 )
-
-
-

@@ -1,4 +1,4 @@
-package com.example.muvitracker.data.dto.base
+package com.example.muvitracker.data.dto.utilsdto
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

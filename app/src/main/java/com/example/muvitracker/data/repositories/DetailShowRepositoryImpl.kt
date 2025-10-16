@@ -3,9 +3,9 @@ package com.example.muvitracker.data.repositories
 import com.dropbox.android.external.store4.StoreRequest
 import com.example.muvitracker.data.TraktApi
 import com.example.muvitracker.data.database.MyDatabase
-import com.example.muvitracker.data.dto.DetailShowDto
+import com.example.muvitracker.data.dto.show.detail.DetailShowDto
 import com.example.muvitracker.data.dto.show.toDomain
-import com.example.muvitracker.data.dto.toEntity
+import com.example.muvitracker.data.dto.show.detail.toEntity
 import com.example.muvitracker.data.utils.mapToIoResponse
 import com.example.muvitracker.data.utils.storeFactory
 import com.example.muvitracker.domain.model.DetailShow

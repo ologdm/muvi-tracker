@@ -1,6 +1,5 @@
-package com.example.muvitracker.data.dto.tmdb
+package com.example.muvitracker.data.dto.season
 
-import com.example.muvitracker.data.LanguageManager
 import com.google.gson.annotations.SerializedName
 
 // OK per db-v4
@@ -17,4 +16,3 @@ data class SeasonDtoTmdb(
     @SerializedName("season_number") val seasonNumber: Int,
     @SerializedName("vote_average") val voteAverage: Double
 )
-

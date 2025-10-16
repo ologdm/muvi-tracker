@@ -1,10 +1,8 @@
-package com.example.muvitracker.data.dto
+package com.example.muvitracker.data.dto.movie.detail
 
 import com.example.muvitracker.data.LanguageManager
 import com.example.muvitracker.data.database.entities.DetailMovieEntity
-import com.example.muvitracker.data.dto.base.Ids
-import com.example.muvitracker.data.dto.tmdb.DetailMovieDtoTmdb
-import com.example.muvitracker.data.dto.tmdb.youtubeLinkTransformation
+import com.example.muvitracker.data.dto.utilsdto.Ids
 import com.example.muvitracker.utils.firstDecimalApproxToString
 import com.example.muvitracker.utils.formatToSqliteCompatibleDate
 

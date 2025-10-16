@@ -1,8 +1,7 @@
 package com.example.muvitracker.data.dto.episode
 
 import com.example.muvitracker.data.database.entities.EpisodeEntity
-import com.example.muvitracker.data.dto.base.Ids
-import com.example.muvitracker.utils.firstDecimalApproxToString
+import com.example.muvitracker.data.dto.utilsdto.Ids
 import com.example.muvitracker.utils.formatToSqliteCompatibleDate
 import com.google.gson.annotations.SerializedName
 

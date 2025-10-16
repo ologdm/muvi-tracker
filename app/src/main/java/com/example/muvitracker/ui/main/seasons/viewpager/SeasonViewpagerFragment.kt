@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import com.example.muvitracker.R
-import com.example.muvitracker.data.dto.base.Ids
+import com.example.muvitracker.data.dto.utilsdto.Ids
 import com.example.muvitracker.databinding.FragmSeasonViewpagerBinding
 import com.example.muvitracker.utils.viewBinding
 import com.google.android.material.tabs.TabLayout

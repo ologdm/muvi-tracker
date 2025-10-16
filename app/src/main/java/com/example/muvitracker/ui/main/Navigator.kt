@@ -5,7 +5,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.example.muvitracker.R
-import com.example.muvitracker.data.dto.base.Ids
+import com.example.muvitracker.data.dto.utilsdto.Ids
 import com.example.muvitracker.ui.main.detailmovie.DetailMovieFragment
 import com.example.muvitracker.ui.main.detailshow.DetailShowFragment
 import com.example.muvitracker.ui.main.episode.EpisodeFragment

@@ -1,4 +1,4 @@
-package com.example.muvitracker.data.dto.tmdb
+package com.example.muvitracker.data.dto.movie.detail
 
 import com.google.gson.annotations.SerializedName
 

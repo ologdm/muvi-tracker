@@ -1,7 +1,7 @@
 package com.example.muvitracker.data.dto.season
 
 import com.example.muvitracker.data.database.entities.SeasonEntity
-import com.example.muvitracker.data.dto.base.Ids
+import com.example.muvitracker.data.dto.utilsdto.Ids
 
 
 data class SeasonBaseDto(

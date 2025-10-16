@@ -1,6 +1,6 @@
 package com.example.muvitracker.domain.model.base
 
-import com.example.muvitracker.data.dto.base.Ids
+import com.example.muvitracker.data.dto.utilsdto.Ids
 
 
 //  to Domain() -> PopuDto, BoxoDto

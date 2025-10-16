@@ -1,8 +1,8 @@
 package com.example.muvitracker.data
 
 import com.example.muvitracker.data.dto.movie.BoxofficeDtoM
-import com.example.muvitracker.data.dto.DetailMovieDto
-import com.example.muvitracker.data.dto.DetailShowDto
+import com.example.muvitracker.data.dto.movie.detail.DetailMovieDto
+import com.example.muvitracker.data.dto.show.detail.DetailShowDto
 import com.example.muvitracker.data.dto.episode.EpisodeExtenDto
 import com.example.muvitracker.data.dto.movie.MovieBaseDto
 import com.example.muvitracker.data.dto.SearchDto

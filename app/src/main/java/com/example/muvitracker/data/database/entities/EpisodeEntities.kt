@@ -3,7 +3,7 @@ package com.example.muvitracker.data.database.entities
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.muvitracker.data.dto.episode.EpisodeExtenDto
-import com.example.muvitracker.data.dto.base.Ids
+import com.example.muvitracker.data.dto.utilsdto.Ids
 import com.example.muvitracker.domain.model.EpisodeExtended
 import com.example.muvitracker.utils.firstDecimalApproxToString
 import com.example.muvitracker.utils.formatToSqliteCompatibleDate

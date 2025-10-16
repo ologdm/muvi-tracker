@@ -1,7 +1,6 @@
 package com.example.muvitracker.data.dto.episode
 
-import com.example.muvitracker.data.database.entities.EpisodeEntity
-import com.example.muvitracker.data.dto.base.Ids
+import com.example.muvitracker.data.dto.utilsdto.Ids
 
 
 data class EpisodeBaseDto(

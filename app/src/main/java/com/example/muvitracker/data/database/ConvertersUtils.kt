@@ -1,7 +1,7 @@
 package com.example.muvitracker.data.database
 
 import androidx.room.TypeConverter
-import com.example.muvitracker.data.dto.base.Ids
+import com.example.muvitracker.data.dto.utilsdto.Ids
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 

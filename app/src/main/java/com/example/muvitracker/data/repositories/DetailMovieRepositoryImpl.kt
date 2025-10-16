@@ -1,20 +1,13 @@
 package com.example.muvitracker.data.repositories
 
-import android.util.Log
 import com.dropbox.android.external.store4.StoreRequest
-import com.dropbox.android.external.store4.StoreResponse
-import com.example.muvitracker.data.LanguageManager
 import com.example.muvitracker.data.TmdbApi
 import com.example.muvitracker.data.TraktApi
 import com.example.muvitracker.data.database.MyDatabase
 import com.example.muvitracker.data.database.entities.DetailMovieEntity
 import com.example.muvitracker.data.database.entities.toDomain
-import com.example.muvitracker.data.dto.DetailMovieDto
-import com.example.muvitracker.data.dto.mergeMoviesDtoToEntity
+import com.example.muvitracker.data.dto.movie.detail.mergeMoviesDtoToEntity
 import com.example.muvitracker.data.dto.movie.toDomain
-import com.example.muvitracker.data.dto.tmdb.DetailMovieDtoTmdb
-import com.example.muvitracker.data.dto.tmdb.toEntity
-import com.example.muvitracker.data.dto.toEntity
 import com.example.muvitracker.data.utils.mapToIoResponse
 import com.example.muvitracker.data.utils.storeFactory
 import com.example.muvitracker.domain.model.DetailMovie
@@ -24,8 +17,6 @@ import com.example.muvitracker.utils.IoResponse
 import com.example.muvitracker.utils.ioMapper
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.firstOrNull
-import kotlinx.coroutines.flow.mapNotNull
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.coroutines.cancellation.CancellationException

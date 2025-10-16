@@ -1,6 +1,6 @@
 package com.example.muvitracker.data.dto.person
 
-import com.example.muvitracker.data.dto.base.Ids
+import com.example.muvitracker.data.dto.utilsdto.Ids
 import com.example.muvitracker.domain.model.PersonExtended
 import com.example.muvitracker.utils.calculatePersonAge
 import com.example.muvitracker.utils.dateFormatterInddMMMyyy

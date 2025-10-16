@@ -1,11 +1,11 @@
 package com.example.muvitracker.data
 
 import com.example.muvitracker.BuildConfig
-import com.example.muvitracker.data.dto.tmdb.EpisodeDtoTmdb
-import com.example.muvitracker.data.dto.tmdb.DetailMovieDtoTmdb
-import com.example.muvitracker.data.dto.tmdb.PersonDtoTmdb
-import com.example.muvitracker.data.dto.tmdb.SeasonDtoTmdb
-import com.example.muvitracker.data.dto.tmdb.DetailShowDtoTmdb
+import com.example.muvitracker.data.dto.episode.EpisodeDtoTmdb
+import com.example.muvitracker.data.dto.movie.detail.DetailMovieDtoTmdb
+import com.example.muvitracker.data.dto.person.PersonDtoTmdb
+import com.example.muvitracker.data.dto.season.SeasonDtoTmdb
+import com.example.muvitracker.data.dto.show.detail.DetailShowDtoTmdb
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
