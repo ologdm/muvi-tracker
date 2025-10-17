@@ -148,19 +148,19 @@ class DetailShowFragment : Fragment(R.layout.fragm_detail_show) {
     // PRIVATE FUNCTIONS ###################################################
     // show detail
     private fun updateShowDetailPartOfUi(detailShow: DetailShow) {
-        currentShowTitle = detailShow.title
+        currentShowTitle = detailShow.title ?: "N/A"
 
         with(binding) {
             title.text = detailShow.title
             status.text = detailShow.status // es: ended
             networkYearCountry.text =
-                "${detailShow.network} ${detailShow.year} (${detailShow.country.toUpperCase()})"
+                "${detailShow.networks.joinToString (", ")} ${detailShow.year} (${detailShow.countries.joinToString (", ").toUpperCase()})"
             airedEpisodes.text =
                 getString(R.string.aired_episodes, detailShow.airedEpisodes.toString())
             runtime.text =
-                getString(R.string.runtime_description, detailShow.runtime.toString())  // string
+                getString(R.string.runtime_description, detailShow.runtime.toString() ?: "-")
 
-            traktRating.text = detailShow.rating // (string, already converted)
+            traktRating.text = detailShow.traktRating // (string, already converted)
             overview.text = detailShow.overview
 
             // genres
@@ -172,7 +172,7 @@ class DetailShowFragment : Fragment(R.layout.fragm_detail_show) {
             }
 
             // open link on youtube
-            val trailerUrl = detailShow.trailer
+            val trailerUrl = detailShow.youtubeTrailer
             trailerImageButton.setOnClickListener {
                 if (!trailerUrl.isNullOrEmpty()) {
                     val intent = Intent(Intent.ACTION_VIEW, Uri.parse(trailerUrl))

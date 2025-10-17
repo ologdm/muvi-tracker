@@ -1,67 +1,54 @@
 package com.example.muvitracker.data.dto.show.detail
 
-import com.example.muvitracker.data.LanguageManager
-import com.example.muvitracker.data.database.entities.DetailShowEntityTmdb
 import com.example.muvitracker.data.dto.movie.detail.GenreDto
 import com.example.muvitracker.data.dto.movie.detail.VideosResult
-import com.example.muvitracker.data.dto.movie.detail.youtubeLinkTransformation
 import com.google.gson.annotations.SerializedName
 
-// attivi solo i campi utilizzati per ora
 
+// tmdb dto - game of thrones - 1399 - it
 data class DetailShowDtoTmdb(
 //    val adult: Boolean,
-    @SerializedName("backdrop_path") val backdropPath: String?,
-//    @SerializedName("created_by") val createdBy: List<CreatorDto>,
-//    @SerializedName("episode_run_time") val episodeRunTime: List<Int>,
-//    @SerializedName("first_air_date") val firstAirDate: String?,
-    val genres: List<GenreDto>?,
-//    val homepage: String?,
+    @SerializedName("backdrop_path") val backdropPath: String?, // "/zZqpAXxVSBtxV9qPBcscfXBcL2w.jpg"
+//    @SerializedName("created_by") val createdBy: List<CreatorDto>, // NO
+    @SerializedName("episode_run_time") val episodeRunTime: List<Int>?, // [] - rimane vuoto su tmdb
+    @SerializedName("first_air_date") val firstAirDate: String?, // "2011-04-17"
+    val genres: List<GenreDto>?, // Sci-Fi & Fantasy, Dramma
+    val homepage: String?, // http://www.hbo.com/game-of-thrones
     val id: Int,
 //    @SerializedName("in_production") val inProduction: Boolean,
-//    val languages: List<String>,
-//    @SerializedName("last_air_date") val lastAirDate: String?,
-//    @SerializedName("last_episode_to_air") val lastEpisodeToAir: EpisodeDto?,
-    val name: String, // titolo serie
-//    @SerializedName("next_episode_to_air") val nextEpisodeToAir: EpisodeDto?,
-//    val networks: List<NetworkDto>, // chi l'ha prodotto HBO esempio
-//    @SerializedName("number_of_episodes") val numberOfEpisodes: Int,
-//    @SerializedName("number_of_seasons") val numberOfSeasons: Int,
-//    @SerializedName("origin_country") val originCountry: List<String>,
-//    @SerializedName("original_language") val originalLanguage: String,
-//    @SerializedName("original_name") val originalName: String,
-    val overview: String,
-//    val popularity: Double,
-    @SerializedName("poster_path") val posterPath: String?,
+    val languages: List<String>?, // ["en"]
+    @SerializedName("last_air_date") val lastAirDate: String?, // 2019-05-19
+//    @SerializedName("last_episode_to_air") val lastEpisodeToAir: EpisodeDto?, // NO
+    val name: String?, // Il Trono di Spade
+//    @SerializedName("next_episode_to_air") val nextEpisodeToAir: EpisodeDto?, // NO
+    val networks: List<NetworkDto>?, //  [HBO] - chi l'ha prodotto -> HBO
+//    @SerializedName("number_of_episodes") val numberOfEpisodes: Int, // 73  NO
+//    @SerializedName("number_of_seasons") val numberOfSeasons: Int, //  8  NO
+    @SerializedName("origin_country") val originCountry: List<String>?, // ["US"]
+    @SerializedName("original_language") val originalLanguage: String?, // en
+    @SerializedName("original_name") val originalName: String?, // Games of Thrones
+    val overview: String?, // // "Nell'immaginario mondo di Westeros..."
+//    val popularity: Double?, // 111.3636
+    @SerializedName("poster_path") val posterPath: String?, // "/n4IxkaZanXQU89WNRxt8h1fw1yb.jpg"
 //    @SerializedName("production_companies") val productionCompanies: List<ProductionCompanyDto>,
 //    @SerializedName("production_countries") val productionCountries: List<ProductionCountryDto>,
-//    val seasons: List<SeasonDto>
-//    @SerializedName("spoken_languages") val spokenLanguages: List<SpokenLanguageDto>,
-    val status: String, // "Returning Series"
-    val tagline: String,
-//    val type: String,
-    @SerializedName("vote_average") val voteAverage: Double, //8.458,
-//    @SerializedName("vote_count") val voteCount: Int, //25630,
-    val videos: VideosResult
+//    val seasons: List<SeasonDto>? // NO - tutti i dati stagione
+//    @SerializedName("spoken_languages") val spokenLanguages: List<SpokenLanguageDto>?, // NO, come languages ma piu complet
+    val status: String?, // "Returning Series"
+    val tagline: String?, // "L'inverno sta arrivando."
+//    val type: String, // NO - Scripted;  altre: Reality, Documentary, Talk Show
+    @SerializedName("vote_average") val voteAverage: Double?, // 8.458,
+//    @SerializedName("vote_count") val voteCount: Int, // 25630 - NO
+    val videos: VideosResult? // uguale a movies
 )
 
-val systemLang = LanguageManager.getSystemLocaleTag()
 
-fun DetailShowDtoTmdb.toEntity(): DetailShowEntityTmdb {
-    return DetailShowEntityTmdb(
-        tmdbId = id,
-        translation = systemLang,
-        title = name,
-        tagline,
-        overview = overview,
-        voteTmdb = voteAverage,
-        trailerLink = videos.youtubeLinkTransformation(), // nullable
-        genres = genres?.map { it.name } ?: emptyList(),
-        backdropPath = backdropPath,
-        posterPath = posterPath,
-    )
-}
-
+data class NetworkDto (
+    val id: Int, // es. 49
+    val name: String, // es. "HBO"
+    @SerializedName("logo_path") val logoPath: String?, // es. "/tuomYjQdUqk2H1Zs2kA6dRpzQ7y.png"
+    @SerializedName("origin_country") val originCountry: String? // es. "US"
+)
 
 
 //data class CreatorDto(

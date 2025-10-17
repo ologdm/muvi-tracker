@@ -7,52 +7,84 @@ import com.example.muvitracker.data.database.ConvertersUtils
 import com.example.muvitracker.data.dto.utilsdto.Ids
 import com.example.muvitracker.domain.model.DetailShow
 
-@Entity(tableName = "detail_show_entities")
+/**
+ *  tutte i conteggi aired/all sonio fatti su dati di trakt
+ */
+
+
+@Entity(tableName = "detail_show_table")
 data class DetailShowEntity(
+    // trakt
     @PrimaryKey val traktId: Int,
-    val title: String,
-    val year: Int,
+    val year: Int?,
     @TypeConverters(ConvertersUtils::class) val ids: Ids,
-    //
-    val tagline: String,
-    val overview: String,
-    val firstAired: String,
-    val runtime: Int,
-    val network: String,
-    val country: String,
-    val trailer: String,
-    val homepage: String,
-    val status: String,
-    val rating: String,
-    val votes: Int,
-    val language: String,
-    val languages: List<String>,
-    @TypeConverters(ConvertersUtils::class) val genres: List<String>,
-    val airedEpisodes: Int
+    val airedEpisodes: Int, // not null -> default 0 -> serve per calcolo
+
+    // tmdb
+    val title: String?,
+    val tagline: String?,
+    val overview: String?,
+    val status: String?,
+    val firstAirDate: String?, // TODO da trakt
+    val lastAirDate: String?,
+    val runtime: Int?,
+    @TypeConverters(ConvertersUtils::class)
+    val countries: List<String>, // not null
+    val originalLanguage: String?, // en
+    @TypeConverters(ConvertersUtils::class)
+    val languages: List<String>,  // not null
+    val originalTitle: String?, // Deadpool
+    @TypeConverters(ConvertersUtils::class)
+    val networks: List<String>, // not null
+    @TypeConverters(ConvertersUtils::class)
+    val genres: List<String>, // not null
+    val youtubeTrailer: String?,
+    val homepage: String?,
+    // path link immagini
+    val backdropPath: String?,  // /en971MEXui9diirXlogOrPKmsEn.jpg
+    val posterPath: String?,    // /zoSiiUUzg2ny6uzuil7PbP13z53.jpg
+
+    // ratings
+    val traktRating: String?, // 8.3
+    val tmdbRating: String?, // 7.9
+    // TODO  other ratings - Imdb, Metacritic, Rotten Tomatoes
+
+    // da sistema
+    val currentTranslation: String, // not null
 )
 
 
 // (PrefsEntity?) - can be null as logic
 fun DetailShowEntity.toDomain(prefsShowEntity: PrefsShowEntity?): DetailShow {
     return DetailShow(
-        title = title,
+        // trakt
         year = year,
         ids = ids,
+        airedEpisodes,
+        // tmdb
+        title = title ?: "",
+        tagline = tagline ?: "",
+        overview = overview ?: "",
+        status = status ?: "",
         //
-        tagline = tagline,
-        overview = overview,
+        firstAirDate = firstAirDate ?: "",
+        lastAirDate = lastAirDate,
         runtime = runtime,
-        network = network,
-        country = country,
-        trailer = trailer,
-        homepage = homepage,
-        status = status,
-        rating = rating,
-        votes = votes,
-        language = language,
-        languages = languages,
-        genres = genres,
-        airedEpisodes = airedEpisodes,
+        countries = countries, // entity not null
+        originalLanguage = originalLanguage ?: "",
+        networks = networks, // entity not null
+        genres = genres, // entity not null
+        youtubeTrailer = youtubeTrailer ?: "",
+        homepage = homepage ?: "",
+        //
+        traktRating = traktRating ?: "",
+        tmdbRating = tmdbRating ?: "",
+        //
+        backdropPath = backdropPath ?: "",
+        posterPath = posterPath ?: "",
+        //
+        currentTranslation = currentTranslation,
+
         // prefs
         liked = prefsShowEntity?.liked ?: false,
         addedDateTime = prefsShowEntity?.addedDateTime // Timestamp when added to db

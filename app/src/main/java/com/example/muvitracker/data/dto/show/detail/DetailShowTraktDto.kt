@@ -1,63 +1,80 @@
 package com.example.muvitracker.data.dto.show.detail
 
+import com.example.muvitracker.data.LanguageManager
 import com.example.muvitracker.data.database.entities.DetailShowEntity
+import com.example.muvitracker.data.dto.movie.detail.youtubeLinkTransformation
 import com.example.muvitracker.data.dto.utilsdto.Ids
 import com.example.muvitracker.utils.firstDecimalApproxToString
 import com.google.gson.annotations.SerializedName
 
-// complete dto, commented if not used
-// all dto element nullable -> all default values on toDomain()
+// only base + rating
 
-data class DetailShowDto(
+
+// trakt dto - game of thrones - 1390 - en
+data class DetailShowTraktDto(
     val title: String?,
-    val year: Int?, // start
+    val year: Int?, // 2011 - first year
     val ids: Ids, // + tvdb
 
-    val tagline: String?, // the winter is coming
-    val overview: String?, // about movie
-    @SerializedName("first_aired") val firstAired: String?,
-//    val airs : Airs // day, time, timezone
-    val runtime: Int?, // 60
+//    val tagline: String?, // Winter is coming
+//    val overview: String?, // Seven noble families fight.....
+//    @SerializedName("first_aired") val firstAired: String?, // "2011-04-18T01:00:00.000Z"
+//    val airs : Airs // [ day, time, timezone ]
+    val runtime: Int?, // 55
 //    val certification: String,
-    val network: String?, // hbo
-    val country: String?, // us
+//    val network: String?, // HBO
+//    val country: String?, // us
 //    @SerializedName("updated_at") val updatedAt: String = "", // date
-    val trailer: String?, // link sito
-    val homepage: String?, // website
-    val status: String?, // coming soon, wip, ended
-    val rating: Float?,
-    val votes: Int?,
-//    @SerializedName("comment_count") val commentCount: Int = 0,
-    val language: String?,
-    val languages: List<String>?,
-//    val availableTranslations: List<String> = emptyList(),
-    val genres: List<String>?,
-    @SerializedName("aired_episodes") val airedEpisodes: Int?
+//    val trailer: String?, // https://youtube.com/watch?v=KPLWWIOCOOQ
+//    val homepage: String?, // http://www.hbo.com/game-of-thrones
+//    val status: String?, // ended
+    val rating: Float?, // 8.89378
+//    val votes: Int?, // 142022
+//    @SerializedName("comment_count") val commentCount: Int = 0, // 444
+//    val language: String?, // en
+//    val languages: List<String>?, // [en, it]
+//    val availableTranslations: List<String> = emptyList(), // [en, it, tr, ...]
+//    val genres: List<String>?, // [drama, fantasy]
+    @SerializedName("aired_episodes") val airedEpisodes: Int? // 733
 )
 
 
-fun DetailShowDto.toEntity(): DetailShowEntity {
+fun mergeShowsDtoToEntity(
+    trakt: DetailShowTraktDto, tmdb: DetailShowDtoTmdb
+): DetailShowEntity {
     return DetailShowEntity(
-        traktId = ids.trakt,
-        title = title ?: "N/A",
-        year = year ?: 0,
-        ids = ids,
+        // trakt ok
+        traktId = trakt.ids.trakt,
+        year = trakt.year,
+        ids = trakt.ids,
+        airedEpisodes = trakt.airedEpisodes ?: 0, // logica veccchia, serve per calcolo
+
+        // tmdb
+        title = tmdb.name,
+        tagline = tmdb.tagline,
+        overview = tmdb.overview,
+        status = tmdb.status,
+        firstAirDate = tmdb.firstAirDate, // test con tmdb
+        lastAirDate = tmdb.lastAirDate, // TODO inserire a ui : inizio -> fine
+        runtime = trakt.runtime,
+        countries = tmdb.originCountry ?: emptyList(), // entity not null
+        originalLanguage = tmdb.originalLanguage,
+        languages = tmdb.languages ?: emptyList(), // entity not null
+        originalTitle = tmdb.originalName,
+        networks = tmdb.networks?.map { it.name } ?: emptyList(), // entity not null
+        genres = tmdb.genres?.map { it.name } ?: emptyList(), // entity not null
         //
-        tagline = tagline ?: "N/A",
-        overview = overview ?: "N/A",
-        firstAired = firstAired ?: "N/A",
-        runtime = runtime ?: 0,
-        network = network ?: "N/A",
-        country = country ?: "N/A",
-        trailer = trailer ?: "",
-        homepage = homepage ?: "N/A",
-        status = status ?: "N/A",
-        rating = rating?.firstDecimalApproxToString() ?: "0.0",
-        votes = votes ?: 0,
-        language = language ?: "N/A",
-        languages = languages ?: emptyList(),
-        genres = genres ?: emptyList(),
-        airedEpisodes = airedEpisodes ?: 0
+        youtubeTrailer = tmdb.videos?.youtubeLinkTransformation(),
+        homepage = tmdb.homepage,
+        //
+        backdropPath = tmdb.backdropPath,
+        posterPath = tmdb.posterPath,
+        // ratings
+        tmdbRating = tmdb.voteAverage?.firstDecimalApproxToString(), // in 8.458 -> out 8.5
+        traktRating = trakt.rating?.firstDecimalApproxToString(),
+
+        // sistema
+        currentTranslation = LanguageManager.getSystemLocaleTag()
     )
 }
 

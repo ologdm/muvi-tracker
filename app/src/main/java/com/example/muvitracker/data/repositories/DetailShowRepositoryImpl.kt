@@ -1,11 +1,12 @@
 package com.example.muvitracker.data.repositories
 
 import com.dropbox.android.external.store4.StoreRequest
+import com.example.muvitracker.data.TmdbApi
 import com.example.muvitracker.data.TraktApi
 import com.example.muvitracker.data.database.MyDatabase
-import com.example.muvitracker.data.dto.show.detail.DetailShowDto
+import com.example.muvitracker.data.database.entities.DetailShowEntity
+import com.example.muvitracker.data.dto.show.detail.mergeShowsDtoToEntity
 import com.example.muvitracker.data.dto.show.toDomain
-import com.example.muvitracker.data.dto.show.detail.toEntity
 import com.example.muvitracker.data.utils.mapToIoResponse
 import com.example.muvitracker.data.utils.storeFactory
 import com.example.muvitracker.domain.model.DetailShow
@@ -30,6 +31,7 @@ import kotlin.coroutines.cancellation.CancellationException
 @Singleton
 class DetailShowRepositoryImpl @Inject constructor(
     private val traktApi: TraktApi,
+    private val tmdbApi: TmdbApi,
     private val prefsShowRepository: PrefsShowRepository,
     private val seasonRepository: SeasonRepository,
     database: MyDatabase,
@@ -37,15 +39,19 @@ class DetailShowRepositoryImpl @Inject constructor(
     private val detailShowDao = database.detailShowDao()
     private val seasonDao = database.seasonsDao()
 
-    private val store = storeFactory<Int, DetailShowDto, DetailShow>(
-        fetcher = { showId ->
-            traktApi.getShowDetail(showId)
+
+    private val store = storeFactory<Int, DetailShowEntity, DetailShow>(
+        fetcher = { traktId ->
+            val traktDto = traktApi.getShowDetail(traktId)
+            val tmdbDto = tmdbApi.getShowDto(traktDto.ids.tmdb)
+            val entity= mergeShowsDtoToEntity(traktDto,tmdbDto)
+            entity
         },
-        reader = { showId ->
-            detailShowDao.getSingleFlow(showId)
+        reader = { traktId ->
+            detailShowDao.getSingleFlow(traktId)
         },
-        writer = { _, dto ->
-            detailShowDao.insertSingle(dto.toEntity())
+        writer = { _, entity ->
+            detailShowDao.insertSingle(entity)
         }
     )
 

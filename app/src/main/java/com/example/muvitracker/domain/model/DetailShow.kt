@@ -4,28 +4,44 @@ package com.example.muvitracker.domain.model
 import com.example.muvitracker.data.dto.utilsdto.Ids
 
 data class DetailShow(
-    // detail entity
-    val title: String,
-    val year: Int,
+    // DA DETAIL ENTITY
+
+    // da trakt
+    val year: Int?,
     val ids: Ids,
-    val tagline: String,
-    val overview: String,
-    val runtime: Int,
-    val network: String,
-    val country: String,
-    val trailer: String,
-    val homepage: String,
-    val status: String,
-    val rating: String, // converted from Float
-    val votes: Int,
-    val language: String,
-    val languages: List<String>,
-    val genres: List<String>,
     val airedEpisodes: Int,
-    // prefs entity
+
+    // da tmdb
+    val title: String?,
+    val tagline: String?,
+    val overview: String?,
+    val status: String?,
+    val firstAirDate: String?, // TODO new
+    val lastAirDate: String?,// TODO new
+    val runtime: Int?,
+    val countries: List<String>, // TODO new
+    val originalLanguage :String?,
+//    languages NO
+//    originalTitle NO
+    val networks: List<String>, // ex -> network: String,
+    val genres: List<String>,
+    val youtubeTrailer: String?, // ex -> trailer: String,
+    val homepage: String?,
+
+    val traktRating: String?, // ex -> rating: String,
+    val tmdbRating: String?,
+
+    val backdropPath: String?, // TODO new
+    val posterPath: String?, // TODO new
+
+    val currentTranslation: String,
+
+
+    // DA PREFS ENTITY
     val liked: Boolean,
     val addedDateTime: Long?, // using timestamp
 
+    // CALCOLATO DA EPISODE_TABLE
     val watchedCount: Int = 0, // computed data from episodeRepository
 ) {
 

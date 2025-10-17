@@ -14,7 +14,7 @@ class PrefsShowVH(
         binding.run {
             title.text = "${show.title}"
             otherInfo.text =
-                "${show.network}, ${show.year}, ${show.country.uppercase()}, ${show.status}"
+                "${show.networks.joinToString(", ")}, ${show.year}, ${show.countries.joinToString(", ").uppercase()}, ${show.status}"
 
             Glide
                 .with(binding.root.context)

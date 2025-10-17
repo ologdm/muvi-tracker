@@ -16,28 +16,54 @@ interface DetailShowDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertSingle(entity: DetailShowEntity)
 
-    @Query("SELECT * FROM detail_show_entities WHERE traktId=:inputId")
+    @Query("SELECT * FROM detail_show_table WHERE traktId=:inputId")
     fun readSingleFlow(inputId: Int): Flow<DetailShowEntity?> // deve essere nullable
 
-    @Query("SELECT * FROM detail_show_entities")
+    @Query("SELECT * FROM detail_show_table")
     fun readAllFlow(): Flow<List<DetailShowEntity>>
 
     @Delete
     fun deleteSingle(entity: DetailShowEntity)
 
 
-    // Get Domain -> with join
-    // detail + prefs + episodeCount
+    // TODO new OK - campi coincidonno con Domain
+    // 1. devo prendere cambi necessari da -> Show e Prefs Entities
+    // 21 show ent, 2, prefs, 1 ep
     @Transaction
     @Query(
         """
-    SELECT 
-        d.title, d.year, d.ids, d.tagline, d.overview, d.firstAired, d.runtime,
-        d.network, d.country, d.trailer, d.homepage, d.status, d.rating, d.votes, 
-        d.language, d.languages, d.genres, d.airedEpisodes, p.liked, p.addedDateTime,
-        SUM(CASE WHEN e.watched = 1 THEN 1 ELSE 0 END) AS watchedCount
+    SELECT
+        d.year, 
+        d.ids, 
+        d.airedEpisodes,
+        
+        d.title,
+        d.tagline, 
+        d.overview, 
+        d.status, 
+        d.firstAirDate, 
+        d.lastAirDate,
+        d.runtime,
+        d.countries, 
+        d.originalLanguage, 
+        d.networks, 
+        d.genres,
+        d.youtubeTrailer, 
+        d.homepage,
+        d.traktRating,
+        d.tmdbRating,
+        
+        d.backdropPath, 
+        d.posterPath,
+        
+        d.currentTranslation,
+
+        p.liked, 
+        p.addedDateTime,
+        
+        COALESCE(SUM(CASE WHEN e.watched = 1 THEN 1 ELSE 0 END),0) AS watchedCount
     FROM 
-        detail_show_entities AS d
+        detail_show_table AS d   ---- nome tabella db
     LEFT JOIN 
         prefs_show_entities AS p 
     ON 
@@ -53,6 +79,5 @@ interface DetailShowDao {
 """
     )
     fun getSingleFlow(showId: Int): Flow<DetailShow?>
-    // campo where con campo select - devono coincidere!!!
 
 }

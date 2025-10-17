@@ -32,20 +32,45 @@ interface PrefsShowDao {
     // Get Domain -> with join
     // JOIN prefsEntity + detailEntity + (watchedEpisode)
     @Transaction
-    @Query("""
-    SELECT d.title, d.year, d.ids, d.tagline, d.overview, d.firstAired, d.runtime, 
-           d.network, d.country, d.trailer, d.homepage, d.status, d.rating, d.votes, 
-           d.language, d.languages, d.genres, d.airedEpisodes,
-           p.liked, p.addedDateTime,
-           SUM(CASE WHEN e.watched = 1 THEN 1 ELSE 0 END) AS watchedCount
+    @Query(
+        """
+    SELECT
+        d.year, 
+        d.ids, 
+        d.airedEpisodes,
+
+        d.title, 
+        d.tagline,
+        d.overview, 
+        d.status, 
+        d.firstAirDate, 
+        d.lastAirDate,
+        d.runtime,
+        d.countries, 
+        d.originalLanguage, 
+        d.networks,
+        d.genres,
+        d.youtubeTrailer, 
+        d.homepage,
+
+        d.traktRating,
+        d.tmdbRating,
+
+        d.backdropPath, 
+        d.posterPath,
+        
+        d.currentTranslation,
+        
+        p.liked, 
+        p.addedDateTime,
+        ---COALESCE utile per default - prende primo valore non null tra quelli che gli passi
+        COALESCE(SUM(CASE WHEN e.watched = 1 THEN 1 ELSE 0 END),0) AS watchedCount
     FROM prefs_show_entities AS p
-    LEFT JOIN detail_show_entities AS d ON p.traktId = d.traktId
+    LEFT JOIN detail_show_table AS d ON p.traktId = d.traktId
     LEFT JOIN episode_entities AS e ON d.traktId = e.showId
     GROUP BY p.traktId
-""")
+"""
+    )
     fun getAllPrefs(): Flow<List<DetailShow>>
-
-
-
 
 }

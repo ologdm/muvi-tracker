@@ -95,3 +95,105 @@ val MIGRATION_1_2 = object : Migration(1, 2) {
         database.execSQL("DROP TABLE detail_movie_entities")
     }
 }
+
+
+
+val MIGRATION_2_3 = object : Migration(2, 3) {
+    override fun migrate(database: SupportSQLiteDatabase) {
+        // 1. Creiamo nuova tabella TODO OK
+        database.execSQL(
+            """
+            CREATE TABLE IF NOT EXISTS detail_show_table (
+                traktId INTEGER NOT NULL PRIMARY KEY,
+                year INTEGER,
+                ids TEXT,
+                airedEpisodes INTEGER NOT NULL,
+                title TEXT,
+                tagline TEXT,
+                overview TEXT,
+                status TEXT,
+                firstAirDate TEXT,
+                lastAirDate TEXT,
+                runtime INTEGER,
+                countries TEXT NOT NULL,
+                originalLanguage TEXT,
+                languages TEXT NOT NULL,
+                originalTitle TEXT,
+                networks TEXT NOT NULL,
+                genres TEXT NOT NULL,
+                youtubeTrailer TEXT,
+                homepage TEXT,
+                backdropPath TEXT,
+                posterPath TEXT,
+                traktRating TEXT,
+                tmdbRating TEXT,
+                currentTranslation TEXT NOT NULL
+            )
+        """.trimIndent()
+        )
+
+        // TODO
+        // 2. Copia dati compatibili dalla vecchia tabella
+        database.execSQL(
+            """
+            INSERT INTO detail_show_table (
+                traktId,
+                year,
+                ids,
+                airedEpisodes,
+                title,
+                tagline,
+                overview,
+                status,
+                firstAirDate,
+                lastAirDate,
+                runtime,
+                countries,
+                originalLanguage,
+                languages,
+                originalTitle,
+                networks,
+                genres,
+                youtubeTrailer,
+                homepage,
+                backdropPath,
+                posterPath,
+                traktRating,
+                tmdbRating,
+                currentTranslation
+            )
+            SELECT 
+                traktId,
+                year,
+                ids,
+                airedEpisodes,
+                title,
+                tagline,
+                overview,
+                status,
+                firstAired AS firstAirDate,
+                NULL AS lastAirDate,
+                runtime,
+                '[]' AS countries,
+                language AS originalLanguage,
+                languages,
+                NULL AS originalTitle,
+                '[]' AS networks,
+                genres,
+                trailer AS youtubeTrailer,
+                homepage,
+                NULL AS backdropPath,
+                NULL AS posterPath,
+                rating AS traktRating,
+                NULL AS tmdbRating,
+                'en-US' AS currentTranslation
+            FROM detail_show_entities
+            
+        """.trimIndent()
+        )
+
+
+        // 3. Eliminiamo la vecchia tabella
+        database.execSQL("DROP TABLE detail_show_entities")
+    }
+}
