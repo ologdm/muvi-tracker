@@ -8,29 +8,35 @@ import com.google.gson.reflect.TypeToken
 
 class ConvertersUtils {
 
+    private val gson = Gson()
+
     // IDS
     @TypeConverter
     fun fromIds(ids: Ids): String {
-        return Gson().toJson(ids)
+        return gson.toJson(ids)
     }
 
     @TypeConverter
     fun toIds(idsString: String): Ids {
         val objectType = object : TypeToken<Ids>() {}.type
-        return Gson().fromJson(idsString, objectType)
+        return gson.fromJson(idsString, objectType)
     }
 
 
     // LISTE STRINGHE
     @TypeConverter
     fun fromStringList(list: List<String>): String {
-        return Gson().toJson(list)
+        return gson.toJson(list)
     }
 
     @TypeConverter
-    fun toStringList(genresString: String): List<String> {
+    fun toStringList(stringList: String?): List<String> {
         val objectType = object : TypeToken<List<String>>() {}.type
-        return Gson().fromJson(genresString, objectType)
+
+        return if (stringList.isNullOrEmpty())
+            emptyList()
+        else
+            gson.fromJson(stringList, objectType)
     }
 
 
