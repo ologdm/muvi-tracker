@@ -62,16 +62,10 @@ data class GenreDto(
 
 
 fun VideosResult.youtubeLinkTransformation(): String? {
-    // trova officiale
-    val video = results.firstOrNull { video ->
-        video.official && video.site == "YouTube" && video.type == "Trailer"
-    }
-    // trova non officiale
-    if (video == null) {
-        results.firstOrNull { video ->
-            video.site == "YouTube" && video.type == "Trailer"
-        }
-    }
+    val video = results.firstOrNull { it.site == "YouTube" && it.type == "Trailer" && it.official } // 1.priorita official
+            ?: results.firstOrNull { it.site == "YouTube" && it.type == "Trailer" } // 2. priorità trailer
+            ?: results.firstOrNull { it.site == "YouTube" } // 3. fallback a qualsiasi YouTube
+
     return video?.key?.let { "https://www.youtube.com/watch?v=${it}" }
 }
 

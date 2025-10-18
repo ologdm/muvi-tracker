@@ -25,7 +25,7 @@ data class DetailShowTraktDto(
 //    val network: String?, // HBO
 //    val country: String?, // us
 //    @SerializedName("updated_at") val updatedAt: String = "", // date
-//    val trailer: String?, // https://youtube.com/watch?v=KPLWWIOCOOQ
+    val trailer: String?, // https://youtube.com/watch?v=KPLWWIOCOOQ
 //    val homepage: String?, // http://www.hbo.com/game-of-thrones
 //    val status: String?, // ended
     val rating: Float?, // 8.89378
@@ -64,7 +64,7 @@ fun mergeShowsDtoToEntity(
         networks = tmdb.networks?.map { it.name } ?: emptyList(), // entity not null
         genres = tmdb.genres?.map { it.name } ?: emptyList(), // entity not null
         //
-        youtubeTrailer = tmdb.videos?.youtubeLinkTransformation(),
+        youtubeTrailer = tmdb.videos?.youtubeLinkTransformation() ?: trakt.trailer,
         homepage = tmdb.homepage,
         //
         backdropPath = tmdb.backdropPath,

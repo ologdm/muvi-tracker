@@ -23,7 +23,7 @@ data class DetailMovieDto(
 //    val runtime: Int?, // 108
 //    val country: String?, // us
 //    @SerializedName("updated_at") val updatedAt: String?,
-//    val trailer: String?, // https://youtube.com/watch?v=9vN6DHB6bJc
+    val trailer: String?, // https://youtube.com/watch?v=9vN6DHB6bJc
 //    val homepage: String?, // http://www.20thcenturystudios.com/movies/deadpool
 //    val status: String?, // released
     val rating: Float?,  // 8.25713 - trakt
@@ -59,7 +59,7 @@ fun mergeMoviesDtoToEntity(
         originalLanguage = tmdb.originalLanguage,
         originalTitle = tmdb.originalTitle,
         genres = tmdb.genres?.map { it.name } ?: emptyList(), // entity not null
-        youtubeTrailer = tmdb.videos?.youtubeLinkTransformation(), //https://youtube.com/watch?v=9vN6DHB6bJc
+        youtubeTrailer = tmdb.videos?.youtubeLinkTransformation() ?: trakt.trailer, // prima tmdb, poi trakt
         homepage = tmdb.homepage,
         backdropPath = tmdb.backdropPath,
         posterPath = tmdb.posterPath,
