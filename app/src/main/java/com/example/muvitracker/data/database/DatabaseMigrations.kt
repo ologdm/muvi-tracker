@@ -106,7 +106,7 @@ val MIGRATION_2_3 = object : Migration(2, 3) {
             CREATE TABLE IF NOT EXISTS detail_show_table (
                 traktId INTEGER NOT NULL PRIMARY KEY,
                 year INTEGER,
-                ids TEXT,
+                ids TEXT NOT NULL,
                 airedEpisodes INTEGER NOT NULL,
                 title TEXT,
                 tagline TEXT,
