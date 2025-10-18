@@ -1,7 +1,7 @@
 package com.example.muvitracker.data
 
 import com.example.muvitracker.data.dto.movie.BoxofficeDtoM
-import com.example.muvitracker.data.dto.movie.detail.DetailMovieDto
+import com.example.muvitracker.data.dto.movie.detail.DetailMovieTraktDto
 import com.example.muvitracker.data.dto.show.detail.DetailShowTraktDto
 import com.example.muvitracker.data.dto.episode.EpisodeExtenDto
 import com.example.muvitracker.data.dto.movie.MovieBaseDto
@@ -100,7 +100,7 @@ interface TraktApi {
     // DETAIL MOVIE/SHOW
     @GET("movies/{movie_id}?extended=full")
     suspend fun getMovieDetail(@Path("movie_id") movieId: Int)
-            : DetailMovieDto
+            : DetailMovieTraktDto
 
 
     // seasons(1,2,3,4...n), cast, related

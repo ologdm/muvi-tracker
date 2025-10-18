@@ -10,7 +10,7 @@ import com.example.muvitracker.utils.formatToSqliteCompatibleDate
 // only base + rating
 
 // traktDto - es deadpool - 190430
-data class DetailMovieDto(
+data class DetailMovieTraktDto(
     // base
 //    val title: String?, // Deadpool
     val year: Int?,  // 2016
@@ -41,7 +41,7 @@ data class DetailMovieDto(
 
 // Unione 2 dto utilizzate in un entity
 fun mergeMoviesDtoToEntity(
-    trakt: DetailMovieDto, tmdb: DetailMovieDtoTmdb
+    trakt: DetailMovieTraktDto, tmdb: DetailMovieDtoTmdb
 ): DetailMovieEntity {
     return DetailMovieEntity(
         // trakt
