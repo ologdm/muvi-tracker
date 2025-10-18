@@ -9,7 +9,7 @@ import kotlinx.parcelize.Parcelize
 
 
 @Parcelize
-data class SeasonExtenDto(
+data class SeasonTraktDto(
     val number: Int?,
     val ids: Ids,
     val rating: Double?,
@@ -30,7 +30,7 @@ data class SeasonExtenDto(
 }
 
 
-fun SeasonExtenDto.toEntity(showId: Int): SeasonEntity {
+fun SeasonTraktDto.toEntity(showId: Int): SeasonEntity {
     return SeasonEntity(
         seasonTraktId = ids.trakt,
         seasonNumber = number ?: 0,

@@ -3,7 +3,7 @@ package com.example.muvitracker.data.dto.season
 import com.google.gson.annotations.SerializedName
 
 // OK per db-v4
-data class SeasonDtoTmdb(
+data class SeasonTmdbDto(
 //    val _id: String, // id interno tmdb, non serve
 //    @SerializedName("air_date") val airDate: String,
 //    val episodes: List<EpisodeDto>,

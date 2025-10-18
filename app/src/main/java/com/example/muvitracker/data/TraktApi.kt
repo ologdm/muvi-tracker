@@ -9,7 +9,7 @@ import com.example.muvitracker.data.dto.SearchDto
 import com.example.muvitracker.data.dto.movie.AnticipatedDtoM
 import com.example.muvitracker.data.dto.movie.FavoritedDtoM
 import com.example.muvitracker.data.dto.movie.WatchedDtoM
-import com.example.muvitracker.data.dto.season.SeasonExtenDto
+import com.example.muvitracker.data.dto.season.SeasonTraktDto
 import com.example.muvitracker.data.dto.show.AnticipatedDtoS
 import com.example.muvitracker.data.dto.show.FavoritedDtoS
 import com.example.muvitracker.data.dto.show.ShowBaseDto
@@ -112,7 +112,7 @@ interface TraktApi {
     // 2 all seasons OK
     // https://api.trakt.tv/shows/id/seasons/?extended=full
     @GET("shows/{show_id}/seasons/?extended=full")
-    suspend fun getAllSeasons(@Path("show_id") showId: Int): List<SeasonExtenDto>
+    suspend fun getAllSeasons(@Path("show_id") showId: Int): List<SeasonTraktDto>
 
 
     // 3 related movie, show
@@ -134,7 +134,7 @@ interface TraktApi {
     suspend fun getSeasonInfo(
         @Path("show_id") showId: Int,
         @Path("season_number") seasonNumber: Int
-    ): SeasonExtenDto
+    ): SeasonTraktDto
 
     // all episodes
     @GET("shows/{show_id}/seasons/{season_number}?extended=full")

@@ -4,7 +4,7 @@ import com.example.muvitracker.BuildConfig
 import com.example.muvitracker.data.dto.episode.EpisodeDtoTmdb
 import com.example.muvitracker.data.dto.movie.detail.DetailMovieDtoTmdb
 import com.example.muvitracker.data.dto.person.PersonDtoTmdb
-import com.example.muvitracker.data.dto.season.SeasonDtoTmdb
+import com.example.muvitracker.data.dto.season.SeasonTmdbDto
 import com.example.muvitracker.data.dto.show.detail.DetailShowDtoTmdb
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -58,7 +58,7 @@ interface TmdbApi {
         @Path("season_number") seasonNumber: Int,
         @Query("language") language: String = systemLanguage,
         @Query("api_key") apiKey: String = API_KEY_QUERY_MOD,
-    ): SeasonDtoTmdb
+    ): SeasonTmdbDto
 
 
     @GET("tv/{series_id}/season/{season_number}/episode/{episode_number}")
