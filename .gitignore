@@ -28,3 +28,5 @@ key_store_muvitraker
 .idea/kotlinc.xml
 .idea/misc.xml
 .idea/runConfigurations.xml
+
+db_vers per test migrazione
