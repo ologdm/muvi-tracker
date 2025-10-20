@@ -5,7 +5,7 @@ import com.example.muvitracker.data.dto.episode.EpisodeDtoTmdb
 import com.example.muvitracker.data.dto.movie.detail.DetailMovieDtoTmdb
 import com.example.muvitracker.data.dto.person.PersonDtoTmdb
 import com.example.muvitracker.data.dto.season.SeasonTmdbDto
-import com.example.muvitracker.data.dto.show.detail.DetailShowDtoTmdb
+import com.example.muvitracker.data.dto.show.detail.DetailShowTmdbDto
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -43,15 +43,17 @@ interface TmdbApi {
 
 
     // test 1399 games of thrones
+    // + tutte le stagioni
     @GET("tv/{show_id}")
     suspend fun getShowDto(
         @Path("show_id") showId: Int,
         @Query("api_key") apiKey: String = API_KEY_QUERY_MOD,
         @Query("language") language: String = systemLanguage,
         @Query("append_to_response") appendToResponse: String = "videos",
-    ): DetailShowDtoTmdb
+    ): DetailShowTmdbDto
 
 
+    // + tutti gli episodi
     @GET("tv/{series_id}/season/{season_number}")
     suspend fun getSeasonDto(
         @Path("series_id") seriesId: Int,
@@ -61,6 +63,8 @@ interface TmdbApi {
     ): SeasonTmdbDto
 
 
+
+    // serve??
     @GET("tv/{series_id}/season/{season_number}/episode/{episode_number}")
     suspend fun getEpisodeDto(
         @Path("series_id") seasonId: Int,

@@ -9,4 +9,5 @@ data class PrefsShowEntity(
     @PrimaryKey val traktId: Int,
     val liked: Boolean = false,
     val addedDateTime: Long // using timestamp
+    // TODO add notes
 )
