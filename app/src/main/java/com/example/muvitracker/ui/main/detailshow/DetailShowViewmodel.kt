@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.muvitracker.data.TraktApi
 import com.example.muvitracker.data.dto.person.toDomain
+import com.example.muvitracker.data.dto.utilsdto.Ids
 import com.example.muvitracker.domain.model.CastAndCrew
 import com.example.muvitracker.domain.model.DetailShow
 import com.example.muvitracker.domain.model.SeasonExtended
@@ -70,9 +71,11 @@ class DetailShowViewmodel @Inject constructor(
     }
 
     // flow
-    fun loadAllSeasons(showId: Int) {
+//    fun loadAllSeasons(showId: Int) {
+    fun loadAllSeasons(showIds: Ids) {
         viewModelScope.launch {
-            seasonRepository.getAllSeasonsFlow(showId)
+//            seasonRepository.getAllSeasonsFlow(showId)
+            seasonRepository.getAllSeasonsFlow(showIds)
                 .map { response ->
                     when (response) {
                         is IoResponse.Success -> {

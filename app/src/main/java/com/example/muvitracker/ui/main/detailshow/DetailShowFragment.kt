@@ -114,7 +114,8 @@ class DetailShowFragment : Fragment(R.layout.fragm_detail_show) {
         // SEASONS ###############################################################
         binding.seasonsRV.adapter = detailSeasonsAdapter
         binding.seasonsRV.layoutManager = LinearLayoutManager(requireContext())
-        viewModel.loadAllSeasons(currentShowIds.trakt)
+//        viewModel.loadAllSeasons(currentShowIds.trakt)
+        viewModel.loadAllSeasons(currentShowIds)
         viewModel.allSeasonsState.observe(viewLifecycleOwner) { stateContainer ->
             // 1
             totSeasonsNumber = stateContainer.data?.size ?: 0

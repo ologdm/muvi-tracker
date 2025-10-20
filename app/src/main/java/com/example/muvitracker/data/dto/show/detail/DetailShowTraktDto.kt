@@ -40,7 +40,7 @@ data class DetailShowTraktDto(
 
 
 fun mergeShowsDtoToEntity(
-    trakt: DetailShowTraktDto, tmdb: DetailShowDtoTmdb
+    trakt: DetailShowTraktDto, tmdb: DetailShowTmdbDto
 ): DetailShowEntity {
     return DetailShowEntity(
         // trakt ok

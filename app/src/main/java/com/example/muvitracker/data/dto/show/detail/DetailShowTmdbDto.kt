@@ -2,11 +2,12 @@ package com.example.muvitracker.data.dto.show.detail
 
 import com.example.muvitracker.data.dto.movie.detail.GenreDto
 import com.example.muvitracker.data.dto.movie.detail.VideosResult
+import com.example.muvitracker.data.dto.season.SeasonTmdbDto
 import com.google.gson.annotations.SerializedName
 
 
 // tmdb dto - game of thrones - 1399 - it
-data class DetailShowDtoTmdb(
+data class DetailShowTmdbDto(
 //    val adult: Boolean,
     @SerializedName("backdrop_path") val backdropPath: String?, // "/zZqpAXxVSBtxV9qPBcscfXBcL2w.jpg"
 //    @SerializedName("created_by") val createdBy: List<CreatorDto>, // NO
@@ -32,7 +33,7 @@ data class DetailShowDtoTmdb(
     @SerializedName("poster_path") val posterPath: String?, // "/n4IxkaZanXQU89WNRxt8h1fw1yb.jpg"
 //    @SerializedName("production_companies") val productionCompanies: List<ProductionCompanyDto>,
 //    @SerializedName("production_countries") val productionCountries: List<ProductionCountryDto>,
-//    val seasons: List<SeasonDto>? // NO - tutti i dati stagione
+    val seasons: List<SeasonTmdbDto>?, // !!! SOLO STAGIONI REPO
 //    @SerializedName("spoken_languages") val spokenLanguages: List<SpokenLanguageDto>?, // NO, come languages ma piu complet
     val status: String?, // "Returning Series"
     val tagline: String?, // "L'inverno sta arrivando."

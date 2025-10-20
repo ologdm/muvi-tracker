@@ -44,8 +44,7 @@ class DetailShowRepositoryImpl @Inject constructor(
         fetcher = { traktId ->
             val traktDto = traktApi.getShowDetail(traktId)
             val tmdbDto = tmdbApi.getShowDto(traktDto.ids.tmdb)
-            val entity= mergeShowsDtoToEntity(traktDto,tmdbDto)
-            entity
+            mergeShowsDtoToEntity(traktDto,tmdbDto)
         },
         reader = { traktId ->
             detailShowDao.getSingleFlow(traktId)
