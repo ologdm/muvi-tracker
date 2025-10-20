@@ -54,6 +54,9 @@ data class DetailShowEntity(
 )
 
 
+
+// !! usato solo in prefs repo, su detail repo estraggo direttamwente il domain da dao !!
+
 // (PrefsEntity?) - can be null as logic
 fun DetailShowEntity.toDomain(prefsShowEntity: PrefsShowEntity?): DetailShow {
     return DetailShow(
