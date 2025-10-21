@@ -13,10 +13,10 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface SeasonDao {
 
-    @Query("SELECT * FROM season_entities WHERE showId=:showId AND seasonNumber=:seasonNr")
+    @Query("SELECT * FROM season_table WHERE showId=:showId AND seasonNumber=:seasonNr")
     suspend fun readSingle(showId: Int, seasonNr: Int): SeasonEntity?
 
-    @Query("SELECT * FROM season_entities WHERE seasonTraktId=:seasonTraktId")
+    @Query("SELECT * FROM season_table WHERE seasonTraktId=:seasonTraktId")
     suspend fun readSingleById(seasonTraktId: Int): SeasonEntity?
 
     @Insert
@@ -28,20 +28,48 @@ interface SeasonDao {
     @Update
     suspend fun updateAllByDto(entities: List<SeasonEntity>)
 
-    @Query("SELECT COUNT(*) FROM season_entities WHERE showId=:showId")
+
+    @Query("SELECT COUNT(*) FROM season_table WHERE showId=:showId")
     suspend fun countAllSeasonsOfShow(showId: Int): Int
 
 
+    // TODO: 1.1.3 OK
     // entity -> to domain
     // join -> season + episodeEntity (watchedEpisode)
     //
+//    @Transaction
+//    @Query(
+//        """
+//    SELECT s.showId, s.seasonNumber, s.ids, s.rating, s.episodeCount, s.airedEpisodes,
+//           s.title, s.overview, s.releaseYear, s.network,
+//           SUM(CASE WHEN e.watched = 1 THEN 1 ELSE 0 END) AS watchedCount
+//    FROM season_entities AS s
+//    LEFT JOIN episode_entities AS e ON s.seasonNumber = e.seasonNumber AND s.showId = e.showId
+//    WHERE s.showId = :showId
+//    GROUP BY s.seasonTraktId
+//"""
+//    )
+//    fun getAllSeasons(showId: Int): Flow<List<SeasonExtended>>
+
     @Transaction
     @Query(
         """
-    SELECT s.showId, s.seasonNumber, s.ids, s.rating, s.episodeCount, s.airedEpisodes, 
-           s.title, s.overview, s.releaseYear, s.network, 
-           SUM(CASE WHEN e.watched = 1 THEN 1 ELSE 0 END) AS watchedCount
-    FROM season_entities AS s
+    SELECT
+        -- trakt
+        s.showId, -- traktShowId
+        s.seasonNumber, 
+        s.ids,
+        s.traktRating, -- modificato 1.1.3
+        s.episodeCount, 
+        s.airedEpisodes, 
+        -- tmdb or trakt
+        s.title, 
+        s.overview, 
+        COALESCE(s.airDate, 0) AS releaseDate, -- modificato 1.1.3 TODO eventualmente fare solo year
+        s.network, 
+        --COALESCE(SUM(CASE WHEN e.watched = 1 THEN 1 ELSE 0 END),0) AS watchedCount --1.1.3 fix COALESCE
+        SUM(CASE WHEN e.watched = 1 THEN 1 ELSE 0 END) AS watchedCount --1.1.3 fix COALESCE
+    FROM season_table AS s
     LEFT JOIN episode_entities AS e ON s.seasonNumber = e.seasonNumber AND s.showId = e.showId
     WHERE s.showId = :showId
     GROUP BY s.seasonTraktId
@@ -50,13 +78,33 @@ interface SeasonDao {
     fun getAllSeasons(showId: Int): Flow<List<SeasonExtended>>
 
 
+    // TODO 1.1.3 OK
+    // creazione SeasonExtended:
+    //      SELECT - tutti i campi del output SeasonExtended,
+    //      ma devono avere lo stesso nome input putput, altrimenti AS nuovoNome
+    //      !! COALESCE (1,2) - sceglie il primo valore disponibile tra i due paramentri (1,2)
+
+
+
+    // TODO 1.1.3 OK
     @Transaction
     @Query(
         """
-    SELECT s.showId, s.seasonNumber, s.ids, s.rating, s.episodeCount, s.airedEpisodes, 
-           s.title, s.overview, s.releaseYear, s.network, 
-           SUM(CASE WHEN e.watched = 1 THEN 1 ELSE 0 END) AS watchedCount
-    FROM season_entities AS s
+    SELECT 
+        s.showId,  -- traktShowId
+        s.seasonNumber, 
+        s.ids, 
+        s.traktRating,  -- modificato 1.1.3
+        s.episodeCount, 
+        s.airedEpisodes, 
+        
+        s.title, 
+        s.overview, 
+        COALESCE(s.airDate, 0) AS releaseDate, -- modificato 1.1.3
+        s.network, 
+        -- COALESCE((CASE WHEN e.watched = 1 THEN 1 ELSE 0 END),0) AS watchedCount  --1.1.3 fix COALESCE
+        SUM(CASE WHEN e.watched = 1 THEN 1 ELSE 0 END) AS watchedCount  --1.1.3 fix COALESCE
+    FROM season_table AS s
     LEFT JOIN episode_entities AS e ON s.seasonNumber = e.seasonNumber AND s.showId = e.showId
     WHERE s.showId = :showId AND s.seasonNumber = :seasonNumber
     GROUP BY s.seasonTraktId

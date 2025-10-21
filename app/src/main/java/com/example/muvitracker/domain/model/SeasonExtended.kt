@@ -4,18 +4,20 @@ import com.example.muvitracker.data.dto.utilsdto.Ids
 
 
 data class SeasonExtended(
+    // construtor - 11 attributi
     val showId: Int,
     val seasonNumber: Int,
     val ids: Ids,
-    val rating: String,
-    val episodeCount: Int,
-    val airedEpisodes: Int,
-    val title: String,
-    val overview: String,
-    val releaseYear: String,
-    val network: String,
+    val traktRating: String?,
+    val episodeCount: Int, // DEFAULT = 0 a db
+    val airedEpisodes: Int, // DEFAULT = 0 a db
+    val title: String?,
+    val overview: String?,
+//    val releaseYear: String,
+    val releaseDate: String?, // 1.1.3 nullable per compatibilità dao
+    val network: String?,
     // computed data from episodeRepository
-    val watchedCount: Int = 0, // default 0
+    val watchedCount: Int = 0, // calcolato a DB (default0) - calcola elementi guardati su totale
 ) {
     // property al posto di fun
     val watchedAll: Boolean

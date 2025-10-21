@@ -40,15 +40,14 @@ data class SeasonEntity(
     val seasonNumber: Int, // X
     val ids: Ids,
     val showId: Int, // X, passed through parameter .toEntity(showId)
-    // gruppo not null
-    val episodeCount: Int?, // totali
-    val airedEpisodes: Int?, // usciti
-    val network: String?, // no networks, su tmdb non e disponibile nella chiamata
+    /** episodeCount, airedEpisodes -> default=0, serve per evitare crash nei calcolo  */
+    val episodeCount: Int = 0, // totali stagione
+    val airedEpisodes: Int = 0, // usciti stagione
+    val network: String?, //  * su tmdb List<Network> non è disponibile nella chiamata
 
     // tmdb ---------------------
     val title: String?,
     val overview: String?,
-//    val releaseYear: String?,
     val airDate: String?,
     val posterPath: String?,
 

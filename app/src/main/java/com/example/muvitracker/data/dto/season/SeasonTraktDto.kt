@@ -51,8 +51,8 @@ fun mergeSeasonsDtoToEntity(
             ?: 0,
         ids = trakt.ids,
         showId = showId,
-        episodeCount = trakt.episodeCount,
-        airedEpisodes = trakt.airedEpisodes,
+        episodeCount = trakt.episodeCount ?: 0, // default = 0, per calcolo a db
+        airedEpisodes = trakt.airedEpisodes ?: 0, // default = 0, per calcolo a db
         network = trakt.network, // su tmdb non disponibile
         // tmdb
         title = tmdb?.name
