@@ -18,7 +18,8 @@ data class DetailShowEntity(
     @PrimaryKey val traktId: Int,
     val year: Int?,
     @TypeConverters(ConvertersUtils::class) val ids: Ids,
-    val airedEpisodes: Int, // not null -> default 0 -> serve per calcolo
+    /** airedEpisodes = 0 default, serve per evitare crash nei calcolo  */
+    val airedEpisodes: Int = 0, // not null -> default 0 -> serve per calcolo
 
     // tmdb
     val title: String?,
