@@ -31,14 +31,7 @@ class SeasonFragment : Fragment(R.layout.fragm_season_son) {
     @Inject
     lateinit var navigator: Navigator
 
-    private val episodesAdapter = SeasonEpisodesAdapter(
-        onCLickVH = { episodeNumber ->
-            navigator.startEpisodeFragment(currentShowIds, currentSeasonNr, episodeNumber)
-        },
-        onCLickWatched = { episodeTraktId ->
-            viewModel.toggleWatchedEpisode(currentShowIds.trakt, currentSeasonNr, episodeTraktId)
-        }
-    )
+    lateinit var episodesAdapter: SeasonEpisodesAdapter
 
 
     override fun onViewCreated(
@@ -64,8 +57,21 @@ class SeasonFragment : Fragment(R.layout.fragm_season_son) {
             }
         }
 
-
         // SEASON EPISODES
+        // NEW: Initialize the adapter here
+        episodesAdapter = SeasonEpisodesAdapter(
+            onCLickVH = { episodeNumber ->
+                navigator.startEpisodeFragment(currentShowIds, currentSeasonNr, episodeNumber)
+            },
+            onCLickWatched = { episodeTraktId ->
+                viewModel.toggleWatchedEpisode(
+                    currentShowIds.trakt,
+                    currentSeasonNr,
+                    episodeTraktId
+                )
+            }
+        )
+
         binding.episodesRV.adapter = episodesAdapter
         binding.episodesRV.layoutManager = LinearLayoutManager(requireContext())
 
