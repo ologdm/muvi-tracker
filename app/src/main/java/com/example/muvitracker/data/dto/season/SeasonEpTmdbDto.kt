@@ -1,5 +1,6 @@
 package com.example.muvitracker.data.dto.season
 
+import com.example.muvitracker.data.dto.episode.EpisodeTmdbDto
 import com.google.gson.annotations.SerializedName
 
 // TODO: OK
@@ -22,15 +23,19 @@ data class SeasonTmdbDto(
 // DTO SEASON COMPLETA, CON EPISODI -NOT USED -------------------------
 // chiamata da es:   /tv/{1399}/season/1
 
-//data class SeasonTmdbDto(
-////    val _id: String, // id interno tmdb, non serve
+// TODO
+/** Dto supporto, serve per scaricare la stagione con gli episodi in particolare
+ * tutti i dati stagione gia scaricati con
+ */
+data class SeasonEpTmdbDto(
+//    val _id: String, // id interno tmdb, non serve
 //    @SerializedName("air_date") val airDate: String,
-////    val episodes: List<EpisodeDto>, // NO
-////    val crew: List<CrewMemberDto> // NO
-//    val name: String, // Stagione 1 (tradotta)
-//    val overview: String?,
-//    val id: Int, // id tmdb
+    val episodes: List<EpisodeTmdbDto>, // OK
+//    val crew: List<CrewMemberDto> // NO
+//    val name: String, // es: Stagione 1 (tradotta)
+//    val overview: String?, //
+    val id: Int, // id tmdb
 //    @SerializedName("poster_path") val posterPath: String?,
 //    @SerializedName("season_number") val seasonNumber: Int?,
 //    @SerializedName("vote_average") val voteAverage: Double?
-//)
+)

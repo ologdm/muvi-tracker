@@ -2,12 +2,10 @@ package com.example.muvitracker.data.database.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.muvitracker.data.LanguageManager
 import com.example.muvitracker.data.dto.season.SeasonTmdbDto
 import com.example.muvitracker.data.dto.season.SeasonTraktDto
 import com.example.muvitracker.data.dto.season.mergeSeasonsDtoToEntity
 import com.example.muvitracker.data.dto.utilsdto.Ids
-import com.example.muvitracker.utils.firstDecimalApproxToString
 
 // completo - apertura detail
 // parziale - da mylist, watchedAll
