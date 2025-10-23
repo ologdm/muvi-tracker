@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 // tutti elementi nullable
 
 // tmdb dto - deadpool - 293660 - it
-data class DetailMovieDtoTmdb(
+data class DetailMovieTmdbDto(
 //    val adult: Boolean,
     @SerializedName("backdrop_path") val backdropPath: String?,
 //    @SerializedName("belongs_to_collection")

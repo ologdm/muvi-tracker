@@ -2,7 +2,7 @@ package com.example.muvitracker.data
 
 import com.example.muvitracker.BuildConfig
 import com.example.muvitracker.data.dto.episode.EpisodeTmdbDto
-import com.example.muvitracker.data.dto.movie.detail.DetailMovieDtoTmdb
+import com.example.muvitracker.data.dto.movie.detail.DetailMovieTmdbDto
 import com.example.muvitracker.data.dto.person.PersonDtoTmdb
 import com.example.muvitracker.data.dto.season.SeasonEpTmdbDto
 import com.example.muvitracker.data.dto.show.detail.DetailShowTmdbDto
@@ -38,7 +38,7 @@ interface TmdbApi {
         @Query("language") language: String = systemLanguage,
 //        @Query("language") language: String = "it-IT",
         @Query("append_to_response") appendToResponse: String = "videos",
-    ): DetailMovieDtoTmdb
+    ): DetailMovieTmdbDto
 
     // 1.1.3 OK
     // test 1399 games of thrones
@@ -73,6 +73,7 @@ interface TmdbApi {
     ): EpisodeTmdbDto
 
 
+    //
     @GET("person/{person_id}")
     suspend fun getPersonDto(
         @Path("person_id") personId: Int,

@@ -41,7 +41,7 @@ data class DetailMovieTraktDto(
 
 // Unione 2 dto utilizzate in un entity
 fun mergeMoviesDtoToEntity(
-    trakt: DetailMovieTraktDto, tmdb: DetailMovieDtoTmdb
+    trakt: DetailMovieTraktDto, tmdb: DetailMovieTmdbDto
 ): DetailMovieEntity {
     return DetailMovieEntity(
         // trakt
