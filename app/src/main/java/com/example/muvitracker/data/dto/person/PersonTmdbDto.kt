@@ -2,8 +2,6 @@ package com.example.muvitracker.data.dto.person
 
 import com.google.gson.annotations.SerializedName
 
-// TODO 1.1.3 - modifica provvisoria, scarica traduzione
-// es:
 data class PersonTmdbDto(
 //    val adult: Boolean,
 //    @SerializedName("also_known_as") val alsoKnownAs: List<String>,
