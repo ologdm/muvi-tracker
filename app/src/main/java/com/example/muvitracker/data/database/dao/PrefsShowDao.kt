@@ -16,16 +16,16 @@ interface PrefsShowDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertSingle(entity: PrefsShowEntity)
 
-    @Query("SELECT * FROM prefs_show_entities WHERE traktId=:id")
+    @Query("SELECT * FROM prefs_show_table WHERE traktId=:id")
     suspend fun readSingle(id: Int): PrefsShowEntity?
 
-    @Query("SELECT * FROM prefs_show_entities")
+    @Query("SELECT * FROM prefs_show_table")
     fun readAll(): Flow<List<PrefsShowEntity>>
 
-    @Query("UPDATE prefs_show_entities SET liked = NOT liked WHERE traktId =:id")
+    @Query("UPDATE prefs_show_table SET liked = NOT liked WHERE traktId =:id")
     suspend fun toggleLiked(id: Int)
 
-    @Query("DELETE FROM prefs_show_entities WHERE traktId =:id")
+    @Query("DELETE FROM prefs_show_table WHERE traktId =:id")
     suspend fun deleteSingle(id: Int)
 
 
@@ -65,7 +65,7 @@ interface PrefsShowDao {
         p.addedDateTime,
         ---COALESCE utile per default - prende primo valore non null tra quelli che gli passi
         COALESCE(SUM(CASE WHEN e.watched = 1 THEN 1 ELSE 0 END),0) AS watchedCount
-    FROM prefs_show_entities AS p
+    FROM prefs_show_table AS p
     LEFT JOIN detail_show_table AS d ON p.traktId = d.traktId
     LEFT JOIN episode_table AS e ON d.traktId = e.showId
     GROUP BY p.traktId

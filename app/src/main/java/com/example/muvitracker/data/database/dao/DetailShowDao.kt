@@ -65,7 +65,7 @@ interface DetailShowDao {
     FROM 
         detail_show_table AS d   ---- nome tabella db
     LEFT JOIN 
-        prefs_show_entities AS p 
+        prefs_show_table AS p 
     ON 
         d.traktId = p.traktId
     LEFT JOIN 

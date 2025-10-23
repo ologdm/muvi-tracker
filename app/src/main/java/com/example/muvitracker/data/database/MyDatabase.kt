@@ -18,13 +18,13 @@ import com.example.muvitracker.data.database.entities.SeasonEntity
 
 @Database(
     entities = [
-        // trakt
         DetailMovieEntity::class,
         DetailShowEntity::class,
         PrefsMovieEntity::class,
         PrefsShowEntity::class,
         SeasonEntity::class,
         EpisodeEntity::class,
+        //
         /** tmdb images - unused */
 //        MovieShowImageEntity::class,
 //        SeasonImageEntity::class,
@@ -53,7 +53,5 @@ abstract class MyDatabase : RoomDatabase() {
 //    abstract fun seasonImageDao(): SeasonImageDao
 //    abstract fun episodeImageDao(): EpisodeImageDao
 //    abstract fun personImageDao(): PersonImageDao
-
-    // tmdb - non ho entities nuove
 
 }
