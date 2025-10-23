@@ -15,7 +15,7 @@ import com.example.muvitracker.data.dto.show.FavoritedDtoS
 import com.example.muvitracker.data.dto.show.ShowBaseDto
 import com.example.muvitracker.data.dto.show.WatchedDtoS
 import com.example.muvitracker.data.dto.person.CastResponseDto
-import com.example.muvitracker.data.dto.person.PersonExtendedDto
+import com.example.muvitracker.data.dto.person.PersonTraktDto
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -175,7 +175,7 @@ interface TraktApi {
     @GET("people/{person_id}?extended=full")
     suspend fun getPersonDetail(
         @Path("person_id") personId: Int
-    ): PersonExtendedDto
+    ): PersonTraktDto
 
 
 }

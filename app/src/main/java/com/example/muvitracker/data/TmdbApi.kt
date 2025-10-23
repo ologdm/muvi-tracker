@@ -3,7 +3,7 @@ package com.example.muvitracker.data
 import com.example.muvitracker.BuildConfig
 import com.example.muvitracker.data.dto.episode.EpisodeTmdbDto
 import com.example.muvitracker.data.dto.movie.detail.DetailMovieTmdbDto
-import com.example.muvitracker.data.dto.person.PersonDtoTmdb
+import com.example.muvitracker.data.dto.person.PersonTmdbDto
 import com.example.muvitracker.data.dto.season.SeasonEpTmdbDto
 import com.example.muvitracker.data.dto.show.detail.DetailShowTmdbDto
 import retrofit2.http.GET
@@ -78,7 +78,7 @@ interface TmdbApi {
     suspend fun getPersonDto(
         @Path("person_id") personId: Int,
         @Query("api_key") apiKey: String = API_KEY_QUERY_MOD,
-    ): PersonDtoTmdb
+    ): PersonTmdbDto
 
 }
 

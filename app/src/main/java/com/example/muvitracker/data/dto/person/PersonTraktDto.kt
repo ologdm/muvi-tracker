@@ -7,7 +7,7 @@ import com.example.muvitracker.utils.dateFormatterInddMMMyyy
 import com.google.gson.annotations.SerializedName
 
 
-data class PersonExtendedDto(
+data class PersonTraktDto(
     val name: String?,
     val ids: Ids?,
     @SerializedName("social_ids") val socialIds: SocialIds?,
@@ -30,7 +30,7 @@ data class SocialIds(
 )
 
 
-fun PersonExtendedDto.toDomain(): PersonExtended {
+fun PersonTraktDto.toDomain(): PersonExtended {
     return PersonExtended(
         name = name ?: "N/A",
         ids = ids ?: Ids(),
