@@ -49,15 +49,15 @@ class App : Application() {
     }
 
 
-    // TODO - spostare in cartella glide
+    // TODO - spostare in GlideUtils alla fine
     private fun checkAndClearGlideCacheIfLanguageChanged() {
         val prefs = getSharedPreferences("settings", Context.MODE_PRIVATE)
         val savedLang = prefs.getString(OLD_APP_LANGUAGE_PREF, null)
 
         if (savedLang != localeCode) {
-            // Pulizia cache disco in background - operazione può essere lunga
+            // Pulizia cache disco
             CoroutineScope(Dispatchers.IO).launch {
-                // 1. Pulizia cache disco su thread I/O
+                // 1. Pulizia cache disco su thread I/O - operazione può essere lunga, in background
                 Glide.get(this@App).clearDiskCache()
 
                 // 2. Pulizia RAM cache sul main thread - perchè è collegata al thread UI di Android
