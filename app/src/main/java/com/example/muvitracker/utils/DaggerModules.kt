@@ -7,7 +7,6 @@ import com.example.muvitracker.BuildConfig
 import com.example.muvitracker.data.TmdbApi
 import com.example.muvitracker.data.TraktApi
 import com.example.muvitracker.data.database.MyDatabase
-import com.example.muvitracker.data.database.all_images_tmdb.TmdbAllImagesApi
 import com.example.muvitracker.data.repositories.DetailMovieRepositoryImpl
 import com.example.muvitracker.data.repositories.DetailShowRepositoryImpl
 import com.example.muvitracker.data.repositories.EpisodeRepositoryImpl
@@ -141,15 +140,19 @@ class DaggerModules {
         return retrofit.create(TmdbApi::class.java)
     }
 
-    @Provides
-    @Singleton
-    fun provideTmdbAllImagesApi(): TmdbAllImagesApi {
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://api.themoviedb.org/3/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-        return retrofit.create(TmdbAllImagesApi::class.java)
-    }
+
+    /**  ALL IMAGES FROM TMDB - attualmente non usato
+     * -> data.unused.tmdb_all_images
+     */
+//    @Provides
+//    @Singleton
+//    fun provideTmdbAllImagesApi(): TmdbAllImagesApi {
+//        val retrofit = Retrofit.Builder()
+//            .baseUrl("https://api.themoviedb.org/3/")
+//            .addConverterFactory(GsonConverterFactory.create())
+//            .build()
+//        return retrofit.create(TmdbAllImagesApi::class.java)
+//    }
 
 
 }
