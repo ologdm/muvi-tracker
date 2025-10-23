@@ -14,7 +14,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class PersonBSheetFragment : BottomSheetDialogFragment(R.layout.fragm_person) {
+class PersonBottomSheetFragment : BottomSheetDialogFragment(R.layout.fragm_person) {
 
     private var currentPersonIds: Ids = Ids()
     private var currentCharacter: String = ""
@@ -82,8 +82,8 @@ class PersonBSheetFragment : BottomSheetDialogFragment(R.layout.fragm_person) {
 
     companion object {
         // from movie, show (castMember -> personExtended)
-        fun create(personIds: Ids, character: String): PersonBSheetFragment {
-            val personFragment = PersonBSheetFragment()
+        fun create(personIds: Ids, character: String): PersonBottomSheetFragment {
+            val personFragment = PersonBottomSheetFragment()
             val bundle = Bundle()
             bundle.putParcelable(PERSON_IDS_KEY, personIds)
             bundle.putString(CHARACTER_NAME_KEY, character)
