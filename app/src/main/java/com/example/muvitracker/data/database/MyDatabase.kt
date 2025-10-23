@@ -40,7 +40,7 @@ import com.example.muvitracker.data.database.all_images_tmdb.database.entities.S
         EpisodeImageEntity::class,
         PersonImageEntity::class,
     ],
-    version = 3
+    version = 1
 )
 @TypeConverters(
     ConvertersUtils::class,
