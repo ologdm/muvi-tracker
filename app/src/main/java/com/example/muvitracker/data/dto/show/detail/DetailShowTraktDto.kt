@@ -47,7 +47,7 @@ fun mergeShowsDtoToEntity(
         traktId = trakt.ids.trakt,
         year = trakt.year,
         ids = trakt.ids,
-        airedEpisodes = trakt.airedEpisodes ?: 0, // logica veccchia, serve per calcolo
+        airedEpisodes = trakt.airedEpisodes ?: 0, // default = 0  (logica vecchia serve per calcolo () )
 
         // tmdb
         title = tmdb.name,

@@ -34,8 +34,8 @@ class PrefsShowFragment : Fragment(R.layout.fragm_prefs_son) {
         onCLickLiked = { movieId ->
             viewModel.toggleLikedShow(movieId)
         },
-        onClickWatchedAllCheckbox = { showId, adapterCallback ->
-            viewModel.updateWatchedAllSingleShow(showId, onComplete = {
+        onClickWatchedAllCheckbox = { showIds, adapterCallback ->
+            viewModel.updateWatchedAllSingleShow(showIds, onComplete = {
                 adapterCallback() // esegui operazione su adapter
             })
         }

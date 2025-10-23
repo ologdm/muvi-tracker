@@ -3,6 +3,7 @@ package com.example.muvitracker.ui.main.seasons
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.muvitracker.data.dto.utilsdto.Ids
 import com.example.muvitracker.domain.model.EpisodeExtended
 import com.example.muvitracker.domain.model.SeasonExtended
 import com.example.muvitracker.domain.repo.EpisodeRepository
@@ -40,10 +41,10 @@ class SeasonViewmodel @Inject constructor(
     }
 
 
-    fun loadSeasonEpisodes(showId: Int, seasonNumber: Int) {
+    fun loadSeasonEpisodes(showIds: Ids, seasonNumber: Int) {
         // caching come in details
         viewModelScope.launch {
-            episodeRepository.getSeasonAllEpisodesFlow(showId, seasonNumber)
+            episodeRepository.getSeasonAllEpisodesFlow(showIds, seasonNumber)
                 .map { response ->
                     when (response) {
                         is IoResponse.Success -> {
@@ -67,20 +68,23 @@ class SeasonViewmodel @Inject constructor(
     }
 
 
-    fun toggleSeasonAllWatchedEpisodes(showId: Int, seasonNr: Int) {
+    fun toggleSeasonAllWatchedEpisodes(
+        showIds: Ids,
+        seasonNr: Int
+    ) {
         viewModelScope.launch {
-            seasonRepository.checkAndSetSingleSeasonWatchedAllEpisodes(showId, seasonNr)
+            seasonRepository.checkAndSetSingleSeasonWatchedAllEpisodes(showIds, seasonNr)
         }
     }
 
 
     fun toggleWatchedEpisode(
-        showId: Int,
+        showIds: Ids,
         seasonNr: Int,
         episodeNr: Int
     ) {
         viewModelScope.launch {
-            episodeRepository.toggleSingleWatchedEpisode(showId, seasonNr, episodeNr)
+            episodeRepository.toggleSingleWatchedEpisode(showIds, seasonNr, episodeNr)
         }
     }
 

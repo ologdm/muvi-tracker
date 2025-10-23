@@ -108,20 +108,20 @@ class DetailShowViewmodel @Inject constructor(
     }
 
 
-    fun toggleWatchedAllShowEpisodes(showId: Int, onComplete: () -> Unit) {
+    fun toggleWatchedAllShowEpisodes(showIds: Ids, onComplete: () -> Unit) {
         // add callback
         viewModelScope.launch {
-            detailShowRepository.checkAndSetWatchedAllShowEpisodes(showId)
+            detailShowRepository.checkAndSetWatchedAllShowEpisodes(showIds)
             onComplete()
         }
     }
 
 
-    fun toggleWatchedAllSingleSeasonEp(showId: Int, seasonNr: Int, onComplete: () -> Unit) {
+    fun toggleWatchedAllSingleSeasonEp(showIds: Ids, seasonNr: Int, onComplete: () -> Unit) {
         viewModelScope.launch() {
             // 1 start loading  - su adapter - start al click
             // 2 toggle allEpisodes + season + showOnPrefs
-            seasonRepository.checkAndSetSingleSeasonWatchedAllEpisodes(showId, seasonNr)
+            seasonRepository.checkAndSetSingleSeasonWatchedAllEpisodes(showIds, seasonNr)
             // 3 finish loading - chiama la callback con true o false (se l'operazione ha avuto successo o no)
             onComplete()
         }

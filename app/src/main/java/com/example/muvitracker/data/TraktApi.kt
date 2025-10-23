@@ -3,7 +3,7 @@ package com.example.muvitracker.data
 import com.example.muvitracker.data.dto.movie.BoxofficeDtoM
 import com.example.muvitracker.data.dto.movie.detail.DetailMovieTraktDto
 import com.example.muvitracker.data.dto.show.detail.DetailShowTraktDto
-import com.example.muvitracker.data.dto.episode.EpisodeExtenDto
+import com.example.muvitracker.data.dto.episode.EpisodeTraktDto
 import com.example.muvitracker.data.dto.movie.MovieBaseDto
 import com.example.muvitracker.data.dto.SearchDto
 import com.example.muvitracker.data.dto.movie.AnticipatedDtoM
@@ -136,21 +136,23 @@ interface TraktApi {
         @Path("season_number") seasonNumber: Int
     ): SeasonTraktDto
 
-    // all episodes
+
+    // es - https://api.themoviedb.org/3/tv/1399/season/1
+    // all episodes - già fornisce un dto ccon tutti gli episodi
     @GET("shows/{show_id}/seasons/{season_number}?extended=full")
     suspend fun getSeasonWithEpisodes(
         @Path("show_id") showId: Int,
         @Path("season_number") seasonNumber: Int
-    ): List<EpisodeExtenDto>
+    ): List<EpisodeTraktDto>
 
 
-    // EPISODE FRAGMENT (bottom sheet)
-    @GET("shows/{show_id}/seasons/{season_number}/episodes/{episode_number}?extended=full")
-    suspend fun getEpisodeInfo(
-        @Path("show_id") showId: Int,
-        @Path("season_number") seasonNumber: Int,
-        @Path("episode_number") episodeNumber: Int
-    ): EpisodeExtenDto
+    // (single episode) - non usato
+//    @GET("shows/{show_id}/seasons/{season_number}/episodes/{episode_number}?extended=full")
+//    suspend fun getEpisodeInfo(
+//        @Path("show_id") showId: Int,
+//        @Path("season_number") seasonNumber: Int,
+//        @Path("episode_number") episodeNumber: Int
+//    ): EpisodeExtenDto
 
 
     // TODO CAST, PERSON DETAIL  ######################################################

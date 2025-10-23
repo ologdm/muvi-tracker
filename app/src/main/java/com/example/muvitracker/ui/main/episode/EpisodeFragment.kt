@@ -18,7 +18,9 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class EpisodeFragment : BottomSheetDialogFragment(R.layout.fragm_episode_bottomsheet) {
+class EpisodeFragment : BottomSheetDialogFragment(
+    R.layout.fragm_episode_bottomsheet
+) {
 
     private var currentShowIds: Ids = Ids()
     private var currentSeasonNr: Int = 0
@@ -29,7 +31,6 @@ class EpisodeFragment : BottomSheetDialogFragment(R.layout.fragm_episode_bottoms
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
         // get bundle
         val bundle = arguments
         if (bundle != null) {
@@ -61,14 +62,18 @@ class EpisodeFragment : BottomSheetDialogFragment(R.layout.fragm_episode_bottoms
                             .firstAiredFormatted.formatDateFromFirsAired()
                     } | ${episode.runtime} min "
                 binding.overview.text = episode.overview
-                binding.traktRating.text = episode.rating.toString()
+                binding.traktRating.text = episode.traktRating.toString()
 
                 updateWatchedIcon(it)
             }
         }
 
         binding.watchedIcon.setOnClickListener {
-            viewModel.toggleWatchedEpisode(currentShowIds.trakt, currentSeasonNr, currentEpisodeNr)
+            viewModel.toggleWatchedEpisode(
+                currentShowIds,
+                currentSeasonNr,
+                currentEpisodeNr
+            )
         }
 
         loadTMDBImagesWithCustomGlide()

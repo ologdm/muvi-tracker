@@ -21,11 +21,11 @@ import com.example.muvitracker.data.dto.utilsdto.Ids
 //    val watched: Boolean = false
 //)
 
-// TODO: OK 1.1.3
+// TODO: OK 1.1.3 OK
 data class EpisodeExtended (
     val episodeTraktId: Int,
-    val seasonNumber: Int?,
-    val episodeNumber: Int?,
+    val seasonNumber: Int, // default -1 su entity
+    val episodeNumber: Int, // default -1 su entity
     val numberAbs: Int?,
     val ids: Ids,
     val showId: Int,

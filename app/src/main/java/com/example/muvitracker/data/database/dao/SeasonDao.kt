@@ -23,34 +23,22 @@ interface SeasonDao {
     suspend fun insertSingle(entity: SeasonEntity)
 
     @Update
-    suspend fun updateSingleByDto(entity: SeasonEntity)
+    suspend fun updateSingle(entity: SeasonEntity)
 
-    @Update
-    suspend fun updateAllByDto(entities: List<SeasonEntity>)
+    // not used
+//    @Update
+//    suspend fun updateAllByDto(entities: List<SeasonEntity>)
 
 
     @Query("SELECT COUNT(*) FROM season_table WHERE showId=:showId")
     suspend fun countAllSeasonsOfShow(showId: Int): Int
 
 
-    // TODO: 1.1.3 OK
-    // entity -> to domain
-    // join -> season + episodeEntity (watchedEpisode)
-    //
-//    @Transaction
-//    @Query(
-//        """
-//    SELECT s.showId, s.seasonNumber, s.ids, s.rating, s.episodeCount, s.airedEpisodes,
-//           s.title, s.overview, s.releaseYear, s.network,
-//           SUM(CASE WHEN e.watched = 1 THEN 1 ELSE 0 END) AS watchedCount
-//    FROM season_entities AS s
-//    LEFT JOIN episode_entities AS e ON s.seasonNumber = e.seasonNumber AND s.showId = e.showId
-//    WHERE s.showId = :showId
-//    GROUP BY s.seasonTraktId
-//"""
-//    )
-//    fun getAllSeasons(showId: Int): Flow<List<SeasonExtended>>
-
+    // TODO 1.1.3 OK
+//    creazione SeasonExtended:
+//         SELECT - tutti i campi del output SeasonExtended,
+//         ma devono avere lo stesso nome input putput, altrimenti AS nuovoNome
+//         !! COALESCE (1,2) - sceglie il primo valore disponibile tra i due paramentri (1,2)
     @Transaction
     @Query(
         """
@@ -65,25 +53,17 @@ interface SeasonDao {
         -- tmdb or trakt
         s.title, 
         s.overview, 
-        COALESCE(s.airDate, 0) AS releaseDate, -- modificato 1.1.3 TODO eventualmente fare solo year
+        COALESCE(s.airDate, 0) AS releaseDate, -- modificato 1.1.3,
         s.network, 
         --COALESCE(SUM(CASE WHEN e.watched = 1 THEN 1 ELSE 0 END),0) AS watchedCount --1.1.3 fix COALESCE
         SUM(CASE WHEN e.watched = 1 THEN 1 ELSE 0 END) AS watchedCount --1.1.3 fix COALESCE
     FROM season_table AS s
-    LEFT JOIN episode_entities AS e ON s.seasonNumber = e.seasonNumber AND s.showId = e.showId
+    LEFT JOIN episode_table AS e ON s.seasonNumber = e.seasonNumber AND s.showId = e.showId
     WHERE s.showId = :showId
     GROUP BY s.seasonTraktId
 """
     )
     fun getAllSeasons(showId: Int): Flow<List<SeasonExtended>>
-
-
-    // TODO 1.1.3 OK
-    // creazione SeasonExtended:
-    //      SELECT - tutti i campi del output SeasonExtended,
-    //      ma devono avere lo stesso nome input putput, altrimenti AS nuovoNome
-    //      !! COALESCE (1,2) - sceglie il primo valore disponibile tra i due paramentri (1,2)
-
 
 
     // TODO 1.1.3 OK
@@ -105,7 +85,7 @@ interface SeasonDao {
         -- COALESCE((CASE WHEN e.watched = 1 THEN 1 ELSE 0 END),0) AS watchedCount  --1.1.3 fix COALESCE
         SUM(CASE WHEN e.watched = 1 THEN 1 ELSE 0 END) AS watchedCount  --1.1.3 fix COALESCE
     FROM season_table AS s
-    LEFT JOIN episode_entities AS e ON s.seasonNumber = e.seasonNumber AND s.showId = e.showId
+    LEFT JOIN episode_table AS e ON s.seasonNumber = e.seasonNumber AND s.showId = e.showId
     WHERE s.showId = :showId AND s.seasonNumber = :seasonNumber
     GROUP BY s.seasonTraktId
 """

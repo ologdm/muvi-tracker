@@ -65,7 +65,7 @@ class SeasonFragment : Fragment(R.layout.fragm_season_son) {
             },
             onCLickWatched = { episodeTraktId ->
                 viewModel.toggleWatchedEpisode(
-                    currentShowIds.trakt,
+                    currentShowIds,
                     currentSeasonNr,
                     episodeTraktId
                 )
@@ -75,14 +75,14 @@ class SeasonFragment : Fragment(R.layout.fragm_season_son) {
         binding.episodesRV.adapter = episodesAdapter
         binding.episodesRV.layoutManager = LinearLayoutManager(requireContext())
 
-        viewModel.loadSeasonEpisodes(showId = currentShowIds.trakt, seasonNumber = currentSeasonNr)
+        viewModel.loadSeasonEpisodes(showIds = currentShowIds, seasonNumber = currentSeasonNr)
 
         viewModel.seasonEpisodesState.observe(viewLifecycleOwner) { stateContainer ->
             episodesAdapter.submitList(stateContainer.data)
         }
 
         binding.watchedAllIcon.setOnClickListener {
-            viewModel.toggleSeasonAllWatchedEpisodes(currentShowIds.trakt, currentSeasonNr)
+            viewModel.toggleSeasonAllWatchedEpisodes(currentShowIds, currentSeasonNr)
         }
 
 

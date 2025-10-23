@@ -67,7 +67,7 @@ interface PrefsShowDao {
         COALESCE(SUM(CASE WHEN e.watched = 1 THEN 1 ELSE 0 END),0) AS watchedCount
     FROM prefs_show_entities AS p
     LEFT JOIN detail_show_table AS d ON p.traktId = d.traktId
-    LEFT JOIN episode_entities AS e ON d.traktId = e.showId
+    LEFT JOIN episode_table AS e ON d.traktId = e.showId
     GROUP BY p.traktId
 """
     )

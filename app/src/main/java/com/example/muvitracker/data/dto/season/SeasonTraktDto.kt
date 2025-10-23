@@ -48,7 +48,7 @@ fun mergeSeasonsDtoToEntity(
     return SeasonEntity(
         seasonTraktId = trakt.ids.trakt,
         seasonNumber = trakt.number
-            ?: 0,
+            ?: -1,
         ids = trakt.ids,
         showId = showId,
         episodeCount = trakt.episodeCount ?: 0, // default = 0, per calcolo a db

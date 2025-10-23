@@ -1,5 +1,6 @@
 package com.example.muvitracker.domain.repo
 
+import com.example.muvitracker.data.dto.utilsdto.Ids
 import com.example.muvitracker.domain.model.DetailShow
 import com.example.muvitracker.domain.model.base.Show
 import com.example.muvitracker.utils.IoResponse
@@ -13,5 +14,5 @@ interface DetailShowRepository {
 
     suspend fun toggleLikedShow (showId: Int)
 
-    suspend fun checkAndSetWatchedAllShowEpisodes(showId: Int)
+    suspend fun checkAndSetWatchedAllShowEpisodes(showIds: Ids)
 }

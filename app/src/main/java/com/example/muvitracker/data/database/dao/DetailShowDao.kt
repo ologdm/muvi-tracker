@@ -26,9 +26,9 @@ interface DetailShowDao {
     fun deleteSingle(entity: DetailShowEntity)
 
 
-    // TODO new OK - campi coincidonno con Domain
+    // TODO 1.1.3 OK
     // 1. devo prendere cambi necessari da -> Show e Prefs Entities
-    // 21 show ent, 2, prefs, 1 ep
+    // 21 show ent, 2 prefs, 1 ep
     @Transaction
     @Query(
         """
@@ -69,7 +69,7 @@ interface DetailShowDao {
     ON 
         d.traktId = p.traktId
     LEFT JOIN 
-        episode_entities AS e 
+        episode_table AS e 
     ON 
         d.traktId = e.showId
     WHERE 

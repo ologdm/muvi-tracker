@@ -57,7 +57,7 @@ class DetailShowFragment : Fragment(R.layout.fragm_detail_show) {
             )
         },
         onClickWatchedAllCheckbox = { seasonNr, adapterCallback ->
-            viewModel.toggleWatchedAllSingleSeasonEp(currentShowIds.trakt, seasonNr, onComplete = {
+            viewModel.toggleWatchedAllSingleSeasonEp(currentShowIds, seasonNr, onComplete = {
                 adapterCallback()
             })
         }
@@ -219,7 +219,7 @@ class DetailShowFragment : Fragment(R.layout.fragm_detail_show) {
             binding.watchedAllCheckboxLoadingBar.visibility = View.VISIBLE
             binding.watchedAllCheckbox.isEnabled = false
             // 3.2 stato concluso
-            viewModel.toggleWatchedAllShowEpisodes(currentShowIds.trakt, onComplete = {
+            viewModel.toggleWatchedAllShowEpisodes(currentShowIds, onComplete = {
                 // spegni caricamento
                 binding.watchedAllCheckboxLoadingBar.visibility = View.GONE
                 binding.watchedAllCheckbox.isEnabled = true

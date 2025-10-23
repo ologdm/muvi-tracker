@@ -7,6 +7,7 @@ import com.example.muvitracker.data.database.MyDatabase
 import com.example.muvitracker.data.database.entities.DetailShowEntity
 import com.example.muvitracker.data.dto.show.detail.mergeShowsDtoToEntity
 import com.example.muvitracker.data.dto.show.toDomain
+import com.example.muvitracker.data.dto.utilsdto.Ids
 import com.example.muvitracker.data.utils.mapToIoResponse
 import com.example.muvitracker.data.utils.storeFactory
 import com.example.muvitracker.domain.model.DetailShow
@@ -81,9 +82,9 @@ class DetailShowRepositoryImpl @Inject constructor(
 
 
     // WATCHED_ALL SU SHOW
-    override suspend fun checkAndSetWatchedAllShowEpisodes(showId: Int) = coroutineScope {
-        val showAllSeasonsCount = seasonDao.countAllSeasonsOfShow(showId)
-        val isShowWatchedAll = detailShowDao.getSingleFlow(showId)
+    override suspend fun checkAndSetWatchedAllShowEpisodes(showIds: Ids) = coroutineScope {
+        val showAllSeasonsCount = seasonDao.countAllSeasonsOfShow(showIds.trakt)
+        val isShowWatchedAll = detailShowDao.getSingleFlow(showIds.trakt)
             .firstOrNull()?.watchedAll // watchedAll calculated
             ?: return@coroutineScope
 
@@ -92,9 +93,9 @@ class DetailShowRepositoryImpl @Inject constructor(
             async {
                 semaphore.withPermit {
                     if (isShowWatchedAll) {
-                        seasonRepository.checkAndSetSingleSeasonWatchedAllEpisodes(showId, season, false)
+                        seasonRepository.checkAndSetSingleSeasonWatchedAllEpisodes(showIds, season, false)
                     } else {
-                        seasonRepository.checkAndSetSingleSeasonWatchedAllEpisodes(showId, season, true)
+                        seasonRepository.checkAndSetSingleSeasonWatchedAllEpisodes(showIds, season, true)
                     }
                 }
             }

@@ -3,6 +3,7 @@ package com.example.muvitracker.ui.main.episode
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.muvitracker.data.dto.utilsdto.Ids
 import com.example.muvitracker.domain.model.EpisodeExtended
 import com.example.muvitracker.domain.repo.EpisodeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -33,9 +34,9 @@ class EpisodeViewmodel @Inject constructor(
     }
 
 
-    fun toggleWatchedEpisode(showId: Int, seasonNr: Int, episodeNr: Int) {
+    fun toggleWatchedEpisode(showIds: Ids, seasonNr: Int, episodeNr: Int) {
         viewModelScope.launch {
-            episodeRepository.toggleSingleWatchedEpisode(showId, seasonNr, episodeNr)
+            episodeRepository.toggleSingleWatchedEpisode(showIds, seasonNr, episodeNr)
         }
     }
 

@@ -13,7 +13,7 @@ interface EpisodeDao {
     // to update by dto, check if element exist
     @Query(
         """
-        SELECT * FROM episode_entities 
+        SELECT * FROM episode_table 
         WHERE episodeTraktId=:episodeTraktId 
         """
     )
@@ -24,7 +24,7 @@ interface EpisodeDao {
     @Query(
         """
         SELECT * 
-        FROM episode_entities 
+        FROM episode_table 
         WHERE showId=:showId 
             AND seasonNumber=:seasonNr 
             AND episodeNumber =:episodeNr
@@ -37,7 +37,7 @@ interface EpisodeDao {
     @Query(
         """
         SELECT * 
-        FROM episode_entities 
+        FROM episode_table 
         WHERE showId=:showId 
             AND seasonNumber =:seasonNr
         """
@@ -50,7 +50,7 @@ interface EpisodeDao {
     suspend fun insertSingle(entity: EpisodeEntity)
 
     @Update
-    suspend fun updateDataOfSingle(entity: EpisodeEntity)
+    suspend fun updateSingle(entity: EpisodeEntity)
 
 
     // WATCHED ################################################
@@ -59,10 +59,10 @@ interface EpisodeDao {
     //  2.
 
 
-    // 1. SINGLE EPISODE
+    // TODO 1.1.3 OK
     @Query(
         """
-        UPDATE episode_entities
+        UPDATE episode_table
         SET watched = NOT watched
         WHERE showId=:showId 
             AND seasonNumber=:seasonNr 
@@ -70,12 +70,12 @@ interface EpisodeDao {
             AND (
             (seasonNumber = (
                 SELECT MAX(seasonNumber)
-                FROM episode_entities
+                FROM episode_table
                 WHERE showId = :showId
             ) AND firstAiredFormatted < DATETIME('now'))
             OR seasonNumber != (
                 SELECT MAX(seasonNumber)
-                FROM episode_entities
+                FROM episode_table
                 WHERE showId = :showId
             )
         )
@@ -89,7 +89,7 @@ interface EpisodeDao {
     @Query(
         """
         SELECT COUNT(*)
-        FROM episode_entities
+        FROM episode_table
         WHERE showId=:showId 
             AND seasonNumber=:seasonNr 
             AND watched = 1
@@ -98,40 +98,16 @@ interface EpisodeDao {
     suspend fun countSeasonWatchedEpisodes(showId: Int, seasonNr: Int): Int
 
 
-//    @Query(
-//        """
-//        UPDATE episode_entities
-//        SET watched=:watched
-//        WHERE showId=:showId
-//            AND seasonNumber=:seasonNr
-//            AND (
-//                (
-//                    seasonNumber = (
-//                        SELECT MAX(seasonNumber)
-//                        FROM episode_entities
-//                        WHERE showId = :showId
-//                    )
-//                    AND firstAiredFormatted < DATETIME('now')
-//                )
-//                OR seasonNumber != (
-//                    SELECT MAX(seasonNumber)
-//                    FROM episode_entities
-//                    WHERE showId = :showId
-//                )
-//            )
-//        """
-//    )
-//    suspend fun setSeasonWatchedAllEpisodes(showId: Int, seasonNr: Int, watched: Boolean)
 
     @Query(
         """
-        UPDATE episode_entities
+        UPDATE episode_table
         SET watched=:watched
         WHERE showId=:showId 
             AND seasonNumber=:seasonNr
             AND (
                 CASE
-                    WHEN seasonNumber = (SELECT MAX(seasonNumber) FROM episode_entities WHERE showId = :showId) 
+                    WHEN seasonNumber = (SELECT MAX(seasonNumber) FROM episode_table WHERE showId = :showId) 
                     THEN firstAiredFormatted < DATETIME('now')
                     ELSE 1
             END
@@ -143,7 +119,7 @@ interface EpisodeDao {
 
     @Query(
         """
-        SELECT COUNT(*) FROM episode_entities 
+        SELECT COUNT(*) FROM episode_table 
         WHERE showId=:showId 
             AND seasonNumber = :seasonNr 
         """

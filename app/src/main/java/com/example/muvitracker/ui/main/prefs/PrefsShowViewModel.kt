@@ -3,6 +3,7 @@ package com.example.muvitracker.ui.main.prefs
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.muvitracker.data.dto.utilsdto.Ids
 import com.example.muvitracker.domain.model.DetailShow
 import com.example.muvitracker.domain.repo.DetailShowRepository
 import com.example.muvitracker.domain.repo.PrefsShowRepository
@@ -41,11 +42,11 @@ class PrefsShowViewModel @Inject constructor(
     }
 
 
-    fun updateWatchedAllSingleShow(showId: Int, onComplete: () -> Unit) {
+    fun updateWatchedAllSingleShow(showIds: Ids, onComplete: () -> Unit) {
         viewModelScope.launch {
             // 1 start loading on adapter
             // 2 chiama funzione su repository - stessa di detail
-            detailShowRepository.checkAndSetWatchedAllShowEpisodes(showId)
+            detailShowRepository.checkAndSetWatchedAllShowEpisodes(showIds)
             // 3 finish
             onComplete()
         }

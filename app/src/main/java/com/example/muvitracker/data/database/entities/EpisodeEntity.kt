@@ -2,10 +2,9 @@ package com.example.muvitracker.data.database.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.example.muvitracker.data.dto.episode.mergeEpisodeDtos
 import com.example.muvitracker.data.dto.utilsdto.Ids
 import com.example.muvitracker.domain.model.EpisodeExtended
-import com.example.muvitracker.utils.firstDecimalApproxToString
-import com.example.muvitracker.utils.formatToSqliteCompatibleDate
 
 //@Entity(tableName = "episode_entities")
 //data class EpisodeEntity(
@@ -29,12 +28,12 @@ import com.example.muvitracker.utils.formatToSqliteCompatibleDate
 //)
 
 
-// TODO:
+// TODO: 1.1.3 OK
 @Entity(tableName = "episode_table")
 data class EpisodeEntity(
     @PrimaryKey val episodeTraktId: Int,
-    val seasonNumber: Int?,
-    val episodeNumber: Int?, // TODO not null?
+    val seasonNumber: Int, // -1 default
+    val episodeNumber: Int, // -1 default
     val numberAbs: Int?,
     val ids: Ids,
     val showId: Int, // passed through parameter .toEntity(showId)
@@ -53,28 +52,16 @@ data class EpisodeEntity(
 )
 
 
-// update only the dto part of entity
-//fun EpisodeEntity.copyDtoData(episodeDto: EpisodeEntity): EpisodeEntity {
-//    return this.copy(
-//        episodeTraktId = episodeDto.ids.trakt,
-//        seasonNumber = episodeDto.season,
-//        episodeNumber = episodeDto.number,
-//        title = episodeDto.title,
-//        ids = episodeDto.ids,
-//        numberAbs = episodeDto.numberAbs,
-//        overview = episodeDto.overview,
-//        rating = episodeDto.rating,
-//        firstAiredFormatted = formatToSqliteCompatibleDate(episodeDto.firstAired),
-//        availableTranslations = episodeDto.availableTranslations,
-//        runtime = episodeDto.runtime,
-//        episodeType = episodeDto.episodeType,
-//        // showId already exist
-//        // watched remain the same
-//    )
-//}
+// 1.1.3 OK
+// watched - unico dato salvato
+fun EpisodeEntity.copyOnlyDtoData(watchedState: Boolean): EpisodeEntity {
+    return this.copy(
+        watched = watchedState
+    )
+}
 
 
-// OK 1.1.3
+// OK 1.1.3 OK
 fun EpisodeEntity.toDomain(): EpisodeExtended {
     return EpisodeExtended(
         episodeTraktId = episodeTraktId,

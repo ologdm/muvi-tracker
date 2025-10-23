@@ -8,22 +8,25 @@ import kotlinx.coroutines.flow.Flow
 
 interface SeasonRepository {
 
-    // 1
-//    fun getAllSeasonsFlow(showId: Int): Flow<IoResponse<List<SeasonExtended>>>
-    fun getAllSeasonsFlow(showIds: Ids): Flow<IoResponse<List<SeasonExtended>>>
+    fun getAllSeasonsFlow(
+        showIds: Ids
+    ): Flow<IoResponse<List<SeasonExtended>>>
 
-    // 2
-    fun getSingleSeasonFlow(showId: Int, seasonNr: Int): Flow<SeasonExtended>
 
-    // 3
-    suspend fun checkAndSetSingleSeasonWatchedAllEpisodes(
+    fun getSingleSeasonFlow(
         showId: Int,
+        seasonNr: Int
+    ): Flow<SeasonExtended>
+
+
+    suspend fun checkAndSetSingleSeasonWatchedAllEpisodes(
+        showIds: Ids,
         seasonNr: Int
     )
 
-    // 4
+
     suspend fun checkAndSetSingleSeasonWatchedAllEpisodes(
-        showId: Int,
+        showIds: Ids,
         seasonNr: Int,
         watchedAllState: Boolean
     )

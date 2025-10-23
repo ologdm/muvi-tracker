@@ -34,20 +34,7 @@ class SeasonRepositoryImpl @Inject constructor(
     private val seasonDao = database.seasonsDao()
     private val episodeDao = database.episodesDao()
 
-    // TODO 1.1.3 OK
-//    private val seasonStore = storeFactory<Int, List<SeasonTraktDto>, List<SeasonExtended>>(
-//        fetcher = { showId ->
-//            traktApi.getAllSeasons(showId)
-//        },
-//        reader = { showId ->
-//            seasonDao.getAllSeasons(showId)
-//                .map { if (it.isEmpty()) null else it }
-//        },
-//        writer = { showId, dtos ->
-//            saveAllSeasonsDtoToDatabase(showId, dtos)
-//        }
-//    )
-
+    // TODO 1.1.3 store OK
     /**
      * Nel Fetcher, il tipo di ritorno di `DetailShowTmdbDto` è nullable.
      * Il Fetcher deve lanciare un'eccezione solo se l'intero processo di fetch fallisce.
@@ -92,23 +79,7 @@ class SeasonRepositoryImpl @Inject constructor(
 
 
     // TODO OK 1.1.3
-    // TICKET: Crash su click WatchedAllShow, in presenza di stagione specials, numero 0
-//    private suspend fun saveAllSeasonsDtoToDatabase(showId: Int, dtos: List<SeasonTraktDto>) {
-//        // if (non esiste) insertNuovo, else updateParziale
-//        for (seasonDto in dtos) {
-//            val seasonNumber = seasonDto.number
-//            if (seasonNumber == null || seasonNumber < 1) continue
-//
-//            val dtoIndex = seasonDto.ids.trakt
-//            val entity = seasonDao.readSingleById(dtoIndex)
-//            if (entity == null) {
-//                seasonDao.insertSingle(seasonDto.toEntity(showId))
-//            } else {
-//                val updatedEntity = entity.copyDtoData(seasonDto)
-//                seasonDao.updateSingleByDto(updatedEntity)
-//            }
-//        }
-//    }
+    // TICKET 1.0.0: Crash su click WatchedAllShow, in presenza di stagione specials, numero 0 - fixed OK
     private suspend fun saveAllSeasonsDtoToDatabase(showId: Int, entities: List<SeasonEntity>) {
         // if (non esiste) insertNuovo, else updateParziale
         for (seasonEntity in entities) {
@@ -121,23 +92,15 @@ class SeasonRepositoryImpl @Inject constructor(
             // 2. se manca aggiungi
             if (entity == null) {
                 seasonDao.insertSingle(seasonEntity)
-                // 2. altrimenti aggiorna parte dto
-            } else {
-                // TODO OK 1.1.3
-                // fix: copy non serve, uso direttamente update dato che già l'enetity corretta
-//                val updatedEntity = entity.copyDtoData(seasonEntity)
-                seasonDao.updateSingleByDto(seasonEntity)
+            } else { // 2. altrimenti aggiorna solo parte dto (dati da internet)
+                // fix: copy non serve, uso direttamente update dato che già l'entity corretta
+                seasonDao.updateSingle(seasonEntity)
             }
         }
     }
 
 
-    //TODO OK 1.1.3
-//    override
-//    fun getAllSeasonsFlow(showId: Int): Flow<IoResponse<List<SeasonExtended>>> {
-//        return seasonStore.stream(StoreRequest.cached(showId, refresh = true))
-//            .mapToIoResponse()
-//    }
+    //TODO OK 1.1.3 OK
     override
     fun getAllSeasonsFlow(showIds: Ids): Flow<IoResponse<List<SeasonExtended>>> {
         return seasonStore.stream(StoreRequest.cached(showIds, refresh = true))
@@ -162,30 +125,31 @@ class SeasonRepositoryImpl @Inject constructor(
     }
 
 
+    // TODO 1.1.3 OK
     // (click - single season)
     //  toggle single season -> from ShowFragment & SeasonFragment
     override
     suspend fun checkAndSetSingleSeasonWatchedAllEpisodes(
-        showId: Int,
+        showIds: Ids,
         seasonNr: Int
     ) {
         // 1. check and download all season episodes
-        if (!areEpisodesAvailableForSeasonOnDB(showId, seasonNr)) {
-            // if (ep == 0), download episodes
-            episodeRepository.fetchSeasonEpisodes(showId = showId, seasonNr = seasonNr)
+        if (!areEpisodesAvailableForSeasonOnDB(showIds.trakt, seasonNr)) {
+            // if (ep == 0), download episode
+            episodeRepository.fetchSeasonEpisodes(showIds = showIds, seasonNr = seasonNr)
         }
         // 2. add show to prefs -> if isWatched  at least one episode
-        prefsShowRepository.checkAndAddIfWatchedToPrefs(showId)
+        prefsShowRepository.checkAndAddIfWatchedToPrefs(showIds.trakt)
         // 3 toggle all episodes from single season
         val seasonCountEpisodes =
-            seasonDao.readSingle(showId, seasonNr)?.episodeCount ?: 0
+            seasonDao.readSingle(showIds.trakt, seasonNr)?.episodeCount ?: 0
         val seasonWatchedAllEpisodes =
-            episodeDao.countSeasonWatchedEpisodes(showId, seasonNr)
+            episodeDao.countSeasonWatchedEpisodes(showIds.trakt, seasonNr)
 
         if (seasonWatchedAllEpisodes >= seasonCountEpisodes) {
-            episodeDao.setSeasonWatchedAllEpisodes(showId, seasonNr, false)
+            episodeDao.setSeasonWatchedAllEpisodes(showIds.trakt, seasonNr, false)
         } else {
-            episodeDao.setSeasonWatchedAllEpisodes(showId, seasonNr, true)
+            episodeDao.setSeasonWatchedAllEpisodes(showIds.trakt, seasonNr, true)
         }
 
         // todo egde case
@@ -193,22 +157,23 @@ class SeasonRepositoryImpl @Inject constructor(
     }
 
 
+    // TODO 1.1.3 OK - funziona bene
     // (click - show watchedAll)
     // from ShowDetail -> forceWatchedAll ()
     override
     suspend fun checkAndSetSingleSeasonWatchedAllEpisodes(
-        showId: Int,
+        showIds: Ids,
         seasonNr: Int,
         watchedAllState: Boolean
     ) {
         // 1. check and download all season episodes  ==
-        if (!areEpisodesAvailableForSeasonOnDB(showId, seasonNr)) {
-            episodeRepository.fetchSeasonEpisodes(showId = showId, seasonNr = seasonNr)
+        if (!areEpisodesAvailableForSeasonOnDB(showIds.trakt, seasonNr)) {
+            episodeRepository.fetchSeasonEpisodes(showIds = showIds, seasonNr = seasonNr)
         }
         // 2. add show to prefs -> if isWatched  at least one episode ==
-        prefsShowRepository.checkAndAddIfWatchedToPrefs(showId)
+        prefsShowRepository.checkAndAddIfWatchedToPrefs(showIds.trakt)
         // 3.
-        episodeDao.setSeasonWatchedAllEpisodes(showId, seasonNr, watchedAllState)
+        episodeDao.setSeasonWatchedAllEpisodes(showIds.trakt, seasonNr, watchedAllState)
     }
 
 }

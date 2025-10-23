@@ -19,7 +19,7 @@ class PrefsShowAdapter(
     private val onClickVH: (movieIds: Ids) -> Unit,
     private val onLongClickVH: (movieId: Int) -> Unit,
     private val onCLickLiked: (Int) -> Unit,
-    private val onClickWatchedAllCheckbox: (showId: Int, () -> Unit) -> Unit
+    private val onClickWatchedAllCheckbox: (showIds: Ids, () -> Unit) -> Unit
 ) : ListAdapter<DetailShow, PrefsShowVH>(PrefsShowAdapter) {
 
 
@@ -65,7 +65,7 @@ class PrefsShowAdapter(
                     watchedAllCheckBox.isEnabled = false
                     watchedAllCheckboxLoadingBar.visibility = View.VISIBLE
 
-                    onClickWatchedAllCheckbox.invoke(currentItem.ids.trakt) {
+                    onClickWatchedAllCheckbox.invoke(currentItem.ids) {
                         watchedAllCheckBox.isEnabled = true
                         watchedAllCheckboxLoadingBar.visibility = View.GONE
 
@@ -94,7 +94,6 @@ class PrefsShowAdapter(
     }
 
 // ################################################################################
-
     private fun updateFavoriteIcon(
         likedButton: ImageButton,
         isLiked: Boolean,

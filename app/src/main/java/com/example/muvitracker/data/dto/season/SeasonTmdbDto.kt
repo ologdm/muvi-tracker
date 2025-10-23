@@ -20,13 +20,12 @@ data class SeasonTmdbDto(
 )
 
 
-// DTO SEASON COMPLETA, CON EPISODI -NOT USED -------------------------
-// chiamata da es:   /tv/{1399}/season/1
 
 // TODO
 /** Dto supporto, serve per scaricare la stagione con gli episodi in particolare
  * tutti i dati stagione gia scaricati con
  */
+// chiamata da es: /tv/{1399}/season/1
 data class SeasonEpTmdbDto(
 //    val _id: String, // id interno tmdb, non serve
 //    @SerializedName("air_date") val airDate: String,
@@ -35,7 +34,7 @@ data class SeasonEpTmdbDto(
 //    val name: String, // es: Stagione 1 (tradotta)
 //    val overview: String?, //
     val id: Int, // id tmdb
-//    @SerializedName("poster_path") val posterPath: String?,
+    @SerializedName("poster_path") val posterPath: String?, // TODO 1.1.3 spostare su TmdbFetcher
 //    @SerializedName("season_number") val seasonNumber: Int?,
 //    @SerializedName("vote_average") val voteAverage: Double?
 )

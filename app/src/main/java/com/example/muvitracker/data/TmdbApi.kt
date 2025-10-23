@@ -1,10 +1,10 @@
 package com.example.muvitracker.data
 
 import com.example.muvitracker.BuildConfig
-import com.example.muvitracker.data.dto.episode.EpisodeDtoTmdb
+import com.example.muvitracker.data.dto.episode.EpisodeTmdbDto
 import com.example.muvitracker.data.dto.movie.detail.DetailMovieDtoTmdb
 import com.example.muvitracker.data.dto.person.PersonDtoTmdb
-import com.example.muvitracker.data.dto.season.SeasonTmdbDto
+import com.example.muvitracker.data.dto.season.SeasonEpTmdbDto
 import com.example.muvitracker.data.dto.show.detail.DetailShowTmdbDto
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -28,8 +28,7 @@ interface TmdbApi {
 
     // DIRECT CALLS - WITH CUSTOM GLIDE -----------------------------------------------------
 
-    // TODO: 1.1.3 chiamate per dto classico, test OK
-    // NEW OK
+    // TODO: 1.1.3 OK
     // filtro language
     // add all videos, con filtro lingua
     @GET("movie/{movie_id}")
@@ -41,7 +40,7 @@ interface TmdbApi {
         @Query("append_to_response") appendToResponse: String = "videos",
     ): DetailMovieDtoTmdb
 
-
+    // 1.1.3 OK
     // test 1399 games of thrones
     // + tutte le stagioni
     @GET("tv/{show_id}")
@@ -53,6 +52,7 @@ interface TmdbApi {
     ): DetailShowTmdbDto
 
 
+    // TODO 1.1.3 - OK
     // + tutti gli episodi
     @GET("tv/{series_id}/season/{season_number}")
     suspend fun getSeasonDto(
@@ -60,18 +60,17 @@ interface TmdbApi {
         @Path("season_number") seasonNumber: Int,
         @Query("language") language: String = systemLanguage,
         @Query("api_key") apiKey: String = API_KEY_QUERY_MOD,
-    ): SeasonTmdbDto
+    ): SeasonEpTmdbDto // dto corretto - SeasonEpTmdbDto
 
 
-
-    // serve??
+    // TODO 1.1.3 ??? - serve?? solo su fetcher, modificare
     @GET("tv/{series_id}/season/{season_number}/episode/{episode_number}")
     suspend fun getEpisodeDto(
         @Path("series_id") seasonId: Int,
         @Path("season_number") seasonNumber: Int,
         @Path("episode_number") episodeNumber: Int,
         @Query("api_key") apiKey: String = API_KEY_QUERY_MOD,
-    ): EpisodeDtoTmdb
+    ): EpisodeTmdbDto
 
 
     @GET("person/{person_id}")
