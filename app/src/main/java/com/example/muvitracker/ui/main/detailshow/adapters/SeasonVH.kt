@@ -12,7 +12,10 @@ class SeasonVH(
 ) : ViewHolder(binding.root) {
 
     fun bind(seasonItem: SeasonExtended, context : Context) {
-        binding.seasonNrAndYear.text = "${context.getString(R.string.season_text)} ${seasonItem.seasonNumber} (${seasonItem.releaseDate?.take(4)})"
+        // old
+//        binding.seasonNrAndYear.text = "${context.getString(R.string.season_text)} ${seasonItem.seasonNumber} (${seasonItem.releaseDate?.take(4)})"
+        // new 1.1.3  - seson from traslated dto
+        binding.seasonNrAndYear.text = "${seasonItem.title} (${seasonItem.releaseDate?.take(4)})"
         val episodesText = binding.root.context.getString(R.string.episodes_text)
         binding.totalEpisodes.text = "${seasonItem.episodeCount} $episodesText"
         binding.traktRating.text = seasonItem.traktRating
