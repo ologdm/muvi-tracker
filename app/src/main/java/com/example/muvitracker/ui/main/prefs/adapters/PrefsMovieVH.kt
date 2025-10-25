@@ -15,7 +15,7 @@ class PrefsMovieVH(
     fun bind(movie: DetailMovie) {
         binding.run {
             title.text = movie.title
-            otherInfo.text = "${movie.year} (${movie.country.uppercase()})"
+            otherInfo.text = "${movie.year} (${movie.countries.joinToString(", ").uppercase()})"
 
             Glide
                 .with(binding.root.context)
