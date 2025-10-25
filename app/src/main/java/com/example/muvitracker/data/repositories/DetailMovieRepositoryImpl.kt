@@ -6,6 +6,8 @@ import com.example.muvitracker.data.TraktApi
 import com.example.muvitracker.data.database.MyDatabase
 import com.example.muvitracker.data.database.entities.DetailMovieEntity
 import com.example.muvitracker.data.database.entities.toDomain
+import com.example.muvitracker.data.dto.movie.detail.DetailMovieTmdbDto
+import com.example.muvitracker.data.dto.movie.detail.DetailMovieTraktDto
 import com.example.muvitracker.data.dto.movie.detail.mergeMoviesDtoToEntity
 import com.example.muvitracker.data.dto.movie.toDomain
 import com.example.muvitracker.data.utils.mapToIoResponse
@@ -15,6 +17,8 @@ import com.example.muvitracker.domain.model.base.Movie
 import com.example.muvitracker.domain.repo.DetailMovieRepository
 import com.example.muvitracker.utils.IoResponse
 import com.example.muvitracker.utils.ioMapper
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import javax.inject.Inject
@@ -35,25 +39,31 @@ class DetailMovieRepositoryImpl @Inject constructor(
     private val detailTraktDao = database.detailMovieDao()
     private val prefsMoviesDao = database.prefsMovieDao()
 
-    // old
-//    private val store = storeFactory<Int, DetailMovieDto, DetailMovie>(
-//        fetcher = { movieId ->
-//            traktApi.getMovieDetail(movieId)
-//        },
-//        reader = { movieId ->
-//            combineWithPrefsAndMapToDomainAsFlow(movieId)
-//        },
-//        writer = { _, movieDto ->
-//            detailTraktDao.insertSingle(movieDto.toEntity())
-//        }
-//    )
-
-    // TODO new - input entity, output domain
+    /**
+     * Nel Fetcher, il tipo di ritorno di `DetailMovieTmdbDto` è nullable.
+     * Il Fetcher deve lanciare un'eccezione solo se l'intero processo di fetch fallisce.
+     * Per evitare che un errore nel recupero da TMDB causi un `FetcherResult.Error.Exception(ex)` sullo Store,
+     * utilizziamo un blocco try-catch e restituiamo `null` in caso di eccezione gestita.
+     *
+     * Nota: bisogna gestire correttamente anche le eccezioni di tipo `CancellationException`,
+     */
     private val store = storeFactory<Int, DetailMovieEntity, DetailMovie>(
         fetcher = { movieId ->
-            val traktDto = traktApi.getMovieDetail(movieId)
-            val tmdbDto= tmdbApi.getMovieDto(traktDto.ids.tmdb)
-            mergeMoviesDtoToEntity(traktDto,tmdbDto)
+            coroutineScope {
+                // 1 chiamata
+                val traktDto = traktApi.getMovieDetail(movieId)
+                // 2° chiamata
+                val tmdbDto: DetailMovieTmdbDto? = try {
+                    tmdbApi.getMovieDto(traktDto.ids.tmdb)
+                } catch (ex: CancellationException) {
+                    throw ex // deve propagare le cancellation
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    null // fallback: ritorna null se qualsiasi altra eccezione
+                }
+
+                mergeMoviesDtoToEntity(traktDto,tmdbDto) // return entity
+            }
         },
         reader = { movieId ->
             combineWithPrefsAndMapToDomainAsFlow(movieId)
@@ -64,7 +74,6 @@ class DetailMovieRepositoryImpl @Inject constructor(
     )
 
 
-    // TODO: unire flow di trakt, tmdb, e prefs
     private fun combineWithPrefsAndMapToDomainAsFlow(movieId: Int): Flow<DetailMovie?> {
         val prefsListFlow = prefsMoviesDao.readAll()
         return detailTraktDao.readSingleFlow(movieId)
