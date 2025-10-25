@@ -54,7 +54,7 @@ fun mergeMoviesDtoToEntity(
         overview = tmdb.overview,
         status = tmdb.status,
         releaseDate = formatToSqliteCompatibleDate(tmdb.releaseDate),
-        country = tmdb.originCountry ?: emptyList(),
+        countries = tmdb.originCountry ?: emptyList(),
         runtime = tmdb.runtime,
         originalLanguage = tmdb.originalLanguage,
         originalTitle = tmdb.originalTitle,
