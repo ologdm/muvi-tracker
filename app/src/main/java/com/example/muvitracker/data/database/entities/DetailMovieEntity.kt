@@ -25,7 +25,7 @@ data class DetailMovieEntity(
     val overview: String?,
     val status: String?, // released
     val releaseDate: String?, // 2016-02-12
-    @TypeConverters(ConvertersUtils::class) val country: List<String>, // not null
+    @TypeConverters(ConvertersUtils::class) val countries: List<String>, // not null
     val runtime: Int?, // 106
     val originalLanguage: String?, // en
     val originalTitle: String?, // Deadpool
@@ -44,30 +44,36 @@ data class DetailMovieEntity(
     // da sistema
     val currentTranslation: String, // not null, new
 
-    )
+)
 
 
 // (PrefsEntity?) - can be null as logic
 fun DetailMovieEntity.toDomain(prefsMovieEntity: PrefsMovieEntity?): DetailMovie {
     return DetailMovie(
-        title = title ?: "",
-        year = year ?: 0,
+        year = year,
         ids = ids,
-        tagline = tagline?: "",
-        overview = overview?: "",
-        released = releaseDate,
-        runtime = runtime ?: 0,
-        country = country.joinToString(", "),
-        trailer = youtubeTrailer?: "",
-        homepage = homepage?: "" ,
-        status = status ?: "",
-        rating = traktRating.toString(),
-        votes = 100, // provisorio
-        language = originalLanguage ?: "",
+
+        title = title,
+        tagline = tagline,
+        overview = overview,
+        status = status,
+        releaseDate = releaseDate,
+        runtime = runtime,
+        originalLanguage = originalLanguage,
+        originalTitle = originalTitle,
+        countries = countries,
+        youtubeTrailer = youtubeTrailer,
+        homepage = homepage,
+        traktRating = traktRating,
+        tmdbRating = tmdbRating,
         genres = genres,
+        // servono su Domain?
+        backdropPath = backdropPath,
+        posterPath = posterPath,
+
         // prefs
-        liked = prefsMovieEntity?.liked ?: false,
-        watched = prefsMovieEntity?.watched ?: false,
+        liked = prefsMovieEntity?.liked ?: false, // in caso manca prefs
+        watched = prefsMovieEntity?.watched ?: false, // in caso manca prefs
         addedDateTime = prefsMovieEntity?.addedDateTime // Timestamp when added to db
     )
 }
