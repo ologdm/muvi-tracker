@@ -1,6 +1,7 @@
 package com.example.muvitracker.ui.main.episode
 
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.View
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
@@ -56,11 +57,10 @@ class EpisodeFragment : BottomSheetDialogFragment(
                             .replaceFirstChar { it.uppercaseChar() }
                     }"
 
-                binding.info.text =
+                binding.episodeInfo.text =
                     "${getString(R.string.release_date)} ${
-                        episode
-                            .firstAiredFormatted.formatDateFromFirsAired()
-                    } | ${episode.runtime} min "
+                        episode.firstAiredFormatted.formatDateFromFirsAired()
+                    } | ${getString(R.string.runtime_description,episode.runtime.toString())} "
                 binding.overview.text = episode.overview
                 binding.traktRating.text = episode.traktRating.toString()
 
@@ -77,6 +77,7 @@ class EpisodeFragment : BottomSheetDialogFragment(
         }
 
         loadTMDBImagesWithCustomGlide()
+        expandOverview()
     }
 
 
@@ -117,6 +118,20 @@ class EpisodeFragment : BottomSheetDialogFragment(
 
     private fun setAlphaForDrawable(floatAlpha: Float): Int {
         return (floatAlpha * 255).toInt()
+    }
+
+    private fun expandOverview() {
+        var isTextExpanded = false // initial state, fragment opening
+        binding.overview.setOnClickListener {
+            if (isTextExpanded) { // expanded==true -> contract
+                binding.overview.maxLines = 5
+                binding.overview.ellipsize = TextUtils.TruncateAt.END
+            } else { // expanded==false -> expand
+                binding.overview.maxLines = Int.MAX_VALUE
+                binding.overview.ellipsize = null
+            }
+            isTextExpanded = !isTextExpanded // toggle state
+        }
     }
 
 

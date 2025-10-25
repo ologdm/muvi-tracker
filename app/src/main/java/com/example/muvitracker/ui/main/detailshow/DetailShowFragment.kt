@@ -119,7 +119,7 @@ class DetailShowFragment : Fragment(R.layout.fragm_detail_show) {
         viewModel.allSeasonsState.observe(viewLifecycleOwner) { stateContainer ->
             // 1
             totSeasonsNumber = stateContainer.data?.size ?: 0
-            binding.airedSeasons.text = "${totSeasonsNumber} seasons"
+            binding.totalSeasons.text = getString(R.string.total_seasons, totSeasonsNumber.toString())
             // 2
             detailSeasonsAdapter.submitList(stateContainer.data)
         }
@@ -232,7 +232,7 @@ class DetailShowFragment : Fragment(R.layout.fragm_detail_show) {
         var isTextExpanded = false // initial state, fragment opening
         binding.overview.setOnClickListener {
             if (isTextExpanded) { // expanded==true -> contract
-                binding.overview.maxLines = 3
+                binding.overview.maxLines = 4
                 binding.overview.ellipsize = TextUtils.TruncateAt.END
             } else { // expanded==false -> expand
                 binding.overview.maxLines = Int.MAX_VALUE
