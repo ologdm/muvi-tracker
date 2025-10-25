@@ -5,6 +5,7 @@ import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.data.DataFetcher
 import com.bumptech.glide.load.data.HttpUrlFetcher
 import com.bumptech.glide.load.model.GlideUrl
+
 import com.example.muvitracker.data.TmdbApi
 import com.example.muvitracker.data.dto.movie.detail.DetailMovieTmdbDto
 import com.example.muvitracker.data.dto.show.detail.DetailShowTmdbDto
@@ -12,12 +13,18 @@ import kotlinx.coroutines.runBlocking
 import java.io.InputStream
 
 private const val TIMEOUT = 10_000 // 10 seconds
-private const val TMDB_IMAGE_URL_DOMAIN = "http://image.tmdb.org/t/p/original/"
+//private const val TMDB_IMAGE_URL_DOMAIN = "http://image.tmdb.org/t/p/original/"
+// w = larghezza pixel
+private const val TMDB_IMAGE_URL_DOMAIN_HORIZONTAL = "https://image.tmdb.org/t/p/w780/"
+private const val TMDB_IMAGE_URL_DOMAIN_VERTICAL = "https://image.tmdb.org/t/p/w500/"
+
+private const val TMDB_IMAGE_URL_DOMAIN = "https://image.tmdb.org/t/p/w780/" // old
 
 
 class TmdbFetcher(
     private val model: ImageTmdbRequest,
     private val tmdbApi: TmdbApi,
+//    private val showStore: Store<Int,  DetailShow>,
 ) : DataFetcher<InputStream> {
 
     override fun loadData(
@@ -29,6 +36,7 @@ class TmdbFetcher(
             is ImageTmdbRequest.MovieVertical -> fetchMovieImage(
                 model.movieId,
                 imagePathType = { it.posterPath },
+                isVertical = true,
                 priority,
                 callback
             )
@@ -36,6 +44,7 @@ class TmdbFetcher(
             is ImageTmdbRequest.MovieHorizontal -> fetchMovieImage(
                 model.movieId,
                 imagePathType = { it.backdropPath },
+                isVertical = false,
                 priority,
                 callback
             )
@@ -64,13 +73,16 @@ class TmdbFetcher(
     private suspend fun fetchMovieImage(
         movieId: Int,
         imagePathType: (DetailMovieTmdbDto) -> String?,
+        isVertical: Boolean,
         priority: Priority,
         callback: DataFetcher.DataCallback<in InputStream>,
     ) {
         try {
             val response = tmdbApi.getMovieDto(movieId)
             val imagePath = imagePathType(response) ?: throw Exception("Image path not available")
-            val url = "$TMDB_IMAGE_URL_DOMAIN${imagePath}"
+            val baseUrl = if (isVertical) TMDB_IMAGE_URL_DOMAIN_VERTICAL else TMDB_IMAGE_URL_DOMAIN_HORIZONTAL
+//            val url = "$TMDB_IMAGE_URL_DOMAIN${imagePath}"
+            val url = "$baseUrl$imagePath"
             val fetcher = HttpUrlFetcher(GlideUrl(url), TIMEOUT)
             fetcher.loadData(priority, callback)
         } catch (ex: Exception) {
