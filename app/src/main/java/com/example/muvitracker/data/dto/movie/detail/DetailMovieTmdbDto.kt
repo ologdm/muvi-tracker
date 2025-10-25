@@ -61,26 +61,6 @@ data class GenreDto(
 )
 
 
-/**
- * priorità:
- *    1. trailer ufficiali,
- *    2. trailer con risoluzione > 720p
- *    3. se return null -> prenderà trailer in inglese da trakt
- */
-fun VideosResult.youtubeLinkTransformation(): String? {
-    // TODO eugi sistemare
-//    results.filter { it.official }
-//        .sortedByDescending { it.size }
-//        .sortedByDescending(compareValues({ it.nonme }, { it.cogme }))
-//        .firstOrNull()
-
-    val video = results.firstOrNull { it.site == "YouTube" && it.type == "Trailer" && it.official } // 1.priorita official, anche
-            ?: results.firstOrNull { it.site == "YouTube" && it.type == "Trailer" && it.size.toInt()>720 } // 2. priorità trailer
-//            ?: results.firstOrNull { it.site == "YouTube" } // 3. fallback a qualsiasi YouTube
-    // else prende quello di trakt in inglese
-
-    return video?.key?.let { "https://www.youtube.com/watch?v=${it}" }
-}
 
 
 // struttura JSON video ---------------------------------------------------------

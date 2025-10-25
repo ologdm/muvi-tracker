@@ -48,11 +48,11 @@ fun String.dateFormatterInddMMMyyy(): String {
 
 
 fun Double.firstDecimalApproxToString(): String {
-    return String.format("%.1f", this)
+    return String.format(Locale.US,"%.1f", this)
 }
 
 fun Float.firstDecimalApproxToString(): String {
-    return String.format("%.1f", this)
+    return String.format(Locale.US,"%.1f", this)
     // % - numbers
     // .1f - decimal
 }
@@ -127,11 +127,28 @@ fun formatToSqliteCompatibleDate(isoDate: String?): String? {
     }
 }
 
+
+// input -> Data + ora locale (yyyy-MM-dd'T'HH:mm:ss)
+//fun String?.formatToReadableDate(): String? {
+//    return this.let {
+//        val dt =
+//            LocalDateTime.parse(it, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+//        dt.format(DateTimeFormatter.ofPattern("dd MMM yyyy", Locale("en")))
+//    }
+//}
+
+
+// TODO 1.1.3 OK
+// input - Solo data (yyyy-MM-dd)
 fun String?.formatToReadableDate(): String? {
-    return this.let {
-        val dt =
-            LocalDateTime.parse(it, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
-        dt.format(DateTimeFormatter.ofPattern("dd MMM yyyy", Locale("en")))
+    if (this.isNullOrBlank()) return null
+    return try {
+        val dt = LocalDate.parse(this, DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+        // Usa la lingua salvata o la lingua di sistema corrente
+        val locale = Locale.getDefault() // oppure LanguageManager.getSystemLanguage()
+        dt.format(DateTimeFormatter.ofPattern("dd MMM yyyy", locale))
+    } catch (e: Exception) {
+        null
     }
 }
 

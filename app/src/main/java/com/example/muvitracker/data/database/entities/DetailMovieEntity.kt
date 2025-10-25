@@ -24,7 +24,7 @@ data class DetailMovieEntity(
     val tagline: String?,
     val overview: String?,
     val status: String?, // released
-    val releaseDate: String?, // 2016-02-12
+    val releaseDate: String?, // output - 2016-02-12
     @TypeConverters(ConvertersUtils::class) val countries: List<String>, // not null
     val runtime: Int?, // 106
     val originalLanguage: String?, // en
