@@ -172,7 +172,7 @@
 
 
                         <TextView
-                            android:id="@+id/airedSeasons"
+                            android:id="@+id/totalSeasons"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="15sp"
@@ -306,7 +306,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
                     android:ellipsize="end"
-                    android:maxLines="3"
+                    android:maxLines="4"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     tools:hint="Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur." />

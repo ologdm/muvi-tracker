@@ -1,109 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <!--    senza watched checker-->
 
     <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/episodeImageBackdrop"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            tools:layout_height="200dp"
-            android:scaleType="centerCrop"
-            style="@style/Image_BaseVH"
-            android:adjustViewBounds="true"
-            tools:src="@tools:sample/backgrounds/scenic" />
+        android:id="@+id/episodeImageBackdrop"
+        style="@style/Image_BaseVH"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+        tools:layout_height="200dp"
+        tools:src="@tools:sample/backgrounds/scenic" />
 
     <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="12dp">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="12dp">
 
         <!-- Title S01 E01 (series premiere)-->
         <TextView
-                android:id="@+id/title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:textSize="20sp"
-                tools:text="E1 • Winter is coming " />
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            tools:text="E1 • Winter is coming " />
 
         <TextView
-                android:id="@+id/episodeType"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="15sp"
-                tools:text="series premiere " />
+            android:id="@+id/episodeType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            tools:text="series premiere " />
 
         <!--  first aired, runtime, episode type, rating, vote -->
         <TextView
-                android:id="@+id/info"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="15sp"
-                tools:text="release date: 01-01 - 2022 | 60 min " />
+            android:id="@+id/episodeInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            tools:text="release date: 01-01 - 2022 | 60 min " />
 
         <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="12dp">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="12dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
 
             <ImageView
-                    android:id="@+id/starIcon"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@android:drawable/btn_star"
-                    android:layout_marginEnd="4dp"
-                    android:clickable="false" />
+                android:id="@+id/starIcon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="4dp"
+                android:clickable="false"
+                android:src="@android:drawable/btn_star" />
 
             <TextView
-                    android:id="@+id/traktRating"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="15sp"
-                    tools:text="5.1" />
+                android:id="@+id/traktRating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                tools:text="5.1" />
 
         </LinearLayout>
 
 
         <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:text="Overview:" />
+            android:id="@+id/overviewTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/overview"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
 
         <TextView
-                android:id="@+id/overview"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="15sp"
-                tools:text="This is the overview of the episode. It will give a brief description of what happens in this episode." />
+            android:id="@+id/overview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="6"
+            android:textSize="15sp"
+            tools:text="Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur." />
 
         <View
-                android:layout_width="match_parent"
-                android:layout_height="28dp" />
+            android:layout_width="match_parent"
+            android:layout_height="28dp" />
 
         <ImageView
-                android:id="@+id/watchedIcon"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@drawable/episode_watched_eye_empty"
-                tools:src="@drawable/episode_watched_eye_filled"
-                android:layout_gravity="center" />
+            android:id="@+id/watchedIcon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:src="@drawable/episode_watched_eye_empty"
+            tools:src="@drawable/episode_watched_eye_filled" />
 
         <View
-                android:layout_width="match_parent"
-                android:layout_height="28dp" />
+            android:layout_width="match_parent"
+            android:layout_height="28dp" />
     </LinearLayout>
 
 
