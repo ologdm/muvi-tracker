@@ -106,11 +106,71 @@
                     android:id="@+id/trailerImageButton"
                     android:layout_width="28dp"
                     android:layout_height="28dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="12dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginBottom="24dp"
                     android:src="@drawable/youtube_icon_red_square_variant"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:shadowColor="#FF000000"
+                    android:shadowDx="5"
+                    android:shadowDy="3"
+                    android:shadowRadius="5"
+                    android:text="Trailer"
+                    android:textColor="@android:color/white"
+                    android:textSize="10dp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="@id/trailerImageButton"
+                    app:layout_constraintStart_toStartOf="@id/trailerImageButton"
+                    app:layout_constraintTop_toBottomOf="@id/trailerImageButton" />
+
+                <!-- TODO. v sx   -->
+                <!--                <TextView-->
+                <!--                    android:id="@+id/tagline1"-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginBottom="12dp"-->
+                <!--                    android:layout_marginStart="16dp"-->
+                <!--                    android:layout_marginEnd="120dp"-->
+                <!--                    android:maxLines="3"-->
+                <!--                    android:ellipsize="end"-->
+
+                <!--                    android:textStyle="italic"-->
+                <!--                    android:textColor="@android:color/white"-->
+                <!--                    android:shadowColor="#FF000000"-->
+                <!--                    android:shadowDx="5"-->
+                <!--                    android:shadowDy="3"-->
+                <!--                    android:shadowRadius="5"-->
+
+                <!--                    app:layout_constraintStart_toStartOf="parent"-->
+                <!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+                <!--                    tools:text="@tools:sample/lorem/random" />-->
+
+                <!-- TODO. v dx   -->
+                <!--                <TextView-->
+                <!--                    android:id="@+id/tagline1"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginBottom="12dp"-->
+                <!--                    android:layout_marginEnd="16dp"-->
+                <!--                    android:gravity="end"-->
+
+                <!--                    android:maxLines="3"-->
+                <!--                    android:ellipsize="end"-->
+
+                <!--                    android:textStyle="italic"-->
+                <!--                    android:textColor="@android:color/white"-->
+                <!--                    android:shadowColor="#FF000000"-->
+                <!--                    android:shadowDx="5"-->
+                <!--                    android:shadowDy="3"-->
+                <!--                    android:shadowRadius="5"-->
+
+                <!--                    app:layout_constraintEnd_toEndOf="parent"-->
+                <!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+                <!--                    tools:text="@tools:sample/lorem/random" />-->
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -128,9 +188,28 @@
                     style="@style/Title_Typography_Detail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="12dp"
+                    android:layout_marginTop="12dp"
                     tools:text="@tools:sample/lorem" />
+
+                <TextView
+                    android:id="@+id/originalTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20dp"
+                    android:visibility="gone"
+                    tools:text="(Lorem.)"
+                    tools:visibility="visible" />
+
+                <!--                <TextView-->
+                <!--                    android:id="@+id/tagline"-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginBottom="12dp"-->
+                <!--                    android:maxLines="3"-->
+                <!--                    android:ellipsize="end"-->
+                <!--                    app:layout_constraintStart_toStartOf="parent"-->
+                <!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+                <!--                    tools:text="@tools:sample/lorem/random" />-->
 
                 <!--                <TextView-->
                 <!--                        android:id="@+id/status"-->
@@ -143,7 +222,8 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="24dp">
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="20dp">
 
 
                     <com.google.android.material.imageview.ShapeableImageView
@@ -173,7 +253,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="15sp"
-                            tools:text="Feb 2010 (US)" />
+                            tools:text=" 09 Feb 2016 (US)" />
 
                         <TextView
                             android:id="@+id/status"
@@ -196,19 +276,74 @@
                             android:layout_height="4dp" />
 
 
-                        <TextView
-                            android:id="@+id/traktRating"
+                        <!--                        <TextView-->
+                        <!--                            android:id="@+id/traktRating"-->
+                        <!--                            android:layout_width="wrap_content"-->
+                        <!--                            android:layout_height="wrap_content"-->
+                        <!--                            android:text="8.3"-->
+                        <!--                            android:textSize="24sp" />-->
+
+                        <!--                        <TextView-->
+                        <!--                            android:layout_width="wrap_content"-->
+                        <!--                            android:layout_height="wrap_content"-->
+                        <!--                            android:text="trakt.tv"-->
+                        <!--                            android:textSize="15sp" />-->
+
+
+                        <!--  TODO RATINGS TEST                        -->
+                        <LinearLayout
+                            android:id="@+id/ratingsLayout"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="0.0"
-                            android:textSize="24sp" />
+                            android:orientation="horizontal"
+                            app:layout_constraintStart_toEndOf="@id/imageVertical">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="trakt.tv"
-                            android:textSize="15sp" />
+                            <!-- TODO Trakt -->
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="20dp"
+                                android:gravity="center_horizontal"
+                                android:orientation="vertical">
 
+                                <TextView
+                                    android:id="@+id/traktRating"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="24sp"
+                                    tools:text="8.3" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Trakt.tv"
+                                    android:textSize="12sp" />
+                            </LinearLayout>
+
+
+                            <!--  TODO tmdb-->
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_horizontal"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/tmdbRating"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="24sp"
+                                    tools:text="7.9" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Tmdb"
+                                    android:textSize="12sp" />
+                            </LinearLayout>
+
+
+                        </LinearLayout>
                     </LinearLayout>
 
 
@@ -265,17 +400,138 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-                <TextView
-                    style="@style/Category_Title_Typography_Detail"
-                    android:layout_width="wrap_content"
+                <!--            &lt;!&ndash;  TODO RATINGS TEST                        &ndash;&gt;-->
+                <!--                <LinearLayout-->
+                <!--                    android:id="@+id/ratingsLayout"-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginBottom="20dp"-->
+                <!--                    tools:itemCount="1"-->
+                <!--                    tools:listitem="@layout/vh_cast_list_on_detail"-->
+                <!--                    android:orientation="horizontal">-->
+
+                <!--                &lt;!&ndash; TODO Trakt &ndash;&gt;-->
+                <!--                    <LinearLayout-->
+                <!--                        android:layout_width="wrap_content"-->
+                <!--                        android:layout_height="wrap_content"-->
+                <!--                        android:layout_marginEnd="24dp"-->
+                <!--                        android:layout_weight="1"-->
+                <!--                        android:gravity="center"-->
+                <!--                        android:orientation="vertical">-->
+
+                <!--                        <TextView-->
+                <!--                            android:id="@+id/traktRating"-->
+                <!--                            android:layout_width="wrap_content"-->
+                <!--                            android:layout_height="wrap_content"-->
+                <!--                            android:text="8.3"-->
+                <!--                            android:textSize="24sp" />-->
+
+                <!--                        <TextView-->
+                <!--                            android:layout_width="wrap_content"-->
+                <!--                            android:layout_height="wrap_content"-->
+                <!--                            android:text="   Trakt.tv   "-->
+                <!--                            android:textSize="12sp" />-->
+                <!--                    </LinearLayout>-->
+
+
+                <!--&lt;!&ndash;                    TODO tmdb&ndash;&gt;-->
+                <!--                    <LinearLayout-->
+                <!--                        android:layout_width="wrap_content"-->
+                <!--                        android:layout_height="wrap_content"-->
+                <!--                        android:layout_weight="1"-->
+                <!--                        android:gravity="center"-->
+                <!--                        android:layout_marginEnd="24dp"-->
+                <!--                        android:orientation="vertical">-->
+
+                <!--                        <TextView-->
+
+                <!--                            android:layout_width="wrap_content"-->
+                <!--                            android:layout_height="wrap_content"-->
+                <!--                            android:text="7.9"-->
+                <!--                            android:textSize="24sp" />-->
+
+                <!--                        <TextView-->
+                <!--                            android:layout_width="wrap_content"-->
+                <!--                            android:layout_height="wrap_content"-->
+                <!--                            android:text="  Tmdb  "-->
+                <!--                            android:textSize="12sp" />-->
+                <!--                    </LinearLayout>-->
+
+                <!--&lt;!&ndash;                    TODO metascore&ndash;&gt;-->
+                <!--                    <LinearLayout-->
+                <!--                        android:layout_width="wrap_content"-->
+                <!--                        android:layout_height="wrap_content"-->
+                <!--                        android:layout_marginEnd="24dp"-->
+                <!--                        android:gravity="center_horizontal"-->
+                <!--                        android:layout_weight="1"-->
+                <!--                        android:orientation="vertical">-->
+
+                <!--                        <TextView-->
+                <!--                            android:layout_width="wrap_content"-->
+                <!--                            android:layout_height="wrap_content"-->
+                <!--                            android:text="70"-->
+                <!--                            android:textSize="24sp" />-->
+
+                <!--                        <TextView-->
+                <!--                            android:layout_width="wrap_content"-->
+                <!--                            android:layout_height="wrap_content"-->
+                <!--                            android:text=" Metascore "-->
+                <!--                            android:textSize="12sp" />-->
+                <!--                    </LinearLayout>-->
+
+                <!--&lt;!&ndash;                    TODO R Tomatoes&ndash;&gt;-->
+                <!--                    <LinearLayout-->
+                <!--                        android:layout_width="wrap_content"-->
+                <!--                        android:layout_height="wrap_content"-->
+                <!--                        android:layout_marginEnd="24dp"-->
+                <!--                        android:layout_weight="1"-->
+                <!--                        android:gravity="center_horizontal"-->
+                <!--                        android:orientation="vertical">-->
+
+                <!--                        <TextView-->
+                <!--                            android:layout_width="wrap_content"-->
+                <!--                            android:layout_height="wrap_content"-->
+                <!--                            android:text="87"-->
+                <!--                            android:textSize="24sp" />-->
+
+                <!--                        <TextView-->
+                <!--                            android:layout_width="wrap_content"-->
+                <!--                            android:layout_height="wrap_content"-->
+                <!--                            android:text="R Tomatoes"-->
+                <!--                            android:textSize="12sp" />-->
+                <!--                    </LinearLayout>-->
+                <!--                </LinearLayout>-->
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/about_show_text" />
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/Category_Title_Typography_Detail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/about_show_text" />
+
+                    <!--                    <com.google.android.material.divider.MaterialDivider-->
+                    <!--                        android:layout_width="match_parent"-->
+                    <!--                        android:layout_marginBottom="8dp"-->
+                    <!--                        android:layout_marginStart="16dp"-->
+                    <!--                        android:layout_marginHorizontal="8dp"-->
+                    <!--                        android:layout_height="wrap_content" />-->
+
+                </LinearLayout>
+
 
                 <TextView
                     android:id="@+id/overview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
+                    android:ellipsize="end"
+                    android:maxLines="4"
                     tools:hint="Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur." />
 
 

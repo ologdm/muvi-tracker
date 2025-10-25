@@ -3,6 +3,7 @@ package com.example.muvitracker.ui.main.detailmovie
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -87,6 +88,7 @@ class DetailMovieFragment : Fragment(R.layout.fragm_detail_movie) {
         }
 
 
+        expandOverview()
         loadTMDBImagesWithCustomGlide()
 
 
@@ -118,17 +120,32 @@ class DetailMovieFragment : Fragment(R.layout.fragm_detail_movie) {
     // movie detail
     private fun updateDetailUi(detailMovie: DetailMovie) {
         with(binding) {
+//            title.text = "${detailMovie.title} (${detailMovie.originalTitle})"
             title.text = detailMovie.title
-            val yearString = detailMovie.released?.formatToReadableDate() ?: "N/A"
+            val yearString = detailMovie.releaseDate?.formatToReadableDate() ?: "Release date: N/A"
             releasedYearAndCountry.text =
-                "${yearString} (${detailMovie.country.uppercase()})"
-            status.text = detailMovie.status.replaceFirstChar { it.uppercaseChar() } // es released
+//                "${yearString} (${detailMovie.country.uppercase()})"
+                "${yearString} (${detailMovie.countries.joinToString(", ")})" ?: "Country: N/A"
+            status.text =
+                detailMovie.status?.replaceFirstChar { it.uppercaseChar() } ?: "Status: N/A" // es released
             runtime.text =
-                getString(R.string.runtime_description, detailMovie.runtime.toString())  // string
+                getString(R.string.runtime_description, detailMovie.runtime.toString()) ?: "Runtime N/A"  // string
 
-            traktRating.text = detailMovie.rating // (string, already converted)
-            tagline.text = detailMovie.tagline
-            overview.text = detailMovie.overview
+            traktRating.text = detailMovie.traktRating ?: "-"
+            tmdbRating.text = detailMovie.tmdbRating ?: "-"
+//            tagline1.text = detailMovie.tagline
+            tagline.text = detailMovie.tagline ?: ""
+
+            originalTitle.apply {
+                if (detailMovie.title != detailMovie.originalTitle) {
+                    visibility = View.VISIBLE
+                    text = "(${detailMovie.originalTitle})"
+                } else
+                    visibility = View.GONE
+            }
+
+
+            overview.text = detailMovie.overview ?: "-"
 
             // genres
             genresChipGroup.removeAllViews() // clean old
@@ -138,7 +155,7 @@ class DetailMovieFragment : Fragment(R.layout.fragm_detail_movie) {
             }
 
             // open link on youtube
-            val trailerUrl = detailMovie.trailer
+            val trailerUrl = detailMovie.youtubeTrailer
             trailerImageButton.setOnClickListener {
                 if (!trailerUrl.isNullOrEmpty()) {
                     val intent = Intent(Intent.ACTION_VIEW, Uri.parse(trailerUrl))
@@ -167,7 +184,7 @@ class DetailMovieFragment : Fragment(R.layout.fragm_detail_movie) {
         binding.watchedCheckbox.setOnCheckedChangeListener(null)
         binding.watchedCheckbox.isChecked = movie.watched
 
-        val isDisabled = movie.released != null && movie.released > getNowFormattedDateTime()
+        val isDisabled = movie.releaseDate != null && movie.releaseDate > getNowFormattedDateTime()
         binding.watchedCheckbox.isEnabled = !isDisabled
         binding.watchedTextview.isEnabled = !isDisabled
 
@@ -175,8 +192,6 @@ class DetailMovieFragment : Fragment(R.layout.fragm_detail_movie) {
             viewModel.updateWatched(currentMovieIds.trakt, isChecked)
         }
     }
-
-
 
 
     private fun loadTMDBImagesWithCustomGlide() {
@@ -195,6 +210,37 @@ class DetailMovieFragment : Fragment(R.layout.fragm_detail_movie) {
             .error(R.drawable.glide_placeholder_base)
             .into(binding.imageVertical)
     }
+
+
+    private fun expandOverview() {
+        var isTextExpanded = false // initial state, fragment opening
+        binding.overview.setOnClickListener {
+            if (isTextExpanded) { // expanded==true -> contract
+                binding.overview.maxLines = 4
+                binding.overview.ellipsize = TextUtils.TruncateAt.END
+            } else { // expanded==false -> expand
+                binding.overview.maxLines = Int.MAX_VALUE
+                binding.overview.ellipsize = null
+            }
+            isTextExpanded = !isTextExpanded // toggle state
+        }
+    }
+
+
+    // TODO 1.1.3 - se manca connessione e non ho dati cachati, non mostro niente
+    // mostro "-" solo se i dati da data mancano
+//    private fun initDefaultUi() {
+//        with(binding) {
+//            title.text = "-"
+//            releasedYearAndCountry.text = "-"
+//            status.text = "-"
+//            runtime.text = getString(R.string.runtime_description, "-")
+//            traktRating.text = "-"
+//            tmdbRating.text = "-"
+//            overview.text = "-"
+//            genresChipGroup.removeAllViews()
+//        }
+//    }
 
 
     companion object {
