@@ -13,7 +13,7 @@ import com.example.muvitracker.domain.model.base.Show
 import com.example.muvitracker.domain.repo.DetailShowRepository
 import com.example.muvitracker.domain.repo.SeasonRepository
 import com.example.muvitracker.utils.IoResponse
-import com.example.muvitracker.utils.StateContainer
+import com.example.muvitracker.utils.StateContainerThree
 import com.example.muvitracker.utils.ioMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
@@ -30,8 +30,8 @@ class DetailShowViewmodel @Inject constructor(
     private val traktApi: TraktApi
 ) : ViewModel() {
 
-    val detailState = MutableLiveData<StateContainer<DetailShow>>()
-    val allSeasonsState = MutableLiveData<StateContainer<List<SeasonExtended>>>()
+    val detailState = MutableLiveData<StateContainerThree<DetailShow>>()
+    val allSeasonsState = MutableLiveData<StateContainerThree<List<SeasonExtended>>>()
     val relatedShowsStatus = MutableLiveData<List<Show>>()
     val castState = MutableLiveData<CastAndCrew>()
 
@@ -44,17 +44,17 @@ class DetailShowViewmodel @Inject constructor(
                     when (response) {
                         is IoResponse.Success -> {
                             cachedItem = response.dataValue
-                            StateContainer(data = response.dataValue)
+                            StateContainerThree(data = response.dataValue)
                         }
 
                         is IoResponse.Error -> {
                             if (response.t is IOException) {
-                                StateContainer(
+                                StateContainerThree(
                                     data = cachedItem,
                                     isNetworkError = true
                                 )
                             } else {
-                                StateContainer(
+                                StateContainerThree(
                                     data = cachedItem,
                                     isOtherError = true
                                 )
@@ -79,14 +79,14 @@ class DetailShowViewmodel @Inject constructor(
                 .map { response ->
                     when (response) {
                         is IoResponse.Success -> {
-                            StateContainer(response.dataValue)
+                            StateContainerThree(response.dataValue)
                         }
 
                         is IoResponse.Error -> {
                             if (response.t is IOException) {
-                                StateContainer(isNetworkError = true)
+                                StateContainerThree(isNetworkError = true)
                             } else {
-                                StateContainer(isOtherError = true)
+                                StateContainerThree(isOtherError = true)
                             }
                         }
                     }

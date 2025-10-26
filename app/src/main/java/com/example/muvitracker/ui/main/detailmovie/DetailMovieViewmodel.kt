@@ -11,7 +11,8 @@ import com.example.muvitracker.domain.model.base.Movie
 import com.example.muvitracker.domain.repo.DetailMovieRepository
 import com.example.muvitracker.domain.repo.PrefsMovieRepository
 import com.example.muvitracker.utils.IoResponse
-import com.example.muvitracker.utils.StateContainer
+import com.example.muvitracker.utils.StateContainerThree
+import com.example.muvitracker.utils.StateContainerTwo
 import com.example.muvitracker.utils.ioMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
@@ -28,8 +29,7 @@ class DetailMovieViewmodel @Inject constructor(
     private val traktApi: TraktApi
 ) : ViewModel() {
 
-    val detailState = MutableLiveData<StateContainer<DetailMovie>>()
-    val relatedMoviesStatus = MutableLiveData<List<Movie>>()
+    val detailState = MutableLiveData<StateContainerThree<DetailMovie>>()
 
     // flow -> livedata
     fun loadMovieDetailFlow(movieId: Int) {
@@ -41,18 +41,18 @@ class DetailMovieViewmodel @Inject constructor(
                     when (response) {
                         is IoResponse.Success -> {
                             cachedMovie = response.dataValue
-                            StateContainer(data = response.dataValue)
+                            StateContainerThree(data = response.dataValue)
                         }
 
                         is IoResponse.Error -> {
                             if (response.t is IOException) {
                                 // non printare come stringa
-                                StateContainer(
+                                StateContainerThree(
                                     data = cachedMovie,
                                     isNetworkError = true
                                 )
                             } else {
-                                StateContainer(
+                                StateContainerThree(
                                     data = cachedMovie,
                                     isOtherError = true
                                 )
@@ -71,14 +71,12 @@ class DetailMovieViewmodel @Inject constructor(
     }
 
 
-    // SET
+    // SET, get automatico
     fun toggleLikedMovie(movieId: Int) {
         viewModelScope.launch {
             prefsMovieRepository.toggleLikedOnDB(movieId)
         }
     }
-
-
     fun updateWatched(movieId: Int, watched: Boolean) {
         viewModelScope.launch {
             prefsMovieRepository.updateWatchedOnDB(movieId, watched)
@@ -87,25 +85,37 @@ class DetailMovieViewmodel @Inject constructor(
     }
 
 
-    // RELATED MOVIES
+    // RELATED MOVIES --------------------------------------------------------------------------
+    val relatedMoviesState = MutableLiveData<StateContainerTwo<List<Movie>>>()
     fun loadRelatedMovies(movieId: Int) {
         viewModelScope.launch {
-            detailMovieRepository.getRelatedMovies(movieId).ioMapper { movies ->
-                relatedMoviesStatus.value = movies
+            val response = detailMovieRepository.getRelatedMovies(movieId)
+            when (response) {
+                is IoResponse.Success -> {
+                    relatedMoviesState.value = StateContainerTwo(response.dataValue, false)
+                }
+
+                is IoResponse.Error -> {
+                    relatedMoviesState.value = StateContainerTwo(null, true)
+                }
             }
         }
     }
 
 
-    // CAST ATTORI
-    val castState = MutableLiveData<CastAndCrew>()
-
+    // CAST ATTORI ----------------------------------------------------------------------------
+    val castState = MutableLiveData<StateContainerTwo<CastAndCrew>>()
     fun loadCast(movieId: Int) {
         viewModelScope.launch {
-            try {
-                castState.value = traktApi.getAllMovieCast(movieId).toDomain()
-            } catch (ex: Throwable) {
-                ex.printStackTrace()
+            val response = detailMovieRepository.getMovieCast(movieId)
+            when (response){
+                is IoResponse.Success -> {
+                    castState.value = StateContainerTwo(response.dataValue, false)
+                }
+
+                is IoResponse.Error -> {
+                    castState.value = StateContainerTwo(null, true)
+                }
             }
         }
     }

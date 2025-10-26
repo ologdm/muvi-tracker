@@ -20,7 +20,7 @@ import com.example.muvitracker.ui.main.Navigator
 import com.example.muvitracker.ui.main.detailmovie.adapter.DetailSeasonsAdapter
 import com.example.muvitracker.ui.main.detailshow.adapters.RelatedShowsAdapter
 import com.example.muvitracker.ui.main.person.adapters.CastAdapter
-import com.example.muvitracker.utils.statesFlow1
+import com.example.muvitracker.utils.statesFlow
 import com.example.muvitracker.utils.viewBinding
 import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
@@ -94,7 +94,7 @@ class DetailShowFragment : Fragment(R.layout.fragm_detail_show) {
                 updateWatchedCheckboxAndCounters(detailShow)
             }
             // 2
-            stateContainer.statesFlow1(
+            stateContainer.statesFlow(
                 binding.errorTextView,
                 binding.progressBar
             )
@@ -136,8 +136,8 @@ class DetailShowFragment : Fragment(R.layout.fragm_detail_show) {
 
 
         // CAST SHOWS ###############################################################
-        binding.castRV.adapter = castMovieAdapter
-        binding.castRV.layoutManager =
+        binding.castRecyclerView.adapter = castMovieAdapter
+        binding.castRecyclerView.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         viewModel.loadCast(currentShowIds.trakt)
         viewModel.castState.observe(viewLifecycleOwner) {

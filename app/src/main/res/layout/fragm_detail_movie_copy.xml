@@ -302,7 +302,7 @@
                     android:text="@string/cast_text" />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/castRV"
+                    android:id="@+id/castRecyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
@@ -324,7 +324,7 @@
                     android:text="@string/related_text" />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/relatedMoviesRV"
+                    android:id="@+id/related_recyclerview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"

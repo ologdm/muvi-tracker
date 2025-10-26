@@ -52,7 +52,7 @@ class Navigator @Inject constructor(
         manager.beginTransaction()
             .replace(R.id.frameLayout, DetailShowFragment.create(showIds))
             .addToBackStack(null)
-            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN) // setTransition solo animazioni standard
             .commit()
     }
 
@@ -101,7 +101,7 @@ class Navigator @Inject constructor(
         personIds: Ids
     ) {
         fragmentActivity.supportFragmentManager.beginTransaction()
-            .replace(R.id.frameLayout,PersonFragment.create(personIds))
+            .replace(R.id.frameLayout, PersonFragment.create(personIds))
             .addToBackStack(null)
             .commit()
     }

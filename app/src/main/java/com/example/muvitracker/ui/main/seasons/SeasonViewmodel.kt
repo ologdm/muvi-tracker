@@ -9,7 +9,7 @@ import com.example.muvitracker.domain.model.SeasonExtended
 import com.example.muvitracker.domain.repo.EpisodeRepository
 import com.example.muvitracker.domain.repo.SeasonRepository
 import com.example.muvitracker.utils.IoResponse
-import com.example.muvitracker.utils.StateContainer
+import com.example.muvitracker.utils.StateContainerThree
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
@@ -24,8 +24,8 @@ class SeasonViewmodel @Inject constructor(
     private val episodeRepository: EpisodeRepository,
 ) : ViewModel() {
 
-    val seasonInfoState = MutableLiveData<StateContainer<SeasonExtended>>()
-    val seasonEpisodesState = MutableLiveData<StateContainer<List<EpisodeExtended>>>() // test
+    val seasonInfoState = MutableLiveData<StateContainerThree<SeasonExtended>>()
+    val seasonEpisodesState = MutableLiveData<StateContainerThree<List<EpisodeExtended>>>() // test
 
 
     fun loadSeasonInfo(showId: Int, seasonNumber: Int) {
@@ -35,7 +35,7 @@ class SeasonViewmodel @Inject constructor(
                     it.printStackTrace()
                 }
                 .collectLatest { seasonExtendedFromDb ->
-                    seasonInfoState.value = StateContainer(seasonExtendedFromDb)
+                    seasonInfoState.value = StateContainerThree(seasonExtendedFromDb)
                 }
         }
     }
@@ -48,14 +48,14 @@ class SeasonViewmodel @Inject constructor(
                 .map { response ->
                     when (response) {
                         is IoResponse.Success -> {
-                            StateContainer(response.dataValue)
+                            StateContainerThree(response.dataValue)
                         }
 
                         is IoResponse.Error -> {
                             if (response.t is IOException) {
-                                StateContainer(isNetworkError = true)
+                                StateContainerThree(isNetworkError = true)
                             } else {
-                                StateContainer(isOtherError = true)
+                                StateContainerThree(isOtherError = true)
                             }
                         }
                     }

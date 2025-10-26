@@ -7,17 +7,17 @@ import com.example.muvitracker.data.database.MyDatabase
 import com.example.muvitracker.data.database.entities.DetailMovieEntity
 import com.example.muvitracker.data.database.entities.toDomain
 import com.example.muvitracker.data.dto.movie.detail.DetailMovieTmdbDto
-import com.example.muvitracker.data.dto.movie.detail.DetailMovieTraktDto
 import com.example.muvitracker.data.dto.movie.detail.mergeMoviesDtoToEntity
 import com.example.muvitracker.data.dto.movie.toDomain
+import com.example.muvitracker.data.dto.person.toDomain
 import com.example.muvitracker.data.utils.mapToIoResponse
 import com.example.muvitracker.data.utils.storeFactory
+import com.example.muvitracker.domain.model.CastAndCrew
 import com.example.muvitracker.domain.model.DetailMovie
 import com.example.muvitracker.domain.model.base.Movie
 import com.example.muvitracker.domain.repo.DetailMovieRepository
 import com.example.muvitracker.utils.IoResponse
 import com.example.muvitracker.utils.ioMapper
-import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
@@ -100,7 +100,7 @@ class DetailMovieRepositoryImpl @Inject constructor(
     }
 
 
-    // RELATED MOVIES
+    // RELATED MOVIES ------------------------------------------------------------------------------
     override suspend fun getRelatedMovies(movieId: Int): IoResponse<List<Movie>> {
         return try {
             IoResponse.Success(traktApi.getMovieRelatedMovies(movieId))
@@ -117,5 +117,16 @@ class DetailMovieRepositoryImpl @Inject constructor(
         }
     }
 
+    // CAST ---------------------------------------------------------------
+    override suspend fun getMovieCast(movieId: Int): IoResponse<CastAndCrew> {
+        return try {
+            IoResponse.Success(traktApi.getAllMovieCast(movieId).toDomain())
+        } catch (ex: CancellationException){
+            throw ex
+        } catch (ex: Throwable){
+            ex.printStackTrace()
+            IoResponse.Error(ex)
+        }
+    }
 
 }
