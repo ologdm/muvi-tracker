@@ -99,6 +99,7 @@ fun <T> StateContainerThree<T>.statesFlowDetailTest(
         data != null -> {
             progressBar.visibility = View.GONE
             bindData?.invoke(data!!)
+            mainLayout.visibility = View.VISIBLE
 
             // 1.1 Mostra il messaggio “No internet” se c'è errore di rete, ma senza nascondere i dati
             errorTextview.visibility = if (isNetworkError) View.VISIBLE else View.GONE
@@ -159,7 +160,6 @@ fun <T> StateContainerTwo<T>.statesFlow(
         data != null -> {
             bindData?.invoke(data!!)
             progressBar?.visibility = View.GONE
-            errorTextview.visibility = View.GONE
         }
 
         isError -> {

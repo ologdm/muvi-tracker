@@ -11,10 +11,11 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.example.muvitracker.App
 import com.example.muvitracker.R
 import com.example.muvitracker.data.dto.utilsdto.Ids
 import com.example.muvitracker.data.glide.ImageTmdbRequest
-import com.example.muvitracker.data.utils.orIfEmpty
+import com.example.muvitracker.data.utils.orIfBlank
 import com.example.muvitracker.databinding.FragmDetailMovieBinding
 import com.example.muvitracker.domain.model.DetailMovie
 import com.example.muvitracker.ui.main.Navigator
@@ -28,6 +29,13 @@ import com.example.muvitracker.utils.viewBinding
 import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+
+/** Linee
+ *   —        (Shift + Option + -)
+ *   –        (Option + -)
+ *   -        (-)
+ */
+
 
 @AndroidEntryPoint
 class DetailMovieFragment : Fragment(R.layout.fragm_detail_movie) {
@@ -73,7 +81,6 @@ class DetailMovieFragment : Fragment(R.layout.fragm_detail_movie) {
                     updateDetailUi(detailMovie)
                     updateFavoriteIcon(detailMovie.liked)
                     updateWatchedCheckbox(detailMovie)
-                    b.mainLayoutDetail.visibility = View.VISIBLE
                 }
             )
         }
@@ -161,46 +168,53 @@ class DetailMovieFragment : Fragment(R.layout.fragm_detail_movie) {
 
     // PRIVATE FUNCTIONS ###############################################
     // movie detail
-    // TODO default cases OK
-    private fun updateDetailUi(detailMovie: DetailMovie) {
+    // TODO DEFAULT CASES - OK
+    private fun updateDetailUi(movie: DetailMovie) {
         with(b) {
-            title.text = detailMovie.title
-            val yearString = detailMovie.releaseDate?.formatToReadableDate()
-            releasedYearAndCountry.text =
-//                "${yearString} (${detailMovie.country.uppercase()})"
-                "${yearString} (${detailMovie.countries.joinToString(", ")})".orIfEmpty("Info -")
-
-            status.text =
-                detailMovie.status?.replaceFirstChar { it.uppercaseChar() }
-                    ?: "Status -" // es released
-            runtime.text =
-                getString(R.string.runtime_description, detailMovie.runtime.toString())
-                    ?: "Runtime -"  // string
-
-            traktRating.text = detailMovie.traktRating ?: "-"
-            tmdbRating.text = detailMovie.tmdbRating ?: "-"
-            tagline.text = detailMovie.tagline ?: "Tagline -"
-
-            // TODO OK funziona
+            //
+            title.text = movie.title.orIfBlank(MovieDefaults.TITLE)
+            //
+            val releaseData = movie.releaseDate?.formatToReadableDate()
+            val releaseDataText = releaseData.takeUnless { it.isNullOrBlank() } ?: MovieDefaults.RELEASE
+            val countryList = movie.countries.filter { it.isNotBlank() }
+            val countryText = countryList.joinToString(", ")
+            releasedYearAndCountry.text = "${releaseDataText} (${countryText})"
+            //
+            status.text = movie.status?.replaceFirstChar { it.uppercaseChar() }
+                .orIfBlank(MovieDefaults.STATUS)  // es released
+            //
+            runtime.text = if (movie.runtime != null && movie.runtime > 0)
+                getString(R.string.runtime_description, movie.runtime.toString())
+            else
+                MovieDefaults.RUNTIME
+            //
+            traktRating.text = movie.traktRating ?: MovieDefaults.RATING
+            tmdbRating.text = movie.tmdbRating ?: MovieDefaults.RATING
+            //
+            tagline.text = movie.tagline.orIfBlank(MovieDefaults.TAGLINE)
+            //
+            // TODO TODO !!!! 27 ott
             originalTitle.apply {
-                if (detailMovie.title != detailMovie.originalTitle) {
+                if (movie.title != movie.originalTitle) {
                     visibility = View.VISIBLE
-                    text = "(${detailMovie.originalTitle})"
+                    text = "(${movie.originalTitle})"
                 } else
                     visibility = View.GONE
             }
-
-            overview.text = detailMovie.overview ?: getString(R.string.not_available)
-
+            //
+            overview.text = movie.overview.orIfBlank(MovieDefaults.OVERVIEW)
+            //
             // genres
             genresChipGroup.removeAllViews() // clean old
-            detailMovie.genres.forEach { genre ->
+            movie.genres.forEach { genre ->
                 val chip = Chip(context).apply { text = genre }
                 genresChipGroup.addView(chip)
             }
 
+
+            // TODO - sbiadire icona
             // open link on youtube
-            val trailerUrl = detailMovie.youtubeTrailer
+            val trailerUrl = movie.youtubeTrailer
             trailerImageButton.setOnClickListener {
                 if (!trailerUrl.isNullOrBlank()) {
                     val intent = Intent(Intent.ACTION_VIEW, Uri.parse(trailerUrl))
@@ -283,4 +297,21 @@ class DetailMovieFragment : Fragment(R.layout.fragm_detail_movie) {
         private const val MOVIE_IDS_KEY = "movieIdsKey"
     }
 
+
+    // TODO: fix class
+    object MovieDefaults {
+        const val TITLE = "Untitled"
+        const val RELEASE = "Year: —"
+        const val RUNTIME = "Runtime: N/A"
+        const val STATUS = "Status: Unknown"
+        const val LANGUAGE = "Language: Unknown"
+        var OVERVIEW = App.appContext.getString(R.string.not_available)
+        const val TAGLINE = "Tagline are not available"
+        const val RATING = " — "
+//    const val GENRES = "—"
+    }
+
 }
+
+
+
