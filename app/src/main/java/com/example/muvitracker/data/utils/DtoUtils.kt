@@ -15,7 +15,7 @@ fun <T> coalesce(value: T?, fallback: T?): T? {
 
 // CON EXTENTION FUNCTION - scegli tra 2 opzioni
 // Per String nullable
-fun String?.orIfEmpty(fallback: String?): String? {
+fun String?.orIfBlank(fallback: String?): String? {
     return if (!this.isNullOrBlank()) this else fallback
 }
 
