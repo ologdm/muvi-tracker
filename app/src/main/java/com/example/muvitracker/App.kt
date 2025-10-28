@@ -21,12 +21,16 @@ class App : Application() {
 //        val localeCode = "it"
 //        val localeCode = "en"
 //        val localeCode = "fr"
-//    val localeCode = "ro"
-    val localeCode = "ru"
+    val localeCode = "ro"
+//    val localeCode = "ru"
 
     companion object {
         // per sharedPrefs
         const val OLD_APP_LANGUAGE_PREF = "glide_language"
+
+        // Context globale accessibile ovunque
+        lateinit var appContext: Context
+            private set
     }
 
     override fun attachBaseContext(base: Context) {
@@ -36,6 +40,8 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        appContext = applicationContext
+
         // Per Android 13+ (API 33), applica anche qui la lingua
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             val localeManager = getSystemService(android.app.LocaleManager::class.java)
