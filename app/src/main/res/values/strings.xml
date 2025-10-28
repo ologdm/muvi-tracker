@@ -55,6 +55,8 @@
     <string name="search_people">People</string>
     <string name="episodes">Episodes:</string>
     <string name="all">All</string>
+    <string name="actors_are_not_available">Actors are not available</string>
+    <string name="not_available">Not available</string>
 
 
 </resources>

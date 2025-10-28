@@ -21,6 +21,7 @@
     <string name="watch_provider_text">Furnizori de vizionare</string>
     <string name="no_trailer_available">Niciun trailer disponibil</string>
     <string name="episodes_text">episoade</string>
+    <string name="overview">Descriere</string>
     <string name="release_date">Data lansării:</string>
     <string name="error_message_no_internet_swipe_down">swipe down fără conexiune la internet, trage în jos</string>
     <string name="error_message_no_internet">fără conexiune la internet</string>
@@ -32,4 +33,6 @@
     <string name="episodes">Episoade:</string>
     <string name="all">Toate</string>
     <string name="season_text">Sezon</string>
+    <string name="actors_are_not_available">Actorii nu sunt disponibili</string>
+    <string name="not_available">Nu e disponibil</string>
 </resources>

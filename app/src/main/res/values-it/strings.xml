@@ -34,6 +34,7 @@
     <string name="episodes_text">episodi</string>
 
     <!--episode-->
+    <string name="overview">Descrizione</string>
     <string name="release_date">Prima uscita:</string>
 
 
@@ -48,5 +49,7 @@
     <string name="search_people">Persone</string>
     <string name="episodes">Episodi:</string>
     <string name="all">Tutti</string>
+    <string name="actors_are_not_available">Attori non disponibili</string>
+    <string name="not_available">Non disponibile</string>
 
 </resources>
