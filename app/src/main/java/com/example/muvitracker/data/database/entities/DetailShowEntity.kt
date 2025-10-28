@@ -48,6 +48,9 @@ data class DetailShowEntity(
     // ratings
     val traktRating: String?, // 8.3
     val tmdbRating: String?, // 7.9
+    val imdbRating: String?, // TODO con omdb
+    val metacriticRating: String?, // TODO con omdb
+    val rottenTomatoesRating: String?, // TODO con omdb
     // TODO  other ratings - Imdb, Metacritic, Rotten Tomatoes
 
     // da sistema
