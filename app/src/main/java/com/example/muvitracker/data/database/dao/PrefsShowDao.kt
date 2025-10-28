@@ -6,7 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import com.example.muvitracker.data.database.entities.PrefsShowEntity
-import com.example.muvitracker.domain.model.DetailShow
+import com.example.muvitracker.domain.model.Show
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -66,11 +66,11 @@ interface PrefsShowDao {
         ---COALESCE utile per default - prende primo valore non null tra quelli che gli passi
         COALESCE(SUM(CASE WHEN e.watched = 1 THEN 1 ELSE 0 END),0) AS watchedCount
     FROM prefs_show_table AS p
-    LEFT JOIN detail_show_table AS d ON p.traktId = d.traktId
+    LEFT JOIN show_table AS d ON p.traktId = d.traktId
     LEFT JOIN episode_table AS e ON d.traktId = e.showId
     GROUP BY p.traktId
 """
     )
-    fun getAllPrefs(): Flow<List<DetailShow>>
+    fun getAllPrefs(): Flow<List<Show>>
 
 }

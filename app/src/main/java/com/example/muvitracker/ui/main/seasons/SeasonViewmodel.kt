@@ -3,9 +3,9 @@ package com.example.muvitracker.ui.main.seasons
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.muvitracker.data.dto.utilsdto.Ids
-import com.example.muvitracker.domain.model.EpisodeExtended
-import com.example.muvitracker.domain.model.SeasonExtended
+import com.example.muvitracker.data.dto._support.Ids
+import com.example.muvitracker.domain.model.Episode
+import com.example.muvitracker.domain.model.Season
 import com.example.muvitracker.domain.repo.EpisodeRepository
 import com.example.muvitracker.domain.repo.SeasonRepository
 import com.example.muvitracker.utils.IoResponse
@@ -24,8 +24,8 @@ class SeasonViewmodel @Inject constructor(
     private val episodeRepository: EpisodeRepository,
 ) : ViewModel() {
 
-    val seasonInfoState = MutableLiveData<StateContainerThree<SeasonExtended>>()
-    val seasonEpisodesState = MutableLiveData<StateContainerThree<List<EpisodeExtended>>>() // test
+    val seasonInfoState = MutableLiveData<StateContainerThree<Season>>()
+    val seasonEpisodesState = MutableLiveData<StateContainerThree<List<Episode>>>() // test
 
 
     fun loadSeasonInfo(showId: Int, seasonNumber: Int) {

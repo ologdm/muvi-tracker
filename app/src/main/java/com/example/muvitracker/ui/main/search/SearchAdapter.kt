@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import com.example.muvitracker.data.dto.utilsdto.Ids
+import com.example.muvitracker.data.dto._support.Ids
 import com.example.muvitracker.databinding.VhSearchBinding
 import com.example.muvitracker.domain.model.SearchResult
 
@@ -32,9 +32,9 @@ class SearchAdapter(
 
         holder.itemView.setOnClickListener {
             when (item) {
-                is SearchResult.MovieItem -> onClickVHMovie(item.movie.ids)
-                is SearchResult.ShowItem -> onClickVHShow(item.show.ids)
-                is SearchResult.PersonItem ->  onClickVHPerson(item.person.ids)
+                is SearchResult.MovieItem -> onClickVHMovie(item.movieBase.ids)
+                is SearchResult.ShowItem -> onClickVHShow(item.showBase.ids)
+                is SearchResult.PersonItem ->  onClickVHPerson(item.personBase.ids)
             }
         }
     }
@@ -44,15 +44,15 @@ class SearchAdapter(
         override fun areItemsTheSame(oldItem: SearchResult, newItem: SearchResult): Boolean {
             return when {
                 oldItem is SearchResult.MovieItem && newItem is SearchResult.MovieItem -> {
-                    oldItem.movie.ids.trakt == newItem.movie.ids.trakt
+                    oldItem.movieBase.ids.trakt == newItem.movieBase.ids.trakt
                 }
 
                 oldItem is SearchResult.ShowItem && newItem is SearchResult.ShowItem -> {
-                    oldItem.show.ids.trakt == newItem.show.ids.trakt
+                    oldItem.showBase.ids.trakt == newItem.showBase.ids.trakt
                 }
 
                 oldItem is SearchResult.PersonItem && newItem is SearchResult.PersonItem -> {
-                    oldItem.person.ids.trakt == newItem.person.ids.trakt
+                    oldItem.personBase.ids.trakt == newItem.personBase.ids.trakt
                 }
 
                 else -> false

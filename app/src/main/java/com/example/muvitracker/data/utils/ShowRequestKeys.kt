@@ -1,6 +1,6 @@
 package com.example.muvitracker.data.utils
 
-import com.example.muvitracker.data.dto.utilsdto.Ids
+import com.example.muvitracker.data.dto._support.Ids
 
 data class ShowRequestKeys(
     val showIds: Ids,

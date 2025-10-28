@@ -8,7 +8,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import com.example.muvitracker.R
 import com.example.muvitracker.data.TraktApi
-import com.example.muvitracker.data.repositories.ShowsPagingSource
+import com.example.muvitracker.data.repositories.paging.ShowsPagingSource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

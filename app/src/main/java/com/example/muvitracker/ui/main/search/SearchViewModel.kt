@@ -7,7 +7,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import com.example.muvitracker.data.TraktApi
-import com.example.muvitracker.data.repositories.SearchPagingSource
+import com.example.muvitracker.data.repositories.paging.SearchPagingSource
 import com.example.muvitracker.ui.main.search.SearchFragment.Companion.MOVIE_SHOW_PERSON
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview

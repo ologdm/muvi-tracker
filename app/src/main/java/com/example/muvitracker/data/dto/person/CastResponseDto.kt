@@ -2,7 +2,7 @@ package com.example.muvitracker.data.dto.person
 
 import com.example.muvitracker.domain.model.CastAndCrew
 import com.example.muvitracker.domain.model.CastMember
-import com.example.muvitracker.domain.model.base.Person
+import com.example.muvitracker.domain.model.base.PersonBase
 
 // cast & crew
 // https://api.trakt.tv/movies/id/people
@@ -33,7 +33,7 @@ fun CastMemberDto.toDomain() :CastMember{
     return CastMember(
         character = character ?: "N/A",
         episodeCount = episodeCount?.toString() ?: "N/A",
-        person = person?.toDomain() ?: Person()
+        personBase = person?.toDomain() ?: PersonBase()
     )
 }
 

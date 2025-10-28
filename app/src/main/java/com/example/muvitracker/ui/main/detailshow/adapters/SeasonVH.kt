@@ -4,14 +4,14 @@ import android.content.Context
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.muvitracker.R
 import com.example.muvitracker.databinding.VhSeasonsOnDetailshowBinding
-import com.example.muvitracker.domain.model.SeasonExtended
+import com.example.muvitracker.domain.model.Season
 
 
 class SeasonVH(
     val binding: VhSeasonsOnDetailshowBinding
 ) : ViewHolder(binding.root) {
 
-    fun bind(seasonItem: SeasonExtended, context : Context) {
+    fun bind(seasonItem: Season, context : Context) {
         // old
 //        binding.seasonNrAndYear.text = "${context.getString(R.string.season_text)} ${seasonItem.seasonNumber} (${seasonItem.releaseDate?.take(4)})"
         // new 1.1.3  - seson from traslated dto

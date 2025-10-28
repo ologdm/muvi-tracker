@@ -9,10 +9,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.muvitracker.R
-import com.example.muvitracker.data.dto.utilsdto.Ids
+import com.example.muvitracker.data.dto._support.Ids
 import com.example.muvitracker.data.glide.ImageTmdbRequest
 import com.example.muvitracker.databinding.FragmSeasonSonBinding
-import com.example.muvitracker.domain.model.SeasonExtended
+import com.example.muvitracker.domain.model.Season
 import com.example.muvitracker.ui.main.Navigator
 import com.example.muvitracker.utils.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -118,7 +118,7 @@ class SeasonFragment : Fragment(R.layout.fragm_season_son) {
 
 
     // CAMBIA ICONA COLOR
-    private fun updateIconsWatchedAll(season: SeasonExtended) {
+    private fun updateIconsWatchedAll(season: Season) {
         // icon - empty(3 colori) / filled
         val iconEmpty = context?.getDrawable(R.drawable.episode_watched_all_empty)?.mutate()
         val iconFilled = context?.getDrawable(R.drawable.episode_watched_all_filled)

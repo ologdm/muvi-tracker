@@ -1,21 +1,21 @@
 package com.example.muvitracker.data
 
-import com.example.muvitracker.data.dto.movie.BoxofficeDtoM
-import com.example.muvitracker.data.dto.movie.detail.DetailMovieTraktDto
-import com.example.muvitracker.data.dto.show.detail.DetailShowTraktDto
+import com.example.muvitracker.data.dto.movie.explore.BoxofficeDtoM
+import com.example.muvitracker.data.dto.movie.detail.MovieTraktDto
+import com.example.muvitracker.data.dto.show.detail.ShowTraktDto
 import com.example.muvitracker.data.dto.episode.EpisodeTraktDto
 import com.example.muvitracker.data.dto.movie.MovieBaseDto
-import com.example.muvitracker.data.dto.SearchDto
-import com.example.muvitracker.data.dto.movie.AnticipatedDtoM
-import com.example.muvitracker.data.dto.movie.FavoritedDtoM
-import com.example.muvitracker.data.dto.movie.WatchedDtoM
+import com.example.muvitracker.data.dto.search.SearchDto
+import com.example.muvitracker.data.dto.movie.explore.AnticipatedDtoM
+import com.example.muvitracker.data.dto.movie.explore.FavoritedDtoM
+import com.example.muvitracker.data.dto.movie.explore.WatchedDtoM
 import com.example.muvitracker.data.dto.season.SeasonTraktDto
-import com.example.muvitracker.data.dto.show.AnticipatedDtoS
-import com.example.muvitracker.data.dto.show.FavoritedDtoS
+import com.example.muvitracker.data.dto.show.explore.AnticipatedShowDto
+import com.example.muvitracker.data.dto.show.explore.FavoritedShowDto
 import com.example.muvitracker.data.dto.show.ShowBaseDto
-import com.example.muvitracker.data.dto.show.WatchedDtoS
+import com.example.muvitracker.data.dto.show.explore.WatchedShowDto
 import com.example.muvitracker.data.dto.person.CastResponseDto
-import com.example.muvitracker.data.dto.person.PersonTraktDto
+import com.example.muvitracker.data.dto.person.detail.PersonTraktDto
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -82,32 +82,32 @@ interface TraktApi {
     suspend fun getWatchedShows(
         @Query("page") page: Int,
         @Query("limit") limit: Int
-    ): List<WatchedDtoS>
+    ): List<WatchedShowDto>
 
     @GET("shows/favorited/weekly")
     suspend fun getFavoritedShows(
         @Query("page") page: Int,
         @Query("limit") limit: Int
-    ): List<FavoritedDtoS>
+    ): List<FavoritedShowDto>
 
     @GET("shows/anticipated")
     suspend fun getAnticipatedShows(
         @Query("page") page: Int,
         @Query("limit") limit: Int
-    ): List<AnticipatedDtoS>
+    ): List<`AnticipatedShowDto`>
 
 
     // DETAIL MOVIE/SHOW
     @GET("movies/{movie_id}?extended=full")
     suspend fun getMovieDetail(@Path("movie_id") movieId: Int)
-            : DetailMovieTraktDto
+            : MovieTraktDto
 
 
     // seasons(1,2,3,4...n), cast, related
     // 1 detailDto OK -
     // https://api.trakt.tv/shows/id
     @GET("shows/{show_id}?extended=full")
-    suspend fun getShowDetail(@Path("show_id") showId: Int): DetailShowTraktDto
+    suspend fun getShowDetail(@Path("show_id") showId: Int): ShowTraktDto
 
     // 2 all seasons OK
     // https://api.trakt.tv/shows/id/seasons/?extended=full

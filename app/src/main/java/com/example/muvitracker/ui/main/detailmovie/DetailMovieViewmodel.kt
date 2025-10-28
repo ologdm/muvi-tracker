@@ -4,16 +4,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.muvitracker.data.TraktApi
-import com.example.muvitracker.data.dto.person.toDomain
 import com.example.muvitracker.domain.model.CastAndCrew
-import com.example.muvitracker.domain.model.DetailMovie
-import com.example.muvitracker.domain.model.base.Movie
+import com.example.muvitracker.domain.model.Movie
+import com.example.muvitracker.domain.model.base.MovieBase
 import com.example.muvitracker.domain.repo.DetailMovieRepository
 import com.example.muvitracker.domain.repo.PrefsMovieRepository
 import com.example.muvitracker.utils.IoResponse
 import com.example.muvitracker.utils.StateContainerThree
 import com.example.muvitracker.utils.StateContainerTwo
-import com.example.muvitracker.utils.ioMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
@@ -29,11 +27,11 @@ class DetailMovieViewmodel @Inject constructor(
     private val traktApi: TraktApi
 ) : ViewModel() {
 
-    val detailState = MutableLiveData<StateContainerThree<DetailMovie>>()
+    val detailState = MutableLiveData<StateContainerThree<Movie>>()
 
     // flow -> livedata
     fun loadMovieDetailFlow(movieId: Int) {
-        var cachedMovie: DetailMovie? = null
+        var cachedMovie: Movie? = null
 
         viewModelScope.launch {
             detailMovieRepository.getSingleDetailMovieFlow(movieId)
@@ -86,7 +84,7 @@ class DetailMovieViewmodel @Inject constructor(
 
 
     // RELATED MOVIES --------------------------------------------------------------------------
-    val relatedMoviesState = MutableLiveData<StateContainerTwo<List<Movie>>>()
+    val relatedMoviesState = MutableLiveData<StateContainerTwo<List<MovieBase>>>()
     fun loadRelatedMovies(movieId: Int) {
         viewModelScope.launch {
             val response = detailMovieRepository.getRelatedMovies(movieId)

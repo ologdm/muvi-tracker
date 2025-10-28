@@ -4,13 +4,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.muvitracker.data.glide.ImageTmdbRequest
 import com.example.muvitracker.databinding.VhPrefsShowBinding
-import com.example.muvitracker.domain.model.DetailShow
+import com.example.muvitracker.domain.model.Show
 
 class PrefsShowVH(
     val binding: VhPrefsShowBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(show: DetailShow) {
+    fun bind(show: Show) {
         binding.run {
             title.text = "${show.title}"
             otherInfo.text =

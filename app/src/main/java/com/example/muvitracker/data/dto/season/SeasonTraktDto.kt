@@ -3,7 +3,7 @@ package com.example.muvitracker.data.dto.season
 import android.os.Parcelable
 import com.example.muvitracker.data.LanguageManager
 import com.example.muvitracker.data.database.entities.SeasonEntity
-import com.example.muvitracker.data.dto.utilsdto.Ids
+import com.example.muvitracker.data.dto._support.Ids
 import com.example.muvitracker.utils.firstDecimalApproxToString
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize

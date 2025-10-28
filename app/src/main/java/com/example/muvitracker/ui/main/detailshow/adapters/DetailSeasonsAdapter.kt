@@ -7,13 +7,13 @@ import android.widget.CompoundButton
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.example.muvitracker.databinding.VhSeasonsOnDetailshowBinding
-import com.example.muvitracker.domain.model.SeasonExtended
+import com.example.muvitracker.domain.model.Season
 import com.example.muvitracker.ui.main.detailshow.adapters.SeasonVH
 
 class DetailSeasonsAdapter(
     private val onClickVH: (Int) -> Unit,
     private val onClickWatchedAllCheckbox: (Int, () -> Unit) -> Unit, // callback stato loading
-) : ListAdapter<SeasonExtended, SeasonVH>(DIFF_CALLBACK) {
+) : ListAdapter<Season, SeasonVH>(DIFF_CALLBACK) {
 
 
     // ADAPTER METHODS
@@ -68,16 +68,16 @@ class DetailSeasonsAdapter(
 
 
     companion object {
-        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<SeasonExtended>() {
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Season>() {
             override fun areItemsTheSame(
-                oldItem: SeasonExtended,
-                newItem: SeasonExtended
+                oldItem: Season,
+                newItem: Season
             ): Boolean {
                 return oldItem.ids.trakt == newItem.ids.trakt
             }
 
             override fun areContentsTheSame(
-                oldItem: SeasonExtended, newItem: SeasonExtended
+                oldItem: Season, newItem: Season
             ): Boolean {
                 return oldItem == newItem
             }

@@ -4,21 +4,21 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import com.example.muvitracker.data.dto.utilsdto.Ids
+import com.example.muvitracker.data.dto._support.Ids
 import com.example.muvitracker.databinding.VhRelatedListOnDetailBinding
-import com.example.muvitracker.domain.model.base.Movie
+import com.example.muvitracker.domain.model.base.MovieBase
 
 class RelatedMovieAdapter(
     private val onClickVH: (Ids) -> Unit,
-) : ListAdapter<Movie, RelatedMovieVH>(RelatedMovieAdapter) {
+) : ListAdapter<MovieBase, RelatedMovieVH>(RelatedMovieAdapter) {
 
 
-    companion object : DiffUtil.ItemCallback<Movie>() {
-        override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean {
+    companion object : DiffUtil.ItemCallback<MovieBase>() {
+        override fun areItemsTheSame(oldItem: MovieBase, newItem: MovieBase): Boolean {
             return oldItem.ids.trakt == newItem.ids.trakt
         }
 
-        override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean {
+        override fun areContentsTheSame(oldItem: MovieBase, newItem: MovieBase): Boolean {
             return oldItem == newItem
         }
     }

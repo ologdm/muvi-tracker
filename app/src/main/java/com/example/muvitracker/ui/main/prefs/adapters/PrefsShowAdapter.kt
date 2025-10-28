@@ -10,9 +10,9 @@ import android.widget.ImageButton
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.example.muvitracker.R
-import com.example.muvitracker.data.dto.utilsdto.Ids
+import com.example.muvitracker.data.dto._support.Ids
 import com.example.muvitracker.databinding.VhPrefsShowBinding
-import com.example.muvitracker.domain.model.DetailShow
+import com.example.muvitracker.domain.model.Show
 
 
 class PrefsShowAdapter(
@@ -20,7 +20,7 @@ class PrefsShowAdapter(
     private val onLongClickVH: (movieId: Int) -> Unit,
     private val onCLickLiked: (Int) -> Unit,
     private val onClickWatchedAllCheckbox: (showIds: Ids, () -> Unit) -> Unit
-) : ListAdapter<DetailShow, PrefsShowVH>(PrefsShowAdapter) {
+) : ListAdapter<Show, PrefsShowVH>(PrefsShowAdapter) {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PrefsShowVH {
@@ -107,12 +107,12 @@ class PrefsShowAdapter(
     }
 
 
-    companion object : DiffUtil.ItemCallback<DetailShow>() {
-        override fun areItemsTheSame(oldItem: DetailShow, newItem: DetailShow): Boolean {
+    companion object : DiffUtil.ItemCallback<Show>() {
+        override fun areItemsTheSame(oldItem: Show, newItem: Show): Boolean {
             return oldItem.ids.trakt == newItem.ids.trakt
         }
 
-        override fun areContentsTheSame(oldItem: DetailShow, newItem: DetailShow): Boolean {
+        override fun areContentsTheSame(oldItem: Show, newItem: Show): Boolean {
             return oldItem == newItem
         }
     }

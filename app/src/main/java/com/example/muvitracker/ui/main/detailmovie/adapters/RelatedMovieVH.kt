@@ -6,15 +6,15 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.muvitracker.R
 import com.example.muvitracker.data.glide.ImageTmdbRequest
 import com.example.muvitracker.databinding.VhRelatedListOnDetailBinding
-import com.example.muvitracker.domain.model.base.Movie
+import com.example.muvitracker.domain.model.base.MovieBase
 
 class RelatedMovieVH(
     val binding: VhRelatedListOnDetailBinding,
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(movie: Movie) {
+    fun bind(movieBase: MovieBase) {
         Glide.with(binding.root.context)
-            .load(ImageTmdbRequest.MovieVertical(movie.ids.tmdb))
+            .load(ImageTmdbRequest.MovieVertical(movieBase.ids.tmdb))
             .transition(DrawableTransitionOptions.withCrossFade(500))
             .placeholder(R.drawable.glide_placeholder_base)
             .error(R.drawable.glide_placeholder_base)

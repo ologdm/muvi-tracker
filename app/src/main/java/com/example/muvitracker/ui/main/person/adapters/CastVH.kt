@@ -14,11 +14,11 @@ class CastVH(
 
     fun bind(castMember: CastMember) {
 
-        binding.personName.text = "${castMember.person.name}"
+        binding.personName.text = "${castMember.personBase.name}"
         binding.characterName.text = "${castMember.character}"
 
         Glide.with(binding.root.context)
-            .load(ImageTmdbRequest.Person(castMember.person.ids.tmdb ?: 0))
+            .load(ImageTmdbRequest.Person(castMember.personBase.ids.tmdb ?: 0))
             .transition(DrawableTransitionOptions.withCrossFade(500))
             .placeholder(R.drawable.glide_placeholder_base)
             .error(R.drawable.glide_placeholder_base)

@@ -1,7 +1,7 @@
 package com.example.muvitracker.domain.repo
 
-import com.example.muvitracker.data.dto.utilsdto.Ids
-import com.example.muvitracker.domain.model.EpisodeExtended
+import com.example.muvitracker.data.dto._support.Ids
+import com.example.muvitracker.domain.model.Episode
 import com.example.muvitracker.utils.IoResponse
 import kotlinx.coroutines.flow.Flow
 
@@ -15,13 +15,13 @@ interface EpisodeRepository {
     fun getSeasonAllEpisodesFlow(
         showIds: Ids,
         seasonNr: Int
-    ): Flow<IoResponse<List<EpisodeExtended>>>
+    ): Flow<IoResponse<List<Episode>>>
 
     fun getSingleEpisode(
         showId: Int,
         seasonNr: Int,
         episodeNr: Int
-    ): Flow<EpisodeExtended?>
+    ): Flow<Episode?>
 
     suspend fun toggleSingleWatchedEpisode(
         showIds: Ids,

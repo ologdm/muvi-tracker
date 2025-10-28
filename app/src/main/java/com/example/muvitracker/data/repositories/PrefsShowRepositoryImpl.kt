@@ -2,7 +2,7 @@ package com.example.muvitracker.data.repositories
 
 import com.example.muvitracker.data.database.MyDatabase
 import com.example.muvitracker.data.database.entities.PrefsShowEntity
-import com.example.muvitracker.domain.model.DetailShow
+import com.example.muvitracker.domain.model.Show
 import com.example.muvitracker.domain.repo.PrefsShowRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -16,7 +16,7 @@ class PrefsShowRepositoryImpl @Inject constructor(
     private val prefsShowDao = database.prefsShowDao()
 
 
-    override fun getListFLow(): Flow<List<DetailShow>> {
+    override fun getListFLow(): Flow<List<Show>> {
         // (already downloaded case)
         // join on db: prefs + detail + watched episodes ->
         return prefsShowDao.getAllPrefs()

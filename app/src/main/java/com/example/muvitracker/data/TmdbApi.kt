@@ -2,10 +2,10 @@ package com.example.muvitracker.data
 
 import com.example.muvitracker.BuildConfig
 import com.example.muvitracker.data.dto.episode.EpisodeTmdbDto
-import com.example.muvitracker.data.dto.movie.detail.DetailMovieTmdbDto
-import com.example.muvitracker.data.dto.person.PersonTmdbDto
+import com.example.muvitracker.data.dto.movie.detail.MovieTmdbDto
+import com.example.muvitracker.data.dto.person.detail.PersonTmdbDto
 import com.example.muvitracker.data.dto.season.SeasonEpTmdbDto
-import com.example.muvitracker.data.dto.show.detail.DetailShowTmdbDto
+import com.example.muvitracker.data.dto.show.detail.ShowTmdbDto
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -16,7 +16,6 @@ import retrofit2.http.Query
 
 
 interface TmdbApi {
-
     // TODO: BuildConfig prende valore da local propreties
     companion object {
         const val API_KEY_QUERY_MOD = BuildConfig.TMDB_API_KEY
@@ -38,7 +37,7 @@ interface TmdbApi {
         @Query("language") language: String = systemLanguage,
 //        @Query("language") language: String = "it-IT",
         @Query("append_to_response") appendToResponse: String = "videos",
-    ): DetailMovieTmdbDto
+    ): MovieTmdbDto
 
     // 1.1.3 OK
     // test 1399 games of thrones
@@ -49,7 +48,7 @@ interface TmdbApi {
         @Query("api_key") apiKey: String = API_KEY_QUERY_MOD,
         @Query("language") language: String = systemLanguage,
         @Query("append_to_response") appendToResponse: String = "videos",
-    ): DetailShowTmdbDto
+    ): ShowTmdbDto
 
 
     // TODO 1.1.3 - OK

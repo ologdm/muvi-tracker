@@ -4,8 +4,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.muvitracker.data.TraktApi
-import com.example.muvitracker.data.dto.person.toDomain
-import com.example.muvitracker.domain.model.PersonExtended
+import com.example.muvitracker.data.dto.person.detail.toDomain
+import com.example.muvitracker.domain.model.Person
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -16,7 +16,7 @@ class PersonViewmodel @Inject constructor(
     val traktApi: TraktApi
 ) : ViewModel() {
 
-    val personState = MutableLiveData<PersonExtended>()
+    val personState = MutableLiveData<Person>()
 
 
     fun getPerson(personId: Int) {

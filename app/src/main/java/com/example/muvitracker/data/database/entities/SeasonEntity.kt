@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 import com.example.muvitracker.data.dto.season.SeasonTmdbDto
 import com.example.muvitracker.data.dto.season.SeasonTraktDto
 import com.example.muvitracker.data.dto.season.mergeSeasonsDtoToEntity
-import com.example.muvitracker.data.dto.utilsdto.Ids
+import com.example.muvitracker.data.dto._support.Ids
 
 // completo - apertura detail
 // parziale - da mylist, watchedAll

@@ -12,10 +12,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.muvitracker.R
-import com.example.muvitracker.data.dto.utilsdto.Ids
+import com.example.muvitracker.data.dto._support.Ids
 import com.example.muvitracker.data.glide.ImageTmdbRequest
 import com.example.muvitracker.databinding.FragmDetailShowBinding
-import com.example.muvitracker.domain.model.DetailShow
+import com.example.muvitracker.domain.model.Show
 import com.example.muvitracker.ui.main.Navigator
 import com.example.muvitracker.ui.main.detailmovie.adapter.DetailSeasonsAdapter
 import com.example.muvitracker.ui.main.detailshow.adapters.RelatedShowsAdapter
@@ -148,32 +148,32 @@ class DetailShowFragment : Fragment(R.layout.fragm_detail_show) {
 
     // PRIVATE FUNCTIONS ###################################################
     // show detail
-    private fun updateShowDetailPartOfUi(detailShow: DetailShow) {
-        currentShowTitle = detailShow.title ?: "N/A"
+    private fun updateShowDetailPartOfUi(show: Show) {
+        currentShowTitle = show.title ?: "N/A"
 
         with(binding) {
-            title.text = detailShow.title
-            status.text = detailShow.status // es: ended
+            title.text = show.title
+            status.text = show.status // es: ended
             networkYearCountry.text =
-                "${detailShow.networks.joinToString (", ")} ${detailShow.year} (${detailShow.countries.joinToString (", ").toUpperCase()})"
+                "${show.networks.joinToString (", ")} ${show.year} (${show.countries.joinToString (", ").toUpperCase()})"
             airedEpisodes.text =
-                getString(R.string.aired_episodes, detailShow.airedEpisodes.toString())
+                getString(R.string.aired_episodes, show.airedEpisodes.toString())
             runtime.text =
-                getString(R.string.runtime_description, detailShow.runtime.toString() ?: "-")
+                getString(R.string.runtime_description, show.runtime.toString() ?: "-")
 
-            traktRating.text = detailShow.traktRating // (string, already converted)
-            overview.text = detailShow.overview
+            traktRating.text = show.traktRating // (string, already converted)
+            overview.text = show.overview
 
             // genres
             genresChipGroup.removeAllViews() // clean old
-            detailShow.genres.forEach { genre ->
+            show.genres.forEach { genre ->
                 val chip = Chip(context).apply { text = genre }
 //                chip.isEnabled = false todo
                 genresChipGroup.addView(chip)
             }
 
             // open link on youtube
-            val trailerUrl = detailShow.youtubeTrailer
+            val trailerUrl = show.youtubeTrailer
             trailerImageButton.setOnClickListener {
                 if (!trailerUrl.isNullOrEmpty()) {
                     val intent = Intent(Intent.ACTION_VIEW, Uri.parse(trailerUrl))
@@ -188,7 +188,7 @@ class DetailShowFragment : Fragment(R.layout.fragm_detail_show) {
             }
 
             // upgrade  – disable checkbox click if no episodes have been aired
-            val isEnabled = detailShow.airedEpisodes != 0
+            val isEnabled = show.airedEpisodes != 0
             binding.watchedAllCheckbox.isEnabled = isEnabled
             binding.watchedAllTextview.isEnabled = isEnabled
         }
@@ -202,17 +202,17 @@ class DetailShowFragment : Fragment(R.layout.fragm_detail_show) {
     }
 
 
-    private fun updateWatchedCheckboxAndCounters(detailShow: DetailShow) {
+    private fun updateWatchedCheckboxAndCounters(show: Show) {
         binding.watchedCounterTextview.text =
-            "${detailShow.watchedCount}/${detailShow.airedEpisodes}"
-        binding.watchedCounterProgressBar.max = detailShow.airedEpisodes
-        binding.watchedCounterProgressBar.progress = detailShow.watchedCount
+            "${show.watchedCount}/${show.airedEpisodes}"
+        binding.watchedCounterProgressBar.max = show.airedEpisodes
+        binding.watchedCounterProgressBar.progress = show.watchedCount
 
         // vanno sempre insieme
         // 1. togli listener - per non farlo scattare, aggiorna dato, rimetti listener
         binding.watchedAllCheckbox.setOnCheckedChangeListener(null)
         // 2. leggi
-        binding.watchedAllCheckbox.isChecked = detailShow.watchedAll
+        binding.watchedAllCheckbox.isChecked = show.watchedAll
         // 3. rimetti listener, triggera il cambiamento di stato a db
         binding.watchedAllCheckbox.setOnCheckedChangeListener { _, _ ->
             // 3.1 stato iniziale

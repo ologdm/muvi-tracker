@@ -9,11 +9,11 @@ import com.example.muvitracker.data.database.entities.EpisodeEntity
 import com.example.muvitracker.data.database.entities.copyOnlyDtoData
 import com.example.muvitracker.data.database.entities.toDomain
 import com.example.muvitracker.data.dto.episode.mergeEpisodeDtos
-import com.example.muvitracker.data.dto.utilsdto.Ids
+import com.example.muvitracker.data.dto._support.Ids
 import com.example.muvitracker.data.utils.ShowRequestKeys
 import com.example.muvitracker.data.utils.mapToIoResponse
 import com.example.muvitracker.data.utils.storeFactory
-import com.example.muvitracker.domain.model.EpisodeExtended
+import com.example.muvitracker.domain.model.Episode
 import com.example.muvitracker.domain.repo.EpisodeRepository
 import com.example.muvitracker.domain.repo.PrefsShowRepository
 import com.example.muvitracker.utils.IoResponse
@@ -44,7 +44,7 @@ class EpisodeRepositoryImpl @Inject constructor(
      * Nota: bisogna gestire correttamente anche le eccezioni di tipo `CancellationException`,
      */
     val episodesStore =
-        storeFactory<ShowRequestKeys, List<EpisodeEntity>, List<EpisodeExtended>>(
+        storeFactory<ShowRequestKeys, List<EpisodeEntity>, List<Episode>>(
             // 1.1.3 fetcher OK
             fetcher = { request ->
                 coroutineScope {
@@ -117,7 +117,7 @@ class EpisodeRepositoryImpl @Inject constructor(
     fun getSeasonAllEpisodesFlow(
         showIds: Ids,
         seasonNr: Int
-    ): Flow<IoResponse<List<EpisodeExtended>>> {
+    ): Flow<IoResponse<List<Episode>>> {
         return episodesStore
             .stream(
                 StoreRequest.cached(
@@ -134,7 +134,7 @@ class EpisodeRepositoryImpl @Inject constructor(
         showId: Int,
         seasonNr: Int,
         episodeNr: Int
-    ): Flow<EpisodeExtended?> {
+    ): Flow<Episode?> {
         // read from db - single episode always already on db
         return episodeDao.readSingle(showId, seasonNr, episodeNr).map { entity ->
             entity?.toDomain()

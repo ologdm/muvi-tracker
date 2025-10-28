@@ -13,11 +13,11 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.muvitracker.App
 import com.example.muvitracker.R
-import com.example.muvitracker.data.dto.utilsdto.Ids
+import com.example.muvitracker.data.dto._support.Ids
 import com.example.muvitracker.data.glide.ImageTmdbRequest
 import com.example.muvitracker.data.utils.orIfBlank
 import com.example.muvitracker.databinding.FragmDetailMovieBinding
-import com.example.muvitracker.domain.model.DetailMovie
+import com.example.muvitracker.domain.model.Movie
 import com.example.muvitracker.ui.main.Navigator
 import com.example.muvitracker.ui.main.person.adapters.CastAdapter
 import com.example.muvitracker.ui.main.detailmovie.adapters.RelatedMovieAdapter
@@ -169,7 +169,7 @@ class DetailMovieFragment : Fragment(R.layout.fragm_detail_movie) {
     // PRIVATE FUNCTIONS ###############################################
     // movie detail
     // TODO DEFAULT CASES - OK
-    private fun updateDetailUi(movie: DetailMovie) {
+    private fun updateDetailUi(movie: Movie) {
         with(b) {
             //
             title.text = movie.title.orIfBlank(MovieDefaults.TITLE)
@@ -238,7 +238,7 @@ class DetailMovieFragment : Fragment(R.layout.fragm_detail_movie) {
     }
 
     //    private fun updateWatchedCheckbox(isWatched: Boolean) {
-    private fun updateWatchedCheckbox(movie: DetailMovie) {
+    private fun updateWatchedCheckbox(movie: Movie) {
         b.watchedCheckbox.setOnCheckedChangeListener(null)
         b.watchedCheckbox.isChecked = movie.watched
 

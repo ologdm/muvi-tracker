@@ -3,7 +3,7 @@ package com.example.muvitracker.ui.main.prefs
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.muvitracker.domain.model.DetailMovie
+import com.example.muvitracker.domain.model.Movie
 import com.example.muvitracker.domain.repo.PrefsMovieRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
@@ -15,7 +15,7 @@ class PrefsMovieViewModel @Inject constructor(
     private val prefsMovieRepository: PrefsMovieRepository
 ) : ViewModel() {
 
-    val prefsList = MutableLiveData<List<DetailMovie>>()
+    val prefsList = MutableLiveData<List<Movie>>()
 
     init {
         getPrefsList()
@@ -36,7 +36,7 @@ class PrefsMovieViewModel @Inject constructor(
         }
     }
 
-    fun updateWatchedItem(updatedItem: DetailMovie, watched: Boolean) {
+    fun updateWatchedItem(updatedItem: Movie, watched: Boolean) {
         viewModelScope.launch {
             prefsMovieRepository.updateWatchedOnDB(updatedItem.ids.trakt, watched) // bypass
         }

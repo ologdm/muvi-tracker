@@ -6,10 +6,10 @@ import com.example.muvitracker.data.TraktApi
 import com.example.muvitracker.data.database.MyDatabase
 import com.example.muvitracker.data.database.entities.SeasonEntity
 import com.example.muvitracker.data.dto.season.mergeSeasonsDtoToEntity
-import com.example.muvitracker.data.dto.utilsdto.Ids
+import com.example.muvitracker.data.dto._support.Ids
 import com.example.muvitracker.data.utils.mapToIoResponse
 import com.example.muvitracker.data.utils.storeFactory
-import com.example.muvitracker.domain.model.SeasonExtended
+import com.example.muvitracker.domain.model.Season
 import com.example.muvitracker.domain.repo.EpisodeRepository
 import com.example.muvitracker.domain.repo.PrefsShowRepository
 import com.example.muvitracker.domain.repo.SeasonRepository
@@ -43,7 +43,7 @@ class SeasonRepositoryImpl @Inject constructor(
      *
      * Nota: bisogna gestire correttamente anche le eccezioni di tipo `CancellationException`,
      */
-    private val seasonStore = storeFactory<Ids, List<SeasonEntity>, List<SeasonExtended>>(
+    private val seasonStore = storeFactory<Ids, List<SeasonEntity>, List<Season>>(
         fetcher = { showIds ->
             coroutineScope {
                 val traktDeferred = async { traktApi.getAllSeasons(showIds.trakt) }
@@ -102,13 +102,13 @@ class SeasonRepositoryImpl @Inject constructor(
 
     //TODO OK 1.1.3 OK
     override
-    fun getAllSeasonsFlow(showIds: Ids): Flow<IoResponse<List<SeasonExtended>>> {
+    fun getAllSeasonsFlow(showIds: Ids): Flow<IoResponse<List<Season>>> {
         return seasonStore.stream(StoreRequest.cached(showIds, refresh = true))
             .mapToIoResponse()
     }
 
     override
-    fun getSingleSeasonFlow(showId: Int, seasonNr: Int): Flow<SeasonExtended> {
+    fun getSingleSeasonFlow(showId: Int, seasonNr: Int): Flow<Season> {
         return seasonDao.getSingleSeason(showId, seasonNr)
             .map { season ->
                 season

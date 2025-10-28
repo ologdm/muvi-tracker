@@ -1,7 +1,7 @@
 package com.example.muvitracker.data.dto.show
 
-import com.example.muvitracker.data.dto.utilsdto.Ids
-import com.example.muvitracker.domain.model.base.Show
+import com.example.muvitracker.data.dto._support.Ids
+import com.example.muvitracker.domain.model.base.ShowBase
 
 
 data class ShowBaseDto(
@@ -11,8 +11,8 @@ data class ShowBaseDto(
 )
 
 
-fun ShowBaseDto.toDomain(): Show {
-    return Show(
+fun ShowBaseDto.toDomain(): ShowBase {
+    return ShowBase(
         title = this.title,
         year = this.year,
         ids = this.ids

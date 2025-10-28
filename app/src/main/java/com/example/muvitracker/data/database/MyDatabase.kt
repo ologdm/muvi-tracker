@@ -3,14 +3,14 @@ package com.example.muvitracker.data.database
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.example.muvitracker.data.database.dao.DetailMovieDao
-import com.example.muvitracker.data.database.dao.DetailShowDao
+import com.example.muvitracker.data.database.dao.MovieDao
+import com.example.muvitracker.data.database.dao.ShowDao
 import com.example.muvitracker.data.database.dao.EpisodeDao
 import com.example.muvitracker.data.database.dao.PrefsMovieDao
 import com.example.muvitracker.data.database.dao.PrefsShowDao
 import com.example.muvitracker.data.database.dao.SeasonDao
-import com.example.muvitracker.data.database.entities.DetailMovieEntity
-import com.example.muvitracker.data.database.entities.DetailShowEntity
+import com.example.muvitracker.data.database.entities.MovieEntity
+import com.example.muvitracker.data.database.entities.ShowEntity
 import com.example.muvitracker.data.database.entities.EpisodeEntity
 import com.example.muvitracker.data.database.entities.PrefsMovieEntity
 import com.example.muvitracker.data.database.entities.PrefsShowEntity
@@ -18,8 +18,8 @@ import com.example.muvitracker.data.database.entities.SeasonEntity
 
 @Database(
     entities = [
-        DetailMovieEntity::class,
-        DetailShowEntity::class,
+        MovieEntity::class,
+        ShowEntity::class,
         PrefsMovieEntity::class,
         PrefsShowEntity::class,
         SeasonEntity::class,
@@ -38,8 +38,8 @@ import com.example.muvitracker.data.database.entities.SeasonEntity
 //    ConvertersUtilsImagesTmdb::class  /* unused */
 )
 abstract class MyDatabase : RoomDatabase() {
-    abstract fun detailMovieDao(): DetailMovieDao
-    abstract fun detailShowDao(): DetailShowDao
+    abstract fun movieDao(): MovieDao
+    abstract fun showDao(): ShowDao
 
     abstract fun prefsMovieDao(): PrefsMovieDao
     abstract fun prefsShowDao(): PrefsShowDao

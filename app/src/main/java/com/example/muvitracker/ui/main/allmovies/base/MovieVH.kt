@@ -6,14 +6,14 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.muvitracker.R
 import com.example.muvitracker.data.glide.ImageTmdbRequest
 import com.example.muvitracker.databinding.VhBaseListBinding
-import com.example.muvitracker.domain.model.base.Movie
+import com.example.muvitracker.domain.model.base.MovieBase
 
 class MovieVH(
     val binding: VhBaseListBinding,
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(movie: Movie) {
-        binding.title.text = "${movie.title} (${movie.year})"
+    fun bind(movieBase: MovieBase) {
+        binding.title.text = "${movieBase.title} (${movieBase.year})"
 
         // TODO TEST
         // Thumbnail aggiornato usando RequestBuilder invece del float deprecato
@@ -25,7 +25,7 @@ class MovieVH(
 
         Glide.with(binding.root.context)
             // posso passare il dato custom - in load()
-            .load(ImageTmdbRequest.MovieVertical(movie.ids.tmdb))
+            .load(ImageTmdbRequest.MovieVertical(movieBase.ids.tmdb))
 //            .thumbnail(thumbRequest)
             .transition(DrawableTransitionOptions.withCrossFade(500))
             .placeholder(R.drawable.glide_placeholder_base)
@@ -34,7 +34,7 @@ class MovieVH(
 
         // TODO 1.1.3 preloading,
         Glide.with(binding.root.context)
-            .load(ImageTmdbRequest.MovieHorizontal(movie.ids.tmdb))
+            .load(ImageTmdbRequest.MovieHorizontal(movieBase.ids.tmdb))
             .preload()
     }
 }

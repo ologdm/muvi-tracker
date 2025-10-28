@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import com.example.muvitracker.data.dto.utilsdto.Ids
+import com.example.muvitracker.data.dto._support.Ids
 import com.example.muvitracker.databinding.VhCastListOnDetailBinding
 import com.example.muvitracker.domain.model.CastMember
 
@@ -28,7 +28,7 @@ class CastAdapter(
 
         holder.itemView.setOnClickListener {
             item?.let { it ->
-                onClickVH.invoke(it.person.ids, it.character)
+                onClickVH.invoke(it.personBase.ids, it.character)
             }
         }
 
@@ -38,7 +38,7 @@ class CastAdapter(
     // TODO OK domain
     companion object : DiffUtil.ItemCallback<CastMember>() {
         override fun areItemsTheSame(oldItem: CastMember, newItem: CastMember): Boolean {
-            return oldItem.person.ids.trakt == newItem.person.ids.trakt
+            return oldItem.personBase.ids.trakt == newItem.personBase.ids.trakt
         }
 
         override fun areContentsTheSame(oldItem: CastMember, newItem: CastMember): Boolean {

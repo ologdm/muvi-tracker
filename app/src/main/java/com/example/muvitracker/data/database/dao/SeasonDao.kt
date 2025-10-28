@@ -6,7 +6,7 @@ import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
 import com.example.muvitracker.data.database.entities.SeasonEntity
-import com.example.muvitracker.domain.model.SeasonExtended
+import com.example.muvitracker.domain.model.Season
 import kotlinx.coroutines.flow.Flow
 
 
@@ -63,7 +63,7 @@ interface SeasonDao {
     GROUP BY s.seasonTraktId
 """
     )
-    fun getAllSeasons(showId: Int): Flow<List<SeasonExtended>>
+    fun getAllSeasons(showId: Int): Flow<List<Season>>
 
 
     // TODO 1.1.3 OK
@@ -90,7 +90,7 @@ interface SeasonDao {
     GROUP BY s.seasonTraktId
 """
     )
-    fun getSingleSeason(showId: Int, seasonNumber: Int): Flow<SeasonExtended?>
+    fun getSingleSeason(showId: Int, seasonNumber: Int): Flow<Season?>
 
 }
 

@@ -2,9 +2,8 @@ package com.example.muvitracker.data.database.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.muvitracker.data.dto.episode.mergeEpisodeDtos
-import com.example.muvitracker.data.dto.utilsdto.Ids
-import com.example.muvitracker.domain.model.EpisodeExtended
+import com.example.muvitracker.data.dto._support.Ids
+import com.example.muvitracker.domain.model.Episode
 
 //@Entity(tableName = "episode_entities")
 //data class EpisodeEntity(
@@ -62,8 +61,8 @@ fun EpisodeEntity.copyOnlyDtoData(watchedState: Boolean): EpisodeEntity {
 
 
 // OK 1.1.3 OK
-fun EpisodeEntity.toDomain(): EpisodeExtended {
-    return EpisodeExtended(
+fun EpisodeEntity.toDomain(): Episode {
+    return Episode(
         episodeTraktId = episodeTraktId,
         seasonNumber = seasonNumber,
         episodeNumber = episodeNumber,

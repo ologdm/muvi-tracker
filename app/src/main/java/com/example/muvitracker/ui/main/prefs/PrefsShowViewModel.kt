@@ -3,8 +3,8 @@ package com.example.muvitracker.ui.main.prefs
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.muvitracker.data.dto.utilsdto.Ids
-import com.example.muvitracker.domain.model.DetailShow
+import com.example.muvitracker.data.dto._support.Ids
+import com.example.muvitracker.domain.model.Show
 import com.example.muvitracker.domain.repo.DetailShowRepository
 import com.example.muvitracker.domain.repo.PrefsShowRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,7 +18,7 @@ class PrefsShowViewModel @Inject constructor(
     private val detailShowRepository: DetailShowRepository
 ) : ViewModel() {
 
-    val prefsList = MutableLiveData<List<DetailShow>>()
+    val prefsList = MutableLiveData<List<Show>>()
 
     init {
         getPrefsList()

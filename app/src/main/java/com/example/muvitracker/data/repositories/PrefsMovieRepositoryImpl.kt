@@ -3,7 +3,7 @@ package com.example.muvitracker.data.repositories
 import com.example.muvitracker.data.database.MyDatabase
 import com.example.muvitracker.data.database.entities.PrefsMovieEntity
 import com.example.muvitracker.data.database.entities.toDomain
-import com.example.muvitracker.domain.model.DetailMovie
+import com.example.muvitracker.domain.model.Movie
 import com.example.muvitracker.domain.repo.DetailMovieRepository
 import com.example.muvitracker.domain.repo.PrefsMovieRepository
 import kotlinx.coroutines.flow.Flow
@@ -22,7 +22,7 @@ class PrefsMovieRepositoryImpl @Inject constructor(
     private val prefsDao = database.prefsMovieDao()
 
 
-    override fun getListFLow(): Flow<List<DetailMovie>> {
+    override fun getListFLow(): Flow<List<Movie>> {
         val detailListFLow = detailMovieRepository.getDetailListFlow()
         val prefsListFLow = prefsDao.readAll()
 

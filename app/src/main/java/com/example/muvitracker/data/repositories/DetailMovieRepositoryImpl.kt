@@ -4,17 +4,17 @@ import com.dropbox.android.external.store4.StoreRequest
 import com.example.muvitracker.data.TmdbApi
 import com.example.muvitracker.data.TraktApi
 import com.example.muvitracker.data.database.MyDatabase
-import com.example.muvitracker.data.database.entities.DetailMovieEntity
+import com.example.muvitracker.data.database.entities.MovieEntity
 import com.example.muvitracker.data.database.entities.toDomain
-import com.example.muvitracker.data.dto.movie.detail.DetailMovieTmdbDto
+import com.example.muvitracker.data.dto.movie.detail.MovieTmdbDto
 import com.example.muvitracker.data.dto.movie.detail.mergeMoviesDtoToEntity
 import com.example.muvitracker.data.dto.movie.toDomain
 import com.example.muvitracker.data.dto.person.toDomain
 import com.example.muvitracker.data.utils.mapToIoResponse
 import com.example.muvitracker.data.utils.storeFactory
 import com.example.muvitracker.domain.model.CastAndCrew
-import com.example.muvitracker.domain.model.DetailMovie
-import com.example.muvitracker.domain.model.base.Movie
+import com.example.muvitracker.domain.model.Movie
+import com.example.muvitracker.domain.model.base.MovieBase
 import com.example.muvitracker.domain.repo.DetailMovieRepository
 import com.example.muvitracker.utils.IoResponse
 import com.example.muvitracker.utils.ioMapper
@@ -36,7 +36,7 @@ class DetailMovieRepositoryImpl @Inject constructor(
     database: MyDatabase
 ) : DetailMovieRepository {
 
-    private val detailTraktDao = database.detailMovieDao()
+    private val detailTraktDao = database.movieDao()
     private val prefsMoviesDao = database.prefsMovieDao()
 
     /**
@@ -47,13 +47,13 @@ class DetailMovieRepositoryImpl @Inject constructor(
      *
      * Nota: bisogna gestire correttamente anche le eccezioni di tipo `CancellationException`,
      */
-    private val store = storeFactory<Int, DetailMovieEntity, DetailMovie>(
+    private val store = storeFactory<Int, MovieEntity, Movie>(
         fetcher = { movieId ->
             coroutineScope {
                 // 1 chiamata
                 val traktDto = traktApi.getMovieDetail(movieId)
                 // 2° chiamata
-                val tmdbDto: DetailMovieTmdbDto? = try {
+                val tmdbDto: MovieTmdbDto? = try {
                     tmdbApi.getMovieDto(traktDto.ids.tmdb)
                 } catch (ex: CancellationException) {
                     throw ex // deve propagare le cancellation
@@ -74,7 +74,7 @@ class DetailMovieRepositoryImpl @Inject constructor(
     )
 
 
-    private fun combineWithPrefsAndMapToDomainAsFlow(movieId: Int): Flow<DetailMovie?> {
+    private fun combineWithPrefsAndMapToDomainAsFlow(movieId: Int): Flow<Movie?> {
         val prefsListFlow = prefsMoviesDao.readAll()
         return detailTraktDao.readSingleFlow(movieId)
             .combine(prefsListFlow) { movieEntity, prefsList ->
@@ -88,20 +88,20 @@ class DetailMovieRepositoryImpl @Inject constructor(
 
     // CONTRACT METHODS ###########################################################
 
-    override fun getSingleDetailMovieFlow(id: Int): Flow<IoResponse<DetailMovie>> {
+    override fun getSingleDetailMovieFlow(id: Int): Flow<IoResponse<Movie>> {
         return store.stream(StoreRequest.cached(key = id, refresh = true))
             .mapToIoResponse()
     }
 
 
     // for prefs view
-    override fun getDetailListFlow(): Flow<List<DetailMovieEntity>> {
+    override fun getDetailListFlow(): Flow<List<MovieEntity>> {
         return detailTraktDao.readAllFlow()
     }
 
 
     // RELATED MOVIES ------------------------------------------------------------------------------
-    override suspend fun getRelatedMovies(movieId: Int): IoResponse<List<Movie>> {
+    override suspend fun getRelatedMovies(movieId: Int): IoResponse<List<MovieBase>> {
         return try {
             IoResponse.Success(traktApi.getMovieRelatedMovies(movieId))
                 .ioMapper { dtos ->

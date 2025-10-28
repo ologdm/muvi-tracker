@@ -7,10 +7,10 @@ import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.muvitracker.R
-import com.example.muvitracker.data.dto.utilsdto.Ids
+import com.example.muvitracker.data.dto._support.Ids
 import com.example.muvitracker.data.glide.ImageTmdbRequest
 import com.example.muvitracker.databinding.FragmEpisodeBottomsheetBinding
-import com.example.muvitracker.domain.model.EpisodeExtended
+import com.example.muvitracker.domain.model.Episode
 import com.example.muvitracker.utils.episodesFormatNumber
 import com.example.muvitracker.utils.formatDateFromFirsAired
 import com.example.muvitracker.utils.getNowFormattedDateTime
@@ -98,7 +98,7 @@ class EpisodeFragment : BottomSheetDialogFragment(
     }
 
 
-    private fun updateWatchedIcon(episode: EpisodeExtended) {
+    private fun updateWatchedIcon(episode: Episode) {
         val iconEmpty = context?.getDrawable(R.drawable.episode_watched_eye_empty)?.mutate()
         val iconFilled = context?.getDrawable(R.drawable.episode_watched_eye_filled)
 

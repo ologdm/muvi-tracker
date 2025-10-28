@@ -1,11 +1,11 @@
 package com.example.muvitracker.domain.repo
 
 
-import com.example.muvitracker.domain.model.DetailShow
+import com.example.muvitracker.domain.model.Show
 import kotlinx.coroutines.flow.Flow
 
 interface PrefsShowRepository {
-    fun getListFLow(): Flow<List<DetailShow>>
+    fun getListFLow(): Flow<List<Show>>
     suspend fun toggleLikedOnDB(id: Int)
     suspend fun checkAndAddIfWatchedToPrefs(showId: Int)
     suspend fun deleteItemOnDB(id: Int)

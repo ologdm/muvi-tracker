@@ -4,7 +4,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.muvitracker.data.glide.ImageTmdbRequest
 import com.example.muvitracker.databinding.VhPrefsMovieBinding
-import com.example.muvitracker.domain.model.DetailMovie
+import com.example.muvitracker.domain.model.Movie
 
 
 class PrefsMovieVH(
@@ -12,7 +12,7 @@ class PrefsMovieVH(
 ) : RecyclerView.ViewHolder(binding.root) {
 
 
-    fun bind(movie: DetailMovie) {
+    fun bind(movie: Movie) {
         binding.run {
             title.text = movie.title
             otherInfo.text = "${movie.year} (${movie.countries.joinToString(", ").uppercase()})"

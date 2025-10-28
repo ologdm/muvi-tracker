@@ -1,7 +1,7 @@
 package com.example.muvitracker.data.dto.movie
 
-import com.example.muvitracker.data.dto.utilsdto.Ids
-import com.example.muvitracker.domain.model.base.Movie
+import com.example.muvitracker.data.dto._support.Ids
+import com.example.muvitracker.domain.model.base.MovieBase
 
 // used for popular
 data class MovieBaseDto(
@@ -11,8 +11,8 @@ data class MovieBaseDto(
 )
 
 
-fun MovieBaseDto.toDomain(): Movie {
-    return Movie(title, year, ids)
+fun MovieBaseDto.toDomain(): MovieBase {
+    return MovieBase(title, year, ids)
 }
 
 

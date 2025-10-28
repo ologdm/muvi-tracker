@@ -6,17 +6,17 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.muvitracker.R
 import com.example.muvitracker.data.glide.ImageTmdbRequest
 import com.example.muvitracker.databinding.VhBaseListBinding
-import com.example.muvitracker.domain.model.base.Show
+import com.example.muvitracker.domain.model.base.ShowBase
 
 class ShowVH(
     private val vhBinding: VhBaseListBinding
 ) : RecyclerView.ViewHolder(vhBinding.root) {
 
-    fun bind (show : Show){
-        vhBinding.title.text = show.title
+    fun bind (showBase : ShowBase){
+        vhBinding.title.text = showBase.title
 
         Glide.with(vhBinding.root.context)
-            .load(ImageTmdbRequest.ShowVertical(show.ids.tmdb))
+            .load(ImageTmdbRequest.ShowVertical(showBase.ids.tmdb))
             .transition(DrawableTransitionOptions.withCrossFade(500))
             .placeholder(R.drawable.glide_placeholder_base)
             .error(R.drawable.glide_placeholder_base)
