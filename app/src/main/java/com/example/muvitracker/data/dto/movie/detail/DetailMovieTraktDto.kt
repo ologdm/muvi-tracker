@@ -3,6 +3,7 @@ package com.example.muvitracker.data.dto.movie.detail
 import com.example.muvitracker.data.LanguageManager
 import com.example.muvitracker.data.database.entities.DetailMovieEntity
 import com.example.muvitracker.data.dto.utilsdto.Ids
+import com.example.muvitracker.data.utils.orIfBlank
 import com.example.muvitracker.data.utils.orIfEmpty
 import com.example.muvitracker.data.utils.orIfNull
 import com.example.muvitracker.data.utils.youtubeLinkTransformation
@@ -40,7 +41,7 @@ data class DetailMovieTraktDto(
 //    val subgenres : List<String>?, // mercenary, based-on-comic, anti-hero
 //    val certification: String?
     @SerializedName("original_title")
-    val originalTitle: String // Deadpool
+    val originalTitle: String? // Deadpool
 )
 
 
@@ -73,24 +74,24 @@ fun mergeMoviesDtoToEntity(
         ids = trakt.ids,
 
         // tmdb (or trakt fallback)
-        title = tmdb?.title.orIfEmpty(trakt.title),
-        tagline = tmdb?.tagline.orIfEmpty(trakt.tagline),
-        overview = tmdb?.overview.orIfEmpty(trakt.overview),
-        status = tmdb?.status.orIfEmpty(trakt.status),
+        title = tmdb?.title.orIfBlank(trakt.title),
+        tagline = tmdb?.tagline.orIfBlank(trakt.tagline),
+        overview = tmdb?.overview.orIfBlank(trakt.overview),
+        status = tmdb?.status.orIfBlank(trakt.status),
         // from trakt - "2016-02-12" | tmdbDto - "2016-02-09"
-        releaseDate = tmdb?.releaseDate.orIfEmpty(trakt.released), // NO formatToSqliteCompatibleDate()
+        releaseDate = tmdb?.releaseDate.orIfBlank(trakt.released), // NO formatToSqliteCompatibleDate()
         // from trakt - us  | tmdb - US,GB
         countries = tmdb?.originCountry
             .orIfEmpty(trakt.country?.takeIf { it.isNotBlank() }?.let { listOf(it.uppercase()) })
             ?: emptyList(), // OK
         runtime = tmdb?.runtime.orIfNull(trakt.runtime),
-        originalLanguage = tmdb?.originalLanguage.orIfEmpty(trakt.language),
-        originalTitle = tmdb?.originalTitle.orIfEmpty(trakt.originalTitle),
+        originalLanguage = tmdb?.originalLanguage.orIfBlank(trakt.language),
+        originalTitle = tmdb?.originalTitle.orIfBlank(trakt.originalTitle),
         genres = tmdb?.genres?.map { it.name }
             .orIfEmpty(trakt.genres)
             ?: emptyList(), // !! not empty
-        youtubeTrailer = tmdb?.videos?.youtubeLinkTransformation().orIfEmpty(trakt.trailer),
-        homepage = tmdb?.homepage.orIfEmpty(trakt.homepage),
+        youtubeTrailer = tmdb?.videos?.youtubeLinkTransformation().orIfBlank(trakt.trailer),
+        homepage = tmdb?.homepage.orIfBlank(trakt.homepage),
 
         // solo tmdb
         backdropPath = tmdb?.backdropPath,
