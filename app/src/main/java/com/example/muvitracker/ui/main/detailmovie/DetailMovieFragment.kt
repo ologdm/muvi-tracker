@@ -1,11 +1,13 @@
 package com.example.muvitracker.ui.main.detailmovie
 
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
 import android.widget.Toast
+import androidx.core.view.WindowCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -61,6 +63,11 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
     override fun onViewCreated(
         view: View, savedInstanceState: Bundle?
     ) {
+        super.onViewCreated(view, savedInstanceState)
+
+        setupEdgeToEdgeScrollEffect()
+        setupExtendedFabBehavior()
+
         val bundle = arguments
         if (bundle != null) {
             currentMovieIds = bundle.getParcelable(MOVIE_IDS_KEY) ?: Ids()
@@ -91,7 +98,7 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
             requireActivity().onBackPressed()
         }
 
-        b.floatingLikedButton.setOnClickListener {
+        b.extendedFloatingLikedButton.setOnClickListener {
             viewModel.toggleLikedMovie(currentMovieIds.trakt)
         }
 
@@ -175,7 +182,8 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
             title.text = movie.title.orIfBlank(MovieDefaults.TITLE)
             //
             val releaseData = movie.releaseDate?.formatToReadableDate()
-            val releaseDataText = releaseData.takeUnless { it.isNullOrBlank() } ?: MovieDefaults.RELEASE
+            val releaseDataText =
+                releaseData.takeUnless { it.isNullOrBlank() } ?: MovieDefaults.RELEASE
             val countryList = movie.countries.filter { it.isNotBlank() }
             val countryText = countryList.joinToString(", ")
             releasedYearAndCountry.text = "${releaseDataText} (${countryText})"
@@ -232,9 +240,13 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
 
 
     private fun updateFavoriteIcon(isFavorite: Boolean) {
-        val iconFilled = context?.getDrawable(R.drawable.liked_icon_filled)
-        val iconEmpty = context?.getDrawable(R.drawable.liked_icon_empty)
-        b.floatingLikedButton.setImageDrawable(if (isFavorite) iconFilled else iconEmpty)
+//        val iconFilled = context?.getDrawable(R.drawable.liked_icon_filled)
+//        val iconEmpty = context?.getDrawable(R.drawable.liked_icon_empty)
+//        b.extendedFloatingLikedButton.icon = (if (isFavorite) iconFilled else iconEmpty)
+        // TODO new
+        val iconFilled = R.drawable.liked_icon_filled
+        val iconEmpty = R.drawable.liked_icon_empty
+        b.extendedFloatingLikedButton.setIconResource(if (isFavorite) iconFilled else iconEmpty)
     }
 
     //    private fun updateWatchedCheckbox(isWatched: Boolean) {
@@ -310,6 +322,69 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
         const val RATING = " — "
 //    const val GENRES = "—"
     }
+
+
+    // 1.1.3 gestione colori status bar colori per edgeToEdge OK
+    // - su imageHorizontal -> status bar bianche,
+    // - restante mainScrollView -> nere
+    private fun setupEdgeToEdgeScrollEffect() {
+        val window = requireActivity().window
+        val controller = WindowCompat.getInsetsController(window, requireView())
+
+        // Rendi la status bar trasparente, così l’immagine va "sotto"
+        window.statusBarColor = Color.TRANSPARENT
+
+        // All'inizio: icone chiare (per stare sopra l’immagine)
+        controller.isAppearanceLightStatusBars = false
+
+        val scrollView = b.mainScrollView  // il tuo NestedScrollView
+        val horizzontalImageView = b.imageHorizontal
+
+        scrollView.viewTreeObserver.addOnScrollChangedListener {
+            val scrollY = scrollView.scrollY
+            val imageBottom = horizzontalImageView.bottom - scrollY
+
+            // threshold = punto in cui cambiare da chiaro a scuro
+            val threshold = horizzontalImageView.height / 5
+
+            if (imageBottom > threshold) {
+                // status bar sopra immagine → icone chiare
+                controller.isAppearanceLightStatusBars = false
+            } else {
+                // immagine uscita → icone scure
+                controller.isAppearanceLightStatusBars = true
+            }
+        }
+    }
+
+
+    // TODO test crash
+    private fun setupExtendedFabBehavior() {
+        val scrollView = b.mainScrollView
+        val fab = b.extendedFloatingLikedButton
+
+        // 1. Parte compatto
+        fab.shrink()
+
+        // 2. Listener scroll
+        scrollView.setOnScrollChangeListener { _, _, scrollY, _, _ ->
+            val contentHeight = scrollView.getChildAt(0)?.height ?: 0
+            val visibleHeight = scrollView.height
+            val diff = contentHeight - (scrollY + visibleHeight)
+
+            // 300 -> pixel mancanti dal fondo
+            if (diff <= 300) {
+                if (!fab.isExtended) fab.extend() // estendi vicino al fondo
+            } else {
+                if (fab.isExtended) fab.shrink() // torna compatto quando non vicino al fondo
+            }
+        }
+    }
+
+
+
+    // TODO  -> tasto back
+
 
 }
 

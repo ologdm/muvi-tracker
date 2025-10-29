@@ -4,9 +4,7 @@ import android.content.SharedPreferences
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.updatePadding
+import androidx.core.view.WindowCompat
 import androidx.fragment.app.Fragment
 import com.example.muvitracker.R
 import com.example.muvitracker.databinding.ActivityMainBinding
@@ -53,6 +51,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // 1.1.3  abilitazione edge to edge OK
+        WindowCompat.setDecorFitsSystemWindows(window, false)
 
         /** Locks the Activity orientation to portrait mode.
          * NOTE: Starting from SDK 36, this lock will be automatically skipped for screens with -> sw >= 600dp
@@ -64,7 +64,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         // Applica padding automaticamente per status bar e navigation bar
-        edgeToEdgeManagment()
+//        edgeToEdgeManagment()
 
         // 1 Get saved Id from SharedPrefs
         val lastSelectedId =
@@ -91,14 +91,6 @@ class MainActivity : AppCompatActivity() {
             })
     }
 
-    private fun edgeToEdgeManagment() {
-        ViewCompat.setOnApplyWindowInsetsListener(binding.mainLayout) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            // aggiorno solo lati che mi servono
-            v.updatePadding(top = systemBars.top)
-            insets
-        }
-    }
 }
 
 
