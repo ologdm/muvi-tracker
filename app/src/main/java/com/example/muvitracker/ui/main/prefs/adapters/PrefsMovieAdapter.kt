@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.example.muvitracker.R
 import com.example.muvitracker.data.dto._support.Ids
-import com.example.muvitracker.databinding.VhPrefsMovieBinding
+import com.example.muvitracker.databinding.ViewholderPrefsMovieBinding
 import com.example.muvitracker.domain.model.Movie
 
 
@@ -18,16 +18,16 @@ class PrefsMovieAdapter(
     private val onLongClickVH: (movieId: Int) -> Unit,
     private val onCLickLiked: (Int) -> Unit,
     private val onClickWatched: (Movie, Boolean) -> Unit
-) : ListAdapter<Movie, PrefsMovieVH>(PrefsMovieAdapter) {
+) : ListAdapter<Movie, PrefsMovieViewholder>(PrefsMovieAdapter) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PrefsMovieVH {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PrefsMovieViewholder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val binding = VhPrefsMovieBinding.inflate(layoutInflater, parent, false)
-        return PrefsMovieVH(binding)
+        val binding = ViewholderPrefsMovieBinding.inflate(layoutInflater, parent, false)
+        return PrefsMovieViewholder(binding)
     }
 
 
-    override fun onBindViewHolder(holder: PrefsMovieVH, position: Int) {
+    override fun onBindViewHolder(holder: PrefsMovieViewholder, position: Int) {
         var currentItem = getItem(position)
 
         val context: Context = holder.itemView.context

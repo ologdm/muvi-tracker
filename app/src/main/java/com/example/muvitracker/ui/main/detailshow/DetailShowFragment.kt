@@ -14,7 +14,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.muvitracker.R
 import com.example.muvitracker.data.dto._support.Ids
 import com.example.muvitracker.data.glide.ImageTmdbRequest
-import com.example.muvitracker.databinding.FragmDetailShowBinding
+import com.example.muvitracker.databinding.FragmentDetailShowBinding
 import com.example.muvitracker.domain.model.Show
 import com.example.muvitracker.ui.main.Navigator
 import com.example.muvitracker.ui.main.detailmovie.adapter.DetailSeasonsAdapter
@@ -41,7 +41,7 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
     private var totSeasonsNumber: Int = 0
 
 
-    private val binding by viewBinding(FragmDetailShowBinding::bind)
+    private val binding by viewBinding(FragmentDetailShowBinding::bind)
     private val viewModel by viewModels<DetailShowViewmodel>()
 
     @Inject

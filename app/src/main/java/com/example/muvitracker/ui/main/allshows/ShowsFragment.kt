@@ -8,7 +8,7 @@ import androidx.fragment.app.viewModels
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.muvitracker.R
-import com.example.muvitracker.databinding.FragmBaseCategoryBinding
+import com.example.muvitracker.databinding.FragmentExploreBaseBinding
 import com.example.muvitracker.ui.main.Navigator
 import com.example.muvitracker.ui.main.allshows.base.ShowPagingAdapter
 import com.example.muvitracker.utils.fragmentViewLifecycleScope
@@ -21,13 +21,14 @@ import kotlinx.coroutines.launch
 import java.io.IOException
 import javax.inject.Inject
 
+
 @AndroidEntryPoint
 class ShowsFragment : Fragment(R.layout.fragment_explore_base) {
 
     @Inject
     lateinit var navigator: Navigator
 
-    val b by viewBinding(FragmBaseCategoryBinding::bind)
+    val b by viewBinding(FragmentExploreBaseBinding::bind)
     private val viewModel by viewModels<ShowsViewmodel>()
 
     private val pagingAdapter = ShowPagingAdapter(onClickVH = { showIds ->

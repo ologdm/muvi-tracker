@@ -3,12 +3,12 @@ package com.example.muvitracker.ui.main.prefs.adapters
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.muvitracker.data.glide.ImageTmdbRequest
-import com.example.muvitracker.databinding.VhPrefsMovieBinding
+import com.example.muvitracker.databinding.ViewholderPrefsMovieBinding
 import com.example.muvitracker.domain.model.Movie
 
 
-class PrefsMovieVH(
-    val binding: VhPrefsMovieBinding
+class PrefsMovieViewholder(
+    val binding: ViewholderPrefsMovieBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 
 

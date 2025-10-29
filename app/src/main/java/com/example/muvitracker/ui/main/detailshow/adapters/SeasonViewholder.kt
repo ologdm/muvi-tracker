@@ -3,12 +3,12 @@ package com.example.muvitracker.ui.main.detailshow.adapters
 import android.content.Context
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.muvitracker.R
-import com.example.muvitracker.databinding.VhSeasonsOnDetailshowBinding
+import com.example.muvitracker.databinding.ViewholderSeasonsOnDetailshowBinding
 import com.example.muvitracker.domain.model.Season
 
 
-class SeasonVH(
-    val binding: VhSeasonsOnDetailshowBinding
+class SeasonViewholder(
+    val binding: ViewholderSeasonsOnDetailshowBinding
 ) : ViewHolder(binding.root) {
 
     fun bind(seasonItem: Season, context : Context) {

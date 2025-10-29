@@ -8,7 +8,7 @@ import com.bumptech.glide.Glide
 import com.example.muvitracker.R
 import com.example.muvitracker.data.dto._support.Ids
 import com.example.muvitracker.data.glide.ImageTmdbRequest
-import com.example.muvitracker.databinding.FragmPersonBinding
+import com.example.muvitracker.databinding.FragmentPersonBinding
 import com.example.muvitracker.utils.viewBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -20,7 +20,7 @@ class PersonBottomSheetFragment : BottomSheetDialogFragment(R.layout.fragment_pe
     private var currentCharacter: String = ""
 
     val viewmodel by viewModels<PersonViewmodel>()
-    val binding by viewBinding(FragmPersonBinding::bind)
+    val binding by viewBinding(FragmentPersonBinding::bind)
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

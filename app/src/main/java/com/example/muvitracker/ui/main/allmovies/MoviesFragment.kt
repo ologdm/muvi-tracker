@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.muvitracker.R
 import com.example.muvitracker.data.LanguageManager
 import com.example.muvitracker.data.TmdbApi
-import com.example.muvitracker.databinding.FragmBaseCategoryBinding
+import com.example.muvitracker.databinding.FragmentExploreBaseBinding
 import com.example.muvitracker.domain.repo.DetailMovieRepository
 import com.example.muvitracker.ui.main.Navigator
 import com.example.muvitracker.ui.main.allmovies.base.MoviePagingAdapter
@@ -36,7 +36,7 @@ class MoviesFragment : Fragment(R.layout.fragment_explore_base) {
     @Inject
     lateinit var navigator: Navigator
 
-    private val b by viewBinding(FragmBaseCategoryBinding::bind)
+    private val b by viewBinding(FragmentExploreBaseBinding::bind)
     private val viewModel by viewModels<MoviesViewmodel>()
 
     private val pagingAdapter = MoviePagingAdapter(onClickVH = { movieIds ->

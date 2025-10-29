@@ -5,12 +5,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.example.muvitracker.data.dto._support.Ids
-import com.example.muvitracker.databinding.VhRelatedListOnDetailBinding
+import com.example.muvitracker.databinding.ViewholderRelatedListOnDetailBinding
 import com.example.muvitracker.domain.model.base.MovieBase
 
 class RelatedMovieAdapter(
     private val onClickVH: (Ids) -> Unit,
-) : ListAdapter<MovieBase, RelatedMovieVH>(RelatedMovieAdapter) {
+) : ListAdapter<MovieBase, RelatedMovieViewholder>(RelatedMovieAdapter) {
 
 
     companion object : DiffUtil.ItemCallback<MovieBase>() {
@@ -23,13 +23,13 @@ class RelatedMovieAdapter(
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RelatedMovieVH {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RelatedMovieViewholder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val bindingVh = VhRelatedListOnDetailBinding.inflate(layoutInflater, parent, false)
-        return RelatedMovieVH(bindingVh)
+        val bindingVh = ViewholderRelatedListOnDetailBinding.inflate(layoutInflater, parent, false)
+        return RelatedMovieViewholder(bindingVh)
     }
 
-    override fun onBindViewHolder(holder: RelatedMovieVH, position: Int) {
+    override fun onBindViewHolder(holder: RelatedMovieViewholder, position: Int) {
         val item = getItem(position)
 
         holder.bind(item)

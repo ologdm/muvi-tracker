@@ -7,23 +7,23 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.example.muvitracker.R
-import com.example.muvitracker.databinding.VhEpisodeOnseasonBinding
+import com.example.muvitracker.databinding.ViewholderEpisodeOnSeasonBinding
 import com.example.muvitracker.domain.model.Episode
 import com.example.muvitracker.utils.getNowFormattedDateTime
 
 class SeasonEpisodesAdapter(
     val onCLickVH: (Int) -> Unit,
     val onCLickWatched: (Int) -> Unit
-) : ListAdapter<Episode, EpisodeVH>(DIFF_CALLBACK) {
+) : ListAdapter<Episode, EpisodeViewholder>(DIFF_CALLBACK) {
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EpisodeVH {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EpisodeViewholder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val vhBinding = VhEpisodeOnseasonBinding.inflate(layoutInflater, parent, false)
-        return EpisodeVH(vhBinding)
+        val vhBinding = ViewholderEpisodeOnSeasonBinding.inflate(layoutInflater, parent, false)
+        return EpisodeViewholder(vhBinding)
     }
 
-    override fun onBindViewHolder(holder: EpisodeVH, position: Int) {
+    override fun onBindViewHolder(holder: EpisodeViewholder, position: Int) {
         val episode = getItem(position)
 
         holder.bind(episode)

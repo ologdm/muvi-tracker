@@ -16,7 +16,7 @@ import com.example.muvitracker.R
 import com.example.muvitracker.data.dto._support.Ids
 import com.example.muvitracker.data.glide.ImageTmdbRequest
 import com.example.muvitracker.data.utils.orIfBlank
-import com.example.muvitracker.databinding.FragmDetailMovieBinding
+import com.example.muvitracker.databinding.FragmentDetailMovieBinding
 import com.example.muvitracker.domain.model.Movie
 import com.example.muvitracker.ui.main.Navigator
 import com.example.muvitracker.ui.main.person.adapters.CastAdapter
@@ -43,7 +43,7 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
     private var currentMovieIds: Ids = Ids()
 
     private val viewModel by viewModels<DetailMovieViewmodel>()
-    private val b by viewBinding(FragmDetailMovieBinding::bind)
+    private val b by viewBinding(FragmentDetailMovieBinding::bind)
 
     @Inject
     lateinit var navigator: Navigator

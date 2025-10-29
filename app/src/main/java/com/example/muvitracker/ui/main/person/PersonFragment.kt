@@ -9,11 +9,11 @@ import com.bumptech.glide.Glide
 import com.example.muvitracker.R
 import com.example.muvitracker.data.dto._support.Ids
 import com.example.muvitracker.data.glide.ImageTmdbRequest
-import com.example.muvitracker.databinding.FragmPersonBinding
+import com.example.muvitracker.databinding.FragmentPersonBinding
 import com.example.muvitracker.utils.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 
-// !!! similar to PersonBSheetFragment
+// !!! similar to PersonBottomSheetFragment
 
 @AndroidEntryPoint
 class PersonFragment : Fragment(R.layout.fragment_person) {
@@ -21,7 +21,7 @@ class PersonFragment : Fragment(R.layout.fragment_person) {
     private var currentPersonIds: Ids = Ids()
 
     val viewmodel by viewModels<PersonViewmodel>()
-    val binding by viewBinding(FragmPersonBinding::bind)
+    val binding by viewBinding(FragmentPersonBinding::bind)
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

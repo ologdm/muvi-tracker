@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import com.example.muvitracker.data.dto._support.Ids
-import com.example.muvitracker.databinding.VhBaseListBinding
+import com.example.muvitracker.databinding.ViewholderExploreBaseBinding
 import com.example.muvitracker.domain.model.base.MovieBase
 
 // used by:
@@ -14,7 +14,7 @@ import com.example.muvitracker.domain.model.base.MovieBase
 
 class MoviePagingAdapter (
     val onClickVH: (Ids) -> Unit
-) : PagingDataAdapter<MovieBase, MovieVH>(DIFF_CALLBACK) {
+) : PagingDataAdapter<MovieBase, MovieViewholder>(DIFF_CALLBACK) {
 
     companion object {
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<MovieBase>() {
@@ -30,14 +30,14 @@ class MoviePagingAdapter (
     }
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieVH {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewholder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val bindingVh = VhBaseListBinding.inflate(layoutInflater, parent, false)
-        return MovieVH(bindingVh)
+        val bindingVh = ViewholderExploreBaseBinding.inflate(layoutInflater, parent, false)
+        return MovieViewholder(bindingVh)
     }
 
 
-    override fun onBindViewHolder(holder: MovieVH, position: Int) {
+    override fun onBindViewHolder(holder: MovieViewholder, position: Int) {
         val item = getItem(position)
 
         if (item != null) {

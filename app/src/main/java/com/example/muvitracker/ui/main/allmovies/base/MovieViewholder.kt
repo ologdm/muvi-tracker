@@ -5,11 +5,11 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.muvitracker.R
 import com.example.muvitracker.data.glide.ImageTmdbRequest
-import com.example.muvitracker.databinding.VhBaseListBinding
+import com.example.muvitracker.databinding.ViewholderExploreBaseBinding
 import com.example.muvitracker.domain.model.base.MovieBase
 
-class MovieVH(
-    val binding: VhBaseListBinding,
+class MovieViewholder(
+    val binding: ViewholderExploreBaseBinding,
 ) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(movieBase: MovieBase) {

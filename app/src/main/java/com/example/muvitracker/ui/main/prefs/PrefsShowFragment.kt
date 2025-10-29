@@ -6,7 +6,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.muvitracker.R
-import com.example.muvitracker.databinding.FragmPrefsSonBinding
+import com.example.muvitracker.databinding.FragmentPrefsSonBinding
 import com.example.muvitracker.ui.main.Navigator
 import com.example.muvitracker.ui.main.prefs.adapters.PrefsShowAdapter
 import com.example.muvitracker.utils.viewBinding
@@ -19,7 +19,7 @@ import javax.inject.Inject
 class PrefsShowFragment : Fragment(R.layout.fragment_prefs_son) {
 
     private val viewModel by viewModels<PrefsShowViewModel>()
-    private val binding by viewBinding(FragmPrefsSonBinding::bind)
+    private val binding by viewBinding(FragmentPrefsSonBinding::bind)
 
     @Inject
     lateinit var navigator: Navigator

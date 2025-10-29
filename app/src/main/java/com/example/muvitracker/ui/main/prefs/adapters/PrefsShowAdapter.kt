@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.example.muvitracker.R
 import com.example.muvitracker.data.dto._support.Ids
-import com.example.muvitracker.databinding.VhPrefsShowBinding
+import com.example.muvitracker.databinding.ViewholderPrefsShowBinding
 import com.example.muvitracker.domain.model.Show
 
 
@@ -20,17 +20,17 @@ class PrefsShowAdapter(
     private val onLongClickVH: (movieId: Int) -> Unit,
     private val onCLickLiked: (Int) -> Unit,
     private val onClickWatchedAllCheckbox: (showIds: Ids, () -> Unit) -> Unit
-) : ListAdapter<Show, PrefsShowVH>(PrefsShowAdapter) {
+) : ListAdapter<Show, PrefsShowViewholder>(PrefsShowAdapter) {
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PrefsShowVH {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PrefsShowViewholder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val binding = VhPrefsShowBinding.inflate(layoutInflater, parent, false)
-        return PrefsShowVH(binding)
+        val binding = ViewholderPrefsShowBinding.inflate(layoutInflater, parent, false)
+        return PrefsShowViewholder(binding)
     }
 
 
-    override fun onBindViewHolder(holder: PrefsShowVH, position: Int) {
+    override fun onBindViewHolder(holder: PrefsShowViewholder, position: Int) {
         var currentItem = getItem(position)
 
         val context: Context = holder.itemView.context

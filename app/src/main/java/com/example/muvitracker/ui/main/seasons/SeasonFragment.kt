@@ -11,7 +11,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.muvitracker.R
 import com.example.muvitracker.data.dto._support.Ids
 import com.example.muvitracker.data.glide.ImageTmdbRequest
-import com.example.muvitracker.databinding.FragmSeasonSonBinding
+import com.example.muvitracker.databinding.FragmentSeasonSonBinding
 import com.example.muvitracker.domain.model.Season
 import com.example.muvitracker.ui.main.Navigator
 import com.example.muvitracker.utils.viewBinding
@@ -25,7 +25,7 @@ class SeasonFragment : Fragment(R.layout.fragment_season_son) {
     private var currentShowIds: Ids = Ids()
     private var currentSeasonNr: Int = 0
 
-    private val binding by viewBinding(FragmSeasonSonBinding::bind)
+    private val binding by viewBinding(FragmentSeasonSonBinding::bind)
     private val viewModel by viewModels<SeasonViewmodel>()
 
     @Inject

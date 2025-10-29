@@ -6,24 +6,24 @@ import android.view.ViewGroup
 import android.widget.CompoundButton
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import com.example.muvitracker.databinding.VhSeasonsOnDetailshowBinding
+import com.example.muvitracker.databinding.ViewholderSeasonsOnDetailshowBinding
 import com.example.muvitracker.domain.model.Season
-import com.example.muvitracker.ui.main.detailshow.adapters.SeasonVH
+import com.example.muvitracker.ui.main.detailshow.adapters.SeasonViewholder
 
 class DetailSeasonsAdapter(
     private val onClickVH: (Int) -> Unit,
     private val onClickWatchedAllCheckbox: (Int, () -> Unit) -> Unit, // callback stato loading
-) : ListAdapter<Season, SeasonVH>(DIFF_CALLBACK) {
+) : ListAdapter<Season, SeasonViewholder>(DIFF_CALLBACK) {
 
 
     // ADAPTER METHODS
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SeasonVH {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SeasonViewholder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val vhBinding = VhSeasonsOnDetailshowBinding.inflate(layoutInflater, parent, false)
-        return SeasonVH(vhBinding)
+        val vhBinding = ViewholderSeasonsOnDetailshowBinding.inflate(layoutInflater, parent, false)
+        return SeasonViewholder(vhBinding)
     }
 
-    override fun onBindViewHolder(holder: SeasonVH, position: Int) {
+    override fun onBindViewHolder(holder: SeasonViewholder, position: Int) {
         val seasonItem = getItem(position)
 
         val context = holder.binding.root.context

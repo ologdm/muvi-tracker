@@ -14,7 +14,6 @@ import com.example.muvitracker.ui.main.allmovies.MoviesFragment
 import com.example.muvitracker.ui.main.allshows.ShowsFragment
 import com.example.muvitracker.ui.main.prefs.viewpager.PrefsViewpagerFragment
 import com.example.muvitracker.ui.main.search.SearchFragment
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationBarView
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject

@@ -9,7 +9,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.muvitracker.R
 import com.example.muvitracker.data.dto._support.Ids
 import com.example.muvitracker.data.glide.ImageTmdbRequest
-import com.example.muvitracker.databinding.FragmEpisodeBottomsheetBinding
+import com.example.muvitracker.databinding.FragmentEpisodeBottomsheetBinding
 import com.example.muvitracker.domain.model.Episode
 import com.example.muvitracker.utils.episodesFormatNumber
 import com.example.muvitracker.utils.formatDateFromFirsAired
@@ -27,7 +27,7 @@ class EpisodeFragment : BottomSheetDialogFragment(
     private var currentSeasonNr: Int = 0
     private var currentEpisodeNr: Int = 0
 
-    val binding by viewBinding(FragmEpisodeBottomsheetBinding::bind)
+    val binding by viewBinding(FragmentEpisodeBottomsheetBinding::bind)
     private val viewModel by viewModels<EpisodeViewmodel>()
 
 

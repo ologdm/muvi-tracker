@@ -5,13 +5,13 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import com.example.muvitracker.data.dto._support.Ids
-import com.example.muvitracker.databinding.VhBaseListBinding
+import com.example.muvitracker.databinding.ViewholderExploreBaseBinding
 import com.example.muvitracker.domain.model.base.ShowBase
 
 
 class ShowPagingAdapter(
     val onClickVH: (Ids) -> Unit
-) : PagingDataAdapter<ShowBase, ShowVH>(DIFF_CALLBACK) {
+) : PagingDataAdapter<ShowBase, ShowViewholder>(DIFF_CALLBACK) {
 
     companion object {
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<ShowBase>() {
@@ -26,14 +26,14 @@ class ShowPagingAdapter(
     }
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShowVH {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShowViewholder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val vhBinding = VhBaseListBinding.inflate(layoutInflater, parent, false)
-        return ShowVH(vhBinding)
+        val vhBinding = ViewholderExploreBaseBinding.inflate(layoutInflater, parent, false)
+        return ShowViewholder(vhBinding)
     }
 
 
-    override fun onBindViewHolder(holder: ShowVH, position: Int) {
+    override fun onBindViewHolder(holder: ShowViewholder, position: Int) {
         val item = getItem(position)
 
         if (item != null) {
