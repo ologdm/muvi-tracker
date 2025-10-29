@@ -8,7 +8,7 @@ import com.example.muvitracker.data.glide.ImageTmdbRequest
 import com.example.muvitracker.databinding.ViewholderSearchBinding
 import com.example.muvitracker.domain.model.SearchResult
 
-class SearchViewholder(
+class SearchResultViewholder(
     val binding: ViewholderSearchBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 

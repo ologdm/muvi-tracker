@@ -10,8 +10,8 @@ import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import com.example.muvitracker.R
 import com.example.muvitracker.databinding.ActivityMainBinding
-import com.example.muvitracker.ui.main.allmovies.MoviesFragment
-import com.example.muvitracker.ui.main.allshows.ShowsFragment
+import com.example.muvitracker.ui.main.allmovies.AllMoviesFragment
+import com.example.muvitracker.ui.main.allshows.AllShowsFragment
 import com.example.muvitracker.ui.main.prefs.viewpager.PrefsViewpagerFragment
 import com.example.muvitracker.ui.main.search.SearchFragment
 import com.google.android.material.navigation.NavigationBarView
@@ -36,8 +36,8 @@ class MainActivity : AppCompatActivity() {
 
     // Mappa tra ID e fragment - ricrea i fragment ad ogni selezione id
     private val fragmentFactory: Map<Int, () -> Fragment> = mapOf(
-        R.id.buttonMovies to { MoviesFragment() },
-        R.id.buttonSeries to { ShowsFragment() },
+        R.id.buttonMovies to { AllMoviesFragment() },
+        R.id.buttonSeries to { AllShowsFragment() },
         R.id.buttonMyList to { PrefsViewpagerFragment() },
         R.id.buttonSearch to { SearchFragment() }
     )
@@ -73,7 +73,7 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNavigation.selectedItemId = lastSelectedId // default
         // 3 load the correct fragment based on saved Id
         navigator.replaceFragment(
-            fragmentFactory[lastSelectedId]?.invoke() ?: ShowsFragment()
+            fragmentFactory[lastSelectedId]?.invoke() ?: AllShowsFragment()
         ) // IMP!! (?: fragm di fallback)
 
         binding.bottomNavigation.setOnItemSelectedListener(

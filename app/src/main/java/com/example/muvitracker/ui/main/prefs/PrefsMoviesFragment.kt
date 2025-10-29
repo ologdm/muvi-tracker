@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.muvitracker.R
 import com.example.muvitracker.databinding.FragmentPrefsSonBinding
 import com.example.muvitracker.ui.main.Navigator
-import com.example.muvitracker.ui.main.prefs.adapters.PrefsShowAdapter
+import com.example.muvitracker.ui.main.prefs.adapters.PrefsMoviesAdapter
 import com.example.muvitracker.utils.viewBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
@@ -16,28 +16,26 @@ import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class PrefsShowFragment : Fragment(R.layout.fragment_prefs_son) {
+class PrefsMoviesFragment : Fragment(R.layout.fragment_prefs_son) {
 
-    private val viewModel by viewModels<PrefsShowViewModel>()
+    private val viewModel by viewModels<PrefsMoviesViewModel>()
     private val binding by viewBinding(FragmentPrefsSonBinding::bind)
 
     @Inject
     lateinit var navigator: Navigator
 
-    private val adapter = PrefsShowAdapter(
-        onClickVH = { showIds ->
-            navigator.startShowDetailFragment(showIds)
+    private val adapter = PrefsMoviesAdapter(
+        onClickVH = { movieIds ->
+            navigator.startMovieDetailFragment(movieIds)
         },
         onLongClickVH = { movieId ->
             startDeleteAlertDialog(movieId)
         },
         onCLickLiked = { movieId ->
-            viewModel.toggleLikedShow(movieId)
+            viewModel.toggleLikedItem(movieId)
         },
-        onClickWatchedAllCheckbox = { showIds, adapterCallback ->
-            viewModel.updateWatchedAllSingleShow(showIds, onComplete = {
-                adapterCallback() // esegui operazione su adapter
-            })
+        onClickWatched = { item, watched ->
+            viewModel.updateWatchedItem(updatedItem = item, watched)
         }
     )
 
@@ -45,7 +43,6 @@ class PrefsShowFragment : Fragment(R.layout.fragment_prefs_son) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
-
 
         viewModel.prefsList.observe(viewLifecycleOwner) { list ->
             adapter.submitList(list)

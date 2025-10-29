@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.muvitracker.R
 import com.example.muvitracker.databinding.FragmentExploreBaseBinding
 import com.example.muvitracker.ui.main.Navigator
-import com.example.muvitracker.ui.main.allshows.base.ShowPagingAdapter
+import com.example.muvitracker.ui.main.allshows.base.AllShowsPagingAdapter
 import com.example.muvitracker.utils.fragmentViewLifecycleScope
 import com.example.muvitracker.utils.viewBinding
 import com.google.android.material.chip.Chip
@@ -23,7 +23,7 @@ import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class ShowsFragment : Fragment(R.layout.fragment_explore_base) {
+class AllShowsFragment : Fragment(R.layout.fragment_explore_base) {
 
     @Inject
     lateinit var navigator: Navigator
@@ -31,7 +31,7 @@ class ShowsFragment : Fragment(R.layout.fragment_explore_base) {
     val b by viewBinding(FragmentExploreBaseBinding::bind)
     private val viewModel by viewModels<ShowsViewmodel>()
 
-    private val pagingAdapter = ShowPagingAdapter(onClickVH = { showIds ->
+    private val pagingAdapter = AllShowsPagingAdapter(onClickVH = { showIds ->
         navigator.startShowDetailFragment(showIds)
     })
 

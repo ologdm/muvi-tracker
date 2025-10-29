@@ -7,23 +7,22 @@ import androidx.recyclerview.widget.DiffUtil
 import com.example.muvitracker.data.dto._support.Ids
 import com.example.muvitracker.databinding.ViewholderSearchBinding
 import com.example.muvitracker.domain.model.SearchResult
-import com.example.muvitracker.ui.main.search.adapters.SearchViewholder
 
-class SearchAdapter(
+class SearchResultsAdapter(
     private var onClickVHMovie: (Ids) -> Unit,
     private var onClickVHShow: (Ids) -> Unit,
     private var onClickVHPerson: (Ids) -> Unit
-) : PagingDataAdapter<SearchResult, SearchViewholder>(SearchAdapter) {
+) : PagingDataAdapter<SearchResult, SearchResultViewholder>(SearchResultsAdapter) {
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchViewholder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchResultViewholder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = ViewholderSearchBinding.inflate(inflater, parent, false)
-        return SearchViewholder(binding)
+        return SearchResultViewholder(binding)
     }
 
 
-    override fun onBindViewHolder(holder: SearchViewholder, position: Int) {
+    override fun onBindViewHolder(holder: SearchResultViewholder, position: Int) {
         val item = getItem(position) ?: return
 
         holder.bind(item)

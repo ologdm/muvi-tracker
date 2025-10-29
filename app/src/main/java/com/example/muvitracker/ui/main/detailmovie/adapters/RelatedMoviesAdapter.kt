@@ -8,9 +8,9 @@ import com.example.muvitracker.data.dto._support.Ids
 import com.example.muvitracker.databinding.ViewholderRelatedListOnDetailBinding
 import com.example.muvitracker.domain.model.base.MovieBase
 
-class RelatedMovieAdapter(
+class RelatedMoviesAdapter(
     private val onClickVH: (Ids) -> Unit,
-) : ListAdapter<MovieBase, RelatedMovieViewholder>(RelatedMovieAdapter) {
+) : ListAdapter<MovieBase, RelatedMovieViewholder>(RelatedMoviesAdapter) {
 
 
     companion object : DiffUtil.ItemCallback<MovieBase>() {

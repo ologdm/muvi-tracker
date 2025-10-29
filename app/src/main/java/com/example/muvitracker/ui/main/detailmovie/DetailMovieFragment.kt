@@ -20,7 +20,7 @@ import com.example.muvitracker.databinding.FragmentDetailMovieBinding
 import com.example.muvitracker.domain.model.Movie
 import com.example.muvitracker.ui.main.Navigator
 import com.example.muvitracker.ui.main.person.adapters.CastAdapter
-import com.example.muvitracker.ui.main.detailmovie.adapters.RelatedMovieAdapter
+import com.example.muvitracker.ui.main.detailmovie.adapters.RelatedMoviesAdapter
 import com.example.muvitracker.utils.formatToReadableDate
 import com.example.muvitracker.utils.getNowFormattedDateTime
 import com.example.muvitracker.utils.statesFlow
@@ -48,7 +48,7 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
     @Inject
     lateinit var navigator: Navigator
 
-    private val relatedMovieAdapter = RelatedMovieAdapter(onClickVH = { ids ->
+    private val relatedMoviesAdapter = RelatedMoviesAdapter(onClickVH = { ids ->
         navigator.startMovieDetailFragment(ids)
     })
 
@@ -104,7 +104,7 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
 
 
         // RELATED MOVIES -----------------------------------------------------------------------------
-        b.relatedRecyclerview.adapter = relatedMovieAdapter
+        b.relatedRecyclerview.adapter = relatedMoviesAdapter
         b.relatedRecyclerview.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         viewModel.loadRelatedMovies(currentMovieIds.trakt)
@@ -124,7 +124,7 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
                     } else {
                         b.relatedRecyclerview.visibility = View.VISIBLE
                         b.relatedErrorMessage.visibility = View.GONE
-                        relatedMovieAdapter.submitList(data)
+                        relatedMoviesAdapter.submitList(data)
                     }
                 }
             )

@@ -15,12 +15,12 @@ import com.example.muvitracker.databinding.ViewholderPrefsShowBinding
 import com.example.muvitracker.domain.model.Show
 
 
-class PrefsShowAdapter(
+class PrefsShowsAdapter(
     private val onClickVH: (movieIds: Ids) -> Unit,
     private val onLongClickVH: (movieId: Int) -> Unit,
     private val onCLickLiked: (Int) -> Unit,
     private val onClickWatchedAllCheckbox: (showIds: Ids, () -> Unit) -> Unit
-) : ListAdapter<Show, PrefsShowViewholder>(PrefsShowAdapter) {
+) : ListAdapter<Show, PrefsShowViewholder>(PrefsShowsAdapter) {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PrefsShowViewholder {

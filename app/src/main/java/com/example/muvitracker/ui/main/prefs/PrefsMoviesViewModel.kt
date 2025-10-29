@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class PrefsMovieViewModel @Inject constructor(
+class PrefsMoviesViewModel @Inject constructor(
     private val prefsMovieRepository: PrefsMovieRepository
 ) : ViewModel() {
 

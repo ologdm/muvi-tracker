@@ -9,7 +9,7 @@ import com.example.muvitracker.databinding.ViewholderExploreBaseBinding
 import com.example.muvitracker.domain.model.base.ShowBase
 
 
-class ShowPagingAdapter(
+class AllShowsPagingAdapter(
     val onClickVH: (Ids) -> Unit
 ) : PagingDataAdapter<ShowBase, ShowViewholder>(DIFF_CALLBACK) {
 

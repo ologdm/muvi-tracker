@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class PrefsShowViewModel @Inject constructor(
+class PrefsShowsViewModel @Inject constructor(
     private val prefsShowRepository: PrefsShowRepository,
     private val detailShowRepository: DetailShowRepository
 ) : ViewModel() {

@@ -13,12 +13,12 @@ import com.example.muvitracker.databinding.ViewholderPrefsMovieBinding
 import com.example.muvitracker.domain.model.Movie
 
 
-class PrefsMovieAdapter(
+class PrefsMoviesAdapter(
     private val onClickVH: (movieIds: Ids) -> Unit,
     private val onLongClickVH: (movieId: Int) -> Unit,
     private val onCLickLiked: (Int) -> Unit,
     private val onClickWatched: (Movie, Boolean) -> Unit
-) : ListAdapter<Movie, PrefsMovieViewholder>(PrefsMovieAdapter) {
+) : ListAdapter<Movie, PrefsMovieViewholder>(PrefsMoviesAdapter) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PrefsMovieViewholder {
         val layoutInflater = LayoutInflater.from(parent.context)

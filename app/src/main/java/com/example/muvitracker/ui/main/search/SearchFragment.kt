@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.muvitracker.R
 import com.example.muvitracker.databinding.FragmentSearchBinding
 import com.example.muvitracker.ui.main.Navigator
-import com.example.muvitracker.ui.main.search.adapters.SearchAdapter
+import com.example.muvitracker.ui.main.search.adapters.SearchResultsAdapter
 import com.example.muvitracker.utils.fragmentViewLifecycleScope
 import com.example.muvitracker.utils.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -26,7 +26,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
     @Inject
     lateinit var navigator: Navigator
-    private val adapter = SearchAdapter(
+    private val adapter = SearchResultsAdapter(
         onClickVHMovie = { movieIds ->
             navigator.startMovieDetailFragment(movieIds)
         },

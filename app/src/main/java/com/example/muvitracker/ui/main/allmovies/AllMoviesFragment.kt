@@ -13,7 +13,7 @@ import com.example.muvitracker.data.TmdbApi
 import com.example.muvitracker.databinding.FragmentExploreBaseBinding
 import com.example.muvitracker.domain.repo.DetailMovieRepository
 import com.example.muvitracker.ui.main.Navigator
-import com.example.muvitracker.ui.main.allmovies.base.MoviePagingAdapter
+import com.example.muvitracker.ui.main.allmovies.base.AllMoviesPagingAdapter
 import com.example.muvitracker.utils.viewBinding
 import com.example.muvitracker.utils.fragmentViewLifecycleScope
 import com.google.android.material.chip.Chip
@@ -26,7 +26,7 @@ import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class MoviesFragment : Fragment(R.layout.fragment_explore_base) {
+class AllMoviesFragment : Fragment(R.layout.fragment_explore_base) {
 
     @Inject
     lateinit var tmdbApi: TmdbApi
@@ -39,7 +39,7 @@ class MoviesFragment : Fragment(R.layout.fragment_explore_base) {
     private val b by viewBinding(FragmentExploreBaseBinding::bind)
     private val viewModel by viewModels<MoviesViewmodel>()
 
-    private val pagingAdapter = MoviePagingAdapter(onClickVH = { movieIds ->
+    private val pagingAdapter = AllMoviesPagingAdapter(onClickVH = { movieIds ->
         navigator.startMovieDetailFragment(movieIds)
     })
 

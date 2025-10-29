@@ -12,7 +12,7 @@ import com.example.muvitracker.domain.model.base.MovieBase
 // - popular fragment - lists with paging needed
 
 
-class MoviePagingAdapter (
+class AllMoviesPagingAdapter (
     val onClickVH: (Ids) -> Unit
 ) : PagingDataAdapter<MovieBase, MovieViewholder>(DIFF_CALLBACK) {
 
