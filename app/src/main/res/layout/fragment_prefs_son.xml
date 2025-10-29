@@ -10,7 +10,7 @@
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:listitem="@layout/vh_prefs_movie"
+            tools:listitem="@layout/viewholder_prefs_movie"
             android:paddingHorizontal="8dp"
             android:paddingBottom="8dp"/>
 </FrameLayout>

@@ -11,7 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.example.muvitracker.App
+import com.example.muvitracker.MyApp
 import com.example.muvitracker.R
 import com.example.muvitracker.data.dto._support.Ids
 import com.example.muvitracker.data.glide.ImageTmdbRequest
@@ -38,7 +38,7 @@ import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class DetailMovieFragment : Fragment(R.layout.fragm_detail_movie) {
+class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
 
     private var currentMovieIds: Ids = Ids()
 
@@ -305,7 +305,7 @@ class DetailMovieFragment : Fragment(R.layout.fragm_detail_movie) {
         const val RUNTIME = "Runtime: N/A"
         const val STATUS = "Status: Unknown"
         const val LANGUAGE = "Language: Unknown"
-        var OVERVIEW = App.appContext.getString(R.string.not_available)
+        var OVERVIEW = MyApp.appContext.getString(R.string.not_available)
         const val TAGLINE = "Tagline are not available"
         const val RATING = " — "
 //    const val GENRES = "—"

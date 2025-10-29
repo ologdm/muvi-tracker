@@ -34,7 +34,7 @@ import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class DetailShowFragment : Fragment(R.layout.fragm_detail_show) {
+class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
 
     private var currentShowTitle: String = ""
     private var currentShowIds: Ids = Ids() // ids has default value

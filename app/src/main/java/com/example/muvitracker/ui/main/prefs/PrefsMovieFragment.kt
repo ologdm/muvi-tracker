@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class PrefsMovieFragment : Fragment(R.layout.fragm_prefs_son) {
+class PrefsMovieFragment : Fragment(R.layout.fragment_prefs_son) {
 
     private val viewModel by viewModels<PrefsMovieViewModel>()
     private val binding by viewBinding(FragmPrefsSonBinding::bind)

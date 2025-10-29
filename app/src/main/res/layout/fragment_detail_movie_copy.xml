@@ -129,69 +129,66 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
+                    android:layout_marginBottom="12dp"
                     tools:text="@tools:sample/lorem" />
 
-                <TextView
-                    android:id="@+id/status"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:textSize="15sp"
-                    android:textStyle="normal"
-                    tools:text="ended" />
+                <!--                <TextView-->
+                <!--                        android:id="@+id/status"-->
+                <!--                        android:layout_width="wrap_content"-->
+                <!--                        android:layout_height="wrap_content"-->
+                <!--                        tools:text="released"-->
+                <!--                        android:textStyle="normal"-->
+                <!--                        android:paddingBottom="8dp" />-->
 
-                <LinearLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="24dp"
-                    android:orientation="horizontal">
+                    android:layout_marginBottom="24dp">
 
 
                     <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/imageVertical"
                         android:layout_width="200dp"
                         android:layout_height="300dp"
+                        android:layout_marginEnd="24dp"
                         android:importantForAccessibility="no"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
                         app:shapeAppearance="@style/ImageLarge_RoundedShape"
                         tools:background="@tools:sample/avatars" />
 
+
                     <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:orientation="vertical"
-                        android:padding="12dp">
-
+                        android:padding="12dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/imageVertical"
+                        app:layout_constraintTop_toTopOf="parent">
 
                         <TextView
-                            android:id="@+id/networkYearCountry"
+                            android:id="@+id/releasedYearAndCountry"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="15sp"
-                            tools:text="Network 2010 (US) " />
-
+                            tools:text="Feb 2010 (US)" />
 
                         <TextView
-                            android:id="@+id/totalSeasons"
+                            android:id="@+id/status"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="15sp"
-                            tools:text="6 seasons" />
+                            tools:text="Released" />
 
-
-                        <TextView
-                            android:id="@+id/airedEpisodes"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="15sp"
-                            tools:text="48 episodes" />
 
                         <TextView
                             android:id="@+id/runtime"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="15sp"
-                            tools:text="42 min" />
+                            tools:text="108 min" />
 
 
                         <View
@@ -212,86 +209,60 @@
                             android:text="trakt.tv"
                             android:textSize="15sp" />
 
-                        <!-- solo diastanziamento -->
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="40dp" />
-
-                        <TextView
-                            android:id="@+id/watchedCounterTextview"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="end"
-                            android:layout_marginEnd="12dp"
-                            android:layout_marginBottom="10dp"
-                            android:textSize="15sp"
-                            tools:text="15/30" />
-
-
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-                            <com.google.android.material.progressindicator.LinearProgressIndicator
-                                android:id="@+id/watchedCounterProgressBar"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                app:layout_constraintTop_toTopOf="@id/watchedCounterProgressBar" />
-
-                            <CheckBox
-                                android:id="@+id/watchedAllCheckbox"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="10dp"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                            <ProgressBar
-                                android:id="@+id/watchedAllCheckboxLoadingBar"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:visibility="gone"
-                                app:layout_constraintEnd_toEndOf="@id/watchedAllCheckbox"
-                                app:layout_constraintTop_toTopOf="@id/watchedAllCheckbox"
-                                tools:visibility="visible" />
-
-                            <TextView
-                                android:id="@+id/watchedAllTextview"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/watched_all_check_text"
-                                android:textSize="15sp"
-                                android:textStyle="bold"
-                                app:layout_constraintBottom_toBottomOf="@id/watchedAllCheckbox"
-                                app:layout_constraintEnd_toStartOf="@id/watchedAllCheckbox"
-                                app:layout_constraintTop_toTopOf="@id/watchedAllCheckbox" />
-
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-
                     </LinearLayout>
 
-                </LinearLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:padding="12dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/imageVertical">
+
+<!--                        <TextView-->
+<!--                            android:id="@+id/tagline"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginBottom="8dp"-->
+<!--                            android:ellipsize="end"-->
+<!--                            android:maxLines="3"-->
+<!--                            android:textStyle="italic"-->
+<!--                            app:layout_constraintBottom_toTopOf="@id/watchedDivider"-->
+<!--                            tools:text="@tools:sample/lorem/random" />-->
 
 
-                <TextView
-                    style="@style/Category_Title_Typography_Detail"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/watch_provider_text"
-                    android:visibility="gone"
-                    tools:background="@android:color/holo_blue_dark"
-                    tools:text=" Watch Provider(by region): Netflix, Prime ecc TODO "
-                    tools:visibility="visible" />
+                        <com.google.android.material.divider.MaterialDivider
+                            android:id="@+id/watchedDivider"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="8dp"
+                            app:layout_constraintBottom_toTopOf="@id/watchedCheckbox" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/streamChannelRV"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:background="@android:color/holo_blue_dark"
-                    android:visibility="gone"
-                    tools:layout_height="40dp"
-                    tools:visibility="visible" />
+
+                        <CheckBox
+                            android:id="@+id/watchedCheckbox"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent" />
+
+
+                        <TextView
+                            android:id="@+id/watchedTextview"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/watched_check_text"
+                            android:textSize="15sp"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="@id/watchedCheckbox"
+                            app:layout_constraintEnd_toStartOf="@id/watchedCheckbox"
+                            app:layout_constraintTop_toTopOf="@id/watchedCheckbox" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
 
                 <TextView
@@ -302,13 +273,9 @@
 
                 <TextView
                     android:id="@+id/overview"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
-                    android:ellipsize="end"
-                    android:maxLines="4"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
                     tools:hint="Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur." />
 
 
@@ -340,37 +307,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
                     tools:itemCount="1"
-                    tools:listitem="@layout/vh_cast_list_on_detail" />
+                    tools:listitem="@layout/viewholder_cast_list_on_detail" />
 
 
                 <com.google.android.material.divider.MaterialDivider
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
-                    app:layout_constraintTop_toBottomOf="@id/toolbar" />
-
-
-                <TextView
-                    style="@style/Category_Title_Typography_Detail"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/seasons_text" />
-
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/seasonsRV"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    tools:itemCount="3"
-                    tools:layout_height="wrap_content"
-                    tools:listitem="@layout/vh_seasons_on_detailshow" />
-
-
-                <com.google.android.material.divider.MaterialDivider
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
+                    android:visibility="visible"
                     app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
                 <TextView
@@ -380,12 +324,13 @@
                     android:text="@string/related_text" />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/relatedShowsRV"
+                    android:id="@+id/related_recyclerview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
                     tools:itemCount="1"
-                    tools:listitem="@layout/vh_related_list_on_detail" />
+                    tools:listitem="@layout/viewholder_related_list_on_detail" />
+
 
             </LinearLayout>
 

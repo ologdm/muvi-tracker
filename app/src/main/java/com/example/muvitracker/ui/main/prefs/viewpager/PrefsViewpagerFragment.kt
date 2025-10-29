@@ -10,7 +10,7 @@ import com.example.muvitracker.utils.viewBinding
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
-class PrefsViewpagerFragment :Fragment(R.layout.fragm_prefs_viewpager){
+class PrefsViewpagerFragment :Fragment(R.layout.fragment_prefs_viewpager){
 
     private val binding by viewBinding(FragmPrefsViewpagerBinding::bind)
 

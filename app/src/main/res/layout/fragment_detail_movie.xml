@@ -576,7 +576,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             tools:itemCount="1"
-                            tools:listitem="@layout/vh_cast_list_on_detail" />
+                            tools:listitem="@layout/viewholder_cast_list_on_detail" />
 
                         <TextView
                             android:id="@+id/cast_error_message"
@@ -624,7 +624,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             tools:itemCount="1"
-                            tools:listitem="@layout/vh_related_list_on_detail" />
+                            tools:listitem="@layout/viewholder_related_list_on_detail" />
 
                         <TextView
                             android:id="@+id/related_error_message"

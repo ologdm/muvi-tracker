@@ -14,7 +14,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class PersonBottomSheetFragment : BottomSheetDialogFragment(R.layout.fragm_person) {
+class PersonBottomSheetFragment : BottomSheetDialogFragment(R.layout.fragment_person) {
 
     private var currentPersonIds: Ids = Ids()
     private var currentCharacter: String = ""

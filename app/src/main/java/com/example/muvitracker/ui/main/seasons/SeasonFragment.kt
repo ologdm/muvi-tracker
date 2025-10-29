@@ -20,7 +20,7 @@ import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class SeasonFragment : Fragment(R.layout.fragm_season_son) {
+class SeasonFragment : Fragment(R.layout.fragment_season_son) {
 
     private var currentShowIds: Ids = Ids()
     private var currentSeasonNr: Int = 0

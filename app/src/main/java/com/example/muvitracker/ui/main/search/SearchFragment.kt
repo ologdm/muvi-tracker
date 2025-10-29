@@ -18,7 +18,7 @@ import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class SearchFragment : Fragment(R.layout.fragm_search) {
+class SearchFragment : Fragment(R.layout.fragment_search) {
 
     private val binding by viewBinding(FragmSearchBinding::bind)
     private val viewModel by viewModels<SearchViewModel>()

@@ -22,7 +22,7 @@ import java.io.IOException
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class ShowsFragment : Fragment(R.layout.fragm_base_category) {
+class ShowsFragment : Fragment(R.layout.fragment_explore_base) {
 
     @Inject
     lateinit var navigator: Navigator

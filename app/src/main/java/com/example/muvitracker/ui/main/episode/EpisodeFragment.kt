@@ -20,7 +20,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class EpisodeFragment : BottomSheetDialogFragment(
-    R.layout.fragm_episode_bottomsheet
+    R.layout.fragment_episode_bottomsheet
 ) {
 
     private var currentShowIds: Ids = Ids()

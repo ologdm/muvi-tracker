@@ -13,7 +13,7 @@ import kotlinx.coroutines.withContext
 
 
 @HiltAndroidApp
-class App : Application() {
+class MyApp : Application() {
 
     // TODO 1.1.3 - funzioni per test lingue app
     // Forza lingua app - bisogna sembre riaprire app
@@ -64,11 +64,11 @@ class App : Application() {
             // Pulizia cache disco
             CoroutineScope(Dispatchers.IO).launch {
                 // 1. Pulizia cache disco su thread I/O - operazione può essere lunga, in background
-                Glide.get(this@App).clearDiskCache()
+                Glide.get(this@MyApp).clearDiskCache()
 
                 // 2. Pulizia RAM cache sul main thread - perchè è collegata al thread UI di Android
                 withContext(Dispatchers.Main) {
-                    Glide.get(this@App).clearMemory()
+                    Glide.get(this@MyApp).clearMemory()
                 }
 
                 // Salva lingua corrente

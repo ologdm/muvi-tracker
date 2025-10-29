@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class PrefsShowFragment : Fragment(R.layout.fragm_prefs_son) {
+class PrefsShowFragment : Fragment(R.layout.fragment_prefs_son) {
 
     private val viewModel by viewModels<PrefsShowViewModel>()
     private val binding by viewBinding(FragmPrefsSonBinding::bind)

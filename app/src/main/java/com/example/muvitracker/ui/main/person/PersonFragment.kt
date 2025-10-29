@@ -16,7 +16,7 @@ import dagger.hilt.android.AndroidEntryPoint
 // !!! similar to PersonBSheetFragment
 
 @AndroidEntryPoint
-class PersonFragment : Fragment(R.layout.fragm_person) {
+class PersonFragment : Fragment(R.layout.fragment_person) {
 
     private var currentPersonIds: Ids = Ids()
 

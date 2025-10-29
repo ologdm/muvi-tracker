@@ -13,7 +13,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class SeasonViewpagerFragment : Fragment(R.layout.fragm_season_viewpager) {
+class SeasonViewpagerFragment : Fragment(R.layout.fragment_season_viewpager) {
 
     private var currentShowTitle: String = ""
     private var currentShowIds: Ids = Ids()

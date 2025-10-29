@@ -124,7 +124,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     tools:layout_height="500dp"
-                    tools:listitem="@layout/vh_episode_onseason" />
+                    tools:listitem="@layout/viewholder_episode_on_season" />
 
         </LinearLayout>
 

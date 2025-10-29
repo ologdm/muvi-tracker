@@ -26,7 +26,7 @@ import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class MoviesFragment : Fragment(R.layout.fragm_base_category) {
+class MoviesFragment : Fragment(R.layout.fragment_explore_base) {
 
     @Inject
     lateinit var tmdbApi: TmdbApi
