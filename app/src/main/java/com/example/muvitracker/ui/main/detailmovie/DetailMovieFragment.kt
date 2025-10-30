@@ -1,13 +1,20 @@
 package com.example.muvitracker.ui.main.detailmovie
 
 import android.content.Intent
+import android.content.res.ColorStateList
+import android.content.res.Configuration
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.TypedValue
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -39,6 +46,16 @@ import javax.inject.Inject
  */
 
 
+
+// 1.1.3 grafica edge toedge
+// status bar dinamiche ok  TODO fix
+// trailer sbiadito ok
+// back dinamico ok TODO fix background
+// floating like dinamico ok  TODO fix layout
+// TODO - fix listeners, ottimizzare lettura valori default sistema Material3.DynamicColors
+//  torna a valori di default onDestroy {1.listener null, 2. status bar default }
+
+
 @AndroidEntryPoint
 class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
 
@@ -65,8 +82,9 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
     ) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupEdgeToEdgeScrollEffect()
-        setupExtendedFabBehavior()
+        setupStatusBarEdgeToEdgeScrollEffect()
+        setupButtonsScrollEffects()
+        setupTopEdgeToEdgeAutoPaddingToLayoutElements()
 
         val bundle = arguments
         if (bundle != null) {
@@ -172,6 +190,33 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
         }
     }
 
+    // TODO 1.1.3 OK cosi
+    private fun setupTopEdgeToEdgeAutoPaddingToLayoutElements() {
+        ViewCompat.setOnApplyWindowInsetsListener(b.buttonBack) { view, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            view.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                topMargin = systemBars.top // padding extra opzionale
+            }
+            insets
+        }
+
+        ViewCompat.setOnApplyWindowInsetsListener(b.errorTextView) { view, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            view.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                // distanza dai bordi + margine extra opzionale
+                topMargin = systemBars.top
+            }
+            insets
+        }
+    }
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+
+        resetStatusBarColorsOnDefault()
+    }
+
 
     // PRIVATE FUNCTIONS ###############################################
     // movie detail
@@ -219,12 +264,15 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
                 genresChipGroup.addView(chip)
             }
 
-
-            // TODO - sbiadire icona
             // open link on youtube
             val trailerUrl = movie.youtubeTrailer
+            val trailerAvailable = !trailerUrl.isNullOrBlank()
+            // sbiadimento senza trailer
+            trailerImageButton.alpha = if (trailerAvailable) 1f else 0.4f
+            trailerTextView.alpha = if (trailerAvailable) 1f else 0.4f
+            //
             trailerImageButton.setOnClickListener {
-                if (!trailerUrl.isNullOrBlank()) {
+                if (trailerAvailable) {
                     val intent = Intent(Intent.ACTION_VIEW, Uri.parse(trailerUrl))
                     startActivity(intent)
                 } else {
@@ -240,10 +288,6 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
 
 
     private fun updateFavoriteIcon(isFavorite: Boolean) {
-//        val iconFilled = context?.getDrawable(R.drawable.liked_icon_filled)
-//        val iconEmpty = context?.getDrawable(R.drawable.liked_icon_empty)
-//        b.extendedFloatingLikedButton.icon = (if (isFavorite) iconFilled else iconEmpty)
-        // TODO new
         val iconFilled = R.drawable.liked_icon_filled
         val iconEmpty = R.drawable.liked_icon_empty
         b.extendedFloatingLikedButton.setIconResource(if (isFavorite) iconFilled else iconEmpty)
@@ -325,14 +369,21 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
 
 
     // 1.1.3 gestione colori status bar colori per edgeToEdge OK
-    // - su imageHorizontal -> status bar bianche,
-    // - restante mainScrollView -> nere
-    private fun setupEdgeToEdgeScrollEffect() {
+    // - su imageHorizontal -> status bar bianche Ok
+    // - restante mainScrollView -> nere OK
+    // - solo per tema bianco OK
+    private fun setupStatusBarEdgeToEdgeScrollEffect() {
+        // Controlla se il tema corrente è chiaro
+        val isLightTheme = (resources.configuration.uiMode and
+                Configuration.UI_MODE_NIGHT_MASK) != Configuration.UI_MODE_NIGHT_YES
+        if (!isLightTheme) return //  --> esci se non è tema chiaro
+
         val window = requireActivity().window
-        val controller = WindowCompat.getInsetsController(window, requireView())
+        val controller =
+            WindowCompat.getInsetsController(window, window.decorView) // - al posto di require
 
         // Rendi la status bar trasparente, così l’immagine va "sotto"
-        window.statusBarColor = Color.TRANSPARENT
+//        window.statusBarColor = Color.TRANSPARENT
 
         // All'inizio: icone chiare (per stare sopra l’immagine)
         controller.isAppearanceLightStatusBars = false
@@ -340,6 +391,7 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
         val scrollView = b.mainScrollView  // il tuo NestedScrollView
         val horizzontalImageView = b.imageHorizontal
 
+        // setOnScrollChangeListener - passare a TODO
         scrollView.viewTreeObserver.addOnScrollChangedListener {
             val scrollY = scrollView.scrollY
             val imageBottom = horizzontalImageView.bottom - scrollY
@@ -348,42 +400,86 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
             val threshold = horizzontalImageView.height / 5
 
             if (imageBottom > threshold) {
-                // status bar sopra immagine → icone chiare
+                // status bar sopra immagine -> icone chiare
                 controller.isAppearanceLightStatusBars = false
             } else {
-                // immagine uscita → icone scure
+                // immagine uscita -> icone scure
                 controller.isAppearanceLightStatusBars = true
             }
         }
     }
 
 
-    // TODO test crash
-    private fun setupExtendedFabBehavior() {
-        val scrollView = b.mainScrollView
-        val fab = b.extendedFloatingLikedButton
+    // TODO 1.1.3 - resetta colori status bar alla default
+    //      IN TEST
+    private fun resetStatusBarColorsOnDefault() {
+        val window = requireActivity().window
+        val controller = WindowCompat.getInsetsController(window, requireView())
 
-        // 1. Parte compatto
-        fab.shrink()
+        // ripristina il colore della status bar dal tema
+        val typedValue = TypedValue()
+        requireContext().theme.resolveAttribute(android.R.attr.statusBarColor, typedValue, true)
+        window.statusBarColor = typedValue.data
 
-        // 2. Listener scroll
-        scrollView.setOnScrollChangeListener { _, _, scrollY, _, _ ->
-            val contentHeight = scrollView.getChildAt(0)?.height ?: 0
-            val visibleHeight = scrollView.height
-            val diff = contentHeight - (scrollY + visibleHeight)
-
-            // 300 -> pixel mancanti dal fondo
-            if (diff <= 300) {
-                if (!fab.isExtended) fab.extend() // estendi vicino al fondo
-            } else {
-                if (fab.isExtended) fab.shrink() // torna compatto quando non vicino al fondo
-            }
-        }
+        // ripristina icone secondo tema (chiaro/scuro)
+        val isLightStatusBarsDefault = resources.getBoolean(
+            resources.getIdentifier("light_icons", "bool", requireContext().packageName)
+        )
+        controller.isAppearanceLightStatusBars = isLightStatusBarsDefault
     }
 
 
+    private fun setupButtonsScrollEffects() {
+        val mainScrollView = b.mainScrollView
+        val imageHorizzontal = b.imageHorizontal
 
-    // TODO  -> tasto back
+        val likeFab = b.extendedFloatingLikedButton
+        val backButton = b.buttonBack
+
+        // Fab parte compatto
+        likeFab.shrink()
+
+        // NUOVO
+        // --- BACK BUTTON parte bianco + trasparente ---
+        backButton.setBackgroundResource(R.drawable.back_button_shape_trasparent)
+        backButton.imageTintList = ColorStateList.valueOf(Color.WHITE)
+
+        mainScrollView.setOnScrollChangeListener { _, _, scrollY, _, _ ->
+            // --- FAB behavior ---
+            val contentHeight = mainScrollView.getChildAt(0)?.height ?: 0
+            val visibleHeight = mainScrollView.height
+            val diff = contentHeight - (scrollY + visibleHeight)
+
+            if (diff <= 300) {
+                if (!likeFab.isExtended) likeFab.extend()
+            } else {
+                if (likeFab.isExtended) likeFab.shrink()
+            }
+
+            // --- BackButton background ---
+            val imageBottom = imageHorizzontal.bottom - scrollY
+            val threshold = imageHorizzontal.height / 5
+
+            if (imageBottom > threshold) {
+                // Sopra immagine → trasparente + icona bianca
+                backButton.setBackgroundResource(R.drawable.back_button_shape_trasparent)
+                backButton.imageTintList = ColorStateList.valueOf(Color.WHITE)
+            } else {
+                // Fuori immagine → sfondo tema + icona colore tema
+                backButton.setBackgroundResource(R.drawable.back_button_shape_default)
+
+                // trova typevalue
+                val typedValue = TypedValue()
+                requireContext().theme.resolveAttribute(
+                    com.google.android.material.R.attr.colorOnPrimaryContainer,
+                    typedValue,
+                    true
+                )
+
+                backButton.imageTintList = ColorStateList.valueOf(typedValue.data)
+            }
+        }
+    }
 
 
 }

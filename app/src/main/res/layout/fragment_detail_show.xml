@@ -38,7 +38,7 @@
         android:importantForAccessibility="no"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/baseline_arrow_back" />
+        app:srcCompat="@drawable/back_button_arrow" />
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

@@ -26,20 +26,22 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:hint="custom error text"
+        tools:hint="errorTextView......"
         tools:visibility="visible" />
 
+    <!-- TODO   -->
     <ImageButton
         android:id="@+id/buttonBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="40dp"
+        android:background="@drawable/back_button_shape_trasparent"
         android:elevation="4dp"
         android:importantForAccessibility="no"
+        android:padding="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/baseline_arrow_back" />
+        app:srcCompat="@drawable/back_button_arrow" />
 
     <!--    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout-->
     <!--            android:id="@+id/swipeToRefresh"-->
@@ -48,7 +50,7 @@
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/main_layout_detail"
+        android:id="@+id/mainLayoutDetail"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"
@@ -58,25 +60,29 @@
         <!--  LIKE BUTTON   -->
         <!-- TODO 1.1.3 NEW -->
         <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-            android:id="@+id/extended_floating_liked_button"
+            android:id="@+id/extendedFloatingLikedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="25dp"
             android:layout_marginBottom="25dp"
             android:importantForAccessibility="no"
+            android:text="Like"
+            android:textSize="15dp"
+            app:icon="@drawable/liked_icon_empty"
+            app:iconGravity="end"
+            app:iconPadding="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:icon="@drawable/liked_icon_empty"
-            android:text="Like"
-            app:iconGravity="end"
+
+
             />  <!-- testo vuoto inizialmente -->
         <!--  Note: extended fab puo funzionare anche senza note, animazioni di default -->
 
 
         <androidx.core.widget.NestedScrollView
+            android:id="@+id/mainScrollView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/main_scroll_view"
             app:layout_constraintTop_toTopOf="parent">
 
 
@@ -92,17 +98,28 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
+                    <!--                    <ImageView-->
+                    <!--                        android:id="@+id/imageHorizontal"-->
+                    <!--                        android:layout_width="match_parent"-->
+                    <!--                        android:layout_height="270dp"-->
+                    <!--                        android:elevation="-4dp"-->
+                    <!--                        android:importantForAccessibility="no"-->
+                    <!--                        android:scaleType="centerCrop"-->
+                    <!--                        app:layout_constraintDimensionRatio="1.5"-->
+                    <!--                        app:layout_constraintTop_toTopOf="parent"-->
+                    <!--                        tools:background="@tools:sample/avatars"-->
+                    <!--                        tools:layout_height="270dp" />-->
+
                     <ImageView
                         android:id="@+id/imageHorizontal"
                         android:layout_width="match_parent"
-                        android:layout_height="270dp"
+                        android:layout_height="300dp"
                         android:elevation="-4dp"
                         android:importantForAccessibility="no"
                         android:scaleType="centerCrop"
-                        app:layout_constraintDimensionRatio="1.5"
+                        app:layout_constraintDimensionRatio="1"
                         app:layout_constraintTop_toTopOf="parent"
-                        tools:background="@tools:sample/avatars"
-                        tools:layout_height="270dp" />
+                        tools:background="@tools:sample/avatars" />
 
                     <!--                <TextView-->
                     <!--                        android:id="@+id/trailerLink"-->
@@ -128,6 +145,7 @@
                         app:layout_constraintEnd_toEndOf="parent" />
 
                     <TextView
+                        android:id="@+id/trailerTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:shadowColor="#FF000000"
@@ -141,6 +159,23 @@
                         app:layout_constraintEnd_toEndOf="@id/trailerImageButton"
                         app:layout_constraintStart_toStartOf="@id/trailerImageButton"
                         app:layout_constraintTop_toBottomOf="@id/trailerImageButton" />
+
+                    <!--                    TODO - per test di confronto -->
+                    <!--                    <TextView-->
+                    <!--                        android:id="@+id/trailerTextView1"-->
+                    <!--                        android:layout_width="wrap_content"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:shadowColor="#FF000000"-->
+                    <!--                        android:shadowDx="5"-->
+                    <!--                        android:shadowDy="3"-->
+                    <!--                        android:shadowRadius="5"-->
+                    <!--                        android:text="Trailer"-->
+                    <!--                        android:textColor="@android:color/white"-->
+                    <!--                        android:textSize="10dp"-->
+                    <!--                        android:textStyle="bold"-->
+                    <!--                        app:layout_constraintEnd_toEndOf="@id/trailerImageButton"-->
+                    <!--                        app:layout_constraintStart_toStartOf="@id/trailerImageButton"-->
+                    <!--                        app:layout_constraintBottom_toTopOf="@id/trailerImageButton" />-->
 
                     <!-- TODO. v sx   -->
                     <!--                <TextView-->
@@ -316,7 +351,7 @@
                                 android:orientation="horizontal"
                                 app:layout_constraintStart_toEndOf="@id/imageVertical">
 
-                                <!-- TODO Trakt -->
+                                <!-- TODO Trakt OK -->
                                 <LinearLayout
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
@@ -339,7 +374,7 @@
                                 </LinearLayout>
 
 
-                                <!--  TODO tmdb-->
+                                <!--  TODO tmdb OK-->
                                 <LinearLayout
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
@@ -521,25 +556,25 @@
                     <!--                </LinearLayout>-->
 
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        style="@style/Category_Title_Typography_Detail"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/about_show_text" />
+                        android:orientation="horizontal">
 
-                    <!--                    <com.google.android.material.divider.MaterialDivider-->
-                    <!--                        android:layout_width="match_parent"-->
-                    <!--                        android:layout_marginBottom="8dp"-->
-                    <!--                        android:layout_marginStart="16dp"-->
-                    <!--                        android:layout_marginHorizontal="8dp"-->
-                    <!--                        android:layout_height="wrap_content" />-->
+                        <TextView
+                            style="@style/Category_Title_Typography_Detail"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/about_show_text" />
 
-                </LinearLayout>
+                        <!--                    <com.google.android.material.divider.MaterialDivider-->
+                        <!--                        android:layout_width="match_parent"-->
+                        <!--                        android:layout_marginBottom="8dp"-->
+                        <!--                        android:layout_marginStart="16dp"-->
+                        <!--                        android:layout_marginHorizontal="8dp"-->
+                        <!--                        android:layout_height="wrap_content" />-->
+
+                    </LinearLayout>
 
 
                     <TextView
@@ -552,21 +587,21 @@
                         tools:hint="Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur." />
 
 
-                <com.google.android.material.chip.ChipGroup
-                    android:id="@+id/genresChipGroup"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:clickable="false"
-                    app:singleSelection="false"
-                    tools:background="@android:color/darker_gray"
-                    tools:layout_height="25dp" />
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/genresChipGroup"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        android:clickable="false"
+                        app:singleSelection="false"
+                        tools:background="@android:color/darker_gray"
+                        tools:layout_height="25dp" />
 
-                <com.google.android.material.divider.MaterialDivider
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    app:layout_constraintTop_toBottomOf="@id/toolbar" />
+                    <com.google.android.material.divider.MaterialDivider
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
                     <TextView
                         style="@style/Category_Title_Typography_Detail"
