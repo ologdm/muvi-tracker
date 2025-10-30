@@ -24,6 +24,7 @@ class Navigator @Inject constructor(
     ) {
         val manager = fragmentActivity.supportFragmentManager
         // fix r1.1.2
+        // popBackStack - elimina tutti i fragment dalla backstack, solo quelli aggiunti con .addToBackStack()
         manager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
 
         manager.beginTransaction()
