@@ -2,6 +2,7 @@ package com.example.muvitracker.ui.main
 
 import android.content.SharedPreferences
 import android.content.pm.ActivityInfo
+import android.graphics.Color
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
@@ -51,8 +52,14 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // 1.1.3  abilitazione edge to edge OK
-        WindowCompat.setDecorFitsSystemWindows(window, false)
+
+        // TODO anche se esiste di default serve comunque
+        // // Edge-to-edge: layout va sotto status bar e navigation bar
+//        WindowCompat.setDecorFitsSystemWindows(window, false)
+//        // Status bar trasparente
+//        window.statusBarColor = Color.TRANSPARENT
+//        // Optional: navigation bar trasparente
+//        window.navigationBarColor = Color.TRANSPARENT
 
         /** Locks the Activity orientation to portrait mode.
          * NOTE: Starting from SDK 36, this lock will be automatically skipped for screens with -> sw >= 600dp

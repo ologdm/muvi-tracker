@@ -53,7 +53,7 @@ class AllMoviesFragment : Fragment(R.layout.fragment_explore_base) {
         view: View,
         savedInstanceState: Bundle?
     ) {
-        edgeToEdgeManagment()
+        mainLayoutTopEdgeToEdgeManagment()
 
         b.toolbar.text = getString(R.string.movies)
         b.recyclerView.adapter = pagingAdapter
@@ -177,7 +177,8 @@ class AllMoviesFragment : Fragment(R.layout.fragment_explore_base) {
         }
     }
 
-    private fun edgeToEdgeManagment() {
+
+    private fun mainLayoutTopEdgeToEdgeManagment() {
         ViewCompat.setOnApplyWindowInsetsListener(b.mainLayout) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             // aggiorno solo lati che mi servono
