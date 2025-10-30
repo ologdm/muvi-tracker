@@ -31,10 +31,6 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class AllMoviesFragment : Fragment(R.layout.fragment_explore_base) {
 
-    @Inject
-    lateinit var tmdbApi: TmdbApi
-    @Inject
-    lateinit var detailMoviesRepo : DetailMovieRepository
 
     @Inject
     lateinit var navigator: Navigator
@@ -53,6 +49,7 @@ class AllMoviesFragment : Fragment(R.layout.fragment_explore_base) {
         view: View,
         savedInstanceState: Bundle?
     ) {
+
         mainLayoutTopEdgeToEdgeManagment()
 
         b.toolbar.text = getString(R.string.movies)
@@ -70,31 +67,6 @@ class AllMoviesFragment : Fragment(R.layout.fragment_explore_base) {
 
         collectPagingStates()
 
-        // test deadpool
-        // https://api.themoviedb.org/3/movie/293660?api_key=36b68580564c93f78a52fc28c15c44e5&language=it-IT&append_to_response=videos
-        // TODO per test:
-        b.toolbar.setOnClickListener {
-            // retrofit, fai chiamata
-            fragmentViewLifecycleScope.launch {
-//                val x1 = Locale.getDefault().toLanguageTag()
-//                val x2 = Locale.getDefault().language
-//                println("x1=$x1")
-
-                // test movie - 293660 deadpool
-                val detailMovieDtoTmdb = tmdbApi.getMovieDto(
-                    movieId = 293660,
-                    language = LanguageManager.getSystemLocaleTag()
-                )
-                println(detailMovieDtoTmdb)
-
-                // test show - 1399 games of thrones
-                val detailShowDtoTmdb = tmdbApi.getShowDto(
-                    showId = 1399,
-                    language = LanguageManager.getSystemLocaleTag()
-                )
-                println(detailShowDtoTmdb)
-            }
-        }
     }
 
 
@@ -188,6 +160,39 @@ class AllMoviesFragment : Fragment(R.layout.fragment_explore_base) {
     }
 
 }
+
+
+// TODO - per test, eliminare
+//@Inject
+//lateinit var tmdbApi: TmdbApi
+//@Inject
+//lateinit var detailMoviesRepo : DetailMovieRepository
+//
+//// test deadpool
+//// https://api.themoviedb.org/3/movie/293660?api_key=36b68580564c93f78a52fc28c15c44e5&language=it-IT&append_to_response=videos
+//// TODO per test:
+//b.toolbar.setOnClickListener {
+//    // retrofit, fai chiamata
+//    fragmentViewLifecycleScope.launch {
+////                val x1 = Locale.getDefault().toLanguageTag()
+////                val x2 = Locale.getDefault().language
+////                println("x1=$x1")
+//
+//        // test movie - 293660 deadpool
+//        val detailMovieDtoTmdb = tmdbApi.getMovieDto(
+//            movieId = 293660,
+//            language = LanguageManager.getSystemLocaleTag()
+//        )
+//        println(detailMovieDtoTmdb)
+//
+//        // test show - 1399 games of thrones
+//        val detailShowDtoTmdb = tmdbApi.getShowDto(
+//            showId = 1399,
+//            language = LanguageManager.getSystemLocaleTag()
+//        )
+//        println(detailShowDtoTmdb)
+//    }
+//}
 
 
 
