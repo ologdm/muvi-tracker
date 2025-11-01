@@ -66,7 +66,7 @@
 
 
         <LinearLayout
-            android:id="@+id/insideScrollView"
+            android:id="@+id/mainLayoutInsideScroll1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -78,7 +78,7 @@
                 android:layout_height="wrap_content">
 
                 <ImageView
-                    android:id="@+id/imageHorizontal"
+                    android:id="@+id/horizontalImage"
                     android:layout_width="match_parent"
                     android:layout_height="270dp"
                     android:elevation="-4dp"
@@ -148,7 +148,7 @@
 
 
                     <com.google.android.material.imageview.ShapeableImageView
-                        android:id="@+id/imageVertical"
+                        android:id="@+id/verticalImage"
                         android:layout_width="200dp"
                         android:layout_height="300dp"
                         android:importantForAccessibility="no"
@@ -301,7 +301,7 @@
                     android:text="@string/about_show_text" />
 
                 <TextView
-                    android:id="@+id/overview"
+                    android:id="@+id/overviewContent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"

@@ -61,7 +61,7 @@ class EpisodeFragment : BottomSheetDialogFragment(
                     "${getString(R.string.release_date)} ${
                         episode.firstAiredFormatted.formatDateFromFirsAired()
                     } | ${getString(R.string.runtime_description,episode.runtime.toString())} "
-                binding.overview.text = episode.overview
+                binding.overviewContent.text = episode.overview
                 binding.traktRating.text = episode.traktRating.toString()
 
                 updateWatchedIcon(it)
@@ -122,13 +122,13 @@ class EpisodeFragment : BottomSheetDialogFragment(
 
     private fun expandOverview() {
         var isTextExpanded = false // initial state, fragment opening
-        binding.overview.setOnClickListener {
+        binding.overviewContent.setOnClickListener {
             if (isTextExpanded) { // expanded==true -> contract
-                binding.overview.maxLines = 5
-                binding.overview.ellipsize = TextUtils.TruncateAt.END
+                binding.overviewContent.maxLines = 5
+                binding.overviewContent.ellipsize = TextUtils.TruncateAt.END
             } else { // expanded==false -> expand
-                binding.overview.maxLines = Int.MAX_VALUE
-                binding.overview.ellipsize = null
+                binding.overviewContent.maxLines = Int.MAX_VALUE
+                binding.overviewContent.ellipsize = null
             }
             isTextExpanded = !isTextExpanded // toggle state
         }

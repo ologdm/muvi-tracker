@@ -77,7 +77,7 @@ class PersonFragment : Fragment(R.layout.fragment_person) {
 
         Glide.with(requireContext())
             .load(ImageTmdbRequest.Person(currentPersonIds.tmdb))
-            .into(binding.imageVertical)
+            .into(binding.verticalImage)
     }
 
 
