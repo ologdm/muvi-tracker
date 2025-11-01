@@ -10,6 +10,8 @@
     <!--TODO wrapper constraint -
             spostato fuori progressBar, errorTextView, buttonBack-->
 
+    <!--NOTE LAYOUT:      -->
+
     <com.google.android.material.progressindicator.LinearProgressIndicator
         android:id="@+id/progressBar"
         style="@style/ProgressBar_ES"
@@ -49,25 +51,29 @@
     <!--            android:layout_height="match_parent">-->
 
 
+    <!-- !!! NOTE: Layout displayed while loading the detail screen or when an error occurs -->
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/mainLayoutDetail"
+        android:id="@+id/mainLayoutToDisplayDetail"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:visibility="visible">
 
 
-        <!--  LIKE BUTTON   -->
-        <!-- TODO 1.1.3 NEW -->
+        <!--  LIKE BUTTON  -> 1.1.3 NEW OK   -->
         <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
             android:id="@+id/extendedFloatingLikedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="25dp"
-            android:layout_marginBottom="25dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="24dp"
             android:importantForAccessibility="no"
-            android:text="Like"
-            android:textSize="15dp"
+            android:text="@string/like"
+            android:textSize="15sp"
             app:icon="@drawable/liked_icon_empty"
             app:iconGravity="end"
             app:iconPadding="0dp"
@@ -87,7 +93,7 @@
 
 
             <LinearLayout
-                android:id="@+id/insideScrollView"
+                android:id="@+id/mainLayoutInsideScroll1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -95,6 +101,7 @@
 
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/horizontalImageLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -111,7 +118,7 @@
                     <!--                        tools:layout_height="270dp" />-->
 
                     <ImageView
-                        android:id="@+id/imageHorizontal"
+                        android:id="@+id/horizontalImage"
                         android:layout_width="match_parent"
                         android:layout_height="300dp"
                         android:elevation="-4dp"
@@ -121,61 +128,57 @@
                         app:layout_constraintTop_toTopOf="parent"
                         tools:background="@tools:sample/avatars" />
 
-                    <!--                <TextView-->
-                    <!--                        android:id="@+id/trailerLink"-->
-                    <!--                        android:layout_width="wrap_content"-->
-                    <!--                        android:layout_height="wrap_content"-->
-                    <!--                        android:text="Trailer"-->
-                    <!--                        android:background="?attr/colorSecondaryContainer"-->
-                    <!--                        android:textColor="?attr/colorOnSecondaryContainer"-->
-                    <!--                        app:layout_constraintEnd_toEndOf="parent"-->
-                    <!--                        app:layout_constraintBottom_toBottomOf="parent"-->
-                    <!--                        android:layout_marginBottom="8dp"-->
-                    <!--                        android:layout_marginEnd="8dp"-->
-                    <!--                        android:padding="2dp" />-->
-
-                    <ImageView
-                        android:id="@+id/trailerImageButton"
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
-                        android:layout_marginEnd="20dp"
-                        android:layout_marginBottom="28dp"
-                        android:src="@drawable/youtube_icon_red_square_variant"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent" />
-
+                    <!-- NOTES: marginStart == padding layout sotto imageHorizontal    -->
                     <TextView
-                        android:id="@+id/trailerTextView"
+                        android:id="@+id/originalTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:shadowColor="#FF000000"
-                        android:shadowDx="5"
-                        android:shadowDy="3"
-                        android:shadowRadius="5"
-                        android:text="Trailer"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginBottom="12dp"
+                        android:shadowColor="@android:color/black"
+                        android:shadowDx="2"
+                        android:shadowDy="2"
+                        android:shadowRadius="10"
                         android:textColor="@android:color/white"
-                        android:textSize="10dp"
-                        android:textStyle="bold"
-                        app:layout_constraintEnd_toEndOf="@id/trailerImageButton"
-                        app:layout_constraintStart_toStartOf="@id/trailerImageButton"
-                        app:layout_constraintTop_toBottomOf="@id/trailerImageButton" />
+                        android:textSize="18sp"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="@id/horizontalImage"
+                        app:layout_constraintStart_toStartOf="@id/horizontalImage"
+                        tools:text="Lorem."
+                        tools:visibility="visible" />
 
-                    <!--                    TODO - per test di confronto -->
-                    <!--                    <TextView-->
-                    <!--                        android:id="@+id/trailerTextView1"-->
-                    <!--                        android:layout_width="wrap_content"-->
-                    <!--                        android:layout_height="wrap_content"-->
-                    <!--                        android:shadowColor="#FF000000"-->
-                    <!--                        android:shadowDx="5"-->
-                    <!--                        android:shadowDy="3"-->
-                    <!--                        android:shadowRadius="5"-->
-                    <!--                        android:text="Trailer"-->
-                    <!--                        android:textColor="@android:color/white"-->
-                    <!--                        android:textSize="10dp"-->
-                    <!--                        android:textStyle="bold"-->
-                    <!--                        app:layout_constraintEnd_toEndOf="@id/trailerImageButton"-->
-                    <!--                        app:layout_constraintStart_toStartOf="@id/trailerImageButton"-->
-                    <!--                        app:layout_constraintBottom_toTopOf="@id/trailerImageButton" />-->
+                    <LinearLayout
+                        android:id="@+id/trailerLayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent">
+
+                        <ImageView
+                            android:id="@+id/trailerImageButton"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+
+                            android:src="@drawable/youtube_red_official_icon" />
+
+                        <TextView
+                            android:id="@+id/trailerTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:shadowColor="#FF000000"
+                            android:shadowDx="5"
+                            android:shadowDy="3"
+                            android:shadowRadius="5"
+                            android:text="Trailer"
+                            android:textColor="@android:color/white"
+                            android:textSize="10sp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
 
                     <!-- TODO. v sx   -->
                     <!--                <TextView-->
@@ -227,6 +230,7 @@
 
 
                 <LinearLayout
+                    android:id="@+id/mainLayoutInsideScroll2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
@@ -241,25 +245,44 @@
                         android:layout_marginTop="12dp"
                         tools:text="@tools:sample/lorem" />
 
-                    <TextView
-                        android:id="@+id/originalTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="20dp"
-                        android:visibility="gone"
-                        tools:text="(Lorem.)"
-                        tools:visibility="visible" />
 
-                    <!--                <TextView-->
-                    <!--                    android:id="@+id/tagline"-->
-                    <!--                    android:layout_width="match_parent"-->
-                    <!--                    android:layout_height="wrap_content"-->
-                    <!--                    android:layout_marginBottom="12dp"-->
-                    <!--                    android:maxLines="3"-->
-                    <!--                    android:ellipsize="end"-->
-                    <!--                    app:layout_constraintStart_toStartOf="parent"-->
-                    <!--                    app:layout_constraintBottom_toBottomOf="parent"-->
-                    <!--                    tools:text="@tools:sample/lorem/random" />-->
+                    <TextView
+                        android:id="@+id/tagline"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="1dp"
+                        android:ellipsize="end"
+                        android:maxLines="2"
+                        android:text="Il vento soffiava leggero tra gli alberi, portando con sé l’odore dell’erba bagnata e il suono lontano di una chitarra. Nessuno sapeva da dove provenisse quella melodia, ma a tutti sembrava familiare, come un ricordo che non si riesce del tutto ad afferrare."
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        tools:text="@tools:sample/lorem/random" />
+
+                    <!--                    <TextView-->
+                    <!--                        android:id="@+id/tagline2"-->
+                    <!--                        android:layout_width="match_parent"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:layout_marginStart="1dp"-->
+                    <!--                        android:ellipsize="end"-->
+                    <!--                        android:maxLines="2"-->
+                    <!--                        android:textColor="?colorOnSurface"-->
+                    <!--                        app:layout_constraintBottom_toBottomOf="parent"-->
+                    <!--                        app:layout_constraintStart_toStartOf="parent"-->
+                    <!--                        android:text="Il vento soffiava leggero tra gli alberi, portando con sé l’odore dell’erba bagnata e il suono lontano di una chitarra. Nessuno sapeva da dove provenisse quella melodia, ma a tutti sembrava familiare, come un ricordo che non si riesce del tutto ad afferrare."-->
+                    <!--                        tools:text="@tools:sample/lorem/random" />-->
+
+                    <!--                    <TextView-->
+                    <!--                        android:id="@+id/taglin3"-->
+                    <!--                        android:layout_width="match_parent"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:layout_marginStart="1dp"-->
+                    <!--                        android:ellipsize="end"-->
+                    <!--                        android:maxLines="2"-->
+                    <!--                        android:text="Il vento soffiava leggero tra gli alberi, portando con sé l’odore dell’erba bagnata e il suono lontano di una chitarra. Nessuno sapeva da dove provenisse quella melodia, ma a tutti sembrava familiare, come un ricordo che non si riesce del tutto ad afferrare."-->
+                    <!--                        android:textColor="?colorOnBackground"-->
+                    <!--                        app:layout_constraintBottom_toBottomOf="parent"-->
+                    <!--                        app:layout_constraintStart_toStartOf="parent"-->
+                    <!--                        tools:text="@tools:sample/lorem/random" />-->
 
                     <!--                <TextView-->
                     <!--                        android:id="@+id/status"-->
@@ -272,12 +295,11 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginBottom="20dp">
+                        android:layout_marginTop="12dp">
 
 
                         <com.google.android.material.imageview.ShapeableImageView
-                            android:id="@+id/imageVertical"
+                            android:id="@+id/verticalImage"
                             android:layout_width="200dp"
                             android:layout_height="300dp"
                             android:layout_marginEnd="24dp"
@@ -289,18 +311,20 @@
 
 
                         <LinearLayout
+                            android:id="@+id/infoLayout"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:orientation="vertical"
-                            android:padding="12dp"
+                            android:paddingHorizontal="12dp"
+                            android:paddingTop="12dp"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toEndOf="@id/imageVertical"
+                            app:layout_constraintStart_toEndOf="@id/verticalImage"
                             app:layout_constraintTop_toTopOf="parent">
 
                             <TextView
-                                android:id="@+id/releasedYearAndCountry"
-                                android:layout_width="wrap_content"
+                                android:id="@+id/releasedDateAndCountry"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="2dp"
                                 android:textSize="15sp"
@@ -308,16 +332,15 @@
 
                             <TextView
                                 android:id="@+id/status"
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="2dp"
                                 android:textSize="15sp"
                                 tools:text="Released" />
 
-
                             <TextView
                                 android:id="@+id/runtime"
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="2dp"
                                 android:textSize="15sp"
@@ -329,27 +352,13 @@
                                 android:layout_height="8dp" />
 
 
-                            <!--                        <TextView-->
-                            <!--                            android:id="@+id/traktRating"-->
-                            <!--                            android:layout_width="wrap_content"-->
-                            <!--                            android:layout_height="wrap_content"-->
-                            <!--                            android:text="8.3"-->
-                            <!--                            android:textSize="24sp" />-->
-
-                            <!--                        <TextView-->
-                            <!--                            android:layout_width="wrap_content"-->
-                            <!--                            android:layout_height="wrap_content"-->
-                            <!--                            android:text="trakt.tv"-->
-                            <!--                            android:textSize="15sp" />-->
-
-
                             <!--  TODO RATINGS TEST                        -->
                             <LinearLayout
                                 android:id="@+id/ratingsLayout"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal"
-                                app:layout_constraintStart_toEndOf="@id/imageVertical">
+                                app:layout_constraintStart_toEndOf="@id/verticalImage">
 
                                 <!-- TODO Trakt OK -->
                                 <LinearLayout
@@ -400,294 +409,295 @@
                         </LinearLayout>
 
 
-                        <androidx.constraintlayout.widget.ConstraintLayout
+                        <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:padding="12dp"
+                            android:gravity="right"
+                            android:orientation="vertical"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toEndOf="@id/imageVertical">
-
-                            <TextView
-                                android:id="@+id/tagline"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginBottom="8dp"
-                                android:ellipsize="end"
-                                android:maxLines="3"
-                                android:textStyle="italic"
-                                app:layout_constraintBottom_toTopOf="@id/watchedDivider"
-                                tools:text="@tools:sample/lorem/random" />
+                            app:layout_constraintStart_toEndOf="@id/verticalImage">
 
 
                             <com.google.android.material.divider.MaterialDivider
                                 android:id="@+id/watchedDivider"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="8dp"
-                                android:layout_marginBottom="8dp"
-                                app:layout_constraintBottom_toTopOf="@id/watchedCheckbox" />
+                                android:layout_marginStart="8dp"
+                                app:layout_constraintBottom_toTopOf="@id/watchedLayout" />
 
 
-                            <CheckBox
-                                android:id="@+id/watchedCheckbox"
+                            <LinearLayout
+                                android:id="@+id/watchedLayout"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginBottom="10dp"
+                                android:layout_marginEnd="16dp"
+                                android:orientation="horizontal"
+                                app:layout_constraintBottom_toTopOf="@id/takeNotesLayout"
+                                app:layout_constraintEnd_toEndOf="parent">
+
+                                <TextView
+                                    android:id="@+id/watchedTextview"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/watched_check_text"
+                                    android:textSize="16sp"
+                                    android:textStyle="bold" />
+
+                                <CheckBox
+                                    android:id="@+id/watchedCheckbox"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/takeNotesLayout"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal"
+                                android:visibility="gone"
                                 app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent" />
+                                app:layout_constraintEnd_toEndOf="parent">
+
+                                <TextView
+                                    android:id="@+id/notesTextview"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Add notes:"
+                                    android:textSize="15sp"
+                                    android:textStyle="bold" />
+
+                                <ImageButton
+                                    android:layout_width="45dp"
+                                    android:layout_height="45dp"
+                                    android:background="@null"
+                                    android:src="@drawable/take_notes"
+                                    android:tint="@color/black" />
+                            </LinearLayout>
 
 
-                            <TextView
-                                android:id="@+id/watchedTextview"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/watched_check_text"
-                                android:textSize="15sp"
-                                android:textStyle="bold"
-                                app:layout_constraintBottom_toBottomOf="@id/watchedCheckbox"
-                                app:layout_constraintEnd_toStartOf="@id/watchedCheckbox"
-                                app:layout_constraintTop_toTopOf="@id/watchedCheckbox" />
-                        </androidx.constraintlayout.widget.ConstraintLayout>
+                        </LinearLayout>
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-                    <!--            &lt;!&ndash;  TODO RATINGS TEST                        &ndash;&gt;-->
-                    <!--                <LinearLayout-->
-                    <!--                    android:id="@+id/ratingsLayout"-->
-                    <!--                    android:layout_width="match_parent"-->
-                    <!--                    android:layout_height="wrap_content"-->
-                    <!--                    android:layout_marginBottom="20dp"-->
-                    <!--                    tools:itemCount="1"-->
-                    <!--                    tools:listitem="@layout/vh_cast_list_on_detail"-->
-                    <!--                    android:orientation="horizontal">-->
-
-                    <!--                &lt;!&ndash; TODO Trakt &ndash;&gt;-->
-                    <!--                    <LinearLayout-->
-                    <!--                        android:layout_width="wrap_content"-->
-                    <!--                        android:layout_height="wrap_content"-->
-                    <!--                        android:layout_marginEnd="24dp"-->
-                    <!--                        android:layout_weight="1"-->
-                    <!--                        android:gravity="center"-->
-                    <!--                        android:orientation="vertical">-->
-
-                    <!--                        <TextView-->
-                    <!--                            android:id="@+id/traktRating"-->
-                    <!--                            android:layout_width="wrap_content"-->
-                    <!--                            android:layout_height="wrap_content"-->
-                    <!--                            android:text="8.3"-->
-                    <!--                            android:textSize="24sp" />-->
-
-                    <!--                        <TextView-->
-                    <!--                            android:layout_width="wrap_content"-->
-                    <!--                            android:layout_height="wrap_content"-->
-                    <!--                            android:text="   Trakt.tv   "-->
-                    <!--                            android:textSize="12sp" />-->
-                    <!--                    </LinearLayout>-->
-
-
-                    <!--&lt;!&ndash;                    TODO tmdb&ndash;&gt;-->
-                    <!--                    <LinearLayout-->
-                    <!--                        android:layout_width="wrap_content"-->
-                    <!--                        android:layout_height="wrap_content"-->
-                    <!--                        android:layout_weight="1"-->
-                    <!--                        android:gravity="center"-->
-                    <!--                        android:layout_marginEnd="24dp"-->
-                    <!--                        android:orientation="vertical">-->
-
-                    <!--                        <TextView-->
-
-                    <!--                            android:layout_width="wrap_content"-->
-                    <!--                            android:layout_height="wrap_content"-->
-                    <!--                            android:text="7.9"-->
-                    <!--                            android:textSize="24sp" />-->
-
-                    <!--                        <TextView-->
-                    <!--                            android:layout_width="wrap_content"-->
-                    <!--                            android:layout_height="wrap_content"-->
-                    <!--                            android:text="  Tmdb  "-->
-                    <!--                            android:textSize="12sp" />-->
-                    <!--                    </LinearLayout>-->
-
-                    <!--&lt;!&ndash;                    TODO metascore&ndash;&gt;-->
-                    <!--                    <LinearLayout-->
-                    <!--                        android:layout_width="wrap_content"-->
-                    <!--                        android:layout_height="wrap_content"-->
-                    <!--                        android:layout_marginEnd="24dp"-->
-                    <!--                        android:gravity="center_horizontal"-->
-                    <!--                        android:layout_weight="1"-->
-                    <!--                        android:orientation="vertical">-->
-
-                    <!--                        <TextView-->
-                    <!--                            android:layout_width="wrap_content"-->
-                    <!--                            android:layout_height="wrap_content"-->
-                    <!--                            android:text="70"-->
-                    <!--                            android:textSize="24sp" />-->
-
-                    <!--                        <TextView-->
-                    <!--                            android:layout_width="wrap_content"-->
-                    <!--                            android:layout_height="wrap_content"-->
-                    <!--                            android:text=" Metascore "-->
-                    <!--                            android:textSize="12sp" />-->
-                    <!--                    </LinearLayout>-->
-
-                    <!--&lt;!&ndash;                    TODO R Tomatoes&ndash;&gt;-->
-                    <!--                    <LinearLayout-->
-                    <!--                        android:layout_width="wrap_content"-->
-                    <!--                        android:layout_height="wrap_content"-->
-                    <!--                        android:layout_marginEnd="24dp"-->
-                    <!--                        android:layout_weight="1"-->
-                    <!--                        android:gravity="center_horizontal"-->
-                    <!--                        android:orientation="vertical">-->
-
-                    <!--                        <TextView-->
-                    <!--                            android:layout_width="wrap_content"-->
-                    <!--                            android:layout_height="wrap_content"-->
-                    <!--                            android:text="87"-->
-                    <!--                            android:textSize="24sp" />-->
-
-                    <!--                        <TextView-->
-                    <!--                            android:layout_width="wrap_content"-->
-                    <!--                            android:layout_height="wrap_content"-->
-                    <!--                            android:text="R Tomatoes"-->
-                    <!--                            android:textSize="12sp" />-->
-                    <!--                    </LinearLayout>-->
-                    <!--                </LinearLayout>-->
-
-
                     <LinearLayout
+                        android:id="@+id/notesLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:layout_marginTop="12dp"
+                        android:orientation="vertical">
 
-                        <TextView
-                            style="@style/Category_Title_Typography_Detail"
+                        <LinearLayout
+                            android:id="@+id/takeNotesLayout1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/about_show_text" />
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
 
-                        <!--                    <com.google.android.material.divider.MaterialDivider-->
-                        <!--                        android:layout_width="match_parent"-->
-                        <!--                        android:layout_marginBottom="8dp"-->
-                        <!--                        android:layout_marginStart="16dp"-->
-                        <!--                        android:layout_marginHorizontal="8dp"-->
-                        <!--                        android:layout_height="wrap_content" />-->
+                            <TextView
+                                style="@style/Category_Title_Typography_Detail"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textStyle="normal"
+                                android:textColor="?attr/colorPrimary"
+                                android:text="Add notes" />
+
+
+                            <ImageButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@null"
+                                android:src="@drawable/take_notes"
+                                app:tint="?attr/colorPrimary" />
+
+                            <TextView
+                                android:id="@+id/myNotes"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:ellipsize="end"
+                                android:maxLines="2"
+                                android:layout_marginStart="4dp"
+
+                                android:visibility="visible"
+                                android:textColor="?attr/colorPrimary"
+                                android:text="Write down your thoughts about this movie...maxLines 2" />
+
+                        </LinearLayout>
+
+
+
 
                     </LinearLayout>
 
 
-                    <TextView
-                        android:id="@+id/overview"
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/overviewLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="16dp"
-                        android:ellipsize="end"
-                        android:maxLines="4"
-                        tools:hint="Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur." />
+                        android:layout_marginTop="12dp">
+
+                        <com.google.android.material.divider.MaterialDivider
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+
+                        <TextView
+                            android:id="@+id/overviewTitle"
+                            style="@style/Category_Title_Typography_Detail"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/about_show_text"
+                            android:layout_marginTop="12dp"
+                            app:layout_constraintStart_toStartOf="@id/overviewLayout"
+                            app:layout_constraintTop_toTopOf="@id/overviewLayout" />
+
+
+                        <TextView
+                            android:id="@+id/overviewContent"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:ellipsize="end"
+                            android:maxLines="4"
+                            app:layout_constraintTop_toBottomOf="@id/overviewTitle"
+                            tools:text="@tools:sample/lorem/random" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
                     <com.google.android.material.chip.ChipGroup
                         android:id="@+id/genresChipGroup"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="16dp"
+                        android:layout_marginTop="16dp"
                         android:clickable="false"
                         app:singleSelection="false"
                         tools:background="@android:color/darker_gray"
                         tools:layout_height="25dp" />
 
-                    <com.google.android.material.divider.MaterialDivider
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/castLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="16dp"
-                        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+                        android:layout_marginTop="20dp">
 
-                    <TextView
-                        style="@style/Category_Title_Typography_Detail"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/cast_text" />
-
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/castRecyclerView"
+                        <com.google.android.material.divider.MaterialDivider
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            tools:itemCount="1"
-                            tools:listitem="@layout/viewholder_cast_list_on_detail" />
+                            app:layout_constraintTop_toTopOf="parent" />
 
                         <TextView
-                            android:id="@+id/cast_error_message"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginVertical="8dp"
-                            android:textAppearance="?attr/textAppearanceBodyMedium"
-                            android:visibility="gone"
-                            tools:text="@string/actors_are_not_available"
-                            tools:visibility="visible" />
-
-                        <ProgressBar
-                            android:id="@+id/cast_progress_bar"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:visibility="visible" />
-
-                    </FrameLayout>
-
-
-                    <com.google.android.material.divider.MaterialDivider
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginBottom="16dp"
-                        android:visibility="visible"
-                        app:layout_constraintTop_toBottomOf="@id/toolbar" />
-
-
-                    <TextView
-                        style="@style/Category_Title_Typography_Detail"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/related_text" />
-
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="24dp">
-
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/related_recyclerview"
+                            android:id="@+id/castTitle"
+                            style="@style/Category_Title_Typography_Detail"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            tools:itemCount="1"
-                            tools:listitem="@layout/viewholder_related_list_on_detail" />
+                            android:layout_marginTop="16dp"
+                            android:text="@string/cast_text"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            app:layout_constraintTop_toBottomOf="@id/castTitle">
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/castRecyclerView"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                tools:itemCount="1"
+                                tools:listitem="@layout/viewholder_cast_list_on_detail" />
+
+                            <TextView
+                                android:id="@+id/castErrorMessage"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginVertical="8dp"
+                                android:textAppearance="?attr/textAppearanceBodyMedium"
+                                android:visibility="gone"
+                                tools:text="@string/actors_are_not_available"
+                                tools:visibility="visible" />
+
+                            <ProgressBar
+                                android:id="@+id/castProgressBar"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:visibility="visible" />
+
+                        </FrameLayout>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/relatedLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp">
+
+                        <com.google.android.material.divider.MaterialDivider
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="visible"
+                            app:layout_constraintTop_toTopOf="parent" />
+
 
                         <TextView
-                            android:id="@+id/related_error_message"
-                            android:layout_width="wrap_content"
+                            android:id="@+id/relatedTitle"
+                            style="@style/Category_Title_Typography_Detail"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginVertical="8dp"
-                            android:layout_marginBottom="8dp"
-                            android:textAppearance="?attr/textAppearanceBodyMedium"
-                            android:visibility="gone"
-                            tools:text="@string/not_available"
-                            tools:visibility="visible" />
+                            android:layout_marginTop="16dp"
+                            android:text="@string/related_text"
+                            app:layout_constraintTop_toTopOf="parent" />
 
-                        <ProgressBar
-                            android:id="@+id/related_progress_bar"
-                            android:layout_width="wrap_content"
+                        <FrameLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:visibility="visible" />
+                            android:layout_marginTop="8dp"
+                            app:layout_constraintTop_toBottomOf="@id/relatedTitle">
 
-                    </FrameLayout>
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/relatedRecyclerview"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                tools:itemCount="1"
+                                tools:listitem="@layout/viewholder_related_list_on_detail" />
+
+                            <TextView
+                                android:id="@+id/relatedErrorMessage"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginVertical="8dp"
+                                android:layout_marginBottom="8dp"
+                                android:textAppearance="?attr/textAppearanceBodyMedium"
+                                android:visibility="gone"
+                                tools:text="@string/not_available"
+                                tools:visibility="visible" />
+
+                            <ProgressBar
+                                android:id="@+id/relatedProgressBar"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:visibility="visible" />
+
+                        </FrameLayout>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
                 </LinearLayout>

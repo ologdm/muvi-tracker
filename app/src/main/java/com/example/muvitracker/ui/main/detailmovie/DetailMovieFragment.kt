@@ -61,8 +61,8 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
 
     private var currentMovieIds: Ids = Ids()
 
-    private val viewModel by viewModels<DetailMovieViewmodel>()
     private val b by viewBinding(FragmentDetailMovieBinding::bind)
+    private val viewModel by viewModels<DetailMovieViewmodel>()
 
     @Inject
     lateinit var navigator: Navigator
@@ -101,7 +101,7 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
             stateContainer.statesFlowDetailTest(
                 b.errorTextView,
                 b.progressBar,
-                b.mainLayoutDetail,
+                b.mainLayoutToDisplayDetail,
                 bindData = { detailMovie ->
                     updateDetailUi(detailMovie)
                     updateFavoriteIcon(detailMovie.liked)
@@ -231,7 +231,7 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
                 releaseData.takeUnless { it.isNullOrBlank() } ?: MovieDefaults.RELEASE
             val countryList = movie.countries.filter { it.isNotBlank() }
             val countryText = countryList.joinToString(", ")
-            releasedYearAndCountry.text = "${releaseDataText} (${countryText})"
+            releasedDateAndCountry.text = "${releaseDataText} (${countryText})"
             //
             status.text = movie.status?.replaceFirstChar { it.uppercaseChar() }
                 .orIfBlank(MovieDefaults.STATUS)  // es released
@@ -250,12 +250,13 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
             originalTitle.apply {
                 if (movie.title != movie.originalTitle) {
                     visibility = View.VISIBLE
-                    text = "(${movie.originalTitle})"
+//                    text = "(${movie.originalTitle})"
+                    text = "${movie.originalTitle}"
                 } else
                     visibility = View.GONE
             }
             //
-            overview.text = movie.overview.orIfBlank(MovieDefaults.OVERVIEW)
+            overviewContent.text = movie.overview.orIfBlank(MovieDefaults.OVERVIEW)
             //
             // genres
             genresChipGroup.removeAllViews() // clean old
@@ -264,14 +265,14 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
                 genresChipGroup.addView(chip)
             }
 
-            // open link on youtube
+
+            // Open Link On Youtube --------------------------------------------
             val trailerUrl = movie.youtubeTrailer
             val trailerAvailable = !trailerUrl.isNullOrBlank()
             // sbiadimento senza trailer
-            trailerImageButton.alpha = if (trailerAvailable) 1f else 0.4f
-            trailerTextView.alpha = if (trailerAvailable) 1f else 0.4f
+            trailerLayout.alpha = if (trailerAvailable) 1f else 0.4f
             //
-            trailerImageButton.setOnClickListener {
+            trailerLayout.setOnClickListener {
                 if (trailerAvailable) {
                     val intent = Intent(Intent.ACTION_VIEW, Uri.parse(trailerUrl))
                     startActivity(intent)
@@ -314,7 +315,7 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
             .transition(DrawableTransitionOptions.withCrossFade(300))
             .placeholder(R.drawable.glide_placeholder_base)
             .error(R.drawable.glide_placeholder_base)
-            .into(b.imageHorizontal)
+            .into(b.horizontalImage)
 
 
         Glide.with(requireContext())
@@ -322,19 +323,19 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
             .transition(DrawableTransitionOptions.withCrossFade(300))
             .placeholder(R.drawable.glide_placeholder_base)
             .error(R.drawable.glide_placeholder_base)
-            .into(b.imageVertical)
+            .into(b.verticalImage)
     }
 
 
     private fun expandOverview() {
         var isTextExpanded = false // initial state, fragment opening
-        b.overview.setOnClickListener {
+        b.overviewContent.setOnClickListener {
             if (isTextExpanded) { // expanded==true -> contract
-                b.overview.maxLines = 4
-                b.overview.ellipsize = TextUtils.TruncateAt.END
+                b.overviewContent.maxLines = 4
+                b.overviewContent.ellipsize = TextUtils.TruncateAt.END
             } else { // expanded==false -> expand
-                b.overview.maxLines = Int.MAX_VALUE
-                b.overview.ellipsize = null
+                b.overviewContent.maxLines = Int.MAX_VALUE
+                b.overviewContent.ellipsize = null
             }
             isTextExpanded = !isTextExpanded // toggle state
         }
@@ -389,7 +390,7 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
         controller.isAppearanceLightStatusBars = false
 
         val scrollView = b.mainScrollView  // il tuo NestedScrollView
-        val horizzontalImageView = b.imageHorizontal
+        val horizzontalImageView = b.horizontalImage
 
         // setOnScrollChangeListener - passare a TODO
         scrollView.viewTreeObserver.addOnScrollChangedListener {
@@ -431,7 +432,7 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
 
     private fun setupButtonsScrollEffects() {
         val mainScrollView = b.mainScrollView
-        val imageHorizzontal = b.imageHorizontal
+        val imageHorizzontal = b.horizontalImage
 
         val likeFab = b.extendedFloatingLikedButton
         val backButton = b.buttonBack
