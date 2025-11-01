@@ -16,10 +16,24 @@
 
 
         <!-- personalizzo view con stile => che definisco su style -->
-        <item name="imageButtonStyle">@style/ImageButton_Rounded</item>
+        <item name="imageButtonStyle">@style/ImageButtonRounded</item>
 
+
+        <!-- colore testo di default per tutte le TextView -->
+        <item name="android:textViewStyle">@style/DefaultTextView</item>
 
     </style>
+
+
+    <!-- stile base per tutte le TextView -->
+    <style name="DefaultTextView" parent="android:Widget.TextView">
+        <item name="android:textColor">?attr/colorOnBackground</item>
+    </style>
+
+    <!--    TODO colori suggeriti eugi per tutti i testi detail
+     day - 1b1b1b
+     night - f9f9f9
+     -->
 
 
 
