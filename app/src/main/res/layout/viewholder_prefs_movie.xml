@@ -19,7 +19,7 @@
             tools:layout_width="100dp"
             tools:layout_height="150dp"
             tools:background="@tools:sample/avatars"
-            app:shapeAppearance="@style/ImageLarge_RoundedShape"
+            app:shapeAppearance="@style/ImageLargeRoundedShape"
             android:background="?attr/colorOnSurface"
             app:layout_constraintStart_toStartOf="parent" />
 

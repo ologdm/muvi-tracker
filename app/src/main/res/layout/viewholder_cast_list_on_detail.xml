@@ -15,7 +15,7 @@
             android:layout_height="120dp"
             app:layout_constraintDimensionRatio="2:3"
             tools:src="@tools:sample/avatars"
-            style="@style/Image_Related"
+            style="@style/ImageRelatedOnDetail"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 

@@ -19,7 +19,7 @@
             app:layout_constraintBottom_toTopOf="@id/title"
             app:layout_constraintEnd_toEndOf="parent"
             tools:src="@tools:sample/avatars"
-            style="@style/Image_BaseVH"/>
+            style="@style/ImageExploreViewholder"/>
 
 
     <TextView
@@ -31,7 +31,7 @@
             app:layout_constraintTop_toBottomOf="@id/image"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            style="@style/TextView_Tipography_BaseVH" />
+            style="@style/TextViewExploreViewholder" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

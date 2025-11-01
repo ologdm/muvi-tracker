@@ -15,7 +15,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toTopOf="@id/divider"
-            style="@style/Toolbar_BaseCategory" />
+            style="@style/TitleExploreCategory" />
     <!--        app:layout_constraintHorizontal_bias="0"  0-0.5-1 in base a posizione -->
 
 
@@ -51,7 +51,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toTopOf="@id/divider"
-            style="@style/ProgressBar_ES" />
+            style="@style/ProgressBarOnStates" />
 
     <TextView
             android:id="@+id/errorTextView"
@@ -63,7 +63,7 @@
             app:layout_constraintTop_toBottomOf="@id/divider"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            style="@style/ErrorText_ES" />
+            style="@style/ErrorTextOnStates" />
 
     <!--    test -->
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -81,7 +81,7 @@
                 app:layout_constraintTop_toBottomOf="@id/chipsScrollView"
                 app:layout_constraintBottom_toBottomOf="parent"
                 tools:listitem="@layout/viewholder_explore_base"
-                style="@style/RecyclerView_BaseCategory" />
+                style="@style/RecyclerViewExploreCategory" />
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

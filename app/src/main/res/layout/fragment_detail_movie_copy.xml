@@ -9,7 +9,7 @@
 
     <com.google.android.material.progressindicator.LinearProgressIndicator
         android:id="@+id/progressBar"
-        style="@style/ProgressBar_ES"
+        style="@style/ProgressBarOnStates"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
@@ -17,7 +17,7 @@
 
     <TextView
         android:id="@+id/errorTextView"
-        style="@style/ErrorText_ES"
+        style="@style/ErrorTextOnStates"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="top|center"
@@ -125,7 +125,7 @@
 
                 <TextView
                     android:id="@+id/title"
-                    style="@style/Title_Typography_Detail"
+                    style="@style/TitleDetail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -154,7 +154,7 @@
                         android:importantForAccessibility="no"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:shapeAppearance="@style/ImageLarge_RoundedShape"
+                        app:shapeAppearance="@style/ImageLargeRoundedShape"
                         tools:background="@tools:sample/avatars" />
 
 
@@ -266,7 +266,7 @@
 
 
                 <TextView
-                    style="@style/Category_Title_Typography_Detail"
+                    style="@style/TitleCategoryDetail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/about_show_text" />
@@ -296,7 +296,7 @@
                     app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
                 <TextView
-                    style="@style/Category_Title_Typography_Detail"
+                    style="@style/TitleCategoryDetail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/cast_text" />
@@ -318,7 +318,7 @@
                     app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
                 <TextView
-                    style="@style/Category_Title_Typography_Detail"
+                    style="@style/TitleCategoryDetail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/related_text" />

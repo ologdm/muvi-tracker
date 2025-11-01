@@ -21,7 +21,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toTopOf="@id/title"
             tools:src="@tools:sample/avatars"
-            app:shapeAppearance="@style/ImageMedium_RoundedShape"/>
+            app:shapeAppearance="@style/ImageMediumRoundedShape"/>
 
 
     <TextView

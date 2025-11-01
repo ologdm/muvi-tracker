@@ -14,7 +14,7 @@
 
     <com.google.android.material.progressindicator.LinearProgressIndicator
         android:id="@+id/progressBar"
-        style="@style/ProgressBar_ES"
+        style="@style/ProgressBarOnStates"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
@@ -22,7 +22,7 @@
 
     <TextView
         android:id="@+id/errorTextView"
-        style="@style/ErrorText_ES"
+        style="@style/ErrorTextOnStates"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
@@ -239,7 +239,7 @@
 
                     <TextView
                         android:id="@+id/title"
-                        style="@style/Title_Typography_Detail"
+                        style="@style/TitleDetail"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
@@ -306,7 +306,7 @@
                             android:importantForAccessibility="no"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
-                            app:shapeAppearance="@style/ImageLarge_RoundedShape"
+                            app:shapeAppearance="@style/ImageLargeRoundedShape"
                             tools:background="@tools:sample/avatars" />
 
 
@@ -503,7 +503,7 @@
                             app:layout_constraintTop_toTopOf="parent">
 
                             <TextView
-                                style="@style/Category_Title_Typography_Detail"
+                                style="@style/TitleCategoryDetail"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textStyle="normal"
@@ -552,7 +552,7 @@
 
                         <TextView
                             android:id="@+id/overviewTitle"
-                            style="@style/Category_Title_Typography_Detail"
+                            style="@style/TitleCategoryDetail"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/about_show_text"
@@ -598,7 +598,7 @@
 
                         <TextView
                             android:id="@+id/castTitle"
-                            style="@style/Category_Title_Typography_Detail"
+                            style="@style/TitleCategoryDetail"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="16dp"
@@ -656,7 +656,7 @@
 
                         <TextView
                             android:id="@+id/relatedTitle"
-                            style="@style/Category_Title_Typography_Detail"
+                            style="@style/TitleCategoryDetail"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="16dp"
