@@ -26,7 +26,7 @@ import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
-
+// TODO
 // 1. DetailShow
 // 2. Seasons
 // 3. RelatedShows
@@ -41,7 +41,7 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
     private var totSeasonsNumber: Int = 0
 
 
-    private val binding by viewBinding(FragmentDetailShowBinding::bind)
+    private val b by viewBinding(FragmentDetailShowBinding::bind)
     private val viewModel by viewModels<DetailShowViewmodel>()
 
     @Inject
@@ -95,39 +95,39 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
             }
             // 2
             stateContainer.statesFlow(
-                binding.errorTextView,
-                binding.progressBar
+                b.errorTextView,
+                b.progressBar
             )
         }
 
 
         // BUTTONS CLICK
-        binding.buttonBack.setOnClickListener {
+        b.buttonBack.setOnClickListener {
             requireActivity().onBackPressed()
         }
 
-        binding.floatingLikedButton.setOnClickListener {
+        b.floatingLikedButton.setOnClickListener {
             viewModel.toggleLikedShow(currentShowIds.trakt)
         }
 
 
         // SEASONS ###############################################################
-        binding.seasonsRV.adapter = detailSeasonsAdapter
-        binding.seasonsRV.layoutManager = LinearLayoutManager(requireContext())
+        b.seasonsRV.adapter = detailSeasonsAdapter
+        b.seasonsRV.layoutManager = LinearLayoutManager(requireContext())
 //        viewModel.loadAllSeasons(currentShowIds.trakt)
         viewModel.loadAllSeasons(currentShowIds)
         viewModel.allSeasonsState.observe(viewLifecycleOwner) { stateContainer ->
             // 1
             totSeasonsNumber = stateContainer.data?.size ?: 0
-            binding.totalSeasons.text = getString(R.string.total_seasons, totSeasonsNumber.toString())
+            b.totalSeasons.text = getString(R.string.total_seasons, totSeasonsNumber.toString())
             // 2
             detailSeasonsAdapter.submitList(stateContainer.data)
         }
 
 
         // RELATED SHOWS ###############################################################
-        binding.relatedShowsRV.adapter = relatedShowsAdapter
-        binding.relatedShowsRV.layoutManager =
+        b.relatedShowsRV.adapter = relatedShowsAdapter
+        b.relatedShowsRV.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         viewModel.loadRelatedShows(showId = currentShowIds.trakt)
         viewModel.relatedShowsStatus.observe(viewLifecycleOwner) { response ->
@@ -136,8 +136,8 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
 
 
         // CAST SHOWS ###############################################################
-        binding.castRecyclerView.adapter = castMovieAdapter
-        binding.castRecyclerView.layoutManager =
+        b.castRecyclerView.adapter = castMovieAdapter
+        b.castRecyclerView.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         viewModel.loadCast(currentShowIds.trakt)
         viewModel.castState.observe(viewLifecycleOwner) {
@@ -151,7 +151,7 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
     private fun updateShowDetailPartOfUi(show: Show) {
         currentShowTitle = show.title ?: "N/A"
 
-        with(binding) {
+        with(b) {
             title.text = show.title
             status.text = show.status // es: ended
             networkYearCountry.text =
@@ -162,7 +162,7 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
                 getString(R.string.runtime_description, show.runtime.toString() ?: "-")
 
             traktRating.text = show.traktRating // (string, already converted)
-            overview.text = show.overview
+            overviewContent.text = show.overview
 
             // genres
             genresChipGroup.removeAllViews() // clean old
@@ -189,8 +189,8 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
 
             // upgrade  – disable checkbox click if no episodes have been aired
             val isEnabled = show.airedEpisodes != 0
-            binding.watchedAllCheckbox.isEnabled = isEnabled
-            binding.watchedAllTextview.isEnabled = isEnabled
+            b.watchedAllCheckbox.isEnabled = isEnabled
+            b.watchedAllTextview.isEnabled = isEnabled
         }
     }
 
@@ -198,31 +198,31 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
     private fun updateLikedIcon(isFavorite: Boolean) {
         val iconFilled = context?.getDrawable(R.drawable.liked_icon_filled)
         val iconEmpty = context?.getDrawable(R.drawable.liked_icon_empty)
-        binding.floatingLikedButton.setImageDrawable(if (isFavorite) iconFilled else iconEmpty)
+        b.floatingLikedButton.setImageDrawable(if (isFavorite) iconFilled else iconEmpty)
     }
 
 
     private fun updateWatchedCheckboxAndCounters(show: Show) {
-        binding.watchedCounterTextview.text =
+        b.watchedCounterTextview.text =
             "${show.watchedCount}/${show.airedEpisodes}"
-        binding.watchedCounterProgressBar.max = show.airedEpisodes
-        binding.watchedCounterProgressBar.progress = show.watchedCount
+        b.watchedCounterProgressBar.max = show.airedEpisodes
+        b.watchedCounterProgressBar.progress = show.watchedCount
 
         // vanno sempre insieme
         // 1. togli listener - per non farlo scattare, aggiorna dato, rimetti listener
-        binding.watchedAllCheckbox.setOnCheckedChangeListener(null)
+        b.watchedAllCheckbox.setOnCheckedChangeListener(null)
         // 2. leggi
-        binding.watchedAllCheckbox.isChecked = show.watchedAll
+        b.watchedAllCheckbox.isChecked = show.watchedAll
         // 3. rimetti listener, triggera il cambiamento di stato a db
-        binding.watchedAllCheckbox.setOnCheckedChangeListener { _, _ ->
+        b.watchedAllCheckbox.setOnCheckedChangeListener { _, _ ->
             // 3.1 stato iniziale
-            binding.watchedAllCheckboxLoadingBar.visibility = View.VISIBLE
-            binding.watchedAllCheckbox.isEnabled = false
+            b.watchedAllCheckboxLoadingBar.visibility = View.VISIBLE
+            b.watchedAllCheckbox.isEnabled = false
             // 3.2 stato concluso
             viewModel.toggleWatchedAllShowEpisodes(currentShowIds, onComplete = {
                 // spegni caricamento
-                binding.watchedAllCheckboxLoadingBar.visibility = View.GONE
-                binding.watchedAllCheckbox.isEnabled = true
+                b.watchedAllCheckboxLoadingBar.visibility = View.GONE
+                b.watchedAllCheckbox.isEnabled = true
             })
         }
     }
@@ -230,13 +230,13 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
 
     private fun expandOverview() {
         var isTextExpanded = false // initial state, fragment opening
-        binding.overview.setOnClickListener {
+        b.overviewContent.setOnClickListener {
             if (isTextExpanded) { // expanded==true -> contract
-                binding.overview.maxLines = 4
-                binding.overview.ellipsize = TextUtils.TruncateAt.END
+                b.overviewContent.maxLines = 4
+                b.overviewContent.ellipsize = TextUtils.TruncateAt.END
             } else { // expanded==false -> expand
-                binding.overview.maxLines = Int.MAX_VALUE
-                binding.overview.ellipsize = null
+                b.overviewContent.maxLines = Int.MAX_VALUE
+                b.overviewContent.ellipsize = null
             }
             isTextExpanded = !isTextExpanded // toggle state
         }
@@ -249,14 +249,14 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
             .transition(DrawableTransitionOptions.withCrossFade(300))
             .placeholder(R.drawable.glide_placeholder_base)
             .error(R.drawable.glide_placeholder_base)
-            .into(binding.imageHorizontal)
+            .into(b.horizontalImage)
 
         Glide.with(requireContext())
             .load(ImageTmdbRequest.ShowVertical(currentShowIds.tmdb))
             .transition(DrawableTransitionOptions.withCrossFade(300))
             .placeholder(R.drawable.glide_placeholder_base)
             .error(R.drawable.glide_placeholder_base)
-            .into(binding.imageVertical)
+            .into(b.verticalImage)
     }
 
 
