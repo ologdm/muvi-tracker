@@ -35,4 +35,5 @@
     <string name="season_text">Sezon</string>
     <string name="actors_are_not_available">Actorii nu sunt disponibili</string>
     <string name="not_available">Nu e disponibil</string>
+    <string name="seasons_not_available">Sezoanele nu sunt disponibile</string>
 </resources>
