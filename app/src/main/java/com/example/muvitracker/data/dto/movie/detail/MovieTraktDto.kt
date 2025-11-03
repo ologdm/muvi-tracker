@@ -87,6 +87,7 @@ fun mergeMoviesDtoToEntity(
         runtime = tmdb?.runtime.orIfNull(trakt.runtime),
         originalLanguage = tmdb?.originalLanguage.orIfBlank(trakt.language),
         originalTitle = tmdb?.originalTitle.orIfBlank(trakt.originalTitle),
+        englishTitle = trakt.title,
         genres = tmdb?.genres?.map { it.name }
             .orIfEmpty(trakt.genres)
             ?: emptyList(), // !! not empty

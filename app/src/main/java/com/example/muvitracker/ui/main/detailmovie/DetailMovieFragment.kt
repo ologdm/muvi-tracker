@@ -225,7 +225,11 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
         with(b) {
             // titolo
             title.text = movie.title.orIfBlank(MovieDefaults.TITLE)
-            tagline.text = movie.tagline.orIfBlank(MovieDefaults.TAGLINE)
+            // TODO 1.1.3 - ok
+            tagline.apply {
+                text = movie.tagline.orEmpty()
+                visibility = if (movie.tagline.isNullOrBlank()) View.GONE else View.VISIBLE
+            }
 
             // info section
             status.text = movie.status?.replaceFirstChar { it.uppercaseChar() }
@@ -246,12 +250,11 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
             traktRating.text = movie.traktRating ?: MovieDefaults.RATING
             tmdbRating.text = movie.tmdbRating ?: MovieDefaults.RATING
             //
-            // TODO TODO !!!! 27 ott
-            originalTitle.apply {
-                if (movie.title != movie.originalTitle) {
+            // TODO 1.1.3  - ok in inglese
+            englishTitle.apply {
+                if (movie.title != movie.englishTraktTitle) {
                     visibility = View.VISIBLE
-//                    text = "(${movie.originalTitle})"
-                    text = "${movie.originalTitle}"
+                    text = "${movie.englishTraktTitle}"
                 } else
                     visibility = View.GONE
             }

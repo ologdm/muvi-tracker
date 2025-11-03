@@ -28,6 +28,7 @@ data class MovieEntity(
     val runtime: Int?, // 106
     val originalLanguage: String?, // en
     val originalTitle: String?, // Deadpool
+    val englishTitle: String?, // Deadpool, english, from trakt
     @TypeConverters(ConvertersUtils::class) val genres: List<String>, // azione, storico - not null
     val youtubeTrailer: String?, // https://youtube.com/watch?v=9vN6DHB6bJc
     val homepage: String?, // http://www.20thcenturystudios.com/movies/deadpool
@@ -59,7 +60,7 @@ fun MovieEntity.toDomain(prefsMovieEntity: PrefsMovieEntity?): Movie {
         releaseDate = releaseDate,
         runtime = runtime,
         originalLanguage = originalLanguage,
-        originalTitle = originalTitle,
+        englishTraktTitle = englishTitle,
         countries = countries,
         youtubeTrailer = youtubeTrailer,
         homepage = homepage,

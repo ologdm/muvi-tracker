@@ -16,7 +16,7 @@ data class Movie(
     val releaseDate: String?, // YYYY-MM-DD
     val runtime: Int?,
     val originalLanguage: String?,
-    val originalTitle: String?,
+    val englishTraktTitle: String?,
     val countries: List<String>, //  fare joinToString(", ")
     //
     val youtubeTrailer: String?,
