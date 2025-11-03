@@ -22,7 +22,7 @@ data class ShowEntity(
     val airedEpisodes: Int = 0, // not null -> default 0 -> serve per calcolo
 
     // tmdb
-    val title: String?,
+    val title: String?, // Trono di spade (it)
     val tagline: String?,
     val overview: String?,
     val status: String?,
@@ -34,7 +34,8 @@ data class ShowEntity(
     val originalLanguage: String?, // en
     @TypeConverters(ConvertersUtils::class)
     val languages: List<String>,  // not null
-    val originalTitle: String?, // Deadpool
+    val originalTitle: String?, // Games of Thrones
+    val englishTitle: String?, // Games of Thrones
     @TypeConverters(ConvertersUtils::class)
     val networks: List<String>, // not null
     @TypeConverters(ConvertersUtils::class)
@@ -76,6 +77,7 @@ fun ShowEntity.toDomain(prefsShowEntity: PrefsShowEntity?): Show {
         runtime = runtime,
         countries = countries, // entity not null
         originalLanguage = originalLanguage ?: "",
+        englishTraktTitle = englishTitle,
         networks = networks, // entity not null
         genres = genres, // entity not null
         youtubeTrailer = youtubeTrailer ?: "",

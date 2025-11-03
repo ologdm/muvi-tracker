@@ -61,6 +61,7 @@ fun mergeShowsDtoToEntity(
         originalLanguage = tmdb.originalLanguage,
         languages = tmdb.languages ?: emptyList(), // entity not null
         originalTitle = tmdb.originalName,
+        englishTitle = trakt.title, // di default trakt è tutto in inglese
         networks = tmdb.networks?.map { it.name } ?: emptyList(), // entity not null
         genres = tmdb.genres?.map { it.name } ?: emptyList(), // entity not null
         //

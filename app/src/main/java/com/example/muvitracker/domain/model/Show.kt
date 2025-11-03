@@ -20,9 +20,9 @@ data class Show(
     val lastAirDate: String?,// TODO new
     val runtime: Int?,
     val countries: List<String>, // TODO new
-    val originalLanguage :String?,
+    val originalLanguage: String?,
 //    languages NO
-//    originalTitle NO
+    val englishTraktTitle: String?, // trakt
     val networks: List<String>, // ex -> network: String,
     val genres: List<String>,
     val youtubeTrailer: String?, // ex -> trailer: String,
