@@ -11,16 +11,19 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.example.muvitracker.MyApp
 import com.example.muvitracker.R
 import com.example.muvitracker.data.dto._support.Ids
 import com.example.muvitracker.data.glide.ImageTmdbRequest
+import com.example.muvitracker.data.utils.orIfBlank
 import com.example.muvitracker.databinding.FragmentDetailShowBinding
 import com.example.muvitracker.domain.model.Show
 import com.example.muvitracker.ui.main.Navigator
+import com.example.muvitracker.ui.main.detailmovie.DetailMovieFragment.MovieDefaults
 import com.example.muvitracker.ui.main.detailmovie.adapter.DetailSeasonsAdapter
 import com.example.muvitracker.ui.main.detailshow.adapters.RelatedShowsAdapter
 import com.example.muvitracker.ui.main.person.adapters.CastAdapter
-import com.example.muvitracker.utils.statesFlow
+import com.example.muvitracker.utils.statesFlowDetailTest
 import com.example.muvitracker.utils.viewBinding
 import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
@@ -86,17 +89,24 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
         // SHOW DETAIL ##########################################################
         viewModel.loadShowDetail(currentShowIds.trakt)
 
+        // TODO: 1.1.3 NEW loading, data + no internet, no data no internet OK
         viewModel.detailState.observe(viewLifecycleOwner) { stateContainer ->
             // 1
-            stateContainer.data?.let { detailShow ->
-                updateShowDetailPartOfUi(detailShow)
-                updateLikedIcon(detailShow.liked)
-                updateWatchedCheckboxAndCounters(detailShow)
-            }
+//            stateContainer.data?.let { detailShow ->
+//                updateShowDetailPartOfUi(detailShow)
+//                updateFavoriteIcon(detailShow.liked)
+//                updateWatchedCheckboxAndCounters(detailShow)
+//            }
             // 2
-            stateContainer.statesFlow(
+            stateContainer.statesFlowDetailTest(
                 b.errorTextView,
-                b.progressBar
+                b.progressBar,
+                b.mainLayoutToDisplayDetail,
+                bindData = { show ->
+                    updateShowDetailPartOfUi(show)
+                    updateFavoriteIcon(show.liked)
+                    updateWatchedCheckboxAndCounters(show)
+                }
             )
         }
 
@@ -106,7 +116,7 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
             requireActivity().onBackPressed()
         }
 
-        b.floatingLikedButton.setOnClickListener {
+        b.extendedFloatingLikedButton.setOnClickListener {
             viewModel.toggleLikedShow(currentShowIds.trakt)
         }
 
@@ -126,8 +136,8 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
 
 
         // RELATED SHOWS ###############################################################
-        b.relatedShowsRV.adapter = relatedShowsAdapter
-        b.relatedShowsRV.layoutManager =
+        b.relatedRecyclerview.adapter = relatedShowsAdapter
+        b.relatedRecyclerview.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         viewModel.loadRelatedShows(showId = currentShowIds.trakt)
         viewModel.relatedShowsStatus.observe(viewLifecycleOwner) { response ->
@@ -147,23 +157,69 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
 
 
     // PRIVATE FUNCTIONS ###################################################
-    // show detail
+    // show detail TODO: check
     private fun updateShowDetailPartOfUi(show: Show) {
-        currentShowTitle = show.title ?: "N/A"
+        currentShowTitle = show.title.orIfBlank(ShowDefaults.TITLE) ?: ""
 
         with(b) {
-            title.text = show.title
-            status.text = show.status // es: ended
-            networkYearCountry.text =
-                "${show.networks.joinToString (", ")} ${show.year} (${show.countries.joinToString (", ").toUpperCase()})"
+            // Titolo
+            title.text = show.title.orIfBlank(ShowDefaults.TITLE)
+            // 1.1.3 OK
+            tagline.apply {
+                if (show.tagline.isNullOrBlank()) {
+                    visibility = View.GONE
+                } else {
+                    text = show.tagline
+                    visibility = View.VISIBLE
+                }
+            }
+
+            // Info section
+            status.text = show.status?.replaceFirstChar { it.uppercaseChar() }
+                .orIfBlank(MovieDefaults.STATUS)  // es released
+
+
+//            networkYearCountry.text =
+//                "${show.networks.joinToString (", ")} ${show.year} (${show.countries.joinToString (", ").toUpperCase()})"
+            // O
+            val networkList = show.networks.filter { it.isNotBlank() }
+            val networkText = networkList.joinToString(", ")
+            val countryList = show.countries.filter { it.isNotBlank() }
+            val countryText = countryList.joinToString(", ")
+            networkAndCountry.text = "${networkText} (${countryText})"
+
+            // TODO:  -  inizio fine, - estrarre to year
+//            releaseAndEndYear.text = "dal ${show.firstAirDate?.substring(0,4)} - ${show.lastAirDate} "
+            releaseAndEndYear.text = if (show.lastAirDate.isNullOrBlank()) {
+                "dal ${show.firstAirDate?.substring(0, 4)}"
+            } else {
+                "dal ${show.firstAirDate?.substring(0, 4)} al ${show.lastAirDate.substring(0, 4)}"
+            }
+
             airedEpisodes.text =
                 getString(R.string.aired_episodes, show.airedEpisodes.toString())
-            runtime.text =
-                getString(R.string.runtime_description, show.runtime.toString() ?: "-")
 
-            traktRating.text = show.traktRating // (string, already converted)
+            // TODO: eliminare OK
+//            runtim.text =
+//                getString(R.string.runtime_description, show.runtime.toString() ?: "-")
+
+            traktRating.text = show.traktRating
+            tmdbRating.text = show.tmdbRating
+            //
+            // TODO 1.1.3  - ok in inglese
+            englishTitle.apply {
+                if (show.title != show.englishTitle) {
+                    visibility = View.VISIBLE
+                    text = "${show.englishTitle}"
+                } else {
+                    visibility = View.GONE
+                }
+
+            }
+
             overviewContent.text = show.overview
 
+            // TODO: upgrade grafica
             // genres
             genresChipGroup.removeAllViews() // clean old
             show.genres.forEach { genre ->
@@ -172,10 +228,16 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
                 genresChipGroup.addView(chip)
             }
 
+
+            // TODO: - sistemare funzione ricerca link migliore
             // open link on youtube
             val trailerUrl = show.youtubeTrailer
-            trailerImageButton.setOnClickListener {
-                if (!trailerUrl.isNullOrEmpty()) {
+            val trailerAvailable = !trailerUrl.isNullOrBlank()
+            // sbiadimento senza trailer
+            trailerLayout.alpha = if (trailerAvailable) 1f else 0.4f
+            //
+            trailerLayout.setOnClickListener {
+                if (trailerAvailable) {
                     val intent = Intent(Intent.ACTION_VIEW, Uri.parse(trailerUrl))
                     startActivity(intent)
                 } else {
@@ -195,13 +257,15 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
     }
 
 
-    private fun updateLikedIcon(isFavorite: Boolean) {
-        val iconFilled = context?.getDrawable(R.drawable.liked_icon_filled)
-        val iconEmpty = context?.getDrawable(R.drawable.liked_icon_empty)
-        b.floatingLikedButton.setImageDrawable(if (isFavorite) iconFilled else iconEmpty)
+    // TODO: 1.1.3 OK
+    private fun updateFavoriteIcon(isFavorite: Boolean) {
+        val iconFilled = R.drawable.liked_icon_filled
+        val iconEmpty = R.drawable.liked_icon_empty
+        b.extendedFloatingLikedButton.setIconResource(if (isFavorite) iconFilled else iconEmpty)
     }
 
 
+    // TODO: check
     private fun updateWatchedCheckboxAndCounters(show: Show) {
         b.watchedCounterTextview.text =
             "${show.watchedCount}/${show.airedEpisodes}"
@@ -228,21 +292,7 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
     }
 
 
-    private fun expandOverview() {
-        var isTextExpanded = false // initial state, fragment opening
-        b.overviewContent.setOnClickListener {
-            if (isTextExpanded) { // expanded==true -> contract
-                b.overviewContent.maxLines = 4
-                b.overviewContent.ellipsize = TextUtils.TruncateAt.END
-            } else { // expanded==false -> expand
-                b.overviewContent.maxLines = Int.MAX_VALUE
-                b.overviewContent.ellipsize = null
-            }
-            isTextExpanded = !isTextExpanded // toggle state
-        }
-    }
-
-
+    // TODO: OK
     private fun loadTMDBImagesWithCustomGlide() {
         Glide.with(requireContext())
             .load(ImageTmdbRequest.ShowHorizontal(currentShowIds.tmdb))
@@ -260,6 +310,22 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
     }
 
 
+    // TODO: OK
+    private fun expandOverview() {
+        var isTextExpanded = false // initial state, fragment opening
+        b.overviewContent.setOnClickListener {
+            if (isTextExpanded) { // expanded==true -> contract
+                b.overviewContent.maxLines = 4
+                b.overviewContent.ellipsize = TextUtils.TruncateAt.END
+            } else { // expanded==false -> expand
+                b.overviewContent.maxLines = Int.MAX_VALUE
+                b.overviewContent.ellipsize = null
+            }
+            isTextExpanded = !isTextExpanded // toggle state
+        }
+    }
+
+
     companion object {
         fun create(showIds: Ids): DetailShowFragment {
             val detailShowFragment = DetailShowFragment()
@@ -270,5 +336,18 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
         }
 
         private const val SHOW_IDS_KEY = "showIdsKey"
+    }
+
+    // TODO: fix class
+    object ShowDefaults {
+        const val TITLE = "Untitled"
+        const val RELEASE = "Year: —"
+        const val RUNTIME = "Runtime: N/A"
+        const val STATUS = "Status: Unknown"
+        const val LANGUAGE = "Language: Unknown"
+        var OVERVIEW = MyApp.appContext.getString(R.string.not_available)
+        const val TAGLINE = "Tagline are not available"
+        const val RATING = " — "
+//    const val GENRES = "—"
     }
 }
