@@ -102,10 +102,10 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
                 b.errorTextView,
                 b.progressBar,
                 b.mainLayoutToDisplayDetail,
-                bindData = { detailMovie ->
-                    updateDetailUi(detailMovie)
-                    updateFavoriteIcon(detailMovie.liked)
-                    updateWatchedCheckbox(detailMovie)
+                bindData = { movie ->
+                    updateDetailUi(movie)
+                    updateFavoriteIcon(movie.liked)
+                    updateWatchedCheckbox(movie)
                 }
             )
         }
@@ -223,18 +223,20 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
     // TODO DEFAULT CASES - OK
     private fun updateDetailUi(movie: Movie) {
         with(b) {
-            //
+            // titolo
             title.text = movie.title.orIfBlank(MovieDefaults.TITLE)
-            //
+            tagline.text = movie.tagline.orIfBlank(MovieDefaults.TAGLINE)
+
+            // info section
+            status.text = movie.status?.replaceFirstChar { it.uppercaseChar() }
+                .orIfBlank(MovieDefaults.STATUS)  // es released
             val releaseData = movie.releaseDate?.formatToReadableDate()
             val releaseDataText =
                 releaseData.takeUnless { it.isNullOrBlank() } ?: MovieDefaults.RELEASE
             val countryList = movie.countries.filter { it.isNotBlank() }
             val countryText = countryList.joinToString(", ")
             releasedDateAndCountry.text = "${releaseDataText} (${countryText})"
-            //
-            status.text = movie.status?.replaceFirstChar { it.uppercaseChar() }
-                .orIfBlank(MovieDefaults.STATUS)  // es released
+
             //
             runtime.text = if (movie.runtime != null && movie.runtime > 0)
                 getString(R.string.runtime_description, movie.runtime.toString())
@@ -243,8 +245,6 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
             //
             traktRating.text = movie.traktRating ?: MovieDefaults.RATING
             tmdbRating.text = movie.tmdbRating ?: MovieDefaults.RATING
-            //
-            tagline.text = movie.tagline.orIfBlank(MovieDefaults.TAGLINE)
             //
             // TODO TODO !!!! 27 ott
             originalTitle.apply {
@@ -294,6 +294,7 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
         b.extendedFloatingLikedButton.setIconResource(if (isFavorite) iconFilled else iconEmpty)
     }
 
+
     //    private fun updateWatchedCheckbox(isWatched: Boolean) {
     private fun updateWatchedCheckbox(movie: Movie) {
         b.watchedCheckbox.setOnCheckedChangeListener(null)
@@ -339,33 +340,6 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
             }
             isTextExpanded = !isTextExpanded // toggle state
         }
-    }
-
-
-    companion object {
-        fun create(movieIds: Ids): DetailMovieFragment {
-            val detailMovieFragment = DetailMovieFragment()
-            val bundle = Bundle()
-            bundle.putParcelable(MOVIE_IDS_KEY, movieIds)
-            detailMovieFragment.arguments = bundle
-            return detailMovieFragment
-        }
-
-        private const val MOVIE_IDS_KEY = "movieIdsKey"
-    }
-
-
-    // TODO: fix class
-    object MovieDefaults {
-        const val TITLE = "Untitled"
-        const val RELEASE = "Year: —"
-        const val RUNTIME = "Runtime: N/A"
-        const val STATUS = "Status: Unknown"
-        const val LANGUAGE = "Language: Unknown"
-        var OVERVIEW = MyApp.appContext.getString(R.string.not_available)
-        const val TAGLINE = "Tagline are not available"
-        const val RATING = " — "
-//    const val GENRES = "—"
     }
 
 
@@ -480,6 +454,33 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
                 backButton.imageTintList = ColorStateList.valueOf(typedValue.data)
             }
         }
+    }
+
+
+    companion object {
+        fun create(movieIds: Ids): DetailMovieFragment {
+            val detailMovieFragment = DetailMovieFragment()
+            val bundle = Bundle()
+            bundle.putParcelable(MOVIE_IDS_KEY, movieIds)
+            detailMovieFragment.arguments = bundle
+            return detailMovieFragment
+        }
+
+        private const val MOVIE_IDS_KEY = "movieIdsKey"
+    }
+
+
+    // TODO: fix class
+    object MovieDefaults {
+        const val TITLE = "Untitled"
+        const val RELEASE = "Year: —"
+        const val RUNTIME = "Runtime: N/A"
+        const val STATUS = "Status: Unknown"
+        const val LANGUAGE = "Language: Unknown"
+        var OVERVIEW = MyApp.appContext.getString(R.string.not_available)
+        const val TAGLINE = "Tagline are not available"
+        const val RATING = " — "
+//    const val GENRES = "—"
     }
 
 
