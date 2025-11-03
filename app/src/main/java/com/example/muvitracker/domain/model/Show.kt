@@ -22,7 +22,7 @@ data class Show(
     val countries: List<String>, // TODO new
     val originalLanguage: String?,
 //    languages NO
-    val englishTraktTitle: String?, // trakt
+    val englishTitle: String?, // trakt
     val networks: List<String>, // ex -> network: String,
     val genres: List<String>,
     val youtubeTrailer: String?, // ex -> trailer: String,

@@ -46,6 +46,7 @@ interface ShowDao {
         d.runtime,
         d.countries, 
         d.originalLanguage, 
+        d.englishTitle,
         d.networks, 
         d.genres,
         d.youtubeTrailer, 

@@ -77,7 +77,7 @@ fun ShowEntity.toDomain(prefsShowEntity: PrefsShowEntity?): Show {
         runtime = runtime,
         countries = countries, // entity not null
         originalLanguage = originalLanguage ?: "",
-        englishTraktTitle = englishTitle,
+        englishTitle = englishTitle,
         networks = networks, // entity not null
         genres = genres, // entity not null
         youtubeTrailer = youtubeTrailer ?: "",
