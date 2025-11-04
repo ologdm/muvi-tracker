@@ -82,9 +82,10 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
     ) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupTopEdgeToEdgeAutoPaddingToLayoutElements()
         setupStatusBarEdgeToEdgeScrollEffect()
         setupButtonsScrollEffects()
-        setupTopEdgeToEdgeAutoPaddingToLayoutElements()
+
 
         val bundle = arguments
         if (bundle != null) {
@@ -171,8 +172,8 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
                 errorTextview = b.castErrorMessage,
                 errorMsg = getString(R.string.actors_are_not_available),
 
-                // gestione specifica per quando ho i dati
                 bindData = { data ->
+                    // gestione specifica per quando ho i dati, ma ma risposta null o empty da API
                     val castList = stateContainer.data?.castMembers
                     if (castList.isNullOrEmpty()) {
                         b.castRecyclerView.visibility = View.GONE
@@ -187,26 +188,6 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
                     }
                 }
             )
-        }
-    }
-
-    // TODO 1.1.3 OK cosi
-    private fun setupTopEdgeToEdgeAutoPaddingToLayoutElements() {
-        ViewCompat.setOnApplyWindowInsetsListener(b.buttonBack) { view, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            view.updateLayoutParams<ViewGroup.MarginLayoutParams> {
-                topMargin = systemBars.top // padding extra opzionale
-            }
-            insets
-        }
-
-        ViewCompat.setOnApplyWindowInsetsListener(b.errorTextView) { view, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            view.updateLayoutParams<ViewGroup.MarginLayoutParams> {
-                // distanza dai bordi + margine extra opzionale
-                topMargin = systemBars.top
-            }
-            insets
         }
     }
 
@@ -458,6 +439,28 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
             }
         }
     }
+
+
+    // TODO 1.1.3 OK cosi
+    private fun setupTopEdgeToEdgeAutoPaddingToLayoutElements() {
+        ViewCompat.setOnApplyWindowInsetsListener(b.buttonBack) { view, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            view.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                topMargin = systemBars.top // padding extra opzionale
+            }
+            insets
+        }
+
+        ViewCompat.setOnApplyWindowInsetsListener(b.errorTextView) { view, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            view.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                // distanza dai bordi + margine extra opzionale
+                topMargin = systemBars.top
+            }
+            insets
+        }
+    }
+
 
 
     companion object {
