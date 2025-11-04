@@ -7,9 +7,11 @@ import com.example.muvitracker.data.database.MyDatabase
 import com.example.muvitracker.data.database.entities.ShowEntity
 import com.example.muvitracker.data.dto.show.detail.mergeShowsDtoToEntity
 import com.example.muvitracker.data.dto._support.Ids
+import com.example.muvitracker.data.dto.person.toDomain
 import com.example.muvitracker.data.dto.show.toDomain
 import com.example.muvitracker.data.utils.mapToIoResponse
 import com.example.muvitracker.data.utils.storeFactory
+import com.example.muvitracker.domain.model.CastAndCrew
 import com.example.muvitracker.domain.model.Show
 import com.example.muvitracker.domain.model.base.ShowBase
 import com.example.muvitracker.domain.repo.DetailShowRepository
@@ -45,7 +47,7 @@ class DetailShowRepositoryImpl @Inject constructor(
         fetcher = { traktId ->
             val traktDto = traktApi.getShowDetail(traktId)
             val tmdbDto = tmdbApi.getShowDto(traktDto.ids.tmdb)
-            mergeShowsDtoToEntity(traktDto,tmdbDto)
+            mergeShowsDtoToEntity(traktDto, tmdbDto)
         },
         reader = { traktId ->
             detailShowDao.getSingleFlow(traktId)
@@ -65,9 +67,12 @@ class DetailShowRepositoryImpl @Inject constructor(
     // RELATED SHOWS
     override suspend fun getRelatedShows(showId: Int): IoResponse<List<ShowBase>> {
         return try {
-            IoResponse.Success(traktApi.getShowRelatedShows(showId)).ioMapper { dtos ->
-                dtos.map { dto -> dto.toDomain() }
-            }
+            IoResponse.Success(traktApi.getShowRelatedShows(showId))
+                .ioMapper { dtos ->
+                    dtos.map { dto ->
+                        dto.toDomain()
+                    }
+                }
         } catch (ex: CancellationException) {
             throw ex
         } catch (ex: Throwable) {
@@ -75,6 +80,20 @@ class DetailShowRepositoryImpl @Inject constructor(
             IoResponse.Error(ex)
         }
     }
+
+    override suspend fun getShowCast(showId: Int): IoResponse<CastAndCrew> {
+        return try {
+            IoResponse.Success(traktApi.getAllShowCast(showId).toDomain())
+        } catch (ex: CancellationException){
+            throw ex
+        } catch (ex: Throwable){
+            ex.printStackTrace()
+            IoResponse.Error(ex)
+        }
+    }
+
+
+
 
     override suspend fun toggleLikedShow(showId: Int) {
         prefsShowRepository.toggleLikedOnDB(showId)
@@ -93,9 +112,17 @@ class DetailShowRepositoryImpl @Inject constructor(
             async {
                 semaphore.withPermit {
                     if (isShowWatchedAll) {
-                        seasonRepository.checkAndSetSingleSeasonWatchedAllEpisodes(showIds, season, false)
+                        seasonRepository.checkAndSetSingleSeasonWatchedAllEpisodes(
+                            showIds,
+                            season,
+                            false
+                        )
                     } else {
-                        seasonRepository.checkAndSetSingleSeasonWatchedAllEpisodes(showIds, season, true)
+                        seasonRepository.checkAndSetSingleSeasonWatchedAllEpisodes(
+                            showIds,
+                            season,
+                            true
+                        )
                     }
                 }
             }
