@@ -1,11 +1,20 @@
 package com.example.muvitracker.ui.main.detailshow
 
 import android.content.Intent
+import android.content.res.ColorStateList
+import android.content.res.Configuration
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.TypedValue
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,6 +32,7 @@ import com.example.muvitracker.ui.main.detailmovie.DetailMovieFragment.MovieDefa
 import com.example.muvitracker.ui.main.detailmovie.adapter.DetailSeasonsAdapter
 import com.example.muvitracker.ui.main.detailshow.adapters.RelatedShowsAdapter
 import com.example.muvitracker.ui.main.person.adapters.CastAdapter
+import com.example.muvitracker.utils.statesFlow
 import com.example.muvitracker.utils.statesFlowDetailTest
 import com.example.muvitracker.utils.viewBinding
 import com.google.android.material.chip.Chip
@@ -50,7 +60,7 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
     @Inject
     lateinit var navigator: Navigator
 
-    private val detailSeasonsAdapter = DetailSeasonsAdapter(
+    private val seasonsAdapter = DetailSeasonsAdapter(
         onClickVH = { seasonNumber ->
             navigator.startSeasonsViewpagerFragment( // go to viewpager
                 currentShowTitle,
@@ -78,26 +88,23 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
     override fun onViewCreated(
         view: View, savedInstanceState: Bundle?
     ) {
+        super.onViewCreated(view, savedInstanceState)
+
+        setupTopEdgeToEdgeAutoPaddingToLayoutElements()
+        setupStatusBarEdgeToEdgeScrollEffect()
+        setupButtonsScrollEffects()
+
         val bundle = arguments
         if (bundle != null) {
             currentShowIds = bundle.getParcelable(SHOW_IDS_KEY) ?: Ids()
         }
 
-        expandOverview()
-        loadTMDBImagesWithCustomGlide()
-
-        // SHOW DETAIL ##########################################################
+        // SHOW DETAIL -----------------------------------------------------------------------------
         viewModel.loadShowDetail(currentShowIds.trakt)
 
         // TODO: 1.1.3 NEW loading, data + no internet, no data no internet OK
         viewModel.detailState.observe(viewLifecycleOwner) { stateContainer ->
-            // 1
-//            stateContainer.data?.let { detailShow ->
-//                updateShowDetailPartOfUi(detailShow)
-//                updateFavoriteIcon(detailShow.liked)
-//                updateWatchedCheckboxAndCounters(detailShow)
-//            }
-            // 2
+
             stateContainer.statesFlowDetailTest(
                 b.errorTextView,
                 b.progressBar,
@@ -111,7 +118,7 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
         }
 
 
-        // BUTTONS CLICK
+        // BUTTONS CLICK ---------------------------------------------------------------------------
         b.buttonBack.setOnClickListener {
             requireActivity().onBackPressed()
         }
@@ -121,38 +128,102 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
         }
 
 
-        // SEASONS ###############################################################
-        b.seasonsRV.adapter = detailSeasonsAdapter
-        b.seasonsRV.layoutManager = LinearLayoutManager(requireContext())
+        // SEASONS ---------------------------------------------------------------------------------
+        b.seasonsRecyclerview.adapter = seasonsAdapter
+        b.seasonsRecyclerview.layoutManager = LinearLayoutManager(requireContext())
 //        viewModel.loadAllSeasons(currentShowIds.trakt)
         viewModel.loadAllSeasons(currentShowIds)
         viewModel.allSeasonsState.observe(viewLifecycleOwner) { stateContainer ->
-            // 1
-            totSeasonsNumber = stateContainer.data?.size ?: 0
-            b.totalSeasons.text = getString(R.string.total_seasons, totSeasonsNumber.toString())
-            // 2
-            detailSeasonsAdapter.submitList(stateContainer.data)
+
+            stateContainer.statesFlow(
+                b.seasonsProgressBar,
+                b.seasonsErrorMessage,
+                errorMsg = getString(R.string.seasons_not_available),
+                bindData = { data ->
+                    // gestione specifica per quando ho i dati, ma ma risposta null o empty da API
+                    if (data.isNullOrEmpty()) {
+                        b.seasonsRecyclerview.visibility = View.GONE
+                        b.seasonsErrorMessage.apply {
+                            text = getString(R.string.seasons_not_available)
+                            visibility = View.VISIBLE
+                        }
+                    } else {
+                        b.seasonsRecyclerview.visibility = View.VISIBLE
+                        b.seasonsErrorMessage.visibility = View.GONE
+                        seasonsAdapter.submitList(data)
+                    }
+                }
+            )
         }
 
 
-        // RELATED SHOWS ###############################################################
+        // RELATED SHOWS ---------------------------------------------------------------------------
         b.relatedRecyclerview.adapter = relatedShowsAdapter
         b.relatedRecyclerview.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         viewModel.loadRelatedShows(showId = currentShowIds.trakt)
-        viewModel.relatedShowsStatus.observe(viewLifecycleOwner) { response ->
-            relatedShowsAdapter.submitList(response)
+
+
+        // TODO 1.1.3 OK
+        viewModel.relatedShowsState.observe(viewLifecycleOwner) { stateContainer ->
+            stateContainer.statesFlow(
+                progressBar = b.relatedProgressBar,
+                errorTextview = b.relatedErrorMessage,
+                errorMsg = getString(R.string.not_available),
+                bindData = { data ->
+                    if (data.isNullOrEmpty()) {
+                        b.relatedRecyclerview.visibility = View.GONE
+                        b.relatedErrorMessage.apply {
+                            text = getString(R.string.not_available)
+                            visibility = View.VISIBLE
+                        }
+                    } else {
+                        b.relatedRecyclerview.visibility = View.VISIBLE
+                        b.relatedErrorMessage.visibility = View.GONE
+                        relatedShowsAdapter.submitList(data)
+                    }
+                }
+            )
         }
 
 
-        // CAST SHOWS ###############################################################
+        // CAST SHOWS --------------------------------------------------------------------------
         b.castRecyclerView.adapter = castMovieAdapter
         b.castRecyclerView.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         viewModel.loadCast(currentShowIds.trakt)
-        viewModel.castState.observe(viewLifecycleOwner) {
-            castMovieAdapter.submitList(it.castMembers)
+        // TODO 1.1.3 OK
+//        viewModel.castState.observe(viewLifecycleOwner) {
+//            castMovieAdapter.submitList(it.castMembers)
+//        }
+        viewModel.castState.observe(viewLifecycleOwner) { stateContainer ->
+
+            // cast_progress_bar.xml  -> default GONE
+            stateContainer.statesFlow(
+                progressBar = b.castProgressBar,
+                errorTextview = b.castErrorMessage,
+                errorMsg = getString(R.string.actors_are_not_available),
+
+                // gestione specifica per quando ho i dati
+                bindData = { data ->
+                    val castList = stateContainer.data?.castMembers
+                    if (castList.isNullOrEmpty()) {
+                        b.castRecyclerView.visibility = View.GONE
+                        b.castErrorMessage.apply {
+                            text = getString(R.string.actors_are_not_available)
+                            visibility = View.VISIBLE
+                        }
+                    } else {
+                        b.castRecyclerView.visibility = View.VISIBLE
+                        b.castErrorMessage.visibility = View.GONE
+                        castMovieAdapter.submitList(castList)
+                    }
+                }
+            )
         }
+
+        expandOverview()
+        loadTMDBImagesWithCustomGlide()
     }
 
 
@@ -179,9 +250,6 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
                 .orIfBlank(MovieDefaults.STATUS)  // es released
 
 
-//            networkYearCountry.text =
-//                "${show.networks.joinToString (", ")} ${show.year} (${show.countries.joinToString (", ").toUpperCase()})"
-            // O
             val networkList = show.networks.filter { it.isNotBlank() }
             val networkText = networkList.joinToString(", ")
             val countryList = show.countries.filter { it.isNotBlank() }
@@ -189,7 +257,6 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
             networkAndCountry.text = "${networkText} (${countryText})"
 
             // TODO:  -  inizio fine, - estrarre to year
-//            releaseAndEndYear.text = "dal ${show.firstAirDate?.substring(0,4)} - ${show.lastAirDate} "
             releaseAndEndYear.text = if (show.lastAirDate.isNullOrBlank()) {
                 "dal ${show.firstAirDate?.substring(0, 4)}"
             } else {
@@ -198,10 +265,6 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
 
             airedEpisodes.text =
                 getString(R.string.aired_episodes, show.airedEpisodes.toString())
-
-            // TODO: eliminare OK
-//            runtim.text =
-//                getString(R.string.runtime_description, show.runtime.toString() ?: "-")
 
             traktRating.text = show.traktRating
             tmdbRating.text = show.tmdbRating
@@ -221,7 +284,7 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
 
             // TODO: upgrade grafica
             // genres
-            genresChipGroup.removeAllViews() // clean old
+            genresChipGroup.removeAllViews()
             show.genres.forEach { genre ->
                 val chip = Chip(context).apply { text = genre }
 //                chip.isEnabled = false todo
@@ -322,6 +385,138 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
                 b.overviewContent.ellipsize = null
             }
             isTextExpanded = !isTextExpanded // toggle state
+        }
+    }
+
+
+    // TODO 1.1.3 - ui animata
+
+    // TODO 1.1.3 OK cosi
+    private fun setupTopEdgeToEdgeAutoPaddingToLayoutElements() {
+        ViewCompat.setOnApplyWindowInsetsListener(b.buttonBack) { view, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            view.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                topMargin = systemBars.top // padding extra opzionale
+            }
+            insets
+        }
+
+        ViewCompat.setOnApplyWindowInsetsListener(b.errorTextView) { view, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            view.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                // distanza dai bordi + margine extra opzionale
+                topMargin = systemBars.top
+            }
+            insets
+        }
+    }
+
+    private fun setupStatusBarEdgeToEdgeScrollEffect() {
+        // Controlla se il tema corrente è chiaro
+        val isLightTheme = (resources.configuration.uiMode and
+                Configuration.UI_MODE_NIGHT_MASK) != Configuration.UI_MODE_NIGHT_YES
+        if (!isLightTheme) return //  --> esci se non è tema chiaro
+
+        val window = requireActivity().window
+        val controller =
+            WindowCompat.getInsetsController(window, window.decorView) // - al posto di require
+
+        // Rendi la status bar trasparente, così l’immagine va "sotto"
+//        window.statusBarColor = Color.TRANSPARENT
+
+        // All'inizio: icone chiare (per stare sopra l’immagine)
+        controller.isAppearanceLightStatusBars = false
+
+        val scrollView = b.mainScrollView  // il tuo NestedScrollView
+        val horizzontalImageView = b.horizontalImage
+
+        // setOnScrollChangeListener - passare a TODO
+        scrollView.viewTreeObserver.addOnScrollChangedListener {
+            val scrollY = scrollView.scrollY
+            val imageBottom = horizzontalImageView.bottom - scrollY
+
+            // threshold = punto in cui cambiare da chiaro a scuro
+            val threshold = horizzontalImageView.height / 5
+
+            if (imageBottom > threshold) {
+                // status bar sopra immagine -> icone chiare
+                controller.isAppearanceLightStatusBars = false
+            } else {
+                // immagine uscita -> icone scure
+                controller.isAppearanceLightStatusBars = true
+            }
+        }
+    }
+
+
+    // TODO 1.1.3 - resetta colori status bar alla default
+    //      IN TEST
+    private fun resetStatusBarColorsOnDefault() {
+        val window = requireActivity().window
+        val controller = WindowCompat.getInsetsController(window, requireView())
+
+        // ripristina il colore della status bar dal tema
+        val typedValue = TypedValue()
+        requireContext().theme.resolveAttribute(android.R.attr.statusBarColor, typedValue, true)
+        window.statusBarColor = typedValue.data
+
+        // ripristina icone secondo tema (chiaro/scuro)
+        val isLightStatusBarsDefault = resources.getBoolean(
+            resources.getIdentifier("light_icons", "bool", requireContext().packageName)
+        )
+        controller.isAppearanceLightStatusBars = isLightStatusBarsDefault
+    }
+
+
+    private fun setupButtonsScrollEffects() {
+        val mainScrollView = b.mainScrollView
+        val imageHorizzontal = b.horizontalImage
+
+        val likeFab = b.extendedFloatingLikedButton
+        val backButton = b.buttonBack
+
+        // Fab parte compatto
+        likeFab.shrink()
+
+        // NUOVO
+        // --- BACK BUTTON parte bianco + trasparente ---
+        backButton.setBackgroundResource(R.drawable.back_button_shape_trasparent)
+        backButton.imageTintList = ColorStateList.valueOf(Color.WHITE)
+
+        mainScrollView.setOnScrollChangeListener { _, _, scrollY, _, _ ->
+            // --- FAB behavior ---
+            val contentHeight = mainScrollView.getChildAt(0)?.height ?: 0
+            val visibleHeight = mainScrollView.height
+            val diff = contentHeight - (scrollY + visibleHeight)
+
+            if (diff <= 300) {
+                if (!likeFab.isExtended) likeFab.extend()
+            } else {
+                if (likeFab.isExtended) likeFab.shrink()
+            }
+
+            // --- BackButton background ---
+            val imageBottom = imageHorizzontal.bottom - scrollY
+            val threshold = imageHorizzontal.height / 5
+
+            if (imageBottom > threshold) {
+                // Sopra immagine → trasparente + icona bianca
+                backButton.setBackgroundResource(R.drawable.back_button_shape_trasparent)
+                backButton.imageTintList = ColorStateList.valueOf(Color.WHITE)
+            } else {
+                // Fuori immagine → sfondo tema + icona colore tema
+                backButton.setBackgroundResource(R.drawable.back_button_shape_default)
+
+                // trova typevalue
+                val typedValue = TypedValue()
+                requireContext().theme.resolveAttribute(
+                    com.google.android.material.R.attr.colorOnPrimaryContainer,
+                    typedValue,
+                    true
+                )
+
+                backButton.imageTintList = ColorStateList.valueOf(typedValue.data)
+            }
         }
     }
 
