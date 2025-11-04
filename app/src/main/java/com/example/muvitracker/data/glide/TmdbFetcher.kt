@@ -52,6 +52,7 @@ class TmdbFetcher(
             is ImageTmdbRequest.ShowVertical -> fetchShowImage(
                 model.showId,
                 imagePathType = { it.posterPath },
+                isVertical = true,
                 priority,
                 callback
             )
@@ -59,6 +60,7 @@ class TmdbFetcher(
             is ImageTmdbRequest.ShowHorizontal -> fetchShowImage(
                 model.showId,
                 imagePathType = { it.backdropPath },
+                isVertical = false,
                 priority,
                 callback
             )
@@ -70,6 +72,7 @@ class TmdbFetcher(
     }
 
 
+    // TODO 1.1.3 OK
     private suspend fun fetchMovieImage(
         movieId: Int,
         imagePathType: (MovieTmdbDto) -> String?,
@@ -91,16 +94,19 @@ class TmdbFetcher(
     }
 
 
+    // TODO 1.1.3 OK
     private suspend fun fetchShowImage(
         showId: Int,
         imagePathType: (ShowTmdbDto) -> String?,
+        isVertical: Boolean,
         priority: Priority,
         callback: DataFetcher.DataCallback<in InputStream>,
     ) {
         try {
             val response = tmdbApi.getShowDto(showId)
             val imagePath = imagePathType(response) ?: throw Exception("Image path not available")
-            val url = "$TMDB_IMAGE_URL_DOMAIN${imagePath}"
+            val baseUrl = if (isVertical) TMDB_IMAGE_URL_DOMAIN_VERTICAL else TMDB_IMAGE_URL_DOMAIN_HORIZONTAL
+            val url = "$baseUrl${imagePath}"
             val fetcher = HttpUrlFetcher(GlideUrl(url), TIMEOUT)
             fetcher.loadData(priority, callback)
         } catch (ex: Exception) {

@@ -9,17 +9,21 @@ import com.example.muvitracker.databinding.ViewholderExploreBaseBinding
 import com.example.muvitracker.domain.model.base.ShowBase
 
 class ShowViewholder(
-    private val vhBinding: ViewholderExploreBaseBinding
-) : RecyclerView.ViewHolder(vhBinding.root) {
+    private val binding: ViewholderExploreBaseBinding
+) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind (showBase : ShowBase){
-        vhBinding.title.text = showBase.title
+        binding.title.text = showBase.title
 
-        Glide.with(vhBinding.root.context)
+        Glide.with(binding.root.context)
             .load(ImageTmdbRequest.ShowVertical(showBase.ids.tmdb))
             .transition(DrawableTransitionOptions.withCrossFade(500))
             .placeholder(R.drawable.glide_placeholder_base)
             .error(R.drawable.glide_placeholder_base)
-            .into(vhBinding.image)
+            .into(binding.image)
+
+        Glide.with(binding.root.context)
+            .load(ImageTmdbRequest.ShowHorizontal(showBase.ids.tmdb))
+            .preload()
     }
 }
