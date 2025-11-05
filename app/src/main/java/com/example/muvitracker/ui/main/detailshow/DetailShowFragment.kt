@@ -33,7 +33,7 @@ import com.example.muvitracker.ui.main.detailmovie.adapter.DetailSeasonsAdapter
 import com.example.muvitracker.ui.main.detailshow.adapters.RelatedShowsAdapter
 import com.example.muvitracker.ui.main.person.adapters.CastAdapter
 import com.example.muvitracker.utils.statesFlow
-import com.example.muvitracker.utils.statesFlowDetailTest
+import com.example.muvitracker.utils.statesFlowDetailNew
 import com.example.muvitracker.utils.viewBinding
 import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
@@ -49,9 +49,9 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
 
-    private var currentShowTitle: String = ""
+    private var currentShowTitle: String = "" // serve per season fragment
     private var currentShowIds: Ids = Ids() // ids has default value
-    private var totSeasonsNumber: Int = 0
+    private var totSeasonsNr: Int = 0
 
 
     private val b by viewBinding(FragmentDetailShowBinding::bind)
@@ -66,7 +66,7 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
                 currentShowTitle,
                 currentShowIds,
                 seasonNumber,
-                totSeasonsNumber
+                totSeasonsNr
             )
         },
         onClickWatchedAllCheckbox = { seasonNr, adapterCallback ->
@@ -90,6 +90,7 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
     ) {
         super.onViewCreated(view, savedInstanceState)
 
+        // servono all'inizio funz
         setupTopEdgeToEdgeAutoPaddingToLayoutElements()
         setupStatusBarEdgeToEdgeScrollEffect()
         setupButtonsScrollEffects()
@@ -104,13 +105,12 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
 
         // TODO: 1.1.3 NEW loading, data + no internet, no data no internet OK
         viewModel.detailState.observe(viewLifecycleOwner) { stateContainer ->
-
-            stateContainer.statesFlowDetailTest(
+            stateContainer.statesFlowDetailNew(
                 b.errorTextView,
                 b.progressBar,
                 b.mainLayoutToDisplayDetail,
                 bindData = { show ->
-                    updateShowDetailPartOfUi(show)
+                    setupDetailShowUiSection(show)
                     updateFavoriteIcon(show.liked)
                     updateWatchedCheckboxAndCounters(show)
                 }
@@ -128,10 +128,9 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
         }
 
 
-        // SEASONS ---------------------------------------------------------------------------------
+        // SEASONS ------------------------------------------------------------------------------------
         b.seasonsRecyclerview.adapter = seasonsAdapter
         b.seasonsRecyclerview.layoutManager = LinearLayoutManager(requireContext())
-//        viewModel.loadAllSeasons(currentShowIds.trakt)
         viewModel.loadAllSeasons(currentShowIds)
         viewModel.allSeasonsState.observe(viewLifecycleOwner) { stateContainer ->
 
@@ -148,6 +147,14 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
                             visibility = View.VISIBLE
                         }
                     } else {
+                        // 1
+                        totSeasonsNr = stateContainer.data?.size ?: 0
+                        b.totalSeasons.text = // 1.1.3
+                            if (totSeasonsNr == 0)
+                                getString(R.string.seasons_not_available)
+                            else
+                                getString(R.string.total_seasons, totSeasonsNr.toString())
+                        // 2
                         b.seasonsRecyclerview.visibility = View.VISIBLE
                         b.seasonsErrorMessage.visibility = View.GONE
                         seasonsAdapter.submitList(data)
@@ -157,13 +164,11 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
         }
 
 
-        // RELATED SHOWS ---------------------------------------------------------------------------
+        // RELATED SHOWS --------------------------------------------------------------------------------
         b.relatedRecyclerview.adapter = relatedShowsAdapter
         b.relatedRecyclerview.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         viewModel.loadRelatedShows(showId = currentShowIds.trakt)
-
-
         // TODO 1.1.3 OK
         viewModel.relatedShowsState.observe(viewLifecycleOwner) { stateContainer ->
             stateContainer.statesFlow(
@@ -187,15 +192,12 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
         }
 
 
-        // CAST SHOWS --------------------------------------------------------------------------
+        // CAST SHOWS ---------------------------------------------------------------------------------
         b.castRecyclerView.adapter = castMovieAdapter
         b.castRecyclerView.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         viewModel.loadCast(currentShowIds.trakt)
         // TODO 1.1.3 OK
-//        viewModel.castState.observe(viewLifecycleOwner) {
-//            castMovieAdapter.submitList(it.castMembers)
-//        }
         viewModel.castState.observe(viewLifecycleOwner) { stateContainer ->
 
             // cast_progress_bar.xml  -> default GONE
@@ -223,20 +225,20 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
         }
 
         expandOverview()
+        // meglio a fine funzione
         loadTMDBImagesWithCustomGlide()
     }
 
 
-    // PRIVATE FUNCTIONS ###################################################
+    // PRIVATE FUNCTIONS ----------------------------------------------------------------------------
     // show detail TODO: check
-    private fun updateShowDetailPartOfUi(show: Show) {
-        currentShowTitle = show.title.orIfBlank(ShowDefaults.TITLE) ?: ""
+    private fun setupDetailShowUiSection(show: Show) {
+        currentShowTitle = show.title.orIfBlank(ShowDefaults.TITLE) ?: "" // 1.1.3 OK
 
         with(b) {
-            // Titolo
-            title.text = show.title.orIfBlank(ShowDefaults.TITLE)
-            // 1.1.3 OK
-            tagline.apply {
+            title.text = show.title.orIfBlank(ShowDefaults.TITLE) // 1.1.3 OK
+
+            tagline.apply { // 1.1.3 OK
                 if (show.tagline.isNullOrBlank()) {
                     visibility = View.GONE
                 } else {
@@ -245,31 +247,51 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
                 }
             }
 
-            // Info section
-            status.text = show.status?.replaceFirstChar { it.uppercaseChar() }
+            // INFO SECTION
+            status.text = show.status?.replaceFirstChar { it.uppercaseChar() } // 1.1.3 OK
                 .orIfBlank(MovieDefaults.STATUS)  // es released
 
 
+            // 1.1.3 NETWORK OK
             val networkList = show.networks.filter { it.isNotBlank() }
-            val networkText = networkList.joinToString(", ")
-            val countryList = show.countries.filter { it.isNotBlank() }
-            val countryText = countryList.joinToString(", ")
-            networkAndCountry.text = "${networkText} (${countryText})"
+            val networkText =
+                if (networkList.isNullOrEmpty()) {
+                    ShowDefaults.NETWORK
+                } else {
+                    networkList.joinToString(", ")
+                }
 
-            // TODO:  -  inizio fine, - estrarre to year
+            // 1.1.3 COUNTRY OK
+            val countryList = show.countries.filter { it.isNotBlank() }
+            val countryText =
+                if (countryList.isNullOrEmpty()) {
+                    ", ${ShowDefaults.COUNTRY}"
+                } else {
+                    " (${countryList.joinToString(", ")})"
+                }
+            // 1.1.3 - NETWORK COUNTRY OK
+            networkAndCountry.text = "$networkText$countryText" // separation on 'countryText'
+
+
+            // 1.1.3 - OK
             releaseAndEndYear.text = if (show.lastAirDate.isNullOrBlank()) {
-                "dal ${show.firstAirDate?.substring(0, 4)}"
+                getString(R.string.from_release_year, show.firstAirDate?.substring(0, 4))
             } else {
-                "dal ${show.firstAirDate?.substring(0, 4)} al ${show.lastAirDate.substring(0, 4)}"
+                getString(
+                    R.string.from_release_year_to_finish_year,
+                    show.firstAirDate?.substring(0, 4),
+                    show.lastAirDate.substring(0, 4)
+                )
             }
 
+            // 1.1.3 - OK
             airedEpisodes.text =
                 getString(R.string.aired_episodes, show.airedEpisodes.toString())
 
             traktRating.text = show.traktRating
             tmdbRating.text = show.tmdbRating
             //
-            // TODO 1.1.3  - ok in inglese
+            // 1.1.3 - IN INGLESE OK
             englishTitle.apply {
                 if (show.title != show.englishTitle) {
                     visibility = View.VISIBLE
@@ -279,8 +301,8 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
                 }
 
             }
-
-            overviewContent.text = show.overview
+            // 1.1.3 - OK
+            overviewContent.text = show.overview.orIfBlank(ShowDefaults.OVERVIEW)
 
             // TODO: upgrade grafica
             // genres
@@ -290,7 +312,6 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
 //                chip.isEnabled = false todo
                 genresChipGroup.addView(chip)
             }
-
 
             // TODO: - sistemare funzione ricerca link migliore
             // open link on youtube
@@ -543,6 +564,8 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
         var OVERVIEW = MyApp.appContext.getString(R.string.not_available)
         const val TAGLINE = "Tagline are not available"
         const val RATING = " — "
+        const val COUNTRY = "Country N/A"
+        const val NETWORK = "Network N/A"
 //    const val GENRES = "—"
     }
 }
