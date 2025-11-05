@@ -82,7 +82,7 @@ fun <T> StateContainerThree<T>.statesFlow(
 
 
 // TODO 1.1.3 specifica per detail movie - modificata
-fun <T> StateContainerThree<T>.statesFlowDetailTest(
+fun <T> StateContainerThree<T>.statesFlowDetailNew(
     errorTextview: TextView,
     progressBar: ProgressBar,
     mainLayout: ConstraintLayout,
