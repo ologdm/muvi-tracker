@@ -9,7 +9,7 @@
     <string name="watched">Vizionate</string>
     <string name="favorited">Favorite</string>
     <string name="anticipated">În curând</string>
-    <string name="aired_episodes">%1$s episoade</string>
+    <string name="aired_episodes">%1$s episoade apărute</string>
     <string name="total_seasons">%1$s sezoane</string>
     <string name="runtime_description">%1$s min</string>
     <string name="watched_check_text">Vizionat</string>
@@ -36,4 +36,6 @@
     <string name="actors_are_not_available">Actorii nu sunt disponibili</string>
     <string name="not_available">Nu e disponibil</string>
     <string name="seasons_not_available">Sezoanele nu sunt disponibile</string>
+    <string name="from_release_year">din %1$s</string>
+    <string name="from_release_year_to_finish_year">din %1$s până în %2$s</string>
 </resources>

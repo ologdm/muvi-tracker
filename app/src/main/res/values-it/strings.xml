@@ -15,7 +15,7 @@
     <string name="anticipated">Prossimamente</string>
 
     <!--detail-->
-    <string name="aired_episodes">%1$s episodi </string>
+    <string name="aired_episodes">%1$s episodi usciti </string>
     <string name="total_seasons">%1$s stagioni </string>
     <!--  -->
     <string name="runtime_description">%1$s min</string>
@@ -52,5 +52,7 @@
     <string name="actors_are_not_available">Attori non disponibili</string>
     <string name="not_available">Non disponibile</string>
     <string name="seasons_not_available">Stagioni non disponibili</string>
+    <string name="from_release_year">dal %1$s</string>
+    <string name="from_release_year_to_finish_year">dal %1$s al %2$s</string>
 
 </resources>
