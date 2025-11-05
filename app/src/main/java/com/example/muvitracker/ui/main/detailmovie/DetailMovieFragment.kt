@@ -33,7 +33,7 @@ import com.example.muvitracker.ui.main.detailmovie.adapters.RelatedMoviesAdapter
 import com.example.muvitracker.utils.formatToReadableDate
 import com.example.muvitracker.utils.getNowFormattedDateTime
 import com.example.muvitracker.utils.statesFlow
-import com.example.muvitracker.utils.statesFlowDetailTest
+import com.example.muvitracker.utils.statesFlowDetailNew
 import com.example.muvitracker.utils.viewBinding
 import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
@@ -99,7 +99,7 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
         viewModel.detailState.observe(viewLifecycleOwner) { stateContainer ->
             // main_layout_detail.xml  -> default GONE
 
-            stateContainer.statesFlowDetailTest(
+            stateContainer.statesFlowDetailNew(
                 b.errorTextView,
                 b.progressBar,
                 b.mainLayoutToDisplayDetail,
