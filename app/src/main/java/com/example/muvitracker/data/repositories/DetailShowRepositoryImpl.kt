@@ -35,7 +35,6 @@ import kotlin.coroutines.cancellation.CancellationException
 class DetailShowRepositoryImpl @Inject constructor(
     private val traktApi: TraktApi,
     private val tmdbApi: TmdbApi,
-    private val prefsShowRepository: PrefsShowRepository,
     private val seasonRepository: SeasonRepository,
     database: MyDatabase,
 ) : DetailShowRepository {
@@ -50,6 +49,7 @@ class DetailShowRepositoryImpl @Inject constructor(
             mergeShowsDtoToEntity(traktDto, tmdbDto)
         },
         reader = { traktId ->
+            // join showEntity + prefsEntity + watchedEpisodes  - on query
             detailShowDao.getSingleFlow(traktId)
         },
         writer = { _, entity ->
@@ -90,13 +90,6 @@ class DetailShowRepositoryImpl @Inject constructor(
             ex.printStackTrace()
             IoResponse.Error(ex)
         }
-    }
-
-
-
-
-    override suspend fun toggleLikedShow(showId: Int) {
-        prefsShowRepository.toggleLikedOnDB(showId)
     }
 
 

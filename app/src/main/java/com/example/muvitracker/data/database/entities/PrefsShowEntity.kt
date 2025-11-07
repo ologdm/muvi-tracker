@@ -16,8 +16,10 @@ import androidx.room.PrimaryKey
 data class PrefsShowEntity(
     @PrimaryKey val traktId: Int,
     val liked: Boolean = false,
-    val addedDateTime: Long // using timestamp
+    val addedDateTime: Long, // using timestamp
 
     // TODO 1.1.3 add notes
-//    val notes : String = ""
+    val notes : String = ""
+
+    // !!note: watchedAll calcolato volta per volta a ui in base agli episodi
 )

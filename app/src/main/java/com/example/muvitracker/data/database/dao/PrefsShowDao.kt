@@ -62,8 +62,10 @@ interface PrefsShowDao {
         
         d.currentTranslation,
         
-        p.liked, 
+        p.liked,
+        p.notes,
         p.addedDateTime,
+        
         ---COALESCE utile per default - prende primo valore non null tra quelli che gli passi
         COALESCE(SUM(CASE WHEN e.watched = 1 THEN 1 ELSE 0 END),0) AS watchedCount
     FROM prefs_show_table AS p
@@ -73,5 +75,13 @@ interface PrefsShowDao {
 """
     )
     fun getAllPrefs(): Flow<List<Show>>
+
+
+    // 1.1.3 new
+//    @Query("UPDATE prefs_show_table SET notes =:note WHERE traktId = :showId")
+    @Query("UPDATE prefs_show_table SET notes =:notes WHERE traktId = :showId ")
+    suspend fun setNotes (showId: Int, notes: String)
+
+
 
 }

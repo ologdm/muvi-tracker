@@ -60,6 +60,7 @@ interface ShowDao {
         d.currentTranslation,
 
         p.liked, 
+        COALESCE(p.notes, '') AS notes,
         p.addedDateTime,
         
         COALESCE(SUM(CASE WHEN e.watched = 1 THEN 1 ELSE 0 END),0) AS watchedCount

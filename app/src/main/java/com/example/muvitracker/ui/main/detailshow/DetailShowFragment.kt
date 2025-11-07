@@ -1,5 +1,6 @@
 package com.example.muvitracker.ui.main.detailshow
 
+import android.app.Dialog
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.content.res.Configuration
@@ -25,6 +26,7 @@ import com.example.muvitracker.R
 import com.example.muvitracker.data.dto._support.Ids
 import com.example.muvitracker.data.glide.ImageTmdbRequest
 import com.example.muvitracker.data.utils.orIfBlank
+import com.example.muvitracker.databinding.DialogAddNotesBinding
 import com.example.muvitracker.databinding.FragmentDetailShowBinding
 import com.example.muvitracker.domain.model.Show
 import com.example.muvitracker.ui.main.Navigator
@@ -70,7 +72,7 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
             )
         },
         onClickWatchedAllCheckbox = { seasonNr, adapterCallback ->
-            viewModel.toggleWatchedAllSingleSeasonEp(currentShowIds, seasonNr, onComplete = {
+            viewModel.toggleWatchedAllSeason(currentShowIds, seasonNr, onComplete = {
                 adapterCallback()
             })
         }
@@ -224,9 +226,30 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
             )
         }
 
-        expandOverview()
-        // meglio a fine funzione
+
         loadTMDBImagesWithCustomGlide()
+
+
+        b.addNotesImageButton.setOnClickListener {
+            val dialog = Dialog(requireContext())
+            dialog.setContentView(R.layout.dialog_add_notes)
+            dialog.setCancelable(true) // lo puoi chiudere cliccando fuori
+
+            val dialogB = DialogAddNotesBinding.inflate(layoutInflater)
+            dialog.setContentView(dialogB.root)
+
+            dialogB.noteEditText.setText(viewModel.getNotes())
+
+            // OK
+            dialogB.saveNoteButton.setOnClickListener {
+                val notes = dialogB.noteEditText.text.toString()
+                viewModel.setNotes(currentShowIds.trakt, notes)
+                dialog.dismiss()
+            }
+
+            dialog.show()
+        }
+
     }
 
 
@@ -288,8 +311,12 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
             airedEpisodes.text =
                 getString(R.string.aired_episodes, show.airedEpisodes.toString())
 
+
+            // TODO 1.1.3: click su film
             traktRating.text = show.traktRating
             tmdbRating.text = show.tmdbRating
+            ratingLayoutsSetup(show)
+
             //
             // 1.1.3 - IN INGLESE OK
             englishTitle.apply {
@@ -303,6 +330,7 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
             }
             // 1.1.3 - OK
             overviewContent.text = show.overview.orIfBlank(ShowDefaults.OVERVIEW)
+            expandOverview()
 
             // TODO: upgrade grafica
             // genres
@@ -338,6 +366,8 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
             b.watchedAllCheckbox.isEnabled = isEnabled
             b.watchedAllTextview.isEnabled = isEnabled
         }
+
+        b.addNotesTextView.text = show.notes
     }
 
 
@@ -367,7 +397,7 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
             b.watchedAllCheckboxLoadingBar.visibility = View.VISIBLE
             b.watchedAllCheckbox.isEnabled = false
             // 3.2 stato concluso
-            viewModel.toggleWatchedAllShowEpisodes(currentShowIds, onComplete = {
+            viewModel.toggleWatchedAllShow(currentShowIds, onComplete = {
                 // spegni caricamento
                 b.watchedAllCheckboxLoadingBar.visibility = View.GONE
                 b.watchedAllCheckbox.isEnabled = true
@@ -409,9 +439,44 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
         }
     }
 
+    private fun ratingLayoutsSetup(show: Show) {
 
-    // TODO 1.1.3 - ui animata
+        if (show.traktRating.isNullOrEmpty() || show.traktRating == "0.0") {
+            b.traktRating.visibility = View.GONE
+            // TODO placeholder
+        } else {
+            b.traktRating.visibility = View.VISIBLE
+            // TODO placeholder
+        }
 
+
+        if (show.tmdbRating.isNullOrEmpty() || show.traktRating == "0.0") {
+            b.traktRating.visibility = View.GONE
+        } else {
+            b.traktRating.visibility = View.VISIBLE
+        }
+
+
+        b.traktLayout.setOnClickListener {
+            // apri link
+            val type = "shows"
+            val traktSlug = show.ids.slug
+            val traktUrl = "https://trakt.tv/$type/$traktSlug"
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(traktUrl))
+            startActivity(intent)
+        }
+
+        b.tmdbLayout.setOnClickListener {
+            val type = "tv"
+            val tmdbId = show.ids.tmdb
+            val tmdbUrl = "https://www.themoviedb.org/$type/$tmdbId"
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(tmdbUrl))
+            startActivity(intent)
+        }
+    }
+
+
+    // UI ANIMATA -----------------------------------------------------------------------------------
     // TODO 1.1.3 OK cosi
     private fun setupTopEdgeToEdgeAutoPaddingToLayoutElements() {
         ViewCompat.setOnApplyWindowInsetsListener(b.buttonBack) { view, insets ->

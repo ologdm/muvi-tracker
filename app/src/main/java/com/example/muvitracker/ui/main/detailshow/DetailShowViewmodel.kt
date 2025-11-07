@@ -3,22 +3,20 @@ package com.example.muvitracker.ui.main.detailshow
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.muvitracker.data.dto.person.toDomain
 import com.example.muvitracker.data.dto._support.Ids
 import com.example.muvitracker.domain.model.CastAndCrew
 import com.example.muvitracker.domain.model.Show
 import com.example.muvitracker.domain.model.Season
 import com.example.muvitracker.domain.model.base.ShowBase
 import com.example.muvitracker.domain.repo.DetailShowRepository
+import com.example.muvitracker.domain.repo.PrefsShowRepository
 import com.example.muvitracker.domain.repo.SeasonRepository
 import com.example.muvitracker.utils.IoResponse
 import com.example.muvitracker.utils.StateContainerThree
 import com.example.muvitracker.utils.StateContainerTwo
-import com.example.muvitracker.utils.ioMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.io.IOException
@@ -27,6 +25,7 @@ import javax.inject.Inject
 @HiltViewModel
 class DetailShowViewmodel @Inject constructor(
     private val detailShowRepository: DetailShowRepository,
+    private val prefsShowRepository: PrefsShowRepository,
     private val seasonRepository: SeasonRepository,
 ) : ViewModel() {
 
@@ -34,6 +33,9 @@ class DetailShowViewmodel @Inject constructor(
     val allSeasonsState = MutableLiveData<StateContainerTwo<List<Season>>>()
     val relatedShowsState = MutableLiveData<StateContainerTwo<List<ShowBase>>>()
     val castState = MutableLiveData<StateContainerTwo<CastAndCrew>>()
+
+    private var showNotes = ""
+
 
     // SHOW - flow
     fun loadShowDetail(showId: Int) {
@@ -45,6 +47,7 @@ class DetailShowViewmodel @Inject constructor(
                     when (response) {
                         is IoResponse.Success -> {
                             cachedItem = response.dataValue
+                            showNotes = response.dataValue.notes
                             StateContainerThree(data = response.dataValue)
                         }
 
@@ -106,35 +109,6 @@ class DetailShowViewmodel @Inject constructor(
     }
 
 
-    // SET, get automatico  TODO OK
-    // 1
-    fun toggleLikedShow(showId: Int) {
-        viewModelScope.launch {
-            detailShowRepository.toggleLikedShow(showId)
-        }
-    }
-
-    // 2
-    fun toggleWatchedAllShowEpisodes(showIds: Ids, onComplete: () -> Unit) {
-        // add callback
-        viewModelScope.launch {
-            detailShowRepository.checkAndSetWatchedAllShowEpisodes(showIds)
-            onComplete()
-        }
-    }
-
-    // 3
-    fun toggleWatchedAllSingleSeasonEp(showIds: Ids, seasonNr: Int, onComplete: () -> Unit) {
-        viewModelScope.launch() {
-            // 1 start loading  - su adapter - start al click
-            // 2 toggle allEpisodes + season + showOnPrefs
-            seasonRepository.checkAndSetSingleSeasonWatchedAllEpisodes(showIds, seasonNr)
-            // 3 finish loading - chiama la callback con true o false (se l'operazione ha avuto successo o no)
-            onComplete()
-        }
-    }
-
-
     // RELATED SHOWS TODO 1.1.3 loading - TODO OK --------------------------------------------------
     //no flow
     fun loadRelatedShows(showId: Int) {
@@ -170,6 +144,49 @@ class DetailShowViewmodel @Inject constructor(
             }
         }
     }
+
+
+    // SET, (reactive get) ----------------------------------------------------------------------
+    // 1
+    fun toggleLikedShow(showId: Int) {
+        viewModelScope.launch {
+//            detailShowRepository.toggleLikedShow(showId)
+            prefsShowRepository.toggleLikedOnDB(showId)
+
+        }
+    }
+
+    // 2 all show episodes
+    fun toggleWatchedAllShow(showIds: Ids, onComplete: () -> Unit) {
+        // add callback
+        viewModelScope.launch {
+            detailShowRepository.checkAndSetWatchedAllShowEpisodes(showIds)
+            onComplete()
+        }
+    }
+
+
+    // 3 all season episodes
+    fun toggleWatchedAllSeason(showIds: Ids, seasonNr: Int, onComplete: () -> Unit) {
+        viewModelScope.launch() {
+            // 1 start loading  - su adapter - start al click
+            // 2 toggle allEpisodes + season + showOnPrefs
+            seasonRepository.checkAndSetSingleSeasonWatchedAllEpisodes(showIds, seasonNr)
+            // 3 finish loading - chiama la callback con true o false (se l'operazione ha avuto successo o no)
+            onComplete()
+        }
+    }
+
+
+    // 4
+    fun setNotes(showId: Int, notes: String) {
+        viewModelScope.launch {
+            prefsShowRepository.setNotesOnDB(showId, notes)
+            showNotes = notes
+        }
+    }
+
+    fun getNotes() : String = showNotes
 
 }
 

@@ -9,4 +9,6 @@ interface PrefsShowRepository {
     suspend fun toggleLikedOnDB(id: Int)
     suspend fun checkAndAddIfWatchedToPrefs(showId: Int)
     suspend fun deleteItemOnDB(id: Int)
+
+    suspend fun setNotesOnDB(showId: Int, note: String)
 }

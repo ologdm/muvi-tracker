@@ -38,11 +38,13 @@ data class Show(
 
 
     // DA PREFS ENTITY
-    val liked: Boolean,
+    val liked: Boolean, // default false
+    val notes: String, // default ""
     val addedDateTime: Long?, // using timestamp
 
     // CALCOLATO DA EPISODE_TABLE
     val watchedCount: Int = 0, // computed data from episodeRepository
+
 ) {
 
     // TICKET: watchedAll marked for shows not yet released (anticipated)

@@ -66,4 +66,21 @@ class PrefsShowRepositoryImpl @Inject constructor(
     }
 
 
+    override suspend fun setNotesOnDB(showId: Int, notes: String) {
+        val entity = prefsShowDao.readSingle(showId)
+        if (entity == null) {
+            prefsShowDao.insertSingle(
+                PrefsShowEntity(
+                    traktId = showId,
+                    liked = false,
+                    addedDateTime = System.currentTimeMillis(),
+                    notes = notes
+                )
+            )
+        } else {
+            prefsShowDao.setNotes(showId, notes)
+        }
+    }
+
+
 }

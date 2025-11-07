@@ -16,7 +16,5 @@ interface DetailShowRepository {
 
     suspend fun getShowCast(movieId: Int): IoResponse<CastAndCrew> // contiene List<CastMember> -> personggi film
 
-    suspend fun toggleLikedShow (showId: Int)
-
     suspend fun checkAndSetWatchedAllShowEpisodes(showIds: Ids)
 }
