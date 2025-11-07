@@ -69,20 +69,6 @@ class DetailMovieViewmodel @Inject constructor(
     }
 
 
-    // SET, get automatico
-    fun toggleLikedMovie(movieId: Int) {
-        viewModelScope.launch {
-            prefsMovieRepository.toggleLikedOnDB(movieId)
-        }
-    }
-    fun updateWatched(movieId: Int, watched: Boolean) {
-        viewModelScope.launch {
-            prefsMovieRepository.updateWatchedOnDB(movieId, watched)
-        }
-
-    }
-
-
     // RELATED MOVIES --------------------------------------------------------------------------
     val relatedMoviesState = MutableLiveData<StateContainerTwo<List<MovieBase>>>()
     fun loadRelatedMovies(movieId: Int) {
@@ -116,6 +102,20 @@ class DetailMovieViewmodel @Inject constructor(
                 }
             }
         }
+    }
+
+
+    // SET (reactive get) ---------------------------------------------------------------------------
+    fun toggleLikedMovie(movieId: Int) {
+        viewModelScope.launch {
+            prefsMovieRepository.toggleLikedOnDB(movieId)
+        }
+    }
+    fun updateWatched(movieId: Int, watched: Boolean) {
+        viewModelScope.launch {
+            prefsMovieRepository.updateWatchedOnDB(movieId, watched)
+        }
+
     }
 
 

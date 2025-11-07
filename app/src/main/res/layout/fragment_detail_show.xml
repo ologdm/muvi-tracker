@@ -231,51 +231,51 @@
                             android:paddingHorizontal="12dp">
 
 
-<!--                            <TextView-->
-<!--                                android:id="@+id/status"-->
-<!--                                android:layout_width="wrap_content"-->
-<!--                                android:layout_height="wrap_content"-->
-<!--                                android:textSize="15sp"-->
-<!--                                android:textStyle="normal"-->
-<!--                                tools:text="Ended" />-->
+                            <!--                            <TextView-->
+                            <!--                                android:id="@+id/status"-->
+                            <!--                                android:layout_width="wrap_content"-->
+                            <!--                                android:layout_height="wrap_content"-->
+                            <!--                                android:textSize="15sp"-->
+                            <!--                                android:textStyle="normal"-->
+                            <!--                                tools:text="Ended" />-->
 
 
-<!--                            <TextView-->
-<!--                                android:id="@+id/networkYearCountry"-->
-<!--                                android:layout_width="wrap_content"-->
-<!--                                android:layout_height="wrap_content"-->
-<!--                                android:layout_marginTop="2dp"-->
-<!--                                android:textSize="15sp"-->
-<!--                                tools:text="Network 2010 (US) " />-->
+                            <!--                            <TextView-->
+                            <!--                                android:id="@+id/networkYearCountry"-->
+                            <!--                                android:layout_width="wrap_content"-->
+                            <!--                                android:layout_height="wrap_content"-->
+                            <!--                                android:layout_marginTop="2dp"-->
+                            <!--                                android:textSize="15sp"-->
+                            <!--                                tools:text="Network 2010 (US) " />-->
 
 
-<!--                            <TextView-->
-<!--                                android:id="@+id/totalSeasons"-->
-<!--                                android:layout_width="wrap_content"-->
-<!--                                android:layout_height="wrap_content"-->
-<!--                                android:layout_marginTop="2dp"-->
-<!--                                android:textSize="15sp"-->
-<!--                                tools:text="6 seasons" />-->
+                            <!--                            <TextView-->
+                            <!--                                android:id="@+id/totalSeasons"-->
+                            <!--                                android:layout_width="wrap_content"-->
+                            <!--                                android:layout_height="wrap_content"-->
+                            <!--                                android:layout_marginTop="2dp"-->
+                            <!--                                android:textSize="15sp"-->
+                            <!--                                tools:text="6 seasons" />-->
 
 
-<!--                            TODO 1.1.3 new-->
+                            <!--                            TODO 1.1.3 new-->
                             <TextView
                                 android:id="@+id/status"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textSize="15sp"
                                 android:layout_marginTop="2dp"
-                                android:textStyle="normal"
-                                android:text="Ended" />
+                                android:text="Ended"
+                                android:textSize="15sp"
+                                android:textStyle="normal" />
 
                             <TextView
                                 android:id="@+id/releaseAndEndYear"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textSize="15sp"
                                 android:layout_marginTop="2dp"
-                                android:textStyle="normal"
-                                android:text="dal 2010 - 2016" />
+                                android:text="dal 2010 - 2016"
+                                android:textSize="15sp"
+                                android:textStyle="normal" />
 
 
                             <TextView
@@ -327,17 +327,27 @@
 
                                 <!-- TODO Trakt OK -->
                                 <LinearLayout
+                                    android:id="@+id/traktLayout"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginEnd="12dp"
                                     android:gravity="center_horizontal"
                                     android:orientation="vertical">
 
+                                    <!--                                    <ImageButton-->
+                                    <!--                                        android:id="@+id/linkImage"-->
+                                    <!--                                        android:layout_width="32dp"-->
+                                    <!--                                        android:layout_height="32dp"-->
+                                    <!--                                        android:visibility="visible"-->
+                                    <!--                                        android:background="@android:color/transparent"-->
+                                    <!--                                        android:src="@drawable/link_image" />-->
+
                                     <TextView
                                         android:id="@+id/traktRating"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:textSize="24sp"
+                                        android:visibility="visible"
                                         tools:text="8.3" />
 
                                     <TextView
@@ -349,6 +359,7 @@
 
                                 <!--  TODO tmdb OK-->
                                 <LinearLayout
+                                    android:id="@+id/tmdbLayout"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:gravity="center_horizontal"
@@ -370,12 +381,10 @@
                             </LinearLayout>
 
 
-
                             <!-- solo diastanziamento -->
                             <View
                                 android:layout_width="match_parent"
                                 android:layout_height="35dp" />
-
 
 
                             <androidx.constraintlayout.widget.ConstraintLayout
@@ -390,8 +399,8 @@
                                     android:layout_marginEnd="12dp"
                                     android:layout_marginBottom="10dp"
                                     android:textSize="15sp"
-                                    app:layout_constraintTop_toTopOf="parent"
                                     app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent"
                                     tools:text="15/30" />
 
                                 <com.google.android.material.progressindicator.LinearProgressIndicator
@@ -407,8 +416,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="10dp"
                                     app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintTop_toBottomOf="@id/watchedCounterProgressBar"
-                                     />
+                                    app:layout_constraintTop_toBottomOf="@id/watchedCounterProgressBar" />
 
                                 <ProgressBar
                                     android:id="@+id/watchedAllCheckboxLoadingBar"
@@ -448,31 +456,32 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
 
-<!--                        <TextView-->
-<!--                            style="@style/TitleCategoryDetail"-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:text="@string/add_notes"-->
-<!--                            android:textColor="?attr/colorPrimary"-->
-<!--                            android:textStyle="normal" />-->
+                        <!--                        <TextView-->
+                        <!--                            style="@style/TitleCategoryDetail"-->
+                        <!--                            android:layout_width="wrap_content"-->
+                        <!--                            android:layout_height="wrap_content"-->
+                        <!--                            android:text="@string/add_notes"-->
+                        <!--                            android:textColor="?attr/colorPrimary"-->
+                        <!--                            android:textStyle="normal" />-->
 
 
                         <ImageButton
+                            android:id="@+id/addNotesImageButton"
                             android:layout_width="45dp"
                             android:layout_height="45dp"
-                            android:background="@null"
                             android:layout_marginStart="4dp"
+                            android:background="@null"
                             android:src="@drawable/take_notes"
                             app:tint="?attr/colorPrimary" />
 
                         <TextView
-                            android:id="@+id/myNotes"
+                            android:id="@+id/addNotesTextView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="4dp"
                             android:ellipsize="end"
-                            android:maxLines="2"
                             android:hint="Add a note to your movie"
+                            android:maxLines="2"
                             android:textColor="?attr/colorPrimary"
                             android:textStyle="italic"
                             android:visibility="visible" />
