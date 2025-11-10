@@ -104,7 +104,6 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
 
         // SHOW DETAIL -----------------------------------------------------------------------------
         viewModel.loadShowDetail(currentShowIds.trakt)
-
         // TODO: 1.1.3 NEW loading, data + no internet, no data no internet OK
         viewModel.detailState.observe(viewLifecycleOwner) { stateContainer ->
             stateContainer.statesFlowDetailNew(
@@ -120,6 +119,13 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
         }
 
 
+        loadSeasonsSetup()
+        loadRelatedSetup()
+        loadCastSetup()
+        loadTMDBImagesWithCustomGlide()
+        addNotesSetup()
+
+
         // BUTTONS CLICK ---------------------------------------------------------------------------
         b.buttonBack.setOnClickListener {
             requireActivity().onBackPressed()
@@ -128,9 +134,11 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
         b.extendedFloatingLikedButton.setOnClickListener {
             viewModel.toggleLikedShow(currentShowIds.trakt)
         }
+    }
 
 
-        // SEASONS ------------------------------------------------------------------------------------
+    // SEASONS ------------------------------------------------------------------------------------
+    private fun loadSeasonsSetup() {
         b.seasonsRecyclerview.adapter = seasonsAdapter
         b.seasonsRecyclerview.layoutManager = LinearLayoutManager(requireContext())
         viewModel.loadAllSeasons(currentShowIds)
@@ -164,9 +172,11 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
                 }
             )
         }
+    }
 
 
-        // RELATED SHOWS --------------------------------------------------------------------------------
+    // RELATED SHOWS --------------------------------------------------------------------------------
+    private fun loadRelatedSetup() {
         b.relatedRecyclerview.adapter = relatedShowsAdapter
         b.relatedRecyclerview.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
@@ -192,9 +202,11 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
                 }
             )
         }
+    }
 
 
-        // CAST SHOWS ---------------------------------------------------------------------------------
+    // CAST SHOWS ---------------------------------------------------------------------------------
+    private fun loadCastSetup() {
         b.castRecyclerView.adapter = castMovieAdapter
         b.castRecyclerView.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
@@ -225,11 +237,10 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
                 }
             )
         }
+    }
 
 
-        loadTMDBImagesWithCustomGlide()
-
-
+    private fun addNotesSetup() {
         b.addNotesImageButton.setOnClickListener {
             val dialog = Dialog(requireContext())
             dialog.setContentView(R.layout.dialog_add_notes)
@@ -240,7 +251,6 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
 
             dialogB.noteEditText.setText(viewModel.getNotes())
 
-            // OK
             dialogB.saveNoteButton.setOnClickListener {
                 val notes = dialogB.noteEditText.text.toString()
                 viewModel.setNotes(currentShowIds.trakt, notes)
@@ -249,7 +259,6 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
 
             dialog.show()
         }
-
     }
 
 
@@ -618,6 +627,7 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
 
         private const val SHOW_IDS_KEY = "showIdsKey"
     }
+
 
     // TODO: fix class
     object ShowDefaults {
