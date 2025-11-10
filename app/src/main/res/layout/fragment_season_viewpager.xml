@@ -1,54 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-
+<!-- <TODO padding 4/8 - perche immagine cerchio non centrata perfettamente nel image button-->
     <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:paddingStart="4dp"
+        android:paddingEnd="8dp"
+        android:orientation="horizontal">
 
 
         <ImageButton
-                android:id="@+id/buttonBack"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/back_button_arrow"
-                android:layout_margin="8dp"
-                android:importantForAccessibility="no" />
+            android:id="@+id/buttonBack"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:importantForAccessibility="no"
+            app:srcCompat="@drawable/back_button_arrow"
+            android:scaleType="center"
+            />
+
+
 
         <TextView
-                android:id="@+id/showTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="Game of Thrones"
-                android:textSize="20dp"
-                android:layout_marginStart="8dp"/>
-
+            android:id="@+id/showTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:textSize="20dp"
+            tools:text="Game of Thrones Game of Thrones Game of Thrones Game of Thrones Game of Thrones Game of Thrones" />
 
     </LinearLayout>
 
 
     <!-- Tab Layout - per seasons -->
     <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tabLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?attr/colorOnPrimary"
-            app:tabIndicatorColor="?attr/colorPrimary"
-            app:tabMode="fixed"
-            app:tabGravity="fill" />
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorOnPrimary"
+        app:tabGravity="fill"
+        app:tabIndicatorColor="?attr/colorPrimary"
+        app:tabMode="fixed" />
 
 
     <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/viewPager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 
 </LinearLayout>
