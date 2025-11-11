@@ -1,130 +1,194 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
 
     <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <!-- Season Details -->
         <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:background="?attr/colorSurfaceVariant"
-                android:padding="8dp">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorSurfaceVariant">
+
+            <!--            <com.google.android.material.imageview.ShapeableImageView-->
+            <!--                    android:id="@+id/seasonPoster"-->
+            <!--                    android:layout_width="100dp"-->
+            <!--                    android:layout_height="150dp"-->
+            <!--                    android:layout_alignParentStart="true"-->
+            <!--                    tools:background="@tools:sample/avatars"-->
+            <!--                    style="@style/ImageSeason"-->
+            <!--                    app:layout_constraintStart_toStartOf="parent"-->
+            <!--                    app:layout_constraintTop_toTopOf="parent" />-->
 
             <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/seasonPoster"
-                    android:layout_width="100dp"
-                    android:layout_height="150dp"
-                    android:layout_alignParentStart="true"
-                    tools:background="@tools:sample/avatars"
-                    style="@style/ImageSeason"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                android:id="@+id/seasonPoster"
+                android:layout_width="120dp"
+                android:layout_height="180dp"
+                android:layout_alignParentStart="true"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:background="@tools:sample/avatars" />
 
 
             <TextView
-                    android:id="@+id/seasonTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toEndOf="@id/seasonPoster"
-                    android:layout_marginStart="16dp"
-                    tools:text="Season 1"
-                    android:textAppearance="?attr/textAppearanceBody1"
-                    app:layout_constraintStart_toEndOf="@id/seasonPoster"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:textStyle="bold" />
+                android:id="@+id/seasonTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_toEndOf="@id/seasonPoster"
+                android:textAppearance="?attr/textAppearanceBody1"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@id/seasonPoster"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Season 1" />
 
             <TextView
-                    android:id="@+id/seasonOverview"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_toEndOf="@id/seasonPoster"
-                    android:layout_marginStart="16dp"
-                    tools:text="Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
-                    android:textAppearance="?attr/textAppearanceBody1"
-                    app:layout_constraintTop_toBottomOf="@id/seasonTitle"
-                    app:layout_constraintStart_toEndOf="@id/seasonPoster"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:maxLines="6"
-                    android:ellipsize="end"
-                    android:clickable="true" />
+                android:id="@+id/seasonOverview"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="12dp"
+                android:layout_toEndOf="@id/seasonPoster"
+                android:clickable="true"
+                android:ellipsize="end"
+                android:maxLines="6"
+                android:paddingBottom="8dp"
+                android:textAppearance="?attr/textAppearanceBody1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/seasonPoster"
+                app:layout_constraintTop_toBottomOf="@id/seasonTitle"
+                tools:text="Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur." />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+
+<!--        TODO test verticale-->
+<!--        <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+
+<!--            android:background="?attr/colorSurfaceVariant">-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/seasonOverview"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="8dp"-->
+<!--                android:layout_toEndOf="@id/seasonPoster"-->
+<!--                android:clickable="true"-->
+<!--                android:ellipsize="end"-->
+<!--                android:maxLines="3"-->
+<!--                android:textAppearance="?attr/textAppearanceBody1"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/seasonPoster"-->
+<!--                tools:text="Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur." />-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/seasonTitle"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="8dp"-->
+<!--                android:textAppearance="?attr/textAppearanceBody1"-->
+<!--                android:textStyle="bold"-->
+<!--                android:elevation="4dp"-->
+<!--                android:textSize="18sp"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toTopOf="parent"-->
+<!--                tools:text="Season 1" />-->
+
+<!--            <com.google.android.material.imageview.ShapeableImageView-->
+<!--                android:id="@+id/seasonPoster"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="200dp"-->
+<!--                android:layout_marginTop="8dp"-->
+<!--                app:layout_constraintEnd_toStartOf="parent"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/seasonTitle"-->
+<!--                android:scaleType="centerCrop"-->
+<!--                tools:background="@tools:sample/avatars" />-->
+
+
+<!--        </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+
+
+
         <!-- Episodes List -->
         <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingStart="12dp"
-                android:paddingEnd="12dp">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="vertical"
+            android:paddingHorizontal="12dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
                 <TextView
-                        android:id="@+id/SeasonEpisodes"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/episodes"
-                        android:textStyle="bold"
-                        android:textSize="16sp"
-                        android:layout_marginStart="6dp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"/>
+                    android:id="@+id/SeasonEpisodes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/episodes"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/watchedAllText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="4dp"
                     android:text="@string/all"
+                    android:textSize="18sp"
                     android:textStyle="bold"
-                    app:layout_constraintEnd_toStartOf="@id/watchedAllIcon"
-                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    android:textSize="16sp"
-                    android:layout_marginEnd="4dp" />
+                    app:layout_constraintEnd_toStartOf="@id/watchedAllIcon"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-<!--                <ImageView-->
-<!--                        android:id="@+id/watchedAllIcon"-->
-<!--                        android:layout_width="30dp"-->
-<!--                        android:layout_height="30dp"-->
-<!--                        android:src="@android:drawable/ic_menu_view"-->
-<!--                        android:contentDescription="View episode"-->
-<!--                        android:layout_marginEnd="14dp"-->
-<!--                        android:clickable="true"-->
+                <!--                <ImageView-->
+                <!--                        android:id="@+id/watchedAllIcon"-->
+                <!--                        android:layout_width="30dp"-->
+                <!--                        android:layout_height="30dp"-->
+                <!--                        android:src="@android:drawable/ic_menu_view"-->
+                <!--                        android:contentDescription="View episode"-->
+                <!--                        android:layout_marginEnd="14dp"-->
+                <!--                        android:clickable="true"-->
 
-<!--                        app:layout_constraintEnd_toEndOf="parent"-->
-<!--                        app:layout_constraintTop_toTopOf="parent" />-->
+                <!--                        app:layout_constraintEnd_toEndOf="parent"-->
+                <!--                        app:layout_constraintTop_toTopOf="parent" />-->
 
                 <ImageView
-                        android:id="@+id/watchedAllIcon"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:src="@drawable/episode_watched_all_empty"
-                        android:layout_marginEnd="14dp"
-                        android:clickable="true"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                    android:id="@+id/watchedAllIcon"
+                    android:layout_width="34dp"
+                    android:layout_height="34dp"
+                    android:layout_marginEnd="16dp"
+                    android:clickable="true"
+                    android:src="@drawable/episode_watched_all_empty"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 
             <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/episodesRV"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    tools:layout_height="500dp"
-                    tools:listitem="@layout/viewholder_episode_on_season" />
+                android:id="@+id/episodesRV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:layout_height="500dp"
+                tools:listitem="@layout/viewholder_episode_on_season" />
 
         </LinearLayout>
 

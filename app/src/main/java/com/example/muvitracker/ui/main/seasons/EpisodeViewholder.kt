@@ -13,11 +13,12 @@ class EpisodeViewholder(
 
 
     fun bind(item: Episode) {
-        binding.episodeNumberAndRelease.text =
-            "E.${item.episodeNumber.episodesFormatNumber()} • ${item.firstAiredFormatted.formatDateFromFirsAired()}" // TODO caso null con N/A
+        binding.episodeInfo.text =
+            "E.${item.episodeNumber.episodesFormatNumber()} • ${item.firstAiredFormatted.formatDateFromFirsAired()} • ${item.runtime} min" // TODO caso null con N/A
+//            "Episode ${item.episodeNumber.episodesFormatNumber()}"
 
-        binding.episodeTitleAndRuntime.text =
-            "${item.title} (${item.runtime} min)"
+        binding.episodeTitle.text =
+            "${item.title}"
 
         binding.traktRating.text = item.traktRating
     }
