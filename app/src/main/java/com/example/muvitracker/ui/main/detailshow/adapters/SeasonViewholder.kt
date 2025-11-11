@@ -8,19 +8,19 @@ import com.example.muvitracker.domain.model.Season
 
 
 class SeasonViewholder(
-    val binding: ViewholderSeasonsOnDetailshowBinding
-) : ViewHolder(binding.root) {
+    val b: ViewholderSeasonsOnDetailshowBinding
+) : ViewHolder(b.root) {
 
     fun bind(seasonItem: Season, context : Context) {
         // old
 //        binding.seasonNrAndYear.text = "${context.getString(R.string.season_text)} ${seasonItem.seasonNumber} (${seasonItem.releaseDate?.take(4)})"
         // new 1.1.3  - seson from traslated dto
-        binding.seasonNrAndYear.text = "${seasonItem.title} (${seasonItem.releaseDate?.take(4)})"
-        val episodesText = binding.root.context.getString(R.string.episodes_text)
-        binding.totalEpisodes.text = "${seasonItem.episodeCount} $episodesText"
-        binding.traktRating.text = seasonItem.traktRating
+        b.seasonInfoTextview.text = "${seasonItem.title} (${seasonItem.releaseDate?.take(4)})"
+        val episodesText = b.root.context.getString(R.string.episodes_text)
+        b.totalEpisodes.text = "${seasonItem.episodeCount} $episodesText"
+        b.traktRating.text = seasonItem.traktRating
 
-        binding.watchedCounterTextview.text =
+        b.watchedCounterTextview.text =
             "${seasonItem.watchedCount}/${seasonItem.episodeCount}"
 
     }

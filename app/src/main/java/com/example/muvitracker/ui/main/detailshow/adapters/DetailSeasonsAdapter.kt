@@ -26,7 +26,7 @@ class DetailSeasonsAdapter(
     override fun onBindViewHolder(holder: SeasonViewholder, position: Int) {
         val seasonItem = getItem(position)
 
-        val context = holder.binding.root.context
+        val context = holder.b.root.context
         holder.bind(seasonItem, context)
 
         // click - apri season fragment
@@ -36,29 +36,29 @@ class DetailSeasonsAdapter(
 
         // WATCHED CHECKBOX
         // stato default sempre iniziale per il nuovo elemento (per evitare animaz e stati elementi precedenti)
-        holder.binding.seasonCheckbox.isEnabled = seasonItem.airedEpisodes != 0
+        holder.b.seasonCheckbox.isEnabled = seasonItem.airedEpisodes != 0
 
-        holder.binding.watchedAllCheckboxLoadingBar.visibility = View.GONE
+        holder.b.watchedAllCheckboxLoadingBar.visibility = View.GONE
 
         // sempre set(null) -> sempre prima di update -> aggiornamento checkbox senza trigger del listener
-        holder.binding.seasonCheckbox.setOnCheckedChangeListener(null)
-        holder.binding.seasonCheckbox.isChecked = seasonItem.watchedAll
+        holder.b.seasonCheckbox.setOnCheckedChangeListener(null)
+        holder.b.seasonCheckbox.isChecked = seasonItem.watchedAll
 
         // UPDATE SDK 34 to 36
-        holder.binding.seasonCheckbox.setOnCheckedChangeListener(object :
+        holder.b.seasonCheckbox.setOnCheckedChangeListener(object :
             CompoundButton.OnCheckedChangeListener {
             override fun onCheckedChanged(buttonView: CompoundButton, isChecked: Boolean) {
-                holder.binding.seasonCheckbox.isEnabled = false
-                holder.binding.watchedAllCheckboxLoadingBar.visibility = View.VISIBLE
+                holder.b.seasonCheckbox.isEnabled = false
+                holder.b.watchedAllCheckboxLoadingBar.visibility = View.VISIBLE
 
                 // ad operazione loading conclusa, la viewmodel callback chiama questa callabck
                 onClickWatchedAllCheckbox.invoke(seasonItem.seasonNumber) {
-                    holder.binding.watchedAllCheckboxLoadingBar.visibility = View.GONE
-                    holder.binding.seasonCheckbox.isEnabled = true
+                    holder.b.watchedAllCheckboxLoadingBar.visibility = View.GONE
+                    holder.b.seasonCheckbox.isEnabled = true
                     // aggiorno di nuovo chekbox
-                    holder.binding.seasonCheckbox.setOnCheckedChangeListener(null)
-                    holder.binding.seasonCheckbox.isChecked = seasonItem.watchedAll
-                    holder.binding.seasonCheckbox.setOnCheckedChangeListener(this)
+                    holder.b.seasonCheckbox.setOnCheckedChangeListener(null)
+                    holder.b.seasonCheckbox.isChecked = seasonItem.watchedAll
+                    holder.b.seasonCheckbox.setOnCheckedChangeListener(this)
 
                     holder.bind(seasonItem, context) // Re-bind per aggiornare i dati visualizzati
                 }
