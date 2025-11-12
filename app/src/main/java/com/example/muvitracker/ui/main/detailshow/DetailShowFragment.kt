@@ -39,6 +39,7 @@ import com.example.muvitracker.utils.statesFlowDetailNew
 import com.example.muvitracker.utils.viewBinding
 import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
+import java.time.LocalDate
 import javax.inject.Inject
 
 // TODO
@@ -118,11 +119,10 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
             )
         }
 
-
         loadSeasonsSetup()
         loadRelatedSetup()
         loadCastSetup()
-        loadTMDBImagesWithCustomGlide()
+        loadTMDBImagesWithCustomGlideSetup()
         addNotesSetup()
 
 
@@ -134,6 +134,7 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
         b.extendedFloatingLikedButton.setOnClickListener {
             viewModel.toggleLikedShow(currentShowIds.trakt)
         }
+
     }
 
 
@@ -267,114 +268,120 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
     private fun setupDetailShowUiSection(show: Show) {
         currentShowTitle = show.title.orIfBlank(ShowDefaults.TITLE) ?: "" // 1.1.3 OK
 
-        with(b) {
-            title.text = show.title.orIfBlank(ShowDefaults.TITLE) // 1.1.3 OK
 
-            tagline.apply { // 1.1.3 OK
-                if (show.tagline.isNullOrBlank()) {
-                    visibility = View.GONE
-                } else {
-                    text = show.tagline
-                    visibility = View.VISIBLE
-                }
-            }
+        b.title.text = show.title.orIfBlank(ShowDefaults.TITLE) // 1.1.3 OK
 
-            // INFO SECTION
-            status.text = show.status?.replaceFirstChar { it.uppercaseChar() } // 1.1.3 OK
-                .orIfBlank(MovieDefaults.STATUS)  // es released
-
-
-            // 1.1.3 NETWORK OK
-            val networkList = show.networks.filter { it.isNotBlank() }
-            val networkText =
-                if (networkList.isNullOrEmpty()) {
-                    ShowDefaults.NETWORK
-                } else {
-                    networkList.joinToString(", ")
-                }
-
-            // 1.1.3 COUNTRY OK
-            val countryList = show.countries.filter { it.isNotBlank() }
-            val countryText =
-                if (countryList.isNullOrEmpty()) {
-                    ", ${ShowDefaults.COUNTRY}"
-                } else {
-                    " (${countryList.joinToString(", ")})"
-                }
-            // 1.1.3 - NETWORK COUNTRY OK
-            networkAndCountry.text = "$networkText$countryText" // separation on 'countryText'
-
-
-            // 1.1.3 - OK
-            releaseAndEndYear.text = if (show.lastAirDate.isNullOrBlank()) {
-                getString(R.string.from_release_year, show.firstAirDate?.substring(0, 4))
+        b.tagline.apply { // 1.1.3 OK
+            if (show.tagline.isNullOrBlank()) {
+                visibility = View.GONE
             } else {
-                getString(
-                    R.string.from_release_year_to_finish_year,
-                    show.firstAirDate?.substring(0, 4),
-                    show.lastAirDate.substring(0, 4)
-                )
+                text = show.tagline
+                visibility = View.VISIBLE
             }
-
-            // 1.1.3 - OK
-            airedEpisodes.text =
-                getString(R.string.aired_episodes, show.airedEpisodes.toString())
-
-
-            // TODO 1.1.3: click su film
-            traktRating.text = show.traktRating
-            tmdbRating.text = show.tmdbRating
-            ratingLayoutsSetup(show)
-
-            //
-            // 1.1.3 - IN INGLESE OK
-            englishTitle.apply {
-                if (show.title != show.englishTitle) {
-                    visibility = View.VISIBLE
-                    text = "${show.englishTitle}"
-                } else {
-                    visibility = View.GONE
-                }
-
-            }
-            // 1.1.3 - OK
-            overviewContent.text = show.overview.orIfBlank(ShowDefaults.OVERVIEW)
-            expandOverview()
-
-            // TODO: upgrade grafica
-            // genres
-            genresChipGroup.removeAllViews()
-            show.genres.forEach { genre ->
-                val chip = Chip(context).apply { text = genre }
-//                chip.isEnabled = false todo
-                genresChipGroup.addView(chip)
-            }
-
-            // TODO: - sistemare funzione ricerca link migliore
-            // open link on youtube
-            val trailerUrl = show.youtubeTrailer
-            val trailerAvailable = !trailerUrl.isNullOrBlank()
-            // sbiadimento senza trailer
-            trailerLayout.alpha = if (trailerAvailable) 1f else 0.4f
-            //
-            trailerLayout.setOnClickListener {
-                if (trailerAvailable) {
-                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(trailerUrl))
-                    startActivity(intent)
-                } else {
-                    Toast.makeText(
-                        requireContext(),
-                        getString(R.string.no_trailer_available),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            }
-
-            // upgrade  – disable checkbox click if no episodes have been aired
-            val isEnabled = show.airedEpisodes != 0
-            b.watchedAllCheckbox.isEnabled = isEnabled
-            b.watchedAllTextview.isEnabled = isEnabled
         }
+
+        // INFO SECTION ----------------------------------------------------------------------
+        b.status.text = show.status?.replaceFirstChar { it.uppercaseChar() } // 1.1.3 OK
+            .orIfBlank(MovieDefaults.STATUS)  // es released
+
+
+        // 1.1.3 - NETWORK COUNTRY OK
+        val networkList = show.networks.filter { it.isNotBlank() }
+        val networkText =
+            if (networkList.isNullOrEmpty()) {
+                ShowDefaults.NETWORK
+            } else {
+                networkList.joinToString(", ")
+            }
+        //
+        val countryList = show.countries.filter { it.isNotBlank() }
+        val countryText =
+            if (countryList.isNullOrEmpty()) {
+                ", ${ShowDefaults.COUNTRY}"
+            } else {
+                " (${countryList.joinToString(", ")})"
+            }
+        //
+        b.networkAndCountry.text = "$networkText$countryText" // separation on 'countryText'
+
+
+        // 1.1.3  - YEAR OK
+        //
+        val currentYear = LocalDate.now().year
+        val firstYear: Int? = show.year // 2019
+        val lastYear: Int? = show.lastAirDate // 2019-05-19
+            ?.takeIf { it.length >= 4 } // if() return this, or null - stringa < 4
+            ?.substring(0, 4)
+            ?.toIntOrNull()
+
+        b.releaseAndEndYear.text = when {
+            firstYear != null &&
+                    lastYear != null &&
+                    lastYear > firstYear &&
+                    lastYear != currentYear -> "$firstYear - $lastYear"
+
+            firstYear != null -> getString(R.string.from_release_year, "$firstYear")
+
+            else -> ShowDefaults.YEAR
+        }
+
+
+        // 1.1.3 - OK
+        b.airedEpisodes.text =
+            getString(R.string.aired_episodes, show.airedEpisodes.toString())
+
+
+        // TODO 1.1.3: click su film
+        ratingLayoutsSetup(show)
+
+        //
+        // 1.1.3 - IN INGLESE OK
+        b.englishTitle.apply {
+            if (show.title != show.englishTitle) {
+                visibility = View.VISIBLE
+                text = "${show.englishTitle}"
+            } else {
+                visibility = View.GONE
+            }
+
+        }
+        // 1.1.3 - OK
+        b.overviewContent.text = show.overview.orIfBlank(ShowDefaults.OVERVIEW)
+        expandOverviewSetup()
+
+        // TODO: upgrade grafica
+        // genres
+        b.genresChipGroup.removeAllViews()
+        show.genres.forEach { genre ->
+            val chip = Chip(context).apply { text = genre }
+//                chip.isEnabled = false todo
+            b.genresChipGroup.addView(chip)
+        }
+
+        // TODO: - sistemare funzione ricerca link migliore
+        // open link on youtube
+        val trailerUrl = show.youtubeTrailer
+        val trailerAvailable = !trailerUrl.isNullOrBlank()
+        // sbiadimento senza trailer
+        b.trailerLayout.alpha = if (trailerAvailable) 1f else 0.4f
+        //
+        b.trailerLayout.setOnClickListener {
+            if (trailerAvailable) {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(trailerUrl))
+                startActivity(intent)
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.no_trailer_available),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+
+        // upgrade  – disable checkbox click if no episodes have been aired
+        val isEnabled = show.airedEpisodes != 0
+        b.watchedAllCheckbox.isEnabled = isEnabled
+        b.watchedAllTextview.isEnabled = isEnabled
 
         b.addNotesTextView.text = show.notes
     }
@@ -416,7 +423,7 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
 
 
     // TODO: OK
-    private fun loadTMDBImagesWithCustomGlide() {
+    private fun loadTMDBImagesWithCustomGlideSetup() {
         Glide.with(requireContext())
             .load(ImageTmdbRequest.ShowHorizontal(currentShowIds.tmdb))
             .transition(DrawableTransitionOptions.withCrossFade(300))
@@ -434,7 +441,7 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
 
 
     // TODO: OK
-    private fun expandOverview() {
+    private fun expandOverviewSetup() {
         var isTextExpanded = false // initial state, fragment opening
         b.overviewContent.setOnClickListener {
             if (isTextExpanded) { // expanded==true -> contract
@@ -449,6 +456,8 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
     }
 
     private fun ratingLayoutsSetup(show: Show) {
+        b.traktRating.text = show.traktRating
+        b.tmdbRating.text = show.tmdbRating
 
         if (show.traktRating.isNullOrEmpty() || show.traktRating == "0.0") {
             b.traktRating.visibility = View.GONE
@@ -632,7 +641,7 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
     // TODO: fix class
     object ShowDefaults {
         const val TITLE = "Untitled"
-        const val RELEASE = "Year: —"
+        const val YEAR = "Year N/A"
         const val RUNTIME = "Runtime: N/A"
         const val STATUS = "Status: Unknown"
         const val LANGUAGE = "Language: Unknown"
