@@ -6,6 +6,7 @@ import com.example.muvitracker.data.dto._support.Ids
 import com.example.muvitracker.data.utils.orIfBlank
 import com.example.muvitracker.data.utils.orIfEmpty
 import com.example.muvitracker.data.utils.orIfNull
+import com.example.muvitracker.data.utils.splitToCleanList
 import com.example.muvitracker.data.utils.youtubeLinkTransformation
 import com.example.muvitracker.utils.firstDecimalApproxToString
 import com.google.gson.annotations.SerializedName
@@ -82,7 +83,7 @@ fun mergeMoviesDtoToEntity(
         releaseDate = tmdb?.releaseDate.orIfBlank(trakt.released), // NO formatToSqliteCompatibleDate()
         // from trakt - us  | tmdb - US,GB
         countries = tmdb?.originCountry
-            .orIfEmpty(trakt.country?.takeIf { it.isNotBlank() }?.let { listOf(it.uppercase()) })
+            .orIfEmpty(trakt.country?.splitToCleanList())
             ?: emptyList(), // OK
         runtime = tmdb?.runtime.orIfNull(trakt.runtime),
         originalLanguage = tmdb?.originalLanguage.orIfBlank(trakt.language),

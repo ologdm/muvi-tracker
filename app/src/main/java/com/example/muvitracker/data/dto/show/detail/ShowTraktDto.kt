@@ -3,8 +3,12 @@ package com.example.muvitracker.data.dto.show.detail
 import com.example.muvitracker.data.LanguageManager
 import com.example.muvitracker.data.database.entities.ShowEntity
 import com.example.muvitracker.data.dto._support.Ids
+import com.example.muvitracker.data.utils.orIfBlank
+import com.example.muvitracker.data.utils.orIfEmpty
+import com.example.muvitracker.data.utils.splitToCleanList
 import com.example.muvitracker.data.utils.youtubeLinkTransformation
 import com.example.muvitracker.utils.firstDecimalApproxToString
+import com.example.muvitracker.utils.formatDateFromFirsAired
 import com.google.gson.annotations.SerializedName
 
 // only base + rating
@@ -16,63 +20,76 @@ data class ShowTraktDto(
     val year: Int?, // 2011 - first year
     val ids: Ids, // + tvdb
 
-//    val tagline: String?, // Winter is coming
-//    val overview: String?, // Seven noble families fight.....
-//    @SerializedName("first_aired") val firstAired: String?, // "2011-04-18T01:00:00.000Z"
+    val tagline: String?, // Winter is coming
+    val overview: String?, // Seven noble families fight.....
+    @SerializedName("first_aired") val firstAired: String?, // "2011-04-18T01:00:00.000Z"
 //    val airs : Airs // [ day, time, timezone ]
     val runtime: Int?, // 55
 //    val certification: String,
-//    val network: String?, // HBO
-//    val country: String?, // us
+    val network: String?, // HBO
+    val country: String?, // us
 //    @SerializedName("updated_at") val updatedAt: String = "", // date
     val trailer: String?, // https://youtube.com/watch?v=KPLWWIOCOOQ
-//    val homepage: String?, // http://www.hbo.com/game-of-thrones
-//    val status: String?, // ended
+    val homepage: String?, // http://www.hbo.com/game-of-thrones
+    val status: String?, // ended
     val rating: Float?, // 8.89378
-//    val votes: Int?, // 142022
+    val votes: Int?, // 142022
 //    @SerializedName("comment_count") val commentCount: Int = 0, // 444
-//    val language: String?, // en
-//    val languages: List<String>?, // [en, it]
+    val language: String?, // en
+    val languages: List<String>?, // [en, it]
 //    val availableTranslations: List<String> = emptyList(), // [en, it, tr, ...]
-//    val genres: List<String>?, // [drama, fantasy]
-    @SerializedName("aired_episodes") val airedEpisodes: Int? // 733
+    val genres: List<String>?, // [drama, fantasy]
+    @SerializedName("aired_episodes") val airedEpisodes: Int?, // 733
+    @SerializedName("original_title")
+    val originalTitle: String? // Games of thrones
 )
 
 
+/**  solo da trakt:  ids, year, , rating, airedEpisodes  */
+/**  ## Logica di unione, uguale a movie */
+
 fun mergeShowsDtoToEntity(
-    trakt: ShowTraktDto, tmdb: ShowTmdbDto
+    trakt: ShowTraktDto, tmdb: ShowTmdbDto?
 ): ShowEntity {
     return ShowEntity(
         // trakt ok
         traktId = trakt.ids.trakt,
         year = trakt.year,
         ids = trakt.ids,
-        airedEpisodes = trakt.airedEpisodes ?: 0, // default = 0  (logica vecchia serve per calcolo () )
+        airedEpisodes = trakt.airedEpisodes
+            ?: 0, // default = 0 (logica vecchia serve per calcolo ())
 
         // tmdb
-        title = tmdb.name,
-        tagline = tmdb.tagline,
-        overview = tmdb.overview,
-        status = tmdb.status,
-        firstAirDate = tmdb.firstAirDate, // test con tmdb
-        lastAirDate = tmdb.lastAirDate, // TODO inserire a ui : inizio -> fine
-        runtime = trakt.runtime,
-        countries = tmdb.originCountry ?: emptyList(), // entity not null
-        originalLanguage = tmdb.originalLanguage,
-        languages = tmdb.languages ?: emptyList(), // entity not null
-        originalTitle = tmdb.originalName,
+        title = tmdb?.name.orIfBlank(trakt.title),
+        tagline = tmdb?.tagline.orIfBlank(trakt.tagline),
+        overview = tmdb?.overview.orIfBlank(trakt.overview),
+        status = tmdb?.status.orIfBlank(trakt.status),
+        firstAirDate = tmdb?.firstAirDate.orIfBlank(trakt.firstAired.formatDateFromFirsAired()), // test con tmdb
+        lastAirDate = tmdb?.lastAirDate, // lasciare null, per logica ui
+        runtime = trakt.runtime, // only trakt
+        countries = tmdb?.originCountry
+            .orIfEmpty(trakt.country?.splitToCleanList()?.map { it.uppercase() })
+            ?: emptyList(),
+        originalLanguage = tmdb?.originalLanguage.orIfBlank(trakt.language),
+        languages = tmdb?.languages.orIfEmpty(trakt.languages)
+            ?: emptyList(), // entity not null
+        originalTitle = tmdb?.originalName.orIfBlank(trakt.originalTitle),
         englishTitle = trakt.title, // di default trakt è tutto in inglese
-        networks = tmdb.networks?.map { it.name } ?: emptyList(), // entity not null
-        genres = tmdb.genres?.map { it.name } ?: emptyList(), // entity not null
+        networks = tmdb?.networks?.map { it.name }
+            .orIfEmpty(trakt.network?.splitToCleanList())
+            ?: emptyList(),
+        genres = tmdb?.genres?.map { it.name }
+            .orIfEmpty(trakt.genres)
+            ?: emptyList(), // entity not null
         //
-        youtubeTrailer = tmdb.videos?.youtubeLinkTransformation() ?: trakt.trailer,
-        homepage = tmdb.homepage,
+        youtubeTrailer = tmdb?.videos?.youtubeLinkTransformation().orIfBlank(trakt.trailer),
+        homepage = tmdb?.homepage.orIfBlank(trakt.homepage),
         //
-        backdropPath = tmdb.backdropPath,
-        posterPath = tmdb.posterPath,
+        backdropPath = tmdb?.backdropPath, // solo tmdb
+        posterPath = tmdb?.posterPath, // solo tmdb
         // ratings
-        tmdbRating = tmdb.voteAverage?.firstDecimalApproxToString(), // in 8.458 -> out 8.5
         traktRating = trakt.rating?.firstDecimalApproxToString(),
+        tmdbRating = tmdb?.voteAverage?.firstDecimalApproxToString(), // in 8.458 -> out 8.5
 
         // sistema
         currentTranslation = LanguageManager.getSystemLocaleTag()

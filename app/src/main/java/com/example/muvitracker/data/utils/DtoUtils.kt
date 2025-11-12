@@ -34,6 +34,17 @@ fun <T> T?.orIfNull(fallback: T?): T? {
     return this ?: fallback
 }
 
+/**
+ *  "one, two, three" -> ["one", "two", "three"]
+ */
+fun String.splitToCleanList(): List<String>? {
+    return this
+        .takeIf { it.isNotBlank() } // va avanti solo se stringa non vuota
+        ?.split(",") // crea lista
+        ?.map { it.trim() } // rimuove eventuali spazi da ogni elemento
+        ?.filter { it.isNotBlank() } // rimuove eventuali stringhe vuote
+}
+
 
 /**
  * Priority:

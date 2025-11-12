@@ -48,11 +48,11 @@ fun String.dateFormatterInddMMMyyy(): String {
 
 
 fun Double.firstDecimalApproxToString(): String {
-    return String.format(Locale.US,"%.1f", this)
+    return String.format(Locale.US, "%.1f", this)
 }
 
 fun Float.firstDecimalApproxToString(): String {
-    return String.format(Locale.US,"%.1f", this)
+    return String.format(Locale.US, "%.1f", this)
     // % - numbers
     // .1f - decimal
 }
@@ -101,6 +101,12 @@ fun String?.formatDateFromFirsAired(): String {
 }
 
 
+fun String?.getDateFromDateTime(): String? {
+    return this?.takeIf { it.isNotBlank() }
+        ?.substring(0, 10)
+}
+
+
 // data corrente in formato compatibile con "yyyy-MM-dd HH:mm:ss" di SQLite
 fun getNowFormattedDateTime(): String {
     val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
@@ -109,6 +115,7 @@ fun getNowFormattedDateTime(): String {
 }
 
 
+// per episode
 // data in formato compatibile con "yyyy-MM-dd HH:mm:ss" di SQLite
 fun formatToSqliteCompatibleDate(isoDate: String?): String? {
     if (isoDate.isNullOrBlank()) return null
