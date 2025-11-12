@@ -8,6 +8,7 @@ import com.example.muvitracker.data.database.entities.ShowEntity
 import com.example.muvitracker.data.dto.show.detail.mergeShowsDtoToEntity
 import com.example.muvitracker.data.dto._support.Ids
 import com.example.muvitracker.data.dto.person.toDomain
+import com.example.muvitracker.data.dto.show.detail.ShowTmdbDto
 import com.example.muvitracker.data.dto.show.toDomain
 import com.example.muvitracker.data.utils.mapToIoResponse
 import com.example.muvitracker.data.utils.storeFactory
@@ -38,19 +39,37 @@ class DetailShowRepositoryImpl @Inject constructor(
     private val seasonRepository: SeasonRepository,
     database: MyDatabase,
 ) : DetailShowRepository {
+
     private val detailShowDao = database.showDao()
     private val seasonDao = database.seasonsDao()
 
 
-    private val store = storeFactory<Int, ShowEntity, Show>(
-        fetcher = { traktId ->
-            val traktDto = traktApi.getShowDetail(traktId)
-            val tmdbDto = tmdbApi.getShowDto(traktDto.ids.tmdb)
-            mergeShowsDtoToEntity(traktDto, tmdbDto)
+    private val store = storeFactory<Ids, ShowEntity, Show>(
+        fetcher = { ids ->
+            coroutineScope {
+                // 1° chiamata async
+                val traktDtoDeferred = async { traktApi . getShowDetail (ids.trakt)}
+                // 2° chiamata async
+                val tmdbDtoDeferred = async {
+                    try {  // try/catch necessario per evitare che l'eccezione mi blocchi la coroutine padre!!
+                        tmdbApi.getShowDto(ids.tmdb)
+                    } catch (ex: CancellationException) {
+                        throw ex  // deve propagare le cancellation
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                        null  // fallback: ritorna null se qualsiasi altra eccezione
+                    }
+                }
+
+                val traktDto = traktDtoDeferred.await()
+                val tmdbDto =  tmdbDtoDeferred.await()
+
+                mergeShowsDtoToEntity(traktDto, tmdbDto)
+            }
         },
-        reader = { traktId ->
+        reader = { ids ->
             // join showEntity + prefsEntity + watchedEpisodes  - on query
-            detailShowDao.getSingleFlow(traktId)
+            detailShowDao.getSingleFlow(ids.trakt)
         },
         writer = { _, entity ->
             detailShowDao.insertSingle(entity)
@@ -58,8 +77,8 @@ class DetailShowRepositoryImpl @Inject constructor(
     )
 
 
-    override fun getSingleDetailShowFlow(showId: Int): Flow<IoResponse<Show>> {
-        return store.stream(StoreRequest.cached(key = showId, refresh = true))
+    override fun getSingleDetailShowFlow(showIds: Ids): Flow<IoResponse<Show>> {
+        return store.stream(StoreRequest.cached(key = showIds, refresh = true))
             .mapToIoResponse()
     }
 

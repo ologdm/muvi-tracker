@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface DetailShowRepository {
 
-    fun getSingleDetailShowFlow(showId: Int): Flow<IoResponse<Show>>
+    fun getSingleDetailShowFlow(showIds: Ids): Flow<IoResponse<Show>>
 
     suspend fun getRelatedShows(showId: Int): IoResponse<List<ShowBase>>
 

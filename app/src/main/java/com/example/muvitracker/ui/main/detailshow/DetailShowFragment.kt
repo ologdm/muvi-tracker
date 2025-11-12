@@ -104,7 +104,7 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
         }
 
         // SHOW DETAIL -----------------------------------------------------------------------------
-        viewModel.loadShowDetail(currentShowIds.trakt)
+        viewModel.loadShowDetail(currentShowIds)
         // TODO: 1.1.3 NEW loading, data + no internet, no data no internet OK
         viewModel.detailState.observe(viewLifecycleOwner) { stateContainer ->
             stateContainer.statesFlowDetailNew(

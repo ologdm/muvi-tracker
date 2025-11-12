@@ -38,11 +38,11 @@ class DetailShowViewmodel @Inject constructor(
 
 
     // SHOW - flow
-    fun loadShowDetail(showId: Int) {
+    fun loadShowDetail(showIds: Ids) {
         var cachedItem: Show? = null
 
         viewModelScope.launch {
-            detailShowRepository.getSingleDetailShowFlow(showId)
+            detailShowRepository.getSingleDetailShowFlow(showIds)
                 .map { response ->
                     when (response) {
                         is IoResponse.Success -> {

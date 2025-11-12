@@ -93,7 +93,7 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
         }
 
         // MOVIE DETAIL
-        viewModel.loadMovieDetailFlow(currentMovieIds.trakt)
+        viewModel.loadMovieDetailFlow(currentMovieIds)
 
         // TODO: 1.1.3 NEW loading, data + no internet, no data no internet OK
         viewModel.detailState.observe(viewLifecycleOwner) { stateContainer ->

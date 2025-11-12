@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.muvitracker.data.TraktApi
+import com.example.muvitracker.data.dto._support.Ids
 import com.example.muvitracker.domain.model.CastAndCrew
 import com.example.muvitracker.domain.model.Movie
 import com.example.muvitracker.domain.model.base.MovieBase
@@ -30,11 +31,11 @@ class DetailMovieViewmodel @Inject constructor(
     val detailState = MutableLiveData<StateContainerThree<Movie>>()
 
     // flow -> livedata
-    fun loadMovieDetailFlow(movieId: Int) {
+    fun loadMovieDetailFlow(movieIds: Ids) {
         var cachedMovie: Movie? = null
 
         viewModelScope.launch {
-            detailMovieRepository.getSingleDetailMovieFlow(movieId)
+            detailMovieRepository.getSingleDetailMovieFlow(movieIds)
                 .map { response ->
                     when (response) {
                         is IoResponse.Success -> {
