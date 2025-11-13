@@ -273,7 +273,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="2dp"
-                                android:text="dal 2010 - 2016"
+                                android:text="2010 - 2016"
                                 android:textSize="15sp"
                                 android:textStyle="normal" />
 
@@ -340,7 +340,7 @@
                                         android:layout_height="32dp"
                                         android:background="@android:color/transparent"
                                         android:src="@drawable/link_image"
-                                        android:visibility="visible" />
+                                        android:visibility="gone" />
 
                                     <TextView
                                         android:id="@+id/traktRating"
@@ -371,7 +371,7 @@
                                         android:layout_height="32dp"
                                         android:background="@android:color/transparent"
                                         android:src="@drawable/link_image"
-                                        android:visibility="visible" />
+                                        android:visibility="gone" />
 
                                     <TextView
                                         android:id="@+id/tmdbRating"
