@@ -123,7 +123,7 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
         loadRelatedSetup()
         loadCastSetup()
         loadTMDBImagesWithCustomGlideSetup()
-        addNotesSetup()
+        addNotesClickSetup()
 
 
         // BUTTONS CLICK ---------------------------------------------------------------------------
@@ -237,28 +237,6 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
                     }
                 }
             )
-        }
-    }
-
-
-    private fun addNotesSetup() {
-        b.addNotesImageButton.setOnClickListener {
-            val dialog = Dialog(requireContext())
-            dialog.setContentView(R.layout.dialog_add_notes)
-            dialog.setCancelable(true) // lo puoi chiudere cliccando fuori
-
-            val dialogB = DialogAddNotesBinding.inflate(layoutInflater)
-            dialog.setContentView(dialogB.root)
-
-            dialogB.noteEditText.setText(viewModel.getNotes())
-
-            dialogB.saveNoteButton.setOnClickListener {
-                val notes = dialogB.noteEditText.text.toString()
-                viewModel.setNotes(currentShowIds.trakt, notes)
-                dialog.dismiss()
-            }
-
-            dialog.show()
         }
     }
 
@@ -383,7 +361,7 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
         b.watchedAllCheckbox.isEnabled = isEnabled
         b.watchedAllTextview.isEnabled = isEnabled
 
-        b.addNotesTextView.text = show.notes
+        b.notesTextview.text = show.notes
     }
 
 
@@ -394,8 +372,69 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
         b.extendedFloatingLikedButton.setIconResource(if (isFavorite) iconFilled else iconEmpty)
     }
 
+    private fun addNotesClickSetup() {
+        b.notesLayout.setOnClickListener {
+            val dialog = Dialog(requireContext())
+            dialog.setContentView(R.layout.dialog_add_notes)
+            dialog.setCancelable(true) // lo puoi chiudere cliccando fuori
 
-    // TODO: check
+            val dialogB = DialogAddNotesBinding.inflate(layoutInflater)
+            dialog.setContentView(dialogB.root)
+
+            dialogB.noteContentText.setText(viewModel.getNotes())
+
+            dialogB.saveNoteButton.setOnClickListener {
+                val notes = dialogB.noteContentText.text.toString()
+                viewModel.setNotes(currentShowIds.trakt, notes)
+                dialog.dismiss()
+            }
+
+            dialog.show()
+        }
+    }
+
+    private fun ratingLayoutsSetup(show: Show) {
+        b.traktRating.text = show.traktRating
+        b.tmdbRating.text = show.tmdbRating
+
+        if (show.traktRating.isNullOrEmpty() || show.traktRating == "0.0") {
+            b.traktRating.visibility = View.GONE
+            b.linkImageTrakt.visibility = View.VISIBLE
+        } else {
+            b.traktRating.visibility = View.VISIBLE
+            b.linkImageTrakt.visibility = View.GONE
+        }
+
+
+        if (show.tmdbRating.isNullOrEmpty() || show.traktRating == "0.0") {
+            b.tmdbRating.visibility = View.GONE
+            b.linkImageTmdb.visibility = View.VISIBLE
+        } else {
+            b.tmdbRating.visibility = View.VISIBLE
+            b.linkImageTmdb.visibility = View.GONE
+        }
+
+
+        b.traktLayout.setOnClickListener {
+            // apri link
+            val type = "shows"
+            val traktSlug = show.ids.slug
+            val traktUrl = "https://trakt.tv/$type/$traktSlug"
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(traktUrl))
+            startActivity(intent)
+        }
+
+        b.tmdbLayout.setOnClickListener {
+            val type = "tv"
+            val tmdbId = show.ids.tmdb
+            val tmdbUrl = "https://www.themoviedb.org/$type/$tmdbId"
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(tmdbUrl))
+            startActivity(intent)
+        }
+    }
+
+
+    // TODO: check ----------------------------------------------------------------------------------------
     private fun updateWatchedCheckboxAndCounters(show: Show) {
         b.watchedCounterTextview.text =
             "${show.watchedCount}/${show.airedEpisodes}"
@@ -452,46 +491,6 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
                 b.overviewContent.ellipsize = null
             }
             isTextExpanded = !isTextExpanded // toggle state
-        }
-    }
-
-    private fun ratingLayoutsSetup(show: Show) {
-        b.traktRating.text = show.traktRating
-        b.tmdbRating.text = show.tmdbRating
-
-        if (show.traktRating.isNullOrEmpty() || show.traktRating == "0.0") {
-            b.traktRating.visibility = View.GONE
-            b.linkImageTrakt.visibility = View.VISIBLE
-        } else {
-            b.traktRating.visibility = View.VISIBLE
-            b.linkImageTrakt.visibility = View.GONE
-        }
-
-
-        if (show.tmdbRating.isNullOrEmpty() || show.traktRating == "0.0") {
-            b.tmdbRating.visibility = View.GONE
-            b.linkImageTmdb.visibility = View.VISIBLE
-        } else {
-            b.tmdbRating.visibility = View.VISIBLE
-            b.linkImageTmdb.visibility = View.GONE
-        }
-
-
-        b.traktLayout.setOnClickListener {
-            // apri link
-            val type = "shows"
-            val traktSlug = show.ids.slug
-            val traktUrl = "https://trakt.tv/$type/$traktSlug"
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(traktUrl))
-            startActivity(intent)
-        }
-
-        b.tmdbLayout.setOnClickListener {
-            val type = "tv"
-            val tmdbId = show.ids.tmdb
-            val tmdbUrl = "https://www.themoviedb.org/$type/$tmdbId"
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(tmdbUrl))
-            startActivity(intent)
         }
     }
 

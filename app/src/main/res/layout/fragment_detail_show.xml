@@ -483,7 +483,7 @@
                             app:tint="?attr/colorPrimary" />
 
                         <TextView
-                            android:id="@+id/addNotesTextView"
+                            android:id="@+id/notesTextview"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="4dp"

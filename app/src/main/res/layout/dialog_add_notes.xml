@@ -19,14 +19,16 @@
 
 
     <EditText
-        android:id="@+id/noteEditText"
+        android:id="@+id/noteContentText"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
+        android:minHeight="60dp"
         android:hint="Write your note..."
-        android:minHeight="80dp"
         android:inputType="textMultiLine"
         android:gravity="top|start"
-        android:backgroundTint="?attr/colorOutline" />
+        android:backgroundTint="?attr/colorOutline"
+        android:background="@android:color/transparent"
+        />
 
     <Button
         android:id="@+id/saveNoteButton"

@@ -421,7 +421,6 @@
                                 android:layout_marginEnd="16dp"
                                 android:layout_marginBottom="10dp"
                                 android:orientation="horizontal"
-                                app:layout_constraintBottom_toTopOf="@id/takeNotesLayout"
                                 app:layout_constraintEnd_toEndOf="parent">
 
                                 <TextView
@@ -439,32 +438,32 @@
 
                             </LinearLayout>
 
-                            <LinearLayout
-                                android:id="@+id/takeNotesLayout"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+<!--                            <LinearLayout-->
+<!--                                android:id="@+id/takeNotesLayout"-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
 
-                                android:gravity="center_vertical"
-                                android:orientation="horizontal"
-                                android:visibility="gone"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent">
+<!--                                android:gravity="center_vertical"-->
+<!--                                android:orientation="horizontal"-->
+<!--                                android:visibility="gone"-->
+<!--                                app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                                app:layout_constraintEnd_toEndOf="parent">-->
 
-                                <TextView
-                                    android:id="@+id/notesTextview"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Add notes:"
-                                    android:textSize="15sp"
-                                    android:textStyle="bold" />
+<!--                                <TextView-->
+<!--                                    android:id="@+id/notesTextview"-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:text="Add notes:"-->
+<!--                                    android:textSize="15sp"-->
+<!--                                    android:textStyle="bold" />-->
 
-                                <ImageButton
-                                    android:layout_width="45dp"
-                                    android:layout_height="45dp"
-                                    android:background="@null"
-                                    android:src="@drawable/take_notes"
-                                    android:tint="@color/black" />
-                            </LinearLayout>
+<!--                                <ImageButton-->
+<!--                                    android:layout_width="45dp"-->
+<!--                                    android:layout_height="45dp"-->
+<!--                                    android:background="@null"-->
+<!--                                    android:src="@drawable/take_notes"-->
+<!--                                    android:tint="@color/black" />-->
+<!--                            </LinearLayout>-->
 
 
                         </LinearLayout>
@@ -489,16 +488,9 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
 
-                        <TextView
-                            style="@style/TitleCategoryDetail"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/add_notes"
-                            android:textColor="?attr/colorPrimary"
-                            android:textStyle="normal" />
-
 
                         <ImageButton
+                            android:id="@+id/addNotesImageButton"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@null"
@@ -506,7 +498,7 @@
                             app:tint="?attr/colorPrimary" />
 
                         <TextView
-                            android:id="@+id/addNotesTextView"
+                            android:id="@+id/notesTextview"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="4dp"
