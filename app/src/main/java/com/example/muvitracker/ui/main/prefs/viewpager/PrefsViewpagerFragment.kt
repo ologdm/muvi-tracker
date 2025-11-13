@@ -3,6 +3,9 @@ package com.example.muvitracker.ui.main.prefs.viewpager
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import com.example.muvitracker.R
 import com.example.muvitracker.databinding.FragmentPrefsViewpagerBinding
@@ -27,7 +30,19 @@ class PrefsViewpagerFragment :Fragment(R.layout.fragment_prefs_viewpager){
             }
         }.attach()
 
+        mainLayoutTopEdgeToEdgeManagment()
     }
+
+    private fun mainLayoutTopEdgeToEdgeManagment() {
+        ViewCompat.setOnApplyWindowInsetsListener(binding.mainLayout) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            // aggiorno solo lati che mi servono
+            v.updatePadding(top = systemBars.top)
+            insets
+        }
+    }
+
+
 
 
 }

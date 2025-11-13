@@ -1,77 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:padding="4dp"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="4dp">
 
 
     <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/searchEditTextLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="4dp"
-            app:startIconDrawable="@drawable/bottom_nav_search_icon"
-            android:hint="@string/search"
-            app:layout_constraintTop_toTopOf="parent">
+        android:id="@+id/searchEditTextLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/search"
+        android:paddingHorizontal="4dp"
+        android:paddingBottom="4dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:startIconDrawable="@drawable/bottom_nav_search_icon">
 
         <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/searchEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:imeOptions="actionDone"
-                android:inputType="text" />
+            android:id="@+id/searchEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:imeOptions="actionDone"
+            android:inputType="text" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.chip.ChipGroup
-            android:id="@+id/searchChipGroup"
-            android:layout_width="match_parent"
-            android:paddingVertical="4dp"
+        android:id="@+id/searchChipGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingVertical="4dp"
+
+        app:layout_constraintTop_toBottomOf="@id/searchEditTextLayout">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipAll"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
-            app:layout_constraintTop_toBottomOf="@id/searchEditTextLayout">
-
-        <com.google.android.material.chip.Chip
-                android:id="@+id/chipAll"
-                style="@style/Widget.MaterialComponents.Chip.Choice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/search_all" />
+            android:text="@string/search_all" />
 
         <com.google.android.material.chip.Chip
-                android:id="@+id/chipMovies"
-                style="@style/Widget.MaterialComponents.Chip.Choice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/search_movies" />
+            android:id="@+id/chipMovies"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/search_movies" />
 
         <com.google.android.material.chip.Chip
-                android:id="@+id/chipShows"
-                style="@style/Widget.MaterialComponents.Chip.Choice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/search_tv_series" />
+            android:id="@+id/chipShows"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/search_tv_series" />
 
         <com.google.android.material.chip.Chip
-                android:id="@+id/chipPeople"
-                style="@style/Widget.MaterialComponents.Chip.Choice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/search_people" />
+            android:id="@+id/chipPeople"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/search_people" />
 
     </com.google.android.material.chip.ChipGroup>
 
 
     <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:paddingVertical="4dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/searchChipGroup"
-            app:layout_constraintVertical_bias="0.0"
-            tools:listitem="@layout/viewholder_search" />
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:paddingVertical="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/searchChipGroup"
+        app:layout_constraintVertical_bias="0.0"
+        tools:listitem="@layout/viewholder_search" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

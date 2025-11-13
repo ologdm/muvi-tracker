@@ -2,6 +2,9 @@ package com.example.muvitracker.ui.main.search
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -71,6 +74,17 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                 else -> MOVIE_SHOW_PERSON
             }
             viewModel.updateFilterValue(filterValue)
+        }
+
+        mainLayoutTopEdgeToEdgeManagment()
+    }
+
+    private fun mainLayoutTopEdgeToEdgeManagment() {
+        ViewCompat.setOnApplyWindowInsetsListener(binding.mainLayout) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            // aggiorno solo lati che mi servono
+            v.updatePadding(top = systemBars.top)
+            insets
         }
     }
 
