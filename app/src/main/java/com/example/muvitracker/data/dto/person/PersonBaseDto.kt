@@ -8,7 +8,7 @@ import kotlinx.serialization.Serializable
 @SuppressLint("UnsafeOptInUsageError")
 @Serializable
 data class PersonBaseDto(
-    val name: String?,
+    val name: String = "",
     val ids: Ids
 )
 

@@ -9,9 +9,9 @@ import kotlinx.serialization.Serializable
 @SuppressLint("UnsafeOptInUsageError")
 @Serializable
 data class MovieBaseDto(
-    val title: String,
-    val year: Int,
-    val ids: Ids
+    val title: String = "",
+    val year: Int = -1,
+    val ids: Ids // has default
 )
 
 

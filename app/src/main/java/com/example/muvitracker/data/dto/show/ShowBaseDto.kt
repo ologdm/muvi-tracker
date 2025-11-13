@@ -9,8 +9,8 @@ import kotlinx.serialization.Serializable
 @SuppressLint("UnsafeOptInUsageError")
 @Serializable
 data class ShowBaseDto(
-    val title: String,
-    val year: Int,
+    val title: String = "",
+    val year: Int = -1,
     val ids: Ids
 )
 
