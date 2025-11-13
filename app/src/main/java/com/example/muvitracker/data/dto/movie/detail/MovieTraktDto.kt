@@ -1,5 +1,6 @@
 package com.example.muvitracker.data.dto.movie.detail
 
+import android.annotation.SuppressLint
 import com.example.muvitracker.data.LanguageManager
 import com.example.muvitracker.data.database.entities.MovieEntity
 import com.example.muvitracker.data.dto._support.Ids
@@ -9,13 +10,15 @@ import com.example.muvitracker.data.utils.orIfNull
 import com.example.muvitracker.data.utils.splitToCleanList
 import com.example.muvitracker.data.utils.youtubeLinkTransformation
 import com.example.muvitracker.utils.firstDecimalApproxToString
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 
 // only base + fallback
 // es: https://api.trakt.tv/movies/190430?extended=full
 // traktDto - es deadpool - 190430
-
+@SuppressLint("UnsafeOptInUsageError")
+@Serializable
 data class MovieTraktDto(
     // base
     val title: String?, // Deadpool
@@ -41,7 +44,7 @@ data class MovieTraktDto(
     val genres: List<String>?, // action, thriller
 //    val subgenres : List<String>?, // mercenary, based-on-comic, anti-hero
 //    val certification: String?
-    @SerializedName("original_title")
+    @SerialName("original_title")
     val originalTitle: String? // Deadpool
 )
 

@@ -1,9 +1,12 @@
 package com.example.muvitracker.data.dto.movie.explore
 
+import android.annotation.SuppressLint
 import com.example.muvitracker.data.dto.movie.MovieBaseDto
 import com.example.muvitracker.domain.model.base.MovieBase
+import kotlinx.serialization.Serializable
 
-
+@SuppressLint("UnsafeOptInUsageError")
+@Serializable
 data class BoxofficeDtoM(
     val revenue: Int,
     val movie: MovieBaseDto

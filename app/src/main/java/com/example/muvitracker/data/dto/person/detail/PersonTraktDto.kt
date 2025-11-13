@@ -1,27 +1,33 @@
 package com.example.muvitracker.data.dto.person.detail
 
+import android.annotation.SuppressLint
 import com.example.muvitracker.data.dto._support.Ids
 import com.example.muvitracker.domain.model.Person
 import com.example.muvitracker.utils.calculatePersonAge
 import com.example.muvitracker.utils.dateFormatterInddMMMyyy
 import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-
+@SuppressLint("UnsafeOptInUsageError")
+@Serializable
 data class PersonTraktDto(
     val name: String?,
     val ids: Ids?,
-    @SerializedName("social_ids") val socialIds: SocialIds?,
+    @SerialName("social_ids") val socialIds: SocialIds?,
     val biography: String?,
     val birthday: String?,
     val death: String?,
     val birthplace: String?,
 //    val homepage: String?, // website
     val gender: String?,
-    @SerializedName("known_for_department") val knownForDepartment: String?,
+    @SerialName("known_for_department") val knownForDepartment: String?,
 //    @SerializedName("updated_at") val updatedAt: String?
 )
 
 // only for -> PersonExtendedDto
+@SuppressLint("UnsafeOptInUsageError")
+@Serializable
 data class SocialIds(
     val twitter: String?,
     val facebook: String?,

@@ -1,29 +1,33 @@
 package com.example.muvitracker.data.dto.episode
 
+import android.annotation.SuppressLint
 import com.example.muvitracker.data.database.entities.EpisodeEntity
 import com.example.muvitracker.data.dto._support.Ids
 import com.example.muvitracker.utils.firstDecimalApproxToString
 import com.example.muvitracker.utils.formatToSqliteCompatibleDate
 import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 // trakt dto date (ISO 8601):        2015-09-21T17:30:00.000Z
 // entity date (sqlite compatible):  2015-09-21 17:30:00
-
+@SuppressLint("UnsafeOptInUsageError")
+@Serializable
 data class EpisodeTraktDto(
     val season: Int?,
     val number: Int?,
     val title: String?,
     val ids: Ids,
-    @SerializedName("number_abs") val numberAbs: Int?, // posizione assoluta nel'intera serie
+    @SerialName("number_abs") val numberAbs: Int?, // posizione assoluta nel'intera serie
     val overview: String?,
     val rating: Double?,
 //    val votes: Int?,
 //    @SerializedName("comment_count") val commentCount: Int?,
-    @SerializedName("first_aired") val firstAired: String?,
+    @SerialName("first_aired") val firstAired: String?,
 //    @SerializedName("updated_at") val updatedAt: String?,
-    @SerializedName("available_translations") val availableTranslations: List<String>?,
+    @SerialName("available_translations") val availableTranslations: List<String>?,
     val runtime: Int?,
-    @SerializedName("episode_type") val episodeType: String?
+    @SerialName("episode_type") val episodeType: String?
 )
 
 

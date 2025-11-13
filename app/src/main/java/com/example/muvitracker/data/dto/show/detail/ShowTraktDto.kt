@@ -1,5 +1,6 @@
 package com.example.muvitracker.data.dto.show.detail
 
+import android.annotation.SuppressLint
 import com.example.muvitracker.data.LanguageManager
 import com.example.muvitracker.data.database.entities.ShowEntity
 import com.example.muvitracker.data.dto._support.Ids
@@ -10,38 +11,48 @@ import com.example.muvitracker.data.utils.youtubeLinkTransformation
 import com.example.muvitracker.utils.firstDecimalApproxToString
 import com.example.muvitracker.utils.formatDateFromFirsAired
 import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 // only base + rating
 
+/**
+ * serialization:
+ * valori default vengono considerati
+ * mettere null nei campi incerti permette in futuro di non falire se il server decide di non inviarci piu quei dati
+ */
+
 
 // trakt dto - game of thrones - 1390 - en
+@SuppressLint("UnsafeOptInUsageError")
+@Serializable
 data class ShowTraktDto(
     val title: String?,
-    val year: Int?, // 2011 - first year
+    val year: Int? , // 2011 - first year
     val ids: Ids, // + tvdb
 
-    val tagline: String?, // Winter is coming
-    val overview: String?, // Seven noble families fight.....
-    @SerializedName("first_aired") val firstAired: String?, // "2011-04-18T01:00:00.000Z"
+    val tagline: String? = null, // Winter is coming
+    val overview: String? = null, // Seven noble families fight.....
+    @SerialName("first_aired") val firstAired: String? = null, // "2011-04-18T01:00:00.000Z"
 //    val airs : Airs // [ day, time, timezone ]
-    val runtime: Int?, // 55
+    val runtime: Int? = null, // 55
 //    val certification: String,
-    val network: String?, // HBO
-    val country: String?, // us
+    val network: String? = null, // HBO
+    val country: String? = null, // us
 //    @SerializedName("updated_at") val updatedAt: String = "", // date
-    val trailer: String?, // https://youtube.com/watch?v=KPLWWIOCOOQ
-    val homepage: String?, // http://www.hbo.com/game-of-thrones
-    val status: String?, // ended
-    val rating: Float?, // 8.89378
-    val votes: Int?, // 142022
+    val trailer: String? = null, // https://youtube.com/watch?v=KPLWWIOCOOQ
+    val homepage: String? = null, // http://www.hbo.com/game-of-thrones
+    val status: String? = null, // ended
+    val rating: Float? = null, // 8.89378
+    val votes: Int? = null, // 142022
 //    @SerializedName("comment_count") val commentCount: Int = 0, // 444
-    val language: String?, // en
-    val languages: List<String>?, // [en, it]
+    val language: String? = null, // en
+    val languages: List<String>? = null, // [en, it]
 //    val availableTranslations: List<String> = emptyList(), // [en, it, tr, ...]
-    val genres: List<String>?, // [drama, fantasy]
-    @SerializedName("aired_episodes") val airedEpisodes: Int?, // 733
-    @SerializedName("original_title")
-    val originalTitle: String? // Games of thrones
+    val genres: List<String>? = null, // [drama, fantasy]
+    @SerialName("aired_episodes") val airedEpisodes: Int? = null, // 733
+    @SerialName("original_title")
+    val originalTitle: String? = null // Games of thrones
 )
 
 

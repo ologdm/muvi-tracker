@@ -1,35 +1,41 @@
 package com.example.muvitracker.data.dto.person
 
+import android.annotation.SuppressLint
 import com.example.muvitracker.domain.model.CastAndCrew
 import com.example.muvitracker.domain.model.CastMember
 import com.example.muvitracker.domain.model.base.PersonBase
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 // cast & crew
 // https://api.trakt.tv/movies/id/people
 // https://api.trakt.tv/shows/id/people
 //https://api.trakt.tv/shows/id/seasons/season/episodes/episode/people
 
-
+@SuppressLint("UnsafeOptInUsageError")
+@Serializable
 data class CastResponseDto(
     val cast: List<CastMemberDto>?,
 //    val crew: Crew
 )
 
-fun CastResponseDto.toDomain() :CastAndCrew {
+fun CastResponseDto.toDomain(): CastAndCrew {
     return CastAndCrew(
         castMembers = cast?.map { it.toDomain() } ?: emptyList()
     )
 }
 
-
+@SuppressLint("UnsafeOptInUsageError")
+@Serializable
 data class CastMemberDto(
     val character: String?, // provide all the characters
 //    val characters: List<String>?,<
-    val episodeCount :Int?, // only for shows
+    @SerialName("episode_count")
+    val episodeCount: Int? = null, // only for shows
     val person: PersonBaseDto?
 )
 
-fun CastMemberDto.toDomain() :CastMember{
+fun CastMemberDto.toDomain(): CastMember {
     return CastMember(
         character = character ?: "N/A",
         episodeCount = episodeCount?.toString() ?: "N/A",

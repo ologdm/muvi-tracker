@@ -1,7 +1,11 @@
 package com.example.muvitracker.data.dto.person.detail
 
-import com.google.gson.annotations.SerializedName
+import android.annotation.SuppressLint
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@SuppressLint("UnsafeOptInUsageError")
+@Serializable
 data class PersonTmdbDto(
 //    val adult: Boolean,
 //    @SerializedName("also_known_as") val alsoKnownAs: List<String>,
@@ -12,9 +16,9 @@ data class PersonTmdbDto(
 //    val homepage: String?,  // Può essere null
     val id: Int,
 //    @SerializedName("imdb_id") val imdbId: String,
-    @SerializedName("known_for_department") val knownForDepartment: String,
+    @SerialName("known_for_department") val knownForDepartment: String,
     val name: String,
 //    @SerializedName("place_of_birth") val placeOfBirth: String,
 //    val popularity: Double,
-    @SerializedName("profile_path") val profilePath: String?
+    @SerialName("profile_path") val profilePath: String?
 )

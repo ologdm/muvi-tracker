@@ -48,7 +48,7 @@ class DetailShowRepositoryImpl @Inject constructor(
         fetcher = { ids ->
             coroutineScope {
                 // 1° chiamata async
-                val traktDtoDeferred = async { traktApi . getShowDetail (ids.trakt)}
+                val traktDtoDeferred = async { traktApi.getShowDetail(ids.trakt) }
                 // 2° chiamata async
                 val tmdbDtoDeferred = async {
                     try {  // try/catch necessario per evitare che l'eccezione mi blocchi la coroutine padre!!
@@ -61,8 +61,8 @@ class DetailShowRepositoryImpl @Inject constructor(
                     }
                 }
 
-                val traktDto = traktDtoDeferred.await()
-                val tmdbDto =  tmdbDtoDeferred.await()
+                val traktDto = traktDtoDeferred.await() // la dto base
+                val tmdbDto = tmdbDtoDeferred.await() // integra il dto trakt, traduzioni + immagini
 
                 mergeShowsDtoToEntity(traktDto, tmdbDto)
             }
@@ -103,9 +103,9 @@ class DetailShowRepositoryImpl @Inject constructor(
     override suspend fun getShowCast(showId: Int): IoResponse<CastAndCrew> {
         return try {
             IoResponse.Success(traktApi.getAllShowCast(showId).toDomain())
-        } catch (ex: CancellationException){
+        } catch (ex: CancellationException) {
             throw ex
-        } catch (ex: Throwable){
+        } catch (ex: Throwable) {
             ex.printStackTrace()
             IoResponse.Error(ex)
         }

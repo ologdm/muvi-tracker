@@ -1,5 +1,6 @@
 package com.example.muvitracker.data.dto.season
 
+import android.annotation.SuppressLint
 import android.os.Parcelable
 import com.example.muvitracker.data.LanguageManager
 import com.example.muvitracker.data.database.entities.SeasonEntity
@@ -7,24 +8,28 @@ import com.example.muvitracker.data.dto._support.Ids
 import com.example.muvitracker.utils.firstDecimalApproxToString
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 
 /** dto principale,
  * per season il tmdbDto e solo di supporto
  */
+@SuppressLint("UnsafeOptInUsageError")
+@Serializable
 @Parcelize
 data class SeasonTraktDto(
     val number: Int?,
     val ids: Ids,
     val rating: Double?,
 //    val votes: Int?, // not use
-    @SerializedName("episode_count")
+    @SerialName("episode_count")
     val episodeCount: Int?, // tot planned
-    @SerializedName("aired_episodes")
+    @SerialName("aired_episodes")
     val airedEpisodes: Int?, // tot released
     val title: String?, // "season 1" // tmdb
     val overview: String?, // tmdb
-    @SerializedName("first_aired") val firstAired: String?, // tmdb
+    @SerialName("first_aired") val firstAired: String?, // tmdb
 //    @SerializedName("updated_at") val updatedAt: String?, // not use
     val network: String? // tmdb
 ) : Parcelable {

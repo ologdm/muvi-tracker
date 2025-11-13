@@ -1,14 +1,19 @@
 package com.example.muvitracker.data.dto.show.explore
 
+import android.annotation.SuppressLint
 import com.example.muvitracker.data.dto.show.ShowBaseDto
 import com.example.muvitracker.domain.model.base.ShowBase
 import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@SuppressLint("UnsafeOptInUsageError")
+@Serializable
 data class WatchedShowDto(
-    @SerializedName("watcher_count") val watcherCount: Int,
-    @SerializedName("play_count") val playCount: Int,
-    @SerializedName("collected_count") val collectedCount: Int,
-    @SerializedName("collector_count") val collectorCount: Int, // X- diff con movie
+    @SerialName("watcher_count") val watcherCount: Int,
+    @SerialName("play_count") val playCount: Int,
+    @SerialName("collected_count") val collectedCount: Int,
+    @SerialName("collector_count") val collectorCount: Int, // X- diff con movie
     val show: ShowBaseDto
 )
 
