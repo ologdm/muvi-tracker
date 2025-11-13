@@ -461,17 +461,19 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
 
         if (show.traktRating.isNullOrEmpty() || show.traktRating == "0.0") {
             b.traktRating.visibility = View.GONE
-            // TODO placeholder
+            b.linkImageTrakt.visibility = View.VISIBLE
         } else {
             b.traktRating.visibility = View.VISIBLE
-            // TODO placeholder
+            b.linkImageTrakt.visibility = View.GONE
         }
 
 
         if (show.tmdbRating.isNullOrEmpty() || show.traktRating == "0.0") {
-            b.traktRating.visibility = View.GONE
+            b.tmdbRating.visibility = View.GONE
+            b.linkImageTmdb.visibility = View.VISIBLE
         } else {
-            b.traktRating.visibility = View.VISIBLE
+            b.tmdbRating.visibility = View.VISIBLE
+            b.linkImageTmdb.visibility = View.GONE
         }
 
 
