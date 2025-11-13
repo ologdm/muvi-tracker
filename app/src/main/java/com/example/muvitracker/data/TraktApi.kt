@@ -27,7 +27,7 @@ interface TraktApi {
         const val SEARCH_LIMIT = "24"
     }
 
-    // SEARCH
+    // SEARCH ----------------------------------------------------------------
     // type: movie, show, person
     @GET("search/{type_filter}?limit=$SEARCH_LIMIT")
     suspend fun getSearch(
@@ -37,7 +37,7 @@ interface TraktApi {
     ): List<SearchDto>
 
 
-    // MOVIES ############################################## OK
+    // MOVIES ----------------------------------------------------------------
     // todo filters - genre, year
 
     // ?page={page}&limit={limit} - impostazione standard
@@ -69,7 +69,7 @@ interface TraktApi {
     suspend fun getBoxoMovies(): List<BoxofficeDtoM>
 
 
-    // SHOWS ######################################################## OK
+    // SHOWS -----------------------------------------------------------------------------------------
     // todo filters - gennre, year, network
 
     @GET("shows/popular")
@@ -97,25 +97,24 @@ interface TraktApi {
     ): List<`AnticipatedShowDto`>
 
 
-    // DETAIL MOVIE/SHOW
+    // DETAIL MOVIE/SHOW -------------------------------------------------------------------------------
     @GET("movies/{movie_id}?extended=full")
     suspend fun getMovieDetail(@Path("movie_id") movieId: Int)
             : MovieTraktDto
 
 
-    // seasons(1,2,3,4...n), cast, related
-    // 1 detailDto OK -
+    //  -> seasons(1,2,3,4...n), cast, related
     // https://api.trakt.tv/shows/id
     @GET("shows/{show_id}?extended=full")
     suspend fun getShowDetail(@Path("show_id") showId: Int): ShowTraktDto
 
-    // 2 all seasons OK
+
     // https://api.trakt.tv/shows/id/seasons/?extended=full
     @GET("shows/{show_id}/seasons/?extended=full")
     suspend fun getAllSeasons(@Path("show_id") showId: Int): List<SeasonTraktDto>
 
 
-    // 3 related movie, show
+    // RELATED MOVIE/SHOWS --------------------------------------------------------------------------
     @GET("movies/{movie_id}/related")
     suspend fun getMovieRelatedMovies(
         @Path("movie_id") movieId: Int
@@ -127,7 +126,7 @@ interface TraktApi {
     ): List<ShowBaseDto>
 
 
-    // SEASON FRAGMENT
+    // SEASON FRAGMENT ------------------------------------------------------------------------------
     // https://api.trakt.tv/shows/game-of-thrones/seasons/number?extended=full
     // season info
     @GET("shows/{show_id}/seasons/{season_number}/info?extended=full")
@@ -155,7 +154,7 @@ interface TraktApi {
 //    ): EpisodeExtenDto
 
 
-    // TODO CAST, PERSON DETAIL  ######################################################
+    // CAST, PERSON DETAIL ------------------------------------------------------------------------------------
 
     // https://api.trakt.tv/movies/id/people
     @GET("movies/{movie_id}/people")
