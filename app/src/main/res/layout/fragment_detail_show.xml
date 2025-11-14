@@ -396,6 +396,7 @@
 
 
                             <androidx.constraintlayout.widget.ConstraintLayout
+                                android:id="@+id/watchedAllLayout"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content">
 
@@ -421,6 +422,7 @@
                                 <CheckBox
                                     android:id="@+id/watchedAllCheckbox"
                                     android:layout_width="wrap_content"
+
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="10dp"
                                     app:layout_constraintEnd_toEndOf="parent"
@@ -442,7 +444,6 @@
                                     android:text="@string/watched_all_check_text"
                                     android:textSize="15sp"
                                     android:textStyle="bold"
-
                                     app:layout_constraintBottom_toBottomOf="@id/watchedAllCheckbox"
                                     app:layout_constraintEnd_toStartOf="@id/watchedAllCheckbox"
                                     app:layout_constraintTop_toTopOf="@id/watchedAllCheckbox" />
