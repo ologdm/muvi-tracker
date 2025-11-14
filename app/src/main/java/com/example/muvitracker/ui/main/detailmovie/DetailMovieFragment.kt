@@ -286,7 +286,7 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
 
         val isDisabled = movie.releaseDate != null && movie.releaseDate > getNowFormattedDateTime()
         b.watchedCheckbox.isEnabled = !isDisabled
-        b.watchedTextview.isEnabled = !isDisabled
+        b.watchedTextview.alpha = if (isDisabled) 0.4f else 1f
 
         b.watchedCheckbox.setOnCheckedChangeListener { compoundButton, isChecked ->
             viewModel.updateWatched(currentMovieIds.trakt, isChecked)
