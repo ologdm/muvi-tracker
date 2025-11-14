@@ -5,9 +5,11 @@ import com.example.muvitracker.data.database.entities.PrefsShowEntity
 import com.example.muvitracker.domain.model.Show
 import com.example.muvitracker.domain.repo.PrefsShowRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.io.path.fileVisitor
 
 @Singleton
 class PrefsShowRepositoryImpl @Inject constructor(
@@ -21,7 +23,9 @@ class PrefsShowRepositoryImpl @Inject constructor(
         // join on db: prefs + detail + watched episodes ->
         return prefsShowDao.getAllPrefs()
             .map { shows ->
-                shows.sortedByDescending { it.addedDateTime }
+                shows
+                    .filter { it -> it.liked || it.watchedCount > 0 }
+                    .sortedByDescending { it.addedDateTime }
             }
     }
 
