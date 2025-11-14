@@ -19,7 +19,8 @@ class PrefsShowsAdapter(
     private val onClickVH: (movieIds: Ids) -> Unit,
     private val onLongClickVH: (movieId: Int) -> Unit,
     private val onCLickLiked: (Int) -> Unit,
-    private val onClickWatchedAllCheckbox: (showIds: Ids, () -> Unit) -> Unit
+    private val onClickWatchedAllCheckbox: (showIds: Ids, () -> Unit) -> Unit,
+    private val onNotLikedNotWatched: (show: Show) -> Unit
 ) : ListAdapter<Show, PrefsShowViewholder>(PrefsShowsAdapter) {
 
 
@@ -45,26 +46,55 @@ class PrefsShowsAdapter(
             // liked update + toggle
             updateFavoriteIcon(likedButton, currentItem.liked, iconFilled, iconEmpty)
 
+            // --- LIKE BUTTON ------------------------------------------------------------------------
             likedButton.setOnClickListener {
+                // 1. Stato ipotetico dopo il toggle del like
+                val newLikedState = !currentItem.liked
+
+                // 2. se il toggle porterebbe a entrambi disattivati -> Discard Dialog
+                if (!newLikedState && !currentItem.watchedAll) {
+                    onNotLikedNotWatched.invoke(currentItem)
+                    return@setOnClickListener
+                }
+
+                // toggle reale
                 onCLickLiked.invoke(currentItem.ids.trakt)
                 updateFavoriteIcon(likedButton, currentItem.liked, iconFilled, iconEmpty)
             }
 
-            // stato default - per pulizia da precedenti modifiche
-            watchedAllCheckBox.isEnabled = true
-            holder.binding.watchedAllCheckboxLoadingBar.visibility = View.GONE
 
-            // checkbox update -
+            // --- WATCHED ALL CHECKBOX --------------------------------------------------------------------
+            // 1. stato default - per pulizia da precedenti modifiche
+            watchedAllCheckBox.isEnabled =
+                currentItem.airedEpisodes > 0 // disabilitazione se no aired episodes
+            holder.binding.watchedAllCheckboxLoadingBar.visibility = View.GONE
+            // 2. checkbox update
             watchedAllCheckBox.setOnCheckedChangeListener(null)
             watchedAllCheckBox.isChecked = currentItem.watchedAll
-
-            // UPDATE SDK 34 to 36
+            // 3. listener
             watchedAllCheckBox.setOnCheckedChangeListener(object :
                 CompoundButton.OnCheckedChangeListener {
                 override fun onCheckedChanged(buttonView: CompoundButton, isChecked: Boolean) {
+
+                    // 1. proponi Discard quando liked e watched disabilitati ed esci
+                    val newWatchedState = isChecked
+                    val wouldBeUnlikedAndUnwatched = (!currentItem.liked && !newWatchedState)
+                    if (wouldBeUnlikedAndUnwatched) {
+                        onNotLikedNotWatched.invoke(currentItem)
+
+                        // ripristina lo stato precedente
+                        watchedAllCheckBox.setOnCheckedChangeListener(null)
+                        watchedAllCheckBox.isChecked = currentItem.watchedAll
+                        watchedAllCheckBox.setOnCheckedChangeListener(this)
+
+                        return@onCheckedChanged // -> esci dalla funzione senza eseguire il codice sottostante
+                    }
+
+                    // 2.1  loading UI
                     watchedAllCheckBox.isEnabled = false
                     watchedAllCheckboxLoadingBar.visibility = View.VISIBLE
 
+                    // 2.2 // toggle reale
                     onClickWatchedAllCheckbox.invoke(currentItem.ids) {
                         watchedAllCheckBox.isEnabled = true
                         watchedAllCheckboxLoadingBar.visibility = View.GONE
@@ -93,7 +123,7 @@ class PrefsShowsAdapter(
         }
     }
 
-// ################################################################################
+    // --------------------------------------------------------------------------------------------------
     private fun updateFavoriteIcon(
         likedButton: ImageButton,
         isLiked: Boolean,

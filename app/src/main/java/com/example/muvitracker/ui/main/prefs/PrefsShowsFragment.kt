@@ -28,16 +28,22 @@ class PrefsShowsFragment : Fragment(R.layout.fragment_prefs_son) {
         onClickVH = { showIds ->
             navigator.startShowDetailFragment(showIds)
         },
-        onLongClickVH = { movieId ->
-            startDeleteAlertDialog(movieId)
+        onLongClickVH = { showId ->
+            startDeleteAlertDialog(showId, "Discard movie")
         },
-        onCLickLiked = { movieId ->
-            viewModel.toggleLikedShow(movieId)
+        onCLickLiked = { showId ->
+            viewModel.toggleLikedShow(showId)
         },
         onClickWatchedAllCheckbox = { showIds, adapterCallback ->
             viewModel.updateWatchedAllSingleShow(showIds, onComplete = {
                 adapterCallback() // esegui operazione su adapter
             })
+        },
+        onNotLikedNotWatched = { show ->
+            startDeleteAlertDialog(
+                show.ids.trakt,
+                "\"${show.title}\" isn’t liked or watched yet. \n \n Remove it?"
+            )
         }
     )
 
@@ -54,11 +60,11 @@ class PrefsShowsFragment : Fragment(R.layout.fragment_prefs_son) {
 
 
     // #######################################################################################
-    private fun startDeleteAlertDialog(movieId: Int) {
+    private fun startDeleteAlertDialog(showId: Int, message: String) {
         MaterialAlertDialogBuilder(requireContext())
-            .setMessage("Discard movie")
+            .setMessage(message)
             .setPositiveButton("Yes") { dialog, _ ->
-                viewModel.deleteItem(movieId)
+                viewModel.deleteItem(showId)
                 dialog.dismiss()
             }
             .setNegativeButton("No") { dialog, _ ->
