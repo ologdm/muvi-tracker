@@ -27,4 +27,8 @@ interface PrefsMovieDao {
 
     @Query("DELETE FROM prefs_movie_table WHERE traktId =:id")
     suspend fun deleteSingle(id: Int)
+
+
+    @Query("UPDATE prefs_movie_table SET notes =:notes WHERE traktId = :movieId")
+    suspend fun setNotes(movieId: Int, notes: String)
 }

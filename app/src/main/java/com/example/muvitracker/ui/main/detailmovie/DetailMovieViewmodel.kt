@@ -29,6 +29,11 @@ class DetailMovieViewmodel @Inject constructor(
 ) : ViewModel() {
 
     val detailState = MutableLiveData<StateContainerThree<Movie>>()
+    val relatedMoviesState = MutableLiveData<StateContainerTwo<List<MovieBase>>>()
+    val castState = MutableLiveData<StateContainerTwo<CastAndCrew>>()
+
+
+    private var movieNotes = ""
 
     // flow -> livedata
     fun loadMovieDetailFlow(movieIds: Ids) {
@@ -40,6 +45,7 @@ class DetailMovieViewmodel @Inject constructor(
                     when (response) {
                         is IoResponse.Success -> {
                             cachedMovie = response.dataValue
+                            movieNotes = response.dataValue.notes
                             StateContainerThree(data = response.dataValue)
                         }
 
@@ -71,7 +77,6 @@ class DetailMovieViewmodel @Inject constructor(
 
 
     // RELATED MOVIES --------------------------------------------------------------------------
-    val relatedMoviesState = MutableLiveData<StateContainerTwo<List<MovieBase>>>()
     fun loadRelatedMovies(movieId: Int) {
         viewModelScope.launch {
             val response = detailMovieRepository.getRelatedMovies(movieId)
@@ -89,11 +94,10 @@ class DetailMovieViewmodel @Inject constructor(
 
 
     // CAST ATTORI ----------------------------------------------------------------------------
-    val castState = MutableLiveData<StateContainerTwo<CastAndCrew>>()
     fun loadCast(movieId: Int) {
         viewModelScope.launch {
             val response = detailMovieRepository.getMovieCast(movieId)
-            when (response){
+            when (response) {
                 is IoResponse.Success -> {
                     castState.value = StateContainerTwo(response.dataValue, false)
                 }
@@ -112,12 +116,23 @@ class DetailMovieViewmodel @Inject constructor(
             prefsMovieRepository.toggleLikedOnDB(movieId)
         }
     }
+
     fun updateWatched(movieId: Int, watched: Boolean) {
         viewModelScope.launch {
             prefsMovieRepository.updateWatchedOnDB(movieId, watched)
         }
 
     }
+
+    fun setNotes(movieId: Int, notes: String) {
+        viewModelScope.launch {
+            prefsMovieRepository.setNotesOnDB(movieId, notes)
+            movieNotes = notes
+        }
+    }
+
+
+    fun getNotes() : String = movieNotes
 
 
 }

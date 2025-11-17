@@ -31,13 +31,15 @@ data class Movie(
     // from prefs entity
     val liked: Boolean,
     val watched: Boolean,
-    val addedDateTime: Long?
+    val addedDateTime: Long?,
+    val notes: String
 ) {
 
+
     // quick image for test
-    fun imageUrl(): String {
-        return "http://img.omdbapi.com/?apikey=ef6d3d4c&i=${ids.imdb}"
-    }
+//    fun imageUrl(): String {
+//        return "http://img.omdbapi.com/?apikey=ef6d3d4c&i=${ids.imdb}"
+//    }
 
 }
 

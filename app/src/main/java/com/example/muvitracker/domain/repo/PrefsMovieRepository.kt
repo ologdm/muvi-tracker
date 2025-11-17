@@ -14,4 +14,6 @@ interface PrefsMovieRepository {
 
     suspend fun deleteItemOnDB(movieId: Int)
 
+    suspend fun setNotesOnDB(movieId: Int, notes: String)
+
 }

@@ -50,31 +50,6 @@ class DetailMovieRepositoryImpl @Inject constructor(
      *
      * Nota: bisogna gestire correttamente anche le eccezioni di tipo `CancellationException`,
      */
-//    private val store = storeFactory<Int, MovieEntity, Movie>(
-//        fetcher = { movieId ->
-//            coroutineScope {
-//                // 1 chiamata
-//                val traktDto = traktApi.getMovieDetail(movieId)
-//                // 2° chiamata
-//                val tmdbDto: MovieTmdbDto? = try {
-//                    tmdbApi.getMovieDto(traktDto.ids.tmdb)
-//                } catch (ex: CancellationException) {
-//                    throw ex // deve propagare le cancellation
-//                } catch (e: Exception) {
-//                    e.printStackTrace()
-//                    null // fallback: ritorna null se qualsiasi altra eccezione
-//                }
-//
-//                mergeMoviesDtoToEntity(traktDto,tmdbDto) // return entity
-//            }
-//        },
-//        reader = { movieId ->
-//            combineWithPrefsAndMapToDomainAsFlow(movieId)
-//        },
-//        writer = { _, movieEntity ->
-//            detailTraktDao.insertSingle(movieEntity)
-//        }
-//    )
     private val store = storeFactory<Ids, MovieEntity, Movie>(
         fetcher = { movieIds ->
             coroutineScope {

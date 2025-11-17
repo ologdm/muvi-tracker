@@ -26,6 +26,7 @@ import com.example.muvitracker.R
 import com.example.muvitracker.data.dto._support.Ids
 import com.example.muvitracker.data.glide.ImageTmdbRequest
 import com.example.muvitracker.data.utils.orIfBlank
+import com.example.muvitracker.databinding.DialogMyNotesBinding
 import com.example.muvitracker.databinding.FragmentDetailMovieBinding
 import com.example.muvitracker.domain.model.Movie
 import com.example.muvitracker.ui.main.Navigator
@@ -37,6 +38,10 @@ import com.example.muvitracker.utils.statesFlow
 import com.example.muvitracker.utils.statesFlowDetailNew
 import com.example.muvitracker.utils.viewBinding
 import com.google.android.material.chip.Chip
+import com.google.android.material.color.MaterialColors
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.shape.MaterialShapeDrawable
+import com.google.android.material.shape.ShapeAppearanceModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -189,6 +194,8 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
                 }
             )
         }
+
+        myNotesDialogSetup()
     }
 
 
@@ -270,6 +277,7 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
             }
         }
 
+        b.notesTextview.text = movie.notes
     }
 
 
@@ -279,38 +287,44 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
         b.extendedFloatingLikedButton.setIconResource(if (isFavorite) iconFilled else iconEmpty)
     }
 
-//    private fun myNotesDialogSetup() {
-//        b.notesLayout.setOnClickListener {
-//            // Inflating del layout con ViewBinding
-//            val dialogBinding = DialogMyNotesBinding.inflate(layoutInflater)
-//            // Aggiorna note con valore attuale
-//            dialogBinding.noteContentText.setText(viewModel.getNotes())
-//
-//            // Crea il dialog Material
-//            val dialog = MaterialAlertDialogBuilder(requireContext())
-//                .setView(dialogBinding.root)
-//                .setCancelable(true)
-//                .create()
-//            // Mostra il dialog prima di modificare il background
-//            dialog.show()
-//
-//            // modifica background -> bordi arrotondati dialog
-//            // dialog.window -> disponibile solo dopo .show()
-//            dialog.window?.decorView?.background = MaterialShapeDrawable().apply {
-//                shapeAppearanceModel = ShapeAppearanceModel.builder()
-//                    .setAllCornerSizes(16f.dpToPx(requireContext())) // arrotondamento 16dp
-//                    .build()
-//                fillColor = ColorStateList.valueOf(MaterialColors.getColor(dialogBinding.root, com.google.android.material.R.attr.colorSurface))
-//            }
-//
-//            // Save button -----------------------------------------------------
-//            dialogBinding.saveNoteButton.setOnClickListener {
-//                val notes = dialogBinding.noteContentText.text.toString()
-//                viewModel.setNotes(currentShowIds.trakt, notes)
-//                dialog.dismiss()
-//            }
-//        }
-//    }
+    private fun myNotesDialogSetup() {
+        b.notesLayout.setOnClickListener {
+            // Inflating del layout con ViewBinding
+            val dialogBinding = DialogMyNotesBinding.inflate(layoutInflater)
+            // Aggiorna note con valore attuale
+            dialogBinding.noteContentText.setText(viewModel.getNotes())
+
+            // Crea il dialog Material
+            val dialog = MaterialAlertDialogBuilder(requireContext())
+                .setView(dialogBinding.root)
+                .setCancelable(true)
+                .create()
+            // Mostra il dialog prima di modificare il background
+            dialog.show()
+
+            // modifica background -> bordi arrotondati dialog
+            // dialog.window -> disponibile solo dopo .show()
+            dialog.window?.decorView?.background = MaterialShapeDrawable().apply {
+                shapeAppearanceModel = ShapeAppearanceModel.builder()
+                    .setAllCornerSizes(16f.dpToPx(requireContext())) // arrotondamento 16dp
+                    .build()
+                fillColor = ColorStateList.valueOf(
+                    MaterialColors.getColor(
+                        dialogBinding.root,
+                        com.google.android.material.R.attr.colorSurface
+                    )
+                )
+            }
+
+            // TODO:
+            // Save button -----------------------------------------------------
+            dialogBinding.saveNoteButton.setOnClickListener {
+                val notes = dialogBinding.noteContentText.text.toString()
+                viewModel.setNotes(currentMovieIds.trakt, notes)
+                dialog.dismiss()
+            }
+        }
+    }
 
     // Helper per convertire dp in pixel
     private fun Float.dpToPx(context: Context): Float {
