@@ -3,6 +3,9 @@ package com.example.muvitracker.ui.main.person
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
@@ -40,8 +43,8 @@ class PersonFragment : Fragment(R.layout.fragment_person) {
         viewmodel.getPerson(currentPersonIds.trakt)
         viewmodel.personState.observe(viewLifecycleOwner) { person ->
             binding.personName.text = person.name
-            binding.personAge.text = person.age // calculated
-            binding.known.text = "for ${person.knownForDepartment }"
+            binding.ageContent.text = person.age // calculated
+            binding.knownContent.text = "for ${person.knownForDepartment }"
 
             binding.bornContent.text = "${person.birthday}\n${person.birthplace}"
 
@@ -78,7 +81,20 @@ class PersonFragment : Fragment(R.layout.fragment_person) {
         Glide.with(requireContext())
             .load(ImageTmdbRequest.Person(currentPersonIds.tmdb))
             .into(binding.verticalImage)
+
+        mainLayoutTopEdgeToEdgeManagment()
     }
+
+    private fun mainLayoutTopEdgeToEdgeManagment() {
+        ViewCompat.setOnApplyWindowInsetsListener(binding.mainLayout) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            // aggiorno solo lati che mi servono
+            v.updatePadding(top = systemBars.top)
+            insets
+        }
+    }
+
+
 
 
     companion object {

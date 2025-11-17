@@ -38,8 +38,8 @@ class PersonBottomSheetFragment : BottomSheetDialogFragment(R.layout.fragment_pe
         viewmodel.getPerson(currentPersonIds.trakt)
         viewmodel.personState.observe(viewLifecycleOwner) { person ->
             binding.personName.text = person.name
-            binding.known.text = "for ${person.knownForDepartment }"
-            binding.personAge.text = person.age // calculated
+            binding.knownContent.text = "for ${person.knownForDepartment }"
+            binding.ageContent.text = person.age // calculated
 
             binding.bornContent.text = "${person.birthday}\n${person.birthplace}"
 

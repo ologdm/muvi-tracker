@@ -153,7 +153,7 @@ class TmdbFetcher(
     ) {
         try {
             val response = tmdbApi.getPersonDto(model.personId)
-            val url = "$TMDB_IMAGE_URL_DOMAIN${response.profilePath}"
+            val url = "$TMDB_IMAGE_URL_DOMAIN_VERTICAL${response.profilePath}"
             val fetcher = HttpUrlFetcher(GlideUrl(url), TIMEOUT)
             fetcher.loadData(priority, callback)
         } catch (ex: Exception) {
