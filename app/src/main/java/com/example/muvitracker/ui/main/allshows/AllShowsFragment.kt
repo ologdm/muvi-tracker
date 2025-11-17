@@ -47,7 +47,7 @@ class AllShowsFragment : Fragment(R.layout.fragment_explore_base) {
     ) {
         mainLayoutTopEdgeToEdgeManagment()
 
-        b.toolbar.text = getString(R.string.shows)
+        b.toolbarTextview.text = getString(R.string.shows)
         b.recyclerView.adapter = pagingAdapter
         b.recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
 

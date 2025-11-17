@@ -52,7 +52,7 @@ class AllMoviesFragment : Fragment(R.layout.fragment_explore_base) {
 
         mainLayoutTopEdgeToEdgeManagment()
 
-        b.toolbar.text = getString(R.string.movies)
+        b.toolbarTextview.text = getString(R.string.movies)
         b.recyclerView.adapter = pagingAdapter
         b.recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
 
