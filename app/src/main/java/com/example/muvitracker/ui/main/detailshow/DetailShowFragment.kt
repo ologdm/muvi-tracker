@@ -1,6 +1,7 @@
 package com.example.muvitracker.ui.main.detailshow
 
 import android.app.Dialog
+import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.content.res.Configuration
@@ -26,7 +27,7 @@ import com.example.muvitracker.R
 import com.example.muvitracker.data.dto._support.Ids
 import com.example.muvitracker.data.glide.ImageTmdbRequest
 import com.example.muvitracker.data.utils.orIfBlank
-import com.example.muvitracker.databinding.DialogAddNotesBinding
+import com.example.muvitracker.databinding.DialogMyNotesBinding
 import com.example.muvitracker.databinding.FragmentDetailShowBinding
 import com.example.muvitracker.domain.model.Show
 import com.example.muvitracker.ui.main.Navigator
@@ -38,6 +39,10 @@ import com.example.muvitracker.utils.statesFlow
 import com.example.muvitracker.utils.statesFlowDetailNew
 import com.example.muvitracker.utils.viewBinding
 import com.google.android.material.chip.Chip
+import com.google.android.material.color.MaterialColors
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.shape.MaterialShapeDrawable
+import com.google.android.material.shape.ShapeAppearanceModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.time.LocalDate
 import javax.inject.Inject
@@ -123,7 +128,7 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
         loadRelatedSetup()
         loadCastSetup()
         loadTMDBImagesWithCustomGlideSetup()
-        addNotesClickSetup()
+        myNotesDialogSetup()
 
 
         // BUTTONS CLICK ---------------------------------------------------------------------------
@@ -373,26 +378,45 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
         b.extendedFloatingLikedButton.setIconResource(if (isFavorite) iconFilled else iconEmpty)
     }
 
-    private fun addNotesClickSetup() {
+
+    private fun myNotesDialogSetup() {
         b.notesLayout.setOnClickListener {
-            val dialog = Dialog(requireContext())
-            dialog.setContentView(R.layout.dialog_add_notes)
-            dialog.setCancelable(true) // lo puoi chiudere cliccando fuori
+            // Inflating del layout con ViewBinding
+            val dialogBinding = DialogMyNotesBinding.inflate(layoutInflater)
+            // Aggiorna note con valore attuale
+            dialogBinding.noteContentText.setText(viewModel.getNotes())
 
-            val dialogB = DialogAddNotesBinding.inflate(layoutInflater)
-            dialog.setContentView(dialogB.root)
+            // Crea il dialog Material
+            val dialog = MaterialAlertDialogBuilder(requireContext())
+                .setView(dialogBinding.root)
+                .setCancelable(true)
+                .create()
+            // Mostra il dialog prima di modificare il background
+            dialog.show()
 
-            dialogB.noteContentText.setText(viewModel.getNotes())
+            // modifica background -> bordi arrotondati dialog
+            // dialog.window -> disponibile solo dopo .show()
+            dialog.window?.decorView?.background = MaterialShapeDrawable().apply {
+                shapeAppearanceModel = ShapeAppearanceModel.builder()
+                    .setAllCornerSizes(16f.dpToPx(requireContext())) // arrotondamento 16dp
+                    .build()
+                fillColor = ColorStateList.valueOf(MaterialColors.getColor(dialogBinding.root, com.google.android.material.R.attr.colorSurface))
+            }
 
-            dialogB.saveNoteButton.setOnClickListener {
-                val notes = dialogB.noteContentText.text.toString()
+            // Save button -----------------------------------------------------
+            dialogBinding.saveNoteButton.setOnClickListener {
+                val notes = dialogBinding.noteContentText.text.toString()
                 viewModel.setNotes(currentShowIds.trakt, notes)
                 dialog.dismiss()
             }
-
-            dialog.show()
         }
     }
+
+    // Helper per convertire dp in pixel
+    private fun Float.dpToPx(context: Context): Float {
+        return this * context.resources.displayMetrics.density
+    }
+
 
     private fun ratingLayoutsSetup(show: Show) {
         b.traktRating.text = show.traktRating

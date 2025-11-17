@@ -11,7 +11,7 @@
         android:id="@+id/dialogTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add notes"
+        android:text="My notes"
         android:textAppearance="?attr/textAppearanceTitleMedium"
         android:textStyle="bold"
         android:layout_gravity="center_horizontal"
@@ -36,9 +36,6 @@
         android:layout_height="wrap_content"
         android:text="Save"
         android:layout_marginTop="16dp" />
-
-
-
 
 
 </LinearLayout>
