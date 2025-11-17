@@ -10,5 +10,5 @@ interface PrefsShowRepository {
     suspend fun checkAndAddIfWatchedToPrefs(showId: Int)
     suspend fun deleteItemOnDB(id: Int)
 
-    suspend fun setNotesOnDB(showId: Int, note: String)
+    suspend fun setNotesOnDB(showId: Int, notes: String)
 }
