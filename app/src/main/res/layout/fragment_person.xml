@@ -160,6 +160,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_columnWeight="1"
+                            android:maxLines="6"
                             tools:text="26 Dec 1986\nWorchester, England, UK \ndddd" />
 
                         <TextView
@@ -175,6 +176,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_columnWeight="1"
+                            android:maxLines="6"
                             tools:text="15 Oct 2023\nLondon UK\nkkkkkkkkknkkkkkkkkknkkkkkkkkknkkkkkkkkknkkkkkkkkknkkkkkkkkknkkkkkkkkk" />
 
 
@@ -190,7 +192,7 @@
                 android:id="@+id/divider"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="16dp"
                 app:layout_constraintTop_toBottomOf="@id/imageAndInfoLayout" />
 
             <TextView
@@ -210,6 +212,7 @@
                 android:ellipsize="end"
                 android:maxLines="5"
                 android:minLines="5"
+                android:layout_marginTop="4dp"
                 app:layout_constraintTop_toBottomOf="@id/biographyTitle"
                 tools:text="@tools:sample/lorem/random" />
 
