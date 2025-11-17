@@ -49,21 +49,24 @@
 
 
     <!--search type -->
-    <string name="search_all">All</string>
-    <string name="search_movies">Movies</string>
-    <string name="search_tv_series">TV Series</string>
-    <string name="search_people">People</string>
+    <string name="people">People</string>
 
 
     <string name="episodes">Episodes:</string>
     <string name="all">All</string>
+
+
     <string name="actors_are_not_available">Actors are not available</string>
     <string name="not_available">Not available</string>
     <string name="seasons_not_available">Seasons are not available</string>
+
     <string name="like" translatable="false">Like</string>
-    <string name="add_notes" translatable="false">Add notes</string>
     <string name="from_release_year">from %1$s</string>
-    <string name="from_release_year_to_finish_year">from %1$s to %2$s</string>
+
+    <string name="my_notes">My notes</string>
+    <string name="add_a_note_to_your_movie">Add a note to your movie</string>
+    <string name="write_your_note">Write your note...</string>
+
 
 
 </resources>

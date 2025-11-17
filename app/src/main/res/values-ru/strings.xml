@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="movies">Фильмы</string>
+    <string name="shows">Сериалы</string>
+    <string name="my_list">Мой список</string>
+    <string name="search">Поиск</string>
+    <string name="popular">Популярные</string>
+    <string name="box_office">В кино</string>
+    <string name="watched">Самые просматриваемые</string>
+    <string name="favorited">xxxx</string>
+    <string name="anticipated">Скоро</string>
+    <string name="aired_episodes">Вышло %1$s эпизодов</string>
+    <string name="total_seasons">%1$s сезонов</string>
+    <string name="runtime_description">%1$s мин</string>
+    <string name="watched_check_text">Просмотрено</string>
+    <string name="watched_all_check_text">Все просмотрено</string>
+    <string name="about_show_text">Описание</string>
+    <string name="seasons_text">Сезоны</string>
+    <string name="related_text">Вам также может понравиться</string>
+    <string name="cast_text">Актёры</string>
+    <string name="watch_provider_text">Стриминговые платформы</string>
+    <string name="no_trailer_available">Трейлер недоступен</string>
+    <string name="season_text">Сезон</string>
+    <string name="episodes_text">эпизоды</string>
+    <string name="overview">Описание</string>
+    <string name="release_date">Дата выхода:</string>
+    <string name="error_message_no_internet_swipe_down">нет подключения к интернету, смахните вниз</string>
+    <string name="error_message_no_internet">нет подключения к интернету</string>
+    <string name="error_message_other">что-то пошло не так :(</string>
+    <string name="people">Персоны</string>
+    <string name="episodes">Эпизоды:</string>
+    <string name="all">Все</string>
+    <string name="actors_are_not_available">Актеры недоступны</string>
+    <string name="not_available">Недоступно</string>
+    <string name="seasons_not_available">Сезоны недоступны</string>
+    <string name="from_release_year">с %1$s</string>
+    <string name="my_notes">Мои заметки</string>
+    <string name="add_a_note_to_your_movie">Добавить заметку</string>
+    <string name="write_your_note">Напишите свою заметку…</string>
+</resources>

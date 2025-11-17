@@ -43,16 +43,15 @@
     <string name="error_message_other">qualcosa e andato storto :(</string>
 
 
-    <string name="search_all">Tutto</string>
-    <string name="search_movies">Film</string>
-    <string name="search_tv_series">Serie TV</string>
-    <string name="search_people">Persone</string>
+    <string name="people">Persone</string>
     <string name="episodes">Episodi:</string>
     <string name="all">Tutti</string>
     <string name="actors_are_not_available">Attori non disponibili</string>
     <string name="not_available">Non disponibile</string>
     <string name="seasons_not_available">Stagioni non disponibili</string>
     <string name="from_release_year">dal %1$s</string>
-    <string name="from_release_year_to_finish_year">dal %1$s al %2$s</string>
+    <string name="my_notes">Le mie note</string>
+    <string name="add_a_note_to_your_movie">Aggiungi una nota</string>
+    <string name="write_your_note">"Scrivi la tua nota… "</string>
 
 </resources>

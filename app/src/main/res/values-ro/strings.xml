@@ -26,10 +26,7 @@
     <string name="error_message_no_internet_swipe_down">swipe down fără conexiune la internet, trage în jos</string>
     <string name="error_message_no_internet">fără conexiune la internet</string>
     <string name="error_message_other">ceva nu a mers bine :(</string>
-    <string name="search_all">Toate</string>
-    <string name="search_movies">Filme</string>
-    <string name="search_tv_series">Seriale TV</string>
-    <string name="search_people">Oameni</string>
+    <string name="people">Oameni</string>
     <string name="episodes">Episoade:</string>
     <string name="all">Toate</string>
     <string name="season_text">Sezon</string>
@@ -37,5 +34,7 @@
     <string name="not_available">Nu e disponibil</string>
     <string name="seasons_not_available">Sezoanele nu sunt disponibile</string>
     <string name="from_release_year">din %1$s</string>
-    <string name="from_release_year_to_finish_year">din %1$s până în %2$s</string>
+    <string name="my_notes">"Notițele mele "</string>
+    <string name="add_a_note_to_your_movie">Adaugă o notă</string>
+    <string name="write_your_note">"Scrie nota ta… "</string>
 </resources>
