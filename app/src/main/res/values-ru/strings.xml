@@ -40,4 +40,9 @@
     <string name="write_your_note">Напишите свою заметку…</string>
     <string name="e_number_first_aired_runtime_min">Эп.%1$s • %2$s • %3$d мин</string>
     <string name="trailer">Трейлер</string>
+    <string name="biography">Биография:</string>
+    <string name="known">Известен за:</string>
+    <string name="age">Возраст:</string>
+    <string name="born">Рожден:</string>
+    <string name="died">Умер:</string>
 </resources>

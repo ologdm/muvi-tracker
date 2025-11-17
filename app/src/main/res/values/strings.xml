@@ -69,8 +69,8 @@
     <string name="e_number_first_aired_runtime_min">Ep.%1$s • %2$s • %3$d min</string>
 
     <string name="trailer">Trailer</string>
-    <string name="biography" translatable="false">Biography:</string>
-    <string name="known" translatable="false">Known:    </string>
+    <string name="biography">Biography:</string>
+    <string name="known">Known:    </string>
     <string name="age">Age:</string>
     <string name="born">Born:</string>
     <string name="died">Died:</string>

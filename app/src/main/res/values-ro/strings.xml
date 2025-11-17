@@ -40,4 +40,9 @@
     <string name="write_your_note">"Scrie nota ta… "</string>
     <string name="e_number_first_aired_runtime_min">Ep.%1$s • %2$s • %3$d min</string>
     <string name="trailer">Trailer</string>
+    <string name="biography">Biografie:</string>
+    <string name="known">Cunoscut:</string>
+    <string name="age">Vârstă:</string>
+    <string name="born">Născut:</string>
+    <string name="died">Decedat:</string>
 </resources>

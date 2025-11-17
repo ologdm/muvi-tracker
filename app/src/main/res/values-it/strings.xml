@@ -56,5 +56,10 @@
     <string name="write_your_note">"Scrivi la tua nota… "</string>
     <string name="e_number_first_aired_runtime_min">Ep.%1$s • %2$s • %3$d min</string>
     <string name="trailer">Trailer</string>
+    <string name="biography">Biografia:</string>
+    <string name="known">Nota per:</string>
+    <string name="age">Età:</string>
+    <string name="born">Nascita:</string>
+    <string name="died">Morte:</string>
 
 </resources>
