@@ -36,7 +36,8 @@
     <string name="like">В избранное</string>
     <string name="from_release_year">с %1$s</string>
     <string name="my_notes">Мои заметки</string>
-    <string name="add_a_note_to_your_movie">Добавить заметку</string>
+    <string name="add_a_note_to_your_movie">Добавь заметку к вашему фильму</string>
+    <string name="add_a_note_to_your_show">Добавь заметку к вашему сериалу</string>
     <string name="write_your_note">Напишите свою заметку…</string>
     <string name="e_number_first_aired_runtime_min">Эп.%1$s • %2$s • %3$d мин</string>
     <string name="trailer">Трейлер</string>

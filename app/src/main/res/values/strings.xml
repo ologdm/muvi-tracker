@@ -65,6 +65,7 @@
 
     <string name="my_notes">My notes</string>
     <string name="add_a_note_to_your_movie">Add a note to your movie</string>
+    <string name="add_a_note_to_your_show">Add a note to your show</string>
     <string name="write_your_note">Write your note...</string>
     <string name="e_number_first_aired_runtime_min">Ep.%1$s • %2$s • %3$d min</string>
 

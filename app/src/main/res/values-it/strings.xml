@@ -52,7 +52,8 @@
     <string name="like">Preferito</string>
     <string name="from_release_year">dal %1$s</string>
     <string name="my_notes">Le mie note</string>
-    <string name="add_a_note_to_your_movie">Aggiungi una nota</string>
+    <string name="add_a_note_to_your_movie">Aggiungi una nota al tuo film</string>
+    <string name="add_a_note_to_your_show">Aggiungi una nota alla tua serie</string>
     <string name="write_your_note">"Scrivi la tua nota… "</string>
     <string name="e_number_first_aired_runtime_min">Ep.%1$s • %2$s • %3$d min</string>
     <string name="trailer">Trailer</string>
