@@ -75,7 +75,7 @@
             android:textSize="15sp"
             app:icon="@drawable/liked_icon_empty"
             app:iconGravity="end"
-            app:iconPadding="0dp"
+            app:iconPadding="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
 
@@ -160,7 +160,7 @@
                             android:shadowDx="5"
                             android:shadowDy="3"
                             android:shadowRadius="5"
-                            android:text="Trailer"
+                            android:text="@string/trailer"
                             android:textColor="@android:color/white"
                             android:textSize="10sp"
                             android:textStyle="bold" />
@@ -209,8 +209,7 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:orientation="horizontal">
+                        android:layout_marginTop="12dp">
 
 
                         <com.google.android.material.imageview.ShapeableImageView

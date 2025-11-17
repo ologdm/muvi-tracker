@@ -72,10 +72,11 @@
             android:layout_marginBottom="24dp"
             android:importantForAccessibility="no"
             android:text="@string/like"
+            tools:text="Liked"
             android:textSize="15sp"
             app:icon="@drawable/liked_icon_empty"
             app:iconGravity="end"
-            app:iconPadding="0dp"
+            app:iconPadding="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
 
@@ -139,7 +140,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="16dp"
-                        android:layout_marginBottom="16dp"
+                        android:layout_marginBottom="12dp"
                         android:gravity="center_horizontal"
                         android:orientation="vertical"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -160,7 +161,7 @@
                             android:shadowDx="5"
                             android:shadowDy="3"
                             android:shadowRadius="5"
-                            android:text="Trailer"
+                            android:text="@string/trailer"
                             android:textColor="@android:color/white"
                             android:textSize="10sp"
                             android:textStyle="bold" />
@@ -287,9 +288,11 @@
 
                         <com.google.android.material.imageview.ShapeableImageView
                             android:id="@+id/verticalImage"
-                            android:layout_width="200dp"
-                            android:layout_height="300dp"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
                             android:layout_marginEnd="24dp"
+                            app:layout_constraintWidth_percent="0.5"
+                            app:layout_constraintDimensionRatio="2:3"
                             android:importantForAccessibility="no"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
@@ -400,6 +403,7 @@
                             android:layout_height="wrap_content"
                             android:gravity="right"
                             android:orientation="vertical"
+                            android:layout_marginStart="8dp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@id/verticalImage">
