@@ -6,8 +6,8 @@
     <string name="search">Поиск</string>
     <string name="popular">Популярные</string>
     <string name="box_office">В кино</string>
-    <string name="watched">Самые просматриваемые</string>
-    <string name="favorited">xxxx</string>
+    <string name="watched">Топ просмотр</string>
+    <string name="favorited">Избранные</string>
     <string name="anticipated">Скоро</string>
     <string name="aired_episodes">Вышло %1$s эпизодов</string>
     <string name="total_seasons">%1$s сезонов</string>
@@ -33,8 +33,11 @@
     <string name="actors_are_not_available">Актеры недоступны</string>
     <string name="not_available">Недоступно</string>
     <string name="seasons_not_available">Сезоны недоступны</string>
+    <string name="like">В избранное</string>
     <string name="from_release_year">с %1$s</string>
     <string name="my_notes">Мои заметки</string>
     <string name="add_a_note_to_your_movie">Добавить заметку</string>
     <string name="write_your_note">Напишите свою заметку…</string>
+    <string name="e_number_first_aired_runtime_min">Эп.%1$s • %2$s • %3$d мин</string>
+    <string name="trailer">Трейлер</string>
 </resources>

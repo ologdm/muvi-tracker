@@ -24,8 +24,9 @@ class PrefsViewpagerFragment :Fragment(R.layout.fragment_prefs_viewpager){
         binding.tabLayout.tabMode = TabLayout.MODE_SCROLLABLE
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
             tab.text = when (position) {
-                0 -> "Movies"
-                1 -> "Shows"
+                0 -> getString(R.string.movies)
+                1 -> getString(R.string.shows)
+//                2 -> getString(R.string.people) TODO 1.1.4
                 else -> null
             }
         }.attach()

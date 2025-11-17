@@ -40,28 +40,28 @@
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/search_all" />
+            android:text="@string/all" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chipMovies"
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/search_movies" />
+            android:text="@string/movies" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chipShows"
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/search_tv_series" />
+            android:text="@string/shows" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chipPeople"
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/search_people" />
+            android:text="@string/people" />
 
     </com.google.android.material.chip.ChipGroup>
 

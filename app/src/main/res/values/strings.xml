@@ -60,12 +60,22 @@
     <string name="not_available">Not available</string>
     <string name="seasons_not_available">Seasons are not available</string>
 
-    <string name="like" translatable="false">Like</string>
+    <string name="like">Liked</string>
     <string name="from_release_year">from %1$s</string>
 
     <string name="my_notes">My notes</string>
     <string name="add_a_note_to_your_movie">Add a note to your movie</string>
     <string name="write_your_note">Write your note...</string>
+    <string name="e_number_first_aired_runtime_min">Ep.%1$s • %2$s • %3$d min</string>
+
+    <string name="trailer">Trailer</string>
+    <string name="biography" translatable="false">Biography:</string>
+    <string name="known" translatable="false">Known:    </string>
+    <string name="age">Age:</string>
+    <string name="born">Born:</string>
+    <string name="died">Died:</string>
+
+    <!--    person fragment -->
 
 
 

@@ -25,7 +25,7 @@
             android:id="@+id/episodeInfo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:text="E.01 • 18.04.11 • 56 min" />
+            tools:text="E.01 • 18.04.11 • 56 min (tools)" />
 
         <TextView
             android:id="@+id/episodeTitle"

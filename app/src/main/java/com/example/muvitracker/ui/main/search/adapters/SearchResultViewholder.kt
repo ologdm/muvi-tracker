@@ -19,7 +19,7 @@ class SearchResultViewholder(
 
             when (item) {
                 is SearchResult.MovieItem -> {
-                    typeItem.text = root.context.getString(R.string.search_movies)
+                    typeItem.text = root.context.getString(R.string.movies)
 //                    score.text = item.score.firstDecimalApproxToString()
                     title.text = "${item.movieBase?.title} (${item.movieBase?.year.toString()})"
 
@@ -32,7 +32,7 @@ class SearchResultViewholder(
                 }
 
                 is SearchResult.ShowItem -> {
-                    typeItem.text = root.context.getString(R.string.search_tv_series)
+                    typeItem.text = root.context.getString(R.string.shows)
 //                    score.text = item.score.firstDecimalApproxToString()
                     title.text = "${item.showBase.title} (${item.showBase.year})"
 
@@ -45,7 +45,7 @@ class SearchResultViewholder(
                 }
 
                 is SearchResult.PersonItem -> {
-                    typeItem.text = root.context.getString(R.string.search_people)
+                    typeItem.text = root.context.getString(R.string.people)
                     title.text = "${item.personBase.name}"
 
                     Glide.with(root.context)

@@ -33,8 +33,11 @@
     <string name="actors_are_not_available">Actorii nu sunt disponibili</string>
     <string name="not_available">Nu e disponibil</string>
     <string name="seasons_not_available">Sezoanele nu sunt disponibile</string>
+    <string name="like">Favorit</string>
     <string name="from_release_year">din %1$s</string>
     <string name="my_notes">"Notițele mele "</string>
     <string name="add_a_note_to_your_movie">Adaugă o notă</string>
     <string name="write_your_note">"Scrie nota ta… "</string>
+    <string name="e_number_first_aired_runtime_min">Ep.%1$s • %2$s • %3$d min</string>
+    <string name="trailer">Trailer</string>
 </resources>

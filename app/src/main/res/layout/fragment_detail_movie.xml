@@ -439,7 +439,7 @@
                             </LinearLayout>
 
 <!--                            <LinearLayout-->
-<!--                                android:id="@+id/takeNotesLayout"-->
+<!--                                android:id="@+id/notesLayout"-->
 <!--                                android:layout_width="wrap_content"-->
 <!--                                android:layout_height="wrap_content"-->
 
@@ -490,7 +490,7 @@
 
 
                         <ImageButton
-                            android:id="@+id/addNotesImageButton"
+                            android:id="@+id/notesImageButton"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@null"
