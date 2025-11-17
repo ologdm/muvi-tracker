@@ -351,11 +351,20 @@
 
                                 <!-- TODO Trakt OK -->
                                 <LinearLayout
+                                    android:id="@+id/traktLayout"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginEnd="12dp"
                                     android:gravity="center_horizontal"
                                     android:orientation="vertical">
+
+                                    <ImageButton
+                                        android:id="@+id/linkImageTrakt"
+                                        android:layout_width="32dp"
+                                        android:layout_height="32dp"
+                                        android:background="@android:color/transparent"
+                                        android:src="@drawable/link_image"
+                                        android:visibility="gone" />
 
                                     <TextView
                                         android:id="@+id/traktRating"
@@ -374,16 +383,26 @@
 
                                 <!--  TODO tmdb OK-->
                                 <LinearLayout
+                                    android:id="@+id/tmdbLayout"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:gravity="center_horizontal"
                                     android:orientation="vertical">
+
+                                    <ImageButton
+                                        android:id="@+id/linkImageTmdb"
+                                        android:layout_width="32dp"
+                                        android:layout_height="32dp"
+                                        android:background="@android:color/transparent"
+                                        android:src="@drawable/link_image"
+                                        android:visibility="gone" />
 
                                     <TextView
                                         android:id="@+id/tmdbRating"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:textSize="24sp"
+                                        android:visibility="visible"
                                         tools:text="7.9" />
 
                                     <TextView
@@ -495,11 +514,12 @@
 
                         <ImageButton
                             android:id="@+id/notesImageButton"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
                             android:background="@null"
                             android:src="@drawable/take_notes"
                             app:tint="?attr/colorPrimary" />
+
 
                         <TextView
                             android:id="@+id/notesTextview"
@@ -509,7 +529,7 @@
                             android:ellipsize="end"
                             android:maxLines="2"
                             android:textStyle="italic"
-                            android:text="Write down your thoughts about this movie...maxLines 2"
+                            android:hint="@string/add_a_note_to_your_movie"
                             android:textColor="?attr/colorPrimary"
                             android:visibility="visible" />
 

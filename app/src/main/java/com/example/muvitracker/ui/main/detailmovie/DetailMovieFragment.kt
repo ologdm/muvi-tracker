@@ -1,5 +1,6 @@
 package com.example.muvitracker.ui.main.detailmovie
 
+import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.content.res.Configuration
@@ -44,7 +45,6 @@ import javax.inject.Inject
  *   –        (Option + -)
  *   -        (-)
  */
-
 
 
 // 1.1.3 grafica edge toedge
@@ -104,7 +104,7 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
                 b.progressBar,
                 b.mainLayoutToDisplayDetail,
                 bindData = { movie ->
-                    updateDetailUi(movie)
+                    setupDetailMovieUiSection(movie)
                     updateFavoriteIcon(movie.liked)
                     updateWatchedCheckbox(movie)
                 }
@@ -202,73 +202,74 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
     // PRIVATE FUNCTIONS ###############################################
     // movie detail
     // TODO DEFAULT CASES - OK
-    private fun updateDetailUi(movie: Movie) {
-        with(b) {
-            // titolo
-            title.text = movie.title.orIfBlank(MovieDefaults.TITLE)
-            // TODO 1.1.3 - ok
-            tagline.apply {
-                text = movie.tagline.orEmpty()
-                visibility = if (movie.tagline.isNullOrBlank()) View.GONE else View.VISIBLE
-            }
+    private fun setupDetailMovieUiSection(movie: Movie) {
+        // titolo
+        b.title.text = movie.title.orIfBlank(MovieDefaults.TITLE)
+        // TODO 1.1.3 - ok
+        b.tagline.apply {
+            text = movie.tagline.orEmpty()
+            visibility = if (movie.tagline.isNullOrBlank()) View.GONE else View.VISIBLE
+        }
 
-            // info section
-            status.text = movie.status?.replaceFirstChar { it.uppercaseChar() }
-                .orIfBlank(MovieDefaults.STATUS)  // es released
-            val releaseData = movie.releaseDate?.formatToReadableDate()
-            val releaseDataText =
-                releaseData.takeUnless { it.isNullOrBlank() } ?: MovieDefaults.RELEASE
-            val countryList = movie.countries.filter { it.isNotBlank() }
-            val countryText = countryList.joinToString(", ")
-            releasedDateAndCountry.text = "${releaseDataText} (${countryText})"
+        // info section
+        b.status.text = movie.status?.replaceFirstChar { it.uppercaseChar() }
+            .orIfBlank(MovieDefaults.STATUS)  // es released
+        val releaseData = movie.releaseDate?.formatToReadableDate()
+        val releaseDataText =
+            releaseData.takeUnless { it.isNullOrBlank() } ?: MovieDefaults.RELEASE
+        val countryList = movie.countries.filter { it.isNotBlank() }
+        val countryText = countryList.joinToString(", ")
+        b.releasedDateAndCountry.text = "${releaseDataText} (${countryText})"
 
-            //
-            runtime.text = if (movie.runtime != null && movie.runtime > 0)
-                getString(R.string.runtime_description, movie.runtime.toString())
-            else
-                MovieDefaults.RUNTIME
-            //
-            traktRating.text = movie.traktRating ?: MovieDefaults.RATING
-            tmdbRating.text = movie.tmdbRating ?: MovieDefaults.RATING
-            //
-            // TODO 1.1.3  - ok in inglese
-            englishTitle.apply {
-                if (movie.title != movie.englishTraktTitle) {
-                    visibility = View.VISIBLE
-                    text = "${movie.englishTraktTitle}"
-                } else
-                    visibility = View.GONE
-            }
-            //
-            overviewContent.text = movie.overview.orIfBlank(MovieDefaults.OVERVIEW)
-            //
-            // genres
-            genresChipGroup.removeAllViews() // clean old
-            movie.genres.forEach { genre ->
-                val chip = Chip(context).apply { text = genre }
-                genresChipGroup.addView(chip)
-            }
+        //
+        b.runtime.text = if (movie.runtime != null && movie.runtime > 0)
+            getString(R.string.runtime_description, movie.runtime.toString())
+        else
+            MovieDefaults.RUNTIME
+
+        //
+//        b.traktRating.text = movie.traktRating ?: MovieDefaults.RATING
+//        b.tmdbRating.text = movie.tmdbRating ?: MovieDefaults.RATING
+        ratingLayoutsSetup(movie)
+        //
+        // TODO 1.1.3  - ok in inglese
+        b.englishTitle.apply {
+            if (movie.title != movie.englishTraktTitle) {
+                visibility = View.VISIBLE
+                text = "${movie.englishTraktTitle}"
+            } else
+                visibility = View.GONE
+        }
+        //
+        b.overviewContent.text = movie.overview.orIfBlank(MovieDefaults.OVERVIEW)
+        //
+        // genres
+        b.genresChipGroup.removeAllViews() // clean old
+        movie.genres.forEach { genre ->
+            val chip = Chip(context).apply { text = genre }
+            b.genresChipGroup.addView(chip)
+        }
 
 
-            // Open Link On Youtube --------------------------------------------
-            val trailerUrl = movie.youtubeTrailer
-            val trailerAvailable = !trailerUrl.isNullOrBlank()
-            // sbiadimento senza trailer
-            trailerLayout.alpha = if (trailerAvailable) 1f else 0.4f
-            //
-            trailerLayout.setOnClickListener {
-                if (trailerAvailable) {
-                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(trailerUrl))
-                    startActivity(intent)
-                } else {
-                    Toast.makeText(
-                        requireContext(),
-                        getString(R.string.no_trailer_available),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
+        // Open Link On Youtube --------------------------------------------
+        val trailerUrl = movie.youtubeTrailer
+        val trailerAvailable = !trailerUrl.isNullOrBlank()
+        // sbiadimento senza trailer
+        b.trailerLayout.alpha = if (trailerAvailable) 1f else 0.4f
+        //
+        b.trailerLayout.setOnClickListener {
+            if (trailerAvailable) {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(trailerUrl))
+                startActivity(intent)
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.no_trailer_available),
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
+
     }
 
 
@@ -276,6 +277,85 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
         val iconFilled = R.drawable.liked_icon_filled
         val iconEmpty = R.drawable.liked_icon_empty
         b.extendedFloatingLikedButton.setIconResource(if (isFavorite) iconFilled else iconEmpty)
+    }
+
+//    private fun myNotesDialogSetup() {
+//        b.notesLayout.setOnClickListener {
+//            // Inflating del layout con ViewBinding
+//            val dialogBinding = DialogMyNotesBinding.inflate(layoutInflater)
+//            // Aggiorna note con valore attuale
+//            dialogBinding.noteContentText.setText(viewModel.getNotes())
+//
+//            // Crea il dialog Material
+//            val dialog = MaterialAlertDialogBuilder(requireContext())
+//                .setView(dialogBinding.root)
+//                .setCancelable(true)
+//                .create()
+//            // Mostra il dialog prima di modificare il background
+//            dialog.show()
+//
+//            // modifica background -> bordi arrotondati dialog
+//            // dialog.window -> disponibile solo dopo .show()
+//            dialog.window?.decorView?.background = MaterialShapeDrawable().apply {
+//                shapeAppearanceModel = ShapeAppearanceModel.builder()
+//                    .setAllCornerSizes(16f.dpToPx(requireContext())) // arrotondamento 16dp
+//                    .build()
+//                fillColor = ColorStateList.valueOf(MaterialColors.getColor(dialogBinding.root, com.google.android.material.R.attr.colorSurface))
+//            }
+//
+//            // Save button -----------------------------------------------------
+//            dialogBinding.saveNoteButton.setOnClickListener {
+//                val notes = dialogBinding.noteContentText.text.toString()
+//                viewModel.setNotes(currentShowIds.trakt, notes)
+//                dialog.dismiss()
+//            }
+//        }
+//    }
+
+    // Helper per convertire dp in pixel
+    private fun Float.dpToPx(context: Context): Float {
+        return this * context.resources.displayMetrics.density
+    }
+
+
+    private fun ratingLayoutsSetup(movie: Movie) {
+        b.traktRating.text = movie.traktRating
+        b.tmdbRating.text = movie.tmdbRating
+
+        if (movie.traktRating.isNullOrEmpty() || movie.traktRating == "0.0") {
+            b.traktRating.visibility = View.GONE
+            b.linkImageTrakt.visibility = View.VISIBLE
+        } else {
+            b.traktRating.visibility = View.VISIBLE
+            b.linkImageTrakt.visibility = View.GONE
+        }
+
+
+        if (movie.tmdbRating.isNullOrEmpty() || movie.traktRating == "0.0") {
+            b.tmdbRating.visibility = View.GONE
+            b.linkImageTmdb.visibility = View.VISIBLE
+        } else {
+            b.tmdbRating.visibility = View.VISIBLE
+            b.linkImageTmdb.visibility = View.GONE
+        }
+
+
+        b.traktLayout.setOnClickListener {
+            // apri link
+            val type = "movies"
+            val traktSlug = movie.ids.slug
+            val traktUrl = "https://trakt.tv/$type/$traktSlug"
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(traktUrl))
+            startActivity(intent)
+        }
+
+        b.tmdbLayout.setOnClickListener {
+            val type = "movie"
+            val tmdbId = movie.ids.tmdb
+            val tmdbUrl = "https://www.themoviedb.org/$type/$tmdbId"
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(tmdbUrl))
+            startActivity(intent)
+        }
     }
 
 
@@ -460,7 +540,6 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
             insets
         }
     }
-
 
 
     companion object {
