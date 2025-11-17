@@ -69,11 +69,9 @@
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     app:layout_constraintDimensionRatio="2:3"
-                    app:layout_constraintWidth_percent="0.35"
-                    android:layout_marginEnd="24dp"
+                    app:layout_constraintWidth_percent="0.4"
+                    android:layout_marginEnd="20dp"
                     android:importantForAccessibility="no"
-
-
                     app:layout_constraintEnd_toStartOf="@id/infoLayout"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -200,7 +198,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Biography:"
+                android:text="@string/biography"
                 android:textStyle="bold"
                 app:layout_constraintTop_toBottomOf="@id/divider" />
 
@@ -215,11 +213,6 @@
                 app:layout_constraintTop_toBottomOf="@id/biographyTitle"
                 tools:text="@tools:sample/lorem/random" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/biographyContent" />
 
 
         </LinearLayout>
