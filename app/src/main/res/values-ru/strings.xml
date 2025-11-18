@@ -46,4 +46,9 @@
     <string name="age">Возраст:</string>
     <string name="born">Рожден:</string>
     <string name="died">Умер:</string>
+    <string name="discard_movie">Удалить фильм?</string>
+    <string name="discard_show">Удалить сериал?</string>
+    <string name="is_no_longer_liked_or_watched_remove_it">\"%1$s\" больше не в избранном и не просмотрен.\n\nУдалить?</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
 </resources>

@@ -76,6 +76,13 @@
     <string name="born">Born:</string>
     <string name="died">Died:</string>
 
+<!--   discard dialog-->
+    <string name="discard_movie">Discard movie?</string>
+    <string name="discard_show">Discard show?</string>
+    <string name="is_no_longer_liked_or_watched_remove_it">\"%1$s\" is no longer liked or watched.\n\nRemove it?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+
     <!--    person fragment -->
 
 

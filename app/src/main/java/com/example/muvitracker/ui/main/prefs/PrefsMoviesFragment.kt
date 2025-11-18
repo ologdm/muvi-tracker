@@ -29,13 +29,19 @@ class PrefsMoviesFragment : Fragment(R.layout.fragment_prefs_son) {
             navigator.startMovieDetailFragment(movieIds)
         },
         onLongClickVH = { movieId ->
-            startDeleteAlertDialog(movieId)
+            startDeleteAlertDialog(movieId, getString(R.string.discard_show))
         },
         onCLickLiked = { movieId ->
             viewModel.toggleLikedItem(movieId)
         },
         onClickWatched = { item, watched ->
             viewModel.updateWatchedItem(updatedItem = item, watched)
+        },
+        onNotLikedNotWatched = { movie ->
+            startDeleteAlertDialog(
+                movie.ids.trakt,
+                getString(R.string.is_no_longer_liked_or_watched_remove_it, movie.title)
+            )
         }
     )
 
@@ -50,15 +56,15 @@ class PrefsMoviesFragment : Fragment(R.layout.fragment_prefs_son) {
     }
 
 
-    // #######################################################################################
-    private fun startDeleteAlertDialog(movieId: Int) {
+    // -----------------------------------------------------------------------------------------------
+    private fun startDeleteAlertDialog(movieId: Int, message: String) {
         MaterialAlertDialogBuilder(requireContext())
-            .setMessage("Discard movie")
-            .setPositiveButton("Yes") { dialog, _ ->
+            .setMessage(message)
+            .setPositiveButton(getString(R.string.yes)) { dialog, _ ->
                 viewModel.deleteItem(movieId)
                 dialog.dismiss()
             }
-            .setNegativeButton("No") { dialog, _ ->
+            .setNegativeButton(getString(R.string.no)) { dialog, _ ->
                 dialog.dismiss()
             }
             .show()

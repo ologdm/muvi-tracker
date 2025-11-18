@@ -46,4 +46,9 @@
     <string name="age">Vârstă:</string>
     <string name="born">Născut:</string>
     <string name="died">Decedat:</string>
+    <string name="discard_movie">Elimină filmul?</string>
+    <string name="discard_show">Elimină serialul?</string>
+    <string name="is_no_longer_liked_or_watched_remove_it">\"%1$s\" nu mai este printre favorite și nici printre vizionate.\n\nSă-l ștergem?</string>
+    <string name="yes">"Da "</string>
+    <string name="no">Nu</string>
 </resources>

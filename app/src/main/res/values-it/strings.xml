@@ -62,5 +62,10 @@
     <string name="age">Età:</string>
     <string name="born">Nascita:</string>
     <string name="died">Morte:</string>
+    <string name="discard_movie">Elimina film?</string>
+    <string name="discard_show">Elimina serie tv?</string>
+    <string name="is_no_longer_liked_or_watched_remove_it">\"%1$s\" non è più tra i preferiti né tra i visti.\n\nRimuoverlo?</string>
+    <string name="yes">Si</string>
+    <string name="no">No</string>
 
 </resources>
