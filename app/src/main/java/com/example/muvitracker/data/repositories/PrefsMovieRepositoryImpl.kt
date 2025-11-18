@@ -32,7 +32,9 @@ class PrefsMovieRepositoryImpl @Inject constructor(
                     detailEntity?.traktId == prefsEntity.traktId
                 }
                 detailEntity?.toDomain(prefsEntity)
-            }.sortedByDescending {
+            }
+                .filter { it -> it.liked || it.watched }
+                .sortedByDescending {
                 it.addedDateTime
             }
         }
