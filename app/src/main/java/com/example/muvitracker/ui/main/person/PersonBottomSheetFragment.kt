@@ -76,6 +76,8 @@ class PersonBottomSheetFragment : BottomSheetDialogFragment(R.layout.fragment_pe
 
         Glide.with(requireContext())
             .load(ImageTmdbRequest.Person(currentPersonIds.tmdb))
+            .placeholder(R.drawable.glide_placeholder_base)
+            .error(R.drawable.glide_placeholder_base)
             .into(binding.verticalImage)
     }
 
