@@ -18,8 +18,6 @@ private const val TIMEOUT = 10_000 // 10 seconds
 private const val TMDB_IMAGE_URL_DOMAIN_HORIZONTAL = "https://image.tmdb.org/t/p/w780/"
 private const val TMDB_IMAGE_URL_DOMAIN_VERTICAL = "https://image.tmdb.org/t/p/w500/"
 
-private const val TMDB_IMAGE_URL_DOMAIN = "https://image.tmdb.org/t/p/w780/" // old
-
 
 class TmdbFetcher(
     private val model: ImageTmdbRequest,
@@ -122,7 +120,7 @@ class TmdbFetcher(
     ) {
         try {
             val response = tmdbApi.getSeasonDto(model.showId, model.seasonNr)
-            val url = "$TMDB_IMAGE_URL_DOMAIN${response.posterPath}"
+            val url = "$TMDB_IMAGE_URL_DOMAIN_VERTICAL${response.posterPath}"
             val fetcher = HttpUrlFetcher(GlideUrl(url), TIMEOUT)
             fetcher.loadData(priority, callback)
         } catch (ex: Exception) {
@@ -138,7 +136,7 @@ class TmdbFetcher(
     ) {
         try {
             val response = tmdbApi.getEpisodeDto(model.showId, model.seasonNr, model.episodeNr)
-            val url = "$TMDB_IMAGE_URL_DOMAIN${response.stillPath}"
+            val url = "$TMDB_IMAGE_URL_DOMAIN_HORIZONTAL${response.stillPath}"
             val fetcher = HttpUrlFetcher(GlideUrl(url), TIMEOUT)
             fetcher.loadData(priority, callback)
         } catch (ex: Exception) {
