@@ -80,6 +80,8 @@ class PersonFragment : Fragment(R.layout.fragment_person) {
 
         Glide.with(requireContext())
             .load(ImageTmdbRequest.Person(currentPersonIds.tmdb))
+            .placeholder(R.drawable.glide_placeholder_base)
+            .error(R.drawable.glide_placeholder_base)
             .into(binding.verticalImage)
 
         mainLayoutTopEdgeToEdgeManagment()
