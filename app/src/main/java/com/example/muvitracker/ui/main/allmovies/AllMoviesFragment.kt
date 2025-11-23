@@ -11,10 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.muvitracker.R
-import com.example.muvitracker.data.LanguageManager
-import com.example.muvitracker.data.TmdbApi
 import com.example.muvitracker.databinding.FragmentExploreBaseBinding
-import com.example.muvitracker.domain.repo.DetailMovieRepository
 import com.example.muvitracker.ui.main.Navigator
 import com.example.muvitracker.ui.main.allmovies.base.AllMoviesPagingAdapter
 import com.example.muvitracker.utils.viewBinding
@@ -30,7 +27,6 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class AllMoviesFragment : Fragment(R.layout.fragment_explore_base) {
-
 
     @Inject
     lateinit var navigator: Navigator
@@ -49,8 +45,7 @@ class AllMoviesFragment : Fragment(R.layout.fragment_explore_base) {
         view: View,
         savedInstanceState: Bundle?
     ) {
-
-        mainLayoutTopEdgeToEdgeManagment()
+        mainLayoutTopEdgeToEdgeManagement()
 
         b.toolbarTextview.text = getString(R.string.movies)
         b.recyclerView.adapter = pagingAdapter
@@ -65,6 +60,7 @@ class AllMoviesFragment : Fragment(R.layout.fragment_explore_base) {
             pagingAdapter.refresh()
         }
 
+        // paging of movies using paging3 with PagingSource()
         collectPagingStates()
 
     }
@@ -150,7 +146,7 @@ class AllMoviesFragment : Fragment(R.layout.fragment_explore_base) {
     }
 
 
-    private fun mainLayoutTopEdgeToEdgeManagment() {
+    private fun mainLayoutTopEdgeToEdgeManagement() {
         ViewCompat.setOnApplyWindowInsetsListener(b.mainLayout) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             // aggiorno solo lati che mi servono
