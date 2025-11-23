@@ -70,9 +70,10 @@ class SearchViewModel @Inject constructor(
         filterValueFlow.value = filterValue
         sourceFactory.invalidate() // invalido ogni volta
     }
+}
 
 
-    init {
+//    init {
 //        viewModelScope.launch {
 //            searchQueryFlow
 //                .debounce(DEBOUNCE_DELAY)
@@ -87,9 +88,8 @@ class SearchViewModel @Inject constructor(
 //                    )
 //                }
 //        }
-    }
+//    }
 
-}
 
 //    val statePaging = combine(
 //        searchQueryFlow.debounce(DEBOUNCE_DELAY),

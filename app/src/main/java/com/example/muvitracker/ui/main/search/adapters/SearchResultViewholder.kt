@@ -1,5 +1,6 @@
 package com.example.muvitracker.ui.main.search.adapters
 
+import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
@@ -7,16 +8,22 @@ import com.example.muvitracker.R
 import com.example.muvitracker.data.glide.ImageTmdbRequest
 import com.example.muvitracker.databinding.ViewholderSearchBinding
 import com.example.muvitracker.domain.model.SearchResult
+import com.example.muvitracker.ui.main.search.SearchFragment
 
 class SearchResultViewholder(
     val binding: ViewholderSearchBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 
+    fun bind(item: SearchResult, currentFilter: String ) {
 
-    fun bind(item: SearchResult) {
+        // 1.1.3 - visibilità type -> solo se 'all' selez
+        binding.typeItem.visibility = if (currentFilter == SearchFragment.MOVIE_SHOW_PERSON) {
+            View.VISIBLE
+        } else {
+            View.GONE
+        }
 
         binding.run {
-
             when (item) {
                 is SearchResult.MovieItem -> {
                     typeItem.text = root.context.getString(R.string.movies)

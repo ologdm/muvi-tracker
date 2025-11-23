@@ -34,6 +34,11 @@
             tools:text="@tools:sample/full_names" />
 
 
+<!--
+    NOTE:
+    enabled only if 'All' selected
+-->
+
     <TextView
             android:id="@+id/typeItem"
             android:layout_width="match_parent"

@@ -7,12 +7,15 @@ import androidx.recyclerview.widget.DiffUtil
 import com.example.muvitracker.data.dto._support.Ids
 import com.example.muvitracker.databinding.ViewholderSearchBinding
 import com.example.muvitracker.domain.model.SearchResult
+import com.example.muvitracker.ui.main.search.SearchFragment
 
 class SearchResultsAdapter(
     private var onClickVHMovie: (Ids) -> Unit,
     private var onClickVHShow: (Ids) -> Unit,
     private var onClickVHPerson: (Ids) -> Unit
 ) : PagingDataAdapter<SearchResult, SearchResultViewholder>(SearchResultsAdapter) {
+
+    var currentFilter: String = SearchFragment.MOVIE_SHOW_PERSON
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchResultViewholder {
@@ -25,7 +28,7 @@ class SearchResultsAdapter(
     override fun onBindViewHolder(holder: SearchResultViewholder, position: Int) {
         val item = getItem(position) ?: return
 
-        holder.bind(item)
+        holder.bind(item, currentFilter)
 
         holder.itemView.setOnClickListener {
             when (item) {
@@ -34,6 +37,10 @@ class SearchResultsAdapter(
                 is SearchResult.PersonItem ->  onClickVHPerson(item.personBase.ids)
             }
         }
+    }
+
+    fun updateFilter(filter: String) {
+        currentFilter = filter
     }
 
 
