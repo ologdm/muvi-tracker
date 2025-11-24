@@ -16,6 +16,7 @@ import com.example.muvitracker.ui.main.search.SearchFragment
 import com.google.android.material.navigation.NavigationBarView
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+import androidx.core.content.edit
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -91,7 +92,7 @@ class MainActivity : AppCompatActivity() {
                 navigator.replaceFragment(fragment)
 
                 // Salva ID selezionato
-                sharedPrefs.edit().putInt(LAST_SELECTED_ID, clickedId).apply()
+                sharedPrefs.edit { putInt(LAST_SELECTED_ID, clickedId) }
 
                 // return di ogni elemento selezionato
                 return@OnItemSelectedListener true // versione esplicita, (o true), return di lambda
