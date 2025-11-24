@@ -46,6 +46,7 @@
         android:layout_height="wrap_content"
         android:background="?attr/colorOnPrimary"
         app:tabGravity="fill"
+        tools:backgroundTint="@android:color/darker_gray"
         android:layout_marginTop="8dp"
         app:tabIndicatorColor="?attr/colorPrimary"
         app:tabMode="fixed" />
