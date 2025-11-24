@@ -251,40 +251,6 @@
                         app:layout_constraintStart_toStartOf="parent"
                         tools:text="@tools:sample/lorem/random" />
 
-                    <!--                    <TextView-->
-                    <!--                        android:id="@+id/tagline2"-->
-                    <!--                        android:layout_width="match_parent"-->
-                    <!--                        android:layout_height="wrap_content"-->
-                    <!--                        android:layout_marginStart="1dp"-->
-                    <!--                        android:ellipsize="end"-->
-                    <!--                        android:maxLines="2"-->
-                    <!--                        android:textColor="?colorOnSurface"-->
-                    <!--                        app:layout_constraintBottom_toBottomOf="parent"-->
-                    <!--                        app:layout_constraintStart_toStartOf="parent"-->
-                    <!--                        android:text="Il vento soffiava leggero tra gli alberi, portando con sé l’odore dell’erba bagnata e il suono lontano di una chitarra. Nessuno sapeva da dove provenisse quella melodia, ma a tutti sembrava familiare, come un ricordo che non si riesce del tutto ad afferrare."-->
-                    <!--                        tools:text="@tools:sample/lorem/random" />-->
-
-                    <!--                    <TextView-->
-                    <!--                        android:id="@+id/taglin3"-->
-                    <!--                        android:layout_width="match_parent"-->
-                    <!--                        android:layout_height="wrap_content"-->
-                    <!--                        android:layout_marginStart="1dp"-->
-                    <!--                        android:ellipsize="end"-->
-                    <!--                        android:maxLines="2"-->
-                    <!--                        android:text="Il vento soffiava leggero tra gli alberi, portando con sé l’odore dell’erba bagnata e il suono lontano di una chitarra. Nessuno sapeva da dove provenisse quella melodia, ma a tutti sembrava familiare, come un ricordo che non si riesce del tutto ad afferrare."-->
-                    <!--                        android:textColor="?colorOnBackground"-->
-                    <!--                        app:layout_constraintBottom_toBottomOf="parent"-->
-                    <!--                        app:layout_constraintStart_toStartOf="parent"-->
-                    <!--                        tools:text="@tools:sample/lorem/random" />-->
-
-                    <!--                <TextView-->
-                    <!--                        android:id="@+id/status"-->
-                    <!--                        android:layout_width="wrap_content"-->
-                    <!--                        android:layout_height="wrap_content"-->
-                    <!--                        tools:text="released"-->
-                    <!--                        android:textStyle="normal"-->
-                    <!--                        android:paddingBottom="8dp" />-->
-
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -304,18 +270,27 @@
                             app:shapeAppearance="@style/ImageLargeRoundedShape"
                             tools:background="@tools:sample/avatars" />
 
-
+<!--        NOTE: 1.1.3
+            - permettere l'espansione dei 2 layout info senza sovrapporsi
+                    e stare nelle posizione giuste
+            - layout_constraintVertical_bias = "0.0 to 1.0"
+                    -> permette al layout constraint in 2 punti di stare da una parte o altra
+-->
                         <LinearLayout
                             android:id="@+id/infoLayout"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            app:layout_constraintVertical_bias="0.0"
                             android:layout_marginStart="8dp"
                             android:orientation="vertical"
                             android:paddingHorizontal="12dp"
                             android:paddingTop="12dp"
+                            android:gravity="top"
+                            android:layout_marginBottom="20dp"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@id/verticalImage"
-                            app:layout_constraintTop_toTopOf="parent">
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toTopOf="@id/watchedLayout">
 
                             <TextView
                                 android:id="@+id/status"
@@ -420,6 +395,7 @@
 
 
                         <LinearLayout
+                            android:id="@+id/watchedLayout"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
@@ -434,17 +410,16 @@
                                 android:id="@+id/watchedDivider"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="8dp"
-                                app:layout_constraintBottom_toTopOf="@id/watchedLayout" />
+                                android:layout_marginStart="8dp" />
 
 
                             <LinearLayout
-                                android:id="@+id/watchedLayout"
+                                android:id="@+id/watchedSubLayout"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="10dp"
                                 android:layout_marginEnd="16dp"
-                                android:layout_marginBottom="10dp"
+
                                 android:orientation="horizontal"
                                 app:layout_constraintEnd_toEndOf="parent">
 
