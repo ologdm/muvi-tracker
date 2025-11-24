@@ -11,8 +11,9 @@ data class MovieBase(
     val ids: Ids,
 )
 {
-    fun imageUrl(): String =
-        "http://img.omdbapi.com/?apikey=ef6d3d4c&i=${ids.imdb}"
+    // not used
+//    fun imageUrl(): String =
+//        "http://img.omdbapi.com/?apikey=ef6d3d4c&i=${ids.imdb}"
 }
 
 

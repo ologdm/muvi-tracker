@@ -5,7 +5,7 @@ import com.example.muvitracker.domain.model.base.PersonBase
 import com.example.muvitracker.domain.model.base.ShowBase
 
 
-
+// TODO: sistemare i default per serialization
 sealed interface SearchResult {
 
     data class MovieItem(
