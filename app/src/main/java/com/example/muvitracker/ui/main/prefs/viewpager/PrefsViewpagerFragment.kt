@@ -1,7 +1,6 @@
 package com.example.muvitracker.ui.main.prefs.viewpager
 
 
-import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
@@ -52,7 +51,7 @@ class PrefsViewpagerFragment : Fragment(R.layout.fragment_prefs_viewpager) {
         }.attach()
 
 
-        mainLayoutTopEdgeToEdgeManagment()
+        mainLayoutTopEdgeToEdgeManagement()
     }
 
 
@@ -68,7 +67,7 @@ class PrefsViewpagerFragment : Fragment(R.layout.fragment_prefs_viewpager) {
             .getInt("last_tab_prefs", 0) // default = 0
     }
 
-    private fun mainLayoutTopEdgeToEdgeManagment() {
+    private fun mainLayoutTopEdgeToEdgeManagement() {
         ViewCompat.setOnApplyWindowInsetsListener(b.mainLayout) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             // aggiorno solo lati che mi servono

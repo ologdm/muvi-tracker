@@ -86,10 +86,10 @@ class PersonFragment : Fragment(R.layout.fragment_person) {
             .error(R.drawable.glide_placeholder_base)
             .into(binding.verticalImage)
 
-        mainLayoutTopEdgeToEdgeManagment()
+        mainLayoutTopEdgeToEdgeManagement()
     }
 
-    private fun mainLayoutTopEdgeToEdgeManagment() {
+    private fun mainLayoutTopEdgeToEdgeManagement() {
         ViewCompat.setOnApplyWindowInsetsListener(binding.mainLayout) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             // aggiorno solo lati che mi servono

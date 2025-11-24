@@ -45,7 +45,7 @@ class AllShowsFragment : Fragment(R.layout.fragment_explore_base) {
         view: View,
         savedInstanceState: Bundle?
     ) {
-        mainLayoutTopEdgeToEdgeManagment()
+        mainLayoutTopEdgeToEdgeManagement()
 
         b.toolbarTextview.text = getString(R.string.shows)
         b.recyclerView.adapter = pagingAdapter
@@ -139,7 +139,7 @@ class AllShowsFragment : Fragment(R.layout.fragment_explore_base) {
         }
     }
 
-    private fun mainLayoutTopEdgeToEdgeManagment() {
+    private fun mainLayoutTopEdgeToEdgeManagement() {
         ViewCompat.setOnApplyWindowInsetsListener(b.mainLayout) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             // aggiorno solo lati che mi servono

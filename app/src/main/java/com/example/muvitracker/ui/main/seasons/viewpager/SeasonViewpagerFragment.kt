@@ -37,7 +37,7 @@ class SeasonViewpagerFragment : Fragment(R.layout.fragment_season_viewpager) {
             totalSeasons = bundle.getInt(TOT_SEASONS_NUMBER_KEY)
         }
 
-        mainLayoutTopEdgeToEdgeManagment()
+        mainLayoutTopEdgeToEdgeManagement()
 
         b.showTitle.text = currentShowTitle
 
@@ -67,7 +67,7 @@ class SeasonViewpagerFragment : Fragment(R.layout.fragment_season_viewpager) {
 
     }
 
-    private fun mainLayoutTopEdgeToEdgeManagment() {
+    private fun mainLayoutTopEdgeToEdgeManagement() {
         ViewCompat.setOnApplyWindowInsetsListener(b.mainLayout) { view, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             view.updateLayoutParams<ViewGroup.MarginLayoutParams> {
