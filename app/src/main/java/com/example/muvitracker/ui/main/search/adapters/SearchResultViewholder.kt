@@ -14,9 +14,8 @@ class SearchResultViewholder(
     val binding: ViewholderSearchBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(item: SearchResult, currentFilter: String ) {
-
-        // 1.1.3 - visibilità type -> solo se 'all' selez
+    fun bind(item: SearchResult, currentFilter: String) {
+        // TODO 1.1.3 - visibilità type -> solo se 'all' selez - OK
         binding.typeItem.visibility = if (currentFilter == SearchFragment.MOVIE_SHOW_PERSON) {
             View.VISIBLE
         } else {
@@ -27,37 +26,61 @@ class SearchResultViewholder(
             when (item) {
                 is SearchResult.MovieItem -> {
                     typeItem.text = root.context.getString(R.string.movies)
-//                    score.text = item.score.firstDecimalApproxToString()
-                    title.text = "${item.movieBase?.title} (${item.movieBase?.year.toString()})"
+//                    score.text = item.score.firstDecimalApproxToString(
+                    val movie = item.movieBase
+
+                    // TODO 1.1.3: filtrare su repo ricerca elementi senza titolo
+                    title.text = if (movie.title.isBlank()) {
+                        "Unknown"
+                    } else if (movie.year == -1) { // manca year  && c'e title
+                        "${movie.title}"
+                    } else {
+                        "${movie.title} (${movie.year})"
+                    }
 
                     Glide.with(root.context)
-                        .load(ImageTmdbRequest.MovieVertical(item.movieBase.ids.tmdb))
+                        .load(ImageTmdbRequest.MovieVertical(movie.ids.tmdb))
                         .transition(DrawableTransitionOptions.withCrossFade())
-                        .placeholder(R.drawable.glide_placeholder_search)
-                        .error(R.drawable.glide_placeholder_search)
+                        .placeholder(R.drawable.glide_placeholder_base)
+                        .error(R.drawable.glide_placeholder_base)
                         .into(image)
                 }
 
                 is SearchResult.ShowItem -> {
                     typeItem.text = root.context.getString(R.string.shows)
 //                    score.text = item.score.firstDecimalApproxToString()
-                    title.text = "${item.showBase.title} (${item.showBase.year})"
+                    val show = item.showBase
+                    title.text = if (show.title.isBlank()) {
+                        "Unknown"
+                    } else if (show.year == -1) { // year never null
+                        "${show.title}"
+                    } else {
+                        "${show.title} (${show.year})"
+                    }
 
                     Glide.with(root.context)
                         .load(ImageTmdbRequest.ShowVertical(item.showBase.ids.tmdb))
                         .transition(DrawableTransitionOptions.withCrossFade())
-                        .placeholder(R.drawable.glide_placeholder_search)
-                        .error(R.drawable.glide_placeholder_search)
+                        .placeholder(R.drawable.glide_placeholder_base)
+                        .error(R.drawable.glide_placeholder_base)
                         .into(image)
                 }
 
                 is SearchResult.PersonItem -> {
                     typeItem.text = root.context.getString(R.string.people)
-                    title.text = "${item.personBase.name}"
+
+                    val person = item.personBase
+                    title.text = if (person.name.isBlank()){
+                        "Unknown"
+                    } else {
+                        "${item.personBase.name}"
+                    }
 
                     Glide.with(root.context)
                         .load(ImageTmdbRequest.Person(item.personBase.ids.tmdb))
                         .transition(DrawableTransitionOptions.withCrossFade())
+                        .placeholder(R.drawable.glide_placeholder_base)
+                        .error(R.drawable.glide_placeholder_base)
                         .into(image)
                 }
             }

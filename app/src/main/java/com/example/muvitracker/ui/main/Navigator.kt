@@ -102,8 +102,12 @@ class Navigator @Inject constructor(
         personIds: Ids
     ) {
         fragmentActivity.supportFragmentManager.beginTransaction()
-            .replace(R.id.frameLayout, PersonFragment.create(personIds))
+            .replace(
+                R.id.frameLayout,
+                PersonFragment.create(personIds)
+            )
             .addToBackStack(null)
+            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
             .commit()
     }
 

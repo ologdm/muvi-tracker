@@ -41,6 +41,7 @@ class SearchResultsAdapter(
 
     fun updateFilter(filter: String) {
         currentFilter = filter
+        notifyDataSetChanged() // serve
     }
 
 

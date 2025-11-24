@@ -74,12 +74,16 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                 else -> MOVIE_SHOW_PERSON
             }
             viewModel.updateFilterValue(filterValue)
+
+            // 1.1.3 per gestione type solo su 'all'
+            adapter.updateFilter(filterValue)
         }
 
-        mainLayoutTopEdgeToEdgeManagment()
+        mainLayoutTopEdgeToEdgeManagement()
     }
 
-    private fun mainLayoutTopEdgeToEdgeManagment() {
+
+    private fun mainLayoutTopEdgeToEdgeManagement() {
         ViewCompat.setOnApplyWindowInsetsListener(binding.mainLayout) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             // aggiorno solo lati che mi servono
