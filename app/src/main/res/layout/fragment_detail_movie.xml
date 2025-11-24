@@ -154,6 +154,9 @@
 
                             android:src="@drawable/youtube_red_official_icon" />
 
+<!--        NOTE:
+            'margin_top = -4' ok anche se il testo è ingrandito
+-->
                         <TextView
                             android:id="@+id/trailerTextView"
                             android:layout_width="wrap_content"
@@ -161,6 +164,7 @@
                             android:shadowColor="#FF000000"
                             android:shadowDx="5"
                             android:shadowDy="3"
+                            android:layout_marginTop="-4dp"
                             android:shadowRadius="5"
                             android:text="@string/trailer"
                             android:textColor="@android:color/white"
