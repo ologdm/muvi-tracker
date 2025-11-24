@@ -154,17 +154,17 @@
 
                             android:src="@drawable/youtube_red_official_icon" />
 
-<!--        NOTE:
-            'margin_top = -4' ok anche se il testo è ingrandito
--->
+                        <!--        NOTE:
+                                    'margin_top = -4' ok anche se il testo è ingrandito
+                        -->
                         <TextView
                             android:id="@+id/trailerTextView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="-4dp"
                             android:shadowColor="#FF000000"
                             android:shadowDx="5"
                             android:shadowDy="3"
-                            android:layout_marginTop="-4dp"
                             android:shadowRadius="5"
                             android:text="@string/trailer"
                             android:textColor="@android:color/white"
@@ -503,12 +503,12 @@
                     <!--                        android:layout_marginTop="12dp"-->
                     <!--                        android:orientation="vertical">-->
 
-<!--    NOTE:
-        Linear layout
-        gravity -> dice dove mettere gli oggetti dentro la scatola.
-        layout_gravity -> dice dove posizionare il LinearLayout rispetto al suo PARENT.
+                    <!--    NOTE:
+                            Linear layout
+                            gravity -> dice dove mettere gli oggetti dentro la scatola.
+                            layout_gravity -> dice dove posizionare il LinearLayout rispetto al suo PARENT.
 
--->
+                    -->
                     <LinearLayout
                         android:id="@+id/notesLayout"
                         android:layout_width="wrap_content"
@@ -525,8 +525,8 @@
                             android:id="@+id/notesImageButton"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="@null"
                             android:layout_marginStart="-8dp"
+                            android:background="@null"
                             android:src="@drawable/take_notes"
                             app:tint="?attr/colorPrimary" />
 
