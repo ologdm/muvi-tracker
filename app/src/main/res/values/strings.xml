@@ -70,11 +70,6 @@
     <string name="e_number_first_aired_runtime_min">Ep.%1$s • %2$s • %3$d min</string>
 
     <string name="trailer">Trailer</string>
-    <string name="biography">Biography:</string>
-    <string name="known">Known:    </string>
-    <string name="age">Age:</string>
-    <string name="born">Born:</string>
-    <string name="died">Died:</string>
 
 <!--   discard dialog-->
     <string name="discard_movie">Discard movie?</string>
@@ -84,7 +79,10 @@
     <string name="no">No</string>
 
     <!--    person fragment -->
-
-
+    <string name="biography">Biography:</string>
+    <string name="known">Known:    </string>
+    <string name="age">Age:</string>
+    <string name="born">Born:</string>
+    <string name="died">Died:</string>
 
 </resources>
