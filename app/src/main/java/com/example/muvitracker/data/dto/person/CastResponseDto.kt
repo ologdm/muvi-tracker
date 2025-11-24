@@ -1,6 +1,7 @@
 package com.example.muvitracker.data.dto.person
 
 import android.annotation.SuppressLint
+import com.example.muvitracker.data.dto._support.Ids
 import com.example.muvitracker.domain.model.CastAndCrew
 import com.example.muvitracker.domain.model.CastMember
 import com.example.muvitracker.domain.model.base.PersonBase
@@ -39,7 +40,7 @@ fun CastMemberDto.toDomain(): CastMember {
     return CastMember(
         character = character ?: "N/A",
         episodeCount = episodeCount?.toString() ?: "N/A",
-        personBase = person?.toDomain() ?: PersonBase()
+        personBase = person?.toDomain() ?: PersonBase("", Ids())
     )
 }
 

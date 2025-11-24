@@ -46,7 +46,7 @@ class PrefsShowsAdapter(
             // liked update + toggle
             updateFavoriteIcon(likedButton, currentItem.liked, iconFilled, iconEmpty)
 
-            // --- LIKE BUTTON ------------------------------------------------------------------------
+            // --- LIKE BUTTON -------------------------------------------------------------------------
             likedButton.setOnClickListener {
                 // 1. Stato ipotetico dopo il toggle del like
                 val newLikedState = !currentItem.liked
@@ -63,7 +63,7 @@ class PrefsShowsAdapter(
             }
 
 
-            // --- WATCHED ALL CHECKBOX --------------------------------------------------------------------
+            // --- WATCHED ALL CHECKBOX -----------------------------------------------------------------
             // 1. stato default - per pulizia da precedenti modifiche
             watchedAllCheckBox.isEnabled =
                 currentItem.airedEpisodes > 0 // disabilitazione se no aired episodes

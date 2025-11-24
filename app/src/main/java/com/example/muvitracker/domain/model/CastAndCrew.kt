@@ -11,9 +11,8 @@ data class CastAndCrew(
 data class CastMember(
     val character: String, // more than one
     val episodeCount: String, // only for shows
-    val personBase: PersonBase
+    val personBase: PersonBase // val default ok
 )
-
 
 //data class Crew()
 
