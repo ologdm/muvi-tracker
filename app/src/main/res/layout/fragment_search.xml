@@ -146,6 +146,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/searchChipGroup"
         app:layout_constraintVertical_bias="0.0"
+        android:layout_marginBottom="4dp"
         tools:listitem="@layout/viewholder_search" />
 
 </LinearLayout>
