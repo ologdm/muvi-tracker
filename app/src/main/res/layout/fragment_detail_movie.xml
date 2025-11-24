@@ -119,21 +119,25 @@
                     <!-- NOTES: marginStart == padding layout sotto imageHorizontal    -->
                     <TextView
                         android:id="@+id/englishTitle"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
                         android:layout_marginBottom="12dp"
                         android:shadowColor="@android:color/black"
                         android:shadowDx="2"
                         android:shadowDy="2"
+                        android:maxLines="3"
                         android:shadowRadius="10"
                         android:textColor="@android:color/white"
                         android:textSize="18sp"
                         android:visibility="gone"
+                        android:layout_marginEnd="28dp"
                         app:layout_constraintBottom_toBottomOf="@id/horizontalImage"
                         app:layout_constraintStart_toStartOf="@id/horizontalImage"
+                        app:layout_constraintEnd_toStartOf="@id/trailerLayout"
                         tools:text="Lorem."
                         tools:visibility="visible" />
+
 
                     <LinearLayout
                         android:id="@+id/trailerLayout"
