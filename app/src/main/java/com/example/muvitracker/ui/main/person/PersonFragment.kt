@@ -63,7 +63,9 @@ class PersonFragment : Fragment(R.layout.fragment_person) {
                 binding.deathTitle.visibility = View.GONE
             }
 
-            binding.biographyContent.text = person.biography.ifBlank { "N/A" }
+            binding.biographyContent.text = person.biography.ifBlank {
+                getString(R.string.not_available)
+            }
         }
 
         var isTextExpanded = false
