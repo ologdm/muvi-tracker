@@ -251,9 +251,14 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
         b.overviewContent.text = movie.overview.orIfBlank(MovieDefaults.OVERVIEW)
         //
         // genres
-        b.genresChipGroup.removeAllViews() // clean old
+        b.genresChipGroup.removeAllViews()
         movie.genres.forEach { genre ->
-            val chip = Chip(context).apply { text = genre }
+            val chip = Chip(context).apply {
+                text = genre
+                isClickable = false
+                // 1.1.3 - fixed padding between rows
+                setEnsureMinTouchTargetSize(false) // clickable external padding to 0dp (on xml: app:chipMinTouchTargetSize="0dp" )
+            }
             b.genresChipGroup.addView(chip)
         }
 

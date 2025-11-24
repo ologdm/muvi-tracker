@@ -472,6 +472,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginStart="-8dp"
                         android:gravity="center_vertical"
                         android:orientation="horizontal"
                         app:layout_constraintStart_toStartOf="parent"
@@ -488,9 +490,8 @@
 
                         <ImageButton
                             android:id="@+id/notesImageButton"
-                            android:layout_width="45dp"
-                            android:layout_height="45dp"
-                            android:layout_marginStart="4dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:background="@null"
                             android:src="@drawable/take_notes"
                             app:tint="?attr/colorPrimary" />
@@ -499,14 +500,12 @@
                             android:id="@+id/notesTextview"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="4dp"
                             android:ellipsize="end"
                             android:hint="@string/add_a_note_to_your_show"
                             android:maxLines="2"
                             android:textColor="?attr/colorPrimary"
                             android:textStyle="italic"
                             android:visibility="visible" />
-
                     </LinearLayout>
 
 
@@ -524,20 +523,18 @@
                         android:visibility="gone"
                         tools:itemCount="4"
                         tools:layout_height="40dp"
-                        tools:listitem="@layout/viewholder_cast_list_on_detail"
-                        tools:visibility="visible" />
+                        tools:listitem="@layout/viewholder_cast_list_on_detail" />
 
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/overviewLayout"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp">
+                        android:layout_height="wrap_content">
 
-                        <com.google.android.material.divider.MaterialDivider
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            app:layout_constraintTop_toTopOf="parent" />
+<!--                        <com.google.android.material.divider.MaterialDivider-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            app:layout_constraintTop_toTopOf="parent" />-->
 
 
                         <TextView
@@ -545,7 +542,6 @@
                             style="@style/TitleCategoryDetail"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="16dp"
                             android:text="@string/about_show_text"
                             app:layout_constraintStart_toStartOf="@id/overviewLayout"
                             app:layout_constraintTop_toTopOf="@id/overviewLayout" />
@@ -564,6 +560,10 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
+<!--    NOTE:
+        padding top bottom - 16dp
+        chipMinTouchTargetSize -> da codice, padding esterno minimo per touch a 0dp
+-->
                     <com.google.android.material.chip.ChipGroup
                         android:id="@+id/genresChipGroup"
                         android:layout_width="match_parent"

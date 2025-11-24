@@ -336,8 +336,12 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
         // genres
         b.genresChipGroup.removeAllViews()
         show.genres.forEach { genre ->
-            val chip = Chip(context).apply { text = genre }
-//                chip.isEnabled = false todo
+            val chip = Chip(context).apply {
+                text = genre
+                isClickable = false
+                // 1.1.3 - fixed padding between rows
+                setEnsureMinTouchTargetSize(false) // clickable external padding to 0dp (on xml: app:chipMinTouchTargetSize="0dp" )
+            }
             b.genresChipGroup.addView(chip)
         }
 
