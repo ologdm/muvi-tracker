@@ -1,80 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_marginTop="8dp">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp">
 
     <com.google.android.material.divider.MaterialDivider
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
+    <!--    NOTE:
+            dimensione fissa:
+
+    -->
     <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/image"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            app:layout_constraintDimensionRatio="2:3"
-            tools:layout_width="100dp"
-            tools:layout_height="150dp"
-            tools:background="@tools:sample/avatars"
-            app:shapeAppearance="@style/ImageLargeRoundedShape"
-            android:background="?attr/colorOnSurface"
-            app:layout_constraintStart_toStartOf="parent" />
+        android:id="@+id/image"
+        android:layout_width="0dp"
+        android:layout_height="150dp"
+        android:background="?attr/colorOnSurface"
+        app:layout_constraintDimensionRatio="2:3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearance="@style/ImageLargeRoundedShape"
+        tools:background="@tools:sample/avatars"
+        tools:layout_height="150dp"
+        tools:layout_width="100dp" />
 
 
     <!-- Titoli: -->
     <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:paddingHorizontal="12dp"
-            android:paddingBottom="16dp"
-            app:layout_constraintStart_toEndOf="@id/image"
-            app:layout_constraintEnd_toEndOf="parent">
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/image"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
 
 
         <TextView
-                android:id="@+id/title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:text="DeadolDeadpoolDeadpoolDeadpoolDeadpoolDeadpoolDaedpool"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:maxLines="2"
-                android:ellipsize="end"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="DeadpoolDeadpoolDeadpool DeadpoolDeadpoolDeadpoolDeadpoolDeadpoolDeadpool DeadpoolDeadpoolDeadpoolDeadpoolDeadpoolDeadpool DeadpoolDeadpoolDeadpool" />
 
         <TextView
-                android:id="@+id/otherInfo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:text="2016 (US)"
-                android:textSize="15sp"
-                app:layout_constraintTop_toBottomOf="@id/title" />
+            android:id="@+id/otherInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:maxLines="2"
+            android:textSize="15sp"
+            app:layout_constraintTop_toBottomOf="@id/title"
+            tools:text="2016 (US)" />
 
 
-        <ImageButton
+        <LinearLayout
+            android:id="@+id/buttonsContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/otherInfo">
+
+            <ImageButton
                 android:id="@+id/likedButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/liked_icon_empty"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_marginEnd="20dp"
                 android:importantForAccessibility="no"
-                android:layout_marginBottom="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent" />
+                app:srcCompat="@drawable/liked_icon_empty" />
 
 
-        <CheckBox
+            <CheckBox
                 android:id="@+id/watchedCheckBox"
-                android:text="@string/watched_check_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
+                android:text="@string/watched_check_text"
                 app:layout_constraintBottom_toBottomOf="@id/likedButton"
                 app:layout_constraintStart_toEndOf="@id/likedButton"
                 app:layout_constraintTop_toTopOf="@id/likedButton" />
+        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
