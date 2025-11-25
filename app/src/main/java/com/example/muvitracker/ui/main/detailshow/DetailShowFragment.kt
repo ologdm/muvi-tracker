@@ -26,15 +26,14 @@ import com.example.muvitracker.MyApp
 import com.example.muvitracker.R
 import com.example.muvitracker.data.dto._support.Ids
 import com.example.muvitracker.data.glide.ImageTmdbRequest
-import com.example.muvitracker.data.utils.orIfBlank
 import com.example.muvitracker.databinding.DialogMyNotesBinding
 import com.example.muvitracker.databinding.FragmentDetailShowBinding
 import com.example.muvitracker.domain.model.Show
 import com.example.muvitracker.ui.main.Navigator
-import com.example.muvitracker.ui.main.detailmovie.DetailMovieFragment.MovieDefaults
 import com.example.muvitracker.ui.main.detailmovie.adapter.DetailSeasonsAdapter
 import com.example.muvitracker.ui.main.detailshow.adapters.RelatedShowsAdapter
 import com.example.muvitracker.ui.main.person.adapters.CastAdapter
+import com.example.muvitracker.utils.orIfNullOrBlank
 import com.example.muvitracker.utils.statesFlow
 import com.example.muvitracker.utils.statesFlowDetailNew
 import com.example.muvitracker.utils.viewBinding
@@ -249,11 +248,11 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
     // PRIVATE FUNCTIONS ----------------------------------------------------------------------------
     // show detail TODO: check
     private fun setupDetailShowUiSection(show: Show) {
-        currentShowTitle = show.title.orIfBlank(ShowDefaults.TITLE) ?: "" // 1.1.3 OK
-
-
-        b.title.text = show.title.orIfBlank(ShowDefaults.TITLE) // 1.1.3 OK
-
+        // per passare a season
+        currentShowTitle = show.title.orIfNullOrBlank(ShowDefaults.TITLE) ?: "" // 1.1.3 OK
+        //
+        b.title.text = show.title.orIfNullOrBlank(ShowDefaults.TITLE) // 1.1.3 OK
+        //
         b.tagline.apply { // 1.1.3 OK
             if (show.tagline.isNullOrBlank()) {
                 visibility = View.GONE
@@ -263,12 +262,13 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
             }
         }
 
-        // INFO SECTION ----------------------------------------------------------------------
+        // INFO SECTION ON LAYOUT -----------------------------------------------------------------------------
         b.status.text = show.status?.replaceFirstChar { it.uppercaseChar() } // 1.1.3 OK
-            .orIfBlank(MovieDefaults.STATUS)  // es released
+            .orIfNullOrBlank(ShowDefaults.STATUS)  // es released
 
 
-        // 1.1.3 - NETWORK COUNTRY OK
+        // network (country)
+        // 1° element
         val networkList = show.networks.filter { it.isNotBlank() }
         val networkText =
             if (networkList.isNullOrEmpty()) {
@@ -276,7 +276,7 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
             } else {
                 networkList.joinToString(", ")
             }
-        //
+        // 2° element - 2 formats
         val countryList = show.countries.filter { it.isNotBlank() }
         val countryText =
             if (countryList.isNullOrEmpty()) {
@@ -284,8 +284,8 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
             } else {
                 " (${countryList.joinToString(", ")})"
             }
-        //
-        b.networkAndCountry.text = "$networkText$countryText" // separation on 'countryText'
+        // 1° + 2°
+        b.networkAndCountry.text = "$networkText$countryText"
 
 
         // 1.1.3  - YEAR OK
@@ -329,7 +329,7 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
 
         }
         // 1.1.3 - OK
-        b.overviewContent.text = show.overview.orIfBlank(ShowDefaults.OVERVIEW)
+        b.overviewContent.text = show.overview.orIfNullOrBlank(ShowDefaults.OVERVIEW)
         expandOverviewSetup()
 
         // TODO: upgrade grafica
@@ -668,18 +668,14 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
     }
 
 
-    // TODO: fix class
     object ShowDefaults {
-        const val TITLE = "Untitled"
-        const val YEAR = "Year N/A"
-        const val RUNTIME = "Runtime: N/A"
-        const val STATUS = "Status: Unknown"
-        const val LANGUAGE = "Language: Unknown"
+        var TITLE = MyApp.appContext.getString(R.string.untitled)
+
+        var STATUS = MyApp.appContext.getString(R.string.status_unknown)
+        var YEAR = MyApp.appContext.getString(R.string.year)
+        var NETWORK = MyApp.appContext.getString(R.string.network_n_a)
+        var COUNTRY = MyApp.appContext.getString(R.string.country_n_a)
+
         var OVERVIEW = MyApp.appContext.getString(R.string.not_available)
-        const val TAGLINE = "Tagline are not available"
-        const val RATING = " — "
-        const val COUNTRY = "Country N/A"
-        const val NETWORK = "Network N/A"
-//    const val GENRES = "—"
     }
 }
