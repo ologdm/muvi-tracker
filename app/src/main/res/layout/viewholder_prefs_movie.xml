@@ -60,6 +60,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:maxLines="2"
+            android:ellipsize="end"
             android:textSize="15sp"
             app:layout_constraintTop_toBottomOf="@id/title"
             tools:text="2016 (US)" />
