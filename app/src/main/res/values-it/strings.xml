@@ -67,5 +67,13 @@
     <string name="is_no_longer_liked_or_watched_remove_it">\"%1$s\" non è più tra i preferiti né tra i visti.\n\nRimuoverlo?</string>
     <string name="yes">Si</string>
     <string name="no">No</string>
+    <string name="untitled">Senza titolo</string>
+    <string name="year">Anno: —</string>
+    <string name="runtime_n_a">"Durata: — "</string>
+    <string name="status_unknown">Status: Sconosciuto</string>
+    <string name="language_unknown">Lingua: Sconosciuto</string>
+    <string name="tagline_are_not_available">Tagline non disponibile</string>
+    <string name="country_n_a">Paese N/D</string>
+    <string name="network_n_a">Network N/D</string>
 
 </resources>

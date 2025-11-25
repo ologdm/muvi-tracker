@@ -51,4 +51,12 @@
     <string name="is_no_longer_liked_or_watched_remove_it">\"%1$s\" больше не в избранном и не просмотрен.\n\nУдалить?</string>
     <string name="yes">Да</string>
     <string name="no">Нет</string>
+    <string name="untitled">Без названия</string>
+    <string name="year">Год:  —</string>
+    <string name="runtime_n_a">"Время: — "</string>
+    <string name="status_unknown">Статус: Неизвестно</string>
+    <string name="language_unknown">Язык: Неизвестен</string>
+    <string name="tagline_are_not_available">Слоганы недоступны</string>
+    <string name="country_n_a">Страна Н/Д</string>
+    <string name="network_n_a">Платформа Н/Д</string>
 </resources>

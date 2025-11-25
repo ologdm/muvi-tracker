@@ -51,4 +51,12 @@
     <string name="is_no_longer_liked_or_watched_remove_it">\"%1$s\" nu mai este printre favorite și nici printre vizionate.\n\nSă-l ștergem?</string>
     <string name="yes">"Da "</string>
     <string name="no">Nu</string>
+    <string name="untitled">Fără titlu</string>
+    <string name="year">Anul:  —</string>
+    <string name="runtime_n_a">"Durata: — "</string>
+    <string name="status_unknown">Stato: Necunoscut</string>
+    <string name="language_unknown">Limba: Necunoscută</string>
+    <string name="tagline_are_not_available">Sloganurile nu sunt disponibile</string>
+    <string name="country_n_a">Țara N/D</string>
+    <string name="network_n_a">Network N/D</string>
 </resources>

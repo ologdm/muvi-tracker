@@ -85,4 +85,14 @@
     <string name="born">Born:</string>
     <string name="died">Died:</string>
 
+    <!--    MovieDefaults    -->
+    <string name="untitled">Untitled</string>
+    <string name="year">Year: —</string>
+    <string name="runtime_n_a">Runtime: — </string>
+    <string name="status_unknown">Status: Unknown</string>
+    <string name="language_unknown">Language: Unknown</string>
+    <string name="tagline_are_not_available">Tagline are not available</string>
+    <string name="country_n_a">Country N/A</string>
+    <string name="network_n_a">Network N/A</string>
+
 </resources>
