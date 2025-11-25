@@ -160,6 +160,15 @@ fun String?.formatToReadableDate(): String? {
 }
 
 
+// ---------------------------------------
+
+// usato per defaults -> in detail fragment, prefs ecc
+fun String?.orIfNullOrBlank(fallback : String): String {
+   return if (!this.isNullOrBlank()) this else fallback
+}
+
+
+
 
 
 

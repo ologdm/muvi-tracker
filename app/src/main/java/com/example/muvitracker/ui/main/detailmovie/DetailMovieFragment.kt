@@ -25,7 +25,6 @@ import com.example.muvitracker.MyApp
 import com.example.muvitracker.R
 import com.example.muvitracker.data.dto._support.Ids
 import com.example.muvitracker.data.glide.ImageTmdbRequest
-import com.example.muvitracker.data.utils.orIfBlank
 import com.example.muvitracker.databinding.DialogMyNotesBinding
 import com.example.muvitracker.databinding.FragmentDetailMovieBinding
 import com.example.muvitracker.domain.model.Movie
@@ -34,6 +33,7 @@ import com.example.muvitracker.ui.main.person.adapters.CastAdapter
 import com.example.muvitracker.ui.main.detailmovie.adapters.RelatedMoviesAdapter
 import com.example.muvitracker.utils.formatToReadableDate
 import com.example.muvitracker.utils.getNowFormattedDateTime
+import com.example.muvitracker.utils.orIfNullOrBlank
 import com.example.muvitracker.utils.statesFlow
 import com.example.muvitracker.utils.statesFlowDetailNew
 import com.example.muvitracker.utils.viewBinding
@@ -210,35 +210,48 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
     // movie detail
     // TODO DEFAULT CASES - OK
     private fun setupDetailMovieUiSection(movie: Movie) {
-        // titolo
-        b.title.text = movie.title.orIfBlank(MovieDefaults.TITLE)
-        // TODO 1.1.3 - ok
+        //
+//        b.title.text = movie.title.orIfBlank(MovieDefaults.TITLE)
+        b.title.text = movie.title.orIfNullOrBlank(MovieDefaults.TITLE)
+        //
         b.tagline.apply {
-            text = movie.tagline.orEmpty()
-            visibility = if (movie.tagline.isNullOrBlank()) View.GONE else View.VISIBLE
+            if (movie.tagline.isNullOrBlank()) {
+                visibility = View.GONE
+            } else {
+                text = movie.tagline
+                visibility = View.VISIBLE
+            }
         }
 
-        // info section
+        // info section ----------------------------------------------------------------
         b.status.text = movie.status?.replaceFirstChar { it.uppercaseChar() }
-            .orIfBlank(MovieDefaults.STATUS)  // es released
+            .orIfNullOrBlank(MovieDefaults.STATUS)  // es released
+
+        // date (country)
+        // 1° element
         val releaseData = movie.releaseDate?.formatToReadableDate()
-        val releaseDataText =
-            releaseData.takeUnless { it.isNullOrBlank() } ?: MovieDefaults.RELEASE
+        val releaseDataText = releaseData.orIfNullOrBlank(MovieDefaults.YEAR)
+
+        // 2° element - 2 formats
         val countryList = movie.countries.filter { it.isNotBlank() }
-        val countryText = countryList.joinToString(", ")
-        b.releasedDateAndCountry.text = "${releaseDataText} (${countryText})"
+        val countryText = if (countryList.isNullOrEmpty()) {
+            ", ${MovieDefaults.COUNTRY}"
+        } else {
+            " (${countryList.joinToString(", ")})"
+        }
+        // 1° + 2°
+        b.releasedDateAndCountry.text = "$releaseDataText$countryText"
 
         //
-        b.runtime.text = if (movie.runtime != null && movie.runtime > 0)
-            getString(R.string.runtime_description, movie.runtime.toString())
-        else
-            MovieDefaults.RUNTIME
+        b.runtime.text =
+            if (movie.runtime != null && movie.runtime > 0)
+                getString(R.string.runtime_description, movie.runtime.toString())
+            else
+                MovieDefaults.RUNTIME
 
         //
-//        b.traktRating.text = movie.traktRating ?: MovieDefaults.RATING
-//        b.tmdbRating.text = movie.tmdbRating ?: MovieDefaults.RATING
         ratingLayoutsSetup(movie)
-        //
+
         // TODO 1.1.3  - ok in inglese
         b.englishTitle.apply {
             if (movie.title != movie.englishTraktTitle) {
@@ -248,7 +261,7 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
                 visibility = View.GONE
         }
         //
-        b.overviewContent.text = movie.overview.orIfBlank(MovieDefaults.OVERVIEW)
+        b.overviewContent.text = movie.overview.orIfNullOrBlank(MovieDefaults.OVERVIEW)
         //
         // genres
         b.genresChipGroup.removeAllViews()
@@ -576,15 +589,17 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
 
     // TODO: fix class
     object MovieDefaults {
-        const val TITLE = "Untitled"
-        const val RELEASE = "Year: —"
-        const val RUNTIME = "Runtime: N/A"
-        const val STATUS = "Status: Unknown"
-        const val LANGUAGE = "Language: Unknown"
+        var TITLE = MyApp.appContext.getString(R.string.untitled)
+
+        var STATUS = MyApp.appContext.getString(R.string.status_unknown)
+        var YEAR = MyApp.appContext.getString(R.string.year)
+        var COUNTRY = MyApp.appContext.getString(R.string.country_n_a)
+        var RUNTIME = MyApp.appContext.getString(R.string.runtime_n_a)
+
         var OVERVIEW = MyApp.appContext.getString(R.string.not_available)
-        const val TAGLINE = "Tagline are not available"
-        const val RATING = " — "
-//    const val GENRES = "—"
+
+        var LANGUAGE = MyApp.appContext.getString(R.string.language_unknown)
+        var TAGLINE = MyApp.appContext.getString(R.string.tagline_are_not_available)
     }
 
 
