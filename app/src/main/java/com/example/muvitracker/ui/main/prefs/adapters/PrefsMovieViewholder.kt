@@ -17,7 +17,6 @@ class PrefsMovieViewholder(
 ) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(movie: Movie, context: Context) {
-        val ctx = itemView.context
 
         binding.run {
             //
@@ -30,12 +29,17 @@ class PrefsMovieViewholder(
             // 2° element
             val countryList = movie.countries.filter { it.isNotBlank() }
             val countryText = if (countryList.isNullOrEmpty()){
-                ", ${MovieDefaults.COUNTRY}"
+                MovieDefaults.COUNTRY
             } else {
-                " (${countryList.joinToString(", ")})"
+                "${countryList.joinToString(", ")}"
             }
+
+            //
+            val statusText = movie.status?.replaceFirstChar { it.uppercaseChar() }
+                .orIfNullOrBlank(MovieDefaults.STATUS)  // es released
+
             // 1+2
-            otherInfo.text = "$releaseDateText$countryText"
+            otherInfo.text = "$releaseDateText  |  $countryText  |  $statusText"
 
             Glide
                 .with(binding.root.context)
