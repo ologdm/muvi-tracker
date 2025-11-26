@@ -229,8 +229,8 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
 
         // date (country)
         // 1° element
-        val releaseData = movie.releaseDate?.formatToReadableDate()
-        val releaseDataText = releaseData.orIfNullOrBlank(MovieDefaults.YEAR)
+        val releaseDate = movie.releaseDate?.formatToReadableDate()
+        val releaseDateText = releaseDate.orIfNullOrBlank(MovieDefaults.YEAR)
 
         // 2° element - 2 formats
         val countryList = movie.countries.filter { it.isNotBlank() }
@@ -240,7 +240,7 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
             " (${countryList.joinToString(", ")})"
         }
         // 1° + 2°
-        b.releasedDateAndCountry.text = "$releaseDataText$countryText"
+        b.releasedDateAndCountry.text = "$releaseDateText$countryText"
 
         //
         b.runtime.text =
@@ -592,7 +592,7 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
         var TITLE = MyApp.appContext.getString(R.string.untitled)
 
         var STATUS = MyApp.appContext.getString(R.string.status_unknown)
-        var YEAR = MyApp.appContext.getString(R.string.year)
+        var YEAR = MyApp.appContext.getString(R.string.year_n_a)
         var COUNTRY = MyApp.appContext.getString(R.string.country_n_a)
         var RUNTIME = MyApp.appContext.getString(R.string.runtime_n_a)
 

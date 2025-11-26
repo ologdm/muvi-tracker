@@ -1,6 +1,5 @@
 package com.example.muvitracker.ui.main.detailshow
 
-import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
@@ -672,7 +671,7 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
         var TITLE = MyApp.appContext.getString(R.string.untitled)
 
         var STATUS = MyApp.appContext.getString(R.string.status_unknown)
-        var YEAR = MyApp.appContext.getString(R.string.year)
+        var YEAR = MyApp.appContext.getString(R.string.year_n_a)
         var NETWORK = MyApp.appContext.getString(R.string.network_n_a)
         var COUNTRY = MyApp.appContext.getString(R.string.country_n_a)
 
