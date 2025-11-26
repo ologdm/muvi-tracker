@@ -52,7 +52,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:maxLines="1"
+            tools:maxLines="2"
             tools:text="Thrones Thrones Game Of Thrones Thrones Thrones Thrones Game Of Thrones Thrones Thrones Thrones" />
 
 
@@ -76,7 +76,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="12dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:paddingEnd="8dp"
         app:layout_constraintVertical_bias="0.6"
         app:layout_constraintBottom_toBottomOf="parent"
