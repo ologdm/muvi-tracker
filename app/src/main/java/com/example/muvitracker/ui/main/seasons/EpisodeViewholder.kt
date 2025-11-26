@@ -19,7 +19,7 @@ class EpisodeViewholder(
     fun bind(item: Episode) {
         binding.episodeInfo.text =
             context.getString(
-                R.string.e_number_first_aired_runtime_min,
+                R.string.ep_number_first_aired_runtime_min,
                 item.episodeNumber.episodesFormatNumber(),
                 item.firstAiredFormatted.formatDateFromFirsAired(),
                 item.runtime

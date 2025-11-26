@@ -459,7 +459,7 @@
                                     android:id="@+id/watchedAllTextview"
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
-                                    android:text="@string/watched_all_check_text"
+                                    android:text="@string/watched_all_checkbox"
                                     android:textSize="15sp"
                                     android:textStyle="bold"
                                     android:gravity="right"
@@ -550,7 +550,7 @@
                             style="@style/TitleCategoryDetail"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/about_show_text"
+                            android:text="@string/about_show"
                             app:layout_constraintStart_toStartOf="@id/overviewLayout"
                             app:layout_constraintTop_toTopOf="@id/overviewLayout" />
 
@@ -600,7 +600,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="16dp"
-                            android:text="@string/cast_text"
+                            android:text="@string/cast"
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <FrameLayout
@@ -657,7 +657,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="16dp"
-                            android:text="@string/seasons_text"
+                            android:text="@string/seasons"
                             app:layout_constraintTop_toTopOf="parent"
 
                             />
@@ -720,7 +720,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="16dp"
-                            android:text="@string/related_text"
+                            android:text="@string/related"
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <FrameLayout

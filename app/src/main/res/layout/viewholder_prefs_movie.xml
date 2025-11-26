@@ -93,7 +93,7 @@
             android:id="@+id/watchedCheckBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/watched_check_text"
+            android:text="@string/watched_checkbox"
             app:layout_constraintBottom_toBottomOf="@id/likedButton"
             app:layout_constraintStart_toEndOf="@id/likedButton"
             app:layout_constraintTop_toTopOf="@id/likedButton" />

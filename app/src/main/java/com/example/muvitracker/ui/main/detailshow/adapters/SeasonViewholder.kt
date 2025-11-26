@@ -16,7 +16,7 @@ class SeasonViewholder(
 //        binding.seasonNrAndYear.text = "${context.getString(R.string.season_text)} ${seasonItem.seasonNumber} (${seasonItem.releaseDate?.take(4)})"
         // new 1.1.3  - seson from traslated dto
         b.seasonInfoTextview.text = "${seasonItem.title} (${seasonItem.releaseDate?.take(4)})"
-        val episodesText = b.root.context.getString(R.string.episodes_text)
+        val episodesText = b.root.context.getString(R.string.episodes)
         b.totalEpisodes.text = "${seasonItem.episodeCount} $episodesText"
         b.traktRating.text = seasonItem.traktRating
 

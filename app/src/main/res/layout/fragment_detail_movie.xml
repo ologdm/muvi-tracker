@@ -431,7 +431,7 @@
                                     android:id="@+id/watchedTextview"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="@string/watched_check_text"
+                                    android:text="@string/watched_checkbox"
                                     android:textSize="16sp"
                                     android:textStyle="bold" />
 
@@ -543,7 +543,7 @@
                             style="@style/TitleCategoryDetail"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/about_show_text"
+                            android:text="@string/about_movie"
                             app:layout_constraintStart_toStartOf="@id/overviewLayout"
                             app:layout_constraintTop_toTopOf="@id/overviewLayout" />
 
@@ -592,7 +592,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="16dp"
-                            android:text="@string/cast_text"
+                            android:text="@string/cast"
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <FrameLayout
@@ -648,7 +648,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="16dp"
-                            android:text="@string/related_text"
+                            android:text="@string/related"
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <FrameLayout

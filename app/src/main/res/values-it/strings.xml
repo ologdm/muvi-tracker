@@ -1,40 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!--navigation bar names -->
+
     <string name="movies">Film</string>
     <string name="shows">Serie TV</string>
     <string name="my_list">La Mia Lista</string>
     <string name="search">Cerca</string>
 
-    <!--base categories -->
+
     <string name="popular">Popolari</string>
     <string name="box_office">Al cinema</string>
     <string name="watched">Più guardati</string>
     <string name="favorited">Favoriti</string>
     <string name="anticipated">Prossimamente</string>
 
-    <!--detail-->
+
     <string name="aired_episodes">%1$s episodi usciti</string>
     <string name="total_seasons">%1$s stagioni</string>
-    <!--  -->
+
     <string name="runtime_description">%1$s min</string>
-    <string name="watched_check_text">Guardato</string>
-    <string name="watched_all_check_text">Guardato tutto</string>
-    <!--     sections-->
+    <string name="watched_checkbox">Guardato</string>
+    <string name="watched_all_checkbox">Guardato tutto</string>
+
     <string name="about_movie">Info sul film</string>
     <string name="about_show">Info sulla serie</string>
-    <string name="seasons_text">Stagioni</string>
-    <string name="related_text">Ti potrebbe piacere anche</string>
-    <string name="cast_text">Cast</string>
-    <string name="watch_provider_text">Piattaforme streaming</string>
+    <string name="seasons">Stagioni</string>
+    <string name="related">Ti potrebbe piacere anche</string>
+    <string name="cast">Cast</string>
+    <string name="watch_provider">Piattaforme streaming</string>
     <string name="no_trailer_available">Nessun trailer disponibile</string>
 
-    <!--    seasons-->
-    <string name="season_text">Stagione</string>
-    <string name="episodes_text">episodi</string>
 
-    <!--episode-->
+    <string name="season">Stagione</string>
+    <string name="episodes">episodi</string>
+
+
     <string name="overview">Descrizione</string>
     <string name="release_date">Prima uscita:</string>
 
@@ -45,7 +45,7 @@
 
 
     <string name="people">Persone</string>
-    <string name="episodes">Episodi:</string>
+    <string name="episodes_label">Episodi:</string>
     <string name="all">Tutti</string>
     <string name="actors_are_not_available">Attori non disponibili</string>
     <string name="not_available">Non disponibile</string>
@@ -56,7 +56,7 @@
     <string name="add_a_note_to_your_movie">Aggiungi una nota al tuo film</string>
     <string name="add_a_note_to_your_show">Aggiungi una nota alla tua serie</string>
     <string name="write_your_note">"Scrivi la tua nota… "</string>
-    <string name="e_number_first_aired_runtime_min">Ep.%1$s • %2$s • %3$d min</string>
+    <string name="ep_number_first_aired_runtime_min">Ep.%1$s • %2$s • %3$d min</string>
     <string name="trailer">Trailer</string>
     <string name="biography">Biografia:</string>
     <string name="known">Nota per:</string>

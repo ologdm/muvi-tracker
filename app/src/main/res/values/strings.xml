@@ -1,14 +1,15 @@
 <resources>
+    <!--    TITOLO APP -->
     <string name="app_name" translatable="false">MuviTracker</string>
 
-    <!--navigation bar names -->
-    <string name="movies">Movies</string>
-    <string name="shows">TV Series</string>
+    <!--    NAVIGATION BAR -->
+    <string name="movies">Movies</string>.  <!-- also on search   -->
+    <string name="shows">TV Series</string>  <!-- also on search   -->
     <string name="my_list">My List</string>
     <string name="search">Search</string>
 
 
-    <!--base categories -->
+    <!--    EXPLORE CATEGORIES -->
     <string name="popular">Popular</string>
     <string name="box_office">Box office</string>
     <string name="watched">Top watched</string>
@@ -16,77 +17,76 @@
     <string name="anticipated">Coming soon</string>
 
 
-    <!--detail-->
-    <string name="aired_episodes">%1$s  aired episodes</string>
-    <string name="total_seasons">%1$s seasons</string>
-    <string name="runtime_description">%1$s min</string>
-    <!--  -->
-    <string name="watched_check_text">Watched</string>
-    <string name="watched_all_check_text">Watched All</string>
-    <!--     sections-->
-    <string name="about_movie">About movie</string>
-    <string name="about_show">About show</string>
-    <string name="seasons_text">Seasons</string>
-    <string name="related_text">You may also like</string>
-    <string name="cast_text">Cast</string>
-    <string name="watch_provider_text">Watch Providers</string>
-
-    <string name="no_trailer_available">No trailer available</string>
-
-
-    <!--seasons-->
-    <string name="season_text">Season</string>
-    <string name="episodes_text">episodes</string>
-
-    <!--episode-->
-    <string name="overview">Overview</string>
-    <string name="release_date">Release date:</string>
-
-
-    <!--error messages -->
+    <!--    ERROR MESSAGES -->
     <string name="error_message_no_internet_swipe_down">no internet connection, swipe down</string>
     <string name="error_message_no_internet">no internet connection</string>
     <string name="error_message_other">something went wrong :(</string>
 
 
-    <!--search type -->
+    <!--    DETAIL -->
+    <string name="aired_episodes">%1$s  aired episodes</string>
+    <string name="total_seasons">%1$s seasons</string>
+    <string name="runtime_description">%1$s min</string>
+    <string name="from_release_year">from %1$s</string>
+    <string name="release_date">Release date:</string>
+    <!--    -->
+    <string name="like">Liked</string>
+    <string name="watched_checkbox">Watched</string>
+    <string name="watched_all_checkbox">Watched All</string>
+    <!--    -->
+    <string name="about_movie">About movie</string>
+    <string name="about_show">About show</string>
+    <!--    -->
+    <string name="seasons">Seasons</string>
+    <string name="related">You may also like</string>
+    <string name="cast">Cast</string>
+    <string name="watch_provider">Watch Providers</string>
+    <!--    -->
+    <string name="trailer">Trailer</string>
+    <string name="no_trailer_available">No trailer available</string>
+
+
+    <!--    SEASONS -->
+    <string name="episodes_label">Episodes:</string>
+    <string name="episodes">episodes</string>
+    <string name="season">Season</string>
+
+
+    <!--    EPISODE -->
+    <string name="ep_number_first_aired_runtime_min">Ep.%1$s • %2$s • %3$d min</string>
+    <string name="overview">Overview</string>
+
+
+    <!--    SEARCH TYPE -->+
+    <string name="all">All</string>
     <string name="people">People</string>
 
 
-    <string name="episodes">Episodes:</string>
-    <string name="all">All</string>
-
-
-    <string name="actors_are_not_available">Actors are not available</string>
-    <string name="not_available">Not available</string>
-    <string name="seasons_not_available">Seasons are not available</string>
-
-    <string name="like">Liked</string>
-    <string name="from_release_year">from %1$s</string>
-
-    <string name="my_notes">My notes</string>
+    <!--    NOTES -->
     <string name="add_a_note_to_your_movie">Add a note to your movie</string>
     <string name="add_a_note_to_your_show">Add a note to your show</string>
+    <!--    -->
+    <string name="my_notes">My notes</string>
     <string name="write_your_note">Write your note...</string>
-    <string name="e_number_first_aired_runtime_min">Ep.%1$s • %2$s • %3$d min</string>
 
-    <string name="trailer">Trailer</string>
 
-<!--   discard dialog-->
+    <!--   DISCARD DIALOG -->
     <string name="discard_movie">Discard movie?</string>
     <string name="discard_show">Discard show?</string>
     <string name="is_no_longer_liked_or_watched_remove_it">\"%1$s\" is no longer liked or watched.\n\nRemove it?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
 
-    <!--    person fragment -->
-    <string name="biography">Biography:</string>
+
+    <!--    PERSON FRAGMENT -->
     <string name="known">Known:    </string>
     <string name="age">Age:</string>
     <string name="born">Born:</string>
     <string name="died">Died:</string>
+    <string name="biography">Biography:</string>
 
-    <!--    MovieDefaults    -->
+
+    <!--    INFO DEFAULTS    -->
     <string name="untitled">Untitled</string>
     <string name="year_n_a">Year —</string>
     <string name="runtime_n_a">"Runtime — "</string>
@@ -95,5 +95,9 @@
     <string name="tagline_are_not_available">Tagline are not available</string>
     <string name="country_n_a">Country N/A</string>
     <string name="network_n_a">Network N/A</string>
+    <!--    -->
+    <string name="actors_are_not_available">Actors are not available</string>
+    <string name="not_available">Not available</string>
+    <string name="seasons_not_available">Seasons are not available</string>
 
 </resources>
