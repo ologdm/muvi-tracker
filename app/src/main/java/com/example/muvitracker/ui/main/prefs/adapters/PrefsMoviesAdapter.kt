@@ -36,10 +36,9 @@ class PrefsMoviesAdapter(
         val iconFilled = context.getDrawable(R.drawable.liked_icon_filled)
         val iconEmpty = context.getDrawable(R.drawable.liked_icon_empty)
 
-        holder.bind(currentItem) // update views
+        holder.bind(currentItem, context) // update views
 
         holder.binding.run {
-
             updateFavoriteIcon(likedButton, currentItem.liked, iconFilled, iconEmpty)
 
             // --- LIKE BUTTON ------------------------------------------------------------------------
