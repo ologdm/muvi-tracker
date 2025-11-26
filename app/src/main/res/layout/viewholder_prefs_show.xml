@@ -104,7 +104,7 @@
             android:text="@string/watched_all_check_text"
             app:layout_constraintBottom_toBottomOf="@id/likedButton"
             app:layout_constraintEnd_toStartOf="@id/watchedCounterTextview"
-            app:layout_constraintHorizontal_weight="0.6"
+            app:layout_constraintHorizontal_weight="0.65"
             app:layout_constraintStart_toEndOf="@id/likedButton"
             app:layout_constraintTop_toTopOf="@id/likedButton" />
 
@@ -127,7 +127,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:gravity="center"
+            android:gravity="end"
             android:text="1000/9000"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@id/watchedAllCheckBox"
