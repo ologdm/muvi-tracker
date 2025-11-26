@@ -52,7 +52,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:maxLines="3"
+            tools:maxLines="1"
             tools:text="Thrones Thrones Game Of Thrones Thrones Thrones Thrones Game Of Thrones Thrones Thrones Thrones" />
 
 
@@ -77,19 +77,24 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="12dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintVertical_bias="0.5"
+        android:paddingEnd="8dp"
+        app:layout_constraintVertical_bias="0.6"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/image"
         app:layout_constraintTop_toBottomOf="@id/infoContainer">
 
+
         <ImageButton
             android:id="@+id/likedButton"
             android:layout_width="45dp"
             android:layout_height="45dp"
-            android:layout_marginStart="12dp"
+            android:layout_marginStart="16sp"
+            android:layout_marginEnd="14sp"
             android:importantForAccessibility="no"
+            app:layout_constraintVertical_bias="0.25"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/watchedAllCheckBox"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/liked_icon_empty" />
@@ -97,16 +102,16 @@
         <CheckBox
             android:id="@+id/watchedAllCheckBox"
             android:layout_width="0dp"
+
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:text="@string/watched_all_check_text"
-            app:layout_constraintBottom_toBottomOf="@id/likedButton"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/watchedCounterTextview"
             app:layout_constraintHorizontal_weight="0.65"
             app:layout_constraintStart_toEndOf="@id/likedButton"
-            app:layout_constraintTop_toTopOf="@id/likedButton" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ProgressBar
             android:id="@+id/watchedAllCheckboxLoadingBar"
@@ -121,21 +126,25 @@
 
         <!--        NOTE
                     scritta centrata
+                    0dp - match constraint
+
         -->
+
+
         <TextView
             android:id="@+id/watchedCounterTextview"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
+
             android:gravity="end"
-            android:text="1000/9000"
+            android:text="100/9000"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@id/watchedAllCheckBox"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_weight="0.35"
             app:layout_constraintStart_toEndOf="@id/watchedAllCheckBox"
-            app:layout_constraintTop_toTopOf="@id/watchedAllCheckBox" />
-
+            app:layout_constraintTop_toTopOf="@id/watchedAllCheckBox"
+            app:layout_constraintVertical_bias="0.615" />
 
         <com.google.android.material.progressindicator.LinearProgressIndicator
             android:id="@+id/watchedCounterProgressBar"
