@@ -22,8 +22,8 @@
     <string name="watched_checkbox">Guardato</string>
     <string name="watched_all_checkbox">Guardato tutto</string>
 
-    <string name="about_movie">Info sul film</string>
-    <string name="about_show">Info sulla serie</string>
+    <string name="about_movie">Descrizione</string>
+    <string name="about_show">Descrizione</string>
     <string name="seasons">Stagioni</string>
     <string name="related">Ti potrebbe piacere anche</string>
     <string name="cast">Cast</string>
