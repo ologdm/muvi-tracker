@@ -52,7 +52,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:maxLines="2"
+            tools:maxLines="1"
             tools:text="Thrones Thrones Game Of Thrones Thrones Thrones Thrones Game Of Thrones Thrones Thrones Thrones" />
 
 
