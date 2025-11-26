@@ -60,7 +60,7 @@ class EpisodeFragment : BottomSheetDialogFragment(
                 binding.episodeInfo.text =
                     "${getString(R.string.release_date)} ${
                         episode.firstAiredFormatted.formatDateFromFirsAired()
-                    } | ${getString(R.string.runtime_description,episode.runtime.toString())} "
+                    }  |  ${getString(R.string.runtime_description,episode.runtime.toString())} "
                 binding.overviewContent.text = episode.overview
                 binding.traktRating.text = episode.traktRating.toString()
 

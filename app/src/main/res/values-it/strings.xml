@@ -51,7 +51,7 @@
     <string name="not_available">Non disponibile</string>
     <string name="seasons_not_available">Stagioni non disponibili</string>
     <string name="like">Preferito</string>
-    <string name="from_release_year">dal %1$s</string>
+    <string name="from_release_year">Dal %1$s</string>
     <string name="my_notes">Le mie note</string>
     <string name="add_a_note_to_your_movie">Aggiungi una nota al tuo film</string>
     <string name="add_a_note_to_your_show">Aggiungi una nota alla tua serie</string>

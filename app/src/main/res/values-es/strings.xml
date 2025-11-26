@@ -36,7 +36,7 @@
     <string name="not_available">No disponible</string>
     <string name="seasons_not_available">Temporadas no disponibles</string>
     <string name="like">Favorito</string>
-    <string name="from_release_year">desde %1$s</string>
+    <string name="from_release_year">Desde %1$s</string>
     <string name="my_notes">Mis notas</string>
     <string name="add_a_note_to_your_movie">Añade una nota a tu película</string>
     <string name="add_a_note_to_your_show">Añade una nota a tu serie</string>

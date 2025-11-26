@@ -35,7 +35,7 @@
     <string name="not_available">Недоступно</string>
     <string name="seasons_not_available">Сезоны недоступны</string>
     <string name="like">В избранное</string>
-    <string name="from_release_year">с %1$s</string>
+    <string name="from_release_year">C %1$s</string>
     <string name="my_notes">Мои заметки</string>
     <string name="add_a_note_to_your_movie">Добавь заметку к вашему фильму</string>
     <string name="add_a_note_to_your_show">Добавь заметку к вашему сериалу</string>
