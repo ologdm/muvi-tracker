@@ -52,8 +52,8 @@
     <string name="yes">"Da "</string>
     <string name="no">Nu</string>
     <string name="untitled">Fără titlu</string>
-    <string name="year">Anul:  —</string>
-    <string name="runtime_n_a">"Durata: — "</string>
+    <string name="year_n_a">Anul  —</string>
+    <string name="runtime_n_a">"Durata — "</string>
     <string name="status_unknown">Stato: Necunoscut</string>
     <string name="language_unknown">Limba: Necunoscută</string>
     <string name="tagline_are_not_available">Sloganurile nu sunt disponibile</string>

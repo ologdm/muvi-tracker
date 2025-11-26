@@ -52,8 +52,8 @@
     <string name="yes">Да</string>
     <string name="no">Нет</string>
     <string name="untitled">Без названия</string>
-    <string name="year">Год:  —</string>
-    <string name="runtime_n_a">"Время: — "</string>
+    <string name="year_n_a">Год  —</string>
+    <string name="runtime_n_a">"Время — "</string>
     <string name="status_unknown">Статус: Неизвестно</string>
     <string name="language_unknown">Язык: Неизвестен</string>
     <string name="tagline_are_not_available">Слоганы недоступны</string>

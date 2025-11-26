@@ -68,8 +68,8 @@
     <string name="yes">Si</string>
     <string name="no">No</string>
     <string name="untitled">Senza titolo</string>
-    <string name="year">Anno: —</string>
-    <string name="runtime_n_a">"Durata: — "</string>
+    <string name="year_n_a">Anno —</string>
+    <string name="runtime_n_a">"Durata — "</string>
     <string name="status_unknown">Status: Sconosciuto</string>
     <string name="language_unknown">Lingua: Sconosciuto</string>
     <string name="tagline_are_not_available">Tagline non disponibile</string>

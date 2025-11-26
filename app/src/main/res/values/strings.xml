@@ -87,8 +87,8 @@
 
     <!--    MovieDefaults    -->
     <string name="untitled">Untitled</string>
-    <string name="year">Year: —</string>
-    <string name="runtime_n_a">Runtime: — </string>
+    <string name="year_n_a">Year —</string>
+    <string name="runtime_n_a">"Runtime — "</string>
     <string name="status_unknown">Status: Unknown</string>
     <string name="language_unknown">Language: Unknown</string>
     <string name="tagline_are_not_available">Tagline are not available</string>
