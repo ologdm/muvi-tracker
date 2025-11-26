@@ -14,7 +14,8 @@
     <string name="runtime_description">%1$s мин</string>
     <string name="watched_check_text">Просмотрено</string>
     <string name="watched_all_check_text">Все просмотрено</string>
-    <string name="about_show_text">Описание</string>
+    <string name="about_movie">О фильме</string>
+    <string name="about_show">О сериале</string>
     <string name="seasons_text">Сезоны</string>
     <string name="related_text">Вам также может понравиться</string>
     <string name="cast_text">Актёры</string>
