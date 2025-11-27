@@ -10,7 +10,6 @@ import com.example.muvitracker.data.utils.splitToCleanList
 import com.example.muvitracker.data.utils.youtubeLinkTransformation
 import com.example.muvitracker.utils.firstDecimalApproxToString
 import com.example.muvitracker.utils.formatDateFromFirsAired
-import com.google.gson.annotations.SerializedName
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -72,7 +71,8 @@ fun mergeShowsDtoToEntity(
 
         // tmdb
         title = tmdb?.name.orIfBlank(trakt.title),
-        tagline = tmdb?.tagline.orIfBlank(trakt.tagline),
+//        tagline = tmdb?.tagline.orIfBlank(trakt.tagline),
+        tagline = tmdb?.tagline, // !! senza trakt fallback, traduzione errata
         overview = tmdb?.overview.orIfBlank(trakt.overview),
         status = tmdb?.status.orIfBlank(trakt.status),
         firstAirDate = tmdb?.firstAirDate.orIfBlank(trakt.firstAired.formatDateFromFirsAired()), // test con tmdb
@@ -103,7 +103,7 @@ fun mergeShowsDtoToEntity(
         tmdbRating = tmdb?.voteAverage?.firstDecimalApproxToString(), // in 8.458 -> out 8.5
 
         // sistema
-        currentTranslation = LanguageManager.getSystemLocaleTag()
+        currentTranslation = LanguageManager.getAppLocaleTag()
     )
 }
 

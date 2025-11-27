@@ -79,7 +79,8 @@ fun mergeMoviesDtoToEntity(
 
         // tmdb (or trakt fallback)
         title = tmdb?.title.orIfBlank(trakt.title),
-        tagline = tmdb?.tagline.orIfBlank(trakt.tagline),
+//        tagline = tmdb?.tagline.orIfBlank(trakt.tagline), //
+        tagline = tmdb?.tagline, // !! senza trakt fallback, traduzione errata
         overview = tmdb?.overview.orIfBlank(trakt.overview),
         status = tmdb?.status.orIfBlank(trakt.status),
         // from trakt - "2016-02-12" | tmdbDto - "2016-02-09"
@@ -107,6 +108,6 @@ fun mergeMoviesDtoToEntity(
         tmdbRating = tmdb?.voteAverage?.firstDecimalApproxToString(), // in 8.458 -> out 8.5
 
         // lingua
-        currentTranslation = LanguageManager.getSystemLocaleTag()
+        currentTranslation = LanguageManager.getAppLocaleTag()
     )
 }
