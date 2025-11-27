@@ -24,7 +24,7 @@
     <string name="episodes">episoade</string>
     <string name="overview">Descriere</string>
     <string name="release_date">Data lansării:</string>
-    <string name="error_message_no_internet_swipe_down">swipe down fără conexiune la internet, trage în jos</string>
+    <string name="error_message_no_internet_swipe_down">fără conexiune la internet, trage în jos</string>
     <string name="error_message_no_internet">fără conexiune la internet</string>
     <string name="error_message_other">ceva nu a mers bine :(</string>
     <string name="people">Oameni</string>
