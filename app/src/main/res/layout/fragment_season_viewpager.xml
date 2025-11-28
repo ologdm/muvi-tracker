@@ -29,11 +29,14 @@
 
 
         <TextView
+            android:layout_gravity="center_vertical"
             android:id="@+id/showTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
+
             android:textSize="20dp"
+            android:maxLines="1"
             tools:text="Game of Thrones Game of Thrones Game of Thrones Game of Thrones Game of Thrones Game of Thrones" />
 
     </LinearLayout>
@@ -47,7 +50,6 @@
         android:background="?attr/colorOnPrimary"
         app:tabGravity="fill"
         tools:backgroundTint="@android:color/darker_gray"
-        android:layout_marginTop="8dp"
         app:tabIndicatorColor="?attr/colorPrimary"
         app:tabMode="fixed" />
 
