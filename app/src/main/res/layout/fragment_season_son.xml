@@ -31,6 +31,7 @@
                 android:id="@+id/seasonPoster"
                 android:layout_width="120dp"
                 android:layout_height="180dp"
+                android:scaleType="centerCrop"
                 android:layout_alignParentStart="true"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -41,7 +42,7 @@
                 android:id="@+id/seasonTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="12dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_toEndOf="@id/seasonPoster"
@@ -51,17 +52,22 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Season 1" />
 
+
+<!--    NOTE:
+        android non supporta il testo che avvolge l'immagine come su html,
+        quindi dobbiamo avere 2 textview una stretta e una piccola.
+-->
             <TextView
                 android:id="@+id/seasonOverview"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="12dp"
                 android:layout_marginEnd="12dp"
                 android:layout_toEndOf="@id/seasonPoster"
                 android:clickable="true"
                 android:ellipsize="end"
                 android:maxLines="6"
-                android:paddingBottom="8dp"
+                android:paddingBottom="12dp"
                 android:textAppearance="?attr/textAppearanceBody1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/seasonPoster"

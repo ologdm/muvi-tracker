@@ -226,6 +226,7 @@
                             app:shapeAppearance="@style/ImageLargeRoundedShape"
                             app:layout_constraintWidth_percent="0.5"
                             app:layout_constraintDimensionRatio="2:3"
+                            android:scaleType="centerCrop"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
                             tools:background="@tools:sample/avatars"

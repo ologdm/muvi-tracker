@@ -27,6 +27,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:paddingBottom="10dp"
+        android:scaleType="centerCrop"
         app:shapeAppearance="@style/ImageLargeRoundedShape"
         tools:background="@tools:sample/avatars" />
 

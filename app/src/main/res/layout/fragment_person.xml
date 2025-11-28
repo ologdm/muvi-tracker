@@ -71,6 +71,7 @@
                     app:layout_constraintDimensionRatio="2:3"
                     app:layout_constraintWidth_percent="0.4"
                     android:layout_marginEnd="20dp"
+                    android:scaleType="centerCrop"
                     android:importantForAccessibility="no"
                     app:layout_constraintEnd_toStartOf="@id/infoLayout"
                     app:layout_constraintStart_toStartOf="parent"
