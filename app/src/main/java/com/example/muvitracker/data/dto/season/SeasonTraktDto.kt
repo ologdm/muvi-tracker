@@ -6,7 +6,6 @@ import com.example.muvitracker.data.LanguageManager
 import com.example.muvitracker.data.database.entities.SeasonEntity
 import com.example.muvitracker.data.dto._support.Ids
 import com.example.muvitracker.utils.firstDecimalApproxToString
-import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -70,7 +69,7 @@ fun mergeSeasonsDtoToEntity(
         tmdbRating = tmdb?.voteAverage?.firstDecimalApproxToString(), // OK
         posterPath = tmdb?.posterPath,
 
-        currentTranslation = LanguageManager.getSystemLocaleTag()
+        currentTranslation = LanguageManager.getAppLocaleLanguageTag()
     )
 }
 

@@ -103,7 +103,7 @@ fun mergeShowsDtoToEntity(
         tmdbRating = tmdb?.voteAverage?.firstDecimalApproxToString(), // in 8.458 -> out 8.5
 
         // sistema
-        currentTranslation = LanguageManager.getAppLocaleTag()
+        currentTranslation = LanguageManager.getAppLocaleLanguageTag()
     )
 }
 
