@@ -1,6 +1,13 @@
 package com.example.muvitracker.data.utils
 
+import android.content.Context
 import com.example.muvitracker.data.dto.movie.detail.VideosResult
+import com.google.mlkit.nl.translate.TranslateLanguage
+import com.google.mlkit.nl.translate.Translation
+import com.google.mlkit.nl.translate.Translator
+import com.google.mlkit.nl.translate.TranslatorOptions
+import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlin.coroutines.resume
 
 
 //
@@ -62,6 +69,48 @@ fun VideosResult.youtubeLinkTransformation(): String? {
                 .maxByOrNull { it.size } //
 
     return video?.key?.let { "https://www.youtube.com/watch?v=${it}" }
+}
+
+
+
+// TODO 1.1.4 OTTIMIZZARE -----------------------------------------------------------------------------------------
+
+/**
+ * Translates the given text (assumed to be in English) into the system language using Ai ML Kit.
+ * Returns the original text if translation fails or the text is null/blank.
+ */
+suspend fun translateToSystemLanguage(context: Context, text: String?)
+        : String? {
+    val clean = text?.trim()
+    // Se è null ritorni null (non ha senso tradurre "null")
+    if (clean == null) return null
+
+    val targetLanguage = TranslateLanguage.fromLanguageTag(
+        android.os.LocaleList.getDefault()[0].language
+    ) ?: TranslateLanguage.ENGLISH // fallback
+
+    val options = TranslatorOptions.Builder()
+        .setSourceLanguage(TranslateLanguage.ENGLISH)
+        .setTargetLanguage(targetLanguage)
+        .build()
+
+    val translator: Translator = Translation.getClient(options)
+
+    return suspendCancellableCoroutine { cont ->
+        translator.downloadModelIfNeeded()
+            .addOnSuccessListener {
+                translator.translate(text)
+                    .addOnSuccessListener { translatedText ->
+                        cont.resume(translatedText)
+                    }
+                    .addOnFailureListener {
+                        cont.resume(text) // fallback: original text
+                    }
+            }
+            .addOnFailureListener {
+                cont.resume(text) // fallback: original text
+            }
+    }
 }
 
 
