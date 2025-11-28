@@ -11,13 +11,13 @@
         android:id="@+id/episodeImageBackdrop"
         style="@style/ImageExploreViewholder"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="240dp"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"
-        tools:layout_height="200dp"
         tools:src="@tools:sample/backgrounds/scenic" />
 
     <LinearLayout
+        android:id="@+id/infoLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -37,7 +37,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="15sp"
-            tools:text="series premiere " />
+            tools:text="Series premiere " />
 
         <!--  first aired, runtime, episode type, rating, vote -->
         <TextView
@@ -45,13 +45,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="15sp"
-            tools:text="release date: 01-01 - 2022 | 60 min " />
+            tools:text="Release date: 01-01 - 2022  |  60 min " />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="12dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="10dp"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
@@ -94,12 +94,12 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="28dp" />
+            android:layout_height="32dp" />
 
         <ImageView
             android:id="@+id/watchedIcon"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_gravity="center"
             android:src="@drawable/episode_watched_eye_empty"
             tools:src="@drawable/episode_watched_eye_filled" />
