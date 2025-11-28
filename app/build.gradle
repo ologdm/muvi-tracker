@@ -96,7 +96,7 @@ dependencies {
 
     // kotlin libraries
     implementation "org.jetbrains.kotlin:kotlin-stdlib:1.9.24"  // base features of kotlin
-    implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3' // alternativa a gson
+    implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3'// alternativa a gson
 
     // retrofit
     def retrofit_version = "2.10.0"
@@ -154,6 +154,9 @@ dependencies {
 // 3) android test implementation
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+
+    // AI model for translation
+    implementation 'com.google.mlkit:translate:17.0.3'
 
 }
 
