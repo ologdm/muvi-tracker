@@ -55,6 +55,7 @@
     <!--    EPISODE -->
     <string name="ep_number_first_aired_runtime_min">Ep.%1$s • %2$s • %3$d min</string>
     <string name="overview">Overview</string>
+    <string name="ep_n_episode_title">Ep.%1$s • %2$s</string>
 
 
     <!--    SEARCH TYPE -->+
@@ -93,11 +94,13 @@
     <string name="status_unknown">Status: Unknown</string>
     <string name="language_unknown">Language: Unknown</string>
     <string name="tagline_are_not_available">Tagline are not available</string>
+    <string name="overview_are_not_available">Overview are not available</string>
     <string name="country_n_a">Country N/A</string>
     <string name="network_n_a">Network N/A</string>
     <!--    -->
     <string name="actors_are_not_available">Actors are not available</string>
     <string name="not_available">Not available</string>
     <string name="seasons_not_available">Seasons are not available</string>
+
 
 </resources>

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">MuviTracker</string>
     <string name="movies">Películas</string>
     <string name="shows">Series TV</string>
     <string name="my_list">Mi Lista</string>
@@ -31,6 +30,7 @@
     <string name="error_message_other">algo salió mal :(</string>
     <string name="people">Personas</string>
     <string name="episodes_label">Episodios:</string>
+    <string name="ep_n_episode_title">Ep.%1$s • %2$s</string>
     <string name="all">Todos</string>
     <string name="actors_are_not_available">Actores no disponibles</string>
     <string name="not_available">No disponible</string>
@@ -59,6 +59,7 @@
     <string name="status_unknown">Estado: Desconocido</string>
     <string name="language_unknown">Idioma: Desconocido</string>
     <string name="tagline_are_not_available">Lema no disponible</string>
+    <string name="overview_are_not_available">La descripción no está disponible</string>
     <string name="country_n_a">País N/D</string>
     <string name="network_n_a">Plataforma N/D</string>
 </resources>

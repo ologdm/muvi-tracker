@@ -29,6 +29,7 @@
     <string name="error_message_other">ceva nu a mers bine :(</string>
     <string name="people">Oameni</string>
     <string name="episodes_label">Episoade:</string>
+    <string name="ep_n_episode_title">Ep.%1$s • %2$s</string>
     <string name="all">Toate</string>
     <string name="season">Sezon</string>
     <string name="actors_are_not_available">Actorii nu sunt disponibili</string>
@@ -58,6 +59,7 @@
     <string name="status_unknown">Stato: Necunoscut</string>
     <string name="language_unknown">Limba: Necunoscută</string>
     <string name="tagline_are_not_available">Sloganurile nu sunt disponibile</string>
+    <string name="overview_are_not_available">Descrierea nu este disponibilă</string>
     <string name="country_n_a">Țara N/D</string>
     <string name="network_n_a">Network N/D</string>
 </resources>

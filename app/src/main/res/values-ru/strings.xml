@@ -30,6 +30,7 @@
     <string name="error_message_other">что-то пошло не так :(</string>
     <string name="people">Персоны</string>
     <string name="episodes_label">Эпизоды:</string>
+    <string name="ep_n_episode_title">Эп.%1$s • %2$s</string>
     <string name="all">Все</string>
     <string name="actors_are_not_available">Актеры недоступны</string>
     <string name="not_available">Недоступно</string>
@@ -58,6 +59,7 @@
     <string name="status_unknown">Статус: Неизвестно</string>
     <string name="language_unknown">Язык: Неизвестен</string>
     <string name="tagline_are_not_available">Слоганы недоступны</string>
+    <string name="overview_are_not_available">Описание недоступно</string>
     <string name="country_n_a">Страна Н/Д</string>
     <string name="network_n_a">Платформа Н/Д</string>
 </resources>

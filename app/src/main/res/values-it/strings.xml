@@ -46,6 +46,7 @@
 
     <string name="people">Persone</string>
     <string name="episodes_label">Episodi:</string>
+    <string name="ep_n_episode_title">Ep.%1$s • %2$s</string>
     <string name="all">Tutti</string>
     <string name="actors_are_not_available">Attori non disponibili</string>
     <string name="not_available">Non disponibile</string>
@@ -74,6 +75,7 @@
     <string name="status_unknown">Status: Sconosciuto</string>
     <string name="language_unknown">Lingua: Sconosciuto</string>
     <string name="tagline_are_not_available">Tagline non disponibile</string>
+    <string name="overview_are_not_available">Descrizione non disponibile</string>
     <string name="country_n_a">Paese N/D</string>
     <string name="network_n_a">Network N/D</string>
 
