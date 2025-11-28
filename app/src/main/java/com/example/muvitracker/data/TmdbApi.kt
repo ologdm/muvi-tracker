@@ -19,23 +19,23 @@ interface TmdbApi {
     // TODO: BuildConfig prende valore da local propreties
     companion object {
         const val API_KEY_QUERY_MOD = BuildConfig.TMDB_API_KEY
-
-        //        const val LANGUAGE_SYSTEM = "language=${"it-IT"}"
-        var systemLanguage = LanguageManager.getSystemLocaleTag()
     }
 
 
-    // DIRECT CALLS - WITH CUSTOM GLIDE -----------------------------------------------------
+    /**
+     * RELEASE 1.1.3 - Update DTO language when the system language changes.
+     *  NOTES:
+     *      - The language cannot be stored as a variable and passed to the function, as it would not be dynamic.
+     *      - The language cannot be passed as a `val get()` to the function.
+     *      - You must pass the function call directly inside the Retrofit method parameters.
+     */
 
-    // TODO: 1.1.3 OK
-    // filtro language
-    // add all videos, con filtro lingua
+
     @GET("movie/{movie_id}")
     suspend fun getMovieDto(
         @Path("movie_id") movieId: Int,
         @Query("api_key") apiKey: String = API_KEY_QUERY_MOD,
-        @Query("language") language: String = systemLanguage,
-//        @Query("language") language: String = "it-IT",
+        @Query("language") language: String = LanguageManager.getAppLocaleLanguageTag(),
         @Query("append_to_response") appendToResponse: String = "videos",
     ): MovieTmdbDto
 
@@ -46,7 +46,7 @@ interface TmdbApi {
     suspend fun getShowDto(
         @Path("show_id") showId: Int,
         @Query("api_key") apiKey: String = API_KEY_QUERY_MOD,
-        @Query("language") language: String = systemLanguage,
+        @Query("language") language: String = LanguageManager.getAppLocaleLanguageTag(),
         @Query("append_to_response") appendToResponse: String = "videos",
     ): ShowTmdbDto
 
@@ -57,7 +57,7 @@ interface TmdbApi {
     suspend fun getSeasonDto(
         @Path("series_id") seriesId: Int,
         @Path("season_number") seasonNumber: Int,
-        @Query("language") language: String = systemLanguage,
+        @Query("language") language: String = LanguageManager.getAppLocaleLanguageTag(),
         @Query("api_key") apiKey: String = API_KEY_QUERY_MOD,
     ): SeasonEpTmdbDto // dto corretto - SeasonEpTmdbDto
 
