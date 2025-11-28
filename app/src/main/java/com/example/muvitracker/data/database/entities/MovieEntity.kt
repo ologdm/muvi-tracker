@@ -39,7 +39,12 @@ data class MovieEntity(
     // ratings
     val traktRating: String?, // 8.3
     val tmdbRating: String?, // 7.9
-    // TODO  other ratings - Imdb, Metacritic, Rotten Tomatoes
+    // TODO  other ratings - Imdb, Metacritic, Rotten Tomatoes 1.1.3 non gestite
+    val imdbRating: String? = "",
+    val metacriticRating: String? = "",
+    val rottenTomatoesRating: String? = "",
+
+    // current translation
 
     // da sistema
     val currentTranslation: String, // not null, new

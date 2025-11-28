@@ -50,11 +50,13 @@ data class ShowEntity(
     val traktRating: String?, // 8.3
     val tmdbRating: String?, // 7.9
     // TODO  other ratings - Imdb, Metacritic, Rotten Tomatoes
+    val imdbRating: String? = "",
+    val metacriticRating: String? = "",
+    val rottenTomatoesRating: String? = "",
 
     // da sistema
     val currentTranslation: String, // not null
 )
-
 
 
 // !! usato solo in prefs repo, su detail repo estraggo direttamwente il domain da dao !!
