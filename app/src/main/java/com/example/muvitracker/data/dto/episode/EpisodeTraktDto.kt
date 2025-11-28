@@ -3,8 +3,10 @@ package com.example.muvitracker.data.dto.episode
 import android.annotation.SuppressLint
 import com.example.muvitracker.data.database.entities.EpisodeEntity
 import com.example.muvitracker.data.dto._support.Ids
+import com.example.muvitracker.data.utils.orIfBlank
 import com.example.muvitracker.utils.firstDecimalApproxToString
 import com.example.muvitracker.utils.formatToSqliteCompatibleDate
+import com.example.muvitracker.utils.orIfNullOrBlank
 import com.google.gson.annotations.SerializedName
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -41,16 +43,18 @@ fun mergeEpisodeDtos(
         episodeTraktId = trakt.ids.trakt,
         seasonNumber = trakt.season ?: -1, // default = -1
         episodeNumber = trakt.number ?: -1, // default = -1
-        numberAbs = trakt.numberAbs,
+        numberAbs = trakt.numberAbs ?: -1,
         ids = trakt.ids,
         showId = showId,
-        //
-        title = tmdb?.name ?: trakt.title, // traslate
-        overview = tmdb?.overview ?: trakt.overview, // traslate
         firstAiredFormatted = formatToSqliteCompatibleDate(trakt.firstAired),
         runtime = trakt.runtime,
         episodeType = trakt.episodeType,
         traktRating = trakt.rating?.firstDecimalApproxToString(),
+
+        // tmdb translation
+        title = tmdb?.name.orIfBlank(trakt.title),
+        overview = tmdb?.overview.orIfBlank(trakt.overview),
+
         stillPath = tmdb?.stillPath,
     )
 }

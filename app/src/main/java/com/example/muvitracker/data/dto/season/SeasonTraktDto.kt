@@ -5,7 +5,9 @@ import android.os.Parcelable
 import com.example.muvitracker.data.LanguageManager
 import com.example.muvitracker.data.database.entities.SeasonEntity
 import com.example.muvitracker.data.dto._support.Ids
+import com.example.muvitracker.data.utils.orIfBlank
 import com.example.muvitracker.utils.firstDecimalApproxToString
+import com.example.muvitracker.utils.orIfNullOrBlank
 import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -45,6 +47,7 @@ data class SeasonTraktDto(
  *  ma se manca Tmdb usa solo trakt
  */
 fun mergeSeasonsDtoToEntity(
+//suspend fun mergeSeasonsDtoToEntity( TODO per supporto traduzione con AI, serve merge
     showId: Int,
     trakt: SeasonTraktDto,
     tmdb: SeasonTmdbDto?,
@@ -55,14 +58,12 @@ fun mergeSeasonsDtoToEntity(
             ?: -1,
         ids = trakt.ids,
         showId = showId,
-        episodeCount = trakt.episodeCount ?: 0, // default = 0, per calcolo a db
-        airedEpisodes = trakt.airedEpisodes ?: 0, // default = 0, per calcolo a db
+        episodeCount = trakt.episodeCount ?: 0, // !!! da trakt, default = 0, per calcolo a db
+        airedEpisodes = trakt.airedEpisodes ?: 0, // !!! da trakt, default = 0, per calcolo a db
         network = trakt.network, // su tmdb non disponibile
-        // tmdb
-        title = tmdb?.name
-            ?: trakt.title,
-        overview = tmdb?.overview
-            ?: trakt.overview,
+        // tmdb translation
+        title = tmdb?.name.orIfBlank(trakt.title),
+        overview = tmdb?.overview.orIfBlank(trakt.overview), // TODO: AI tradotto
         // JSON - tmdb "2010-12-05" ; // trakt "2016-07-15T07:00:00.000Z"
         airDate = (tmdb?.airDate ?: trakt.firstAired)?.take(10),  // prendo primi 10 elementi
         traktRating = trakt.rating?.firstDecimalApproxToString(), // OK
