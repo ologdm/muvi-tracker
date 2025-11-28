@@ -46,7 +46,8 @@ data class SeasonTraktDto(
  *  integra TmdbDTo a TraktDTo, per traduzioni e immagini,
  *  ma se manca Tmdb usa solo trakt
  */
-fun mergeSeasonsDtoToEntity(
+//fun mergeSeasonsDtoToEntity(
+suspend fun mergeSeasonsDtoToEntity(
 //suspend fun mergeSeasonsDtoToEntity( TODO per supporto traduzione con AI, serve merge
     showId: Int,
     trakt: SeasonTraktDto,
@@ -54,8 +55,7 @@ fun mergeSeasonsDtoToEntity(
 ): SeasonEntity {
     return SeasonEntity(
         seasonTraktId = trakt.ids.trakt,
-        seasonNumber = trakt.number
-            ?: -1,
+        seasonNumber = trakt.number ?: -1,
         ids = trakt.ids,
         showId = showId,
         episodeCount = trakt.episodeCount ?: 0, // !!! da trakt, default = 0, per calcolo a db
