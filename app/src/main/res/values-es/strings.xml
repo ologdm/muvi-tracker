@@ -62,4 +62,5 @@
     <string name="overview_are_not_available">La descripción no está disponible</string>
     <string name="country_n_a">País N/D</string>
     <string name="network_n_a">Plataforma N/D</string>
+    <string name="coming_soon">Próximamente...</string>
 </resources>

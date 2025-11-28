@@ -45,7 +45,7 @@ class PrefsViewpagerFragment : Fragment(R.layout.fragment_prefs_viewpager) {
             tab.text = when (position) {
                 0 -> getString(R.string.movies)
                 1 -> getString(R.string.shows)
-//                2 -> getString(R.string.people) TODO 1.1.4
+                2 -> getString(R.string.people) // TODO 1.1.4
                 else -> null
             }
         }.attach()
