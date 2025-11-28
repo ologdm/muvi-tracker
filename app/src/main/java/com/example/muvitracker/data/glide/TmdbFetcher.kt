@@ -22,7 +22,6 @@ private const val TMDB_IMAGE_URL_DOMAIN_VERTICAL = "https://image.tmdb.org/t/p/w
 class TmdbFetcher(
     private val model: ImageTmdbRequest,
     private val tmdbApi: TmdbApi,
-//    private val showStore: Store<Int,  DetailShow>,
 ) : DataFetcher<InputStream> {
 
     override fun loadData(
@@ -80,7 +79,7 @@ class TmdbFetcher(
     ) {
         try {
             val response = tmdbApi.getMovieDto(movieId)
-            val imagePath = imagePathType(response) ?: throw Exception("Image path not available")
+            val imagePath = imagePathType(response) ?: throw Exception("Image path not available") // es:  imagePathType = { it.posterPath }
             val baseUrl = if (isVertical) TMDB_IMAGE_URL_DOMAIN_VERTICAL else TMDB_IMAGE_URL_DOMAIN_HORIZONTAL
 //            val url = "$TMDB_IMAGE_URL_DOMAIN${imagePath}"
             val url = "$baseUrl$imagePath"
