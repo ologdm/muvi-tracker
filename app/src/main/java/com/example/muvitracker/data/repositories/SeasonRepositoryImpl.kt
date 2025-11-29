@@ -69,14 +69,22 @@ class SeasonRepositoryImpl @Inject constructor(
             }
         },
         reader = { showIds ->
-            seasonDao.getAllSeasons(showIds.trakt)
-                .map { if (it.isEmpty()) null else it }
+            seasonDao.getAllSeasons(showIds.trakt) // return
+            /** 1.1.3 - store reader -> deve dare sempre emptyList se non ha valori, not null
+             * per corretto funzionamento della UI   */
+//                .map { if (it.isEmpty()) null else it }  // eugi
         },
         writer = { showIds, entities ->
             saveAllSeasonsDtoToDatabase(showIds.trakt, entities)
         }
     )
 
+    /*
+    Store4 emette SEMPRE così, in questo ordine:
+    1. Reader (cache) -> se il DB è vuoto: emette subito emptyList()
+    2. Fetcher (rete) -> quando la rete risponde: emette la lista con i dati
+    -> NON aspetta il fetch prima di emettere la prima emissione. È un comportamento corretto e voluto dal design di Store4.
+     */
 
     // TODO OK 1.1.3
     // TICKET 1.0.0: Crash su click WatchedAllShow, in presenza di stagione specials, numero 0 - fixed OK

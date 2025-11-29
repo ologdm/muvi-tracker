@@ -34,8 +34,8 @@ import com.example.muvitracker.ui.main.detailmovie.adapters.RelatedMoviesAdapter
 import com.example.muvitracker.utils.formatToReadableDate
 import com.example.muvitracker.utils.getNowFormattedDateTime
 import com.example.muvitracker.utils.orIfNullOrBlank
-import com.example.muvitracker.utils.statesFlow
-import com.example.muvitracker.utils.statesFlowDetailNew
+import com.example.muvitracker.utils.statesFlowDetail
+import com.example.muvitracker.utils.twoStatesFlow
 import com.example.muvitracker.utils.viewBinding
 import com.google.android.material.chip.Chip
 import com.google.android.material.color.MaterialColors
@@ -104,7 +104,7 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
         viewModel.detailState.observe(viewLifecycleOwner) { stateContainer ->
             // main_layout_detail.xml  -> default GONE
 
-            stateContainer.statesFlowDetailNew(
+            stateContainer.statesFlowDetail(
                 b.errorTextView,
                 b.progressBar,
                 b.mainLayoutToDisplayDetail,
@@ -140,23 +140,14 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         viewModel.loadRelatedMovies(currentMovieIds.trakt)
 
-        viewModel.relatedMoviesState.observe(viewLifecycleOwner) { stateContainer ->
-            stateContainer.statesFlow(
+        viewModel.relatedMoviesState.observe(viewLifecycleOwner) { listStateContainer ->
+            listStateContainer.twoStatesFlow(
                 progressBar = b.relatedProgressBar,
                 errorTextview = b.relatedErrorMessage,
                 errorMsg = getString(R.string.not_available),
-                bindData = { data ->
-                    if (data.isNullOrEmpty()) {
-                        b.relatedRecyclerview.visibility = View.GONE
-                        b.relatedErrorMessage.apply {
-                            text = getString(R.string.not_available)
-                            visibility = View.VISIBLE
-                        }
-                    } else {
-                        b.relatedRecyclerview.visibility = View.VISIBLE
-                        b.relatedErrorMessage.visibility = View.GONE
-                        relatedMoviesAdapter.submitList(data)
-                    }
+                recyclerView = b.relatedRecyclerview,
+                bindData = { list ->
+                    relatedMoviesAdapter.submitList(list)
                 }
             )
         }
@@ -169,28 +160,15 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
 
         viewModel.loadCast(currentMovieIds.trakt)
         // TODO 1.1.3 OK
-        viewModel.castState.observe(viewLifecycleOwner) { stateContainer ->
+        viewModel.castState.observe(viewLifecycleOwner) { listStateContainer ->
 
-            // cast_progress_bar.xml  -> default GONE
-            stateContainer.statesFlow(
+            listStateContainer.twoStatesFlow(
                 progressBar = b.castProgressBar,
                 errorTextview = b.castErrorMessage,
                 errorMsg = getString(R.string.actors_are_not_available),
-
+                recyclerView = b.castRecyclerView,
                 bindData = { data ->
-                    // gestione specifica per quando ho i dati, ma ma risposta null o empty da API
-                    val castList = stateContainer.data?.castMembers
-                    if (castList.isNullOrEmpty()) {
-                        b.castRecyclerView.visibility = View.GONE
-                        b.castErrorMessage.apply {
-                            text = getString(R.string.actors_are_not_available)
-                            visibility = View.VISIBLE
-                        }
-                    } else {
-                        b.castRecyclerView.visibility = View.VISIBLE
-                        b.castErrorMessage.visibility = View.GONE
-                        castMovieAdapter.submitList(castList)
-                    }
+                    castMovieAdapter.submitList(data)
                 }
             )
         }

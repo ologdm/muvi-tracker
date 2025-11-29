@@ -72,15 +72,18 @@ class EpisodeRepositoryImpl @Inject constructor(
                         }
                         mergeEpisodeDtos(request.showIds.trakt, traktEpisodeDto, tmdbDto)
                     }
-                    returnList // return
+                    returnList // return emptylist
                 }
             },
             // 1.1.3 reader OK
             reader = { request ->
                 episodeDao.readAllOfSeason(request.showIds.trakt, request.seasonNr)
                     .map { episodes ->
-                        if (episodes.isEmpty()) null
-                        else episodes.map { it.toDomain() }
+                        /** 1.1.3 - store reader -> deve dare sempre emptyList se non ha valori, not null
+                         * per corretto funzionamento della UI   */
+//                        if (episodes.isEmpty()) null // consiglio eugi, uso empty list per far funzionare il flow
+//                        else
+                            episodes.map { it.toDomain() }
                     }
             },
             // 1.1.3  writer OK

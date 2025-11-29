@@ -15,6 +15,7 @@ import com.example.muvitracker.databinding.FragmentSeasonSonBinding
 import com.example.muvitracker.domain.model.Season
 import com.example.muvitracker.ui.main.Navigator
 import com.example.muvitracker.utils.orIfNullOrBlank
+import com.example.muvitracker.utils.twoStatesFlow
 import com.example.muvitracker.utils.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -52,9 +53,11 @@ class SeasonFragment : Fragment(R.layout.fragment_season_son) {
         viewModel.seasonInfoState.observe(viewLifecycleOwner) { stateContainer ->
             val season = stateContainer.data
             if (season != null) {
-                binding.seasonTitle.text = season.title.orIfNullOrBlank(getString(R.string.untitled))
+                binding.seasonTitle.text =
+                    season.title.orIfNullOrBlank(getString(R.string.untitled))
 
-                binding.seasonOverview.text = season.overview.orIfNullOrBlank(getString(R.string.overview_are_not_available))
+                binding.seasonOverview.text =
+                    season.overview.orIfNullOrBlank(getString(R.string.overview_are_not_available))
                 updateIconsWatchedAll(season)
             }
         }
@@ -74,22 +77,47 @@ class SeasonFragment : Fragment(R.layout.fragment_season_son) {
             }
         )
 
-        binding.episodesRV.adapter = episodesAdapter
-        binding.episodesRV.layoutManager = LinearLayoutManager(requireContext())
-
-        viewModel.loadSeasonEpisodes(showIds = currentShowIds, seasonNumber = currentSeasonNr)
-
-        viewModel.seasonEpisodesState.observe(viewLifecycleOwner) { stateContainer ->
-            episodesAdapter.submitList(stateContainer.data)
-        }
+        loadEpisodesSetup()
 
         binding.watchedAllIcon.setOnClickListener {
             viewModel.toggleSeasonAllWatchedEpisodes(currentShowIds, currentSeasonNr)
         }
 
-
         loadTMDBImagesWithCustomGlide()
         expandOverview()
+    }
+
+
+    private fun loadEpisodesSetup() {
+        binding.episodesRecyclerview.adapter = episodesAdapter
+        binding.episodesRecyclerview.layoutManager = LinearLayoutManager(requireContext())
+
+        viewModel.loadAllEpisodes(showIds = currentShowIds, seasonNr = currentSeasonNr)
+        viewModel.episodesState.observe(viewLifecycleOwner) { listStateContainer ->
+
+            /* NOTE STORE!!!!
+             store reader  -> return emptylist
+             1° emissione  da cache -> cache o emptyList
+             2° emissione -> fetcher -> data o emptylist o error
+             (test con tulsa king season4 -> sempre 1empy, 2fetcher poi ancora empty)
+
+             tore reader -> return null
+             1° emissione  store da cache -> cache | o null-> nessuna emissione, subito fetcher
+             2° emissione -> da fetcher -> data o null(fetcher return emptylist, reader return null) o error
+             test (test con tulsa king season4 - null, fertcher e ancora null -> nessuna emissione nel flow)
+             */
+
+            listStateContainer.twoStatesFlow(
+                progressBar = binding.episodesProgressBar,
+                errorTextview = binding.episodesErrorMessage,
+                recyclerView = binding.episodesRecyclerview,
+                errorMsg = getString(R.string.seasons_not_available),
+                bindData = { list ->
+                    episodesAdapter.submitList(list)
+                }
+            )
+
+        }
     }
 
 
@@ -162,3 +190,32 @@ class SeasonFragment : Fragment(R.layout.fragment_season_son) {
         private const val SEASON_NUMBER_KEY = "seasonNumber"
     }
 }
+
+
+/*
+//        fragmentViewLifecycleScope.launch {
+//            viewModel.episodesState.collectLatest { container ->
+//            episodesAdapter.submitList(stateContainer.data)
+            // non arriva mai qua
+            container.statesFlow(
+                binding.episodesProgressBar,
+                binding.episodesErrorMessage,
+                errorMsg = "xxxxx",
+
+                bindData = { data ->
+                    // uguale come nel caso null
+                    if (data.isEmpty()) {
+                        binding.episodesRecyclerview.visibility = View.GONE
+                        binding.episodesErrorMessage.apply {
+                            text = getString(R.string.seasons_not_available)
+                            visibility = View.VISIBLE
+                        }
+                    } else {
+                        // 2
+                        binding.episodesRecyclerview.visibility = View.VISIBLE
+                        binding.episodesErrorMessage.visibility = View.GONE
+                        episodesAdapter.submitList(data)
+                    }
+                }
+            )
+ */

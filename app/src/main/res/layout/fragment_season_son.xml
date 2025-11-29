@@ -188,9 +188,28 @@
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <TextView
+                android:id="@+id/episodesErrorMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginVertical="40dp"
+                android:textAppearance="?attr/textAppearanceBodyMedium"
+                android:visibility="gone"
+                tools:text="@string/actors_are_not_available"
+             />
+
+            <ProgressBar
+                android:id="@+id/episodesProgressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:layout_gravity="center"
+                android:visibility="visible" />
+
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/episodesRV"
+                android:id="@+id/episodesRecyclerview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:layout_height="500dp"

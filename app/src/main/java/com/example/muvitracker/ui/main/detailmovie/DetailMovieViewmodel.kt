@@ -5,14 +5,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.muvitracker.data.TraktApi
 import com.example.muvitracker.data.dto._support.Ids
-import com.example.muvitracker.domain.model.CastAndCrew
+import com.example.muvitracker.domain.model.CastMember
 import com.example.muvitracker.domain.model.Movie
 import com.example.muvitracker.domain.model.base.MovieBase
 import com.example.muvitracker.domain.repo.DetailMovieRepository
 import com.example.muvitracker.domain.repo.PrefsMovieRepository
 import com.example.muvitracker.utils.IoResponse
+import com.example.muvitracker.utils.ListStateContainerTwo
 import com.example.muvitracker.utils.StateContainerThree
-import com.example.muvitracker.utils.StateContainerTwo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
@@ -29,9 +29,9 @@ class DetailMovieViewmodel @Inject constructor(
 ) : ViewModel() {
 
     val detailState = MutableLiveData<StateContainerThree<Movie>>()
-    val relatedMoviesState = MutableLiveData<StateContainerTwo<List<MovieBase>>>()
-    val castState = MutableLiveData<StateContainerTwo<CastAndCrew>>()
 
+    val relatedMoviesState = MutableLiveData<ListStateContainerTwo<MovieBase>>()
+    val castState = MutableLiveData<ListStateContainerTwo<CastMember>>()
 
     private var movieNotes = ""
 
@@ -78,15 +78,18 @@ class DetailMovieViewmodel @Inject constructor(
 
     // RELATED MOVIES --------------------------------------------------------------------------
     fun loadRelatedMovies(movieId: Int) {
+        // senza store, no problema se first emission emptyList
         viewModelScope.launch {
             val response = detailMovieRepository.getRelatedMovies(movieId)
+            // for test
+//            delay(2000)
             when (response) {
                 is IoResponse.Success -> {
-                    relatedMoviesState.value = StateContainerTwo(response.dataValue, false)
+                    relatedMoviesState.value = ListStateContainerTwo(response.dataValue, false)
                 }
 
                 is IoResponse.Error -> {
-                    relatedMoviesState.value = StateContainerTwo(null, true)
+                    relatedMoviesState.value = ListStateContainerTwo(emptyList(), true)
                 }
             }
         }
@@ -95,15 +98,23 @@ class DetailMovieViewmodel @Inject constructor(
 
     // CAST ATTORI ----------------------------------------------------------------------------
     fun loadCast(movieId: Int) {
+        // senza store, no problema se first emission emptyList
         viewModelScope.launch {
             val response = detailMovieRepository.getMovieCast(movieId)
+            // for test
+//            delay(2000)
             when (response) {
                 is IoResponse.Success -> {
-                    castState.value = StateContainerTwo(response.dataValue, false)
+                    // !! List<CastMember> -> (dto->domain salvata come emptyList)
+                    if (response.dataValue.castMembers.isNotEmpty()){
+                        castState.value = ListStateContainerTwo(response.dataValue.castMembers, false)
+                    } else {
+                        castState.value = ListStateContainerTwo(emptyList(), false)
+                    }
                 }
 
                 is IoResponse.Error -> {
-                    castState.value = StateContainerTwo(null, true)
+                    castState.value = ListStateContainerTwo(emptyList(), true)
                 }
             }
         }

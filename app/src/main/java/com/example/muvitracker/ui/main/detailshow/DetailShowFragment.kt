@@ -33,8 +33,8 @@ import com.example.muvitracker.ui.main.detailmovie.adapter.DetailSeasonsAdapter
 import com.example.muvitracker.ui.main.detailshow.adapters.RelatedShowsAdapter
 import com.example.muvitracker.ui.main.person.adapters.CastAdapter
 import com.example.muvitracker.utils.orIfNullOrBlank
-import com.example.muvitracker.utils.statesFlow
-import com.example.muvitracker.utils.statesFlowDetailNew
+import com.example.muvitracker.utils.statesFlowDetail
+import com.example.muvitracker.utils.twoStatesFlow
 import com.example.muvitracker.utils.viewBinding
 import com.google.android.material.chip.Chip
 import com.google.android.material.color.MaterialColors
@@ -45,7 +45,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import java.time.LocalDate
 import javax.inject.Inject
 
-// TODO
+// TODO 1.1.3 ok all
 // 1. DetailShow
 // 2. Seasons
 // 3. RelatedShows
@@ -57,7 +57,7 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
 
     private var currentShowTitle: String = "" // serve per season fragment
     private var currentShowIds: Ids = Ids() // ids has default value
-    private var totSeasonsNr: Int = 0
+    private var totSeasonsCount: Int = 0
 
 
     private val b by viewBinding(FragmentDetailShowBinding::bind)
@@ -72,7 +72,7 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
                 currentShowTitle,
                 currentShowIds,
                 seasonNumber,
-                totSeasonsNr
+                totSeasonsCount
             )
         },
         onClickWatchedAllCheckbox = { seasonNr, adapterCallback ->
@@ -106,11 +106,14 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
             currentShowIds = bundle.getParcelable(SHOW_IDS_KEY) ?: Ids()
         }
 
+        // tot seasons default -> per effetto grafico
+        b.totalSeasons.text = getString(R.string.total_seasons, "  ")
+
         // SHOW DETAIL -----------------------------------------------------------------------------
         viewModel.loadShowDetail(currentShowIds)
-        // TODO: 1.1.3 NEW loading, data + no internet, no data no internet OK
-        viewModel.detailState.observe(viewLifecycleOwner) { stateContainer ->
-            stateContainer.statesFlowDetailNew(
+        // 1.1.3 NEW loading, data + no internet, no data no internet OK
+        viewModel.showState.observe(viewLifecycleOwner) { stateContainer ->
+            stateContainer.statesFlowDetail(
                 b.errorTextView,
                 b.progressBar,
                 b.mainLayoutToDisplayDetail,
@@ -146,33 +149,23 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
         b.seasonsRecyclerview.adapter = seasonsAdapter
         b.seasonsRecyclerview.layoutManager = LinearLayoutManager(requireContext())
         viewModel.loadAllSeasons(currentShowIds)
-        viewModel.allSeasonsState.observe(viewLifecycleOwner) { stateContainer ->
-
-            stateContainer.statesFlow(
+        viewModel.seasonsState.observe(viewLifecycleOwner) { listStateContainer ->
+            listStateContainer.twoStatesFlow(
                 b.seasonsProgressBar,
                 b.seasonsErrorMessage,
                 errorMsg = getString(R.string.seasons_not_available),
+                recyclerView = b.seasonsRecyclerview,
                 bindData = { data ->
-                    // gestione specifica per quando ho i dati, ma ma risposta null o empty da API
-                    if (data.isNullOrEmpty()) {
-                        b.seasonsRecyclerview.visibility = View.GONE
-                        b.seasonsErrorMessage.apply {
-                            text = getString(R.string.seasons_not_available)
-                            visibility = View.VISIBLE
-                        }
-                    } else {
-                        // 1
-                        totSeasonsNr = stateContainer.data?.size ?: 0
-                        b.totalSeasons.text = // 1.1.3
-                            if (totSeasonsNr == 0)
-                                getString(R.string.seasons_not_available)
-                            else
-                                getString(R.string.total_seasons, totSeasonsNr.toString())
-                        // 2
-                        b.seasonsRecyclerview.visibility = View.VISIBLE
-                        b.seasonsErrorMessage.visibility = View.GONE
-                        seasonsAdapter.submitList(data)
-                    }
+                    seasonsAdapter.submitList(data)
+
+                    // update seasons nr
+                    totSeasonsCount = listStateContainer.data.size ?: 0
+                    b.totalSeasons.text = // 1.1.3
+                        if (totSeasonsCount == 0)
+                            getString(R.string.seasons_not_available)
+                        else
+                            getString(R.string.total_seasons, totSeasonsCount.toString())
+
                 }
             )
         }
@@ -185,24 +178,15 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
         b.relatedRecyclerview.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         viewModel.loadRelatedShows(showId = currentShowIds.trakt)
-        // TODO 1.1.3 OK
-        viewModel.relatedShowsState.observe(viewLifecycleOwner) { stateContainer ->
-            stateContainer.statesFlow(
+        viewModel.relatedState.observe(viewLifecycleOwner) { listStateContainer ->
+            listStateContainer.twoStatesFlow(
                 progressBar = b.relatedProgressBar,
                 errorTextview = b.relatedErrorMessage,
                 errorMsg = getString(R.string.not_available),
+                recyclerView = b.relatedRecyclerview,
                 bindData = { data ->
-                    if (data.isNullOrEmpty()) {
-                        b.relatedRecyclerview.visibility = View.GONE
-                        b.relatedErrorMessage.apply {
-                            text = getString(R.string.not_available)
-                            visibility = View.VISIBLE
-                        }
-                    } else {
-                        b.relatedRecyclerview.visibility = View.VISIBLE
-                        b.relatedErrorMessage.visibility = View.GONE
-                        relatedShowsAdapter.submitList(data)
-                    }
+                    relatedShowsAdapter.submitList(data)
+
                 }
             )
         }
@@ -215,29 +199,14 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
         b.castRecyclerView.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         viewModel.loadCast(currentShowIds.trakt)
-        // TODO 1.1.3 OK
-        viewModel.castState.observe(viewLifecycleOwner) { stateContainer ->
-
-            // cast_progress_bar.xml  -> default GONE
-            stateContainer.statesFlow(
+        viewModel.castState.observe(viewLifecycleOwner) { listStateContainer ->
+            listStateContainer.twoStatesFlow(
                 progressBar = b.castProgressBar,
                 errorTextview = b.castErrorMessage,
                 errorMsg = getString(R.string.actors_are_not_available),
-
-                // gestione specifica per quando ho i dati
+                recyclerView = b.castRecyclerView,
                 bindData = { data ->
-                    val castList = stateContainer.data?.castMembers
-                    if (castList.isNullOrEmpty()) {
-                        b.castRecyclerView.visibility = View.GONE
-                        b.castErrorMessage.apply {
-                            text = getString(R.string.actors_are_not_available)
-                            visibility = View.VISIBLE
-                        }
-                    } else {
-                        b.castRecyclerView.visibility = View.VISIBLE
-                        b.castErrorMessage.visibility = View.GONE
-                        castMovieAdapter.submitList(castList)
-                    }
+                    castMovieAdapter.submitList(data)
                 }
             )
         }
@@ -248,7 +217,7 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
     // show detail TODO: check
     private fun setupDetailShowUiSection(show: Show) {
         // per passare a season
-        currentShowTitle = show.title.orIfNullOrBlank(ShowDefaults.TITLE) ?: "" // 1.1.3 OK
+        currentShowTitle = show.title.orIfNullOrBlank(ShowDefaults.TITLE) // 1.1.3 OK
         //
         b.title.text = show.title.orIfNullOrBlank(ShowDefaults.TITLE) // 1.1.3 OK
         //
@@ -403,7 +372,12 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
                 shapeAppearanceModel = ShapeAppearanceModel.builder()
                     .setAllCornerSizes(16f.dpToPx(requireContext())) // arrotondamento 16dp
                     .build()
-                fillColor = ColorStateList.valueOf(MaterialColors.getColor(dialogBinding.root, com.google.android.material.R.attr.colorSurface))
+                fillColor = ColorStateList.valueOf(
+                    MaterialColors.getColor(
+                        dialogBinding.root,
+                        com.google.android.material.R.attr.colorSurface
+                    )
+                )
             }
 
             // Save button -----------------------------------------------------
