@@ -53,7 +53,7 @@
 
 
     <!--    EPISODE -->
-    <string name="ep_number_first_aired_runtime_min">Ep.%1$s • %2$s • %3$d min</string>
+    <string name="ep_number_first_aired_runtime_min">Ep.%1$s  •  %2$s  •  %3$s min</string>
     <string name="overview">Overview</string>
     <string name="ep_n_episode_title">Ep.%1$s • %2$s</string>
 
@@ -102,6 +102,8 @@
     <string name="not_available">Not available</string>
     <string name="seasons_not_available">Seasons are not available</string>
     <string name="coming_soon">Coming soon...</string>
+
+    <string name="date_n_d">date n/a</string>
 
 
 </resources>

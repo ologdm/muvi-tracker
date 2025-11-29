@@ -41,7 +41,7 @@
     <string name="add_a_note_to_your_movie">Adaugă o notă la filmul tău</string>
     <string name="add_a_note_to_your_show">Adaugă o notă la serialul tău</string>
     <string name="write_your_note">"Scrie nota ta… "</string>
-    <string name="ep_number_first_aired_runtime_min">Ep.%1$s • %2$s • %3$d min</string>
+    <string name="ep_number_first_aired_runtime_min">Ep.%1$s • %2$s • %3$s min</string>
     <string name="trailer">Trailer</string>
     <string name="biography">Biografie:</string>
     <string name="known">Cunoscut:</string>
@@ -63,4 +63,5 @@
     <string name="country_n_a">Țara N/D</string>
     <string name="network_n_a">Network N/D</string>
     <string name="coming_soon">În curând...</string>
+    <string name="date_n_d">data n/a</string>
 </resources>
