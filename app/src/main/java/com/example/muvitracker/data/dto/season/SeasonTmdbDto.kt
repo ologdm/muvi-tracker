@@ -36,7 +36,7 @@ data class SeasonTmdbDto(
 data class SeasonEpTmdbDto(
 //    val _id: String, // id interno tmdb, non serve
 //    @SerializedName("air_date") val airDate: String,
-    val episodes: List<EpisodeTmdbDto>, // OK
+    val episodes: List<EpisodeTmdbDto> = emptyList(), // OK
 //    val crew: List<CrewMemberDto> // NO
 //    val name: String, // es: Stagione 1 (tradotta)
 //    val overview: String?, //

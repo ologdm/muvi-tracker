@@ -38,7 +38,7 @@ data class ShowTmdbDto(
     @SerialName("poster_path") val posterPath: String?, // "/n4IxkaZanXQU89WNRxt8h1fw1yb.jpg"
 //    @SerializedName("production_companies") val productionCompanies: List<ProductionCompanyDto>,
 //    @SerializedName("production_countries") val productionCountries: List<ProductionCountryDto>,
-    val seasons: List<SeasonTmdbDto>?, // !!! SOLO STAGIONI REPO
+    val seasons: List<SeasonTmdbDto> = emptyList(), // !!! SOLO STAGIONI REPO
 //    @SerializedName("spoken_languages") val spokenLanguages: List<SpokenLanguageDto>?, // NO, come languages ma piu complet
     val status: String?, // "Returning Series"
     val tagline: String?, // "L'inverno sta arrivando."
