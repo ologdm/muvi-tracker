@@ -4,6 +4,8 @@ import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.recyclerview.widget.RecyclerView
+import com.example.muvitracker.MyApp
 import com.example.muvitracker.R
 import kotlin.Boolean
 
@@ -15,81 +17,22 @@ data class StateContainerThree<T>(
 )
 
 
-// TODO 1.1.3 - per cast, stagioni, ecc - non serve errore specifico
-data class StateContainerTwo<T>(
-    var data: T? = null,
-    var isError: Boolean = false
-)
+// 1.1.3 specifica per detail fragmen - OK
 
+/*
+    - Loading iniziale → mostra solo ProgressBar.
+    - Dati disponibili (anche se no internet) → mostra mainLayoutDetail e chiudi errorTextView / ProgressBar.
+    - Nessun dato + errore → mostra solo TextView di errore, mainLayoutDetail nascosto.
+    - Passi una lambda bindData per aggiornare subito la UI con i dati disponibili.
+ */
 
-// non si usa, ora quella di PagingState
-//fun <T> StateContainer<T>.statesFlowOld(
-//    errorTextview: TextView,
-//    progressBar: ProgressBar?
-//) {
-//    val context = errorTextview.context
-//
-//    when {
-//        isNetworkError -> {
-//            progressBar?.visibility = View.GONE
-//            errorTextview.visibility = View.VISIBLE
-//            errorTextview.text = context.getString(R.string.error_message_no_internet_swipe_down)
-//            println("XXX  ES NET ERROR")
-//        }
-//
-//        isOtherError -> {
-//            progressBar?.visibility = View.GONE
-//            errorTextview.visibility = View.VISIBLE
-//            errorTextview.text = context.getString(R.string.error_message_other)
-//            println("XXX  ES OTHER ERROR")
-//        }
-//
-//        else -> { // implicit success
-//            progressBar?.visibility = View.GONE
-//            errorTextview.visibility = View.GONE
-//            println("XXX ES SUCCESS(ELSE)")
-//        }
-//    }
-//}
-
-
-// TODO eliminare
-fun <T> StateContainerThree<T>.statesFlow(
-    errorTextview: TextView,
-    progressBar: ProgressBar?
-) {
-    val context = errorTextview.context
-
-    when {
-        isNetworkError -> {
-            progressBar?.visibility = View.GONE
-            errorTextview.visibility = View.VISIBLE
-            errorTextview.text = context.getString(R.string.error_message_no_internet)
-        }
-
-        isOtherError -> {
-            progressBar?.visibility = View.GONE
-            errorTextview.visibility = View.VISIBLE
-            errorTextview.text = context.getString(R.string.error_message_other)
-        }
-
-        else -> { // implicit success
-            progressBar?.visibility = View.GONE
-            errorTextview.visibility = View.GONE
-        }
-    }
-}
-
-
-// TODO 1.1.3 specifica per detail movie - modificata
-fun <T> StateContainerThree<T>.statesFlowDetailNew(
+fun <T> StateContainerThree<T>.statesFlowDetail(
     errorTextview: TextView,
     progressBar: ProgressBar,
     mainLayout: ConstraintLayout,
     bindData: ((T) -> Unit)? = null
 ) {
-    val context = errorTextview.context
-
+    val context = MyApp.appContext
 
     // Controllo se ho un dato effettivo -> serve
 //    val isDataReady = data != null
@@ -104,7 +47,7 @@ fun <T> StateContainerThree<T>.statesFlowDetailNew(
             // 1.1 Mostra il messaggio “No internet” se c'è errore di rete, ma senza nascondere i dati
             errorTextview.visibility = if (isNetworkError) View.VISIBLE else View.GONE
             if (isNetworkError) {
-                errorTextview.text = context.getString(R.string.error_message_no_internet)
+                errorTextview.text = " " + context.getString(R.string.error_message_no_internet) + " "
             }
         }
 
@@ -114,7 +57,7 @@ fun <T> StateContainerThree<T>.statesFlowDetailNew(
             // No internet e nessun dato: mostra solo errore
             progressBar.visibility = View.GONE
             errorTextview.visibility = View.VISIBLE
-            errorTextview.text = context.getString(R.string.error_message_no_internet)
+            errorTextview.text = " " + context.getString(R.string.error_message_no_internet) + " "
             mainLayout.visibility = View.GONE
         }
 
@@ -123,7 +66,7 @@ fun <T> StateContainerThree<T>.statesFlowDetailNew(
             // Altro errore e nessun dato
             progressBar.visibility = View.GONE
             errorTextview.visibility = View.VISIBLE
-            errorTextview.text = context.getString(R.string.error_message_other)
+            errorTextview.text = " " + context.getString(R.string.error_message_other) + " "
             mainLayout.visibility = View.GONE
         }
 
@@ -137,41 +80,70 @@ fun <T> StateContainerThree<T>.statesFlowDetailNew(
     }
 }
 
-/*
-    - Loading iniziale → mostra solo ProgressBar.
-    - Dati disponibili (anche se no internet) → mostra mainLayoutDetail e chiudi errorTextView / ProgressBar.
-    - Nessun dato + errore → mostra solo TextView di errore, mainLayoutDetail nascosto.
-    - Passi una lambda bindData per aggiornare subito la UI con i dati disponibili.
- */
+
+// CASO  SEMPLIFICATO ---------------------------------------------------------------------------------
+// 1. PER DATA
+// data | data = null
+// errore da skippare
+data class StateContainerTwo<T>(
+    var data: T? = null,
+    var isError: Boolean = false
+)
 
 
-
-//TODO 1.1.3 new per cast, stagioni, ecc - errore generico OK
 fun <T> StateContainerTwo<T>.statesFlow(
-    progressBar: ProgressBar?,
+    progressBar: ProgressBar,
     errorTextview: TextView,
     errorMsg: String,
+    recyclerView : RecyclerView,
     bindData: ((T) -> Unit)?
 ) {
-    val context = errorTextview.context
-    // progressBar -> visibility="visible" di default
+    progressBar.visibility = View.VISIBLE
 
-    when {
-        data != null -> {
-            bindData?.invoke(data!!)
-            progressBar?.visibility = View.GONE
-        }
+    if (data != null) { // data
+        bindData?.invoke(data!!)
+        recyclerView.visibility = View.VISIBLE
+        progressBar.visibility = View.GONE
+        errorTextview.visibility = View.GONE
+    } else {            // no data
+        recyclerView.visibility = View.GONE
+        progressBar.visibility = View.GONE
+        errorTextview.visibility = View.VISIBLE
+        errorTextview.text = errorMsg
+    }
+}
 
-        isError -> {
-            progressBar?.visibility = View.GONE
-            errorTextview.visibility = View.VISIBLE
-            errorTextview.text = errorMsg
-        }
 
-        else -> {  // caso:  data == null && isError == false
-            progressBar?.visibility = View.VISIBLE
-            errorTextview.visibility = View.GONE
-        }
+// 2. PER LISTE
+// data | no data=> sempre emptylist
+// stato internet non mi interessa
+// 2 casi da gestire -> data| emptylist
+// -> store deve restituire emptylist pero
+
+data class ListStateContainerTwo<T>(
+    var data: List<T>,
+    var isError: Boolean = false
+)
+
+fun <T> ListStateContainerTwo<T>.twoStatesFlow(
+    progressBar: ProgressBar,
+    errorTextview: TextView,
+    recyclerView: RecyclerView,
+    errorMsg: String,
+    bindData: ((List<T>) -> Unit)
+) {
+    progressBar.visibility = View.VISIBLE
+
+    if (data.isNotEmpty()) { // data
+        bindData.invoke(data)
+        recyclerView.visibility = View.VISIBLE
+        progressBar.visibility = View.GONE
+        errorTextview.visibility = View.GONE
+    } else { // emptyList
+        recyclerView.visibility = View.GONE
+        progressBar.visibility = View.GONE
+        errorTextview.visibility = View.VISIBLE
+        errorTextview.text = errorMsg
     }
 }
 
