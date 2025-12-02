@@ -38,7 +38,12 @@ fun String.dateFormatterInMMMyyy(): String {
 //        return dataLocale.format(formatterOutput)
 //    }
 
-fun String.dateFormatterInddMMMyyy(): String {
+/**
+ * Date converter
+ * input necessario: yyyy-MM-dd
+ * output: dd MMM yyyy
+ */
+fun String.formatToDdMmmYyyy(): String {
     val formatterInput = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)   // Input date format
     val formatterOutput = SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH)    // Output date format
 
@@ -68,28 +73,31 @@ fun Int.episodesFormatNumber(): String {
 }
 
 
-// return: 0 or deathAge or currentAge
-fun calculatePersonAge(birthDate: String?, deathDate: String?): String {
-    // 1) edge case: missing birthDate or both
-    if (birthDate.isNullOrEmpty() ||
-        (birthDate.isNullOrEmpty() && deathDate.isNullOrEmpty())
-    ) {
-        return "N/A"
-    }
 
+// // return: -1 | deathAge | currentAge
+fun calculatePersonAge(birthDate: String?, deathDate: String?): Int {
     val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-    val dateOfBirth = LocalDate.parse(birthDate, formatter)
 
-    if (deathDate.isNullOrEmpty()) { // 2) alive
-        val currentDate = LocalDate.now()
-        return Period.between(dateOfBirth, currentDate).years.toString()
-    } else { // 3) death
-        val deathDate = LocalDate.parse(deathDate, formatter)
-        return Period.between(dateOfBirth, deathDate).years.toString()
-    }
+    // Try to parse dates safely
+    val birth = runCatching { LocalDate.parse(birthDate, formatter) }.getOrNull()
+    val death = runCatching { LocalDate.parse(deathDate, formatter) }.getOrNull()
+
+    // If birthdate is missing or invalid → return unknown
+    if (birth == null) return -1
+//    val str1 = birth.toString()
+//    val str2 = death.toString()
+
+
+    // If person is alive (death null)
+    val endDate = death ?: LocalDate.now()
+
+    // Avoid negative ages
+    val years = Period.between(birth, endDate).years
+    return if (years >= 0) years else -1
 }
 
 
+// ----------------------------------------------------------------------------------------------------
 fun String?.formatDateFromFirsAired(): String {
     return this?.let {
         if (it.length >= 10) {
@@ -162,9 +170,13 @@ fun String?.formatToReadableDate(): String? {
 
 // ---------------------------------------
 
-// usato per defaults -> in detail fragment, prefs ecc
-fun String?.orIfNullOrBlank(fallback : String): String {
-   return if (!this.isNullOrBlank()) this else fallback
+// usato per defaults -> in detail fragment, prefs ecc -> return not nullable
+fun String?.orDefaultText(fallback: String): String {
+    return if (!this.isNullOrBlank()) this else fallback
+}
+
+fun Int?.orDefaultText(fallback: String): String {
+    return this.toString() ?: fallback
 }
 
 
