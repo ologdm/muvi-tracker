@@ -7,7 +7,7 @@ import com.example.muvitracker.data.glide.ImageTmdbRequest
 import com.example.muvitracker.databinding.ViewholderPrefsShowBinding
 import com.example.muvitracker.domain.model.Show
 import com.example.muvitracker.ui.main.detailshow.DetailShowFragment.ShowDefaults
-import com.example.muvitracker.utils.orIfNullOrBlank
+import com.example.muvitracker.utils.orDefaultText
 import java.time.LocalDate
 
 class PrefsShowViewholder(
@@ -18,7 +18,7 @@ class PrefsShowViewholder(
         val ctx = itemView.context
 
         binding.run {
-            title.text = show.title.orIfNullOrBlank(ShowDefaults.TITLE)
+            title.text = show.title.orDefaultText(ShowDefaults.TITLE)
 
             // 1°
             val networkList = show.networks.filter { it.isNotBlank() }
@@ -58,7 +58,7 @@ class PrefsShowViewholder(
 
             // 4°
             val statusText = show.status?.replaceFirstChar { it.uppercaseChar() } // 1.1.3 OK
-                .orIfNullOrBlank(ShowDefaults.STATUS)  // es released
+                .orDefaultText(ShowDefaults.STATUS)  // es released
 
 
             otherInfo.text = "$yearText  |  $networkText  |  $countryText  |  $statusText"

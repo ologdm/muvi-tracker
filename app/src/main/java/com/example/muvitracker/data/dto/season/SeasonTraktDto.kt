@@ -5,9 +5,8 @@ import android.os.Parcelable
 import com.example.muvitracker.data.LanguageManager
 import com.example.muvitracker.data.database.entities.SeasonEntity
 import com.example.muvitracker.data.dto._support.Ids
-import com.example.muvitracker.data.utils.orIfBlank
+import com.example.muvitracker.data.utils.dtoStringOr
 import com.example.muvitracker.utils.firstDecimalApproxToString
-import com.example.muvitracker.utils.orIfNullOrBlank
 import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -61,8 +60,8 @@ fun mergeSeasonsDtoToEntity(
         airedEpisodes = trakt.airedEpisodes ?: 0, // !!! da trakt, default = 0, per calcolo a db
         network = trakt.network, // su tmdb non disponibile
         // tmdb translation
-        title = tmdb?.name.orIfBlank(trakt.title),
-        overview = tmdb?.overview.orIfBlank(trakt.overview), // TODO: AI tradotto
+        title = tmdb?.name.dtoStringOr(trakt.title),
+        overview = tmdb?.overview.dtoStringOr(trakt.overview), // TODO: AI tradotto
         // JSON - tmdb "2010-12-05" ; // trakt "2016-07-15T07:00:00.000Z"
         airDate = (tmdb?.airDate ?: trakt.firstAired)?.take(10),  // prendo primi 10 elementi
         traktRating = trakt.rating?.firstDecimalApproxToString(), // OK

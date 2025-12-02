@@ -14,7 +14,7 @@ import com.example.muvitracker.data.glide.ImageTmdbRequest
 import com.example.muvitracker.databinding.FragmentSeasonSonBinding
 import com.example.muvitracker.domain.model.Season
 import com.example.muvitracker.ui.main.Navigator
-import com.example.muvitracker.utils.orIfNullOrBlank
+import com.example.muvitracker.utils.orDefaultText
 import com.example.muvitracker.utils.twoStatesFlow
 import com.example.muvitracker.utils.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -54,10 +54,10 @@ class SeasonFragment : Fragment(R.layout.fragment_season_son) {
             val season = stateContainer.data
             if (season != null) {
                 binding.seasonTitle.text =
-                    season.title.orIfNullOrBlank(getString(R.string.untitled))
+                    season.title.orDefaultText(getString(R.string.untitled))
 
                 binding.seasonOverview.text =
-                    season.overview.orIfNullOrBlank(getString(R.string.overview_are_not_available))
+                    season.overview.orDefaultText(getString(R.string.overview_are_not_available))
                 updateIconsWatchedAll(season)
             }
         }

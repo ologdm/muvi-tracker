@@ -33,7 +33,7 @@ import com.example.muvitracker.ui.main.person.adapters.CastAdapter
 import com.example.muvitracker.ui.main.detailmovie.adapters.RelatedMoviesAdapter
 import com.example.muvitracker.utils.formatToReadableDate
 import com.example.muvitracker.utils.getNowFormattedDateTime
-import com.example.muvitracker.utils.orIfNullOrBlank
+import com.example.muvitracker.utils.orDefaultText
 import com.example.muvitracker.utils.statesFlowDetail
 import com.example.muvitracker.utils.twoStatesFlow
 import com.example.muvitracker.utils.viewBinding
@@ -190,7 +190,7 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
     private fun setupDetailMovieUiSection(movie: Movie) {
         //
 //        b.title.text = movie.title.orIfBlank(MovieDefaults.TITLE)
-        b.title.text = movie.title.orIfNullOrBlank(MovieDefaults.TITLE)
+        b.title.text = movie.title.orDefaultText(MovieDefaults.TITLE)
         //
         b.tagline.apply {
             if (movie.tagline.isNullOrBlank()) {
@@ -203,12 +203,12 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
 
         // info section ----------------------------------------------------------------
         b.status.text = movie.status?.replaceFirstChar { it.uppercaseChar() }
-            .orIfNullOrBlank(MovieDefaults.STATUS)  // es released
+            .orDefaultText(MovieDefaults.STATUS)  // es released
 
         // date (country)
         // 1° element
         val releaseDate = movie.releaseDate?.formatToReadableDate()
-        val releaseDateText = releaseDate.orIfNullOrBlank(MovieDefaults.YEAR)
+        val releaseDateText = releaseDate.orDefaultText(MovieDefaults.YEAR)
 
         // 2° element - 2 formats
         val countryList = movie.countries.filter { it.isNotBlank() }
@@ -239,7 +239,7 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
                 visibility = View.GONE
         }
         //
-        b.overviewContent.text = movie.overview.orIfNullOrBlank(MovieDefaults.OVERVIEW)
+        b.overviewContent.text = movie.overview.orDefaultText(MovieDefaults.OVERVIEW)
         //
         // genres
         b.genresChipGroup.removeAllViews()

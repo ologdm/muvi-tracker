@@ -3,12 +3,11 @@ package com.example.muvitracker.ui.main.seasons
 import android.content.Context
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.muvitracker.R
-import com.example.muvitracker.data.utils.orIfNull
 import com.example.muvitracker.databinding.ViewholderEpisodeOnSeasonBinding
 import com.example.muvitracker.domain.model.Episode
 import com.example.muvitracker.utils.episodesFormatNumber
 import com.example.muvitracker.utils.formatDateFromFirsAired
-import com.example.muvitracker.utils.orIfNullOrBlank
+import com.example.muvitracker.utils.orDefaultText
 
 
 class EpisodeViewholder(
@@ -23,15 +22,17 @@ class EpisodeViewholder(
             context.getString(
                 R.string.ep_number_first_aired_runtime_min,
                 episode.episodeNumber.episodesFormatNumber(),
-                episode.firstAiredFormatted.formatDateFromFirsAired().orIfNullOrBlank(
-                    context.getString(R.string.date_n_d)),
-                episode.runtime.orIfNull("—").toString()
+                episode.firstAiredFormatted.formatDateFromFirsAired()
+                    .orDefaultText(context.getString(R.string.date_n_d)),
+                episode.runtime.toString()
+                    .orDefaultText("—")
             )
 
         binding.episodeTitle.text =
-            episode.title.orIfNullOrBlank(context.getString(R.string.untitled))
+            episode.title
+                .orDefaultText(context.getString(R.string.untitled))
 
-        binding.traktRating.text = episode.traktRating.orIfNullOrBlank("-")
+        binding.traktRating.text = episode.traktRating.orDefaultText("-")
     }
 
 }

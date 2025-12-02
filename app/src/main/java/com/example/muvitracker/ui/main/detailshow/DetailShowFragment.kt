@@ -32,7 +32,7 @@ import com.example.muvitracker.ui.main.Navigator
 import com.example.muvitracker.ui.main.detailmovie.adapter.DetailSeasonsAdapter
 import com.example.muvitracker.ui.main.detailshow.adapters.RelatedShowsAdapter
 import com.example.muvitracker.ui.main.person.adapters.CastAdapter
-import com.example.muvitracker.utils.orIfNullOrBlank
+import com.example.muvitracker.utils.orDefaultText
 import com.example.muvitracker.utils.statesFlowDetail
 import com.example.muvitracker.utils.twoStatesFlow
 import com.example.muvitracker.utils.viewBinding
@@ -217,9 +217,9 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
     // show detail TODO: check
     private fun setupDetailShowUiSection(show: Show) {
         // per passare a season
-        currentShowTitle = show.title.orIfNullOrBlank(ShowDefaults.TITLE) // 1.1.3 OK
+        currentShowTitle = show.title.orDefaultText(ShowDefaults.TITLE) // 1.1.3 OK
         //
-        b.title.text = show.title.orIfNullOrBlank(ShowDefaults.TITLE) // 1.1.3 OK
+        b.title.text = show.title.orDefaultText(ShowDefaults.TITLE) // 1.1.3 OK
         //
         b.tagline.apply { // 1.1.3 OK
             if (show.tagline.isNullOrBlank()) {
@@ -232,7 +232,7 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
 
         // INFO SECTION ON LAYOUT -----------------------------------------------------------------------------
         b.status.text = show.status?.replaceFirstChar { it.uppercaseChar() } // 1.1.3 OK
-            .orIfNullOrBlank(ShowDefaults.STATUS)  // es released
+            .orDefaultText(ShowDefaults.STATUS)  // es released
 
 
         // network (country)
@@ -297,7 +297,7 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
 
         }
         // 1.1.3 - OK
-        b.overviewContent.text = show.overview.orIfNullOrBlank(ShowDefaults.OVERVIEW)
+        b.overviewContent.text = show.overview.orDefaultText(ShowDefaults.OVERVIEW)
         expandOverviewSetup()
 
         // TODO: upgrade grafica

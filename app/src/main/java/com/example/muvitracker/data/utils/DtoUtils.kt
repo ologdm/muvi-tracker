@@ -10,36 +10,40 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
 
 
-//
-fun <T> coalesce(value: T?, fallback: T?): T? {
-    return when (value) {
-        is String -> if (value.isNotBlank()) value else fallback
-        is Collection<*> -> if (!value.isNullOrEmpty()) value else fallback
-        else -> value ?: fallback
-    }
-}
+// REMOTE OR FALLBACK ----------------------------------------------------------------------------------
+// input -> both nullable
+// return -> nullable
 
-
-// CON EXTENTION FUNCTION - scegli tra 2 opzioni
-// Per String nullable
-fun String?.orIfBlank(fallback: String?): String? {
+// String nullable
+fun String?.dtoStringOr(fallback: String?): String? {
     return if (!this.isNullOrBlank()) this else fallback
 }
 
-// Per Collection nullable
-//fun <T> Collection<T>?.orIfEmpty(fallback: Collection<T>?): Collection<T>? {
-//    return if (!this.isNullOrEmpty()) this else fallback
-//}
-
-// Per List nullable
-fun <T> List<T>?.orIfEmpty(fallback: List<T>?): List<T>? {
+// List nullable
+fun <T> List<T>?.dtoListOr(fallback: List<T>?): List<T>? {
     return if (!this.isNullOrEmpty()) this else fallback
 }
 
-// Per tipi generici nullable
-fun <T> T?.orIfNull(fallback: T?): T? {
+// Tipi generici nullable
+fun <T> T?.dtoValueOr(fallback: T?): T? {
     return this ?: fallback
 }
+
+
+//// Per Collection nullable
+//fun <T> Collection<T>?.dtoCollectionOr(fallback: Collection<T>?): Collection<T>? {
+//    return if (!this.isNullOrEmpty()) this else fallback
+//}
+//
+//// generica per tutti i tipi
+//fun <T> coalesce(value: T?, fallback: T?): T? {
+//    return when (value) {
+//        is String -> if (value.isNotBlank()) value else fallback
+//        is Collection<*> -> if (!value.isNullOrEmpty()) value else fallback
+//        else -> value ?: fallback
+//    }
+//}
+
 
 /**
  *  "one, two, three" -> ["one", "two", "three"]
@@ -70,7 +74,6 @@ fun VideosResult.youtubeLinkTransformation(): String? {
 
     return video?.key?.let { "https://www.youtube.com/watch?v=${it}" }
 }
-
 
 
 // TODO 1.1.4 OTTIMIZZARE -----------------------------------------------------------------------------------------

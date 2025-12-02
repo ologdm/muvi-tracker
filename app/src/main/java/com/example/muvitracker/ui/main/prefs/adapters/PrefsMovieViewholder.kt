@@ -9,7 +9,7 @@ import com.example.muvitracker.databinding.ViewholderPrefsMovieBinding
 import com.example.muvitracker.domain.model.Movie
 import com.example.muvitracker.ui.main.detailmovie.DetailMovieFragment.MovieDefaults
 import com.example.muvitracker.utils.formatToReadableDate
-import com.example.muvitracker.utils.orIfNullOrBlank
+import com.example.muvitracker.utils.orDefaultText
 
 
 class PrefsMovieViewholder(
@@ -20,12 +20,12 @@ class PrefsMovieViewholder(
 
         binding.run {
             //
-            title.text = movie.title.orIfNullOrBlank(MovieDefaults.TITLE)
+            title.text = movie.title.orDefaultText(MovieDefaults.TITLE)
 
             //
             // 1° element
             val releaseDate = movie.releaseDate?.formatToReadableDate()
-            val releaseDateText = releaseDate.orIfNullOrBlank(MovieDefaults.YEAR)
+            val releaseDateText = releaseDate.orDefaultText(MovieDefaults.YEAR)
             // 2° element
             val countryList = movie.countries.filter { it.isNotBlank() }
             val countryText = if (countryList.isNullOrEmpty()){
@@ -36,7 +36,7 @@ class PrefsMovieViewholder(
 
             //
             val statusText = movie.status?.replaceFirstChar { it.uppercaseChar() }
-                .orIfNullOrBlank(MovieDefaults.STATUS)  // es released
+                .orDefaultText(MovieDefaults.STATUS)  // es released
 
             // 1+2
             otherInfo.text = "$releaseDateText  |  $countryText  |  $statusText"

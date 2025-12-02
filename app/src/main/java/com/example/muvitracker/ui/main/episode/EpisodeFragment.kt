@@ -9,13 +9,12 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.muvitracker.R
 import com.example.muvitracker.data.dto._support.Ids
 import com.example.muvitracker.data.glide.ImageTmdbRequest
-import com.example.muvitracker.data.utils.orIfNull
 import com.example.muvitracker.databinding.FragmentEpisodeBottomsheetBinding
 import com.example.muvitracker.domain.model.Episode
 import com.example.muvitracker.utils.episodesFormatNumber
 import com.example.muvitracker.utils.formatDateFromFirsAired
 import com.example.muvitracker.utils.getNowFormattedDateTime
-import com.example.muvitracker.utils.orIfNullOrBlank
+import com.example.muvitracker.utils.orDefaultText
 import com.example.muvitracker.utils.viewBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -56,7 +55,7 @@ class EpisodeFragment : BottomSheetDialogFragment(
                     getString(
                         R.string.ep_n_episode_title,
                         it.episodeNumber.episodesFormatNumber(), // episodeNumber -1,
-                        it.title.orIfNullOrBlank(getString(R.string.untitled))
+                        it.title.orDefaultText(getString(R.string.untitled))
                     )
 
                 // 1.1.3 ok default
@@ -71,20 +70,21 @@ class EpisodeFragment : BottomSheetDialogFragment(
                 binding.episodeInfo.text =
                     "${getString(R.string.release_date)} ${
                         episode.firstAiredFormatted.formatDateFromFirsAired()
-                            .orIfNullOrBlank("—")
+                            .orDefaultText("—")
                     }  |  ${
                         getString(
                             R.string.runtime_description,
-                            episode.runtime.orIfNull("—").toString()
+                            episode.runtime.toString()
+                                .orDefaultText(("—"))
                         )
                     } "
 
                 // 1.1.3 ok default
                 binding.overviewContent.text =
-                    episode.overview.orIfNullOrBlank(getString(R.string.not_available))
+                    episode.overview.orDefaultText(getString(R.string.not_available))
 
                 // 1.1.3 ok default
-                binding.traktRating.text = episode.traktRating.orIfNullOrBlank("-")
+                binding.traktRating.text = episode.traktRating.orDefaultText("-")
 
                 updateWatchedIcon(it)
             }

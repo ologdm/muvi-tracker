@@ -4,8 +4,8 @@ import android.annotation.SuppressLint
 import com.example.muvitracker.data.LanguageManager
 import com.example.muvitracker.data.database.entities.ShowEntity
 import com.example.muvitracker.data.dto._support.Ids
-import com.example.muvitracker.data.utils.orIfBlank
-import com.example.muvitracker.data.utils.orIfEmpty
+import com.example.muvitracker.data.utils.dtoStringOr
+import com.example.muvitracker.data.utils.dtoListOr
 import com.example.muvitracker.data.utils.splitToCleanList
 import com.example.muvitracker.data.utils.youtubeLinkTransformation
 import com.example.muvitracker.utils.firstDecimalApproxToString
@@ -70,31 +70,31 @@ fun mergeShowsDtoToEntity(
             ?: 0, // default = 0 (logica vecchia serve per calcolo ())
 
         // tmdb
-        title = tmdb?.name.orIfBlank(trakt.title),
+        title = tmdb?.name.dtoStringOr(trakt.title),
 //        tagline = tmdb?.tagline.orIfBlank(trakt.tagline),
         tagline = tmdb?.tagline, // !! senza trakt fallback, traduzione errata
-        overview = tmdb?.overview.orIfBlank(trakt.overview),
-        status = tmdb?.status.orIfBlank(trakt.status),
-        firstAirDate = tmdb?.firstAirDate.orIfBlank(trakt.firstAired.formatDateFromFirsAired()), // test con tmdb
+        overview = tmdb?.overview.dtoStringOr(trakt.overview),
+        status = tmdb?.status.dtoStringOr(trakt.status),
+        firstAirDate = tmdb?.firstAirDate.dtoStringOr(trakt.firstAired.formatDateFromFirsAired()), // test con tmdb
         lastAirDate = tmdb?.lastAirDate, // lasciare null, per logica ui
         runtime = trakt.runtime, // only trakt
         countries = tmdb?.originCountry
-            .orIfEmpty(trakt.country?.splitToCleanList()?.map { it.uppercase() })
+            .dtoListOr(trakt.country?.splitToCleanList()?.map { it.uppercase() })
             ?: emptyList(),
-        originalLanguage = tmdb?.originalLanguage.orIfBlank(trakt.language),
-        languages = tmdb?.languages.orIfEmpty(trakt.languages)
+        originalLanguage = tmdb?.originalLanguage.dtoStringOr(trakt.language),
+        languages = tmdb?.languages.dtoListOr(trakt.languages)
             ?: emptyList(), // entity not null
-        originalTitle = tmdb?.originalName.orIfBlank(trakt.originalTitle),
+        originalTitle = tmdb?.originalName.dtoStringOr(trakt.originalTitle),
         englishTitle = trakt.title, // di default trakt è tutto in inglese
         networks = tmdb?.networks?.map { it.name }
-            .orIfEmpty(trakt.network?.splitToCleanList())
+            .dtoListOr(trakt.network?.splitToCleanList())
             ?: emptyList(),
         genres = tmdb?.genres?.map { it.name }
-            .orIfEmpty(trakt.genres)
+            .dtoListOr(trakt.genres)
             ?: emptyList(), // entity not null
         //
-        youtubeTrailer = tmdb?.videos?.youtubeLinkTransformation().orIfBlank(trakt.trailer),
-        homepage = tmdb?.homepage.orIfBlank(trakt.homepage),
+        youtubeTrailer = tmdb?.videos?.youtubeLinkTransformation().dtoStringOr(trakt.trailer),
+        homepage = tmdb?.homepage.dtoStringOr(trakt.homepage),
         //
         backdropPath = tmdb?.backdropPath, // solo tmdb
         posterPath = tmdb?.posterPath, // solo tmdb

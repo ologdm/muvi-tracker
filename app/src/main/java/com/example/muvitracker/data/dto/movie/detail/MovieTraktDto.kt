@@ -4,9 +4,9 @@ import android.annotation.SuppressLint
 import com.example.muvitracker.data.LanguageManager
 import com.example.muvitracker.data.database.entities.MovieEntity
 import com.example.muvitracker.data.dto._support.Ids
-import com.example.muvitracker.data.utils.orIfBlank
-import com.example.muvitracker.data.utils.orIfEmpty
-import com.example.muvitracker.data.utils.orIfNull
+import com.example.muvitracker.data.utils.dtoListOr
+import com.example.muvitracker.data.utils.dtoValueOr
+import com.example.muvitracker.data.utils.dtoStringOr
 import com.example.muvitracker.data.utils.splitToCleanList
 import com.example.muvitracker.data.utils.youtubeLinkTransformation
 import com.example.muvitracker.utils.firstDecimalApproxToString
@@ -68,6 +68,9 @@ data class MovieTraktDto(
  * @param tmdb Oggetto [MovieTmdbDto] opzionale, che fornisce dati aggiuntivi (es. traduzioni, immagini, generi).
  * @return Un oggetto [MovieEntity] che combina in modo coerente le informazioni provenienti da entrambe le sorgenti.
  */
+
+// NOTE: fallback: differenza tra  (tmdb?.title).orIfBlank("") | tmdb?.title.orIfBlank("")
+// se tmdb e vuoto,
 fun mergeMoviesDtoToEntity(
     trakt: MovieTraktDto, tmdb: MovieTmdbDto?
 ): MovieEntity {
@@ -78,26 +81,26 @@ fun mergeMoviesDtoToEntity(
         ids = trakt.ids,
 
         // tmdb (or trakt fallback)
-        title = tmdb?.title.orIfBlank(trakt.title),
+        title = tmdb?.title.dtoStringOr(trakt.title),
 //        tagline = tmdb?.tagline.orIfBlank(trakt.tagline), //
         tagline = tmdb?.tagline, // !! senza trakt fallback, traduzione errata
-        overview = tmdb?.overview.orIfBlank(trakt.overview),
-        status = tmdb?.status.orIfBlank(trakt.status),
+        overview = tmdb?.overview.dtoStringOr(trakt.overview),
+        status = tmdb?.status.dtoStringOr(trakt.status),
         // from trakt - "2016-02-12" | tmdbDto - "2016-02-09"
-        releaseDate = tmdb?.releaseDate.orIfBlank(trakt.released), // NO formatToSqliteCompatibleDate()
+        releaseDate = tmdb?.releaseDate.dtoStringOr(trakt.released), // NO formatToSqliteCompatibleDate()
         // from trakt - us  | tmdb - US,GB
         countries = tmdb?.originCountry
-            .orIfEmpty(trakt.country?.splitToCleanList())
+            .dtoListOr(trakt.country?.splitToCleanList())
             ?: emptyList(), // OK
-        runtime = tmdb?.runtime.orIfNull(trakt.runtime),
-        originalLanguage = tmdb?.originalLanguage.orIfBlank(trakt.language),
-        originalTitle = tmdb?.originalTitle.orIfBlank(trakt.originalTitle),
+        runtime = tmdb?.runtime.dtoValueOr(trakt.runtime),
+        originalLanguage = tmdb?.originalLanguage.dtoStringOr(trakt.language),
+        originalTitle = tmdb?.originalTitle.dtoStringOr(trakt.originalTitle),
         englishTitle = trakt.title,
         genres = tmdb?.genres?.map { it.name }
-            .orIfEmpty(trakt.genres)
+            .dtoListOr(trakt.genres)
             ?: emptyList(), // !! not empty
-        youtubeTrailer = tmdb?.videos?.youtubeLinkTransformation().orIfBlank(trakt.trailer),
-        homepage = tmdb?.homepage.orIfBlank(trakt.homepage),
+        youtubeTrailer = tmdb?.videos?.youtubeLinkTransformation().dtoStringOr(trakt.trailer),
+        homepage = tmdb?.homepage.dtoStringOr(trakt.homepage),
 
         // solo tmdb
         backdropPath = tmdb?.backdropPath,
