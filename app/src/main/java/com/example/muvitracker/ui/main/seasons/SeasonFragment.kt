@@ -63,6 +63,19 @@ class SeasonFragment : Fragment(R.layout.fragment_season_son) {
         }
 
         // SEASON EPISODES
+
+        loadEpisodesSetup()
+
+        binding.watchedAllIcon.setOnClickListener {
+            viewModel.toggleSeasonAllWatchedEpisodes(currentShowIds, currentSeasonNr)
+        }
+
+        loadTmdbImagesWithCustomGlide()
+        expandOverview()
+    }
+
+
+    private fun loadEpisodesSetup() {
         // NEW: Initialize the adapter here
         episodesAdapter = SeasonEpisodesAdapter(
             onCLickVH = { episodeNumber ->
@@ -77,18 +90,7 @@ class SeasonFragment : Fragment(R.layout.fragment_season_son) {
             }
         )
 
-        loadEpisodesSetup()
-
-        binding.watchedAllIcon.setOnClickListener {
-            viewModel.toggleSeasonAllWatchedEpisodes(currentShowIds, currentSeasonNr)
-        }
-
-        loadTMDBImagesWithCustomGlide()
-        expandOverview()
-    }
-
-
-    private fun loadEpisodesSetup() {
+        // recyclerview
         binding.episodesRecyclerview.adapter = episodesAdapter
         binding.episodesRecyclerview.layoutManager = LinearLayoutManager(requireContext())
 
@@ -111,7 +113,7 @@ class SeasonFragment : Fragment(R.layout.fragment_season_son) {
                 progressBar = binding.episodesProgressBar,
                 errorTextview = binding.episodesErrorMessage,
                 recyclerView = binding.episodesRecyclerview,
-                errorMsg = getString(R.string.seasons_not_available),
+                errorMsg = getString(R.string.episodes_not_available),
                 bindData = { list ->
                     episodesAdapter.submitList(list)
                 }
@@ -122,7 +124,7 @@ class SeasonFragment : Fragment(R.layout.fragment_season_son) {
 
 
     // PRIVATE FUNCTIONS #########################################
-    private fun loadTMDBImagesWithCustomGlide() {
+    private fun loadTmdbImagesWithCustomGlide() {
         Glide.with(requireContext())
             .load(ImageTmdbRequest.Season(currentShowIds.tmdb, currentSeasonNr))
             .transition(DrawableTransitionOptions.withCrossFade(300))
