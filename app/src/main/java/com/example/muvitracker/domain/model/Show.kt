@@ -45,6 +45,9 @@ data class Show(
     // CALCOLATO DA EPISODE_TABLE
     val watchedCount: Int = 0, // computed data from episodeRepository
 
+    // TODO: calcola dalla query di seasons il totale stagioni
+    val seasonsCount: Int = 0,
+
 ) {
 
     // TICKET: watchedAll marked for shows not yet released (anticipated)

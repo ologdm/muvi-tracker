@@ -106,9 +106,6 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
             currentShowIds = bundle.getParcelable(SHOW_IDS_KEY) ?: Ids()
         }
 
-        // TODO
-        // tot seasons default -> per effetto grafico
-        b.totalSeasons.text = getString(R.string.total_seasons, "  ")
 
         // SHOW DETAIL -----------------------------------------------------------------------------
         viewModel.loadShowDetail(currentShowIds)
@@ -157,15 +154,6 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
                 recyclerView = b.seasonsRecyclerview,
                 bindData = { data ->
                     seasonsAdapter.submitList(data)
-
-                    // update seasons nr
-                    totSeasonsCount = listStateContainer.data.size ?: 0
-                    b.totalSeasons.text = // 1.1.3
-                        if (totSeasonsCount == 0)
-                            getString(R.string.seasons_not_available)
-                        else
-                            getString(R.string.total_seasons, totSeasonsCount.toString())
-
                 }
             )
         }
@@ -284,6 +272,10 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
         // 1.1.3 - OK
         b.airedEpisodes.text =
             getString(R.string.aired_episodes, show.airedEpisodes.toString())
+
+        // 1.1.3 ok - spostato su repo
+        b.totalSeasons.text = getString(R.string.total_seasons,show.seasonsCount.toString())
+
 
 
         // TODO 1.1.3: click su film

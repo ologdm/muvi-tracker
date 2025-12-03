@@ -9,6 +9,7 @@ import com.example.muvitracker.data.dto.show.detail.mergeShowsDtoToEntity
 import com.example.muvitracker.data.dto._support.Ids
 import com.example.muvitracker.data.dto.person.toDomain
 import com.example.muvitracker.data.dto.show.detail.ShowTmdbDto
+import com.example.muvitracker.data.dto.show.detail.ShowTraktDto
 import com.example.muvitracker.data.dto.show.toDomain
 import com.example.muvitracker.data.utils.mapToIoResponse
 import com.example.muvitracker.data.utils.storeFactory
@@ -16,7 +17,6 @@ import com.example.muvitracker.domain.model.CastAndCrew
 import com.example.muvitracker.domain.model.Show
 import com.example.muvitracker.domain.model.base.ShowBase
 import com.example.muvitracker.domain.repo.DetailShowRepository
-import com.example.muvitracker.domain.repo.PrefsShowRepository
 import com.example.muvitracker.domain.repo.SeasonRepository
 import com.example.muvitracker.utils.IoResponse
 import com.example.muvitracker.utils.ioMapper
@@ -48,7 +48,9 @@ class DetailShowRepositoryImpl @Inject constructor(
         fetcher = { ids ->
             coroutineScope {
                 // 1° chiamata async
-                val traktDtoDeferred = async { traktApi.getShowDetail(ids.trakt) }
+                val traktDtoDeferred = async {
+                    traktApi.getShowDetail(ids.trakt)
+                }
                 // 2° chiamata async
                 val tmdbDtoDeferred = async {
                     try {  // try/catch necessario per evitare che l'eccezione mi blocchi la coroutine padre!!
@@ -61,8 +63,8 @@ class DetailShowRepositoryImpl @Inject constructor(
                     }
                 }
 
-                val traktDto = traktDtoDeferred.await() // la dto base
-                val tmdbDto = tmdbDtoDeferred.await() // integra il dto trakt, traduzioni + immagini
+                val traktDto: ShowTraktDto = traktDtoDeferred.await() // la dto base
+                val tmdbDto: ShowTmdbDto? = tmdbDtoDeferred.await() // integra il dto trakt, traduzioni + immagini
 
                 mergeShowsDtoToEntity(traktDto, tmdbDto)
             }

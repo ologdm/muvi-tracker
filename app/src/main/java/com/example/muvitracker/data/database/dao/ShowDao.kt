@@ -27,57 +27,53 @@ interface ShowDao {
 
 
     // TODO 1.1.3 OK
-    // 1. devo prendere cambi necessari da -> Show e Prefs Entities
-    // 21 show ent, 2 prefs, 1 ep
+    // show, prefs, episode, season table
+    // 21 show ent, 3 prefs, 1 ep, 1 seas
     @Transaction
     @Query(
         """
     SELECT
-        d.year, 
-        d.ids, 
+        d.year,
+        d.ids,
         d.airedEpisodes,
         
         d.title,
-        d.tagline, 
-        d.overview, 
-        d.status, 
-        d.firstAirDate, 
+        d.tagline,
+        d.overview,
+        d.status,
+        d.firstAirDate,
         d.lastAirDate,
         d.runtime,
-        d.countries, 
-        d.originalLanguage, 
+        d.countries,
+        d.originalLanguage,
         d.englishTitle,
-        d.networks, 
+        d.networks,
         d.genres,
-        d.youtubeTrailer, 
+        d.youtubeTrailer,
         d.homepage,
         d.traktRating,
         d.tmdbRating,
-        
-        d.backdropPath, 
+        d.backdropPath,
         d.posterPath,
-        
         d.currentTranslation,
-
-        p.liked, 
+    
+        p.liked,
         COALESCE(p.notes, '') AS notes,
         p.addedDateTime,
-        
-        COALESCE(SUM(CASE WHEN e.watched = 1 THEN 1 ELSE 0 END),0) AS watchedCount
-    FROM 
-        show_table AS d   ---- nome tabella db
-    LEFT JOIN 
-        prefs_show_table AS p 
-    ON 
+    
+        -- Subquery per contare episodi visti
+        (SELECT COUNT(*)  FROM episode_table e WHERE e.showId = d.traktId AND e.watched = 1) AS watchedCount,
+    
+        -- Subquery per contare stagioni
+        (SELECT COUNT(*) FROM season_table s WHERE s.showId = d.traktId) AS seasonsCount
+    FROM
+        show_table AS d
+    LEFT JOIN
+        prefs_show_table AS p
+    ON
         d.traktId = p.traktId
-    LEFT JOIN 
-        episode_table AS e 
-    ON 
-        d.traktId = e.showId
-    WHERE 
+    WHERE
         d.traktId = :showId
-    GROUP BY 
-        d.traktId
 """
     )
     fun getSingleFlow(showId: Int): Flow<Show?>

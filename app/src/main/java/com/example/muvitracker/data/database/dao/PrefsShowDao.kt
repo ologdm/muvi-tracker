@@ -35,43 +35,47 @@ interface PrefsShowDao {
     @Query(
         """
     SELECT
-        d.year, 
-        d.ids, 
+        d.year,
+        d.ids,
         d.airedEpisodes,
 
-        d.title, 
+        d.title,
         d.tagline,
-        d.overview, 
-        d.status, 
-        d.firstAirDate, 
+        d.overview,
+        d.status,
+        d.firstAirDate,
         d.lastAirDate,
         d.runtime,
-        d.countries, 
-        d.originalLanguage, 
+        d.countries,
+        d.originalLanguage,
         d.englishTitle,
         d.networks,
         d.genres,
-        d.youtubeTrailer, 
+        d.youtubeTrailer,
         d.homepage,
-
         d.traktRating,
         d.tmdbRating,
 
-        d.backdropPath, 
+        d.backdropPath,
         d.posterPath,
-        
+    
         d.currentTranslation,
-        
+    
         p.liked,
-        p.notes,
+        COALESCE(p.notes, '') AS notes,
         p.addedDateTime,
-        
-        ---COALESCE utile per default - prende primo valore non null tra quelli che gli passi
-        COALESCE(SUM(CASE WHEN e.watched = 1 THEN 1 ELSE 0 END),0) AS watchedCount
-    FROM prefs_show_table AS p
-    LEFT JOIN show_table AS d ON p.traktId = d.traktId
-    LEFT JOIN episode_table AS e ON d.traktId = e.showId
-    GROUP BY p.traktId
+    
+        -- Subquery per contare episodi visti
+        (SELECT COUNT(*) FROM episode_table e WHERE e.showId = d.traktId AND e.watched = 1) AS watchedCount,
+    
+        -- Subquery per contare stagioni
+        (SELECT COUNT(*) FROM season_table s WHERE s.showId = d.traktId) AS seasonsCount
+    FROM
+        prefs_show_table AS p
+    LEFT JOIN
+        show_table AS d
+    ON
+        p.traktId = d.traktId
 """
     )
     fun getAllPrefs(): Flow<List<Show>>
