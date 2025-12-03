@@ -2,28 +2,30 @@ package com.example.muvitracker.data.dto.person.detail
 
 import android.annotation.SuppressLint
 import com.example.muvitracker.data.dto._support.Ids
+import com.example.muvitracker.data.utils.dtoStringOr
 import com.example.muvitracker.domain.model.Person
 import com.example.muvitracker.utils.calculatePersonAge
-import com.example.muvitracker.utils.dateFormatterInddMMMyyy
-import com.google.gson.annotations.SerializedName
+import com.example.muvitracker.utils.formatToDdMmmYyyy
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+
 
 @SuppressLint("UnsafeOptInUsageError")
 @Serializable
 data class PersonTraktDto(
-    val name: String?,
+    val name: String?, // "George Lucas"
     val ids: Ids?,
     @SerialName("social_ids") val socialIds: SocialIds?,
     val biography: String?,
-    val birthday: String?,
+    val birthday: String?, // "1972-05-08" yyyy-MM-dd
     val death: String?,
-    val birthplace: String?,
-//    val homepage: String?, // website
-    val gender: String?,
-    @SerialName("known_for_department") val knownForDepartment: String?,
+    val birthplace: String?, // "Sorø, Danmark"
+    val homepage: String?, // website
+    val gender: String?,  // "male"
+    @SerialName("known_for_department") val knownForDepartment: String?, // "production"
 //    @SerializedName("updated_at") val updatedAt: String?
 )
+
 
 // only for -> PersonExtendedDto
 @SuppressLint("UnsafeOptInUsageError")
@@ -36,33 +38,63 @@ data class SocialIds(
 )
 
 
-fun PersonTraktDto.toDomain(): Person {
+// OK
+fun mergePersonDtoToDomain(trakt: PersonTraktDto, tmdb: PersonTmdbDto?): Person {
+    val socialIds = trakt.socialIds
+    val birthday = tmdb?.birthday.dtoStringOr(trakt.birthday)
+    val deathday = tmdb?.deathday.dtoStringOr(trakt.death)
+
     return Person(
-        name = name ?: "N/A",
-        ids = ids ?: Ids(),
-        biography = biography ?: "N/A",
-        birthday = birthday?.dateFormatterInddMMMyyy() ?: "birthdate N/A",
-        death = death?.dateFormatterInddMMMyyy() ?: "",
-        age = calculatePersonAge(
-            birthDate = birthday,
-            deathDate = death
-        ), // return always a string: N/A or age
-        birthplace = birthplace ?: "birthplace N/A",
-        knownForDepartment = knownForDepartment ?: "N/A", // acting, etc
+        name = trakt.name, // only trakt
+        ids = trakt.ids ?: Ids(),
+        biography = tmdb?.biography.dtoStringOr(trakt.biography),
+        birthday = birthday?.formatToDdMmmYyyy(), // convert if not null ok
+        death = deathday?.formatToDdMmmYyyy(), // ok
+//        age = calculatePersonAge(birthDate = birthday, deathDate = deathday),
+        age = calculatePersonAge(birthDate = birthday, deathDate = deathday),
+        birthplace = tmdb?.placeOfBirth.dtoStringOr(trakt.birthplace),
+        knownForDepartment = tmdb?.knownForDepartment.dtoStringOr(trakt.knownForDepartment), // acting, etc
 
         // social platforms links
-        twitter = if (socialIds?.twitter != null) "$TWITTER_DOMAIN${socialIds.twitter}" else "N/A",
-        facebook = if (socialIds?.facebook != null) "$FACEBOOK_DOMAIN${socialIds.facebook}" else "N/A",
-        instagram = if (socialIds?.instagram != null) "$INSTAGRAM_DOMAIN${socialIds.instagram}" else "N/A",
-        wikipedia = if (socialIds?.wikipedia != null) "$WIKIPEDIA_DOMAIN${socialIds.wikipedia}" else "N/A"
+        twitter = socialIds?.twitter?.let { "$TWITTER_DOMAIN$it" }
+            .dtoStringOr(""),
+        facebook = socialIds?.facebook?.let { "$FACEBOOK_DOMAIN${socialIds.facebook}" }
+            .dtoStringOr(""),
+        instagram = socialIds?.instagram?.let { "$INSTAGRAM_DOMAIN${socialIds.instagram}" }
+            .dtoStringOr(""),
+        wikipedia = socialIds?.wikipedia?.let { "$WIKIPEDIA_DOMAIN${socialIds.wikipedia}" }
+            .dtoStringOr("")
     )
 }
-
 
 const val TWITTER_DOMAIN = "https://x.com/"
 const val FACEBOOK_DOMAIN = "https://x.com/"
 const val INSTAGRAM_DOMAIN = "https://x.com/"
 const val WIKIPEDIA_DOMAIN = "https://x.com/"
+
+
+// copy
+//fun PersonTraktDto.toDomain(): Person {
+//    return Person(
+//        name = name,
+//        ids = ids ?: Ids(),
+//        biography = biography ?: "N/A",
+//        birthday = birthday?.dateFormatterInddMMMyyy() ?: "birthdate N/A",
+//        death = death?.dateFormatterInddMMMyyy() ?: "",
+//        age = calculatePersonAge(
+//            birthDate = birthday,
+//            deathDate = death
+//        ), // return always a string: N/A or age
+//        birthplace = birthplace ?: "birthplace N/A",
+//        knownForDepartment = knownForDepartment ?: "N/A", // acting, etc
+//
+//        // social platforms links
+//        twitter = if (socialIds?.twitter != null) "$TWITTER_DOMAIN${socialIds.twitter}" else "N/A",
+//        facebook = if (socialIds?.facebook != null) "$FACEBOOK_DOMAIN${socialIds.facebook}" else "N/A",
+//        instagram = if (socialIds?.instagram != null) "$INSTAGRAM_DOMAIN${socialIds.instagram}" else "N/A",
+//        wikipedia = if (socialIds?.wikipedia != null) "$WIKIPEDIA_DOMAIN${socialIds.wikipedia}" else "N/A"
+//    )
+//}
 
 
 /*

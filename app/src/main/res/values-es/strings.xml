@@ -49,7 +49,7 @@
     <string name="yes">Sí</string>
     <string name="no">No</string>
     <string name="biography">Biografía:</string>
-    <string name="known">Conocido por:</string>
+    <string name="known_for">Conocido por:</string>
     <string name="age">Edad:</string>
     <string name="born">Nacimiento:</string>
     <string name="died">Muerte:</string>
@@ -64,4 +64,10 @@
     <string name="network_n_a">Plataforma N/D</string>
     <string name="coming_soon">Próximamente...</string>
     <string name="date_n_d">fecha n/d</string>
+    <string name="died_at">Falleció en %1$s</string>
+    <string name="unknown_name">Nombre desconocido</string>
+    <string name="unknown_birthplace">Lugar de nacimiento desconocido</string>
+    <string name="unknown_birthday">Fecha de nacimiento desconocida</string>
+    <string name="unknown_age">Edad desconocida</string>
+    <string name="unknown">Desconocido</string>
 </resources>

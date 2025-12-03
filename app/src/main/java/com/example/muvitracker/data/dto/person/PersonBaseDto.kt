@@ -14,7 +14,7 @@ data class PersonBaseDto(
 
 fun PersonBaseDto.toDomain(): PersonBase {
     return PersonBase(
-        name = name ?: "N/A",
+        name = name ?: "",
         ids = ids
     )
 }

@@ -9,6 +9,7 @@ import com.example.muvitracker.R
 import com.example.muvitracker.data.dto._support.Ids
 import com.example.muvitracker.data.glide.ImageTmdbRequest
 import com.example.muvitracker.databinding.FragmentPersonBinding
+import com.example.muvitracker.utils.orDefaultText
 import com.example.muvitracker.utils.viewBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -35,33 +36,63 @@ class PersonBottomSheetFragment : BottomSheetDialogFragment(R.layout.fragment_pe
 
         binding.character.text = currentCharacter // the only element from who create the Fragment
 
-        viewmodel.getPerson(currentPersonIds.trakt)
+
+        personLoadingSetup()
+        loadImagesWithCustomTmdbGlide()
+    }
+
+    private fun personLoadingSetup() {
+        viewmodel.getPersonDetail(currentPersonIds)
+
         viewmodel.personState.observe(viewLifecycleOwner) { person ->
+            // 1.1.3 ok
             binding.personName.text = person.name
-            binding.knownContent.text = "for ${person.knownForDepartment }"
-            binding.ageContent.text = person.age // calculated
+                .orDefaultText(getString(R.string.unknown_name)) // 1.1.3
 
-            binding.bornContent.text = "${person.birthday}\n${person.birthplace}"
+            // 1.1.3 ok
+            binding.knownContent.text = person.knownForDepartment
+                .orDefaultText(getString(R.string.unknown)) // 1.1.3 in inglese ok
 
-            if (person.death.isNotBlank()) {
-                binding.deathContent.text = person.death
-                // default visible
-            } else {
+            // calculated, return null or age 1.1.3 ok
+            binding.ageContent.text = person.age.toString()
+                .orDefaultText(getString(R.string.unknown_age)) // 1.1.3 defaults ok
+
+            // 1.1.3 ok
+            binding.bornContent.text =
+                "${
+                    person.birthday
+                        .orDefaultText(getString(R.string.unknown_birthday))
+                }," +
+                        "\n${
+                            person.birthplace
+                                .orDefaultText(getString(R.string.unknown_birthplace))
+                        }"
+
+            // 1.1.3 OK
+            if (person.death.isNullOrBlank()) {
                 binding.deathContent.visibility = View.GONE
                 binding.deathTitle.visibility = View.GONE
-            }
-
-            if (person.death.isNotBlank()) {
-                binding.deathContent.text = person.death
             } else {
-                binding.deathContent.visibility = View.GONE
-                binding.deathTitle.visibility = View.GONE
+                binding.deathContent.text = "${person.death}"
+                // default xml visible
             }
 
-            binding.biographyContent.text = person.biography.ifBlank { "N/A" }
+            // 1.1.3 ok
+            binding.biographyContent.text = person.biography
+                .orDefaultText(getString(R.string.not_available))
         }
+        expandBiographySetup()
+    }
 
+    private fun loadImagesWithCustomTmdbGlide() {
+        Glide.with(requireContext())
+            .load(ImageTmdbRequest.Person(currentPersonIds.tmdb))
+            .placeholder(R.drawable.glide_placeholder_base)
+            .error(R.drawable.glide_placeholder_base)
+            .into(binding.verticalImage)
+    }
 
+    private fun expandBiographySetup() {
         var isTextExpanded = false
         binding.biographyContent.setOnClickListener {
             if (isTextExpanded) {
@@ -73,12 +104,6 @@ class PersonBottomSheetFragment : BottomSheetDialogFragment(R.layout.fragment_pe
             }
             isTextExpanded = !isTextExpanded
         }
-
-        Glide.with(requireContext())
-            .load(ImageTmdbRequest.Person(currentPersonIds.tmdb))
-            .placeholder(R.drawable.glide_placeholder_base)
-            .error(R.drawable.glide_placeholder_base)
-            .into(binding.verticalImage)
     }
 
 

@@ -79,14 +79,6 @@
     <string name="no">No</string>
 
 
-    <!--    PERSON FRAGMENT -->
-    <string name="known">Known:    </string>
-    <string name="age">Age:</string>
-    <string name="born">Born:</string>
-    <string name="died">Died:</string>
-    <string name="biography">Biography:</string>
-
-
     <!--    INFO DEFAULTS    -->
     <string name="untitled">Untitled</string>
     <string name="year_n_a">Year —</string>
@@ -103,7 +95,21 @@
     <string name="seasons_not_available">Seasons are not available</string>
     <string name="coming_soon">Coming soon...</string>
 
+
+    <!--    PERSON -->
+    <string name="known_for">Known for: </string>
+    <string name="age">Age:</string>
+    <string name="born">Born:</string>
+    <string name="died">Died:</string>
+    <string name="biography">Biography:</string>
+    <!--    person defaults    -->
     <string name="date_n_d">date n/a</string>
+    <string name="died_at">Died at %1$s</string> // morto a 50 anni
+    <string name="unknown_name">Unknown name</string>
+    <string name="unknown_birthplace">Unknown birthplace</string>
+    <string name="unknown_birthday">Unknown birthday</string>
+    <string name="unknown_age">Unknown death date</string>
+    <string name="unknown">Unknown</string>
 
 
 </resources>

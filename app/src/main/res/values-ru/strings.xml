@@ -44,7 +44,7 @@
     <string name="ep_number_first_aired_runtime_min">Эп.%1$s • %2$s • %3$s мин</string>
     <string name="trailer">Трейлер</string>
     <string name="biography">Биография:</string>
-    <string name="known">Известен за:</string>
+    <string name="known_for">Известен за:</string>
     <string name="age">Возраст:</string>
     <string name="born">Рожден:</string>
     <string name="died">Умер:</string>
@@ -64,4 +64,10 @@
     <string name="network_n_a">Платформа Н/Д</string>
     <string name="coming_soon">В разработке...</string>
     <string name="date_n_d">дата н/д</string>
+    <string name="died_at">Умер в %1$s</string>
+    <string name="unknown_name">Имя неизвестно</string>
+    <string name="unknown_birthplace">Место рождения неизвестно</string>
+    <string name="unknown_birthday">Дата рождения неизвестна</string>
+    <string name="unknown_age">Возраст неизвестен</string>
+    <string name="unknown">Неизвестно</string>
 </resources>

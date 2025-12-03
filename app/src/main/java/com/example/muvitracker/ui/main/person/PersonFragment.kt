@@ -13,6 +13,7 @@ import com.example.muvitracker.R
 import com.example.muvitracker.data.dto._support.Ids
 import com.example.muvitracker.data.glide.ImageTmdbRequest
 import com.example.muvitracker.databinding.FragmentPersonBinding
+import com.example.muvitracker.utils.orDefaultText
 import com.example.muvitracker.utils.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -39,35 +40,54 @@ class PersonFragment : Fragment(R.layout.fragment_person) {
             currentPersonIds = bundle.getParcelable(PERSON_IDS_KEY) ?: Ids()
         }
 
-        // TODO wrap
-        viewmodel.getPerson(currentPersonIds.trakt)
+
+        personLoadingSetup()
+        loadImagesWithCustomTmdbGlide()
+
+        mainLayoutTopEdgeToEdgeManagement()
+    }
+
+
+    private fun personLoadingSetup() {
+
+        viewmodel.getPersonDetail(currentPersonIds)
+
         viewmodel.personState.observe(viewLifecycleOwner) { person ->
+            // ok 1.1.3 ok
             binding.personName.text = person.name
-            binding.ageContent.text = person.age // calculated
-            binding.knownContent.text = "for ${person.knownForDepartment }"
+                .orDefaultText(getString(R.string.unknown_name))
 
-            binding.bornContent.text = "${person.birthday}\n${person.birthplace}"
+            // calculated, return null or age ok 1.1.3 ok
+            binding.ageContent.text = person.age.toString()
+                .orDefaultText(getString(R.string.unknown_age))
 
-            if (person.death.isNotBlank()) {
+            // 1.1.3 ok
+            binding.knownContent.text = person.knownForDepartment
+                .orDefaultText(getString(R.string.unknown))
+
+            // 1.1.3 ok
+            binding.bornContent.text = "${person.birthday
+                .orDefaultText(getString(R.string.unknown_birthday))}" +
+                    "\n${person.birthplace
+                        .orDefaultText(getString(R.string.unknown_birthplace))}"
+
+            // 1.1.3 ok
+            if (person.death.isNullOrBlank()) {
+                binding.deathContent.visibility = View.GONE
+                binding.deathTitle.visibility = View.GONE
+            } else {
                 binding.deathContent.text = person.death
                 // default visible
-            } else {
-                binding.deathContent.visibility = View.GONE
-                binding.deathTitle.visibility = View.GONE
             }
 
-            if (person.death.isNotBlank()) {
-                binding.deathContent.text = person.death
-            } else {
-                binding.deathContent.visibility = View.GONE
-                binding.deathTitle.visibility = View.GONE
-            }
-
-            binding.biographyContent.text = person.biography.ifBlank {
-                getString(R.string.not_available)
-            }
+            // 1.1.3 ok
+            binding.biographyContent.text = person.biography
+                .orDefaultText(getString(R.string.not_available))
         }
+        expandBiographySetup()
+    }
 
+    private fun expandBiographySetup() {
         var isTextExpanded = false
         binding.biographyContent.setOnClickListener {
             if (isTextExpanded) {
@@ -79,15 +99,19 @@ class PersonFragment : Fragment(R.layout.fragment_person) {
             }
             isTextExpanded = !isTextExpanded
         }
+    }
 
+
+    private fun loadImagesWithCustomTmdbGlide() {
         Glide.with(requireContext())
             .load(ImageTmdbRequest.Person(currentPersonIds.tmdb))
             .placeholder(R.drawable.glide_placeholder_base)
             .error(R.drawable.glide_placeholder_base)
             .into(binding.verticalImage)
-
-        mainLayoutTopEdgeToEdgeManagement()
     }
+
+
+
 
     private fun mainLayoutTopEdgeToEdgeManagement() {
         ViewCompat.setOnApplyWindowInsetsListener(binding.mainLayout) { v, insets ->

@@ -75,7 +75,7 @@ fun Int.episodesFormatNumber(): String {
 
 
 // // return: -1 | deathAge | currentAge
-fun calculatePersonAge(birthDate: String?, deathDate: String?): Int {
+fun calculatePersonAge(birthDate: String?, deathDate: String?): Int? {
     val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
 
     // Try to parse dates safely
@@ -83,7 +83,7 @@ fun calculatePersonAge(birthDate: String?, deathDate: String?): Int {
     val death = runCatching { LocalDate.parse(deathDate, formatter) }.getOrNull()
 
     // If birthdate is missing or invalid → return unknown
-    if (birth == null) return -1
+    if (birth == null) return null
 //    val str1 = birth.toString()
 //    val str2 = death.toString()
 

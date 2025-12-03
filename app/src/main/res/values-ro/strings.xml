@@ -44,7 +44,7 @@
     <string name="ep_number_first_aired_runtime_min">Ep.%1$s • %2$s • %3$s min</string>
     <string name="trailer">Trailer</string>
     <string name="biography">Biografie:</string>
-    <string name="known">Cunoscut:</string>
+    <string name="known_for">Cunoscut pentru:</string>
     <string name="age">Vârstă:</string>
     <string name="born">Născut:</string>
     <string name="died">Decedat:</string>
@@ -64,4 +64,10 @@
     <string name="network_n_a">Network N/D</string>
     <string name="coming_soon">În curând...</string>
     <string name="date_n_d">data n/a</string>
+    <string name="died_at">Decedat la %1$s</string>
+    <string name="unknown_name">Nume necunoscut</string>
+    <string name="unknown_birthplace">Loc de naștere necunoscut</string>
+    <string name="unknown_birthday">Data nașterii necunoscută</string>
+    <string name="unknown_age">Vârstă necunoscută</string>
+    <string name="unknown">Necunoscut</string>
 </resources>
