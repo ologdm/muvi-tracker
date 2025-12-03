@@ -106,6 +106,7 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
             currentShowIds = bundle.getParcelable(SHOW_IDS_KEY) ?: Ids()
         }
 
+        // TODO
         // tot seasons default -> per effetto grafico
         b.totalSeasons.text = getString(R.string.total_seasons, "  ")
 
@@ -216,9 +217,13 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
     // show detail TODO: check
     private fun setupDetailShowUiSection(show: Show) {
         // per passare a season
-        currentShowTitle = show.title.orDefaultText(ShowDefaults.TITLE) // 1.1.3 OK
+        currentShowTitle = show.title
+            .orDefaultText(ShowDefaults.TITLE) // 1.1.3 OK
+
         //
-        b.title.text = show.title.orDefaultText(ShowDefaults.TITLE) // 1.1.3 OK
+        b.title.text = show.title
+            .orDefaultText(ShowDefaults.TITLE) // 1.1.3 OK
+
         //
         b.tagline.apply { // 1.1.3 OK
             if (show.tagline.isNullOrBlank()) {
@@ -296,7 +301,8 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
 
         }
         // 1.1.3 - OK
-        b.overviewContent.text = show.overview.orDefaultText(ShowDefaults.OVERVIEW)
+        b.overviewContent.text = show.overview
+            .orDefaultText(ShowDefaults.OVERVIEW)
         expandOverviewSetup()
 
         // TODO: upgrade grafica
