@@ -97,9 +97,8 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
             currentMovieIds = bundle.getParcelable(MOVIE_IDS_KEY) ?: Ids()
         }
 
-        // MOVIE DETAIL
+        // MOVIE DETAIL ---------------------------------------------------------------------------------
         viewModel.loadMovieDetailFlow(currentMovieIds)
-
         // TODO: 1.1.3 NEW loading, data + no internet, no data no internet OK
         viewModel.detailState.observe(viewLifecycleOwner) { stateContainer ->
             // main_layout_detail.xml  -> default GONE
@@ -109,12 +108,17 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
                 b.progressBar,
                 b.mainLayoutToDisplayDetail,
                 bindData = { movie ->
-                    setupDetailMovieUiSection(movie)
+                    setupDetailMovieUiSection(movie) // base movie UI
                     updateFavoriteIcon(movie.liked)
                     updateWatchedCheckbox(movie)
                 }
             )
         }
+
+
+        loadRelatedSetup()
+        loadCastSetup()
+        myNotesDialogSetup()
 
 
         // BUTTONS CLICK ------------------------------------------------------------------------------
@@ -129,12 +133,16 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
         b.watchedCheckbox.setOnCheckedChangeListener { _, isChecked ->
             viewModel.updateWatched(currentMovieIds.trakt, isChecked)
         }
-
-        expandOverview()
-        loadTMDBImagesWithCustomGlide()
+    }
 
 
-        // RELATED MOVIES -----------------------------------------------------------------------------
+    override fun onDestroyView() {
+        super.onDestroyView()
+        resetStatusBarColorsOnDefault()
+    }
+
+
+    private fun loadRelatedSetup() {
         b.relatedRecyclerview.adapter = relatedMoviesAdapter
         b.relatedRecyclerview.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
@@ -151,9 +159,10 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
                 }
             )
         }
+    }
 
 
-        // CAST --------------------------------------------------------------------------------------
+    private fun loadCastSetup() {
         b.castRecyclerView.adapter = castMovieAdapter
         b.castRecyclerView.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
@@ -172,16 +181,9 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
                 }
             )
         }
-
-        myNotesDialogSetup()
     }
 
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-
-        resetStatusBarColorsOnDefault()
-    }
 
 
     // PRIVATE FUNCTIONS ###############################################
@@ -240,6 +242,7 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
         }
         //
         b.overviewContent.text = movie.overview.orDefaultText(MovieDefaults.OVERVIEW)
+        expandOverviewSetup()
         //
         // genres
         b.genresChipGroup.removeAllViews()
@@ -274,6 +277,9 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
         }
 
         b.notesTextview.text = movie.notes
+
+
+        loadTMDBImagesWithCustomGlide()
     }
 
 
@@ -402,7 +408,7 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
     }
 
 
-    private fun expandOverview() {
+    private fun expandOverviewSetup() {
         var isTextExpanded = false // initial state, fragment opening
         b.overviewContent.setOnClickListener {
             if (isTextExpanded) { // expanded==true -> contract

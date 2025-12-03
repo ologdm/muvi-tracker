@@ -118,7 +118,7 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
                 b.progressBar,
                 b.mainLayoutToDisplayDetail,
                 bindData = { show ->
-                    setupDetailShowUiSection(show)
+                    setupDetailShowUiSection(show) // base show ui
                     updateFavoriteIcon(show.liked)
                     updateWatchedCheckboxAndCounters(show)
                 }
@@ -128,7 +128,6 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
         loadSeasonsSetup()
         loadRelatedSetup()
         loadCastSetup()
-        loadTMDBImagesWithCustomGlideSetup()
         myNotesDialogSetup()
 
 
@@ -340,6 +339,9 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
         b.watchedAllTextview.alpha = if (isEnabled) 1f else 0.4f
 
         b.notesTextview.text = show.notes
+
+
+        loadTMDBImagesWithCustomGlideSetup()
     }
 
 
