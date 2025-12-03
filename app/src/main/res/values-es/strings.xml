@@ -41,7 +41,7 @@
     <string name="add_a_note_to_your_movie">Añade una nota a tu película</string>
     <string name="add_a_note_to_your_show">Añade una nota a tu serie</string>
     <string name="write_your_note">Escribe tu nota…</string>
-    <string name="ep_number_first_aired_runtime_min">Ep.%1$s • %2$s • %3$s min</string>
+    <string name="ep_number_first_aired_runtime_min">Ep.%1$s  •  %2$s  •  %3$s min</string>
     <string name="trailer">Tráiler</string>
     <string name="discard_movie">¿Eliminar película?</string>
     <string name="discard_show">¿Eliminar serie?</string>
@@ -62,6 +62,7 @@
     <string name="overview_are_not_available">La descripción no está disponible</string>
     <string name="country_n_a">País N/D</string>
     <string name="network_n_a">Plataforma N/D</string>
+    <string name="episodes_not_available">Episodios no disponibles</string>
     <string name="coming_soon">Próximamente...</string>
     <string name="date_n_d">fecha n/d</string>
     <string name="died_at">Falleció en %1$s</string>

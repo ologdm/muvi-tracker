@@ -78,6 +78,7 @@
     <string name="overview_are_not_available">Descrizione non disponibile</string>
     <string name="country_n_a">Paese N/D</string>
     <string name="network_n_a">Network N/D</string>
+    <string name="episodes_not_available">Episodi non disponibili</string>
     <string name="coming_soon">In arrivo...</string>
     <string name="date_n_d">data n/a</string>
     <string name="died_at">Morto/a a %1$s</string>

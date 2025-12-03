@@ -62,6 +62,7 @@
     <string name="overview_are_not_available">Descrierea nu este disponibilă</string>
     <string name="country_n_a">Țara N/D</string>
     <string name="network_n_a">Network N/D</string>
+    <string name="episodes_not_available">Episoadele nu sunt disponibile</string>
     <string name="coming_soon">În curând...</string>
     <string name="date_n_d">data n/a</string>
     <string name="died_at">Decedat la %1$s</string>
