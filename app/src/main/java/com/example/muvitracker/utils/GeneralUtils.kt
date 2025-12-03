@@ -176,7 +176,7 @@ fun String?.orDefaultText(fallback: String): String {
 }
 
 fun Int?.orDefaultText(fallback: String): String {
-    return this.toString() ?: fallback
+    return this?.toString() ?: fallback
 }
 
 

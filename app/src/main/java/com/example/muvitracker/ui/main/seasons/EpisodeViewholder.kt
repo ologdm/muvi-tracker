@@ -24,8 +24,7 @@ class EpisodeViewholder(
                 episode.episodeNumber.episodesFormatNumber(),
                 episode.firstAiredFormatted.formatDateFromFirsAired()
                     .orDefaultText(context.getString(R.string.date_n_d)),
-                episode.runtime.toString()
-                    .orDefaultText("—")
+                episode.runtime.orDefaultText("—")
             )
 
         binding.episodeTitle.text =

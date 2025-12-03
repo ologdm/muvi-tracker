@@ -74,7 +74,7 @@ class EpisodeFragment : BottomSheetDialogFragment(
                     }  |  ${
                         getString(
                             R.string.runtime_description,
-                            episode.runtime.toString()
+                            episode.runtime
                                 .orDefaultText(("—"))
                         )
                     } "
