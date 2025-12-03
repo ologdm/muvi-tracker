@@ -21,7 +21,9 @@ class PrefsShowViewholder(
             title.text = show.title.orDefaultText(ShowDefaults.TITLE)
 
             // 1°
-            val networkList = show.networks.filter { it.isNotBlank() }
+            val networkList = show.networks
+                .filter { it.isNotBlank() } // rimuove eventuali stringhe vuote
+                .take(6) // edge case, limitare il numero max elementi
             val networkText =
                 if (networkList.isNullOrEmpty()) {
                     ShowDefaults.NETWORK
