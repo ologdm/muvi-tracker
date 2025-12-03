@@ -119,6 +119,7 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
                     setupDetailShowUiSection(show) // base show ui
                     updateFavoriteIcon(show.liked)
                     updateWatchedCheckboxAndCounters(show)
+                    totSeasonsCount = show.seasonsCount
                 }
             )
         }
