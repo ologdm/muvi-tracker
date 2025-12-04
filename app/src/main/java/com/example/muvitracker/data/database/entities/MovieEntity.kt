@@ -7,9 +7,11 @@ import com.example.muvitracker.data.database.ConvertersUtils
 import com.example.muvitracker.data.dto._support.Ids
 import com.example.muvitracker.domain.model.Movie
 
-// all elements - null
-// lists notnull
-// currentTranslation - notnull
+/*
+ * all elements - null
+ * lists notnull
+ * currentTranslation - not null
+ */
 
 @Entity(tableName = "movie_table")
 data class MovieEntity(

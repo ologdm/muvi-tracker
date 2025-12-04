@@ -5,29 +5,8 @@ import androidx.room.PrimaryKey
 import com.example.muvitracker.data.dto._support.Ids
 import com.example.muvitracker.domain.model.Episode
 
-//@Entity(tableName = "episode_entities")
-//data class EpisodeEntity(
-//    // base data - from base dto
-//    @PrimaryKey val episodeTraktId: Int,
-//    val seasonNumber: Int?,
-//    val episodeNumber: Int?,
-//    val title: String?,
-//    val ids: Ids,
-//    val showId: Int, // passed through parameter .toEntity(showId)
-//    //
-//    val numberAbs: Int?,
-//    val overview: String?,
-//    val rating: Double?,
-//    val firstAiredFormatted: String?, // converted
-//    val availableTranslations: List<String>?,
-//    val runtime: Int?,
-//    val episodeType: String?,
-//    //save
-//    val watched: Boolean = false
-//)
 
-
-// TODO: 1.1.3 OK
+// 1.1.3 OK
 @Entity(tableName = "episode_table")
 data class EpisodeEntity(
     @PrimaryKey val episodeTraktId: Int,

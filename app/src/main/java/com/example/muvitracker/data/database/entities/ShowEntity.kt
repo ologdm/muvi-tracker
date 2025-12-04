@@ -49,6 +49,7 @@ data class ShowEntity(
     // ratings
     val traktRating: String?, // 8.3
     val tmdbRating: String?, // 7.9
+
     // TODO  other ratings - Imdb, Metacritic, Rotten Tomatoes
     val imdbRating: String? = "",
     val metacriticRating: String? = "",
@@ -59,44 +60,7 @@ data class ShowEntity(
 )
 
 
-// !! usato solo in prefs repo, su detail repo estraggo direttamwente il domain da dao !!
-
-// 1.1.3 unused
-// (PrefsEntity?) - can be null as logic
-//fun ShowEntity.toDomain(prefsShowEntity: PrefsShowEntity?): Show {
-//    return Show(
-//        // trakt
-//        year = year,
-//        ids = ids,
-//        airedEpisodes,
-//        // tmdb
-//        title = title ?: "",
-//        tagline = tagline ?: "",
-//        overview = overview ?: "",
-//        status = status ?: "",
-//        //
-//        firstAirDate = firstAirDate ?: "",
-//        lastAirDate = lastAirDate,
-//        runtime = runtime,
-//        countries = countries, // entity not null
-//        originalLanguage = originalLanguage ?: "",
-//        englishTitle = englishTitle,
-//        networks = networks, // entity not null
-//        genres = genres, // entity not null
-//        youtubeTrailer = youtubeTrailer ?: "",
-//        homepage = homepage ?: "",
-//        //
-//        traktRating = traktRating ?: "",
-//        tmdbRating = tmdbRating ?: "",
-//        //
-//        backdropPath = backdropPath ?: "",
-//        posterPath = posterPath ?: "",
-//        //
-//        currentTranslation = currentTranslation,
-//
-//        // prefs
-//        liked = prefsShowEntity?.liked ?: false,
-//        addedDateTime = prefsShowEntity?.addedDateTime, // Timestamp when added to db
-//        notes = prefsShowEntity?.notes ?: ""
-//    )
-//}
+/*
+   ShowEntity.toDomain(PrefsShowEntity?) return Show
+   -> implementata direttamente su Dao - unisce show, prefs, episode, season
+ */

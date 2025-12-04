@@ -7,30 +7,8 @@ import com.example.muvitracker.data.dto.season.SeasonTraktDto
 import com.example.muvitracker.data.dto.season.mergeSeasonsDtoToEntity
 import com.example.muvitracker.data.dto._support.Ids
 
-// completo - apertura detail
-// parziale - da mylist, watchedAll
 
-// old
-//@Entity(tableName = "season_entities")
-//data class SeasonEntity(
-//    // base data - from base dto
-//    @PrimaryKey val seasonTraktId: Int,
-//    val seasonNumber: Int, // X
-//    val ids: Ids,
-//    val showId: Int, // X, passed through parameter .toEntity(showId)
-//
-//    // todo - test salvataggio parziale
-//    val rating: String? = null,
-//    val episodeCount: Int? = null,
-//    val airedEpisodes: Int? = null,
-//    val title: String? = null,
-//    val overview: String? = null,
-//    val releaseYear: String? = null,
-//    val network: String? = null,
-//)
-
-
-// new
+// 1.1.3 OK
 @Entity(tableName = "season_table")
 data class SeasonEntity(
     // base data - from trakt dto

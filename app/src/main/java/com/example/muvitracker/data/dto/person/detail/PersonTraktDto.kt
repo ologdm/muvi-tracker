@@ -32,7 +32,7 @@ data class PersonTraktDto(
 @Serializable
 data class SocialIds(
     val twitter: String?,
-    val facebook: String?,
+        val facebook: String?,
     val instagram: String?,
     val wikipedia: String?
 )
