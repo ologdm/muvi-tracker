@@ -3,50 +3,43 @@ package com.example.muvitracker.data.database
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.example.muvitracker.data.database.dao.DetailMovieDao
-import com.example.muvitracker.data.database.dao.DetailShowDao
+import com.example.muvitracker.data.database.dao.MovieDao
+import com.example.muvitracker.data.database.dao.ShowDao
 import com.example.muvitracker.data.database.dao.EpisodeDao
 import com.example.muvitracker.data.database.dao.PrefsMovieDao
 import com.example.muvitracker.data.database.dao.PrefsShowDao
 import com.example.muvitracker.data.database.dao.SeasonDao
-import com.example.muvitracker.data.database.entities.DetailMovieEntity
-import com.example.muvitracker.data.database.entities.DetailShowEntity
+import com.example.muvitracker.data.database.entities.MovieEntity
+import com.example.muvitracker.data.database.entities.ShowEntity
 import com.example.muvitracker.data.database.entities.EpisodeEntity
 import com.example.muvitracker.data.database.entities.PrefsMovieEntity
 import com.example.muvitracker.data.database.entities.PrefsShowEntity
 import com.example.muvitracker.data.database.entities.SeasonEntity
-import com.example.muvitracker.data.repositories.imagetmdb.database.dao.EpisodeImageDao
-import com.example.muvitracker.data.repositories.imagetmdb.database.dao.MovieShowImageDao
-import com.example.muvitracker.data.repositories.imagetmdb.database.dao.PersonImageDao
-import com.example.muvitracker.data.repositories.imagetmdb.database.dao.SeasonImageDao
-import com.example.muvitracker.data.repositories.imagetmdb.database.entities.ConvertersUtilsTmdb
-import com.example.muvitracker.data.repositories.imagetmdb.database.entities.EpisodeImageEntity
-import com.example.muvitracker.data.repositories.imagetmdb.database.entities.MovieShowImageEntity
-import com.example.muvitracker.data.repositories.imagetmdb.database.entities.PersonImageEntity
-import com.example.muvitracker.data.repositories.imagetmdb.database.entities.SeasonImageEntity
 
 @Database(
     entities = [
-        // trakt
-        DetailMovieEntity::class,
-        DetailShowEntity::class,
+        MovieEntity::class,
+        ShowEntity::class,
         PrefsMovieEntity::class,
         PrefsShowEntity::class,
         SeasonEntity::class,
         EpisodeEntity::class,
-        // tmdb images
-        MovieShowImageEntity::class,
-        SeasonImageEntity::class,
-        EpisodeImageEntity::class,
-        PersonImageEntity::class,
+        //
+        /** tmdb images - unused */
+//        MovieShowImageEntity::class,
+//        SeasonImageEntity::class,
+//        EpisodeImageEntity::class,
+//        PersonImageEntity::class,
     ],
     version = 1
 )
-@TypeConverters(ConvertersUtils::class, ConvertersUtilsTmdb::class)
+@TypeConverters(
+    ConvertersUtils::class,
+//    ConvertersUtilsImagesTmdb::class  /* unused */
+)
 abstract class MyDatabase : RoomDatabase() {
-
-    abstract fun detailMovieDao(): DetailMovieDao
-    abstract fun detailShowDao(): DetailShowDao
+    abstract fun movieDao(): MovieDao
+    abstract fun showDao(): ShowDao
 
     abstract fun prefsMovieDao(): PrefsMovieDao
     abstract fun prefsShowDao(): PrefsShowDao
@@ -55,9 +48,10 @@ abstract class MyDatabase : RoomDatabase() {
     abstract fun episodesDao(): EpisodeDao
 
 
-    // tmdb
-    abstract fun movieShowImageDao() : MovieShowImageDao
-    abstract fun seasonImageDao() : SeasonImageDao
-    abstract fun episodeImageDao() : EpisodeImageDao
-    abstract fun personImageDao() : PersonImageDao
+    /** tmdb all_images - unused */
+//    abstract fun movieShowImageDao(): MovieShowImageDao
+//    abstract fun seasonImageDao(): SeasonImageDao
+//    abstract fun episodeImageDao(): EpisodeImageDao
+//    abstract fun personImageDao(): PersonImageDao
+
 }

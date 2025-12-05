@@ -2,12 +2,14 @@ package com.example.muvitracker.data.repositories
 
 import com.example.muvitracker.data.database.MyDatabase
 import com.example.muvitracker.data.database.entities.PrefsShowEntity
-import com.example.muvitracker.domain.model.DetailShow
+import com.example.muvitracker.domain.model.Show
 import com.example.muvitracker.domain.repo.PrefsShowRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.io.path.fileVisitor
 
 @Singleton
 class PrefsShowRepositoryImpl @Inject constructor(
@@ -16,12 +18,14 @@ class PrefsShowRepositoryImpl @Inject constructor(
     private val prefsShowDao = database.prefsShowDao()
 
 
-    override fun getListFLow(): Flow<List<DetailShow>> {
+    override fun getListFLow(): Flow<List<Show>> {
         // (already downloaded case)
         // join on db: prefs + detail + watched episodes ->
         return prefsShowDao.getAllPrefs()
             .map { shows ->
-                shows.sortedByDescending { it.addedDateTime }
+                shows
+                    .filter { it -> it.liked || it.watchedCount > 0 }
+                    .sortedByDescending { it.addedDateTime }
             }
     }
 
@@ -63,6 +67,23 @@ class PrefsShowRepositoryImpl @Inject constructor(
 
     override suspend fun deleteItemOnDB(id: Int) {
         prefsShowDao.deleteSingle(id)
+    }
+
+
+    override suspend fun setNotesOnDB(showId: Int, notes: String) {
+        val entity = prefsShowDao.readSingle(showId)
+        if (entity == null) {
+            prefsShowDao.insertSingle(
+                PrefsShowEntity(
+                    traktId = showId,
+                    liked = false,
+                    addedDateTime = System.currentTimeMillis(),
+                    notes = notes
+                )
+            )
+        } else {
+            prefsShowDao.setNotes(showId, notes)
+        }
     }
 
 

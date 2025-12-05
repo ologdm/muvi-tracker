@@ -1,0 +1,774 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!--TODO wrapper constraint -
+        spostato fuori progressBar, errorTextView, buttonBack-->
+
+
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/progressBar"
+        style="@style/ProgressBarOnStates"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/errorTextView"
+        style="@style/ErrorTextOnStates"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:hint="errorTextView......"
+        tools:visibility="visible" />
+
+
+    <ImageButton
+        android:id="@+id/buttonBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/back_button_shape_trasparent"
+        android:elevation="4dp"
+        android:importantForAccessibility="no"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/back_button_arrow" />
+
+
+    <!--    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout-->
+    <!--            android:id="@+id/swipeToRefresh"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="match_parent">-->
+
+
+    <!-- !!! NOTE: Layout displayed while loading the detail screen or when an error occurs -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/mainLayoutToDisplayDetail"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible">
+
+
+        <!--  LIKE BUTTON  -> 1.1.3 NEW OK   -->
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/extendedFloatingLikedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="24dp"
+            android:importantForAccessibility="no"
+            android:text="@string/like"
+            android:textSize="15sp"
+            app:icon="@drawable/liked_icon_empty"
+            app:iconGravity="end"
+            app:iconPadding="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+
+
+            />  <!-- testo vuoto inizialmente -->
+        <!--  Note: extended fab puo funzionare anche senza note, animazioni di default -->
+
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/mainScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+            <LinearLayout
+                android:id="@+id/mainLayoutInsideScroll1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingBottom="120dp">
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/horizontalImageLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/horizontalImage"
+                        android:layout_width="match_parent"
+                        android:layout_height="300dp"
+                        android:elevation="-4dp"
+                        android:importantForAccessibility="no"
+                        android:scaleType="centerCrop"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:background="@tools:sample/avatars" />
+
+
+                    <!-- NOTES: marginStart == padding layout sotto imageHorizontal    -->
+                    <TextView
+                        android:id="@+id/englishTitle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginBottom="12dp"
+                        android:shadowColor="@android:color/black"
+                        android:shadowDx="2"
+                        android:maxLines="3"
+                        android:shadowDy="2"
+                        android:layout_marginEnd="28dp"
+                        android:shadowRadius="10"
+                        android:textColor="@android:color/white"
+                        android:textSize="18sp"
+                        android:visibility="gone"
+                        app:layout_constraintEnd_toStartOf="@id/trailerLayout"
+                        app:layout_constraintBottom_toBottomOf="@id/horizontalImage"
+                        app:layout_constraintStart_toStartOf="@id/horizontalImage"
+                        tools:text="Lorem."
+                        tools:visibility="visible" />
+
+                    <LinearLayout
+                        android:id="@+id/trailerLayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="12dp"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent">
+
+                        <ImageView
+                            android:id="@+id/trailerImageButton"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+
+                            android:src="@drawable/youtube_red_official_icon" />
+
+<!--        NOTE:
+            'margin_top = -4' ok anche se il testo è ingrandito
+-->
+                        <TextView
+                            android:id="@+id/trailerTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:shadowColor="#FF000000"
+                            android:shadowDx="5"
+                            android:shadowDy="3"
+                            android:layout_marginTop="-4dp"
+                            android:shadowRadius="5"
+                            android:text="@string/trailer"
+                            android:textColor="@android:color/white"
+                            android:textSize="10sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/mainLayoutInsideScroll2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="12dp">
+
+
+                    <TextView
+                        android:id="@+id/title"
+                        style="@style/TitleDetail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        tools:text="@tools:sample/lorem" />
+
+                    <TextView
+                        android:id="@+id/tagline"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="1dp"
+                        android:ellipsize="end"
+                        android:maxLines="2"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        tools:text="@tools:sample/lorem/random" />
+
+
+<!--
+                    NOTE: layout imagine | info -> sempre 50|50
+                        1. layout_constraintWidth_percent="0.5" ->
+                                -> l’immagine occupa esattamente metà della larghezza del parent.
+                        2. layout_constraintDimensionRatio="2:3" ->
+                                -> mantiene sempre proporzione larghezza:altezza 2:3.
+                        3. Il LinearLayout a destra prende tutto lo spazio rimanente
+                            (0dp width + constraintStart_toEndOf + constraintEnd_toEndOf="parent").
+ -->
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp">
+
+
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:id="@+id/verticalImage"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:importantForAccessibility="no"
+                            app:shapeAppearance="@style/ImageLargeRoundedShape"
+                            app:layout_constraintWidth_percent="0.5"
+                            app:layout_constraintDimensionRatio="2:3"
+                            android:scaleType="centerCrop"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:background="@tools:sample/avatars"
+                            />
+
+                        <!--    NOTE: 1.1.3
+                                - wrap_content in altezza permette l'espansione layout padre in base
+                                    all'aumentare dimensione elementi
+                        -->
+                        <LinearLayout
+                            android:id="@+id/rightLayout"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_marginStart="8dp"
+                            android:paddingHorizontal="12dp"
+                            app:layout_constraintStart_toEndOf="@id/verticalImage"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent">
+                            >
+
+
+                            <!--                            <TextView-->
+                            <!--                                android:id="@+id/status"-->
+                            <!--                                android:layout_width="wrap_content"-->
+                            <!--                                android:layout_height="wrap_content"-->
+                            <!--                                android:textSize="15sp"-->
+                            <!--                                android:textStyle="normal"-->
+                            <!--                                tools:text="Ended" />-->
+
+
+                            <!--                            <TextView-->
+                            <!--                                android:id="@+id/networkYearCountry"-->
+                            <!--                                android:layout_width="wrap_content"-->
+                            <!--                                android:layout_height="wrap_content"-->
+                            <!--                                android:layout_marginTop="2dp"-->
+                            <!--                                android:textSize="15sp"-->
+                            <!--                                tools:text="Network 2010 (US) " />-->
+
+
+                            <!--                            <TextView-->
+                            <!--                                android:id="@+id/totalSeasons"-->
+                            <!--                                android:layout_width="wrap_content"-->
+                            <!--                                android:layout_height="wrap_content"-->
+                            <!--                                android:layout_marginTop="2dp"-->
+                            <!--                                android:textSize="15sp"-->
+                            <!--                                tools:text="6 seasons" />-->
+
+
+                            <!--                            TODO 1.1.3 new-->
+                            <TextView
+                                android:id="@+id/status"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:text="Ended"
+                                android:textSize="15sp"
+                                android:textStyle="normal" />
+
+                            <TextView
+                                android:id="@+id/releaseAndEndYear"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:text="2010 - 2016"
+                                android:textSize="15sp"
+                                android:textStyle="normal" />
+
+
+                            <TextView
+                                android:id="@+id/networkAndCountry"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:textSize="15sp"
+                                tools:text="Network (US) " />
+
+
+                            <TextView
+                                android:id="@+id/totalSeasons"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:textSize="15sp"
+                                tools:text="6 seasons" />
+
+
+                            <TextView
+                                android:id="@+id/airedEpisodes"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:textSize="15sp"
+                                tools:text="48 episodes usciti" />
+
+                            <!--                            <TextView-->
+                            <!--                                android:id="@+id/runtime"-->
+                            <!--                                android:layout_width="wrap_content"-->
+                            <!--                                android:layout_height="wrap_content"-->
+                            <!--                                android:textSize="15sp"-->
+                            <!--                                android:layout_marginTop="2dp"-->
+                            <!--                                tools:text="42 min" />-->
+
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="4dp" />
+
+                            <LinearLayout
+                                android:id="@+id/ratingsLayout"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:orientation="horizontal"
+                                app:layout_constraintStart_toEndOf="@id/verticalImage">
+
+                                <!-- TODO Trakt OK -->
+                                <LinearLayout
+                                    android:id="@+id/traktLayout"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="12dp"
+                                    android:gravity="center_horizontal"
+                                    android:orientation="vertical">
+
+                                    <ImageButton
+                                        android:id="@+id/linkImageTrakt"
+                                        android:layout_width="32dp"
+                                        android:layout_height="32dp"
+                                        android:background="@android:color/transparent"
+                                        android:src="@drawable/link_image"
+                                        android:visibility="gone" />
+
+                                    <TextView
+                                        android:id="@+id/traktRating"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textSize="24sp"
+                                        android:visibility="visible"
+                                        tools:text="8.3" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Trakt.tv"
+                                        android:textSize="12sp" />
+                                </LinearLayout>
+
+                                <!--  TODO tmdb OK-->
+                                <LinearLayout
+                                    android:id="@+id/tmdbLayout"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center_horizontal"
+                                    android:orientation="vertical">
+
+                                    <ImageButton
+                                        android:id="@+id/linkImageTmdb"
+                                        android:layout_width="32dp"
+                                        android:layout_height="32dp"
+                                        android:background="@android:color/transparent"
+                                        android:src="@drawable/link_image"
+                                        android:visibility="gone" />
+
+                                    <TextView
+                                        android:id="@+id/tmdbRating"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textSize="24sp"
+                                        tools:text="7.9" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Tmdb"
+                                        android:textSize="12sp" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+
+                            <!-- solo diastanziamento -->
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp" />
+
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:id="@+id/watchedAllLayout"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:id="@+id/watchedCounterTextview"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="end"
+                                    android:layout_marginEnd="12dp"
+                                    android:layout_marginBottom="10dp"
+                                    android:textSize="15sp"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    tools:text="15/30" />
+
+                                <com.google.android.material.progressindicator.LinearProgressIndicator
+                                    android:id="@+id/watchedCounterProgressBar"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="4dp"
+                                    app:layout_constraintTop_toBottomOf="@id/watchedCounterTextview" />
+
+                                <CheckBox
+                                    android:id="@+id/watchedAllCheckbox"
+                                    android:layout_width="wrap_content"
+
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="10dp"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@id/watchedCounterProgressBar" />
+
+                                <ProgressBar
+                                    android:id="@+id/watchedAllCheckboxLoadingBar"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:visibility="gone"
+                                    app:layout_constraintEnd_toEndOf="@id/watchedAllCheckbox"
+                                    app:layout_constraintTop_toTopOf="@id/watchedAllCheckbox"
+                                    tools:visibility="visible" />
+
+                                <TextView
+                                    android:id="@+id/watchedAllTextview"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/watched_all_checkbox"
+                                    android:textSize="15sp"
+                                    android:textStyle="bold"
+                                    android:gravity="right"
+                                    app:layout_constraintBottom_toBottomOf="@id/watchedAllCheckbox"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintEnd_toStartOf="@id/watchedAllCheckbox"
+                                    app:layout_constraintTop_toTopOf="@id/watchedAllCheckbox" />
+
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        </LinearLayout>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                    <LinearLayout
+                        android:id="@+id/notesLayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginStart="-8dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <!--                        <TextView-->
+                        <!--                            style="@style/TitleCategoryDetail"-->
+                        <!--                            android:layout_width="wrap_content"-->
+                        <!--                            android:layout_height="wrap_content"-->
+                        <!--                            android:text="@string/add_notes"-->
+                        <!--                            android:textColor="?attr/colorPrimary"-->
+                        <!--                            android:textStyle="normal" />-->
+
+
+                        <ImageButton
+                            android:id="@+id/notesImageButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@null"
+                            android:src="@drawable/take_notes"
+                            app:tint="?attr/colorPrimary" />
+
+                        <TextView
+                            android:id="@+id/notesTextview"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:hint="@string/add_a_note_to_your_show"
+                            android:maxLines="2"
+                            android:textColor="?attr/colorPrimary"
+                            android:textStyle="italic"
+                            android:visibility="visible" />
+                    </LinearLayout>
+
+
+                    <!--                    TODO: Providers:
+                                            - solo recyclerview
+                                            -
+                    -->
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/streamChannelRV"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:background="@android:color/holo_blue_light"
+                        android:orientation="horizontal"
+                        android:visibility="gone"
+                        tools:itemCount="4"
+                        tools:layout_height="40dp"
+                        tools:listitem="@layout/viewholder_cast_list_on_detail" />
+
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/overviewLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+<!--                        <com.google.android.material.divider.MaterialDivider-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            app:layout_constraintTop_toTopOf="parent" />-->
+
+
+                        <TextView
+                            android:id="@+id/overviewTitle"
+                            style="@style/TitleCategoryDetail"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/about_show"
+                            app:layout_constraintStart_toStartOf="@id/overviewLayout"
+                            app:layout_constraintTop_toTopOf="@id/overviewLayout" />
+
+
+                        <TextView
+                            android:id="@+id/overviewContent"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:ellipsize="end"
+                            android:maxLines="4"
+                            app:layout_constraintTop_toBottomOf="@id/overviewTitle"
+                            tools:text="@tools:sample/lorem/random" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+<!--    NOTE:
+        padding top bottom - 16dp
+        chipMinTouchTargetSize -> da codice, padding esterno minimo per touch a 0dp
+-->
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/genresChipGroup"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:clickable="false"
+                        app:singleSelection="false"
+                        tools:background="@android:color/darker_gray"
+                        tools:layout_height="25dp" />
+
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/castLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp">
+
+                        <com.google.android.material.divider.MaterialDivider
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/castTitle"
+                            style="@style/TitleCategoryDetail"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:text="@string/cast"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            app:layout_constraintTop_toBottomOf="@id/castTitle">
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/castRecyclerView"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                tools:itemCount="1"
+                                tools:listitem="@layout/viewholder_cast_list_on_detail" />
+
+                            <TextView
+                                android:id="@+id/castErrorMessage"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginVertical="8dp"
+                                android:textAppearance="?attr/textAppearanceBodyMedium"
+                                android:visibility="gone"
+                                tools:text="@string/actors_are_not_available"
+                                tools:visibility="visible" />
+
+                            <ProgressBar
+                                android:id="@+id/castProgressBar"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:visibility="visible" />
+
+                        </FrameLayout>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/seasonLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp">
+
+                        <com.google.android.material.divider.MaterialDivider
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+
+                        <TextView
+                            android:id="@+id/seasonsTitle"
+                            style="@style/TitleCategoryDetail"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:text="@string/seasons"
+                            app:layout_constraintTop_toTopOf="parent"
+
+                            />
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            app:layout_constraintTop_toBottomOf="@id/seasonsTitle">
+
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/seasonsRecyclerview"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                tools:itemCount="3"
+                                tools:layout_height="wrap_content"
+                                tools:listitem="@layout/viewholder_seasons_on_detailshow" />
+
+
+                            <TextView
+                                android:id="@+id/seasonsErrorMessage"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginVertical="8dp"
+                                android:layout_marginBottom="8dp"
+                                android:textAppearance="?attr/textAppearanceBodyMedium"
+                                android:visibility="gone"
+                                tools:text="@string/not_available"
+                                tools:visibility="visible" />
+
+                            <ProgressBar
+                                android:id="@+id/seasonsProgressBar"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:visibility="visible" />
+
+                        </FrameLayout>
+
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/relatedLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp">
+
+                        <com.google.android.material.divider.MaterialDivider
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/relatedTitle"
+                            style="@style/TitleCategoryDetail"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:text="@string/related"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            app:layout_constraintTop_toBottomOf="@id/relatedTitle">
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/relatedRecyclerview"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                tools:itemCount="1"
+                                tools:listitem="@layout/viewholder_related_list_on_detail" />
+
+                            <TextView
+                                android:id="@+id/relatedErrorMessage"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginVertical="8dp"
+                                android:layout_marginBottom="8dp"
+                                android:textAppearance="?attr/textAppearanceBodyMedium"
+                                android:visibility="gone"
+                                tools:text="@string/not_available"
+                                tools:visibility="visible" />
+
+                            <ProgressBar
+                                android:id="@+id/relatedProgressBar"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:visibility="visible" />
+
+                        </FrameLayout>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!--    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>-->
+
+</androidx.constraintlayout.widget.ConstraintLayout>

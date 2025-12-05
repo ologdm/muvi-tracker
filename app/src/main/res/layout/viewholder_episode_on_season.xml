@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:layout_marginTop="50dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingVertical="9dp">
+
+
+    <!-- BLOCCO TESTO A SINISTRA -->
+    <!--    TODO - 0dp si adatta in base ai connstraint e margini, partendo dai lati-->
+    <!--    TODO - wrap si adatta in base ai contenuti, centrato-->
+    <LinearLayout
+        android:id="@+id/infoEpisodeLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/traktRating"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/episodeInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="E.01 • 18.04.11 • 56 min (tools)" />
+
+        <TextView
+            android:id="@+id/episodeTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            tools:text="Winter Is Coming" />
+    </LinearLayout>
+
+
+    <!-- TRAKT RATING (lunnghezza fissa da codice) -->
+    <TextView
+        android:id="@+id/traktRating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/starIcon"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="5.1" />
+
+
+    <!-- STELLA (fissa) -->
+    <ImageView
+        android:id="@+id/starIcon"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="32dp"
+        android:contentDescription="View episode"
+        android:src="@android:drawable/star_off"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/watchedIcon"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <!-- ICONA WATCHED (fissa) -->
+    <ImageView
+        android:id="@+id/watchedIcon"
+        android:layout_width="26dp"
+        android:layout_height="26dp"
+        android:layout_marginEnd="16dp"
+        android:clickable="true"
+        android:contentDescription="View episode"
+        android:src="@drawable/episode_watched_eye_empty"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

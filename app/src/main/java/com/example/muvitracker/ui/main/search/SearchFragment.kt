@@ -2,13 +2,17 @@ package com.example.muvitracker.ui.main.search
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.muvitracker.R
-import com.example.muvitracker.databinding.FragmSearchBinding
+import com.example.muvitracker.databinding.FragmentSearchBinding
 import com.example.muvitracker.ui.main.Navigator
+import com.example.muvitracker.ui.main.search.adapters.SearchResultsAdapter
 import com.example.muvitracker.utils.fragmentViewLifecycleScope
 import com.example.muvitracker.utils.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -18,14 +22,14 @@ import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class SearchFragment : Fragment(R.layout.fragm_search) {
+class SearchFragment : Fragment(R.layout.fragment_search) {
 
-    private val binding by viewBinding(FragmSearchBinding::bind)
+    private val binding by viewBinding(FragmentSearchBinding::bind)
     private val viewModel by viewModels<SearchViewModel>()
 
     @Inject
     lateinit var navigator: Navigator
-    private val adapter = SearchAdapter(
+    private val adapter = SearchResultsAdapter(
         onClickVHMovie = { movieIds ->
             navigator.startMovieDetailFragment(movieIds)
         },
@@ -70,6 +74,21 @@ class SearchFragment : Fragment(R.layout.fragm_search) {
                 else -> MOVIE_SHOW_PERSON
             }
             viewModel.updateFilterValue(filterValue)
+
+            // 1.1.3 per gestione type solo su 'all'
+            adapter.updateFilter(filterValue)
+        }
+
+        mainLayoutTopEdgeToEdgeManagement()
+    }
+
+
+    private fun mainLayoutTopEdgeToEdgeManagement() {
+        ViewCompat.setOnApplyWindowInsetsListener(binding.mainLayout) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            // aggiorno solo lati che mi servono
+            v.updatePadding(top = systemBars.top)
+            insets
         }
     }
 

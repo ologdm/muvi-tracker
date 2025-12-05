@@ -20,14 +20,17 @@ import com.example.muvitracker.domain.repo.PrefsMovieRepository
 import com.example.muvitracker.domain.repo.PrefsShowRepository
 import com.example.muvitracker.domain.repo.SeasonRepository
 import com.google.gson.Gson
+import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.json.Json
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import okhttp3.MediaType.Companion.toMediaType
 import javax.inject.Singleton
 
 @Module
@@ -77,7 +80,23 @@ class DaggerModules {
     }
 
 
-    // ######################################################################
+    // DATABASING ---------------------------------------------------------------------------------
+    @Provides
+    @Singleton
+    fun getMyDatabase(@ApplicationContext context: Context): MyDatabase {
+        return Room.databaseBuilder(
+            context,
+            MyDatabase::class.java,
+            "muvi-tracker-db"
+        )
+            // calcella db e ne create uno nuovo - non crasha quando modifichi lo schema del DB
+//            .fallbackToDestructiveMigration()
+            // TODO: valutare se aggiungere
+//            .addMigrations(MIGRATION_1_2) // add movie tmdb elements
+//            .addMigrations(MIGRATION_2_3) // add show tmdb elements
+//            .addMigrations(MIGRATION_3_4) // add season tmdb elements
+            .build()
+    }
 
     // shared preferences
     @Provides
@@ -89,63 +108,94 @@ class DaggerModules {
 
     @Provides
     @Singleton
-    fun getMyDatabase(@ApplicationContext context: Context): MyDatabase {
-        return Room.databaseBuilder(
-            context,
-            MyDatabase::class.java,
-            "muvi-tracker-db"
-        )
-            // non crasha quando modifichi lo schema del DB, ma lo cancella
-            // e ne create uno nuovo
-            .fallbackToDestructiveMigration()
-            .build()
-    }
-
-
-    @Provides
-    @Singleton
     fun provideSharedPreferences(@ApplicationContext context: Context): SharedPreferences {
         return context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
     }
 
 
-    // retrofit
+    // CHIAMATE INTERNET
+//    @Provides
+//    @Singleton
+//    fun provideTraktApi(): TraktApi {
+//        val retrofit = Retrofit.Builder()
+//            .baseUrl("https://api.trakt.tv/")
+//            .addConverterFactory(GsonConverterFactory.create())
+//            .callFactory(
+//                OkHttpClient.Builder()
+//                    .addInterceptor { chain ->
+//                        val newRequest = chain.request().newBuilder()
+//                            .addHeader("trakt-api-key", BuildConfig.TRAKT_API_KEY)
+//                            .build()
+//                        chain.proceed(newRequest)
+//                    }.build()
+//            ).build()
+//        return retrofit.create(TraktApi::class.java)
+//    }
+
+
+
+    @OptIn(ExperimentalSerializationApi::class) // opt-in corretto per asConverterFactory
     @Provides
     @Singleton
-    fun getTraktApi(): TraktApi {
+    fun provideTraktApi(): TraktApi {
+        val json = Json {
+            ignoreUnknownKeys = true // ignora campi non presenti nel tuo data class
+            isLenient = true // rende il parser più permissivo in lettura di JSON non perfetto
+            encodeDefaults = true // (per POST, invio dati) include sempre i valori di default nella serializzazione in JSON
+            coerceInputValues = true // GET - se trova un null in un campo non nullable, usa il valore di default invece di crashare.
+        }
+
+        val contentType = "application/json".toMediaType()
+
         val retrofit = Retrofit.Builder()
             .baseUrl("https://api.trakt.tv/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .callFactory(
+            .addConverterFactory(json.asConverterFactory(contentType))
+            .client( // al posto di callFactory()
                 OkHttpClient.Builder()
                     .addInterceptor { chain ->
                         val newRequest = chain.request().newBuilder()
                             .addHeader("trakt-api-key", BuildConfig.TRAKT_API_KEY)
                             .build()
                         chain.proceed(newRequest)
-                    }
-                    .build()
+                    }.build()
             )
             .build()
-
         return retrofit.create(TraktApi::class.java)
     }
 
 
-    // DAGGER TODO: spostato da tmdbApi
-//    @Module
-//    @InstallIn(SingletonComponent::class)
-//    object NetworkModule {
     @Provides
     @Singleton
-    fun getTmdbApi(): TmdbApi {
+    fun provideTmdbApi(): TmdbApi {
+        val json = Json {
+            ignoreUnknownKeys = true
+            isLenient = true
+            encodeDefaults = true
+            coerceInputValues = true
+        }
+
+        val contentType = "application/json".toMediaType()
+
         val retrofit = Retrofit.Builder()
             .baseUrl("https://api.themoviedb.org/3/")
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(json.asConverterFactory(contentType))
             .build()
-
         return retrofit.create(TmdbApi::class.java)
     }
+
+
+    /**  ALL IMAGES FROM TMDB - attualmente non usato
+     * -> data.unused.tmdb_all_images
+     */
+//    @Provides
+//    @Singleton
+//    fun provideTmdbAllImagesApi(): TmdbAllImagesApi {
+//        val retrofit = Retrofit.Builder()
+//            .baseUrl("https://api.themoviedb.org/3/")
+//            .addConverterFactory(GsonConverterFactory.create())
+//            .build()
+//        return retrofit.create(TmdbAllImagesApi::class.java)
+//    }
 
 
 }

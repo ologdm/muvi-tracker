@@ -1,37 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!--navigation bar names -->
+
     <string name="movies">Film</string>
     <string name="shows">Serie TV</string>
     <string name="my_list">La Mia Lista</string>
     <string name="search">Cerca</string>
 
-    <!--base categories -->
+
     <string name="popular">Popolari</string>
     <string name="box_office">Al cinema</string>
     <string name="watched">Più guardati</string>
     <string name="favorited">Favoriti</string>
     <string name="anticipated">Prossimamente</string>
 
-    <!--detail-->
-    <string name="aired_episodes">%1$s episodi </string>
-    <string name="count_seasons">%1$s stagioni </string>
-    <!--  -->
-    <string name="watched_check_text">Guardato</string>
-    <string name="watched_all_check_text">Guardato tutto</string>
-    <!--     sections-->
-    <string name="about_show_text">Descrizione</string>
-    <string name="seasons_text">Stagioni</string>
-    <string name="related_text">Ti potrebbe piacere anche</string>
-    <string name="watch_provider_text">Piattaforme streaming</string>
+
+    <string name="aired_episodes">%1$s episodi usciti</string>
+    <string name="total_seasons">%1$s stagioni</string>
+
+    <string name="runtime_description">%1$s min</string>
+    <string name="watched_checkbox">Guardato</string>
+    <string name="watched_all_checkbox">Guardato tutto</string>
+
+    <string name="about_movie">Descrizione</string>
+    <string name="about_show">Descrizione</string>
+    <string name="seasons">Stagioni</string>
+    <string name="related">Ti potrebbe piacere anche</string>
+    <string name="cast">Cast</string>
+    <string name="watch_provider">Piattaforme streaming</string>
     <string name="no_trailer_available">Nessun trailer disponibile</string>
 
-    <!--    seasons-->
-    <string name="season_text">Stagione</string>
-    <string name="episodes_text">episodi</string>
 
-    <!--episode-->
+    <string name="season">Stagione</string>
+    <string name="episodes">episodi</string>
+
+
+    <string name="overview">Descrizione</string>
     <string name="release_date">Prima uscita:</string>
 
 
@@ -40,11 +44,48 @@
     <string name="error_message_other">qualcosa e andato storto :(</string>
 
 
-    <string name="search_all">Tutto</string>
-    <string name="search_movies">Film</string>
-    <string name="search_tv_series">Serie TV</string>
-    <string name="search_people">Persone</string>
-    <string name="episodes">Episodi:</string>
+    <string name="people">Persone</string>
+    <string name="episodes_label">Episodi:</string>
+    <string name="ep_n_episode_title">Ep.%1$s • %2$s</string>
     <string name="all">Tutti</string>
+    <string name="actors_are_not_available">Attori non disponibili</string>
+    <string name="not_available">Non disponibile</string>
+    <string name="seasons_not_available">Stagioni non disponibili</string>
+    <string name="like">Preferito</string>
+    <string name="from_release_year">Dal %1$s</string>
+    <string name="my_notes">Le mie note</string>
+    <string name="add_a_note_to_your_movie">Aggiungi una nota al tuo film</string>
+    <string name="add_a_note_to_your_show">Aggiungi una nota alla tua serie</string>
+    <string name="write_your_note">"Scrivi la tua nota… "</string>
+    <string name="ep_number_first_aired_runtime_min">Ep.%1$s  •  %2$s  •  %3$s min</string>
+    <string name="trailer">Trailer</string>
+    <string name="biography">Biografia:</string>
+    <string name="known_for">Nota per:</string>
+    <string name="age">Età:</string>
+    <string name="born">Nascita:</string>
+    <string name="died">Morte:</string>
+    <string name="discard_movie">Elimina film?</string>
+    <string name="discard_show">Elimina serie tv?</string>
+    <string name="is_no_longer_liked_or_watched_remove_it">\"%1$s\" non è più tra i preferiti né tra i visti.\n\nRimuoverlo?</string>
+    <string name="yes">Si</string>
+    <string name="no">No</string>
+    <string name="untitled">Senza titolo</string>
+    <string name="year_n_a">Anno —</string>
+    <string name="runtime_n_a">"Durata — "</string>
+    <string name="status_unknown">Status: Sconosciuto</string>
+    <string name="language_unknown">Lingua: Sconosciuto</string>
+    <string name="tagline_are_not_available">Tagline non disponibile</string>
+    <string name="overview_are_not_available">Descrizione non disponibile</string>
+    <string name="country_n_a">Paese N/D</string>
+    <string name="network_n_a">Network N/D</string>
+    <string name="episodes_not_available">Episodi non disponibili</string>
+    <string name="coming_soon">In arrivo...</string>
+    <string name="date_n_d">data n/a</string>
+    <string name="died_at">Morto/a a %1$s</string>
+    <string name="unknown_name">Nome sconosciuto</string>
+    <string name="unknown_birthplace">Luogo di nascita sconosciuto</string>
+    <string name="unknown_birthday">Data di nascita sconosciuta</string>
+    <string name="unknown_age">Età sconosciuta</string>
+    <string name="unknown">Sconosciuto</string>
 
 </resources>

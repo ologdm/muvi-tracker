@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:background="?attr/colorSurface"
+    android:layout_gravity="center">
+
+    <TextView
+        android:id="@+id/dialogTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/my_notes"
+        android:textAppearance="?attr/textAppearanceTitleMedium"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:layout_gravity="center_horizontal"
+        android:paddingBottom="10dp" />
+
+
+    <EditText
+        android:id="@+id/noteContentText"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:minHeight="60dp"
+        android:hint="@string/write_your_note"
+        android:inputType="textMultiLine"
+        android:gravity="top|start"
+        android:backgroundTint="?attr/colorOutline"
+        android:background="@android:color/transparent"
+        />
+
+    <Button
+        android:id="@+id/saveNoteButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Save"
+        android:layout_marginTop="16dp" />
+
+
+</LinearLayout>

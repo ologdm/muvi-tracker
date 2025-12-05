@@ -1,18 +1,22 @@
 package com.example.muvitracker.data.dto.show
 
-import com.example.muvitracker.data.dto.base.Ids
-import com.example.muvitracker.domain.model.base.Show
+import android.annotation.SuppressLint
+import com.example.muvitracker.data.dto._support.Ids
+import com.example.muvitracker.domain.model.base.ShowBase
+import kotlinx.serialization.Serializable
 
 
+@SuppressLint("UnsafeOptInUsageError")
+@Serializable
 data class ShowBaseDto(
-    val title: String,
-    val year: Int,
+    val title: String = "",
+    val year: Int = -1,
     val ids: Ids
 )
 
 
-fun ShowBaseDto.toDomain(): Show {
-    return Show(
+fun ShowBaseDto.toDomain(): ShowBase {
+    return ShowBase(
         title = this.title,
         year = this.year,
         ids = this.ids

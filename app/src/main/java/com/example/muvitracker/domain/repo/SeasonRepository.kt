@@ -1,27 +1,32 @@
 package com.example.muvitracker.domain.repo
 
-import com.example.muvitracker.domain.model.SeasonExtended
+import com.example.muvitracker.data.dto._support.Ids
+import com.example.muvitracker.domain.model.Season
 import com.example.muvitracker.utils.IoResponse
 import kotlinx.coroutines.flow.Flow
 
 
 interface SeasonRepository {
 
-    // 1
-    fun getAllSeasonsFlow(showId: Int): Flow<IoResponse<List<SeasonExtended>>>
+    fun getAllSeasonsFlow(
+        showIds: Ids
+    ): Flow<IoResponse<List<Season>>>
 
-    // 2
-    fun getSingleSeasonFlow(showId: Int, seasonNr: Int): Flow<SeasonExtended>
 
-    // 3
-    suspend fun checkAndSetSingleSeasonWatchedAllEpisodes(
+    fun getSingleSeasonFlow(
         showId: Int,
+        seasonNr: Int
+    ): Flow<Season>
+
+
+    suspend fun checkAndSetSingleSeasonWatchedAllEpisodes(
+        showIds: Ids,
         seasonNr: Int
     )
 
-    // 4
+
     suspend fun checkAndSetSingleSeasonWatchedAllEpisodes(
-        showId: Int,
+        showIds: Ids,
         seasonNr: Int,
         watchedAllState: Boolean
     )

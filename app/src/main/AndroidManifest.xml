@@ -19,7 +19,7 @@
             android:theme="@style/Theme.MuviTracker"
             tools:targetApi="36"
             android:usesCleartextTraffic="true"
-            android:name=".App">
+            android:name=".MyApp">
 
 
         <activity

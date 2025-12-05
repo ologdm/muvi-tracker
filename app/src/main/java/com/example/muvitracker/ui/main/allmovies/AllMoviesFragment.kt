@@ -1,0 +1,194 @@
+package com.example.muvitracker.ui.main.allmovies
+
+import android.os.Bundle
+import android.view.View
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.isVisible
+import androidx.core.view.updatePadding
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.paging.LoadState
+import androidx.recyclerview.widget.GridLayoutManager
+import com.example.muvitracker.R
+import com.example.muvitracker.databinding.FragmentExploreBaseBinding
+import com.example.muvitracker.ui.main.Navigator
+import com.example.muvitracker.ui.main.allmovies.base.AllMoviesPagingAdapter
+import com.example.muvitracker.utils.viewBinding
+import com.example.muvitracker.utils.fragmentViewLifecycleScope
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
+import java.io.IOException
+import javax.inject.Inject
+
+
+@AndroidEntryPoint
+class AllMoviesFragment : Fragment(R.layout.fragment_explore_base) {
+
+    @Inject
+    lateinit var navigator: Navigator
+
+    private val b by viewBinding(FragmentExploreBaseBinding::bind)
+    private val viewModel by viewModels<MoviesViewmodel>()
+
+    private val pagingAdapter = AllMoviesPagingAdapter(onClickVH = { movieIds ->
+        navigator.startMovieDetailFragment(movieIds)
+    })
+
+    var shouldScrollToTop = false
+
+
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?
+    ) {
+        mainLayoutTopEdgeToEdgeManagement()
+
+        b.toolbarTextview.text = getString(R.string.movies)
+        b.recyclerView.adapter = pagingAdapter
+        b.recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
+
+        b.chipGroupFeed.apply {
+            createChipGroup()
+            setupChips()
+        }
+
+        b.swipeRefreshLayout.setOnRefreshListener {
+            pagingAdapter.refresh()
+        }
+
+        // paging of movies using paging3 with PagingSource()
+        collectPagingStates()
+
+    }
+
+
+    private fun ChipGroup.createChipGroup() {
+        // 1. creo i chip in base alla lista Enum
+        this.removeAllViews()
+        MovieType.entries.forEach { feed ->
+            val chip = Chip(context).apply {
+                text = getString(feed.stringRes)
+                isCheckable = true
+                tag = feed // tag type object
+            }
+            addView(chip)
+        }
+        this.isSingleSelection = true
+        this.isSelectionRequired = true
+
+    }
+
+    // PRIVATE METHODS
+    private fun ChipGroup.setupChips() {
+        // 1. inizializzo chip con feed attuale
+        this.findViewWithTag<Chip>(viewModel.selectedFeed.value) // value MovieType
+            ?.let { it ->
+                it.isChecked = true
+                b.chipsScrollView.smoothScrollTo(it.left, it.top)
+                // smoothScrollTo -> scroll animato a x,y
+                // (x.left, y.top) -> calcolare la posizione del chip selezionato
+            }
+
+        // 2. set chip con feed attuale
+        this.setOnCheckedChangeListener { chipGroup, checkedId ->
+            chipGroup.findViewById<Chip>(checkedId)?.let { chip ->
+                val newFeed = chip.tag as MovieType
+                viewModel.setFeed(newFeed)
+                shouldScrollToTop = true
+//                    pagingAdapter.refresh() non serve?
+            }
+        }
+    }
+
+
+    // with paging
+    private fun collectPagingStates() {
+        // 1 coroutines - data
+        fragmentViewLifecycleScope.launch {
+            viewModel.statePaging.collect { pagingData ->
+                pagingAdapter.submitData(pagingData)
+            }
+        }
+
+        // 2 coroutines - statesFlow
+        fragmentViewLifecycleScope.launch {
+            pagingAdapter.loadStateFlow.collectLatest { combLoadStates ->
+                // 1.
+                b.progressBar.isVisible = (combLoadStates.refresh is LoadState.Loading)
+                b.swipeRefreshLayout.isRefreshing = combLoadStates.refresh is LoadState.Loading
+
+
+                // 2. se uno dei 3 da errore
+                val errorState =
+                    listOf(combLoadStates.refresh, combLoadStates.prepend, combLoadStates.append)
+                        .filterIsInstance<LoadState.Error>()
+                        .firstOrNull()
+
+                b.errorTextView.isVisible = (errorState != null)
+                b.errorTextView.text = if (errorState?.error is IOException) {
+                    requireContext().getString(R.string.error_message_no_internet_swipe_down)
+                } else {
+                    requireContext().getString(R.string.error_message_other)
+                }
+
+
+                // fix 1.1.2 - paging does not invalidate when filter changes
+                if (combLoadStates.refresh is LoadState.NotLoading && shouldScrollToTop) {
+                    b.recyclerView.scrollToPosition(0)
+                    shouldScrollToTop = false
+                }
+            }
+        }
+    }
+
+
+    private fun mainLayoutTopEdgeToEdgeManagement() {
+        ViewCompat.setOnApplyWindowInsetsListener(b.mainLayout) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            // aggiorno solo lati che mi servono
+            v.updatePadding(top = systemBars.top)
+            insets
+        }
+    }
+
+}
+
+
+// TODO - per test, eliminare
+//@Inject
+//lateinit var tmdbApi: TmdbApi
+//@Inject
+//lateinit var detailMoviesRepo : DetailMovieRepository
+//
+//// test deadpool
+//// https://api.themoviedb.org/3/movie/293660?api_key=36b68580564c93f78a52fc28c15c44e5&language=it-IT&append_to_response=videos
+//// TODO per test:
+//b.toolbar.setOnClickListener {
+//    // retrofit, fai chiamata
+//    fragmentViewLifecycleScope.launch {
+////                val x1 = Locale.getDefault().toLanguageTag()
+////                val x2 = Locale.getDefault().language
+////                println("x1=$x1")
+//
+//        // test movie - 293660 deadpool
+//        val detailMovieDtoTmdb = tmdbApi.getMovieDto(
+//            movieId = 293660,
+//            language = LanguageManager.getSystemLocaleTag()
+//        )
+//        println(detailMovieDtoTmdb)
+//
+//        // test show - 1399 games of thrones
+//        val detailShowDtoTmdb = tmdbApi.getShowDto(
+//            showId = 1399,
+//            language = LanguageManager.getSystemLocaleTag()
+//        )
+//        println(detailShowDtoTmdb)
+//    }
+//}
+
+
+

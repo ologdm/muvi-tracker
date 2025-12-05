@@ -13,18 +13,22 @@ interface PrefsMovieDao {
     @Insert
     suspend fun insertSingle(entity: PrefsMovieEntity)
 
-    @Query("SELECT * FROM prefs_movie_entities WHERE traktId=:id")
+    @Query("SELECT * FROM prefs_movie_table WHERE traktId=:id")
     fun readSingle(id: Int): Flow<PrefsMovieEntity?>
 
-    @Query("SELECT * FROM prefs_movie_entities")
+    @Query("SELECT * FROM prefs_movie_table")
     fun readAll(): Flow<List<PrefsMovieEntity>>
 
-    @Query("UPDATE prefs_movie_entities SET liked = NOT liked WHERE traktId =:id")
+    @Query("UPDATE prefs_movie_table SET liked = NOT liked WHERE traktId =:id")
     suspend fun updateLiked(id: Int)
 
-    @Query("UPDATE prefs_movie_entities SET watched =:watched WHERE traktId =:id ")
+    @Query("UPDATE prefs_movie_table SET watched =:watched WHERE traktId =:id ")
     suspend fun updateWatched(id: Int, watched: Boolean)
 
-    @Query("DELETE FROM prefs_movie_entities WHERE traktId =:id")
+    @Query("DELETE FROM prefs_movie_table WHERE traktId =:id")
     suspend fun deleteSingle(id: Int)
+
+
+    @Query("UPDATE prefs_movie_table SET notes =:notes WHERE traktId = :movieId")
+    suspend fun setNotes(movieId: Int, notes: String)
 }

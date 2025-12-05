@@ -5,11 +5,11 @@ import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.example.muvitracker.R
-import com.example.muvitracker.data.dto.base.Ids
+import com.example.muvitracker.data.dto._support.Ids
 import com.example.muvitracker.ui.main.detailmovie.DetailMovieFragment
 import com.example.muvitracker.ui.main.detailshow.DetailShowFragment
 import com.example.muvitracker.ui.main.episode.EpisodeFragment
-import com.example.muvitracker.ui.main.person.PersonBSheetFragment
+import com.example.muvitracker.ui.main.person.PersonBottomSheetFragment
 import com.example.muvitracker.ui.main.person.PersonFragment
 import com.example.muvitracker.ui.main.seasons.viewpager.SeasonViewpagerFragment
 import javax.inject.Inject
@@ -24,6 +24,7 @@ class Navigator @Inject constructor(
     ) {
         val manager = fragmentActivity.supportFragmentManager
         // fix r1.1.2
+        // popBackStack - elimina tutti i fragment dalla backstack, solo quelli aggiunti con .addToBackStack()
         manager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
 
         manager.beginTransaction()
@@ -52,7 +53,7 @@ class Navigator @Inject constructor(
         manager.beginTransaction()
             .replace(R.id.frameLayout, DetailShowFragment.create(showIds))
             .addToBackStack(null)
-            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN) // setTransition solo animazioni standard
             .commit()
     }
 
@@ -91,7 +92,7 @@ class Navigator @Inject constructor(
         personIds: Ids,
         character: String
     ) {
-        val personFragment = PersonBSheetFragment.create(personIds, character).apply {
+        val personFragment = PersonBottomSheetFragment.create(personIds, character).apply {
             show(fragmentActivity.supportFragmentManager, "PersonFragmentCast")
         }
     }
@@ -101,8 +102,12 @@ class Navigator @Inject constructor(
         personIds: Ids
     ) {
         fragmentActivity.supportFragmentManager.beginTransaction()
-            .replace(R.id.frameLayout,PersonFragment.create(personIds))
+            .replace(
+                R.id.frameLayout,
+                PersonFragment.create(personIds)
+            )
             .addToBackStack(null)
+            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
             .commit()
     }
 

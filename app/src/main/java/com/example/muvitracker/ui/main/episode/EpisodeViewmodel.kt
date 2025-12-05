@@ -3,7 +3,8 @@ package com.example.muvitracker.ui.main.episode
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.muvitracker.domain.model.EpisodeExtended
+import com.example.muvitracker.data.dto._support.Ids
+import com.example.muvitracker.domain.model.Episode
 import com.example.muvitracker.domain.repo.EpisodeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
@@ -17,7 +18,7 @@ class EpisodeViewmodel @Inject constructor(
     private val episodeRepository: EpisodeRepository
 ) : ViewModel() {
 
-    val state = MutableLiveData<EpisodeExtended?>()
+    val state = MutableLiveData<Episode?>()
 
 
     fun loadEpisode(showTraktId: Int, seasonNr: Int, episodeNr: Int) {
@@ -33,9 +34,9 @@ class EpisodeViewmodel @Inject constructor(
     }
 
 
-    fun toggleWatchedEpisode(showId: Int, seasonNr: Int, episodeNr: Int) {
+    fun toggleWatchedEpisode(showIds: Ids, seasonNr: Int, episodeNr: Int) {
         viewModelScope.launch {
-            episodeRepository.toggleSingleWatchedEpisode(showId, seasonNr, episodeNr)
+            episodeRepository.toggleSingleWatchedEpisode(showIds, seasonNr, episodeNr)
         }
     }
 

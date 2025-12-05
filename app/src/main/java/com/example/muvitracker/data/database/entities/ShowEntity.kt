@@ -1,0 +1,66 @@
+package com.example.muvitracker.data.database.entities
+
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
+import com.example.muvitracker.data.database.ConvertersUtils
+import com.example.muvitracker.data.dto._support.Ids
+import com.example.muvitracker.domain.model.Show
+
+/**
+ *  tutte i conteggi aired/all sonio fatti su dati di trakt
+ */
+
+
+@Entity(tableName = "show_table")
+data class ShowEntity(
+    // trakt
+    @PrimaryKey val traktId: Int,
+    val year: Int?,
+    @TypeConverters(ConvertersUtils::class) val ids: Ids,
+    /** airedEpisodes = 0 default, serve per evitare crash nei calcolo  */
+    val airedEpisodes: Int = 0, // not null -> default 0 -> serve per calcolo
+
+    // tmdb
+    val title: String?, // Trono di spade (it)
+    val tagline: String?,
+    val overview: String?,
+    val status: String?,
+    val firstAirDate: String?, // TODO da trakt
+    val lastAirDate: String?,
+    val runtime: Int?,
+    @TypeConverters(ConvertersUtils::class)
+    val countries: List<String>, // not null
+    val originalLanguage: String?, // en
+    @TypeConverters(ConvertersUtils::class)
+    val languages: List<String>,  // not null
+    val originalTitle: String?, // Games of Thrones
+    val englishTitle: String?, // Games of Thrones
+    @TypeConverters(ConvertersUtils::class)
+    val networks: List<String>, // not null
+    @TypeConverters(ConvertersUtils::class)
+    val genres: List<String>, // not null
+    val youtubeTrailer: String?,
+    val homepage: String?,
+    // path link immagini
+    val backdropPath: String?,  // /en971MEXui9diirXlogOrPKmsEn.jpg
+    val posterPath: String?,    // /zoSiiUUzg2ny6uzuil7PbP13z53.jpg
+
+    // ratings
+    val traktRating: String?, // 8.3
+    val tmdbRating: String?, // 7.9
+
+    // TODO  other ratings - Imdb, Metacritic, Rotten Tomatoes
+    val imdbRating: String? = "",
+    val metacriticRating: String? = "",
+    val rottenTomatoesRating: String? = "",
+
+    // da sistema
+    val currentTranslation: String, // not null
+)
+
+
+/*
+   ShowEntity.toDomain(PrefsShowEntity?) return Show
+   -> implementata direttamente su Dao - unisce show, prefs, episode, season
+ */

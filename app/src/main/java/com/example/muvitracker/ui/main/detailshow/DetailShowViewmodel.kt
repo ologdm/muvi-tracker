@@ -3,20 +3,23 @@ package com.example.muvitracker.ui.main.detailshow
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.muvitracker.data.TraktApi
-import com.example.muvitracker.data.dto.person.toDomain
-import com.example.muvitracker.domain.model.CastAndCrew
-import com.example.muvitracker.domain.model.DetailShow
-import com.example.muvitracker.domain.model.SeasonExtended
-import com.example.muvitracker.domain.model.base.Show
+import com.example.muvitracker.data.dto._support.Ids
+import com.example.muvitracker.domain.model.CastMember
+import com.example.muvitracker.domain.model.Show
+import com.example.muvitracker.domain.model.Season
+import com.example.muvitracker.domain.model.base.ShowBase
 import com.example.muvitracker.domain.repo.DetailShowRepository
+import com.example.muvitracker.domain.repo.PrefsShowRepository
 import com.example.muvitracker.domain.repo.SeasonRepository
 import com.example.muvitracker.utils.IoResponse
-import com.example.muvitracker.utils.StateContainer
-import com.example.muvitracker.utils.ioMapper
+import com.example.muvitracker.utils.ListStateContainerTwo
+import com.example.muvitracker.utils.StateContainerThree
+import com.example.muvitracker.utils.StateContainerTwo
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.io.IOException
@@ -25,126 +28,196 @@ import javax.inject.Inject
 @HiltViewModel
 class DetailShowViewmodel @Inject constructor(
     private val detailShowRepository: DetailShowRepository,
+    private val prefsShowRepository: PrefsShowRepository,
     private val seasonRepository: SeasonRepository,
-    private val traktApi: TraktApi
 ) : ViewModel() {
 
-    val detailState = MutableLiveData<StateContainer<DetailShow>>()
-    val allSeasonsState = MutableLiveData<StateContainer<List<SeasonExtended>>>()
-    val relatedShowsStatus = MutableLiveData<List<Show>>()
-    val castState = MutableLiveData<CastAndCrew>()
+    val showState = MutableLiveData<StateContainerThree<Show>>()
+
+    // olds
+//    val allSeasonsState = MutableLiveData<StateContainerTwo<List<Season>>>()
+//    val relatedShowsState = MutableLiveData<StateContainerTwo<List<ShowBase>>>()
+//    val castState = MutableLiveData<StateContainerTwo<CastAndCrew>>()
+    // news
+    val seasonsState = MutableLiveData<ListStateContainerTwo<Season>>()
+    val relatedState = MutableLiveData<ListStateContainerTwo<ShowBase>>()
+    val castState = MutableLiveData<ListStateContainerTwo<CastMember>>()
+
+
+    private var showNotes = ""
+
 
     // SHOW - flow
-    fun loadShowDetail(showId: Int) {
-        var cachedItem: DetailShow? = null
+    fun loadShowDetail(showIds: Ids) {
+        var cachedItem: Show? = null
+
         viewModelScope.launch {
-            detailShowRepository.getSingleDetailShowFlow(showId)
+            detailShowRepository.getSingleDetailShowFlow(showIds)
                 .map { response ->
                     when (response) {
                         is IoResponse.Success -> {
                             cachedItem = response.dataValue
-                            StateContainer(data = response.dataValue)
+                            showNotes = response.dataValue.notes
+                            StateContainerThree(data = response.dataValue)
                         }
 
                         is IoResponse.Error -> {
                             if (response.t is IOException) {
-                                StateContainer(
+                                StateContainerThree(
                                     data = cachedItem,
                                     isNetworkError = true
                                 )
                             } else {
-                                StateContainer(
+                                StateContainerThree(
                                     data = cachedItem,
                                     isOtherError = true
                                 )
                             }
                         }
                     }
-                }.catch {
+                }
+                .catch {
                     it.printStackTrace()
                 }
                 .collectLatest { container ->
-                    detailState.value = container
+                    // tipizzazione riconosciuta
+                    showState.value = container
                 }
         }
     }
 
-    // flow
-    fun loadAllSeasons(showId: Int) {
+
+    // FLOW
+    fun loadAllSeasons(showIds: Ids) {
+        var cache: List<Season> = emptyList()
+
+
         viewModelScope.launch {
-            seasonRepository.getAllSeasonsFlow(showId)
+            // deve essere locale alla chiamata, per non interferire con viewpager; // TODO non si azzera completamente se cambio velocemente pagine
+            var isFirstEmission = true
+            // for test
+//            delay(2000)
+            seasonRepository.getAllSeasonsFlow(showIds)
+                // filer per corretta gestione stati ui, salta il primo se empty!!
+                .filter { response ->
+                    // skippa solo la prima emissione empty.
+                    if (isFirstEmission && response is IoResponse.Success && response.dataValue.isEmpty() && cache.isEmpty()) {
+                        isFirstEmission = false
+                        false
+                    } else {
+                        true
+                    }
+                }
+                // seasonStore -> return emptyList in caso stagioni mancanti -> imp!! per gestione stati ui
                 .map { response ->
                     when (response) {
                         is IoResponse.Success -> {
-                            StateContainer(response.dataValue)
+                            cache = response.dataValue
+                            ListStateContainerTwo(response.dataValue, false)
                         }
 
                         is IoResponse.Error -> {
-                            if (response.t is IOException) {
-                                StateContainer(isNetworkError = true)
-                            } else {
-                                StateContainer(isOtherError = true)
-                            }
+                            // tipizzazione da indicare, il problema e la lista
+                            ListStateContainerTwo<Season>(cache, true)
                         }
                     }
-                }.catch {
+                }
+                .catch {
                     it.printStackTrace()
-                }.collectLatest { container ->
-                    allSeasonsState.value = container
+                }
+                .collectLatest { container ->
+                    seasonsState.value = container
                 }
         }
 
     }
 
 
-    // TOGGLE
-    fun toggleLikedShow(showId: Int) {
+    // RELATED SHOWS TODO 1.1.3 loading - TODO OK --------------------------------------------------
+    //no flow
+    fun loadRelatedShows(showId: Int) {
         viewModelScope.launch {
-            detailShowRepository.toggleLikedShow(showId)
+            // for test
+//            delay(2000)
+            val response = detailShowRepository.getRelatedShows(showId)
+            when (response) {
+                is IoResponse.Success -> {
+                    relatedState.value = ListStateContainerTwo(response.dataValue, false)
+                }
+
+                is IoResponse.Error -> {
+                    relatedState.value = ListStateContainerTwo(emptyList(), true)
+                }
+            }
         }
     }
 
 
-    fun toggleWatchedAllShowEpisodes(showId: Int, onComplete: () -> Unit) {
+    // CAST ATTORI - same as the movie's TODO OK
+    fun loadCast(showId: Int) {
+        viewModelScope.launch {
+            // for test
+//            delay(2000)
+            val response = detailShowRepository.getShowCast(showId)
+            when (response) {
+                is IoResponse.Success -> {
+                    if (response.dataValue.castMembers.isNotEmpty()) {
+                        castState.value =
+                            ListStateContainerTwo(response.dataValue.castMembers, false)
+                    } else {
+                        castState.value = ListStateContainerTwo(emptyList(), false)
+                    }
+                }
+
+                is IoResponse.Error -> {
+                    castState.value = ListStateContainerTwo(emptyList(), true)
+                }
+            }
+        }
+
+    }
+
+
+    // SET, (reactive get) ----------------------------------------------------------------------
+// 1
+    fun toggleLikedShow(showId: Int) {
+        viewModelScope.launch {
+            prefsShowRepository.toggleLikedOnDB(showId)
+
+        }
+    }
+
+    // 2 all show episodes
+    fun toggleWatchedAllShow(showIds: Ids, onComplete: () -> Unit) {
         // add callback
         viewModelScope.launch {
-            detailShowRepository.checkAndSetWatchedAllShowEpisodes(showId)
+            detailShowRepository.checkAndSetWatchedAllShowEpisodes(showIds)
             onComplete()
         }
     }
 
 
-    fun toggleWatchedAllSingleSeasonEp(showId: Int, seasonNr: Int, onComplete: () -> Unit) {
+    // 3 all season episodes
+    fun toggleWatchedAllSeason(showIds: Ids, seasonNr: Int, onComplete: () -> Unit) {
         viewModelScope.launch() {
             // 1 start loading  - su adapter - start al click
             // 2 toggle allEpisodes + season + showOnPrefs
-            seasonRepository.checkAndSetSingleSeasonWatchedAllEpisodes(showId, seasonNr)
+            seasonRepository.checkAndSetSingleSeasonWatchedAllEpisodes(showIds, seasonNr)
             // 3 finish loading - chiama la callback con true o false (se l'operazione ha avuto successo o no)
             onComplete()
         }
     }
 
 
-    // RELATED SHOWS
-    fun loadRelatedShows(showId: Int) {
+    // 4
+    fun setNotes(showId: Int, notes: String) {
         viewModelScope.launch {
-            detailShowRepository.getRelatedShows(showId).ioMapper {
-                relatedShowsStatus.value = it
-            }
+            prefsShowRepository.setNotesOnDB(showId, notes)
+            showNotes = notes
         }
     }
 
-
-    // CAST ATTORI - same as the movie's
-    fun loadCast(showId: Int) {
-        viewModelScope.launch {
-            try {
-                castState.value = traktApi.getAllShowCast(showId).toDomain()
-            } catch (ex: Throwable) {
-                ex.printStackTrace()
-            }
-        }
-    }
+    fun getNotes(): String = showNotes
 
 }
 

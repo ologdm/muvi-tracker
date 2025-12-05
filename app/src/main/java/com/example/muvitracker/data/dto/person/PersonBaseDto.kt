@@ -1,16 +1,20 @@
 package com.example.muvitracker.data.dto.person
 
-import com.example.muvitracker.data.dto.base.Ids
-import com.example.muvitracker.domain.model.base.Person
+import android.annotation.SuppressLint
+import com.example.muvitracker.data.dto._support.Ids
+import com.example.muvitracker.domain.model.base.PersonBase
+import kotlinx.serialization.Serializable
 
+@SuppressLint("UnsafeOptInUsageError")
+@Serializable
 data class PersonBaseDto(
-    val name: String?,
+    val name: String = "",
     val ids: Ids
 )
 
-fun PersonBaseDto.toDomain(): Person {
-    return Person(
-        name = name ?: "N/A",
+fun PersonBaseDto.toDomain(): PersonBase {
+    return PersonBase(
+        name = name ?: "",
         ids = ids
     )
 }

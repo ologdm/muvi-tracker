@@ -6,27 +6,27 @@ import android.view.ViewGroup
 import android.widget.CompoundButton
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import com.example.muvitracker.databinding.VhSeasonsOnDetailshowBinding
-import com.example.muvitracker.domain.model.SeasonExtended
-import com.example.muvitracker.ui.main.detailshow.adapters.SeasonVH
+import com.example.muvitracker.databinding.ViewholderSeasonsOnDetailshowBinding
+import com.example.muvitracker.domain.model.Season
+import com.example.muvitracker.ui.main.detailshow.adapters.SeasonViewholder
 
 class DetailSeasonsAdapter(
     private val onClickVH: (Int) -> Unit,
     private val onClickWatchedAllCheckbox: (Int, () -> Unit) -> Unit, // callback stato loading
-) : ListAdapter<SeasonExtended, SeasonVH>(DIFF_CALLBACK) {
+) : ListAdapter<Season, SeasonViewholder>(DIFF_CALLBACK) {
 
 
     // ADAPTER METHODS
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SeasonVH {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SeasonViewholder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val vhBinding = VhSeasonsOnDetailshowBinding.inflate(layoutInflater, parent, false)
-        return SeasonVH(vhBinding)
+        val vhBinding = ViewholderSeasonsOnDetailshowBinding.inflate(layoutInflater, parent, false)
+        return SeasonViewholder(vhBinding)
     }
 
-    override fun onBindViewHolder(holder: SeasonVH, position: Int) {
+    override fun onBindViewHolder(holder: SeasonViewholder, position: Int) {
         val seasonItem = getItem(position)
 
-        val context = holder.binding.root.context
+        val context = holder.b.root.context
         holder.bind(seasonItem, context)
 
         // click - apri season fragment
@@ -36,29 +36,29 @@ class DetailSeasonsAdapter(
 
         // WATCHED CHECKBOX
         // stato default sempre iniziale per il nuovo elemento (per evitare animaz e stati elementi precedenti)
-        holder.binding.seasonCheckbox.isEnabled = seasonItem.airedEpisodes != 0
+        holder.b.seasonCheckbox.isEnabled = seasonItem.airedEpisodes != 0
 
-        holder.binding.watchedAllCheckboxLoadingBar.visibility = View.GONE
+        holder.b.watchedAllCheckboxLoadingBar.visibility = View.GONE
 
         // sempre set(null) -> sempre prima di update -> aggiornamento checkbox senza trigger del listener
-        holder.binding.seasonCheckbox.setOnCheckedChangeListener(null)
-        holder.binding.seasonCheckbox.isChecked = seasonItem.watchedAll
+        holder.b.seasonCheckbox.setOnCheckedChangeListener(null)
+        holder.b.seasonCheckbox.isChecked = seasonItem.watchedAll
 
         // UPDATE SDK 34 to 36
-        holder.binding.seasonCheckbox.setOnCheckedChangeListener(object :
+        holder.b.seasonCheckbox.setOnCheckedChangeListener(object :
             CompoundButton.OnCheckedChangeListener {
             override fun onCheckedChanged(buttonView: CompoundButton, isChecked: Boolean) {
-                holder.binding.seasonCheckbox.isEnabled = false
-                holder.binding.watchedAllCheckboxLoadingBar.visibility = View.VISIBLE
+                holder.b.seasonCheckbox.isEnabled = false
+                holder.b.watchedAllCheckboxLoadingBar.visibility = View.VISIBLE
 
                 // ad operazione loading conclusa, la viewmodel callback chiama questa callabck
                 onClickWatchedAllCheckbox.invoke(seasonItem.seasonNumber) {
-                    holder.binding.watchedAllCheckboxLoadingBar.visibility = View.GONE
-                    holder.binding.seasonCheckbox.isEnabled = true
+                    holder.b.watchedAllCheckboxLoadingBar.visibility = View.GONE
+                    holder.b.seasonCheckbox.isEnabled = true
                     // aggiorno di nuovo chekbox
-                    holder.binding.seasonCheckbox.setOnCheckedChangeListener(null)
-                    holder.binding.seasonCheckbox.isChecked = seasonItem.watchedAll
-                    holder.binding.seasonCheckbox.setOnCheckedChangeListener(this)
+                    holder.b.seasonCheckbox.setOnCheckedChangeListener(null)
+                    holder.b.seasonCheckbox.isChecked = seasonItem.watchedAll
+                    holder.b.seasonCheckbox.setOnCheckedChangeListener(this)
 
                     holder.bind(seasonItem, context) // Re-bind per aggiornare i dati visualizzati
                 }
@@ -68,16 +68,16 @@ class DetailSeasonsAdapter(
 
 
     companion object {
-        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<SeasonExtended>() {
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Season>() {
             override fun areItemsTheSame(
-                oldItem: SeasonExtended,
-                newItem: SeasonExtended
+                oldItem: Season,
+                newItem: Season
             ): Boolean {
                 return oldItem.ids.trakt == newItem.ids.trakt
             }
 
             override fun areContentsTheSame(
-                oldItem: SeasonExtended, newItem: SeasonExtended
+                oldItem: Season, newItem: Season
             ): Boolean {
                 return oldItem == newItem
             }

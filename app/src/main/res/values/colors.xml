@@ -5,4 +5,10 @@
 
     <color name="nightTextColor">#FFFFFF</color>
 
+<!--    TODO: from pokemon box for test-->
+    <color name="my_background_color">#E7E7E7</color>
+    <color name="search_bar_text_color">#BDBDBD</color>
+    <color name="chip_text_color">#616161</color>
+    <color name="chip_text_color_alpha">#BDBDBD</color>
+
 </resources>

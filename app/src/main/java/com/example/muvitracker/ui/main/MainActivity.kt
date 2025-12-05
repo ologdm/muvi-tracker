@@ -2,22 +2,21 @@ package com.example.muvitracker.ui.main
 
 import android.content.SharedPreferences
 import android.content.pm.ActivityInfo
+import android.graphics.Color
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.updatePadding
+import androidx.core.view.WindowCompat
 import androidx.fragment.app.Fragment
 import com.example.muvitracker.R
 import com.example.muvitracker.databinding.ActivityMainBinding
-import com.example.muvitracker.ui.main.allmovies.MoviesFragment
-import com.example.muvitracker.ui.main.allshows.ShowsFragment
+import com.example.muvitracker.ui.main.allmovies.AllMoviesFragment
+import com.example.muvitracker.ui.main.allshows.AllShowsFragment
 import com.example.muvitracker.ui.main.prefs.viewpager.PrefsViewpagerFragment
 import com.example.muvitracker.ui.main.search.SearchFragment
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationBarView
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+import androidx.core.content.edit
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -37,8 +36,8 @@ class MainActivity : AppCompatActivity() {
 
     // Mappa tra ID e fragment - ricrea i fragment ad ogni selezione id
     private val fragmentFactory: Map<Int, () -> Fragment> = mapOf(
-        R.id.buttonMovies to { MoviesFragment() },
-        R.id.buttonSeries to { ShowsFragment() },
+        R.id.buttonMovies to { AllMoviesFragment() },
+        R.id.buttonSeries to { AllShowsFragment() },
         R.id.buttonMyList to { PrefsViewpagerFragment() },
         R.id.buttonSearch to { SearchFragment() }
     )
@@ -55,6 +54,14 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // TODO anche se esiste di default serve comunque
+        // // Edge-to-edge: layout va sotto status bar e navigation bar
+//        WindowCompat.setDecorFitsSystemWindows(window, false)
+//        // Status bar trasparente
+//        window.statusBarColor = Color.TRANSPARENT
+//        // Optional: navigation bar trasparente
+//        window.navigationBarColor = Color.TRANSPARENT
+
         /** Locks the Activity orientation to portrait mode.
          * NOTE: Starting from SDK 36, this lock will be automatically skipped for screens with -> sw >= 600dp
          */
@@ -65,7 +72,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         // Applica padding automaticamente per status bar e navigation bar
-        edgeToEdgeManagment()
+//        edgeToEdgeManagment()
 
         // 1 Get saved Id from SharedPrefs
         val lastSelectedId =
@@ -74,7 +81,7 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNavigation.selectedItemId = lastSelectedId // default
         // 3 load the correct fragment based on saved Id
         navigator.replaceFragment(
-            fragmentFactory[lastSelectedId]?.invoke() ?: ShowsFragment()
+            fragmentFactory[lastSelectedId]?.invoke() ?: AllShowsFragment()
         ) // IMP!! (?: fragm di fallback)
 
         binding.bottomNavigation.setOnItemSelectedListener(
@@ -85,21 +92,13 @@ class MainActivity : AppCompatActivity() {
                 navigator.replaceFragment(fragment)
 
                 // Salva ID selezionato
-                sharedPrefs.edit().putInt(LAST_SELECTED_ID, clickedId).apply()
+                sharedPrefs.edit { putInt(LAST_SELECTED_ID, clickedId) }
 
                 // return di ogni elemento selezionato
                 return@OnItemSelectedListener true // versione esplicita, (o true), return di lambda
             })
     }
 
-    private fun edgeToEdgeManagment() {
-        ViewCompat.setOnApplyWindowInsetsListener(binding.mainLayout) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            // aggiorno solo lati che mi servono
-            v.updatePadding(top = systemBars.top)
-            insets
-        }
-    }
 }
 
 

@@ -38,7 +38,12 @@ fun String.dateFormatterInMMMyyy(): String {
 //        return dataLocale.format(formatterOutput)
 //    }
 
-fun String.dateFormatterInddMMMyyy(): String {
+/**
+ * Date converter
+ * input necessario: yyyy-MM-dd
+ * output: dd MMM yyyy
+ */
+fun String.formatToDdMmmYyyy(): String {
     val formatterInput = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)   // Input date format
     val formatterOutput = SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH)    // Output date format
 
@@ -48,11 +53,11 @@ fun String.dateFormatterInddMMMyyy(): String {
 
 
 fun Double.firstDecimalApproxToString(): String {
-    return String.format("%.1f", this)
+    return String.format(Locale.US, "%.1f", this)
 }
 
 fun Float.firstDecimalApproxToString(): String {
-    return String.format("%.1f", this)
+    return String.format(Locale.US, "%.1f", this)
     // % - numbers
     // .1f - decimal
 }
@@ -68,28 +73,31 @@ fun Int.episodesFormatNumber(): String {
 }
 
 
-// return: 0 or deathAge or currentAge
-fun calculatePersonAge(birthDate: String?, deathDate: String?): String {
-    // 1) edge case: missing birthDate or both
-    if (birthDate.isNullOrEmpty() ||
-        (birthDate.isNullOrEmpty() && deathDate.isNullOrEmpty())
-    ) {
-        return "N/A"
-    }
 
+// // return: -1 | deathAge | currentAge
+fun calculatePersonAge(birthDate: String?, deathDate: String?): Int? {
     val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-    val dateOfBirth = LocalDate.parse(birthDate, formatter)
 
-    if (deathDate.isNullOrEmpty()) { // 2) alive
-        val currentDate = LocalDate.now()
-        return Period.between(dateOfBirth, currentDate).years.toString()
-    } else { // 3) death
-        val deathDate = LocalDate.parse(deathDate, formatter)
-        return Period.between(dateOfBirth, deathDate).years.toString()
-    }
+    // Try to parse dates safely
+    val birth = runCatching { LocalDate.parse(birthDate, formatter) }.getOrNull()
+    val death = runCatching { LocalDate.parse(deathDate, formatter) }.getOrNull()
+
+    // If birthdate is missing or invalid → return unknown
+    if (birth == null) return null
+//    val str1 = birth.toString()
+//    val str2 = death.toString()
+
+
+    // If person is alive (death null)
+    val endDate = death ?: LocalDate.now()
+
+    // Avoid negative ages
+    val years = Period.between(birth, endDate).years
+    return if (years >= 0) years else -1
 }
 
 
+// ----------------------------------------------------------------------------------------------------
 fun String?.formatDateFromFirsAired(): String {
     return this?.let {
         if (it.length >= 10) {
@@ -101,6 +109,12 @@ fun String?.formatDateFromFirsAired(): String {
 }
 
 
+fun String?.getDateFromDateTime(): String? {
+    return this?.takeIf { it.isNotBlank() }
+        ?.substring(0, 10)
+}
+
+
 // data corrente in formato compatibile con "yyyy-MM-dd HH:mm:ss" di SQLite
 fun getNowFormattedDateTime(): String {
     val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
@@ -109,6 +123,7 @@ fun getNowFormattedDateTime(): String {
 }
 
 
+// per episode
 // data in formato compatibile con "yyyy-MM-dd HH:mm:ss" di SQLite
 fun formatToSqliteCompatibleDate(isoDate: String?): String? {
     if (isoDate.isNullOrBlank()) return null
@@ -127,13 +142,43 @@ fun formatToSqliteCompatibleDate(isoDate: String?): String? {
     }
 }
 
+
+// input -> Data + ora locale (yyyy-MM-dd'T'HH:mm:ss)
+//fun String?.formatToReadableDate(): String? {
+//    return this.let {
+//        val dt =
+//            LocalDateTime.parse(it, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+//        dt.format(DateTimeFormatter.ofPattern("dd MMM yyyy", Locale("en")))
+//    }
+//}
+
+
+// TODO 1.1.3 OK
+// input - Solo data (yyyy-MM-dd)
 fun String?.formatToReadableDate(): String? {
-    return this.let {
-        val dt =
-            LocalDateTime.parse(it, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
-        dt.format(DateTimeFormatter.ofPattern("dd MMM yyyy", Locale("en")))
+    if (this.isNullOrBlank()) return null
+    return try {
+        val dt = LocalDate.parse(this, DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+        // Usa la lingua salvata o la lingua di sistema corrente
+        val locale = Locale.getDefault() // oppure LanguageManager.getSystemLanguage()
+        dt.format(DateTimeFormatter.ofPattern("dd MMM yyyy", locale))
+    } catch (e: Exception) {
+        null
     }
 }
+
+
+// ---------------------------------------
+
+// usato per defaults -> in detail fragment, prefs ecc -> return not nullable
+fun String?.orDefaultText(fallback: String): String {
+    return if (!this.isNullOrBlank()) this else fallback
+}
+
+fun Int?.orDefaultText(fallback: String): String {
+    return this?.toString() ?: fallback
+}
+
 
 
 

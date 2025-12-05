@@ -4,15 +4,15 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.muvitracker.data.TraktApi
-import com.example.muvitracker.data.dto.person.toDomain
-import com.example.muvitracker.domain.model.CastAndCrew
-import com.example.muvitracker.domain.model.DetailMovie
-import com.example.muvitracker.domain.model.base.Movie
+import com.example.muvitracker.data.dto._support.Ids
+import com.example.muvitracker.domain.model.CastMember
+import com.example.muvitracker.domain.model.Movie
+import com.example.muvitracker.domain.model.base.MovieBase
 import com.example.muvitracker.domain.repo.DetailMovieRepository
 import com.example.muvitracker.domain.repo.PrefsMovieRepository
 import com.example.muvitracker.utils.IoResponse
-import com.example.muvitracker.utils.StateContainer
-import com.example.muvitracker.utils.ioMapper
+import com.example.muvitracker.utils.ListStateContainerTwo
+import com.example.muvitracker.utils.StateContainerThree
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
@@ -28,31 +28,36 @@ class DetailMovieViewmodel @Inject constructor(
     private val traktApi: TraktApi
 ) : ViewModel() {
 
-    val detailState = MutableLiveData<StateContainer<DetailMovie>>()
-    val relatedMoviesStatus = MutableLiveData<List<Movie>>()
+    val detailState = MutableLiveData<StateContainerThree<Movie>>()
+
+    val relatedMoviesState = MutableLiveData<ListStateContainerTwo<MovieBase>>()
+    val castState = MutableLiveData<ListStateContainerTwo<CastMember>>()
+
+    private var movieNotes = ""
 
     // flow -> livedata
-    fun loadMovieDetailFlow(movieId: Int) {
-        var cachedMovie: DetailMovie? = null
+    fun loadMovieDetailFlow(movieIds: Ids) {
+        var cachedMovie: Movie? = null
 
         viewModelScope.launch {
-            detailMovieRepository.getSingleDetailMovieFlow(movieId)
+            detailMovieRepository.getSingleDetailMovieFlow(movieIds)
                 .map { response ->
                     when (response) {
                         is IoResponse.Success -> {
                             cachedMovie = response.dataValue
-                            StateContainer(data = response.dataValue)
+                            movieNotes = response.dataValue.notes
+                            StateContainerThree(data = response.dataValue)
                         }
 
                         is IoResponse.Error -> {
                             if (response.t is IOException) {
                                 // non printare come stringa
-                                StateContainer(
+                                StateContainerThree(
                                     data = cachedMovie,
                                     isNetworkError = true
                                 )
                             } else {
-                                StateContainer(
+                                StateContainerThree(
                                     data = cachedMovie,
                                     isOtherError = true
                                 )
@@ -71,13 +76,57 @@ class DetailMovieViewmodel @Inject constructor(
     }
 
 
-    // SET
+    // RELATED MOVIES --------------------------------------------------------------------------
+    fun loadRelatedMovies(movieId: Int) {
+        // senza store, no problema se first emission emptyList
+        viewModelScope.launch {
+            val response = detailMovieRepository.getRelatedMovies(movieId)
+            // for test
+//            delay(2000)
+            when (response) {
+                is IoResponse.Success -> {
+                    relatedMoviesState.value = ListStateContainerTwo(response.dataValue, false)
+                }
+
+                is IoResponse.Error -> {
+                    relatedMoviesState.value = ListStateContainerTwo(emptyList(), true)
+                }
+            }
+        }
+    }
+
+
+    // CAST ATTORI ----------------------------------------------------------------------------
+    fun loadCast(movieId: Int) {
+        // senza store, no problema se first emission emptyList
+        viewModelScope.launch {
+            val response = detailMovieRepository.getMovieCast(movieId)
+            // for test
+//            delay(2000)
+            when (response) {
+                is IoResponse.Success -> {
+                    // !! List<CastMember> -> (dto->domain salvata come emptyList)
+                    if (response.dataValue.castMembers.isNotEmpty()){
+                        castState.value = ListStateContainerTwo(response.dataValue.castMembers, false)
+                    } else {
+                        castState.value = ListStateContainerTwo(emptyList(), false)
+                    }
+                }
+
+                is IoResponse.Error -> {
+                    castState.value = ListStateContainerTwo(emptyList(), true)
+                }
+            }
+        }
+    }
+
+
+    // SET (reactive get) ---------------------------------------------------------------------------
     fun toggleLikedMovie(movieId: Int) {
         viewModelScope.launch {
             prefsMovieRepository.toggleLikedOnDB(movieId)
         }
     }
-
 
     fun updateWatched(movieId: Int, watched: Boolean) {
         viewModelScope.launch {
@@ -86,29 +135,15 @@ class DetailMovieViewmodel @Inject constructor(
 
     }
 
-
-    // RELATED MOVIES
-    fun loadRelatedMovies(movieId: Int) {
+    fun setNotes(movieId: Int, notes: String) {
         viewModelScope.launch {
-            detailMovieRepository.getRelatedMovies(movieId).ioMapper { movies ->
-                relatedMoviesStatus.value = movies
-            }
+            prefsMovieRepository.setNotesOnDB(movieId, notes)
+            movieNotes = notes
         }
     }
 
 
-    // CAST ATTORI
-    val castState = MutableLiveData<CastAndCrew>()
-
-    fun loadCast(movieId: Int) {
-        viewModelScope.launch {
-            try {
-                castState.value = traktApi.getAllMovieCast(movieId).toDomain()
-            } catch (ex: Throwable) {
-                ex.printStackTrace()
-            }
-        }
-    }
+    fun getNotes() : String = movieNotes
 
 
 }

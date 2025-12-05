@@ -2,7 +2,7 @@
 <resources>
 
     <!--per imageButtonStyle, applicato su temi -->
-    <style name="ImageButton_Rounded">
+    <style name="ImageButtonRounded">
         <item name="android:background">@drawable/baseline_circle</item>
         <item name="android:backgroundTint">?attr/colorPrimaryContainer</item>
         <item name="android:tint">?attr/colorOnPrimaryContainer</item>
@@ -11,16 +11,16 @@
     </style>
 
     <!-- per ShapeImageView, manuale -->
-    <style name="ImageLarge_RoundedShape" parent="ShapeAppearance.Material3.Corner.Large" />
+    <style name="ImageLargeRoundedShape" parent="ShapeAppearance.Material3.Corner.Large" />
 
-    <style name="ImageMedium_RoundedShape" parent="ShapeAppearance.Material3.Corner.Medium" />
+    <style name="ImageMediumRoundedShape" parent="ShapeAppearance.Material3.Corner.Medium" />
 
-    <style name="ImageSmall_RoundedShape" parent="ShapeAppearance.Material3.Corner.Small" />
+    <style name="ImageSmallRoundedShape" parent="ShapeAppearance.Material3.Corner.Small" />
 
     <!-- GRAFICA PER LAYOUT   -->
 
-    <!--empty states, manuale-->
-    <style name="ErrorText_ES">
+    <!--empty states, explore, detail-->
+    <style name="ErrorTextOnStates">
         <item name="android:visibility">gone</item>
         <item name="android:textSize">16sp</item>
         <item name="android:elevation">4dp</item>
@@ -28,15 +28,15 @@
         <item name="android:tint">?attr/colorOnSurface</item>
     </style>
 
-    <style name="ProgressBar_ES">
+    <style name="ProgressBarOnStates">
         <item name="android:elevation">8dp</item>
         <item name="android:visibility">visible</item>
         <item name="android:indeterminate">true</item>
     </style>
 
 
-    <!--base category -->
-    <style name="Toolbar_BaseCategory">
+    <!--explore fragments -->
+    <style name="TitleExploreCategory">
         <item name="android:textSize">24sp</item>
         <item name="android:paddingStart">20dp</item>
         <item name="android:paddingEnd">20dp</item>
@@ -44,7 +44,7 @@
     </style>
 
 
-    <style name="RecyclerView_BaseCategory">
+    <style name="RecyclerViewExploreCategory">
         <item name="android:paddingStart">8dp</item>
         <item name="android:paddingEnd">8dp</item>
         <item name="android:paddingTop">8dp</item>
@@ -53,47 +53,55 @@
     </style>
 
 
-    <!--base vh -->
-    <style name="Image_BaseVH">
+    <!--explore viewholder -->
+    <style name="ImageExploreViewholder">
         <item name="android:scaleType">centerCrop</item>
-        <item name="shapeAppearance">@style/ImageLarge_RoundedShape</item>
+        <item name="shapeAppearance">@style/ImageLargeRoundedShape</item>
     </style>
 
-    <style name="Image_Season">
+    <style name="ImageSeason">
         <item name="android:scaleType">centerCrop</item>
-        <item name="shapeAppearance">@style/ImageMedium_RoundedShape</item>
+        <item name="shapeAppearance">@style/ImageMediumRoundedShape</item>
     </style>
 
-    <style name="Image_Related">
+    <style name="ImageRelatedOnDetail">
         <item name="android:scaleType">centerCrop</item>
-        <item name="shapeAppearance">@style/ImageSmall_RoundedShape</item>
+        <item name="shapeAppearance">@style/ImageSmallRoundedShape</item>
     </style>
 
 
 
     <!-- TYPOGRAFY PER LAYOUT -->
-    <!--base vh -->
-    <style name="TextView_Tipography_BaseVH">
+    <!--explore viewholder -->
+    <style name="TextViewExploreViewholder">
         <item name="android:textSize">18sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:paddingTop">4dp</item>
     </style>
 
     <!--details-->
-    <style name="Title_Typography_Detail">
-        <item name="android:textSize">40sp</item>
+    <style name="TitleDetail">
+        <item name="android:textSize">36sp</item>
         <item name="android:textStyle">bold</item>>
     </style>
 
 
-    <style name="Category_Title_Typography_Detail">
+    <style name="TitleCategoryDetail">
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">16sp</item>
-        <item name="android:layout_marginBottom">8sp</item>
     </style>
 
 
 
 </resources>
+
+
+
+
+    <!--    NOTE:
+            colorOnBackground - testo nelle schermate principali;
+            colorOnSurfaceContainer - testo nei componenti sopra il background;
+            colorOnSurfaceVariant - testo secondario o disabilitato (default su textview M3 automatico)
+            -->
 
 

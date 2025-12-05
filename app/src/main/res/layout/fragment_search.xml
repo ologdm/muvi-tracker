@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="4dp">
+
+
+    <!-- NOTE:
+        textColorHint -> hint principale (vers basso grande)
+        hintTextColor  -> hint secondario (colapsed, vers alto piccolo)
+            -> per nasconderlo uso semplicemente 'color/transparent'
+
+        hintEnabled -> hinnt generale...ab/disab
+        expandedHintEnabled -> hint principale...ab/disab
+        autofillHints -> suggerimento cosa inserire
+
+
+    -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/search_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="4dp"
+        android:autofillHints="name"
+        android:hint="@string/search"
+        android:textColorHint="@color/chip_text_color"
+        app:boxBackgroundColor="@color/material_on_surface_stroke"
+        app:boxCornerRadiusBottomEnd="16dp"
+        app:boxCornerRadiusBottomStart="16dp"
+        app:boxCornerRadiusTopEnd="16dp"
+        app:boxCornerRadiusTopStart="16dp"
+        app:boxStrokeColor="@android:color/transparent"
+        app:boxStrokeWidth="0dp"
+        app:hintTextColor="@android:color/transparent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:startIconDrawable="@drawable/search_icon"
+        app:startIconTint="@color/chip_text_color">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/search_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:imeOptions="actionDone"
+            android:inputType="text"
+            android:padding="8dp"
+            android:textSize="20sp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <!-- NOTE:
+    chipSpacingVertical(group) - spaziatura tra 2 righe chips, c'e un default
+    paddingVertical -> padding esterno al chip
+    chipMinHeight -> 0dp,, aptezza minima contenente il testo
+    chipMinTouchTargetSize-> toglie tutto il padding per click intorno al chip
+    risultato - controllo margin top, bottom, tra righe
+-->
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/searchChipGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="12dp"
+        app:singleSelection="true">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipAll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:chipMinTouchTargetSize="0dp"
+            android:checkable="true"
+            android:text="@string/all" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipMovies"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:chipMinTouchTargetSize="0dp"
+            android:checkable="true"
+            android:text="@string/movies"
+            app:chipIconVisible="false" />
+
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipShows"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:chipMinTouchTargetSize="0dp"
+            android:checkable="true"
+            android:text="@string/shows" />
+
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipPeople"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:chipMinTouchTargetSize="0dp"
+            android:checkable="true"
+
+            android:text="@string/people" />
+    </com.google.android.material.chip.ChipGroup>
+
+
+    <!--    TODO test distanze-->
+    <!--    <com.google.android.material.chip.ChipGroup-->
+    <!--        android:id="@+id/searchChipGroup"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginStart="4dp"-->
+    <!--        android:layout_marginTop="8dp"-->
+    <!--        android:layout_marginBottom="8dp"-->
+    <!--        app:singleSelection="true">-->
+
+    <!--        <com.google.android.material.chip.Chip-->
+    <!--            android:id="@+id/chipAll"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:checkable="true"-->
+    <!--            app:chipMinTouchTargetSize="0dp"-->
+    <!--            android:text="Xxxxxxxxxxxxxxxxxxxxxxxxx" />-->
+
+    <!--        <com.google.android.material.chip.Chip-->
+    <!--            android:id="@+id/chipMovies"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:checkable="true"-->
+    <!--            app:chipMinTouchTargetSize="0dp"-->
+    <!--            android:text="Yyyyyyyyyyyyyyyyyyyyyy" />-->
+    <!--    </com.google.android.material.chip.ChipGroup>-->
+
+
+    <!--    Linear + layout_height match parent:
+                -> forza a prendere tutto lo spazio rimanente nel parent
+    -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/searchChipGroup"
+        app:layout_constraintVertical_bias="0.0"
+        android:layout_marginBottom="4dp"
+        tools:listitem="@layout/viewholder_search" />
+
+</LinearLayout>

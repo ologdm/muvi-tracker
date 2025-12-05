@@ -3,7 +3,7 @@ package com.example.muvitracker.data.repositories
 import com.example.muvitracker.data.database.MyDatabase
 import com.example.muvitracker.data.database.entities.PrefsMovieEntity
 import com.example.muvitracker.data.database.entities.toDomain
-import com.example.muvitracker.domain.model.DetailMovie
+import com.example.muvitracker.domain.model.Movie
 import com.example.muvitracker.domain.repo.DetailMovieRepository
 import com.example.muvitracker.domain.repo.PrefsMovieRepository
 import kotlinx.coroutines.flow.Flow
@@ -19,12 +19,12 @@ class PrefsMovieRepositoryImpl @Inject constructor(
     private val detailMovieRepository: DetailMovieRepository
 ) : PrefsMovieRepository {
 
-    private val prefsDao = database.prefsMovieDao()
+    private val prefsMovieDao = database.prefsMovieDao()
 
 
-    override fun getListFLow(): Flow<List<DetailMovie>> {
+    override fun getListFLow(): Flow<List<Movie>> {
         val detailListFLow = detailMovieRepository.getDetailListFlow()
-        val prefsListFLow = prefsDao.readAll()
+        val prefsListFLow = prefsMovieDao.readAll()
 
         return detailListFLow.combine(prefsListFLow) { detailList, prefsList ->
             prefsList.mapNotNull { prefsEntity ->
@@ -32,7 +32,9 @@ class PrefsMovieRepositoryImpl @Inject constructor(
                     detailEntity?.traktId == prefsEntity.traktId
                 }
                 detailEntity?.toDomain(prefsEntity)
-            }.sortedByDescending {
+            }
+                .filter { it -> it.liked || it.watched }
+                .sortedByDescending {
                 it.addedDateTime
             }
         }
@@ -41,11 +43,11 @@ class PrefsMovieRepositoryImpl @Inject constructor(
 
     override suspend fun toggleLikedOnDB(movieId: Int) {
         val entity =
-            prefsDao.readSingle(movieId).firstOrNull() //  flow closing function
+            prefsMovieDao.readSingle(movieId).firstOrNull() //  flow closing function
         if (entity != null) {
-            prefsDao.updateLiked(movieId)
+            prefsMovieDao.updateLiked(movieId)
         } else {
-            prefsDao.insertSingle(
+            prefsMovieDao.insertSingle(
                 PrefsMovieEntity(
                     traktId = movieId,
                     liked = true,
@@ -58,11 +60,11 @@ class PrefsMovieRepositoryImpl @Inject constructor(
 
 
     override suspend fun updateWatchedOnDB(movieId: Int, watched: Boolean) {
-        val entity = prefsDao.readSingle(movieId).firstOrNull()
+        val entity = prefsMovieDao.readSingle(movieId).firstOrNull()
         if (entity != null) {
-            prefsDao.updateWatched(movieId, watched)
+            prefsMovieDao.updateWatched(movieId, watched)
         } else {
-            prefsDao.insertSingle(
+            prefsMovieDao.insertSingle(
                 PrefsMovieEntity(
                     traktId = movieId,
                     liked = false,
@@ -76,7 +78,26 @@ class PrefsMovieRepositoryImpl @Inject constructor(
 
     override
     suspend fun deleteItemOnDB(movieId: Int) {
-        prefsDao.deleteSingle(movieId)
+        prefsMovieDao.deleteSingle(movieId)
+    }
+
+
+    override suspend fun setNotesOnDB(movieId: Int, notes: String) {
+        val entity = prefsMovieDao.readSingle(movieId).firstOrNull()
+
+        if (entity == null) {
+            prefsMovieDao.insertSingle(
+                PrefsMovieEntity(
+                    traktId = movieId,
+                    liked = false,
+                    watched = false,
+                    addedDateTime = System.currentTimeMillis(),
+                    notes = notes
+                )
+            )
+        } else {
+            prefsMovieDao.setNotes(movieId, notes)
+        }
     }
 
 

@@ -1,35 +1,38 @@
 package com.example.muvitracker.ui.main.episode
 
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.View
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.muvitracker.R
-import com.example.muvitracker.data.dto.base.Ids
+import com.example.muvitracker.data.dto._support.Ids
 import com.example.muvitracker.data.glide.ImageTmdbRequest
-import com.example.muvitracker.databinding.FragmEpisodeBottomsheetBinding
-import com.example.muvitracker.domain.model.EpisodeExtended
+import com.example.muvitracker.databinding.FragmentEpisodeBottomsheetBinding
+import com.example.muvitracker.domain.model.Episode
 import com.example.muvitracker.utils.episodesFormatNumber
 import com.example.muvitracker.utils.formatDateFromFirsAired
 import com.example.muvitracker.utils.getNowFormattedDateTime
+import com.example.muvitracker.utils.orDefaultText
 import com.example.muvitracker.utils.viewBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class EpisodeFragment : BottomSheetDialogFragment(R.layout.fragm_episode_bottomsheet) {
+class EpisodeFragment : BottomSheetDialogFragment(
+    R.layout.fragment_episode_bottomsheet
+) {
 
     private var currentShowIds: Ids = Ids()
     private var currentSeasonNr: Int = 0
     private var currentEpisodeNr: Int = 0
 
-    val binding by viewBinding(FragmEpisodeBottomsheetBinding::bind)
+    val binding by viewBinding(FragmentEpisodeBottomsheetBinding::bind)
     private val viewModel by viewModels<EpisodeViewmodel>()
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
         // get bundle
         val bundle = arguments
         if (bundle != null) {
@@ -46,32 +49,57 @@ class EpisodeFragment : BottomSheetDialogFragment(R.layout.fragm_episode_bottoms
         )
         viewModel.state.observe(viewLifecycleOwner) { episode ->
             episode?.let {
-                binding.title.text =
-                    "E.${it.episodeNumber?.episodesFormatNumber()} • ${it.title}"
-                binding.episodeType.text =
-                    "${
-                        it.episodeType.toString()
-                            .replace("_", " ")
-                            .replaceFirstChar { it.uppercaseChar() }
-                    }"
 
-                binding.info.text =
+                // 1.1.3 ok default
+                binding.title.text =
+                    getString(
+                        R.string.ep_n_episode_title,
+                        it.episodeNumber.episodesFormatNumber(), // episodeNumber -1,
+                        it.title.orDefaultText(getString(R.string.untitled))
+                    )
+
+                // 1.1.3 ok default
+                binding.episodeType.text = if (it.episodeType.isNullOrBlank()) {
+                    " — "
+                } else {
+                    "${it.episodeType.replace("_", " ").replaceFirstChar { it.uppercaseChar() }}"
+                }
+
+
+                // 1.1.3 default OK
+                binding.episodeInfo.text =
                     "${getString(R.string.release_date)} ${
-                        episode
-                            .firstAiredFormatted.formatDateFromFirsAired()
-                    } | ${episode.runtime} min "
-                binding.overview.text = episode.overview
-                binding.traktRating.text = episode.rating.toString()
+                        episode.firstAiredFormatted.formatDateFromFirsAired()
+                            .orDefaultText("—")
+                    }  |  ${
+                        getString(
+                            R.string.runtime_description,
+                            episode.runtime
+                                .orDefaultText(("—"))
+                        )
+                    } "
+
+                // 1.1.3 ok default
+                binding.overviewContent.text =
+                    episode.overview.orDefaultText(getString(R.string.not_available))
+
+                // 1.1.3 ok default
+                binding.traktRating.text = episode.traktRating.orDefaultText("-")
 
                 updateWatchedIcon(it)
             }
         }
 
         binding.watchedIcon.setOnClickListener {
-            viewModel.toggleWatchedEpisode(currentShowIds.trakt, currentSeasonNr, currentEpisodeNr)
+            viewModel.toggleWatchedEpisode(
+                currentShowIds,
+                currentSeasonNr,
+                currentEpisodeNr
+            )
         }
 
         loadTMDBImagesWithCustomGlide()
+        expandOverview()
     }
 
 
@@ -92,7 +120,7 @@ class EpisodeFragment : BottomSheetDialogFragment(R.layout.fragm_episode_bottoms
     }
 
 
-    private fun updateWatchedIcon(episode: EpisodeExtended) {
+    private fun updateWatchedIcon(episode: Episode) {
         val iconEmpty = context?.getDrawable(R.drawable.episode_watched_eye_empty)?.mutate()
         val iconFilled = context?.getDrawable(R.drawable.episode_watched_eye_filled)
 
@@ -112,6 +140,20 @@ class EpisodeFragment : BottomSheetDialogFragment(R.layout.fragm_episode_bottoms
 
     private fun setAlphaForDrawable(floatAlpha: Float): Int {
         return (floatAlpha * 255).toInt()
+    }
+
+    private fun expandOverview() {
+        var isTextExpanded = false // initial state, fragment opening
+        binding.overviewContent.setOnClickListener {
+            if (isTextExpanded) { // expanded==true -> contract
+                binding.overviewContent.maxLines = 5
+                binding.overviewContent.ellipsize = TextUtils.TruncateAt.END
+            } else { // expanded==false -> expand
+                binding.overviewContent.maxLines = Int.MAX_VALUE
+                binding.overviewContent.ellipsize = null
+            }
+            isTextExpanded = !isTextExpanded // toggle state
+        }
     }
 
 

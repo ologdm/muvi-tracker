@@ -1,11 +1,16 @@
 package com.example.muvitracker.ui.main.seasons.viewpager
 
+import android.content.res.Resources
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.Fragment
 import com.example.muvitracker.R
-import com.example.muvitracker.data.dto.base.Ids
-import com.example.muvitracker.databinding.FragmSeasonViewpagerBinding
+import com.example.muvitracker.data.dto._support.Ids
+import com.example.muvitracker.databinding.FragmentSeasonViewpagerBinding
 import com.example.muvitracker.utils.viewBinding
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -13,14 +18,14 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class SeasonViewpagerFragment : Fragment(R.layout.fragm_season_viewpager) {
+class SeasonViewpagerFragment : Fragment(R.layout.fragment_season_viewpager) {
 
     private var currentShowTitle: String = ""
     private var currentShowIds: Ids = Ids()
     private var currentSeason: Int = 0
     private var totalSeasons: Int = 0
 
-    private val binding by viewBinding(FragmSeasonViewpagerBinding::bind)
+    private val b by viewBinding(FragmentSeasonViewpagerBinding::bind)
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -32,15 +37,17 @@ class SeasonViewpagerFragment : Fragment(R.layout.fragm_season_viewpager) {
             totalSeasons = bundle.getInt(TOT_SEASONS_NUMBER_KEY)
         }
 
-        binding.showTitle.text = currentShowTitle
+        mainLayoutTopEdgeToEdgeManagement()
 
-        binding.buttonBack.setOnClickListener {
+        b.showTitle.text = currentShowTitle
+
+        b.buttonBack.setOnClickListener {
             requireActivity().onBackPressed()
         }
 
 
         // viewpager2 00
-        binding.viewPager.adapter =
+        b.viewPager.adapter =
             SeasonViewpagerAdapter(
                 fragment = this,
                 ids = currentShowIds,
@@ -49,16 +56,35 @@ class SeasonViewpagerFragment : Fragment(R.layout.fragm_season_viewpager) {
 
         // Imposta il ViewPager2 sulla stagione corretta 00
         // indice come nelle liste,-1 rispetto alla conteggio naturale
-        binding.viewPager.setCurrentItem(currentSeason - 1, false)
+        b.viewPager.setCurrentItem(currentSeason - 1, false)
 
         // tab mediator 00
-        binding.tabLayout.tabMode = TabLayout.MODE_SCROLLABLE
-        TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
-            val seasonText = getString(R.string.season_text)
+        b.tabLayout.tabMode = TabLayout.MODE_SCROLLABLE
+        TabLayoutMediator(b.tabLayout, b.viewPager) { tab, position ->
+            val seasonText = getString(R.string.season)
             tab.text = "$seasonText ${position + 1}"
         }.attach()
 
     }
+
+    private fun mainLayoutTopEdgeToEdgeManagement() {
+        ViewCompat.setOnApplyWindowInsetsListener(b.mainLayout) { view, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            view.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+//                topMargin = systemBars.top
+                topMargin = (systemBars.top - dpToPx(8)).coerceAtLeast(0) // non andare sotto 0
+            }
+            insets
+        }
+
+    }
+
+    // funzione helper per convertire dp in px
+    private fun dpToPx(dp: Int): Int {
+        return (dp * Resources.getSystem().displayMetrics.density).toInt()
+    }
+
+
 
 
     companion object {

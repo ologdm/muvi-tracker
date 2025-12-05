@@ -1,7 +1,9 @@
 package com.example.muvitracker.data.utils
 
+import com.example.muvitracker.data.dto._support.Ids
+
 data class ShowRequestKeys(
-    val showId: Int = 0,
-    val seasonNr: Int =0,
-    val episodeNr: Int =0,
+    val showIds: Ids,
+    val seasonNr: Int = -1,
+    val episodeNr: Int = -1,
 )

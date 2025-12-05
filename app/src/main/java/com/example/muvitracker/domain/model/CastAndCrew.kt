@@ -1,6 +1,6 @@
 package com.example.muvitracker.domain.model
 
-import com.example.muvitracker.domain.model.base.Person
+import com.example.muvitracker.domain.model.base.PersonBase
 
 data class CastAndCrew(
     val castMembers: List<CastMember>,
@@ -11,9 +11,8 @@ data class CastAndCrew(
 data class CastMember(
     val character: String, // more than one
     val episodeCount: String, // only for shows
-    val person: Person
+    val personBase: PersonBase // val default ok
 )
-
 
 //data class Crew()
 

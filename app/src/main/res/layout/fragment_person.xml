@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:id="@+id/mainLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="12dp">
+
+    <!--    for BottomSheetFragment() and Fragment() -->
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/deathContent2"-->
+    <!--        android:layout_width="0dp"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_columnWeight="1"-->
+    <!--        tools:text="15 Oct 2023\nLondon UK\nkkkkkkk" />-->
+
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:id="@+id/innerLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+            <!--        NOTE: layout solo per PersonFragment
+        - nascondere buttonBackLayout per bottom sheet fragment, non serve
+-->
+            <LinearLayout
+                android:id="@+id/buttonBackLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <ImageButton
+                    android:id="@+id/buttonBack"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:importantForAccessibility="no"
+                    app:srcCompat="@drawable/back_button_arrow" />
+
+                <com.google.android.material.divider.MaterialDivider
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="16dp" />
+
+            </LinearLayout>
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/imageAndInfoLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/verticalImage"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintDimensionRatio="2:3"
+                    app:layout_constraintWidth_percent="0.4"
+                    android:layout_marginEnd="20dp"
+                    android:scaleType="centerCrop"
+                    android:importantForAccessibility="no"
+                    app:layout_constraintEnd_toStartOf="@id/infoLayout"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:shapeAppearance="@style/ImageLargeRoundedShape"
+                    tools:background="@tools:sample/avatars" />
+
+                <LinearLayout
+                    android:id="@+id/infoLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/verticalImage"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/personName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        tools:text="Kit Harington" />
+
+
+                    <!--  da cast member  -->
+                    <TextView
+                        android:id="@+id/character"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="?attr/colorTertiary"
+                        android:textStyle=""
+                        tools:text="John Snow" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="8dp" />
+
+                    <GridLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:columnCount="2"
+                        android:rowCount="4">
+
+                        <TextView
+                            android:id="@+id/knownTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="8dp"
+                            android:text="@string/known_for"
+                            android:textColor="?attr/colorPrimary" />
+
+                        <TextView
+                            android:id="@+id/knownContent"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_columnWeight="1"
+                            tools:text="for acting" />
+
+                        <TextView
+                            android:id="@+id/ageTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="8dp"
+                            android:text="@string/age"
+                            android:textColor="?attr/colorPrimary" />
+
+                        <TextView
+                            android:id="@+id/ageContent"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_columnWeight="1"
+                            tools:text="37" />
+
+
+                        <TextView
+                            android:id="@+id/bornTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="8dp"
+                            android:text="@string/born"
+                            android:textColor="?attr/colorPrimary" />
+
+                        <TextView
+                            android:id="@+id/bornContent"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_columnWeight="1"
+                            android:maxLines="7"
+                            tools:text="26 Dec 1986\nWorchester, England, UK \ndddd" />
+
+                        <TextView
+                            android:id="@+id/deathTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="8dp"
+                            android:text="@string/died"
+                            android:textColor="?attr/colorPrimary" />
+
+                        <TextView
+                            android:id="@+id/deathContent"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_columnWeight="1"
+                            android:maxLines="7"
+                            tools:text="15 Oct 2023\nLondon UK\nkkkkkkkkknkkkkkkkkknkkkkkkkkknkkkkkkkkknkkkkkkkkknkkkkkkkkknkkkkkkkkk" />
+
+
+                    </GridLayout>
+
+                </LinearLayout>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/toolbarDivider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:layout_constraintTop_toBottomOf="@id/imageAndInfoLayout" />
+
+            <TextView
+                android:id="@+id/biographyTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/biography"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@id/toolbarDivider" />
+
+            <TextView
+                android:id="@+id/biographyContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="40dp"
+                android:ellipsize="end"
+                android:maxLines="5"
+                android:minLines="5"
+                android:layout_marginTop="4dp"
+                app:layout_constraintTop_toBottomOf="@id/biographyTitle"
+                tools:text="@tools:sample/lorem/random" />
+
+
+
+        </LinearLayout>
+
+
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>
