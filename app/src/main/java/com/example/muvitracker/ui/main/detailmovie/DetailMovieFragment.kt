@@ -136,12 +136,6 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
     }
 
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        resetStatusBarColorsOnDefault()
-    }
-
-
     private fun loadRelatedSetup() {
         b.relatedRecyclerview.adapter = relatedMoviesAdapter
         b.relatedRecyclerview.layoutManager =
@@ -279,7 +273,7 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
         b.notesTextview.text = movie.notes
 
 
-        loadTMDBImagesWithCustomGlide()
+        loadTmdbImagesWithCustomGlide()
     }
 
 
@@ -390,7 +384,7 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
     }
 
 
-    private fun loadTMDBImagesWithCustomGlide() {
+    private fun loadTmdbImagesWithCustomGlide() {
         Glide.with(requireContext())
             .load(ImageTmdbRequest.MovieHorizontal(currentMovieIds.tmdb))
             .transition(DrawableTransitionOptions.withCrossFade(300))
@@ -423,6 +417,7 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
     }
 
 
+    // TODO: reset status bar color when Fragment/activity changes
     // 1.1.3 gestione colori status bar colori per edgeToEdge OK
     // - su imageHorizontal -> status bar bianche Ok
     // - restante mainScrollView -> nere OK
@@ -462,25 +457,6 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
                 controller.isAppearanceLightStatusBars = true
             }
         }
-    }
-
-
-    // TODO 1.1.3 - resetta colori status bar alla default
-    //      IN TEST
-    private fun resetStatusBarColorsOnDefault() {
-        val window = requireActivity().window
-        val controller = WindowCompat.getInsetsController(window, requireView())
-
-        // ripristina il colore della status bar dal tema
-        val typedValue = TypedValue()
-        requireContext().theme.resolveAttribute(android.R.attr.statusBarColor, typedValue, true)
-        window.statusBarColor = typedValue.data
-
-        // ripristina icone secondo tema (chiaro/scuro)
-        val isLightStatusBarsDefault = resources.getBoolean(
-            resources.getIdentifier("light_icons", "bool", requireContext().packageName)
-        )
-        controller.isAppearanceLightStatusBars = isLightStatusBarsDefault
     }
 
 
@@ -571,7 +547,7 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
     }
 
 
-    // TODO: fix class
+    // OK
     object MovieDefaults {
         var TITLE = MyApp.appContext.getString(R.string.untitled)
 
