@@ -8,8 +8,6 @@ use Dagger Hilt for DI, includes data caching for better performance, and follow
 
 Custom backend logic is implemented for saving favorites and watched content locally.
 
-Soon on the Google Play Store!
-
 ## Features
 
 - Search for any movie, TV series, or actor on Trakt Database
@@ -58,10 +56,5 @@ tmdb_api_key = your_tmdb_api_key
     - [Room](https://github.com/androidx/androidx/tree/androidx-main/room) - SQLite database for
       storage and caching
 
-## What's next?
-
-
-## APK Download
-
-Go to the <u>[Releases](https://github.com/ologdm/muvi-tracker/releases)</u> to download the latest
-APK.
+## Download
+[<img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" alt="" height="100">](https://play.google.com/store/apps/details?id=dev.dimao.muvitracker)
