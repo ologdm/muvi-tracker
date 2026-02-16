@@ -7,7 +7,6 @@ import com.example.muvitracker.data.database.MyDatabase
 import com.example.muvitracker.data.database.entities.MovieEntity
 import com.example.muvitracker.data.database.entities.toDomain
 import com.example.muvitracker.data.dto._support.Ids
-import com.example.muvitracker.data.dto.movie.detail.MovieTmdbDto
 import com.example.muvitracker.data.dto.movie.detail.mergeMoviesDtoToEntity
 import com.example.muvitracker.data.dto.movie.toDomain
 import com.example.muvitracker.data.dto.person.toDomain
@@ -18,9 +17,8 @@ import com.example.muvitracker.domain.model.Movie
 import com.example.muvitracker.domain.model.base.MovieBase
 import com.example.muvitracker.domain.repo.DetailMovieRepository
 import com.example.muvitracker.utils.IoResponse
-import com.example.muvitracker.utils.ioMapper
+import com.example.muvitracker.utils.map
 import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
@@ -110,8 +108,9 @@ class DetailMovieRepositoryImpl @Inject constructor(
     // RELATED MOVIES ------------------------------------------------------------------------------
     override suspend fun getRelatedMovies(movieId: Int): IoResponse<List<MovieBase>> {
         return try {
+            // map: movie base -> movie base dto
             IoResponse.Success(traktApi.getMovieRelatedMovies(movieId))
-                .ioMapper { dtos ->
+                .map { dtos ->
                     dtos.map { dto ->
                         dto.toDomain()
                     }

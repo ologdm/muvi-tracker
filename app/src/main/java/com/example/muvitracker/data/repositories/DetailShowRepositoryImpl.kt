@@ -19,7 +19,7 @@ import com.example.muvitracker.domain.model.base.ShowBase
 import com.example.muvitracker.domain.repo.DetailShowRepository
 import com.example.muvitracker.domain.repo.SeasonRepository
 import com.example.muvitracker.utils.IoResponse
-import com.example.muvitracker.utils.ioMapper
+import com.example.muvitracker.utils.map
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
@@ -89,7 +89,7 @@ class DetailShowRepositoryImpl @Inject constructor(
     override suspend fun getRelatedShows(showId: Int): IoResponse<List<ShowBase>> {
         return try {
             IoResponse.Success(traktApi.getShowRelatedShows(showId))
-                .ioMapper { dtos ->
+                .map { dtos ->
                     dtos.map { dto ->
                         dto.toDomain()
                     }
