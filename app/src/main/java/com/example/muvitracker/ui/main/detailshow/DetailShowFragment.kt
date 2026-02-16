@@ -107,23 +107,8 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
         }
 
 
-        // SHOW DETAIL -----------------------------------------------------------------------------
-        viewModel.loadShowDetail(currentShowIds)
-        // 1.1.3 NEW loading, data + no internet, no data no internet OK
-        viewModel.showState.observe(viewLifecycleOwner) { stateContainer ->
-            stateContainer.statesFlowDetail(
-                b.errorTextView,
-                b.progressBar,
-                b.mainLayoutToDisplayDetail,
-                bindData = { show ->
-                    setupDetailShowUiSection(show) // base show ui
-                    updateFavoriteIcon(show.liked)
-                    updateWatchedCheckboxAndCounters(show)
-                    totSeasonsCount = show.seasonsCount
-                }
-            )
-        }
-
+        // data loadings
+        loadDetailShowSetup()
         loadSeasonsSetup()
         loadRelatedSetup()
         loadCastSetup()
@@ -139,6 +124,24 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
             viewModel.toggleLikedShow(currentShowIds.trakt)
         }
 
+    }
+
+    private fun loadDetailShowSetup() {
+        viewModel.loadShowDetail(currentShowIds)
+        // 1.1.3 NEW loading, data + no internet, no data no internet OK
+        viewModel.showState.observe(viewLifecycleOwner) { stateContainer ->
+            stateContainer.statesFlowDetail(
+                b.errorTextView,
+                b.progressBar,
+                b.mainLayoutToDisplayDetail,
+                bindData = { show ->
+                    setupDetailShowUiSection(show) // base show ui
+                    updateFavoriteIcon(show.liked)
+                    updateWatchedCheckboxAndCounters(show)
+                    totSeasonsCount = show.seasonsCount
+                }
+            )
+        }
     }
 
 

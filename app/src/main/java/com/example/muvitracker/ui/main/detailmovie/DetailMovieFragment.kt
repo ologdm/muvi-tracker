@@ -97,25 +97,8 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
             currentMovieIds = bundle.getParcelable(MOVIE_IDS_KEY) ?: Ids()
         }
 
-        // MOVIE DETAIL ---------------------------------------------------------------------------------
-        viewModel.loadMovieDetailFlow(currentMovieIds)
-        // TODO: 1.1.3 NEW loading, data + no internet, no data no internet OK
-        viewModel.detailState.observe(viewLifecycleOwner) { stateContainer ->
-            // main_layout_detail.xml  -> default GONE
-
-            stateContainer.statesFlowDetail(
-                b.errorTextView,
-                b.progressBar,
-                b.mainLayoutToDisplayDetail,
-                bindData = { movie ->
-                    setupDetailMovieUiSection(movie) // base movie UI
-                    updateFavoriteIcon(movie.liked)
-                    updateWatchedCheckbox(movie)
-                }
-            )
-        }
-
-
+        // data loadings
+        loadDetailMovieSetup()
         loadRelatedSetup()
         loadCastSetup()
         myNotesDialogSetup()
@@ -132,6 +115,25 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
 
         b.watchedCheckbox.setOnCheckedChangeListener { _, isChecked ->
             viewModel.updateWatched(currentMovieIds.trakt, isChecked)
+        }
+    }
+
+    private fun loadDetailMovieSetup() {
+        viewModel.loadMovieDetailFlow(currentMovieIds)
+        // 1.1.3 NEW loading, data + no internet, no data no internet OK
+        viewModel.detailState.observe(viewLifecycleOwner) { stateContainer ->
+            // main_layout_detail.xml  -> default GONE
+
+            stateContainer.statesFlowDetail(
+                b.errorTextView,
+                b.progressBar,
+                b.mainLayoutToDisplayDetail,
+                bindData = { movie ->
+                    setupDetailMovieUiSection(movie) // base movie UI
+                    updateFavoriteIcon(movie.liked)
+                    updateWatchedCheckbox(movie)
+                }
+            )
         }
     }
 
