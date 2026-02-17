@@ -71,4 +71,9 @@
     <string name="unknown_birthday">Fecha de nacimiento desconocida</string>
     <string name="unknown_age">Edad desconocida</string>
     <string name="unknown">Desconocido</string>
+    <string name="textProviderStream">Streaming</string>
+    <string name="textProviderAds">Con anuncios</string>
+    <string name="textProviderBuy">Comprar</string>
+    <string name="textProviderRent">Alquilar</string>
+    <string name="textProviderFree">Gratis</string>
 </resources>

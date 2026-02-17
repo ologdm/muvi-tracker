@@ -111,6 +111,11 @@
     <string name="unknown_birthday">Unknown birthday</string>
     <string name="unknown_age">Unknown death date</string>
     <string name="unknown">Unknown</string>
+    <string name="textProviderStream">Streaming</string>
+    <string name="textProviderAds">With ads</string>
+    <string name="textProviderBuy">Buy</string>
+    <string name="textProviderRent">Rent</string>
+    <string name="textProviderFree">Free</string>
 
 
 </resources>

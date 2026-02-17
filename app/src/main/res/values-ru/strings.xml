@@ -71,4 +71,9 @@
     <string name="unknown_birthday">Дата рождения неизвестна</string>
     <string name="unknown_age">Возраст неизвестен</string>
     <string name="unknown">Неизвестно</string>
+    <string name="textProviderStream">Стриминг</string>
+    <string name="textProviderAds">С рекламой</string>
+    <string name="textProviderBuy">Покупка</string>
+    <string name="textProviderRent">Прокат</string>
+    <string name="textProviderFree">Бесплатно</string>
 </resources>

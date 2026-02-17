@@ -88,4 +88,10 @@
     <string name="unknown_age">Età sconosciuta</string>
     <string name="unknown">Sconosciuto</string>
 
+    <string name="textProviderStream">Streaming</string>
+    <string name="textProviderAds">Con pubblicità</string>
+    <string name="textProviderBuy">Acquisto</string>
+    <string name="textProviderRent">Noleggio</string>
+    <string name="textProviderFree">Gratuito</string>
+
 </resources>

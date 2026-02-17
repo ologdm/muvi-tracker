@@ -71,4 +71,9 @@
     <string name="unknown_birthday">Data nașterii necunoscută</string>
     <string name="unknown_age">Vârstă necunoscută</string>
     <string name="unknown">Necunoscut</string>
+    <string name="textProviderStream">Streaming</string>
+    <string name="textProviderAds">Cu anunțuri</string>
+    <string name="textProviderBuy">Cumpără</string>
+    <string name="textProviderRent">Închiriat</string>
+    <string name="textProviderFree">Gratuit</string>
 </resources>
