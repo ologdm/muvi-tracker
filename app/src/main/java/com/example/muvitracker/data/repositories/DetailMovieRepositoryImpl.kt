@@ -3,7 +3,6 @@ package com.example.muvitracker.data.repositories
 import com.dropbox.android.external.store4.StoreRequest
 import com.example.muvitracker.MyApp
 import com.example.muvitracker.R
-import com.example.muvitracker.data.MovieProvidersResponseDto
 import com.example.muvitracker.data.TmdbApi
 import com.example.muvitracker.data.TraktApi
 import com.example.muvitracker.data.database.MyDatabase
@@ -13,6 +12,7 @@ import com.example.muvitracker.data.dto._support.Ids
 import com.example.muvitracker.data.dto.movie.detail.mergeMoviesDtoToEntity
 import com.example.muvitracker.data.dto.movie.toDomain
 import com.example.muvitracker.data.dto.person.toDomain
+import com.example.muvitracker.data.dto.provider.MovieProvidersResponseDto
 import com.example.muvitracker.data.utils.mapToIoResponse
 import com.example.muvitracker.data.utils.storeFactory
 import com.example.muvitracker.domain.model.CastAndCrew
