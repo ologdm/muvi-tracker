@@ -1,11 +1,21 @@
 package com.example.muvitracker.domain.model
 
+
 data class Provider(
-    val providerId :Int, // uguale per buy, streraming ecc
+    val providerId: Int,
     val providerName: String,
     val serviceType: String,
-    val logoPath: String, // unire
+    private val logoPath: String,
+    val displayPriority: Int,
 
-    val displayPriority: Int
+    private val website: String = "https://image.tmdb.org/t/p/w500"
+) {
 
-)
+    val logoUrl: String? // !! Glide gestisce i null
+        get() = logoPath
+            .takeIf { path -> path.isNotBlank() }
+            ?.let { path ->
+                "$website$path"
+            }
+
+}

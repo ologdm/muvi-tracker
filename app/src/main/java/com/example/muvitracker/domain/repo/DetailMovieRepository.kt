@@ -1,6 +1,6 @@
 package com.example.muvitracker.domain.repo
 
-import com.example.muvitracker.data.MovieProvidersResponseDto
+
 import com.example.muvitracker.data.database.entities.MovieEntity
 import com.example.muvitracker.data.dto._support.Ids
 import com.example.muvitracker.domain.model.CastAndCrew
@@ -21,8 +21,7 @@ interface DetailMovieRepository {
 
     suspend fun getMovieCast(movieId: Int): IoResponse<CastAndCrew> // contiene List<CastMember> -> personggi film
 
-
-    suspend fun getMovieProviders(movieId: Int): IoResponse<List<Provider>> // contiene List<CastMember> -> personggi film
+    suspend fun getMovieProviders(movieId: Int): IoResponse<List<Provider>>
 
 
 }

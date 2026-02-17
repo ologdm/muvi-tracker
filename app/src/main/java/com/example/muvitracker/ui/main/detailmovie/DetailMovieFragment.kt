@@ -18,20 +18,20 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.muvitracker.MyApp
 import com.example.muvitracker.R
-import com.example.muvitracker.data.MovieWatchProvidersResponseDto
 import com.example.muvitracker.data.TmdbApi
 import com.example.muvitracker.data.dto._support.Ids
 import com.example.muvitracker.data.glide.ImageTmdbRequest
 import com.example.muvitracker.databinding.DialogMyNotesBinding
 import com.example.muvitracker.databinding.FragmentDetailMovieBinding
 import com.example.muvitracker.domain.model.Movie
-import com.example.muvitracker.domain.model.Provider
 import com.example.muvitracker.ui.main.Navigator
 import com.example.muvitracker.ui.main.person.adapters.CastAdapter
 import com.example.muvitracker.ui.main.detailmovie.adapters.RelatedMoviesAdapter
@@ -48,7 +48,6 @@ import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.ShapeAppearanceModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import java.util.Locale
 import javax.inject.Inject
 
 /** Linee
@@ -90,7 +89,6 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
     // TODO: 1.1.4 adapter
     private val providersAdapter = ProvidersAdapter()
 
-
     /**
      * Scritto cosi, Il frammento riceverà api dopo il onAttach(), quindi prima puoi usarlo solo in
      * lifecycle methods come onViewCreated.
@@ -119,9 +117,11 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
         loadRelatedSetup()
         loadCastSetup()
         myNotesDialogSetup()
+        // 1.1.4 - OK
+        loadProvidersSetup()
 
 
-        // BUTTONS CLICK ------------------------------------------------------------------------------
+        // -------------------- BUTTONS CLICK ------------------------------------------------------
         b.buttonBack.setOnClickListener {
             requireActivity().onBackPressed()
         }
@@ -130,120 +130,25 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
             viewModel.toggleLikedMovie(currentMovieIds.trakt)
         }
 
-        // TODO test elimina
-//        b.watchedCheckbox.setOnCheckedChangeListener { _, isChecked ->
-//            viewModel.updateWatched(currentMovieIds.trakt, isChecked)
-//        }
+    }
 
-
-        // TODO:  1.1.4 providers
-        //  test deadpool 293660
-        //  test sean combs 255251
-
-        var testMovie: MovieWatchProvidersResponseDto?
-        var testShow: MovieWatchProvidersResponseDto?
-
-        // oppure fragmentViewLifecycleScope
-        viewLifecycleOwner.lifecycleScope.launch {
-            testMovie = api.getMovieProviders(293660)
-            testShow = api.getShowProviders(255251)
-            println("XXX : $testMovie")
-            println("XXX : $testShow")
-        }
-
-
-        // TODO
-        // OK
+    private fun loadProvidersSetup() {
         b.providersRecyclerView.adapter = providersAdapter
         b.providersRecyclerView.layoutManager = LinearLayoutManager(
             requireContext(),
             LinearLayoutManager.HORIZONTAL,
             false
         )
-        loadProviderList()
 
-        // leggi dati
-//        viewModel.loadProviders(currentMovieIds.trakt)
-        // observe
-
-
-    }
-
-    private fun loadProviderList() {
-        /* Restituisce il codice paese ISO 3166-1 alpha-2
-        Esempi: "IT" → Italia; "US" → Stati Uniti
-         */
-
+        viewModel.loadProviders(currentMovieIds.tmdb)
         viewLifecycleOwner.lifecycleScope.launch {
-//            val region = Locale.getDefault().country
-            val region = "IT"
-            var responseDto = api.getMovieProviders(293660).results
-            val regiorProvidersDto =
-                responseDto[region] ?: return@launch // non va avanti se regiorProvidersDto == null
-
-
-            // 1. unisci le 4 liste come una mappa
-            // struttura come mappa key -> lista
-            val providersPair = listOf(
-                "buy" to regiorProvidersDto.buy,
-                "flatrate" to regiorProvidersDto.flatrate,
-                "rent" to regiorProvidersDto.rent,
-                "free" to regiorProvidersDto.free,
-                "ads" to regiorProvidersDto.ads,
-            ).filter { pair ->
-                pair.second.isNotEmpty() // emptyList default
-            }
-
-            // 2. da mappa a Pair<key, Obj>
-            // struttura key, elemento singolo
-            val flatProvidersPair = providersPair.flatMap { pair ->
-                val scomposto = pair.second.map { dto ->
-                    pair.first to dto // == Pair(pair.first, dto)
+            // cancella automaticamente la coroutine quando il Fragment va in STOPPED e la rilancia se torna STARTED.
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.providersState.collect {
+                    providersAdapter.submitList(it)
                 }
-                scomposto
             }
-
-            // 3. ragruppa Provider con id identico
-            val groupedProvidersMap =
-                flatProvidersPair.groupBy { pair ->
-                    pair.second.providerId
-                }
-
-
-            // 4. (id -> Pair<Type,ProviderDto>)  => List<Provider>
-            // creo un provider per ogni entries + unisco i types
-            val domainProviders = groupedProvidersMap.map { (id, pairs) ->
-                // 1. ragruppo 'type', poi unisco in stringa
-                val types = pairs.map {
-                    it.first
-                }.joinToString(", ")
-
-                val dto = pairs.first().second
-
-                // 2. creo un provider per ogni entry
-                val imageLink = "https://image.tmdb.org/t/p/w500"
-                val result = Provider(
-                    providerId = id,
-                    providerName = dto.providerName ?: "",
-                    logoPath = "$imageLink${dto.logoPath}" ?: "",
-                    displayPriority = dto.displayPriority ?: 99, // vai in fondo
-                    serviceType = types
-                )
-                result
-            }.sortedBy {
-                it.displayPriority
-            }
-
-            // ->> TODO : output -> List<Provider>
-
-            println(domainProviders) // viene unita ok
-
-            // TUTTO OK
-            providersAdapter.submitList(domainProviders)
-        } // fine coroutines
-
-
-
+        }
     }
 
     private fun loadDetailMovieSetup() {
@@ -693,5 +598,96 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
 
 }
 
+
+// TODO:  1.1.4 providers
+//  test deadpool 293660
+//  test sean combs 255251
+// oppure fragmentViewLifecycleScope
+//viewLifecycleOwner.lifecycleScope.launch {
+//    testMovie = api.getMovieProviders(293660)
+//    testShow = api.getShowProviders(255251)
+//    println("XXX : $testMovie")
+//    println("XXX : $testShow")
+//}
+
+//        var testMovie: MovieProvidersResponseDto?
+//        var testShow: MovieProvidersResponseDto?
+
+//    private fun loadProviderList() {
+//        /* Restituisce il codice paese ISO 3166-1 alpha-2
+//        Esempi: "IT" → Italia; "US" → Stati Uniti
+//         */
+//
+//        viewLifecycleOwner.lifecycleScope.launch {
+////            val region = Locale.getDefault().country
+//            val region = "IT"
+//            var responseDto = api.getMovieProviders(293660).results
+//            val regionProvidersDto =
+//                responseDto[region] ?: return@launch // non va avanti se regiorProvidersDto == null
+//
+//
+//            // 1. unisci le 4 liste come una mappa
+//            // struttura come mappa key -> lista
+//            val providersPair = listOf(
+//                ProviderTypes.BUY to regionProvidersDto.buy,
+//                ProviderTypes.STREAM to regionProvidersDto.flatrate,
+//                ProviderTypes.RENT to regionProvidersDto.rent,
+//                ProviderTypes.FREE to regionProvidersDto.free,
+//                ProviderTypes.ADS to regionProvidersDto.ads,
+//            ).filter { pair ->
+//                pair.second.isNotEmpty() // emptyList default
+//            }
+//
+//            // 2. da mappa a Pair<key, Obj>
+//            // struttura key, elemento singolo
+//            val flatProvidersPair = providersPair.flatMap { pair ->
+//                val scomposto = pair.second.map { dto ->
+//                    pair.first to dto // == Pair(pair.first, dto)
+//                }
+//                scomposto
+//            }
+//
+//            // 3. ragruppa Provider con id identico
+//            val groupedProvidersMap =
+//                flatProvidersPair.groupBy { pair ->
+//                    pair.second.providerId
+//                }
+//
+//
+//            // 4. (id -> Pair<Type,ProviderDto>)  => List<Provider>
+//            // creo un provider per ogni entries + unisco i types
+//            val domainProviders = groupedProvidersMap.map { (id, pairs) ->
+//                // 1. ragruppo 'type', poi unisco in stringa
+//                val types = pairs.map {
+//                    it.first
+//                }.joinToString(", ")
+//
+//                val dto = pairs.first().second
+//
+//                // 2. creo un provider per ogni entry
+//                val imageLink = "https://image.tmdb.org/t/p/w500"
+//                val result = Provider(
+//                    providerId = id,
+//                    providerName = dto.providerName ?: "",
+//                    logoPath = "$imageLink${dto.logoPath}" ?: "",
+//                    displayPriority = dto.displayPriority ?: 99, // vai in fondo
+//                    serviceType = types
+//                )
+//                result
+//            }.sortedBy {
+//                it.displayPriority
+//            }
+//
+//            // ->> TODO : output -> List<Provider>
+//
+//            println(domainProviders) // viene unita ok
+//
+//            // TUTTO OK
+//            providersAdapter.submitList(domainProviders)
+//        } // fine coroutines
+//
+//
+//
+//    }
 
 

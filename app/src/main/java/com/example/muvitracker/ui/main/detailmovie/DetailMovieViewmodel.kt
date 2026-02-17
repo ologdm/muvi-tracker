@@ -7,6 +7,7 @@ import com.example.muvitracker.data.TraktApi
 import com.example.muvitracker.data.dto._support.Ids
 import com.example.muvitracker.domain.model.CastMember
 import com.example.muvitracker.domain.model.Movie
+import com.example.muvitracker.domain.model.Provider
 import com.example.muvitracker.domain.model.base.MovieBase
 import com.example.muvitracker.domain.repo.DetailMovieRepository
 import com.example.muvitracker.domain.repo.PrefsMovieRepository
@@ -14,6 +15,7 @@ import com.example.muvitracker.utils.IoResponse
 import com.example.muvitracker.utils.ListStateContainerTwo
 import com.example.muvitracker.utils.StateContainerThree
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.map
@@ -32,6 +34,8 @@ class DetailMovieViewmodel @Inject constructor(
 
     val relatedMoviesState = MutableLiveData<ListStateContainerTwo<MovieBase>>()
     val castState = MutableLiveData<ListStateContainerTwo<CastMember>>()
+    // 1.1.4 providers ok
+    val providersState = MutableStateFlow<List<Provider>>(emptyList())
 
     private var movieNotes = ""
 
@@ -106,8 +110,9 @@ class DetailMovieViewmodel @Inject constructor(
             when (response) {
                 is IoResponse.Success -> {
                     // !! List<CastMember> -> (dto->domain salvata come emptyList)
-                    if (response.dataValue.castMembers.isNotEmpty()){
-                        castState.value = ListStateContainerTwo(response.dataValue.castMembers, false)
+                    if (response.dataValue.castMembers.isNotEmpty()) {
+                        castState.value =
+                            ListStateContainerTwo(response.dataValue.castMembers, false)
                     } else {
                         castState.value = ListStateContainerTwo(emptyList(), false)
                     }
@@ -143,7 +148,32 @@ class DetailMovieViewmodel @Inject constructor(
     }
 
 
-    fun getNotes() : String = movieNotes
+    fun getNotes(): String = movieNotes
+
+
+    // 1.1.4 OK
+    // senza loading
+
+    fun loadProviders(movieId: Int) {
+        // TODO:  aggiornare
+        viewModelScope.launch {
+            // devo chiamare la suspended fun
+            val response = detailMovieRepository.getMovieProviders(movieId)
+
+            when(response){
+                is IoResponse.Success -> {
+                    providersState.value = response.dataValue
+                }
+
+                is IoResponse.Error -> {
+                    response.t.printStackTrace()
+                }
+            }
+
+        }
+
+
+    }
 
 
 }

@@ -11,8 +11,6 @@ import com.example.muvitracker.databinding.ViewholderProviderBinding
 import com.example.muvitracker.domain.model.Provider
 
 class ProvidersAdapter : ListAdapter<Provider, ProviderViewholder>(diff) {
-    // il padre richiede nel costruttore 'ItemCallback'
-
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -33,7 +31,6 @@ class ProvidersAdapter : ListAdapter<Provider, ProviderViewholder>(diff) {
 
 
     companion object {
-        // va sempre nel companion, per una questione di istanziamento
         private val diff = object : DiffUtil.ItemCallback<Provider>() {
             override fun areItemsTheSame(oldItem: Provider, newItem: Provider): Boolean {
                 return oldItem.providerId == newItem.providerId
@@ -49,11 +46,9 @@ class ProvidersAdapter : ListAdapter<Provider, ProviderViewholder>(diff) {
 
 
 class ProviderViewholder(
-    // da qua
-    val b: ViewholderProviderBinding // e tutta la carcassa
+    val b: ViewholderProviderBinding
 ) : RecyclerView.ViewHolder(
-    // passo al costruttore padre
-    b.root // itemview :View
+    b.root
 ) {
 
     fun bind(provider: Provider) {
@@ -62,7 +57,7 @@ class ProviderViewholder(
 
         Glide
             .with(b.root.context)
-            .load(provider.logoPath)
+            .load(provider.logoUrl)
             .placeholder(R.drawable.glide_placeholder_base)
             .error(R.drawable.glide_placeholder_base)
             .into(b.providerIcon)
