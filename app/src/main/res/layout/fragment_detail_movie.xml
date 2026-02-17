@@ -527,24 +527,26 @@
                     <!--                    </LinearLayout>-->
 
                     <LinearLayout
+                        android:id="@+id/providersLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:layout_marginBottom="20dp">
+                        android:layout_marginBottom="10dp">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            style="@style/TitleCategoryDetail"
-                            android:layout_marginBottom="10dp"
-                            android:text="Providers"/>
+<!--                        <TextView-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            style="@style/TitleCategoryDetail"-->
+<!--                            android:layout_marginBottom="10dp"-->
+<!--                            android:text="Providers"/>-->
 
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/providersRecyclerView"
                             android:layout_width="match_parent"
-                            android:layout_height="50dp"
+                            android:layout_height="wrap_content"
+                            tools:layout_height="60dp"
                             tools:listitem="@layout/viewholder_cast_list_on_detail"
-                            android:background="@android:color/holo_blue_light"
+
                             />
 
 

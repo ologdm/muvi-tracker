@@ -2,28 +2,28 @@
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/ImageRelatedOnDetail"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_margin="4dp"
+    android:layout_marginEnd="8dp"
+    app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.MediumComponent"
     tools:layout_marginVertical="30dp">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@android:color/darker_gray"
+        android:background="?attr/colorSurfaceVariant"
         android:maxWidth="300dp"
         android:padding="6dp">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/providerIcon"
-            style="@style/ImageRelatedOnDetail"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.SmallComponent"
             tools:background="@tools:sample/backgrounds/scenic" />
 
         <TextView
@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:maxLines="1"
-            android:textSize="20dp"
+            android:textSize="12dp"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@id/providerIcon"
             app:layout_constraintTop_toTopOf="parent"
@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:maxLines="1"
-            android:textSize="16dp"
+            android:textSize="10dp"
             app:layout_constraintBottom_toBottomOf="@id/providerIcon"
             app:layout_constraintStart_toEndOf="@id/providerIcon"
             tools:text="Streaming, Acquisto, Gratis....................." />
