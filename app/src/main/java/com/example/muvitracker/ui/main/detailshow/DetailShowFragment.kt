@@ -314,7 +314,7 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
             b.genresChipGroup.addView(chip)
         }
 
-        // TODO: - sistemare funzione ricerca link migliore
+        // sistemare funzione ricerca link migliore - OK
         // open link on youtube
         val trailerUrl = show.youtubeTrailer
         val trailerAvailable = !trailerUrl.isNullOrBlank()
