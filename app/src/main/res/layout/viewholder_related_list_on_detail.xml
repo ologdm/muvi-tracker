@@ -11,7 +11,7 @@
             android:id="@+id/image"
             android:layout_width="80dp"
             android:layout_height="120dp"
-            tools:src="@tools:sample/avatars"
+            tools:src="@tools:sample/backgrounds/scenic"
             style="@style/ImageRelatedOnDetail" />
     <!-- app:layout_constraintDimensionRatio="2:3" non funziona con frameLayout-->
 
