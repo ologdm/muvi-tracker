@@ -2,8 +2,8 @@ package com.example.muvitracker.domain.model
 
 
 data class Provider(
-    val providerId: Int,
-    val providerName: String,
+    val id: Int,
+    val name: String,
     val serviceType: String,
     private val logoPath: String,
     val displayPriority: Int,

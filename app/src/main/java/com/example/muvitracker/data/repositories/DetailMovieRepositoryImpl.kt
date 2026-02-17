@@ -207,8 +207,8 @@ class DetailMovieRepositoryImpl @Inject constructor(
 
             // 2. creo un provider per ogni entry
             val result = Provider(
-                providerId = id,
-                providerName = dto.providerName ?: "",
+                id = id,
+                name = dto.providerName ?: "",
                 logoPath = dto.logoPath ?: "",
                 displayPriority = dto.displayPriority ?: 99, // vai in fondo
                 serviceType = types
