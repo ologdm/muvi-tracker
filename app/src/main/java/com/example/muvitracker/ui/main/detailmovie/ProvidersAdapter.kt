@@ -10,7 +10,10 @@ import com.example.muvitracker.R
 import com.example.muvitracker.databinding.ViewholderProviderBinding
 import com.example.muvitracker.domain.model.Provider
 
-class ProvidersAdapter : ListAdapter<Provider, ProviderViewholder>(diff) {
+// TODO sia x movie che show
+class ProvidersAdapter(
+    val onClickVH: (Provider) -> Unit
+) : ListAdapter<Provider, ProviderViewholder>(diff) {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -27,13 +30,17 @@ class ProvidersAdapter : ListAdapter<Provider, ProviderViewholder>(diff) {
     ) {
         val item = getItem(position)
         holder.bind(item)
+
+        holder.itemView.setOnClickListener {
+            onClickVH.invoke(item)
+        }
     }
 
 
     companion object {
         private val diff = object : DiffUtil.ItemCallback<Provider>() {
             override fun areItemsTheSame(oldItem: Provider, newItem: Provider): Boolean {
-                return oldItem.providerId == newItem.providerId
+                return oldItem.id == newItem.id
             }
 
             override fun areContentsTheSame(oldItem: Provider, newItem: Provider): Boolean {
@@ -41,7 +48,6 @@ class ProvidersAdapter : ListAdapter<Provider, ProviderViewholder>(diff) {
             }
         }
     }
-
 }
 
 
@@ -52,11 +58,10 @@ class ProviderViewholder(
 ) {
 
     fun bind(provider: Provider) {
-        b.providerName.text = provider.providerName
+        b.providerName.text = provider.name
         b.providingType.text = provider.serviceType
 
-        Glide
-            .with(b.root.context)
+        Glide.with(b.root.context)
             .load(provider.logoUrl)
             .placeholder(R.drawable.glide_placeholder_base)
             .error(R.drawable.glide_placeholder_base)

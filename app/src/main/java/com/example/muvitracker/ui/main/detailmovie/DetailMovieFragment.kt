@@ -32,6 +32,7 @@ import com.example.muvitracker.data.glide.ImageTmdbRequest
 import com.example.muvitracker.databinding.DialogMyNotesBinding
 import com.example.muvitracker.databinding.FragmentDetailMovieBinding
 import com.example.muvitracker.domain.model.Movie
+import com.example.muvitracker.domain.model.Provider
 import com.example.muvitracker.ui.main.Navigator
 import com.example.muvitracker.ui.main.person.adapters.CastAdapter
 import com.example.muvitracker.ui.main.detailmovie.adapters.RelatedMoviesAdapter
@@ -48,6 +49,8 @@ import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.ShapeAppearanceModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import okio.ByteString.Companion.encode
+import java.net.URLEncoder
 import javax.inject.Inject
 
 /** Linee
@@ -87,7 +90,12 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
     })
 
     // TODO: 1.1.4 adapter
-    private val providersAdapter = ProvidersAdapter()
+    private val providersAdapter = ProvidersAdapter(
+        onClickVH = {
+            openLinkOnClick(it, currentMovieIds.slug.replace(oldChar = '-', newChar = ' '))
+//            openLinkOnClick(it, currentMovieIds.slug)
+        }
+    )
 
     /**
      * Scritto cosi, Il frammento riceverà api dopo il onAttach(), quindi prima puoi usarlo solo in
@@ -110,6 +118,7 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
         val bundle = arguments
         if (bundle != null) {
             currentMovieIds = bundle.getParcelable(MOVIE_IDS_KEY) ?: Ids()
+            println("W")
         }
 
         // data loadings
@@ -567,19 +576,6 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
     }
 
 
-    companion object {
-        fun create(movieIds: Ids): DetailMovieFragment {
-            val detailMovieFragment = DetailMovieFragment()
-            val bundle = Bundle()
-            bundle.putParcelable(MOVIE_IDS_KEY, movieIds)
-            detailMovieFragment.arguments = bundle
-            return detailMovieFragment
-        }
-
-        private const val MOVIE_IDS_KEY = "movieIdsKey"
-    }
-
-
     // OK
     object MovieDefaults {
         var TITLE = MyApp.appContext.getString(R.string.untitled)
@@ -596,98 +592,85 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
     }
 
 
+    companion object {
+        fun create(movieIds: Ids): DetailMovieFragment {
+            val detailMovieFragment = DetailMovieFragment()
+            val bundle = Bundle()
+            bundle.putParcelable(MOVIE_IDS_KEY, movieIds)
+            detailMovieFragment.arguments = bundle
+            return detailMovieFragment
+        }
+
+        private const val MOVIE_IDS_KEY = "movieIdsKey"
+
+
+        // ------------- 1.1.4 Providers OK ------------------------------------------------------------
+        // apro app
+        private const val NETFLIX = "Netflix" // TODO test
+        private const val NETFLIX_FREE = "Netflix Free"
+        private const val AMAZON_PRIME_VIDEO = "Amazon Prime Video" // https://www.primevideo.com/
+        private const val AMAZON_VIDEO = "Amazon Video" // non andava
+        private const val AMAZON__PRIME_VIDEO_WITH_ADS = "Amazon Prime Video with Ads" // non andava
+        private const val HBO_MAX_AMAZON_CHANNEL = "HBO Max Amazon Channel"
+        private const val APPLE_TV_AMAZON_CHANNEL = "Apple TV Amazon Channel"
+        private const val PARAMOUNT_PLUS_AMAZON_CHANNEL = "Paramount+ Amazon Channel"
+        private const val DISNEY_PLUS = "Disney Plus"
+
+        // TODO, ora mancano i link per direttamente al film
+        private const val YOU_TUBE = "YouTube"
+//        private const val GOOGLE_PLAY_MOVIES = "Google Play Movies"
+        private const val HBO_MAX = "HBO Max"
+        private const val RAKUTEN_TV = "Rakuten TV"
+        private const val PARAMOUNT_PLUS = "Paramount Plus"
+        private const val APPLE_TV_STORE = "Apple TV Store"
+        private const val APPLE_TV = "Apple TV"
+        private const val CHILI = "CHILI"
+        private const val SKY_GO = "Sky Go"
+        private const val NOW_TV = "Now TV"
+        private const val TIMVISION = "Timvision"
+    }
+
+    // 1.1.4 - apri app al click
+    // funziona solo ricerca su netflix, per le altre servono i deeplink
+    // quasi tutte le piattaforme usano dei link specifici non ottenibili con la ricerca (ne tmdb, ne just watch, ne google )
+    // TODO: 1.1.5 deeplink da justwatch API
+    private fun openLinkOnClick(provider: Provider, movieTitle: String) {
+        when (provider.name) {
+            // netflix - apri ricerca in app - OK
+            NETFLIX, NETFLIX_FREE -> openWebUrl("https://www.netflix.com/search/${movieTitle}")
+            // prime - non apre correttamente, link ricerca funziona solo da browser
+            AMAZON_PRIME_VIDEO, AMAZON_VIDEO, AMAZON__PRIME_VIDEO_WITH_ADS,
+            HBO_MAX_AMAZON_CHANNEL,
+            APPLE_TV_AMAZON_CHANNEL,
+            PARAMOUNT_PLUS_AMAZON_CHANNEL -> openWebUrl("https://www.primevideo.com/search?phrase=${movieTitle}")
+
+            DISNEY_PLUS -> openWebUrl("https://www.disneyplus.com/")
+            HBO_MAX -> openWebUrl("https://play.hbomax.com/")
+            RAKUTEN_TV -> openWebUrl("https://www.rakuten.tv/")
+
+            PARAMOUNT_PLUS -> openWebUrl("https://www.paramountplus.com/")
+            APPLE_TV_STORE, APPLE_TV -> openWebUrl("https://tv.apple.com/")
+            CHILI -> openWebUrl("https://chili.com/")
+            SKY_GO -> openWebUrl("https://skygo.sky.it/")
+            NOW_TV -> openWebUrl("https://www.nowtv.com/")
+            TIMVISION -> openWebUrl("https://timvisiontv.tim.it/")
+
+            YOU_TUBE -> openWebUrl("https://www.youtube.com/results?search_query=${movieTitle} movie")
+//            GOOGLE_PLAY_MOVIES -> openWebUrl("https://tv.google.com/") // non gestire -> else
+            // test google play - non funziona
+            // https://tv.google.com/share/title/The%20Hateful%20Eight?m=CgsvbS8 -> link funzionante da smartphone -> apre apre 'Google TV'
+            // ?m=CgsvbS8 generata automaticamente, quindi impossibile ricreare link
+
+            else -> openWebUrl(provider.allProvidersLink)
+        }
+    }
+
+    private fun openWebUrl(url: String) {
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+        context?.startActivity(intent)
+    }
+
 }
 
-
-// TODO:  1.1.4 providers
-//  test deadpool 293660
-//  test sean combs 255251
-// oppure fragmentViewLifecycleScope
-//viewLifecycleOwner.lifecycleScope.launch {
-//    testMovie = api.getMovieProviders(293660)
-//    testShow = api.getShowProviders(255251)
-//    println("XXX : $testMovie")
-//    println("XXX : $testShow")
-//}
-
-//        var testMovie: MovieProvidersResponseDto?
-//        var testShow: MovieProvidersResponseDto?
-
-//    private fun loadProviderList() {
-//        /* Restituisce il codice paese ISO 3166-1 alpha-2
-//        Esempi: "IT" → Italia; "US" → Stati Uniti
-//         */
-//
-//        viewLifecycleOwner.lifecycleScope.launch {
-////            val region = Locale.getDefault().country
-//            val region = "IT"
-//            var responseDto = api.getMovieProviders(293660).results
-//            val regionProvidersDto =
-//                responseDto[region] ?: return@launch // non va avanti se regiorProvidersDto == null
-//
-//
-//            // 1. unisci le 4 liste come una mappa
-//            // struttura come mappa key -> lista
-//            val providersPair = listOf(
-//                ProviderTypes.BUY to regionProvidersDto.buy,
-//                ProviderTypes.STREAM to regionProvidersDto.flatrate,
-//                ProviderTypes.RENT to regionProvidersDto.rent,
-//                ProviderTypes.FREE to regionProvidersDto.free,
-//                ProviderTypes.ADS to regionProvidersDto.ads,
-//            ).filter { pair ->
-//                pair.second.isNotEmpty() // emptyList default
-//            }
-//
-//            // 2. da mappa a Pair<key, Obj>
-//            // struttura key, elemento singolo
-//            val flatProvidersPair = providersPair.flatMap { pair ->
-//                val scomposto = pair.second.map { dto ->
-//                    pair.first to dto // == Pair(pair.first, dto)
-//                }
-//                scomposto
-//            }
-//
-//            // 3. ragruppa Provider con id identico
-//            val groupedProvidersMap =
-//                flatProvidersPair.groupBy { pair ->
-//                    pair.second.providerId
-//                }
-//
-//
-//            // 4. (id -> Pair<Type,ProviderDto>)  => List<Provider>
-//            // creo un provider per ogni entries + unisco i types
-//            val domainProviders = groupedProvidersMap.map { (id, pairs) ->
-//                // 1. ragruppo 'type', poi unisco in stringa
-//                val types = pairs.map {
-//                    it.first
-//                }.joinToString(", ")
-//
-//                val dto = pairs.first().second
-//
-//                // 2. creo un provider per ogni entry
-//                val imageLink = "https://image.tmdb.org/t/p/w500"
-//                val result = Provider(
-//                    providerId = id,
-//                    providerName = dto.providerName ?: "",
-//                    logoPath = "$imageLink${dto.logoPath}" ?: "",
-//                    displayPriority = dto.displayPriority ?: 99, // vai in fondo
-//                    serviceType = types
-//                )
-//                result
-//            }.sortedBy {
-//                it.displayPriority
-//            }
-//
-//            // ->> TODO : output -> List<Provider>
-//
-//            println(domainProviders) // viene unita ok
-//
-//            // TUTTO OK
-//            providersAdapter.submitList(domainProviders)
-//        } // fine coroutines
-//
-//
-//
-//    }
 
 

@@ -7,15 +7,18 @@ data class Provider(
     val serviceType: String,
     private val logoPath: String,
     val displayPriority: Int,
+    val allProvidersLink: String, // es: https://www.themoviedb.org/movie/293660-deadpool/watch?locale=IT
 
-    private val website: String = "https://image.tmdb.org/t/p/w500"
+    private val logoBaseUrl: String = "https://image.tmdb.org/t/p/w500"
 ) {
+
+    val providerMediaName = "The Hateful Eight"
 
     val logoUrl: String? // !! Glide gestisce i null
         get() = logoPath
             .takeIf { path -> path.isNotBlank() }
             ?.let { path ->
-                "$website$path"
+                "$logoBaseUrl$path"
             }
 
 }

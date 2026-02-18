@@ -25,7 +25,7 @@ data class MovieProvidersResponseDto(
 @Serializable
 class RegionProvidersDto(
     // 1. link generale
-    val link: String?,
+    val link: String?, // default
 
     // 2. una delle 5 opzioni:
     val buy: List<ProviderDto> = emptyList(), // acquisto
@@ -44,21 +44,3 @@ data class ProviderDto(
     @SerialName("logo_path") val logoPath: String?,
     @SerialName("display_priority") val displayPriority: Int?, //,1,2,3
 )
-
-
-/*
-ignoreUnknownKeys = true →
-        se il JSON restituito dall’API ha campi extra che non sono definiti nei tuoi data class,
-        li ignora invece di lanciare un errore.
-
-isLenient = true →
-        permette al parser di essere più permissivo su JSON “non standard”
-        (ad esempio virgolette mancanti o valori nullabili).
-
-encodeDefaults = true →  TODO importante !!!!!
-        quando serializzi oggetti, include anche i valori di default delle proprietà.
-
-coerceInputValues = true → TODO importante !!!!!
-        se un campo del JSON è null ma la tua data class ha un valore di default,
-        lo userà automaticamente invece di fallire.
- */

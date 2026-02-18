@@ -211,7 +211,8 @@ class DetailMovieRepositoryImpl @Inject constructor(
                 name = dto.providerName ?: "",
                 logoPath = dto.logoPath ?: "",
                 displayPriority = dto.displayPriority ?: 99, // vai in fondo
-                serviceType = types
+                serviceType = types,
+                allProvidersLink = regionProvidersDto.link ?: ""
             )
             result
         }.sortedBy {
