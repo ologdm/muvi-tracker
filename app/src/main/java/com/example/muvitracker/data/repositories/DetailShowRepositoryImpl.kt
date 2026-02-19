@@ -8,12 +8,14 @@ import com.example.muvitracker.data.database.entities.ShowEntity
 import com.example.muvitracker.data.dto.show.detail.mergeShowsDtoToEntity
 import com.example.muvitracker.data.dto._support.Ids
 import com.example.muvitracker.data.dto.person.toDomain
+import com.example.muvitracker.data.dto.provider.MovieProvidersResponseDto
 import com.example.muvitracker.data.dto.show.detail.ShowTmdbDto
 import com.example.muvitracker.data.dto.show.detail.ShowTraktDto
 import com.example.muvitracker.data.dto.show.toDomain
 import com.example.muvitracker.data.utils.mapToIoResponse
 import com.example.muvitracker.data.utils.storeFactory
 import com.example.muvitracker.domain.model.CastAndCrew
+import com.example.muvitracker.domain.model.Provider
 import com.example.muvitracker.domain.model.Show
 import com.example.muvitracker.domain.model.base.ShowBase
 import com.example.muvitracker.domain.repo.DetailShowRepository
@@ -27,8 +29,13 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.sync.Semaphore
 import kotlinx.coroutines.sync.withPermit
+import java.util.Locale
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.collections.component1
+import kotlin.collections.component2
+import kotlin.collections.map
+import kotlin.collections.sortedBy
 import kotlin.coroutines.cancellation.CancellationException
 
 
@@ -64,7 +71,8 @@ class DetailShowRepositoryImpl @Inject constructor(
                 }
 
                 val traktDto: ShowTraktDto = traktDtoDeferred.await() // la dto base
-                val tmdbDto: ShowTmdbDto? = tmdbDtoDeferred.await() // integra il dto trakt, traduzioni + immagini
+                val tmdbDto: ShowTmdbDto? =
+                    tmdbDtoDeferred.await() // integra il dto trakt, traduzioni + immagini
 
                 mergeShowsDtoToEntity(traktDto, tmdbDto)
             }
@@ -142,6 +150,74 @@ class DetailShowRepositoryImpl @Inject constructor(
             }
         }
         jobs.awaitAll()
+    }
+
+
+    override suspend fun getShowProviders(showId: Int): IoResponse<List<Provider>> {
+        return try {
+            IoResponse.Success(getProviderList(tmdbApi.getShowProviders(showId)))
+        } catch (ex: CancellationException) {
+            throw ex
+        } catch (ex: Throwable) {
+            IoResponse.Error(ex)
+        }
+    }
+
+
+    private fun getProviderList(response: MovieProvidersResponseDto): List<Provider> {
+        val region = Locale.getDefault().country
+        val regionProvidersDto = response.results[region] ?: return emptyList()
+
+        // 1.
+        val providersPair = listOf(
+            ProviderTypes.BUY to regionProvidersDto.buy,
+            ProviderTypes.STREAM to regionProvidersDto.flatrate,
+            ProviderTypes.RENT to regionProvidersDto.rent,
+            ProviderTypes.FREE to regionProvidersDto.free,
+            ProviderTypes.ADS to regionProvidersDto.ads,
+        ).filter { pair ->
+            pair.second.isNotEmpty() // emptyList default
+        }
+
+        // 2.
+        val flatProvidersPair = providersPair.flatMap { pair ->
+            val scomposto = pair.second.map { dto ->
+                pair.first to dto // == Pair(pair.first, dto)
+            }
+            scomposto
+        }
+
+        // 3.
+        val groupedProvidersMap =
+            flatProvidersPair.groupBy { pair ->
+                pair.second.providerId
+            }
+
+        // 4.
+        val domainProviders = groupedProvidersMap.map { (id, pairs) ->
+            // 1.
+            val types = pairs.joinToString(
+                separator = ", ",
+                transform = {
+                    it.first
+                })
+
+            val dto = pairs.first().second
+
+            // 2.
+            val result = Provider(
+                id = id,
+                name = dto.providerName ?: "",
+                logoPath = dto.logoPath ?: "",
+                displayPriority = dto.displayPriority ?: 99, // vai in fondo
+                serviceType = types,
+                allProvidersLink = regionProvidersDto.link ?: ""
+            )
+            result
+        }.sortedBy {
+            it.displayPriority
+        }
+        return domainProviders
     }
 
 

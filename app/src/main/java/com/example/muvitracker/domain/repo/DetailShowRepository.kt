@@ -7,6 +7,7 @@ import com.example.muvitracker.domain.model.base.MovieBase
 import com.example.muvitracker.domain.model.base.ShowBase
 import com.example.muvitracker.utils.IoResponse
 import kotlinx.coroutines.flow.Flow
+import java.security.Provider
 
 interface DetailShowRepository {
 
@@ -17,4 +18,6 @@ interface DetailShowRepository {
     suspend fun getShowCast(movieId: Int): IoResponse<CastAndCrew> // contiene List<CastMember> -> personggi film
 
     suspend fun checkAndSetWatchedAllShowEpisodes(showIds: Ids)
+
+    suspend fun getShowProviders (showId: Int): IoResponse<List<com.example.muvitracker.domain.model.Provider>>
 }

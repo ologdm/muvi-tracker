@@ -36,6 +36,7 @@ class DetailMovieViewmodel @Inject constructor(
 
     val relatedMoviesState = MutableLiveData<ListStateContainerTwo<MovieBase>>()
     val castState = MutableLiveData<ListStateContainerTwo<CastMember>>()
+
     // 1.1.4 providers ok
     val providersState = MutableStateFlow<List<Provider>>(emptyList())
 
@@ -159,14 +160,13 @@ class DetailMovieViewmodel @Inject constructor(
 
     // 1.1.4 OK
     // senza loading
-
     fun loadProviders(movieId: Int) {
         // TODO:  aggiornare
         viewModelScope.launch {
             // devo chiamare la suspended fun
             val response = detailMovieRepository.getMovieProviders(movieId)
 
-            when(response){
+            when (response) {
                 is IoResponse.Success -> {
                     providersState.value = response.dataValue
                 }
@@ -175,12 +175,8 @@ class DetailMovieViewmodel @Inject constructor(
                     response.t.printStackTrace()
                 }
             }
-
         }
-
-
     }
-
 
 
 }

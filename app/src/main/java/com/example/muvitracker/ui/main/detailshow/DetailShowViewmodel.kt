@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.muvitracker.data.dto._support.Ids
 import com.example.muvitracker.domain.model.CastMember
+import com.example.muvitracker.domain.model.Provider
 import com.example.muvitracker.domain.model.Show
 import com.example.muvitracker.domain.model.Season
 import com.example.muvitracker.domain.model.base.ShowBase
@@ -17,6 +18,7 @@ import com.example.muvitracker.utils.StateContainerThree
 import com.example.muvitracker.utils.StateContainerTwo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.filter
@@ -209,7 +211,6 @@ class DetailShowViewmodel @Inject constructor(
     }
 
 
-    // 4
     fun setNotes(showId: Int, notes: String) {
         viewModelScope.launch {
             prefsShowRepository.setNotesOnDB(showId, notes)
@@ -218,6 +219,27 @@ class DetailShowViewmodel @Inject constructor(
     }
 
     fun getNotes(): String = showNotes
+
+
+    // 1.1.4 OK
+    // senza loading
+    val providersState = MutableStateFlow<List<Provider>>(emptyList())
+    fun loadProviders(showId: Int) {
+        viewModelScope.launch {
+            val response = detailShowRepository.getShowProviders(showId)
+
+            when (response) {
+                is IoResponse.Success -> {
+                    providersState.value = response.dataValue
+                }
+
+                is IoResponse.Error -> {
+                    response.t.printStackTrace()
+                }
+            }
+        }
+    }
+
 
 }
 

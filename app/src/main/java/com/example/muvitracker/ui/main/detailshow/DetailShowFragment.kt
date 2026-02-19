@@ -18,6 +18,9 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
@@ -27,8 +30,10 @@ import com.example.muvitracker.data.dto._support.Ids
 import com.example.muvitracker.data.glide.ImageTmdbRequest
 import com.example.muvitracker.databinding.DialogMyNotesBinding
 import com.example.muvitracker.databinding.FragmentDetailShowBinding
+import com.example.muvitracker.domain.model.Provider
 import com.example.muvitracker.domain.model.Show
 import com.example.muvitracker.ui.main.Navigator
+import com.example.muvitracker.ui.main.detailmovie.ProvidersAdapter
 import com.example.muvitracker.ui.main.detailmovie.adapter.DetailSeasonsAdapter
 import com.example.muvitracker.ui.main.detailshow.adapters.RelatedShowsAdapter
 import com.example.muvitracker.ui.main.person.adapters.CastAdapter
@@ -42,6 +47,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.ShapeAppearanceModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import java.time.LocalDate
 import javax.inject.Inject
 
@@ -90,6 +96,12 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
         navigator.startPersonFragmentFromCast(ids, character)
     })
 
+    private val providersAdapter = ProvidersAdapter(
+        onClickVH = { provider ->
+            openLinkOnClick(provider, currentShowIds.slug.replace(oldChar = '-', newChar = ' '))
+        }
+    )
+
 
     override fun onViewCreated(
         view: View, savedInstanceState: Bundle?
@@ -113,7 +125,7 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
         loadRelatedSetup()
         loadCastSetup()
         myNotesDialogSetup()
-
+        loadProvidersSetup()
 
         // BUTTONS CLICK ---------------------------------------------------------------------------
         b.buttonBack.setOnClickListener {
@@ -278,8 +290,7 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
             getString(R.string.aired_episodes, show.airedEpisodes.toString())
 
         // 1.1.3 ok - spostato su repo
-        b.totalSeasons.text = getString(R.string.total_seasons,show.seasonsCount.toString())
-
+        b.totalSeasons.text = getString(R.string.total_seasons, show.seasonsCount.toString())
 
 
         // TODO 1.1.3: click su film
@@ -631,6 +642,69 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
         }
     }
 
+    // ---------------------------------------------------------------------------------------------
+
+    // ---------------- 1.1.4 PROVIDERS ------------------------------------------------------------
+
+    private fun loadProvidersSetup() {
+        b.providersRecyclerView.adapter = providersAdapter
+        b.providersRecyclerView.layoutManager = LinearLayoutManager(
+            requireContext(),
+            LinearLayoutManager.HORIZONTAL,
+            false
+        )
+
+        viewModel.loadProviders(currentShowIds.tmdb)
+        viewLifecycleOwner.lifecycleScope.launch {
+            // cancella automaticamente la coroutine quando il Fragment va in STOPPED e la rilancia se torna STARTED.
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.providersState.collect {
+                    providersAdapter.submitList(it)
+                }
+            }
+        }
+
+
+        b.providersCountry.setOnClickListener {
+            // 1. open country list on dialog
+            // 2. dialog send new value to detailMovieViewModel
+            TODO("same like on movie")
+        }
+
+
+    }
+
+
+    // 1.1.4 - APRI APP AL CLICK -----------------------
+    private fun openLinkOnClick(provider: Provider, movieTitle: String) {
+        when (provider.name) {
+            NETFLIX, NETFLIX_FREE -> openWebUrl("https://www.netflix.com/search/${movieTitle}")
+            AMAZON_PRIME_VIDEO, AMAZON_VIDEO, AMAZON__PRIME_VIDEO_WITH_ADS,
+            HBO_MAX_AMAZON_CHANNEL,
+            APPLE_TV_AMAZON_CHANNEL,
+            PARAMOUNT_PLUS_AMAZON_CHANNEL -> openWebUrl("https://www.primevideo.com/search?phrase=${movieTitle}")
+            DISNEY_PLUS -> openWebUrl("https://www.disneyplus.com/")
+            HBO_MAX -> openWebUrl("https://play.hbomax.com/")
+            RAKUTEN_TV -> openWebUrl("https://www.rakuten.tv/")
+            PARAMOUNT_PLUS -> openWebUrl("https://www.paramountplus.com/")
+            APPLE_TV_STORE, APPLE_TV -> openWebUrl("https://tv.apple.com/")
+            CHILI -> openWebUrl("https://chili.com/")
+            SKY_GO -> openWebUrl("https://skygo.sky.it/")
+            NOW_TV -> openWebUrl("https://www.nowtv.com/")
+            TIMVISION -> openWebUrl("https://timvisiontv.tim.it/")
+            YOU_TUBE -> openWebUrl("https://www.youtube.com/results?search_query=${movieTitle} movie")
+//            GOOGLE_PLAY_MOVIES -> openWebUrl("https://tv.google.com/") // non gestire -> else
+
+            else -> openWebUrl(provider.allProvidersLink)
+        }
+    }
+
+
+    private fun openWebUrl(url: String) {
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+        context?.startActivity(intent)
+    }
+
 
     companion object {
         fun create(showIds: Ids): DetailShowFragment {
@@ -642,12 +716,36 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
         }
 
         private const val SHOW_IDS_KEY = "showIdsKey"
+
+
+        // ------------- 1.1.4 Providers OK ------------------------------------------------------------
+        private const val NETFLIX = "Netflix"
+        private const val NETFLIX_FREE = "Netflix Free"
+        private const val AMAZON_PRIME_VIDEO = "Amazon Prime Video" // https://www.primevideo.com/
+        private const val AMAZON_VIDEO = "Amazon Video" // non andava
+        private const val AMAZON__PRIME_VIDEO_WITH_ADS = "Amazon Prime Video with Ads" // non andava
+        private const val HBO_MAX_AMAZON_CHANNEL = "HBO Max Amazon Channel"
+        private const val APPLE_TV_AMAZON_CHANNEL = "Apple TV Amazon Channel"
+        private const val PARAMOUNT_PLUS_AMAZON_CHANNEL = "Paramount+ Amazon Channel"
+        private const val DISNEY_PLUS = "Disney Plus"
+
+        private const val YOU_TUBE = "YouTube"
+
+        //        private const val GOOGLE_PLAY_MOVIES = "Google Play Movies"
+        private const val HBO_MAX = "HBO Max"
+        private const val RAKUTEN_TV = "Rakuten TV"
+        private const val PARAMOUNT_PLUS = "Paramount Plus"
+        private const val APPLE_TV_STORE = "Apple TV Store"
+        private const val APPLE_TV = "Apple TV"
+        private const val CHILI = "CHILI"
+        private const val SKY_GO = "Sky Go"
+        private const val NOW_TV = "Now TV"
+        private const val TIMVISION = "Timvision"
     }
 
 
     object ShowDefaults {
         var TITLE = MyApp.appContext.getString(R.string.untitled)
-
         var STATUS = MyApp.appContext.getString(R.string.status_unknown)
         var YEAR = MyApp.appContext.getString(R.string.year_n_a)
         var NETWORK = MyApp.appContext.getString(R.string.network_n_a)
