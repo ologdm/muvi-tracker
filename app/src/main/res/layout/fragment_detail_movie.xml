@@ -341,7 +341,7 @@
                                     android:orientation="vertical">
 
                                     <ImageButton
-                                        android:id="@+id/linkImageTrakt"
+                                        android:id="@+id/traktLinkImage"
                                         android:layout_width="32dp"
                                         android:layout_height="32dp"
                                         android:background="@android:color/transparent"
@@ -372,7 +372,7 @@
                                     android:orientation="vertical">
 
                                     <ImageButton
-                                        android:id="@+id/linkImageTmdb"
+                                        android:id="@+id/tmdbLinkImage"
                                         android:layout_width="32dp"
                                         android:layout_height="32dp"
                                         android:background="@android:color/transparent"
@@ -393,6 +393,37 @@
                                         android:text="Tmdb"
                                         android:textSize="12sp" />
                                 </LinearLayout>
+
+                                <LinearLayout
+                                    android:id="@+id/imdbLayout"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center_horizontal"
+                                    android:orientation="vertical">
+
+                                    <ImageButton
+                                        android:id="@+id/imdblinkImage"
+                                        android:layout_width="32dp"
+                                        android:layout_height="32dp"
+                                        android:background="@android:color/transparent"
+                                        android:src="@drawable/link_image"
+                                        android:visibility="gone" />
+
+                                    <TextView
+                                        android:id="@+id/imdbRating"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textSize="24sp"
+                                        android:visibility="visible"
+                                        tools:text="7.9" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Tmdb"
+                                        android:textSize="12sp" />
+                                </LinearLayout>
+
 
 
                             </LinearLayout>

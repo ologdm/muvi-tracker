@@ -353,7 +353,7 @@
                                     android:orientation="vertical">
 
                                     <ImageButton
-                                        android:id="@+id/linkImageTrakt"
+                                        android:id="@+id/traktLinkImage"
                                         android:layout_width="32dp"
                                         android:layout_height="32dp"
                                         android:background="@android:color/transparent"
@@ -384,7 +384,7 @@
                                     android:orientation="vertical">
 
                                     <ImageButton
-                                        android:id="@+id/linkImageTmdb"
+                                        android:id="@+id/tmdbLinkImage"
                                         android:layout_width="32dp"
                                         android:layout_height="32dp"
                                         android:background="@android:color/transparent"
