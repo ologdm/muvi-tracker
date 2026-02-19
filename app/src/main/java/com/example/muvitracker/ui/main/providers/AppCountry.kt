@@ -1,11 +1,12 @@
 package com.example.muvitracker.ui.main.providers
 
+import kotlin.code
+
 
 enum class AppCountry(
     val code: String,
     val displayName: String,
 ) {
-
     ARGENTINA("ar", "Argentina"),
     AUSTRALIA("au", "Australia"),
     AUSTRIA("at", "Austria"),
@@ -65,7 +66,8 @@ enum class AppCountry(
     // altre europa TODO - da lista tmdb
     companion object {
         // values == lista istanza di AppCountry
-        fun fromCode(code: String) = AppCountry.entries.first { it.code == code }
+        fun fromCode(code: String) =
+            AppCountry.entries.firstOrNull { it.code == code } ?: UNITED_STATES
     }
 }
 

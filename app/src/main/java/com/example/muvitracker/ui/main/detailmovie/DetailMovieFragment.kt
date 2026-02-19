@@ -33,6 +33,7 @@ import com.example.muvitracker.databinding.DialogMyNotesBinding
 import com.example.muvitracker.databinding.FragmentDetailMovieBinding
 import com.example.muvitracker.domain.model.Movie
 import com.example.muvitracker.domain.model.Provider
+import com.example.muvitracker.ui.main.providers.AppCountry
 import com.example.muvitracker.ui.main.Navigator
 import com.example.muvitracker.ui.main.person.adapters.CastAdapter
 import com.example.muvitracker.ui.main.detailmovie.adapters.RelatedMoviesAdapter
@@ -49,8 +50,7 @@ import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.ShapeAppearanceModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import okio.ByteString.Companion.encode
-import java.net.URLEncoder
+import java.util.Locale
 import javax.inject.Inject
 
 /** Linee
@@ -139,25 +139,6 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
             viewModel.toggleLikedMovie(currentMovieIds.trakt)
         }
 
-    }
-
-    private fun loadProvidersSetup() {
-        b.providersRecyclerView.adapter = providersAdapter
-        b.providersRecyclerView.layoutManager = LinearLayoutManager(
-            requireContext(),
-            LinearLayoutManager.HORIZONTAL,
-            false
-        )
-
-        viewModel.loadProviders(currentMovieIds.tmdb)
-        viewLifecycleOwner.lifecycleScope.launch {
-            // cancella automaticamente la coroutine quando il Fragment va in STOPPED e la rilancia se torna STARTED.
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.providersState.collect {
-                    providersAdapter.submitList(it)
-                }
-            }
-        }
     }
 
     private fun loadDetailMovieSetup() {
@@ -576,61 +557,41 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
     }
 
 
-    // OK
-    object MovieDefaults {
-        var TITLE = MyApp.appContext.getString(R.string.untitled)
+    // ---------------- 1.1.4 PROVIDERS ------------------------------------------------------------
 
-        var STATUS = MyApp.appContext.getString(R.string.status_unknown)
-        var YEAR = MyApp.appContext.getString(R.string.year_n_a)
-        var COUNTRY = MyApp.appContext.getString(R.string.country_n_a)
-        var RUNTIME = MyApp.appContext.getString(R.string.runtime_n_a)
+    private fun loadProvidersSetup() {
+        b.providersRecyclerView.adapter = providersAdapter
+        b.providersRecyclerView.layoutManager = LinearLayoutManager(
+            requireContext(),
+            LinearLayoutManager.HORIZONTAL,
+            false
+        )
 
-        var OVERVIEW = MyApp.appContext.getString(R.string.not_available)
-
-        var LANGUAGE = MyApp.appContext.getString(R.string.language_unknown)
-        var TAGLINE = MyApp.appContext.getString(R.string.tagline_are_not_available)
-    }
-
-
-    companion object {
-        fun create(movieIds: Ids): DetailMovieFragment {
-            val detailMovieFragment = DetailMovieFragment()
-            val bundle = Bundle()
-            bundle.putParcelable(MOVIE_IDS_KEY, movieIds)
-            detailMovieFragment.arguments = bundle
-            return detailMovieFragment
+        viewModel.loadProviders(currentMovieIds.tmdb)
+        viewLifecycleOwner.lifecycleScope.launch {
+            // cancella automaticamente la coroutine quando il Fragment va in STOPPED e la rilancia se torna STARTED.
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.providersState.collect {
+                    providersAdapter.submitList(it)
+                }
+            }
         }
 
-        private const val MOVIE_IDS_KEY = "movieIdsKey"
+
+        b.providersCountry.text = viewModel.countryEnum.displayName
+
+        b.providersCountry.setOnClickListener {
+            // 1. open country list on dialog
+            // 2. dialog send new value to detailMovieViewModel
+
+        }
 
 
-        // ------------- 1.1.4 Providers OK ------------------------------------------------------------
-        // apro app
-        private const val NETFLIX = "Netflix" // TODO test
-        private const val NETFLIX_FREE = "Netflix Free"
-        private const val AMAZON_PRIME_VIDEO = "Amazon Prime Video" // https://www.primevideo.com/
-        private const val AMAZON_VIDEO = "Amazon Video" // non andava
-        private const val AMAZON__PRIME_VIDEO_WITH_ADS = "Amazon Prime Video with Ads" // non andava
-        private const val HBO_MAX_AMAZON_CHANNEL = "HBO Max Amazon Channel"
-        private const val APPLE_TV_AMAZON_CHANNEL = "Apple TV Amazon Channel"
-        private const val PARAMOUNT_PLUS_AMAZON_CHANNEL = "Paramount+ Amazon Channel"
-        private const val DISNEY_PLUS = "Disney Plus"
 
-        // TODO, ora mancano i link per direttamente al film
-        private const val YOU_TUBE = "YouTube"
-//        private const val GOOGLE_PLAY_MOVIES = "Google Play Movies"
-        private const val HBO_MAX = "HBO Max"
-        private const val RAKUTEN_TV = "Rakuten TV"
-        private const val PARAMOUNT_PLUS = "Paramount Plus"
-        private const val APPLE_TV_STORE = "Apple TV Store"
-        private const val APPLE_TV = "Apple TV"
-        private const val CHILI = "CHILI"
-        private const val SKY_GO = "Sky Go"
-        private const val NOW_TV = "Now TV"
-        private const val TIMVISION = "Timvision"
     }
 
-    // 1.1.4 - apri app al click
+
+    // 1.1.4 - APRI APP AL CLICK -----------------------
     // funziona solo ricerca su netflix, per le altre servono i deeplink
     // quasi tutte le piattaforme usano dei link specifici non ottenibili con la ricerca (ne tmdb, ne just watch, ne google )
     // TODO: 1.1.5 deeplink da justwatch API
@@ -665,9 +626,64 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
         }
     }
 
+
     private fun openWebUrl(url: String) {
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
         context?.startActivity(intent)
+    }
+
+
+    companion object {
+        fun create(movieIds: Ids): DetailMovieFragment {
+            val detailMovieFragment = DetailMovieFragment()
+            val bundle = Bundle()
+            bundle.putParcelable(MOVIE_IDS_KEY, movieIds)
+            detailMovieFragment.arguments = bundle
+            return detailMovieFragment
+        }
+
+        private const val MOVIE_IDS_KEY = "movieIdsKey"
+
+        // ------------- 1.1.4 Providers OK ------------------------------------------------------------
+        // apro app
+        private const val NETFLIX = "Netflix" // TODO test
+        private const val NETFLIX_FREE = "Netflix Free"
+        private const val AMAZON_PRIME_VIDEO = "Amazon Prime Video" // https://www.primevideo.com/
+        private const val AMAZON_VIDEO = "Amazon Video" // non andava
+        private const val AMAZON__PRIME_VIDEO_WITH_ADS = "Amazon Prime Video with Ads" // non andava
+        private const val HBO_MAX_AMAZON_CHANNEL = "HBO Max Amazon Channel"
+        private const val APPLE_TV_AMAZON_CHANNEL = "Apple TV Amazon Channel"
+        private const val PARAMOUNT_PLUS_AMAZON_CHANNEL = "Paramount+ Amazon Channel"
+        private const val DISNEY_PLUS = "Disney Plus"
+
+        // TODO, ora mancano i link per direttamente al film
+        private const val YOU_TUBE = "YouTube"
+
+        //        private const val GOOGLE_PLAY_MOVIES = "Google Play Movies"
+        private const val HBO_MAX = "HBO Max"
+        private const val RAKUTEN_TV = "Rakuten TV"
+        private const val PARAMOUNT_PLUS = "Paramount Plus"
+        private const val APPLE_TV_STORE = "Apple TV Store"
+        private const val APPLE_TV = "Apple TV"
+        private const val CHILI = "CHILI"
+        private const val SKY_GO = "Sky Go"
+        private const val NOW_TV = "Now TV"
+        private const val TIMVISION = "Timvision"
+    }
+
+
+    object MovieDefaults {
+        var TITLE = MyApp.appContext.getString(R.string.untitled)
+
+        var STATUS = MyApp.appContext.getString(R.string.status_unknown)
+        var YEAR = MyApp.appContext.getString(R.string.year_n_a)
+        var COUNTRY = MyApp.appContext.getString(R.string.country_n_a)
+        var RUNTIME = MyApp.appContext.getString(R.string.runtime_n_a)
+
+        var OVERVIEW = MyApp.appContext.getString(R.string.not_available)
+
+        var LANGUAGE = MyApp.appContext.getString(R.string.language_unknown)
+        var TAGLINE = MyApp.appContext.getString(R.string.tagline_are_not_available)
     }
 
 }

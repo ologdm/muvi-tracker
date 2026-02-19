@@ -11,6 +11,7 @@ import com.example.muvitracker.domain.model.Provider
 import com.example.muvitracker.domain.model.base.MovieBase
 import com.example.muvitracker.domain.repo.DetailMovieRepository
 import com.example.muvitracker.domain.repo.PrefsMovieRepository
+import com.example.muvitracker.ui.main.providers.AppCountry
 import com.example.muvitracker.utils.IoResponse
 import com.example.muvitracker.utils.ListStateContainerTwo
 import com.example.muvitracker.utils.StateContainerThree
@@ -21,6 +22,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.io.IOException
+import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
@@ -38,6 +40,10 @@ class DetailMovieViewmodel @Inject constructor(
     val providersState = MutableStateFlow<List<Provider>>(emptyList())
 
     private var movieNotes = ""
+
+    // valore iniziale enum
+    var countryEnum = AppCountry.fromCode(Locale.getDefault().country.lowercase())
+
 
     // flow -> livedata
     fun loadMovieDetailFlow(movieIds: Ids) {
@@ -174,6 +180,7 @@ class DetailMovieViewmodel @Inject constructor(
 
 
     }
+
 
 
 }
