@@ -352,24 +352,24 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
 
 
     private fun ratingLayoutsSetup(movie: Movie) {
-        b.traktRating.text = movie.traktRating
-        b.tmdbRating.text = movie.tmdbRating
-
+        b.traktRatingNumber.text = movie.traktRating
+        b.tmdbRatingNumber.text = movie.tmdbRating
+        // switch da number a icon
         if (movie.traktRating.isNullOrEmpty() || movie.traktRating == "0.0") {
-            b.traktRating.visibility = View.GONE
-            b.linkImageTrakt.visibility = View.VISIBLE
+            b.traktRatingNumber.visibility = View.GONE
+            b.traktLinkIcon.visibility = View.VISIBLE
         } else {
-            b.traktRating.visibility = View.VISIBLE
-            b.linkImageTrakt.visibility = View.GONE
+            b.traktRatingNumber.visibility = View.VISIBLE
+            b.traktLinkIcon.visibility = View.GONE
         }
 
 
         if (movie.tmdbRating.isNullOrEmpty() || movie.traktRating == "0.0") {
-            b.tmdbRating.visibility = View.GONE
-            b.linkImageTmdb.visibility = View.VISIBLE
+            b.tmdbRatingNumber.visibility = View.GONE
+            b.traktLinkIcon.visibility = View.VISIBLE
         } else {
-            b.tmdbRating.visibility = View.VISIBLE
-            b.linkImageTmdb.visibility = View.GONE
+            b.tmdbRatingNumber.visibility = View.VISIBLE
+            b.traktLinkIcon.visibility = View.GONE
         }
 
 

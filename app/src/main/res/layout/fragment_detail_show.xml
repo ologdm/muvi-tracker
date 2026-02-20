@@ -353,7 +353,7 @@
                                     android:orientation="vertical">
 
                                     <ImageButton
-                                        android:id="@+id/traktLinkImage"
+                                        android:id="@+id/traktLinkIcon"
                                         android:layout_width="32dp"
                                         android:layout_height="32dp"
                                         android:background="@android:color/transparent"
@@ -361,7 +361,7 @@
                                         android:visibility="gone" />
 
                                     <TextView
-                                        android:id="@+id/traktRating"
+                                        android:id="@+id/traktRatingNumber"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:textSize="24sp"
@@ -384,7 +384,7 @@
                                     android:orientation="vertical">
 
                                     <ImageButton
-                                        android:id="@+id/tmdbLinkImage"
+                                        android:id="@+id/tmdbLinkIcon"
                                         android:layout_width="32dp"
                                         android:layout_height="32dp"
                                         android:background="@android:color/transparent"
@@ -392,7 +392,7 @@
                                         android:visibility="gone" />
 
                                     <TextView
-                                        android:id="@+id/tmdbRating"
+                                        android:id="@+id/tmdbRatingNumber"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:textSize="24sp"

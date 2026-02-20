@@ -58,8 +58,10 @@
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
         tools:visibility="visible">
 
 
@@ -322,111 +324,115 @@
                                 tools:text="108 min" />
 
 
-                            <!--  TODO RATINGS TEST                        -->
-                            <LinearLayout
+                            <!--   padre  linear
+       FlexboxLayout - permette andare a capo
+       -->
+                            <!--  RATINGS -->
+                            <com.google.android.flexbox.FlexboxLayout
                                 android:id="@+id/ratingsLayout"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="8dp"
-                                android:orientation="horizontal"
-                                app:layout_constraintStart_toEndOf="@id/verticalImage">
+                                android:layout_marginTop="2dp"
+                                app:alignItems="center"
+                                app:flexDirection="row"
+                                app:justifyContent="space_between"
+                                app:flexWrap="wrap">
 
-                                <!-- TODO Trakt OK -->
+
+                                <!-- TRAKT -->
                                 <LinearLayout
                                     android:id="@+id/traktLayout"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginEnd="12dp"
-                                    android:gravity="center_horizontal"
-                                    android:orientation="vertical">
+                                    style="@style/RatingLayout">
 
                                     <ImageButton
-                                        android:id="@+id/traktLinkImage"
-                                        android:layout_width="32dp"
-                                        android:layout_height="32dp"
-                                        android:background="@android:color/transparent"
+                                        android:id="@+id/traktLinkIcon"
+                                        style="@style/RatingLinkIcon"
                                         android:src="@drawable/link_image"
                                         android:visibility="gone" />
 
                                     <TextView
-                                        android:id="@+id/traktRating"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:textSize="24sp"
+                                        android:id="@+id/traktRatingNumber"
+                                        style="@style/RatingNumber"
+                                        android:visibility="visible"
                                         tools:text="8.3" />
 
                                     <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="Trakt.tv"
-                                        android:textSize="12sp" />
+                                        style="@style/RatingLabel"
+                                        android:text="Trakt.tv" />
                                 </LinearLayout>
 
 
-                                <!--  TODO tmdb OK-->
-                                <LinearLayout
-                                    android:id="@+id/tmdbLayout"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="center_horizontal"
-                                    android:orientation="vertical">
-
-                                    <ImageButton
-                                        android:id="@+id/tmdbLinkImage"
-                                        android:layout_width="32dp"
-                                        android:layout_height="32dp"
-                                        android:background="@android:color/transparent"
-                                        android:src="@drawable/link_image"
-                                        android:visibility="gone" />
-
-                                    <TextView
-                                        android:id="@+id/tmdbRating"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:textSize="24sp"
-                                        android:visibility="visible"
-                                        tools:text="7.9" />
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="Tmdb"
-                                        android:textSize="12sp" />
-                                </LinearLayout>
-
+                                <!-- IMDB -->
                                 <LinearLayout
                                     android:id="@+id/imdbLayout"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="center_horizontal"
-                                    android:orientation="vertical">
+                                    style="@style/RatingLayout">
 
                                     <ImageButton
-                                        android:id="@+id/imdblinkImage"
-                                        android:layout_width="32dp"
-                                        android:layout_height="32dp"
-                                        android:background="@android:color/transparent"
+                                        android:id="@+id/imdbLinkIcon"
+                                        style="@style/RatingLinkIcon"
+                                        android:src="@drawable/link_image"
+                                        android:visibility="visible" />
+
+                                    <TextView
+                                        android:id="@+id/imdbRatingNumber"
+                                        style="@style/RatingNumber"
+                                        android:visibility="gone"
+                                        tools:text="7.9" />
+
+                                    <TextView
+                                        style="@style/RatingLabel"
+                                        android:text="Imdb" />
+                                </LinearLayout>
+
+
+                                <!-- R TOMATOES -->
+                                <LinearLayout
+                                    android:id="@+id/tomatoesLayout"
+                                    android:visibility="visible"
+                                    style="@style/RatingLayout">
+
+                                    <ImageButton
+                                        android:id="@+id/tomatoesLinkIcon"
+                                        style="@style/RatingLinkIcon"
+                                        android:src="@drawable/link_image"
+                                        android:visibility="visible" />
+
+                                    <TextView
+                                        android:id="@+id/tomatoesRatingNumber"
+                                        style="@style/RatingNumber"
+                                        android:visibility="gone"
+                                        tools:text="69" />
+
+                                    <TextView
+                                        style="@style/RatingLabel"
+                                        android:text="R.Tomatoes" />
+                                </LinearLayout>
+
+                                <!-- TMDB -->
+                                <LinearLayout
+                                    android:id="@+id/tmdbLayout"
+                                    style="@style/RatingLayout"
+                                    android:visibility="gone"
+                                    android:layout_marginEnd="12dp">
+
+                                    <ImageButton
+                                        android:id="@+id/tmdbLinkIcon"
+                                        style="@style/RatingLinkIcon"
                                         android:src="@drawable/link_image"
                                         android:visibility="gone" />
 
                                     <TextView
-                                        android:id="@+id/imdbRating"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:textSize="24sp"
+                                        android:id="@+id/tmdbRatingNumber"
+                                        style="@style/RatingNumber"
                                         android:visibility="visible"
-                                        tools:text="7.9" />
+                                        tools:text="7.6" />
 
                                     <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="Tmdb"
-                                        android:textSize="12sp" />
+                                        style="@style/RatingLabel"
+                                        android:text=" Tmdb " />
                                 </LinearLayout>
 
-
-
-                            </LinearLayout>
+                            </com.google.android.flexbox.FlexboxLayout>
                         </LinearLayout>
 
 
@@ -526,9 +532,9 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="start"
                         android:layout_marginTop="12dp"
+                        android:layout_marginBottom="4dp"
                         android:gravity="center_vertical"
                         android:orientation="horizontal"
-                        android:layout_marginBottom="4dp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
 
@@ -561,9 +567,9 @@
                         android:id="@+id/providersLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:visibility="visible"
                         android:layout_marginBottom="8dp"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:visibility="visible">
 
 
                         <TextView
@@ -594,8 +600,8 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/overviewLayout"
                         android:layout_width="match_parent"
-                        android:layout_marginTop="4dp"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp">
 
                         <!--                        <com.google.android.material.divider.MaterialDivider-->
                         <!--                            android:layout_width="match_parent"-->

@@ -411,24 +411,24 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
 
 
     private fun ratingLayoutsSetup(show: Show) {
-        b.traktRating.text = show.traktRating
-        b.tmdbRating.text = show.tmdbRating
+        b.traktRatingNumber.text = show.traktRating
+        b.tmdbRatingNumber.text = show.tmdbRating
 
         if (show.traktRating.isNullOrEmpty() || show.traktRating == "0.0") {
-            b.traktRating.visibility = View.GONE
-            b.linkImageTrakt.visibility = View.VISIBLE
+            b.traktRatingNumber.visibility = View.GONE
+            b.traktLinkIcon.visibility = View.VISIBLE
         } else {
-            b.traktRating.visibility = View.VISIBLE
-            b.linkImageTrakt.visibility = View.GONE
+            b.traktRatingNumber.visibility = View.VISIBLE
+            b.traktLinkIcon.visibility = View.GONE
         }
 
 
         if (show.tmdbRating.isNullOrEmpty() || show.traktRating == "0.0") {
-            b.tmdbRating.visibility = View.GONE
-            b.linkImageTmdb.visibility = View.VISIBLE
+            b.tmdbRatingNumber.visibility = View.GONE
+            b.traktLinkIcon.visibility = View.VISIBLE
         } else {
-            b.tmdbRating.visibility = View.VISIBLE
-            b.linkImageTmdb.visibility = View.GONE
+            b.tmdbRatingNumber.visibility = View.VISIBLE
+            b.traktLinkIcon.visibility = View.GONE
         }
 
 
