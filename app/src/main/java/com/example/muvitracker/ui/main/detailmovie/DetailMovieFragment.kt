@@ -33,7 +33,6 @@ import com.example.muvitracker.databinding.DialogMyNotesBinding
 import com.example.muvitracker.databinding.FragmentDetailMovieBinding
 import com.example.muvitracker.domain.model.Movie
 import com.example.muvitracker.domain.model.Provider
-import com.example.muvitracker.ui.main.providers.AppCountry
 import com.example.muvitracker.ui.main.Navigator
 import com.example.muvitracker.ui.main.person.adapters.CastAdapter
 import com.example.muvitracker.ui.main.detailmovie.adapters.RelatedMoviesAdapter
@@ -50,7 +49,6 @@ import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.ShapeAppearanceModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import java.util.Locale
 import javax.inject.Inject
 
 /** Linee
@@ -352,28 +350,31 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
 
 
     private fun ratingLayoutsSetup(movie: Movie) {
-        b.traktRatingNumber.text = movie.traktRating
-        b.tmdbRatingNumber.text = movie.tmdbRating
+        // Accesso al sub-binding
+        val ratingsBlock = b.ratingsLayout
+
+        ratingsBlock.traktRatingNumber.text = movie.traktRating
+        ratingsBlock.tmdbRatingNumber.text = movie.tmdbRating
         // switch da number a icon
         if (movie.traktRating.isNullOrEmpty() || movie.traktRating == "0.0") {
-            b.traktRatingNumber.visibility = View.GONE
-            b.traktLinkIcon.visibility = View.VISIBLE
+            ratingsBlock.traktRatingNumber.visibility = View.GONE
+            ratingsBlock.traktLinkIcon.visibility = View.VISIBLE
         } else {
-            b.traktRatingNumber.visibility = View.VISIBLE
-            b.traktLinkIcon.visibility = View.GONE
+            ratingsBlock.traktRatingNumber.visibility = View.VISIBLE
+            ratingsBlock.traktLinkIcon.visibility = View.GONE
         }
 
 
         if (movie.tmdbRating.isNullOrEmpty() || movie.traktRating == "0.0") {
-            b.tmdbRatingNumber.visibility = View.GONE
-            b.traktLinkIcon.visibility = View.VISIBLE
+            ratingsBlock.tmdbRatingNumber.visibility = View.GONE
+            ratingsBlock.traktLinkIcon.visibility = View.VISIBLE
         } else {
-            b.tmdbRatingNumber.visibility = View.VISIBLE
-            b.traktLinkIcon.visibility = View.GONE
+            ratingsBlock.tmdbRatingNumber.visibility = View.VISIBLE
+            ratingsBlock.traktLinkIcon.visibility = View.GONE
         }
 
 
-        b.traktLayout.setOnClickListener {
+        ratingsBlock.traktLayout.setOnClickListener {
             // apri link
             val type = "movies"
             val traktSlug = movie.ids.slug
@@ -382,7 +383,7 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
             startActivity(intent)
         }
 
-        b.tmdbLayout.setOnClickListener {
+        ratingsBlock.tmdbLayout.setOnClickListener {
             val type = "movie"
             val tmdbId = movie.ids.tmdb
             val tmdbUrl = "https://www.themoviedb.org/$type/$tmdbId"
