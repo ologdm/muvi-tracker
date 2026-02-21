@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.room.Room
 import com.example.muvitracker.BuildConfig
+import com.example.muvitracker.data.OmdbApi
 import com.example.muvitracker.data.TmdbApi
 import com.example.muvitracker.data.TraktApi
 import com.example.muvitracker.data.database.MyDatabase
@@ -133,7 +134,6 @@ class DaggerModules {
 //    }
 
 
-
     @OptIn(ExperimentalSerializationApi::class) // opt-in corretto per asConverterFactory
     @Provides
     @Singleton
@@ -141,8 +141,10 @@ class DaggerModules {
         val json = Json {
             ignoreUnknownKeys = true // ignora campi non presenti nel tuo data class
             isLenient = true // rende il parser più permissivo in lettura di JSON non perfetto
-            encodeDefaults = true // (per POST, invio dati) include sempre i valori di default nella serializzazione in JSON
-            coerceInputValues = true // GET - se trova un null in un campo non nullable, usa il valore di default invece di crashare.
+            encodeDefaults =
+                true // (per POST, invio dati) include sempre i valori di default nella serializzazione in JSON
+            coerceInputValues =
+                true // GET - se trova un null in un campo non nullable, usa il valore di default invece di crashare.
         }
 
         val contentType = "application/json".toMediaType()
@@ -181,6 +183,26 @@ class DaggerModules {
             .addConverterFactory(json.asConverterFactory(contentType))
             .build()
         return retrofit.create(TmdbApi::class.java)
+    }
+
+
+    @Provides
+    @Singleton
+    fun provideOmdbApi(): OmdbApi {
+        val json = Json {
+            ignoreUnknownKeys = true
+            isLenient = true
+            encodeDefaults = true
+            coerceInputValues = true
+        }
+
+        val contentType = "application/json".toMediaType()
+
+        val retrofit = Retrofit.Builder()
+            .baseUrl("http://www.omdbapi.com/")
+            .addConverterFactory(json.asConverterFactory(contentType))
+            .build()
+        return retrofit.create(OmdbApi::class.java)
     }
 
 
