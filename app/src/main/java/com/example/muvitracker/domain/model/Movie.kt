@@ -23,6 +23,8 @@ data class Movie(
     val homepage: String?,
     val traktRating: String?, // ?: "-"
     val tmdbRating: String?,  // ?: "-"
+    val imdbRating: String?,  // ?: "-"
+    val rottenTomatoesRating: String?,  // ?: "-"
     val genres: List<String>,
     // TODO path link immagini - servono??
     val backdropPath: String?,  // /en971MEXui9diirXlogOrPKmsEn.jpg
@@ -33,13 +35,5 @@ data class Movie(
     val watched: Boolean,
     val addedDateTime: Long?,
     val notes: String
-) {
-
-
-    // quick image for test
-//    fun imageUrl(): String {
-//        return "http://img.omdbapi.com/?apikey=ef6d3d4c&i=${ids.imdb}"
-//    }
-
-}
+)
 

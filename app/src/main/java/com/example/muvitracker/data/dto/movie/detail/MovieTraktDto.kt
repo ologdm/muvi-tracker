@@ -3,6 +3,7 @@ package com.example.muvitracker.data.dto.movie.detail
 import android.annotation.SuppressLint
 import com.example.muvitracker.data.LanguageManager
 import com.example.muvitracker.data.database.entities.MovieEntity
+import com.example.muvitracker.data.dto.OmdbResultDto
 import com.example.muvitracker.data.dto._support.Ids
 import com.example.muvitracker.data.utils.dtoListOr
 import com.example.muvitracker.data.utils.dtoValueOr
@@ -72,7 +73,7 @@ data class MovieTraktDto(
 // NOTE: fallback: differenza tra  (tmdb?.title).orIfBlank("") | tmdb?.title.orIfBlank("")
 // se tmdb e vuoto,
 fun mergeMoviesDtoToEntity(
-    trakt: MovieTraktDto, tmdb: MovieTmdbDto?
+    trakt: MovieTraktDto, tmdb: MovieTmdbDto?, omdb: OmdbResultDto?
 ): MovieEntity {
     return MovieEntity(
         // trakt base
@@ -109,6 +110,9 @@ fun mergeMoviesDtoToEntity(
         // voti (no fallback)
         traktRating = trakt.rating?.firstDecimalApproxToString(), // in 8.25713-> out 8.3
         tmdbRating = tmdb?.voteAverage?.firstDecimalApproxToString(), // in 8.458 -> out 8.5
+        // other ratings -
+        imdbRating = omdb?.imdbRating,
+        rottenTomatoesRating = omdb?.rottenTomatoesRating,
 
         // lingua
         currentTranslation = LanguageManager.getAppLocaleLanguageTag()

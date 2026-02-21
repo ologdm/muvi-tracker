@@ -3,6 +3,7 @@ package com.example.muvitracker.data.repositories
 import com.dropbox.android.external.store4.StoreRequest
 import com.example.muvitracker.MyApp
 import com.example.muvitracker.R
+import com.example.muvitracker.data.OmdbApi
 import com.example.muvitracker.data.TmdbApi
 import com.example.muvitracker.data.TraktApi
 import com.example.muvitracker.data.database.MyDatabase
@@ -44,6 +45,7 @@ import kotlin.coroutines.cancellation.CancellationException
 class DetailMovieRepositoryImpl @Inject constructor(
     private val traktApi: TraktApi,
     private val tmdbApi: TmdbApi,
+    private val omdbApi: OmdbApi,
     database: MyDatabase
 ) : DetailMovieRepository {
 
@@ -74,10 +76,23 @@ class DetailMovieRepositoryImpl @Inject constructor(
                         null // fallback: ritorna null se qualsiasi altra eccezione
                     }
                 }
+                // TODO 1.1.4  - other ratings - Imdb, Metacritic, Rotten Tomatoes
+                val omdbDeferred = async {
+                    try {
+                        omdbApi.getData(movieIds.imdb)
+                    } catch (ex: CancellationException) {
+                        throw ex // deve propagare le cancellation
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                        null
+                    }
+                }
+
                 val traktDto = traktDtoDeferred.await()
                 val tmdbDto = tmdbDtoDeferred.await()
+                val omdbDto = omdbDeferred.await() // 1.1.4 solo ratings
 
-                mergeMoviesDtoToEntity(traktDto, tmdbDto) // ritorna entity
+                mergeMoviesDtoToEntity(traktDto, tmdbDto, omdbDto) // ritorna entity
             }
         },
         reader = { movieIds ->

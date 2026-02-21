@@ -41,10 +41,10 @@ data class MovieEntity(
     // ratings
     val traktRating: String?, // 8.3
     val tmdbRating: String?, // 7.9
-    // TODO  other ratings - Imdb, Metacritic, Rotten Tomatoes 1.1.3 non gestite
-    val imdbRating: String? = "",
+    // da omdb
+    val imdbRating: String?, // 1.1.4 OK
+    val rottenTomatoesRating: String?, // 1.1.4 OK
     val metacriticRating: String? = "",
-    val rottenTomatoesRating: String? = "",
 
     // current translation
 
@@ -73,6 +73,9 @@ fun MovieEntity.toDomain(prefsMovieEntity: PrefsMovieEntity?): Movie {
         homepage = homepage,
         traktRating = traktRating,
         tmdbRating = tmdbRating,
+        // 1.1.4
+        imdbRating = imdbRating,
+        rottenTomatoesRating = rottenTomatoesRating,
         genres = genres,
         // servono su Domain?
         backdropPath = backdropPath,
