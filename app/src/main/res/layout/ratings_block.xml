@@ -16,6 +16,8 @@
         android:id="@+id/traktLayout"
         style="@style/RatingLayout">
 
+
+<!--        margin top 6dp-->
         <ImageButton
             android:id="@+id/traktLinkIcon"
             style="@style/RatingLinkIcon"
@@ -43,12 +45,12 @@
             android:id="@+id/imdbLinkIcon"
             style="@style/RatingLinkIcon"
             android:src="@drawable/link_image"
-            android:visibility="visible" />
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/imdbRatingNumber"
             style="@style/RatingNumber"
-            android:visibility="gone"
+            android:visibility="visible"
             tools:text="7.9" />
 
         <TextView
@@ -67,12 +69,12 @@
             android:id="@+id/tomatoesLinkIcon"
             style="@style/RatingLinkIcon"
             android:src="@drawable/link_image"
-            android:visibility="visible" />
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/tomatoesRatingNumber"
             style="@style/RatingNumber"
-            android:visibility="gone"
+            android:visibility="visible"
             tools:text="69" />
 
         <TextView
@@ -91,12 +93,12 @@
             android:id="@+id/tmdbLinkIcon"
             style="@style/RatingLinkIcon"
             android:src="@drawable/link_image"
-            android:visibility="gone" />
+            android:visibility="visible" />
 
         <TextView
             android:id="@+id/tmdbRatingNumber"
             style="@style/RatingNumber"
-            android:visibility="visible"
+            android:visibility="gone"
             tools:text="7.6" />
 
         <TextView
