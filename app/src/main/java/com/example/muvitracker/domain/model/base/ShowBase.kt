@@ -6,8 +6,4 @@ data class ShowBase(
     val title: String = "",
     val year: Int = -1,
     val ids: Ids
-){
-    // not used
-//    fun imageUrl(): String =
-//        "http://img.omdbapi.com/?apikey=ef6d3d4c&i=${ids.imdb}"
-}
+)

@@ -48,8 +48,14 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.ShapeAppearanceModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import okhttp3.OkHttpClient
+import okhttp3.Request
 import javax.inject.Inject
+import androidx.core.net.toUri
+import kotlinx.coroutines.async
 
 /** Linee
  *   —        (Shift + Option + -)
@@ -102,6 +108,10 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
     @Inject
     lateinit var api: TmdbApi
 
+    // 1.1.4
+    //by lazy:  inizializza solo la prima volta che viene usata.
+    // client HTTP per richieste GET, POST, HEAD,
+    private val okHttpClient by lazy { OkHttpClient() }
 
     override fun onViewCreated(
         view: View, savedInstanceState: Bundle?
@@ -351,31 +361,34 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
 
     private fun ratingLayoutsSetup(movie: Movie) {
         // Accesso al sub-binding
-        val ratingsBlock = b.ratingsLayout
+        val ratingsB = b.ratingsLayout
 
-        ratingsBlock.traktRatingNumber.text = movie.traktRating
-        ratingsBlock.tmdbRatingNumber.text = movie.tmdbRating
-        // switch da number a icon
-        if (movie.traktRating.isNullOrEmpty() || movie.traktRating == "0.0") {
-            ratingsBlock.traktRatingNumber.visibility = View.GONE
-            ratingsBlock.traktLinkIcon.visibility = View.VISIBLE
-        } else {
-            ratingsBlock.traktRatingNumber.visibility = View.VISIBLE
-            ratingsBlock.traktLinkIcon.visibility = View.GONE
-        }
+        // show ratings ------------------------------
+        ratingsB.traktRatingNumber.text = movie.traktRating
+        ratingsB.imdbRatingNumber.text = movie.imdbRating
+        ratingsB.tomatoesRatingNumber.text = "${movie.rottenTomatoesRating}%"
 
+        // rating number/icon ---------------------
+        val invalidRatings = setOf(null, "", "0.0", "N/A", "n/a", "-") // TODO  EGDE CASES
 
-        if (movie.tmdbRating.isNullOrEmpty() || movie.traktRating == "0.0") {
-            ratingsBlock.tmdbRatingNumber.visibility = View.GONE
-            ratingsBlock.traktLinkIcon.visibility = View.VISIBLE
-        } else {
-            ratingsBlock.tmdbRatingNumber.visibility = View.VISIBLE
-            ratingsBlock.traktLinkIcon.visibility = View.GONE
-        }
+        val hasTraktRatings = movie.traktRating !in invalidRatings
+        val hasImdbRating = movie.imdbRating !in invalidRatings
+        val hasTomatoesRating = movie.rottenTomatoesRating !in invalidRatings
 
+        // visibility ------------------------
+        ratingsB.traktRatingNumber.visibility = if (hasTraktRatings) View.VISIBLE else View.GONE
+        ratingsB.traktLinkIcon.visibility = if (hasTraktRatings) View.GONE else View.VISIBLE
 
-        ratingsBlock.traktLayout.setOnClickListener {
-            // apri link
+        ratingsB.imdbRatingNumber.visibility = if (hasImdbRating) View.VISIBLE else View.GONE
+        ratingsB.imdbLinkIcon.visibility = if (hasImdbRating) View.GONE else View.VISIBLE
+
+        ratingsB.tomatoesRatingNumber.visibility =
+            if (hasTomatoesRating) View.VISIBLE else View.GONE
+        ratingsB.tomatoesLinkIcon.visibility = if (hasTomatoesRating) View.GONE else View.VISIBLE
+
+        // click on ratings ------------------------------------------------------
+        // trakt
+        ratingsB.traktLayout.setOnClickListener {
             val type = "movies"
             val traktSlug = movie.ids.slug
             val traktUrl = "https://trakt.tv/$type/$traktSlug"
@@ -383,12 +396,89 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
             startActivity(intent)
         }
 
-        ratingsBlock.tmdbLayout.setOnClickListener {
-            val type = "movie"
-            val tmdbId = movie.ids.tmdb
-            val tmdbUrl = "https://www.themoviedb.org/$type/$tmdbId"
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(tmdbUrl))
+        // tmdb
+//        ratingsBlock.tmdbLayout.setOnClickListener {
+//            val type = "movie"
+//            val tmdbId = movie.ids.tmdb
+//            val tmdbUrl = "https://www.themoviedb.org/$type/$tmdbId"
+//            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(tmdbUrl))
+//            startActivity(intent)
+//        }
+
+
+        // 1.1.4 imdb OK
+        ratingsB.imdbLayout.setOnClickListener {
+            // NOTES: automatic language from the browser settings
+            val imdbId = movie.ids.imdb
+            val imdbUrl = "https://www.imdb.com/title/$imdbId"
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(imdbUrl))
             startActivity(intent)
+        }
+
+        //  1.1.4 tomatoes OK
+        ratingsB.tomatoesLayout.setOnClickListener {
+            // PSEUDOCODE: direct 'nome_film_anno', fallback direct 'nome_film', fallback search 'nome film anno'
+            // NOTE: certi film remakes hanno anno, es superman_2025, altrimenti trova superman vecchio
+
+            // caso1 - underscore con anno
+            val directSlug1 = movie.ids.slug.replace(oldChar = '-', newChar = '_') // con anno
+            // caso2 - underscore senza anno
+            val directSlug2 = movie.ids.slug.replace(oldChar = '-', newChar = '_')
+                .replace(
+                    Regex("(_\\d{4})$"),
+                    ""
+                ) // '_ + 4 numeri' solo se alla fine della stringa ($ → fine della stringa)
+            // caso3 - con spazio
+            val searchSlug = movie.ids.slug.replace(oldChar = '-', newChar = ' ')
+
+            val directUrl1 = "https://www.rottentomatoes.com/m/$directSlug1"
+            val directUrl2 = "https://www.rottentomatoes.com/m/$directSlug2"
+            val searchUrl = "https://www.rottentomatoes.com/search?search=$searchSlug"
+
+            // scegli a cascata tra 3 casi diversi
+            viewLifecycleOwner.lifecycleScope.launch {
+                // chiamate in parallelo per velocizzare checks
+                val diff1 = async { urlExists(okHttpClient, directUrl1) }
+                val diff2 = async { urlExists(okHttpClient, directUrl2) }
+                val exist1 = diff1.await()
+                val exist2 = diff2.await()
+
+                val urlToOpen = when { // check sequenziale !!
+                    exist1 -> directUrl1// test 1 (con anno)
+                    exist2 -> directUrl2 // test 2 (_) fallback
+                    else -> searchUrl // fallback finale (" ")
+                }
+
+                val intent = Intent(Intent.ACTION_VIEW, urlToOpen.toUri())
+                startActivity(intent)
+            }
+        }
+    }
+
+
+    private suspend fun urlExists(
+        client: OkHttpClient,
+        url: String,
+        useHead: Boolean = false
+    ): Boolean {
+        return withContext(Dispatchers.IO) {
+            try {
+                // 1. Request
+                val requestBuilder = Request.Builder().url(url)
+                val request = if (useHead) {
+                    requestBuilder.head().build()// solo head()
+                } else {
+                    requestBuilder.get().build() // alternativa get(), accesso standard al sito
+                }
+
+                // 2. Response
+                client.newCall(request).execute().use {
+                    it.isSuccessful // true se 200..299
+                }
+
+            } catch (e: Exception) {
+                false // per ogni eccezione ritorna false
+            }
         }
     }
 
@@ -586,7 +676,6 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
             // 2. dialog send new value to detailMovieViewModel
 
         }
-
 
 
     }
