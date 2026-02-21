@@ -31,6 +31,7 @@ android {
         // for api keys on 'local.properties' (2/3)
         buildConfigField 'String', "TRAKT_API_KEY", "\"" + localProperties.trakt_api_key + "\""
         buildConfigField 'String', "TMDB_API_KEY", "\"" + localProperties.tmdb_api_key + "\""
+        buildConfigField 'String', "OMDB_API_KEY", "\"" + localProperties.omdb_api_key + "\""
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
