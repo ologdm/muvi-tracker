@@ -322,89 +322,11 @@
                                 android:textSize="15sp"
                                 tools:text="48 episodes usciti" />
 
-                            <!--                            <TextView-->
-                            <!--                                android:id="@+id/runtime"-->
-                            <!--                                android:layout_width="wrap_content"-->
-                            <!--                                android:layout_height="wrap_content"-->
-                            <!--                                android:textSize="15sp"-->
-                            <!--                                android:layout_marginTop="2dp"-->
-                            <!--                                tools:text="42 min" />-->
 
-
-                            <View
-                                android:layout_width="match_parent"
-                                android:layout_height="4dp" />
-
-                            <LinearLayout
-                                android:id="@+id/ratingsLayout"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="8dp"
-                                android:orientation="horizontal"
-                                app:layout_constraintStart_toEndOf="@id/verticalImage">
-
-                                <!-- TODO Trakt OK -->
-                                <LinearLayout
-                                    android:id="@+id/traktLayout"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginEnd="12dp"
-                                    android:gravity="center_horizontal"
-                                    android:orientation="vertical">
-
-                                    <ImageButton
-                                        android:id="@+id/traktLinkIcon"
-                                        android:layout_width="32dp"
-                                        android:layout_height="32dp"
-                                        android:background="@android:color/transparent"
-                                        android:src="@drawable/link_image"
-                                        android:visibility="gone" />
-
-                                    <TextView
-                                        android:id="@+id/traktRatingNumber"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:textSize="24sp"
-                                        android:visibility="visible"
-                                        tools:text="8.3" />
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="Trakt.tv"
-                                        android:textSize="12sp" />
-                                </LinearLayout>
-
-                                <!--  TODO tmdb OK-->
-                                <LinearLayout
-                                    android:id="@+id/tmdbLayout"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="center_horizontal"
-                                    android:orientation="vertical">
-
-                                    <ImageButton
-                                        android:id="@+id/tmdbLinkIcon"
-                                        android:layout_width="32dp"
-                                        android:layout_height="32dp"
-                                        android:background="@android:color/transparent"
-                                        android:src="@drawable/link_image"
-                                        android:visibility="gone" />
-
-                                    <TextView
-                                        android:id="@+id/tmdbRatingNumber"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:textSize="24sp"
-                                        tools:text="7.9" />
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="Tmdb"
-                                        android:textSize="12sp" />
-                                </LinearLayout>
-                            </LinearLayout>
+                            <include
+                                android:id="@+id/ratings_layout"
+                                layout="@layout/ratings_block" />
+<!--                            margin top 2 dp-->
 
 
                             <!-- solo diastanziamento -->
