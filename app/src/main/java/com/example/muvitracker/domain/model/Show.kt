@@ -30,6 +30,8 @@ data class Show(
 
     val traktRating: String?, // ex -> rating: String,
     val tmdbRating: String?,
+    val imdbRating: String?,
+    val rottenTomatoesRating: String?,
 
     val backdropPath: String?, // TODO new
     val posterPath: String?, // TODO new

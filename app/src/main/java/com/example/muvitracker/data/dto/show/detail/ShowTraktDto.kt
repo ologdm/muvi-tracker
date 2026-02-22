@@ -3,6 +3,7 @@ package com.example.muvitracker.data.dto.show.detail
 import android.annotation.SuppressLint
 import com.example.muvitracker.data.LanguageManager
 import com.example.muvitracker.data.database.entities.ShowEntity
+import com.example.muvitracker.data.dto.OmdbResultDto
 import com.example.muvitracker.data.dto._support.Ids
 import com.example.muvitracker.data.utils.dtoStringOr
 import com.example.muvitracker.data.utils.dtoListOr
@@ -27,7 +28,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class ShowTraktDto(
     val title: String?,
-    val year: Int? , // 2011 - first year
+    val year: Int?, // 2011 - first year
     val ids: Ids, // + tvdb
 
     val tagline: String? = null, // Winter is coming
@@ -59,7 +60,7 @@ data class ShowTraktDto(
 /**  ## Logica di unione, uguale a movie */
 
 fun mergeShowsDtoToEntity(
-    trakt: ShowTraktDto, tmdb: ShowTmdbDto?
+    trakt: ShowTraktDto, tmdb: ShowTmdbDto?, omdbDto: OmdbResultDto?
 ): ShowEntity {
     return ShowEntity(
         // trakt ok
@@ -101,7 +102,8 @@ fun mergeShowsDtoToEntity(
         // ratings
         traktRating = trakt.rating?.firstDecimalApproxToString(),
         tmdbRating = tmdb?.voteAverage?.firstDecimalApproxToString(), // in 8.458 -> out 8.5
-
+        imdbRating = omdbDto?.imdbRating, // 7.5
+        rottenTomatoesRating = omdbDto?.rottenTomatoesRating, // 83
         // sistema
         currentTranslation = LanguageManager.getAppLocaleLanguageTag()
     )

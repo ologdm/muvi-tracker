@@ -50,6 +50,12 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import javax.inject.Inject
+import androidx.core.net.toUri
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.withContext
+import okhttp3.OkHttpClient
+import okhttp3.Request
 
 // TODO 1.1.3 ok all
 // 1. DetailShow
@@ -101,6 +107,9 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
             openLinkOnClick(provider, currentShowIds.slug.replace(oldChar = '-', newChar = ' '))
         }
     )
+
+    // 1.1.4
+    private val okHttpClient by lazy { OkHttpClient() }
 
 
     override fun onViewCreated(
@@ -411,42 +420,112 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
 
 
     private fun ratingLayoutsSetup(show: Show) {
-        b.traktRatingNumber.text = show.traktRating
-        b.tmdbRatingNumber.text = show.tmdbRating
+        val ratingsB = b.ratingsLayout
+        // show ratings ------------------------------
+        ratingsB.traktRatingNumber.text = show.traktRating
+        ratingsB.imdbRatingNumber.text = show.imdbRating
+        ratingsB.tomatoesRatingNumber.text = show.rottenTomatoesRating
 
-        if (show.traktRating.isNullOrEmpty() || show.traktRating == "0.0") {
-            b.traktRatingNumber.visibility = View.GONE
-            b.traktLinkIcon.visibility = View.VISIBLE
-        } else {
-            b.traktRatingNumber.visibility = View.VISIBLE
-            b.traktLinkIcon.visibility = View.GONE
-        }
+        // rating number/icon ---------------------
+        val invalidRatings = listOf(null, "0.0", "N/A", "n/a", "-")
+
+        val hasTraktRating = show.traktRating !in invalidRatings
+        val hasImdbRating = show.imdbRating !in invalidRatings
+        val hasTomatoesRating = show.rottenTomatoesRating !in invalidRatings
+
+        // visibility ------------------------
+        ratingsB.traktRatingNumber.visibility = if (hasTraktRating) View.VISIBLE else View.GONE
+        ratingsB.traktLinkIcon.visibility = if (hasTraktRating) View.GONE else View.VISIBLE
+
+        ratingsB.imdbRatingNumber.visibility = if (hasImdbRating) View.VISIBLE else View.GONE
+        ratingsB.imdbLinkIcon.visibility = if (hasImdbRating) View.GONE else View.VISIBLE
+
+        ratingsB.tomatoesRatingNumber.visibility =
+            if (hasTomatoesRating) View.VISIBLE else View.GONE
+        ratingsB.tomatoesLinkIcon.visibility = if (hasTomatoesRating) View.GONE else View.VISIBLE
 
 
-        if (show.tmdbRating.isNullOrEmpty() || show.traktRating == "0.0") {
-            b.tmdbRatingNumber.visibility = View.GONE
-            b.traktLinkIcon.visibility = View.VISIBLE
-        } else {
-            b.tmdbRatingNumber.visibility = View.VISIBLE
-            b.traktLinkIcon.visibility = View.GONE
-        }
-
-
-        b.traktLayout.setOnClickListener {
+        // click on ratings ------------------------------------------------------
+        ratingsB.traktLayout.setOnClickListener {
             // apri link
             val type = "shows"
             val traktSlug = show.ids.slug
             val traktUrl = "https://trakt.tv/$type/$traktSlug"
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(traktUrl))
+            val intent = Intent(Intent.ACTION_VIEW, traktUrl.toUri())
             startActivity(intent)
         }
 
-        b.tmdbLayout.setOnClickListener {
-            val type = "tv"
-            val tmdbId = show.ids.tmdb
-            val tmdbUrl = "https://www.themoviedb.org/$type/$tmdbId"
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(tmdbUrl))
+        ratingsB.imdbLayout.setOnClickListener {
+            // NOTES: automatic language from the browser settings
+            val imdbId = show.ids.imdb
+            val imdbUrl = "https://www.imdb.com/title/$imdbId"
+            val intent = Intent(Intent.ACTION_VIEW, imdbUrl.toUri())
             startActivity(intent)
+        }
+
+        ratingsB.tomatoesLayout.setOnClickListener {
+            // stessa logica come show
+
+            // caso1 - underscore con anno
+            val directSlug1 = show.ids.slug.replace(oldChar = '-', newChar = '_') // con anno
+            // caso2 - underscore senza anno
+            val directSlug2 = show.ids.slug.replace(oldChar = '-', newChar = '_')
+                .replace(
+                    Regex("(_\\d{4})$"),
+                    ""
+                ) // '_ + 4 numeri' solo se alla fine della stringa ($ → fine della stringa)
+            // caso3 - con spazio
+            val searchSlug = show.ids.slug.replace(oldChar = '-', newChar = ' ')
+
+            val directUrl1 = "https://www.rottentomatoes.com/tv/$directSlug1"
+            val directUrl2 = "https://www.rottentomatoes.com/tv/$directSlug2"
+            val searchUrl = "https://www.rottentomatoes.com/search?search=$searchSlug"
+
+            // scegli a cascata tra 3 casi diversi
+            viewLifecycleOwner.lifecycleScope.launch {
+                // chiamate in parallelo per velocizzare checks
+                val diff1 = async { urlExists(okHttpClient, directUrl1) }
+                val diff2 = async { urlExists(okHttpClient, directUrl2) }
+                val exist1 = diff1.await()
+                val exist2 = diff2.await()
+
+                val urlToOpen = when { // check sequenziale !!
+                    exist1 -> directUrl1// test 1 (con anno)
+                    exist2 -> directUrl2 // test 2 (_) fallback
+                    else -> searchUrl // fallback finale (" ")
+                }
+
+                val intent = Intent(Intent.ACTION_VIEW, urlToOpen.toUri())
+                startActivity(intent)
+            }
+        }
+    }
+
+
+    // TODO: Unificare
+    private suspend fun urlExists(
+        client: OkHttpClient,
+        url: String,
+        useHead: Boolean = false
+    ): Boolean {
+        return withContext(Dispatchers.IO) {
+            try {
+                // 1. Request
+                val requestBuilder = Request.Builder().url(url)
+                val request = if (useHead) {
+                    requestBuilder.head().build()// solo head()
+                } else {
+                    requestBuilder.get().build() // alternativa get(), accesso standard al sito
+                }
+
+                // 2. Response
+                client.newCall(request).execute().use {
+                    it.isSuccessful // true se 200..299
+                }
+
+            } catch (e: Exception) {
+                false // per ogni eccezione ritorna false
+            }
         }
     }
 
@@ -683,6 +762,7 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
             HBO_MAX_AMAZON_CHANNEL,
             APPLE_TV_AMAZON_CHANNEL,
             PARAMOUNT_PLUS_AMAZON_CHANNEL -> openWebUrl("https://www.primevideo.com/search?phrase=${movieTitle}")
+
             DISNEY_PLUS -> openWebUrl("https://www.disneyplus.com/")
             HBO_MAX -> openWebUrl("https://play.hbomax.com/")
             RAKUTEN_TV -> openWebUrl("https://www.rakuten.tv/")

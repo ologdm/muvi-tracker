@@ -371,13 +371,13 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
         // rating number/icon ---------------------
         val invalidRatings = setOf(null, "", "0.0", "N/A", "n/a", "-") // TODO  EGDE CASES
 
-        val hasTraktRatings = movie.traktRating !in invalidRatings
+        val hasTraktRating = movie.traktRating !in invalidRatings
         val hasImdbRating = movie.imdbRating !in invalidRatings
         val hasTomatoesRating = movie.rottenTomatoesRating !in invalidRatings
 
         // visibility ------------------------
-        ratingsB.traktRatingNumber.visibility = if (hasTraktRatings) View.VISIBLE else View.GONE
-        ratingsB.traktLinkIcon.visibility = if (hasTraktRatings) View.GONE else View.VISIBLE
+        ratingsB.traktRatingNumber.visibility = if (hasTraktRating) View.VISIBLE else View.GONE
+        ratingsB.traktLinkIcon.visibility = if (hasTraktRating) View.GONE else View.VISIBLE
 
         ratingsB.imdbRatingNumber.visibility = if (hasImdbRating) View.VISIBLE else View.GONE
         ratingsB.imdbLinkIcon.visibility = if (hasImdbRating) View.GONE else View.VISIBLE

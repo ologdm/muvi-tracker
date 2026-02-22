@@ -1,10 +1,12 @@
 package com.example.muvitracker.data.repositories
 
 import com.dropbox.android.external.store4.StoreRequest
+import com.example.muvitracker.data.OmdbApi
 import com.example.muvitracker.data.TmdbApi
 import com.example.muvitracker.data.TraktApi
 import com.example.muvitracker.data.database.MyDatabase
 import com.example.muvitracker.data.database.entities.ShowEntity
+import com.example.muvitracker.data.dto.OmdbResultDto
 import com.example.muvitracker.data.dto.show.detail.mergeShowsDtoToEntity
 import com.example.muvitracker.data.dto._support.Ids
 import com.example.muvitracker.data.dto.person.toDomain
@@ -43,6 +45,7 @@ import kotlin.coroutines.cancellation.CancellationException
 class DetailShowRepositoryImpl @Inject constructor(
     private val traktApi: TraktApi,
     private val tmdbApi: TmdbApi,
+    private val omdbApi: OmdbApi,
     private val seasonRepository: SeasonRepository,
     database: MyDatabase,
 ) : DetailShowRepository {
@@ -70,11 +73,22 @@ class DetailShowRepositoryImpl @Inject constructor(
                     }
                 }
 
-                val traktDto: ShowTraktDto = traktDtoDeferred.await() // la dto base
-                val tmdbDto: ShowTmdbDto? =
-                    tmdbDtoDeferred.await() // integra il dto trakt, traduzioni + immagini
+                val omdbDtoDeferred = async {
+                    try {
+                        omdbApi.getData(ids.imdb)
+                    } catch (ex: CancellationException){
+                        throw ex
+                    } catch (ex: Throwable){
+                        ex.printStackTrace()
+                        null
+                    }
+                }
 
-                mergeShowsDtoToEntity(traktDto, tmdbDto)
+                val traktDto: ShowTraktDto = traktDtoDeferred.await() // la dto base
+                val tmdbDto: ShowTmdbDto? = tmdbDtoDeferred.await() // integra il dto trakt, traduzioni + immagini
+                val omdbDto: OmdbResultDto? = omdbDtoDeferred.await() // solo ratings
+
+                mergeShowsDtoToEntity(traktDto, tmdbDto, omdbDto)
             }
         },
         reader = { ids ->

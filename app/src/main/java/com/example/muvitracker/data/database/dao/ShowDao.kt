@@ -53,6 +53,8 @@ interface ShowDao {
         d.homepage,
         d.traktRating,
         d.tmdbRating,
+        d.imdbRating,
+        d.rottenTomatoesRating,
         d.backdropPath,
         d.posterPath,
         d.currentTranslation,

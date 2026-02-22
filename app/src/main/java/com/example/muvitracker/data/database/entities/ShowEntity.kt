@@ -51,9 +51,9 @@ data class ShowEntity(
     val tmdbRating: String?, // 7.9
 
     // TODO  other ratings - Imdb, Metacritic, Rotten Tomatoes
-    val imdbRating: String? = "",
+    val imdbRating: String?,
     val metacriticRating: String? = "",
-    val rottenTomatoesRating: String? = "",
+    val rottenTomatoesRating: String?,
 
     // da sistema
     val currentTranslation: String, // not null
