@@ -328,9 +328,9 @@
        FlexboxLayout - permette andare a capo
        -->
                             <!--  RATINGS -->
-                  <include
-                      android:id="@+id/ratings_layout"
-                      layout="@layout/ratings_block"/>
+                            <include
+                                android:id="@+id/ratings_layout"
+                                layout="@layout/ratings_block" />
                         </LinearLayout>
 
 
