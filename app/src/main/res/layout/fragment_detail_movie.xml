@@ -374,11 +374,11 @@
                     -->
                     <LinearLayout
                         android:id="@+id/notesLayout"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="start"
                         android:layout_marginTop="12dp"
-                        android:layout_marginBottom="4dp"
+
                         android:gravity="center_vertical"
                         android:orientation="horizontal"
                         app:layout_constraintStart_toStartOf="parent"
@@ -396,19 +396,58 @@
 
                         <TextView
                             android:id="@+id/notesTextview"
-                            android:layout_width="match_parent"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
                             android:layout_height="wrap_content"
                             android:ellipsize="end"
                             android:hint="@string/add_a_note_to_your_movie"
                             android:maxLines="2"
+                            tools:text="wdflvòkms"
                             android:textColor="?attr/colorPrimary"
                             android:textStyle="italic"
                             android:visibility="visible" />
+
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="end"
+                            android:gravity="center_vertical"
+                            android:layout_marginStart="16dp"
+                            android:orientation="horizontal">
+
+<!--                            <TextView-->
+<!--                                android:id="@+id/providersCountry"-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:layout_marginStart="2dp"-->
+<!--                                android:layout_marginEnd="8dp"-->
+<!--                                android:text="Country: Italy"-->
+<!--                                android:textSize="16sp"-->
+<!--                                android:textStyle="bold"-->
+<!--                                android:visibility="visible" />-->
+
+                            <!--                            <View-->
+                            <!--                                android:layout_width="0dp"-->
+                            <!--                                android:layout_height="0dp"-->
+                            <!--                                android:layout_weight="1"/>-->
+
+
+<!--                            <ImageButton-->
+<!--                                android:layout_width="36dp"-->
+<!--                                android:layout_height="36dp"-->
+<!--                                android:src="@drawable/external_link_rounded"-->
+<!--                                android:background="@null"-->
+<!--                                android:layout_gravity="end" />-->
+
+
+                        </LinearLayout>
 
                     </LinearLayout>
 
                     <!--                    </LinearLayout>-->
 
+                    <!--  PROVIDERS  -->
                     <LinearLayout
                         android:id="@+id/providersLayout"
                         android:layout_width="match_parent"
@@ -417,29 +456,57 @@
                         android:orientation="vertical"
                         android:visibility="visible">
 
-
-                        <TextView
-                            android:id="@+id/providersCountry"
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="start"
-                            android:layout_marginStart="8dp"
                             android:layout_marginBottom="2dp"
-                            android:textSize="14sp"
-                            android:textStyle="bold"
-                            android:visibility="gone"
-                            tools:text="Italy | | |" />
+                            android:gravity="center_vertical|right"
+                            android:orientation="horizontal">
+                            <!--         -->
+
+                            <TextView
+                                android:id="@+id/providersCountry"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="2dp"
+                                android:layout_marginEnd="8dp"
+                                android:text="Country: Italy"
+                                android:textSize="16sp"
+                                android:textStyle="bold"
+                                android:visibility="visible" />
+
+                            <View
+                                android:layout_width="0dp"
+                                android:layout_height="0dp"
+                                android:layout_weight="1"/>
+
+                            <ImageButton
+                                android:layout_width="36dp"
+                                android:layout_height="36dp"
+                                android:src="@drawable/external_link_rounded"
+                                android:background="@null"
+                                android:layout_gravity="end" />
+
+                        </LinearLayout>
 
 
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/providersRecyclerView"
                             android:layout_width="match_parent"
+                            android:layout_weight="1"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
-                            android:layout_marginTop="4dp"
                             tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                             tools:listitem="@layout/viewholder_provider"
                             tools:orientation="horizontal" />
+
+<!--                        <ImageButton-->
+<!--                            android:layout_width="36dp"-->
+<!--                            android:layout_height="36dp"-->
+<!--                            android:src="@drawable/external_link_rounded"-->
+<!--                            android:background="@null"-->
+<!--                            android:layout_gravity="end" />-->
+
 
                     </LinearLayout>
 
