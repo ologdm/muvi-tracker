@@ -7,10 +7,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!--TODO wrapper constraint -
-            spostato fuori progressBar, errorTextView, buttonBack-->
-
-    <!--NOTE LAYOUT:      -->
 
     <com.google.android.material.progressindicator.LinearProgressIndicator
         android:id="@+id/progressBar"
@@ -31,7 +27,6 @@
         tools:hint="errorTextView......"
         tools:visibility="visible" />
 
-    <!-- TODO   -->
     <ImageButton
         android:id="@+id/buttonBack"
         android:layout_width="wrap_content"
@@ -157,7 +152,6 @@
                             android:id="@+id/trailerImageButton"
                             android:layout_width="40dp"
                             android:layout_height="40dp"
-
                             android:src="@drawable/youtube_red_official_icon" />
 
                         <!--        NOTE:
@@ -178,52 +172,6 @@
                             android:textStyle="bold" />
 
                     </LinearLayout>
-
-                    <!-- TODO. v sx   -->
-                    <!--                <TextView-->
-                    <!--                    android:id="@+id/tagline1"-->
-                    <!--                    android:layout_width="match_parent"-->
-                    <!--                    android:layout_height="wrap_content"-->
-                    <!--                    android:layout_marginBottom="12dp"-->
-                    <!--                    android:layout_marginStart="16dp"-->
-                    <!--                    android:layout_marginEnd="120dp"-->
-                    <!--                    android:maxLines="3"-->
-                    <!--                    android:ellipsize="end"-->
-
-                    <!--                    android:textStyle="italic"-->
-                    <!--                    android:textColor="@android:color/white"-->
-                    <!--                    android:shadowColor="#FF000000"-->
-                    <!--                    android:shadowDx="5"-->
-                    <!--                    android:shadowDy="3"-->
-                    <!--                    android:shadowRadius="5"-->
-
-                    <!--                    app:layout_constraintStart_toStartOf="parent"-->
-                    <!--                    app:layout_constraintBottom_toBottomOf="parent"-->
-                    <!--                    tools:text="@tools:sample/lorem/random" />-->
-
-                    <!-- TODO. v dx   -->
-                    <!--                <TextView-->
-                    <!--                    android:id="@+id/tagline1"-->
-                    <!--                    android:layout_width="wrap_content"-->
-                    <!--                    android:layout_height="wrap_content"-->
-                    <!--                    android:layout_marginBottom="12dp"-->
-                    <!--                    android:layout_marginEnd="16dp"-->
-                    <!--                    android:gravity="end"-->
-
-                    <!--                    android:maxLines="3"-->
-                    <!--                    android:ellipsize="end"-->
-
-                    <!--                    android:textStyle="italic"-->
-                    <!--                    android:textColor="@android:color/white"-->
-                    <!--                    android:shadowColor="#FF000000"-->
-                    <!--                    android:shadowDx="5"-->
-                    <!--                    android:shadowDy="3"-->
-                    <!--                    android:shadowRadius="5"-->
-
-                    <!--                    app:layout_constraintEnd_toEndOf="parent"-->
-                    <!--                    app:layout_constraintBottom_toBottomOf="parent"-->
-                    <!--                    tools:text="@tools:sample/lorem/random" />-->
-
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -325,8 +273,8 @@
 
 
                             <!--   padre  linear
-       FlexboxLayout - permette andare a capo
-       -->
+                            FlexboxLayout - permette andare a capo
+                            -->
                             <!--  RATINGS -->
                             <include
                                 android:id="@+id/ratings_layout"

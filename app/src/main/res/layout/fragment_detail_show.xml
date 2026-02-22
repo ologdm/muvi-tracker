@@ -7,9 +7,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!--TODO wrapper constraint -
-        spostato fuori progressBar, errorTextView, buttonBack-->
-
 
     <com.google.android.material.progressindicator.LinearProgressIndicator
         android:id="@+id/progressBar"
@@ -29,7 +26,6 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:hint="errorTextView......"
         tools:visibility="visible" />
-
 
     <ImageButton
         android:id="@+id/buttonBack"
@@ -155,8 +151,8 @@
 
                             android:src="@drawable/youtube_red_official_icon" />
 
-                        <!--        NOTE:
-                                    'margin_top = -4' ok anche se il testo è ingrandito
+                        <!--NOTE:
+                            'margin_top = -4' ok anche se il testo è ingrandito
                         -->
                         <TextView
                             android:id="@+id/trailerTextView"
@@ -204,13 +200,13 @@
 
 
                     <!--
-                                        NOTE: layout imagine | info -> sempre 50|50
-                                            1. layout_constraintWidth_percent="0.5" ->
-                                                    -> l’immagine occupa esattamente metà della larghezza del parent.
-                                            2. layout_constraintDimensionRatio="2:3" ->
-                                                    -> mantiene sempre proporzione larghezza:altezza 2:3.
-                                            3. Il LinearLayout a destra prende tutto lo spazio rimanente
-                                                (0dp width + constraintStart_toEndOf + constraintEnd_toEndOf="parent").
+                    NOTE: layout imagine | info -> sempre 50|50
+                        1. layout_constraintWidth_percent="0.5" ->
+                                -> l’immagine occupa esattamente metà della larghezza del parent.
+                        2. layout_constraintDimensionRatio="2:3" ->
+                                -> mantiene sempre proporzione larghezza:altezza 2:3.
+                        3. Il LinearLayout a destra prende tutto lo spazio rimanente
+                            (0dp width + constraintStart_toEndOf + constraintEnd_toEndOf="parent").
                      -->
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
@@ -246,37 +242,8 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@id/verticalImage"
                             app:layout_constraintTop_toTopOf="parent">
-                            >
 
 
-                            <!--                            <TextView-->
-                            <!--                                android:id="@+id/status"-->
-                            <!--                                android:layout_width="wrap_content"-->
-                            <!--                                android:layout_height="wrap_content"-->
-                            <!--                                android:textSize="15sp"-->
-                            <!--                                android:textStyle="normal"-->
-                            <!--                                tools:text="Ended" />-->
-
-
-                            <!--                            <TextView-->
-                            <!--                                android:id="@+id/networkYearCountry"-->
-                            <!--                                android:layout_width="wrap_content"-->
-                            <!--                                android:layout_height="wrap_content"-->
-                            <!--                                android:layout_marginTop="2dp"-->
-                            <!--                                android:textSize="15sp"-->
-                            <!--                                tools:text="Network 2010 (US) " />-->
-
-
-                            <!--                            <TextView-->
-                            <!--                                android:id="@+id/totalSeasons"-->
-                            <!--                                android:layout_width="wrap_content"-->
-                            <!--                                android:layout_height="wrap_content"-->
-                            <!--                                android:layout_marginTop="2dp"-->
-                            <!--                                android:textSize="15sp"-->
-                            <!--                                tools:text="6 seasons" />-->
-
-
-                            <!--                            TODO 1.1.3 new-->
                             <TextView
                                 android:id="@+id/status"
                                 android:layout_width="wrap_content"
@@ -326,7 +293,7 @@
                             <include
                                 android:id="@+id/ratings_layout"
                                 layout="@layout/ratings_block" />
-<!--                            margin top 2 dp-->
+                            <!--                            margin top 2 dp-->
 
 
                             <!-- solo diastanziamento -->
@@ -550,8 +517,7 @@
                                 android:layout_height="wrap_content"
                                 tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                                 tools:listitem="@layout/viewholder_cast_list_on_detail"
-                                tools:orientation="horizontal"
-                                />
+                                tools:orientation="horizontal" />
 
                             <TextView
                                 android:id="@+id/castErrorMessage"
@@ -672,8 +638,7 @@
                                 android:layout_height="wrap_content"
                                 tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                                 tools:listitem="@layout/viewholder_related_list_on_detail"
-                                tools:orientation="horizontal"
-                                />
+                                tools:orientation="horizontal" />
 
                             <TextView
                                 android:id="@+id/relatedErrorMessage"
