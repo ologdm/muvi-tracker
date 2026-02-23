@@ -179,4 +179,9 @@ class DetailMovieViewmodel @Inject constructor(
     }
 
 
+    fun changeRegion(appCountry: AppCountry){
+        countryEnum = appCountry
+    }
+
+
 }

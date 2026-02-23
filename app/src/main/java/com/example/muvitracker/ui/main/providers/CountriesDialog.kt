@@ -17,6 +17,8 @@ class CountriesDialog : BottomSheetDialogFragment(R.layout.dialog_countries) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         // TODO: lista paesi da selezionare
 //        b.countriesRecycler.adapter =
+        println("XXX")
+
     }
 
 

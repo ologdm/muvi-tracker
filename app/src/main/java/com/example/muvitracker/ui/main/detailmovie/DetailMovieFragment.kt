@@ -55,6 +55,7 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import javax.inject.Inject
 import androidx.core.net.toUri
+import com.example.muvitracker.ui.main.providers.CountriesDialog
 import kotlinx.coroutines.async
 
 /** Linee
@@ -669,14 +670,16 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
         }
 
 
+        // TODO 1.1.4 - cambia paese
         b.providersCountry.text = viewModel.countryEnum.displayName
 
         b.providersCountry.setOnClickListener {
             // 1. open country list on dialog
+            parentFragmentManager.beginTransaction().show(CountriesDialog())
             // 2. dialog send new value to detailMovieViewModel
 
-        }
 
+        }
 
     }
 
