@@ -137,7 +137,7 @@ dependencies {
     // room for local database
     def room_version = "2.6.1"
     implementation "androidx.room:room-ktx:$room_version"
-    annotationProcessor "androidx.room:room-compiler:$room_version"
+//    annotationProcessor "androidx.room:room-compiler:$room_version" // annotationProcessor for java; use kapt
     kapt "androidx.room:room-compiler:$room_version"// to use kapt
 //    ksp "androidx.room:room-compiler:$room_version"  // to use KSP
 
