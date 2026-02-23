@@ -62,7 +62,7 @@
     <string name="discard_movie">Hapus film?</string>
     <string name="discard_show">Hapus serial?</string>
 
-    <string name="is_no_longer_liked_or_watched_remove_it">"%1$s" tidak lagi disukai atau ditonton.\n\nHapus?</string>
+    <string name="is_no_longer_liked_or_watched_remove_it">\"%1$s\" tidak lagi disukai atau ditonton.\n\nHapus?</string>
 
     <string name="yes">Ya</string>
     <string name="no">Tidak</string>

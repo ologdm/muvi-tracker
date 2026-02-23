@@ -62,7 +62,7 @@
     <string name="discard_movie">फ़िल्म हटाएं?</string>
     <string name="discard_show">सीरीज़ हटाएं?</string>
 
-    <string name="is_no_longer_liked_or_watched_remove_it">"%1$s" अब पसंद नहीं या नहीं देखा गया।\n\nहटाएं?</string>
+    <string name="is_no_longer_liked_or_watched_remove_it">\"%1$s\" अब पसंद नहीं या नहीं देखा गया।\n\nहटाएं?</string>
 
     <string name="yes">हाँ</string>
     <string name="no">नहीं</string>

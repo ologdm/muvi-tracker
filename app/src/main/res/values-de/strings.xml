@@ -62,7 +62,7 @@
     <string name="discard_movie">Film entfernen?</string>
     <string name="discard_show">Serie entfernen?</string>
 
-    <string name="is_no_longer_liked_or_watched_remove_it">"%1$s" wird nicht mehr gemocht oder angesehen.\n\nEntfernen?</string>
+    <string name="is_no_longer_liked_or_watched_remove_it">\"%1$s\" wird nicht mehr gemocht oder angesehen.\n\nEntfernen?</string>
 
     <string name="yes">Ja</string>
     <string name="no">Nein</string>

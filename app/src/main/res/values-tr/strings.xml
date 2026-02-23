@@ -62,7 +62,7 @@
     <string name="discard_movie">Film kaldırılsın mı?</string>
     <string name="discard_show">Dizi kaldırılsın mı?</string>
 
-    <string name="is_no_longer_liked_or_watched_remove_it">"%1$s" artık beğenilmiyor veya izlenmedi.\n\nKaldırılsın mı?</string>
+    <string name="is_no_longer_liked_or_watched_remove_it">\"%1$s\" artık beğenilmiyor veya izlenmedi.\n\nKaldırılsın mı?</string>
 
     <string name="yes">Evet</string>
     <string name="no">Hayır</string>

@@ -62,7 +62,7 @@
     <string name="discard_movie">Remover filme?</string>
     <string name="discard_show">Remover série?</string>
 
-    <string name="is_no_longer_liked_or_watched_remove_it">"%1$s" não está mais curtido ou assistido.\n\nRemover?</string>
+    <string name="is_no_longer_liked_or_watched_remove_it">\"%1$s\" não está mais curtido ou assistido.\n\nRemover?</string>
 
     <string name="yes">Sim</string>
     <string name="no">Não</string>

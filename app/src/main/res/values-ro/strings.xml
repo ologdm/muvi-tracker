@@ -40,7 +40,7 @@
     <string name="my_notes">"Notițele mele "</string>
     <string name="add_a_note_to_your_movie">Adaugă o notă la filmul tău</string>
     <string name="add_a_note_to_your_show">Adaugă o notă la serialul tău</string>
-    <string name="write_your_note">"Scrie nota ta… "</string>
+    <string name="write_your_note">Scrie nota ta…</string>
     <string name="ep_number_first_aired_runtime_min">Ep.%1$s • %2$s • %3$s min</string>
     <string name="trailer">Trailer</string>
     <string name="biography">Biografie:</string>
@@ -55,7 +55,7 @@
     <string name="no">Nu</string>
     <string name="untitled">Fără titlu</string>
     <string name="year_n_a">Anul  —</string>
-    <string name="runtime_n_a">"Durata — "</string>
+    <string name="runtime_n_a">Durata —</string>
     <string name="status_unknown">Stato: Necunoscut</string>
     <string name="language_unknown">Limba: Necunoscută</string>
     <string name="tagline_are_not_available">Sloganurile nu sunt disponibile</string>

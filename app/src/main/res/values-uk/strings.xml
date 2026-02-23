@@ -10,7 +10,6 @@
     <string name="watched">Найбільш переглянуті</string>
     <string name="favorited">Вибране</string>
     <string name="anticipated">Незабаром</string>
-
     <string name="aired_episodes">%1$s випущених епізодів</string>
     <string name="total_seasons">%1$s сезонів</string>
     <string name="runtime_description">%1$s хв</string>
@@ -33,8 +32,9 @@
     <string name="overview">Огляд</string>
     <string name="release_date">Дата виходу:</string>
 
-    <string name="error_message_no_internet_swipe_down">Немає інтернет-з'єднання, потягніть вниз</string>
-    <string name="error_message_no_internet">Немає інтернет-з'єднання</string>
+<!--     ' -> va scritto con \'       -->
+    <string name="error_message_no_internet_swipe_down">Немає інтернет-з\'єднання, потягніть вниз</string>
+    <string name="error_message_no_internet">Немає інтернет-з\'єднання</string>
     <string name="error_message_other">Щось пішло не так :(</string>
 
     <string name="people">Особи</string>
@@ -62,7 +62,7 @@
     <string name="discard_movie">Видалити фільм?</string>
     <string name="discard_show">Видалити серіал?</string>
 
-    <string name="is_no_longer_liked_or_watched_remove_it">"%1$s" більше не вподобано або не переглянуто.\n\nВидалити?</string>
+    <string name="is_no_longer_liked_or_watched_remove_it">\"%1$s\" більше не вподобано або не переглянуто.\n\nВидалити?</string>
 
     <string name="yes">Так</string>
     <string name="no">Ні</string>
@@ -103,10 +103,6 @@
     <string name="textProviderBuy">Купити</string>
     <string name="textProviderRent">Орендувати</string>
     <string name="textProviderFree">Безкоштовно</string>
-
-
-
-
 
 
 </resources>

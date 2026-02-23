@@ -62,7 +62,7 @@
     <string name="discard_movie">Wifuza gusiba filime?</string>
     <string name="discard_show">Wifuza gusiba seriye?</string>
 
-    <string name="is_no_longer_liked_or_watched_remove_it">"%1$s" ntiyakiriwe cyangwa ntiyarebwe.\n\nGusiba?</string>
+    <string name="is_no_longer_liked_or_watched_remove_it">\"%1$s\" ntiyakiriwe cyangwa ntiyarebwe.\n\nGusiba?</string>
 
     <string name="yes">Yego</string>
     <string name="no">Oya</string>
@@ -94,12 +94,12 @@
 
     <string name="unknown_name">Izina ritazwi</string>
     <string name="unknown_birthplace">Ahantu havutse hatazwi</string>
-    <string name="unknown_birthday">Itariki y'amavuko ntizwi</string>
-    <string name="unknown_age">Itariki y'urupfu ntizwi</string>
+    <string name="unknown_birthday">Itariki y\'amavuko ntizwi</string>
+    <string name="unknown_age">Itariki y\'urupfu ntizwi</string>
     <string name="unknown">Ntizwi</string>
 
     <string name="textProviderStream">Streaming</string>
-    <string name="textProviderAds">Hamwe n'amamaza</string>
+    <string name="textProviderAds">Hamwe n\'amamaza</string>
     <string name="textProviderBuy">Gura</string>
     <string name="textProviderRent">Kodesha</string>
     <string name="textProviderFree">Ubuntu</string>
