@@ -31,6 +31,7 @@ create your api keys and add them to `local.properties`
 ```
 trakt_api_key = your_trakt_api_key
 tmdb_api_key = your_tmdb_api_key
+omdb_api_key = your_omdb_api_key
 ```
 
 
