@@ -221,7 +221,7 @@ class DetailShowViewmodel @Inject constructor(
     fun getNotes(): String = showNotes
 
 
-    // 1.1.4 OK
+    // 1.2.0 OK
     // senza loading
     val providersState = MutableStateFlow<List<Provider>>(emptyList())
     fun loadProviders(showId: Int) {

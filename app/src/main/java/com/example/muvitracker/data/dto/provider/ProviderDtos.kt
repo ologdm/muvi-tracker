@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-// TODO: 1.1.4 - providers
+// 1.2.0 - providers OK
 // response tipe:
 // 1. buy -  acquista
 // 2. rent - noleggia

@@ -82,13 +82,13 @@ interface TmdbApi {
     ): PersonTmdbDto
 
 
-    /** RELEASE 1.1.4 - Providers -----------------------------------------------------------
+    /** RELEASE 1.2.0 - Providers -----------------------------------------------------------
      *  NOTES:
      *
      *
      */
 
-    // TODO: 1.1.4 providers
+    // 1.2.0 providers OK
     @GET("movie/{movie_id}/watch/providers")
     suspend fun getMovieProviders(
         @Path("movie_id") movieId: Int,

@@ -94,7 +94,7 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
         navigator.startPersonFragmentFromCast(ids, character)
     })
 
-    // TODO: 1.1.4 adapter
+    // 1.2.0 OK
     private val providersAdapter = ProvidersAdapter(
         onClickVH = {
             openLinkOnClick(it, currentMovieIds.slug.replace(oldChar = '-', newChar = ' '))
@@ -109,7 +109,7 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
     @Inject
     lateinit var api: TmdbApi
 
-    // 1.1.4
+    // 1.2.0
     //by lazy:  inizializza solo la prima volta che viene usata.
     // client HTTP per richieste GET, POST, HEAD,
     private val okHttpClient by lazy { OkHttpClient() }
@@ -135,7 +135,7 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
         loadRelatedSetup()
         loadCastSetup()
         myNotesDialogSetup()
-        // 1.1.4 - OK
+        // 1.2.0 - OK
         loadProvidersSetup()
 
 
@@ -407,7 +407,7 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
 //        }
 
 
-        // 1.1.4 imdb OK
+        // 1.2.0 imdb OK
         ratingsB.imdbLayout.setOnClickListener {
             // NOTES: automatic language from the browser settings
             val imdbId = movie.ids.imdb
@@ -416,7 +416,7 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
             startActivity(intent)
         }
 
-        //  1.1.4 tomatoes OK
+        //  1.2.0 tomatoes OK
         ratingsB.tomatoesLayout.setOnClickListener {
             // PSEUDOCODE: direct 'nome_film_anno', fallback direct 'nome_film', fallback search 'nome film anno'
             // NOTE: certi film remakes hanno anno, es superman_2025, altrimenti trova superman vecchio
@@ -649,7 +649,7 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
     }
 
 
-    // ---------------- 1.1.4 PROVIDERS ------------------------------------------------------------
+    // ---------------- 1.2.0 PROVIDERS ------------------------------------------------------------
 
     private fun loadProvidersSetup() {
         b.providersRecyclerView.adapter = providersAdapter
@@ -670,7 +670,7 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
         }
 
 
-        // TODO 1.1.4 - cambia paese
+        // TODO 1.2.0 - cambia paese
         b.providersCountry.text = viewModel.countryEnum.displayName
 
         b.providersCountry.setOnClickListener {
@@ -684,7 +684,7 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
     }
 
 
-    // 1.1.4 - APRI APP AL CLICK -----------------------
+    // 1.2.0 - APRI APP AL CLICK -----------------------
     // funziona solo ricerca su netflix, per le altre servono i deeplink
     // quasi tutte le piattaforme usano dei link specifici non ottenibili con la ricerca (ne tmdb, ne just watch, ne google )
     // TODO: 1.1.5 deeplink da justwatch API
@@ -737,7 +737,7 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
 
         private const val MOVIE_IDS_KEY = "movieIdsKey"
 
-        // ------------- 1.1.4 Providers OK ------------------------------------------------------------
+        // ------------- 1.2.0 Providers OK ------------------------------------------------------------
         // apro app
         private const val NETFLIX = "Netflix" // TODO test
         private const val NETFLIX_FREE = "Netflix Free"

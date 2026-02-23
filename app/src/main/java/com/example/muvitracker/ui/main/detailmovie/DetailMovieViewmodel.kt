@@ -37,7 +37,7 @@ class DetailMovieViewmodel @Inject constructor(
     val relatedMoviesState = MutableLiveData<ListStateContainerTwo<MovieBase>>()
     val castState = MutableLiveData<ListStateContainerTwo<CastMember>>()
 
-    // 1.1.4 providers ok
+    // 1.2.0 providers ok
     val providersState = MutableStateFlow<List<Provider>>(emptyList())
 
     private var movieNotes = ""
@@ -158,7 +158,7 @@ class DetailMovieViewmodel @Inject constructor(
     fun getNotes(): String = movieNotes
 
 
-    // 1.1.4 OK
+    // 1.2.0 OK
     // senza loading
     fun loadProviders(movieId: Int) {
         // TODO:  aggiornare

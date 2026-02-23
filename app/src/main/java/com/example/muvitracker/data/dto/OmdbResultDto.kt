@@ -11,12 +11,12 @@ data class OmdbResultDto(
     val Ratings: List<OmdbRating>?, // imdb 7.1, r.tomatoes 83%, metacritic 68
 
 //    val Metascore: String?,
-    val imdbRating: String?, // 1.1.4 OK
+    val imdbRating: String?, // 1.2.0 OK
 //    val imdbVotes: String?,
 
     ) {
 
-    // 1.1.4 OK
+    // 1.2.0 OK
     val rottenTomatoesRating: String?
         get() {
             val rating = Ratings?.firstOrNull { it.Source == "Rotten Tomatoes" }?.Value
