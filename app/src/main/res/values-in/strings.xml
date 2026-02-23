@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="movies">Film</string>
+    <string name="shows">Serial TV</string>
+    <string name="my_list">Daftar Saya</string>
+    <string name="search">Cari</string>
+    <string name="popular">Populer</string>
+    <string name="box_office">Box Office</string>
+    <string name="watched">Terpopuler</string>
+    <string name="favorited">Favorit</string>
+    <string name="anticipated">Segera</string>
+
+    <string name="aired_episodes">%1$s episode tayang</string>
+    <string name="total_seasons">%1$s musim</string>
+    <string name="runtime_description">%1$s mnt</string>
+
+    <string name="watched_checkbox">Sudah Ditonton</string>
+    <string name="watched_all_checkbox">Semua Ditonton</string>
+
+    <string name="about_movie">Tentang Film</string>
+    <string name="about_show">Tentang Serial</string>
+
+    <string name="seasons">Musim</string>
+    <string name="related">Mungkin Anda juga menyukai</string>
+    <string name="cast">Pemain</string>
+    <string name="watch_provider">Tempat Menonton</string>
+
+    <string name="no_trailer_available">Trailer tidak tersedia</string>
+
+    <string name="season">Musim</string>
+    <string name="episodes">Episode</string>
+    <string name="overview">Ringkasan</string>
+    <string name="release_date">Tanggal rilis:</string>
+
+    <string name="error_message_no_internet_swipe_down">Tidak ada koneksi internet, geser ke bawah</string>
+    <string name="error_message_no_internet">Tidak ada koneksi internet</string>
+    <string name="error_message_other">Terjadi kesalahan :(</string>
+
+    <string name="people">Orang</string>
+    <string name="episodes_label">Episode:</string>
+    <string name="ep_n_episode_title">Ep.%1$s • %2$s</string>
+
+    <string name="all">Semua</string>
+
+    <string name="actors_are_not_available">Pemain tidak tersedia</string>
+    <string name="not_available">Tidak tersedia</string>
+    <string name="seasons_not_available">Musim tidak tersedia</string>
+
+    <string name="like">Disukai</string>
+    <string name="from_release_year">Dari %1$s</string>
+
+    <string name="my_notes">Catatan Saya</string>
+    <string name="add_a_note_to_your_movie">Tambahkan catatan untuk film</string>
+    <string name="add_a_note_to_your_show">Tambahkan catatan untuk serial</string>
+    <string name="write_your_note">Tulis catatan Anda...</string>
+
+    <string name="ep_number_first_aired_runtime_min">Ep.%1$s • %2$s • %3$s mnt</string>
+
+    <string name="trailer">Trailer</string>
+
+    <string name="discard_movie">Hapus film?</string>
+    <string name="discard_show">Hapus serial?</string>
+
+    <string name="is_no_longer_liked_or_watched_remove_it">"%1$s" tidak lagi disukai atau ditonton.\n\nHapus?</string>
+
+    <string name="yes">Ya</string>
+    <string name="no">Tidak</string>
+
+    <string name="biography">Biografi:</string>
+    <string name="known_for">Dikenal untuk:</string>
+    <string name="age">Usia:</string>
+    <string name="born">Lahir:</string>
+    <string name="died">Meninggal:</string>
+
+    <string name="untitled">Tanpa judul</string>
+    <string name="year_n_a">Tahun —</string>
+    <string name="runtime_n_a">Durasi —</string>
+
+    <string name="status_unknown">Status: Tidak diketahui</string>
+    <string name="language_unknown">Bahasa: Tidak diketahui</string>
+
+    <string name="tagline_are_not_available">Slogan tidak tersedia</string>
+    <string name="overview_are_not_available">Ringkasan tidak tersedia</string>
+
+    <string name="country_n_a">Negara N/A</string>
+    <string name="network_n_a">Jaringan N/A</string>
+    <string name="episodes_not_available">Episode tidak tersedia</string>
+
+    <string name="coming_soon">Segera...</string>
+    <string name="date_n_d">Tanggal N/A</string>
+
+    <string name="died_at">Meninggal pada %1$s</string>
+
+    <string name="unknown_name">Nama tidak diketahui</string>
+    <string name="unknown_birthplace">Tempat lahir tidak diketahui</string>
+    <string name="unknown_birthday">Tanggal lahir tidak diketahui</string>
+    <string name="unknown_age">Tanggal kematian tidak diketahui</string>
+    <string name="unknown">Tidak diketahui</string>
+
+    <string name="textProviderStream">Streaming</string>
+    <string name="textProviderAds">Dengan iklan</string>
+    <string name="textProviderBuy">Beli</string>
+    <string name="textProviderRent">Sewa</string>
+    <string name="textProviderFree">Gratis</string>
+
+
+</resources>

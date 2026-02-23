@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="movies">Filmler</string>
+    <string name="shows">Diziler</string>
+    <string name="my_list">Listem</string>
+    <string name="search">Ara</string>
+    <string name="popular">Popüler</string>
+    <string name="box_office">Sinemada</string>
+    <string name="watched">En çok izlenenler</string>
+    <string name="favorited">Favoriler</string>
+    <string name="anticipated">Yakında</string>
+
+    <string name="aired_episodes">%1$s yayınlanan bölüm</string>
+    <string name="total_seasons">%1$s sezon</string>
+    <string name="runtime_description">%1$s dk</string>
+
+    <string name="watched_checkbox">İzlendi</string>
+    <string name="watched_all_checkbox">Hepsi izlendi</string>
+
+    <string name="about_movie">Film hakkında</string>
+    <string name="about_show">Dizi hakkında</string>
+
+    <string name="seasons">Sezonlar</string>
+    <string name="related">Bunları da beğenebilirsiniz</string>
+    <string name="cast">Oyuncular</string>
+    <string name="watch_provider">Nereden izlenir</string>
+
+    <string name="no_trailer_available">Fragman mevcut değil</string>
+
+    <string name="season">Sezon</string>
+    <string name="episodes">Bölümler</string>
+    <string name="overview">Genel bakış</string>
+    <string name="release_date">Yayın tarihi:</string>
+
+    <string name="error_message_no_internet_swipe_down">İnternet bağlantısı yok, aşağı kaydırın</string>
+    <string name="error_message_no_internet">İnternet bağlantısı yok</string>
+    <string name="error_message_other">Bir şeyler ters gitti :(</string>
+
+    <string name="people">Kişiler</string>
+    <string name="episodes_label">Bölümler:</string>
+    <string name="ep_n_episode_title">Ep.%1$s • %2$s</string>
+
+    <string name="all">Tümü</string>
+
+    <string name="actors_are_not_available">Oyuncular mevcut değil</string>
+    <string name="not_available">Mevcut değil</string>
+    <string name="seasons_not_available">Sezonlar mevcut değil</string>
+
+    <string name="like">Beğenildi</string>
+    <string name="from_release_year">%1$s yılından</string>
+
+    <string name="my_notes">Notlarım</string>
+    <string name="add_a_note_to_your_movie">Filme not ekle</string>
+    <string name="add_a_note_to_your_show">Diziye not ekle</string>
+    <string name="write_your_note">Notunuzu yazın...</string>
+
+    <string name="ep_number_first_aired_runtime_min">Ep.%1$s • %2$s • %3$s dk</string>
+
+    <string name="trailer">Fragman</string>
+
+    <string name="discard_movie">Film kaldırılsın mı?</string>
+    <string name="discard_show">Dizi kaldırılsın mı?</string>
+
+    <string name="is_no_longer_liked_or_watched_remove_it">"%1$s" artık beğenilmiyor veya izlenmedi.\n\nKaldırılsın mı?</string>
+
+    <string name="yes">Evet</string>
+    <string name="no">Hayır</string>
+
+    <string name="biography">Biyografi:</string>
+    <string name="known_for">Bilinen yapımlar:</string>
+    <string name="age">Yaş:</string>
+    <string name="born">Doğum:</string>
+    <string name="died">Ölüm:</string>
+
+    <string name="untitled">Başlıksız</string>
+    <string name="year_n_a">Yıl —</string>
+    <string name="runtime_n_a">Süre —</string>
+
+    <string name="status_unknown">Durum: Bilinmiyor</string>
+    <string name="language_unknown">Dil: Bilinmiyor</string>
+
+    <string name="tagline_are_not_available">Slogan mevcut değil</string>
+    <string name="overview_are_not_available">Genel bakış mevcut değil</string>
+
+    <string name="country_n_a">Ülke N/A</string>
+    <string name="network_n_a">Kanal N/A</string>
+    <string name="episodes_not_available">Bölümler mevcut değil</string>
+
+    <string name="coming_soon">Yakında...</string>
+    <string name="date_n_d">Tarih N/A</string>
+
+    <string name="died_at">%1$s tarihinde öldü</string>
+
+    <string name="unknown_name">Bilinmeyen ad</string>
+    <string name="unknown_birthplace">Bilinmeyen doğum yeri</string>
+    <string name="unknown_birthday">Bilinmeyen doğum tarihi</string>
+    <string name="unknown_age">Bilinmeyen ölüm tarihi</string>
+    <string name="unknown">Bilinmiyor</string>
+
+    <string name="textProviderStream">Streaming</string>
+    <string name="textProviderAds">Reklamlı</string>
+    <string name="textProviderBuy">Satın al</string>
+    <string name="textProviderRent">Kirala</string>
+    <string name="textProviderFree">Ücretsiz</string>
+
+
+</resources>

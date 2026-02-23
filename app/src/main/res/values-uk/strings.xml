@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="movies">Фільми</string>
+    <string name="shows">Серіали</string>
+    <string name="my_list">Мій список</string>
+    <string name="search">Пошук</string>
+    <string name="popular">Популярні</string>
+    <string name="box_office">Касові збори</string>
+    <string name="watched">Найбільш переглянуті</string>
+    <string name="favorited">Вибране</string>
+    <string name="anticipated">Незабаром</string>
+
+    <string name="aired_episodes">%1$s випущених епізодів</string>
+    <string name="total_seasons">%1$s сезонів</string>
+    <string name="runtime_description">%1$s хв</string>
+
+    <string name="watched_checkbox">Переглянуто</string>
+    <string name="watched_all_checkbox">Переглянуто все</string>
+
+    <string name="about_movie">Про фільм</string>
+    <string name="about_show">Про серіал</string>
+
+    <string name="seasons">Сезони</string>
+    <string name="related">Може сподобатися</string>
+    <string name="cast">Акторський склад</string>
+    <string name="watch_provider">Де дивитися</string>
+
+    <string name="no_trailer_available">Трейлер недоступний</string>
+
+    <string name="season">Сезон</string>
+    <string name="episodes">Епізоди</string>
+    <string name="overview">Огляд</string>
+    <string name="release_date">Дата виходу:</string>
+
+    <string name="error_message_no_internet_swipe_down">Немає інтернет-з'єднання, потягніть вниз</string>
+    <string name="error_message_no_internet">Немає інтернет-з'єднання</string>
+    <string name="error_message_other">Щось пішло не так :(</string>
+
+    <string name="people">Особи</string>
+    <string name="episodes_label">Епізоди:</string>
+    <string name="ep_n_episode_title">Ep.%1$s • %2$s</string>
+
+    <string name="all">Усі</string>
+
+    <string name="actors_are_not_available">Актори недоступні</string>
+    <string name="not_available">Недоступно</string>
+    <string name="seasons_not_available">Сезони недоступні</string>
+
+    <string name="like">Подобалося</string>
+    <string name="from_release_year">З %1$s</string>
+
+    <string name="my_notes">Мої нотатки</string>
+    <string name="add_a_note_to_your_movie">Додати нотатку до фільму</string>
+    <string name="add_a_note_to_your_show">Додати нотатку до серіалу</string>
+    <string name="write_your_note">Напишіть вашу нотатку...</string>
+
+    <string name="ep_number_first_aired_runtime_min">Ep.%1$s • %2$s • %3$s хв</string>
+
+    <string name="trailer">Трейлер</string>
+
+    <string name="discard_movie">Видалити фільм?</string>
+    <string name="discard_show">Видалити серіал?</string>
+
+    <string name="is_no_longer_liked_or_watched_remove_it">"%1$s" більше не вподобано або не переглянуто.\n\nВидалити?</string>
+
+    <string name="yes">Так</string>
+    <string name="no">Ні</string>
+
+    <string name="biography">Біографія:</string>
+    <string name="known_for">Відомий за:</string>
+    <string name="age">Вік:</string>
+    <string name="born">Народився:</string>
+    <string name="died">Помер:</string>
+
+    <string name="untitled">Без назви</string>
+    <string name="year_n_a">Рік —</string>
+    <string name="runtime_n_a">Тривалість —</string>
+
+    <string name="status_unknown">Статус: Невідомо</string>
+    <string name="language_unknown">Мова: Невідомо</string>
+
+    <string name="tagline_are_not_available">Слоган недоступний</string>
+    <string name="overview_are_not_available">Огляд недоступний</string>
+
+    <string name="country_n_a">Країна N/A</string>
+    <string name="network_n_a">Канал N/A</string>
+    <string name="episodes_not_available">Епізоди недоступні</string>
+
+    <string name="coming_soon">Незабаром...</string>
+    <string name="date_n_d">Дата N/A</string>
+
+    <string name="died_at">Помер у %1$s</string>
+
+    <string name="unknown_name">Невідоме ім’я</string>
+    <string name="unknown_birthplace">Невідоме місце народження</string>
+    <string name="unknown_birthday">Невідома дата народження</string>
+    <string name="unknown_age">Невідома дата смерті</string>
+    <string name="unknown">Невідомо</string>
+
+    <string name="textProviderStream">Стрімінг</string>
+    <string name="textProviderAds">З рекламою</string>
+    <string name="textProviderBuy">Купити</string>
+    <string name="textProviderRent">Орендувати</string>
+    <string name="textProviderFree">Безкоштовно</string>
+
+
+
+
+
+
+</resources>

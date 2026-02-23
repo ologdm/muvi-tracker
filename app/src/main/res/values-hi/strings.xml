@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="movies">फ़िल्में</string>
+    <string name="shows">टीवी सीरीज़</string>
+    <string name="my_list">मेरी सूची</string>
+    <string name="search">खोजें</string>
+    <string name="popular">लोकप्रिय</string>
+    <string name="box_office">बॉक्स ऑफिस</string>
+    <string name="watched">सबसे अधिक देखी गई</string>
+    <string name="favorited">पसंदीदा</string>
+    <string name="anticipated">जल्द ही</string>
+
+    <string name="aired_episodes">%1$s प्रसारित एपिसोड</string>
+    <string name="total_seasons">%1$s सीज़न</string>
+    <string name="runtime_description">%1$s मिनट</string>
+
+    <string name="watched_checkbox">देखा</string>
+    <string name="watched_all_checkbox">सभी देखे गए</string>
+
+    <string name="about_movie">फ़िल्म के बारे में</string>
+    <string name="about_show">सीरीज़ के बारे में</string>
+
+    <string name="seasons">सीज़न</string>
+    <string name="related">आपको ये भी पसंद आ सकता है</string>
+    <string name="cast">कलाकार</string>
+    <string name="watch_provider">कहाँ देखें</string>
+
+    <string name="no_trailer_available">ट्रेलर उपलब्ध नहीं</string>
+
+    <string name="season">सीज़न</string>
+    <string name="episodes">एपिसोड</string>
+    <string name="overview">सारांश</string>
+    <string name="release_date">रिलीज़ की तारीख:</string>
+
+    <string name="error_message_no_internet_swipe_down">इंटरनेट कनेक्शन नहीं, नीचे स्वाइप करें</string>
+    <string name="error_message_no_internet">इंटरनेट कनेक्शन नहीं</string>
+    <string name="error_message_other">कुछ गलत हो गया :(</string>
+
+    <string name="people">लोग</string>
+    <string name="episodes_label">एपिसोड:</string>
+    <string name="ep_n_episode_title">Ep.%1$s • %2$s</string>
+
+    <string name="all">सभी</string>
+
+    <string name="actors_are_not_available">कलाकार उपलब्ध नहीं</string>
+    <string name="not_available">उपलब्ध नहीं</string>
+    <string name="seasons_not_available">सीज़न उपलब्ध नहीं</string>
+
+    <string name="like">पसंद किया</string>
+    <string name="from_release_year">%1$s से</string>
+
+    <string name="my_notes">मेरी नोट्स</string>
+    <string name="add_a_note_to_your_movie">फ़िल्म पर नोट जोड़ें</string>
+    <string name="add_a_note_to_your_show">सीरीज़ पर नोट जोड़ें</string>
+    <string name="write_your_note">अपना नोट लिखें...</string>
+
+    <string name="ep_number_first_aired_runtime_min">Ep.%1$s • %2$s • %3$s मिनट</string>
+
+    <string name="trailer">ट्रेलर</string>
+
+    <string name="discard_movie">फ़िल्म हटाएं?</string>
+    <string name="discard_show">सीरीज़ हटाएं?</string>
+
+    <string name="is_no_longer_liked_or_watched_remove_it">"%1$s" अब पसंद नहीं या नहीं देखा गया।\n\nहटाएं?</string>
+
+    <string name="yes">हाँ</string>
+    <string name="no">नहीं</string>
+
+    <string name="biography">जीवनी:</string>
+    <string name="known_for">के लिए प्रसिद्ध:</string>
+    <string name="age">आयु:</string>
+    <string name="born">जन्म:</string>
+    <string name="died">मृत्यु:</string>
+
+    <string name="untitled">बिना शीर्षक</string>
+    <string name="year_n_a">साल —</string>
+    <string name="runtime_n_a">समय —</string>
+
+    <string name="status_unknown">स्थिति: अज्ञात</string>
+    <string name="language_unknown">भाषा: अज्ञात</string>
+
+    <string name="tagline_are_not_available">स्लोगन उपलब्ध नहीं</string>
+    <string name="overview_are_not_available">सारांश उपलब्ध नहीं</string>
+
+    <string name="country_n_a">देश N/A</string>
+    <string name="network_n_a">नेटवर्क N/A</string>
+    <string name="episodes_not_available">एपिसोड उपलब्ध नहीं</string>
+
+    <string name="coming_soon">जल्द ही...</string>
+    <string name="date_n_d">तारीख N/A</string>
+
+    <string name="died_at">मृत्यु %1$s को</string>
+
+    <string name="unknown_name">अज्ञात नाम</string>
+    <string name="unknown_birthplace">अज्ञात जन्मस्थान</string>
+    <string name="unknown_birthday">अज्ञात जन्म तिथि</string>
+    <string name="unknown_age">अज्ञात मृत्यु तिथि</string>
+    <string name="unknown">अज्ञात</string>
+
+    <string name="textProviderStream">स्ट्रीमिंग</string>
+    <string name="textProviderAds">विज्ञापनों के साथ</string>
+    <string name="textProviderBuy">खरीदें</string>
+    <string name="textProviderRent">किराए पर लें</string>
+    <string name="textProviderFree">मुफ़्त</string>
+
+</resources>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="movies">Filmes</string>
+    <string name="shows">Séries de TV</string>
+    <string name="my_list">Minha lista</string>
+    <string name="search">Pesquisar</string>
+    <string name="popular">Populares</string>
+    <string name="box_office">Bilheteria</string>
+    <string name="watched">Mais assistidos</string>
+    <string name="favorited">Favoritos</string>
+    <string name="anticipated">Em breve</string>
+
+    <string name="aired_episodes">%1$s episódios exibidos</string>
+    <string name="total_seasons">%1$s temporadas</string>
+    <string name="runtime_description">%1$s min</string>
+
+    <string name="watched_checkbox">Assistido</string>
+    <string name="watched_all_checkbox">Tudo assistido</string>
+
+    <string name="about_movie">Sobre o filme</string>
+    <string name="about_show">Sobre a série</string>
+
+    <string name="seasons">Temporadas</string>
+    <string name="related">Você também pode gostar</string>
+    <string name="cast">Elenco</string>
+    <string name="watch_provider">Onde assistir</string>
+
+    <string name="no_trailer_available">Trailer não disponível</string>
+
+    <string name="season">Temporada</string>
+    <string name="episodes">Episódios</string>
+    <string name="overview">Sinopse</string>
+    <string name="release_date">Data de lançamento:</string>
+
+    <string name="error_message_no_internet_swipe_down">Sem conexão com a internet, deslize para baixo</string>
+    <string name="error_message_no_internet">Sem conexão com a internet</string>
+    <string name="error_message_other">Algo deu errado :(</string>
+
+    <string name="people">Pessoas</string>
+    <string name="episodes_label">Episódios:</string>
+    <string name="ep_n_episode_title">Ep.%1$s • %2$s</string>
+
+    <string name="all">Todos</string>
+
+    <string name="actors_are_not_available">Atores não disponíveis</string>
+    <string name="not_available">Não disponível</string>
+    <string name="seasons_not_available">Temporadas não disponíveis</string>
+
+    <string name="like">Curtido</string>
+    <string name="from_release_year">Desde %1$s</string>
+
+    <string name="my_notes">Minhas anotações</string>
+    <string name="add_a_note_to_your_movie">Adicione uma anotação ao seu filme</string>
+    <string name="add_a_note_to_your_show">Adicione uma anotação à sua série</string>
+    <string name="write_your_note">Escreva sua anotação...</string>
+
+    <string name="ep_number_first_aired_runtime_min">Ep.%1$s • %2$s • %3$s min</string>
+
+    <string name="trailer">Trailer</string>
+
+    <string name="discard_movie">Remover filme?</string>
+    <string name="discard_show">Remover série?</string>
+
+    <string name="is_no_longer_liked_or_watched_remove_it">"%1$s" não está mais curtido ou assistido.\n\nRemover?</string>
+
+    <string name="yes">Sim</string>
+    <string name="no">Não</string>
+
+    <string name="biography">Biografia:</string>
+    <string name="known_for">Conhecido por:</string>
+    <string name="age">Idade:</string>
+    <string name="born">Nascimento:</string>
+    <string name="died">Falecimento:</string>
+
+    <string name="untitled">Sem título</string>
+    <string name="year_n_a">Ano —</string>
+    <string name="runtime_n_a">Duração —</string>
+
+    <string name="status_unknown">Status: Desconhecido</string>
+    <string name="language_unknown">Idioma: Desconhecido</string>
+
+    <string name="tagline_are_not_available">Slogan não disponível</string>
+    <string name="overview_are_not_available">Sinopse não disponível</string>
+
+    <string name="country_n_a">País N/A</string>
+    <string name="network_n_a">Canal N/A</string>
+    <string name="episodes_not_available">Episódios não disponíveis</string>
+
+    <string name="coming_soon">Em breve...</string>
+    <string name="date_n_d">Data N/A</string>
+
+    <string name="died_at">Falecido em %1$s</string>
+
+    <string name="unknown_name">Nome desconhecido</string>
+    <string name="unknown_birthplace">Local de nascimento desconhecido</string>
+    <string name="unknown_birthday">Data de nascimento desconhecida</string>
+    <string name="unknown_age">Data de falecimento desconhecida</string>
+    <string name="unknown">Desconhecido</string>
+
+    <string name="textProviderStream">Streaming</string>
+    <string name="textProviderAds">Com anúncios</string>
+    <string name="textProviderBuy">Comprar</string>
+    <string name="textProviderRent">Alugar</string>
+    <string name="textProviderFree">Grátis</string>
+</resources>

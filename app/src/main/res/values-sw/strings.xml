@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="movies">Filamu</string>
+    <string name="shows">Mfululizo wa TV</string>
+    <string name="my_list">Orodha Yangu</string>
+    <string name="search">Tafuta</string>
+    <string name="popular">Maarufu</string>
+    <string name="box_office">Kwenye sinema</string>
+    <string name="watched">Zilizotazamwa zaidi</string>
+    <string name="favorited">Kipendwa</string>
+    <string name="anticipated">Inakuja</string>
+
+    <string name="aired_episodes">%1$s vipindi vilivyotangazwa</string>
+    <string name="total_seasons">%1$s misimu</string>
+    <string name="runtime_description">%1$s min</string>
+
+    <string name="watched_checkbox">Imeangaliwa</string>
+    <string name="watched_all_checkbox">Vyote vimeangaliwa</string>
+
+    <string name="about_movie">Kuhusu filamu</string>
+    <string name="about_show">Kuhusu mfululizo</string>
+
+    <string name="seasons">Misimu</string>
+    <string name="related">Huenda ukapenda pia</string>
+    <string name="cast">Wahusika</string>
+    <string name="watch_provider">Mahali pa kuangalia</string>
+
+    <string name="no_trailer_available">Hakuna trailer inapatikana</string>
+
+    <string name="season">Msimu</string>
+    <string name="episodes">Vipindi</string>
+    <string name="overview">Muhtasari</string>
+    <string name="release_date">Tarehe ya kutolewa:</string>
+
+    <string name="error_message_no_internet_swipe_down">Hakuna mtandao, sukuma chini</string>
+    <string name="error_message_no_internet">Hakuna mtandao</string>
+    <string name="error_message_other">Kuna kitu kilikosea :(</string>
+
+    <string name="people">Watu</string>
+    <string name="episodes_label">Vipindi:</string>
+    <string name="ep_n_episode_title">Ep.%1$s • %2$s</string>
+
+    <string name="all">Vyote</string>
+
+    <string name="actors_are_not_available">Wahusika hawapatikani</string>
+    <string name="not_available">Haipatikani</string>
+    <string name="seasons_not_available">Misimu haipatikani</string>
+
+    <string name="like">Kupendwa</string>
+    <string name="from_release_year">Kutoka %1$s</string>
+
+    <string name="my_notes">Maelezo Yangu</string>
+    <string name="add_a_note_to_your_movie">Ongeza maelezo kwa filamu yako</string>
+    <string name="add_a_note_to_your_show">Ongeza maelezo kwa mfululizo wako</string>
+    <string name="write_your_note">Andika maelezo yako...</string>
+
+    <string name="ep_number_first_aired_runtime_min">Ep.%1$s • %2$s • %3$s min</string>
+
+    <string name="trailer">Trailer</string>
+
+    <string name="discard_movie">Futa filamu?</string>
+    <string name="discard_show">Futa mfululizo?</string>
+
+    <string name="is_no_longer_liked_or_watched_remove_it">"%1$s" haipendwi tena au haijaangaliwa.\n\nFuta?</string>
+
+    <string name="yes">Ndiyo</string>
+    <string name="no">Hapana</string>
+
+    <string name="biography">Taarifa za maisha:</string>
+    <string name="known_for">Anajulikana kwa:</string>
+    <string name="age">Umri:</string>
+    <string name="born">Alizaliwa:</string>
+    <string name="died">Alifariki:</string>
+
+    <string name="untitled">Bila kichwa</string>
+    <string name="year_n_a">Mwaka —</string>
+    <string name="runtime_n_a">Muda —</string>
+
+    <string name="status_unknown">Hali: Haijulikani</string>
+    <string name="language_unknown">Lugha: Haijulikani</string>
+
+    <string name="tagline_are_not_available">Kauli mbiu haipatikani</string>
+    <string name="overview_are_not_available">Muhtasari haipatikani</string>
+
+    <string name="country_n_a">Nchi N/A</string>
+    <string name="network_n_a">Mtandao N/A</string>
+    <string name="episodes_not_available">Vipindi havipatikani</string>
+
+    <string name="coming_soon">Inakuja...</string>
+    <string name="date_n_d">Tarehe N/A</string>
+
+    <string name="died_at">Alifariki %1$s</string>
+
+    <string name="unknown_name">Jina lisilojulikana</string>
+    <string name="unknown_birthplace">Mahali pa kuzaliwa pasijulikana</string>
+    <string name="unknown_birthday">Tarehe ya kuzaliwa haijulikani</string>
+    <string name="unknown_age">Tarehe ya kifo haijulikani</string>
+    <string name="unknown">Haijulikani</string>
+
+    <string name="textProviderStream">Streaming</string>
+    <string name="textProviderAds">Na matangazo</string>
+    <string name="textProviderBuy">Nunua</string>
+    <string name="textProviderRent">Kodia</string>
+    <string name="textProviderFree">Bure</string>
+</resources>

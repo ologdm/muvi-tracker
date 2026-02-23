@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="movies">Films</string>
+    <string name="shows">TV-series</string>
+    <string name="my_list">Mijn lijst</string>
+    <string name="search">Zoeken</string>
+    <string name="popular">Populair</string>
+    <string name="box_office">In de bioscoop</string>
+    <string name="watched">Meest bekeken</string>
+    <string name="favorited">Favorieten</string>
+    <string name="anticipated">Binnenkort</string>
+
+    <string name="aired_episodes">%1$s uitgezonden afleveringen</string>
+    <string name="total_seasons">%1$s seizoenen</string>
+    <string name="runtime_description">%1$s min</string>
+
+    <string name="watched_checkbox">Gezien</string>
+    <string name="watched_all_checkbox">Alles gezien</string>
+
+    <string name="about_movie">Over de film</string>
+    <string name="about_show">Over de serie</string>
+
+    <string name="seasons">Seizoenen</string>
+    <string name="related">Misschien vind je dit ook leuk</string>
+    <string name="cast">Cast</string>
+    <string name="watch_provider">Bekijk op</string>
+
+    <string name="no_trailer_available">Geen trailer beschikbaar</string>
+
+    <string name="season">Seizoen</string>
+    <string name="episodes">Afleveringen</string>
+    <string name="overview">Overzicht</string>
+    <string name="release_date">Release datum:</string>
+
+    <string name="error_message_no_internet_swipe_down">Geen internetverbinding, naar beneden vegen</string>
+    <string name="error_message_no_internet">Geen internetverbinding</string>
+    <string name="error_message_other">Er is iets misgegaan :(</string>
+
+    <string name="people">Personen</string>
+    <string name="episodes_label">Afleveringen:</string>
+    <string name="ep_n_episode_title">Ep.%1$s • %2$s</string>
+
+    <string name="all">Alles</string>
+
+    <string name="actors_are_not_available">Acteurs niet beschikbaar</string>
+    <string name="not_available">Niet beschikbaar</string>
+    <string name="seasons_not_available">Seizoenen niet beschikbaar</string>
+
+    <string name="like">Geliked</string>
+    <string name="from_release_year">Vanaf %1$s</string>
+
+    <string name="my_notes">Mijn notities</string>
+    <string name="add_a_note_to_your_movie">Voeg een notitie toe aan je film</string>
+    <string name="add_a_note_to_your_show">Voeg een notitie toe aan je serie</string>
+    <string name="write_your_note">Schrijf je notitie...</string>
+
+    <string name="ep_number_first_aired_runtime_min">Ep.%1$s • %2$s • %3$s min</string>
+
+    <string name="trailer">Trailer</string>
+
+    <string name="discard_movie">Film verwijderen?</string>
+    <string name="discard_show">Serie verwijderen?</string>
+
+    <string name="is_no_longer_liked_or_watched_remove_it">"%1$s" wordt niet langer geliked of bekeken.\n\nVerwijderen?</string>
+
+    <string name="yes">Ja</string>
+    <string name="no">Nee</string>
+
+    <string name="biography">Biografie:</string>
+    <string name="known_for">Bekend van:</string>
+    <string name="age">Leeftijd:</string>
+    <string name="born">Geboren:</string>
+    <string name="died">Overleden:</string>
+
+    <string name="untitled">Zonder titel</string>
+    <string name="year_n_a">Jaar —</string>
+    <string name="runtime_n_a">Duur —</string>
+
+    <string name="status_unknown">Status: Onbekend</string>
+    <string name="language_unknown">Taal: Onbekend</string>
+
+    <string name="tagline_are_not_available">Slogan niet beschikbaar</string>
+    <string name="overview_are_not_available">Overzicht niet beschikbaar</string>
+
+    <string name="country_n_a">Land N/A</string>
+    <string name="network_n_a">Netwerk N/A</string>
+    <string name="episodes_not_available">Afleveringen niet beschikbaar</string>
+
+    <string name="coming_soon">Binnenkort...</string>
+    <string name="date_n_d">Datum N/A</string>
+
+    <string name="died_at">Overleden op %1$s</string>
+
+    <string name="unknown_name">Onbekende naam</string>
+    <string name="unknown_birthplace">Onbekende geboorteplaats</string>
+    <string name="unknown_birthday">Onbekende geboortedatum</string>
+    <string name="unknown_age">Onbekende sterfdatum</string>
+    <string name="unknown">Onbekend</string>
+
+    <string name="textProviderStream">Streaming</string>
+    <string name="textProviderAds">Met advertenties</string>
+    <string name="textProviderBuy">Kopen</string>
+    <string name="textProviderRent">Huren</string>
+    <string name="textProviderFree">Gratis</string>
+
+</resources>
