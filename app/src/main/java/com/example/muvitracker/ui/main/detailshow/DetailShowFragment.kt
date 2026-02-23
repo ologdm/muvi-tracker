@@ -57,12 +57,6 @@ import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
 import okhttp3.Request
 
-// TODO 1.1.3 ok all
-// 1. DetailShow
-// 2. Seasons
-// 3. RelatedShows
-// 4. CastPerson
-
 
 @AndroidEntryPoint
 class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
@@ -108,7 +102,7 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
         }
     )
 
-    // 1.1.4
+    // 1.2.0
     private val okHttpClient by lazy { OkHttpClient() }
 
 
@@ -723,7 +717,7 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
 
     // ---------------------------------------------------------------------------------------------
 
-    // ---------------- 1.1.4 PROVIDERS ------------------------------------------------------------
+    // ---------------- 1.2.0 PROVIDERS ------------------------------------------------------------
 
     private fun loadProvidersSetup() {
         b.providersRecyclerView.adapter = providersAdapter
@@ -754,7 +748,7 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
     }
 
 
-    // 1.1.4 - APRI APP AL CLICK -----------------------
+    // 1.2.0 - APRI APP AL CLICK -----------------------
     private fun openLinkOnClick(provider: Provider, movieTitle: String) {
         when (provider.name) {
             NETFLIX, NETFLIX_FREE -> openWebUrl("https://www.netflix.com/search/${movieTitle}")
@@ -798,7 +792,7 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
         private const val SHOW_IDS_KEY = "showIdsKey"
 
 
-        // ------------- 1.1.4 Providers OK ------------------------------------------------------------
+        // ------------- 1.2.0 Providers OK ------------------------------------------------------------
         private const val NETFLIX = "Netflix"
         private const val NETFLIX_FREE = "Netflix Free"
         private const val AMAZON_PRIME_VIDEO = "Amazon Prime Video" // https://www.primevideo.com/

@@ -42,8 +42,8 @@ data class MovieEntity(
     val traktRating: String?, // 8.3
     val tmdbRating: String?, // 7.9
     // da omdb
-    val imdbRating: String?, // 1.1.4 OK
-    val rottenTomatoesRating: String?, // 1.1.4 OK
+    val imdbRating: String?, // 1.2.0 OK
+    val rottenTomatoesRating: String?, // 1.2.0 OK
     val metacriticRating: String? = "",
 
     // current translation
@@ -73,7 +73,7 @@ fun MovieEntity.toDomain(prefsMovieEntity: PrefsMovieEntity?): Movie {
         homepage = homepage,
         traktRating = traktRating,
         tmdbRating = tmdbRating,
-        // 1.1.4
+        // 1.2.0
         imdbRating = imdbRating,
         rottenTomatoesRating = rottenTomatoesRating,
         genres = genres,

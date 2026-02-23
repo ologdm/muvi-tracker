@@ -76,7 +76,7 @@ class DetailMovieRepositoryImpl @Inject constructor(
                         null // fallback: ritorna null se qualsiasi altra eccezione
                     }
                 }
-                // TODO 1.1.4  - other ratings - Imdb, Metacritic, Rotten Tomatoes
+                // TODO 1.2.0  - other ratings - Imdb, Metacritic, Rotten Tomatoes
                 val omdbDeferred = async {
                     try {
                         omdbApi.getData(movieIds.imdb)
@@ -90,7 +90,7 @@ class DetailMovieRepositoryImpl @Inject constructor(
 
                 val traktDto = traktDtoDeferred.await()
                 val tmdbDto = tmdbDtoDeferred.await()
-                val omdbDto = omdbDeferred.await() // 1.1.4 solo ratings
+                val omdbDto = omdbDeferred.await() // 1.2.0 solo ratings
 
                 mergeMoviesDtoToEntity(traktDto, tmdbDto, omdbDto) // ritorna entity
             }

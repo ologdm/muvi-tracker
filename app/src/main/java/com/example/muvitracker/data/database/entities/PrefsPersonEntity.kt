@@ -3,7 +3,7 @@
 //import androidx.room.Entity
 //import androidx.room.PrimaryKey
 //
-//// TODO: 1.1.4 TODO
+//// TODO: 1.2.0 TODO
 //@Entity(tableName = "prefs_person_table")
 //data class PrefsPersonEntity(
 //    @PrimaryKey val traktId: Int,

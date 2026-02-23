@@ -377,6 +377,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="start"
+                        android:layout_marginBottom="4dp"
                         android:layout_marginTop="12dp"
 
                         android:gravity="center_vertical"
@@ -453,10 +454,12 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="8dp"
+                        android:layout_marginTop="3dp"
                         android:orientation="vertical"
                         android:visibility="visible">
 
                         <LinearLayout
+                            android:visibility="gone"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="2dp"

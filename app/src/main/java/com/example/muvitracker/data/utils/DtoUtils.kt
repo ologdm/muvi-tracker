@@ -76,7 +76,7 @@ fun VideosResult.youtubeLinkTransformation(): String? {
 }
 
 
-// TODO 1.1.4 OTTIMIZZARE -----------------------------------------------------------------------------------------
+// TODO traduzione testi con AI  -----------------------------------------------------------------------------------------
 
 /**
  * Translates the given text (assumed to be in English) into the system language using Ai ML Kit.
