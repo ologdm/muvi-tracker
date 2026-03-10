@@ -1,8 +1,9 @@
+import java.util.Properties
+
 // TODO ok
 plugins {
     alias(libs.plugins.android.application)
 //    alias(libs.plugins.kotlin.android) // con AGP 9+ non serve piu
-
     alias(libs.plugins.kotlin.parcelize)
     alias(libs.plugins.kotlin.serialization)
 
@@ -23,11 +24,16 @@ plugins {
 
 
 // TODO new kts - Se usi Kotlin DSL devi definire prima dell'android{}:
-//val localProperties = java.util.Properties().apply {
-//    load(rootProject.file("local.properties").inputStream())
-//}
-//fun getApiKey(name: String): String =
-//    localProperties.getProperty(name) ?: ""
+val localProperties = Properties().apply {
+    val file = rootProject.file("local.properties")
+    if (file.exists()) {
+        load(file.inputStream()) // input stream - default UTF-8
+    }
+
+}
+
+fun getApiKey(name: String): String =
+    localProperties.getProperty(name) ?: ""
 
 
 android {
@@ -41,10 +47,10 @@ android {
         versionCode = 1_02_00
         versionName = "1.2.0"
 
-        // for api keys on 'local.properties' (2/3) TODO kotlin style
-//        buildConfigField 'String', "TRAKT_API_KEY", "\"" + localProperties.trakt_api_key + "\""
-//        buildConfigField 'String', "TMDB_API_KEY", "\"" + localProperties.tmdb_api_key + "\""
-//        buildConfigField 'String', "OMDB_API_KEY", "\"" + localProperties.omdb_api_key + "\""
+        // for API keys on 'local.properties' (2/3)
+        buildConfigField ("String", "TRAKT_API_KEY", "\"${getApiKey("trakt_api_key")}\"")
+        buildConfigField ("String", "TMDB_API_KEY", "\"${getApiKey("tmdb_api_key")}\"")
+        buildConfigField ("String", "OMDB_API_KEY", "\"${getApiKey("omdb_api_key")}\"")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -177,7 +183,7 @@ android {
 //
 //}
 
-// OLD ----------------------------------------
+// NEW ----------------------------------------
 dependencies {
 
     // core android
