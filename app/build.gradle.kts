@@ -208,8 +208,8 @@ dependencies {
     // glide
     implementation(libs.glide)
 //    kapt(libs.glide.compiler)
-    ksp(libs.glide.compiler)
-//    ksp(libs.glideKsp)
+// NOTE: Il processor KSP di Glide non supporta alcune API generate, tipo: GlideApp, GlideRequests, GlideOptions
+    ksp(libs.glide.ksp)
 
     // hilt
     implementation(libs.hilt.android)

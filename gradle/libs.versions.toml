@@ -1,6 +1,7 @@
 [versions]
 agp = "9.0.1"
-kotlin = "2.3.10"
+# fixme: store4 crasha, non compatibile con 'kotlin 2.3.10'; 'kotlin 1.9.10' non compatibile con 'agp 9.0.1'
+kotlin = "2.3.10" # 1.9.10 - ultima compatibile con store 4
 ksp = "2.3.4"
 hilt = "2.59.2"
 
@@ -41,7 +42,7 @@ gson = { module = "com.google.code.gson:gson", version = "2.10.1" }
 okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
 
 glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
-glide-compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "glide" }
+#glide-compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "glide" }
 glide-ksp = { module = "com.github.bumptech.glide:ksp", version.ref = "glide" }
 
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
@@ -75,8 +76,9 @@ android-library = { id = "com.android.library", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 
+#kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize" } # non serve la version kotlin
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize" } # non serve la version kotlin
-kotlin-kapt = { id = "org.jetbrains.kotlin.kapt" } # non serve piu con agp 9+; puoi tenerlo senza versione specifica (plugin integrato in Kotlin)
+#kotlin-kapt = { id = "org.jetbrains.kotlin.kapt" } # non serve piu con agp 9+; puoi tenerlo senza versione specifica (plugin integrato in Kotlin)
 
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 
