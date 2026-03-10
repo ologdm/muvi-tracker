@@ -26,8 +26,8 @@ gson = "2.13.2"
 store4 = "4.0.7"
 #
 junit = "4.13.2"
-testJunit = "1.1.5"
-testEspresso = "3.5.1"
+testJunit = "1.3.0"
+testEspresso = "3.7.0"
 
 
 [libraries]
