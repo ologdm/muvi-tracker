@@ -82,8 +82,7 @@ android-library = { id = "com.android.library", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 
-#kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize" } # non serve la version kotlin
-kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize" } # non serve la version kotlin
+kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize" } # non serve piu la version kotlin
 #kotlin-kapt = { id = "org.jetbrains.kotlin.kapt" } # non serve piu con agp 9+; puoi tenerlo senza versione specifica (plugin integrato in Kotlin)
 
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
