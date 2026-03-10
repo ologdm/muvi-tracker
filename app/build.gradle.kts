@@ -3,27 +3,13 @@ import java.util.Properties
 // TODO ok
 plugins {
     alias(libs.plugins.android.application)
-//    alias(libs.plugins.kotlin.android) // con AGP 9+ non serve piu
     alias(libs.plugins.kotlin.parcelize)
     alias(libs.plugins.kotlin.serialization)
-
-//    alias(libs.plugins.kotlin.kapt) // <-- problema, integrato automaticamente
     alias(libs.plugins.ksp) // serve per Room e Hilt
-
     alias(libs.plugins.hilt.android)
 }
 
-// old groovy
-//def localProperties = new Properties()
-//def localPropertiesFile = rootProject.file('local.properties')
-//if (localPropertiesFile.exists()) {
-//    localPropertiesFile.withReader('UTF-8') { reader ->
-//        localProperties.load(reader)
-//    }
-//}
 
-
-// TODO new kts - Se usi Kotlin DSL devi definire prima dell'android{}:
 val localProperties = Properties().apply {
     val file = rootProject.file("local.properties")
     if (file.exists()) {
@@ -58,11 +44,10 @@ android {
 
     buildTypes {
         release {
-            // debuggable = false -> di default
+//             isDebuggable = false  // -> di default
             // disables minification, so the code will not be removed or reduced.
             // only for the release version, so true it's ok
-//            minifyEnabled false // old groovy
-            isMinifyEnabled = false // new con dsl
+            isMinifyEnabled = false
 
             // uses ProGuard/R8 configuration files for optimization and obfuscation.
             proguardFiles(
@@ -73,8 +58,8 @@ android {
 
         debug { // default settings, di base non specificato
             applicationIdSuffix = ".debug"
-//             minifyEnabled false
-//            debuggable true // e ridondante, di default true
+//             isMinifyEnabled = false
+//            isDebuggable = true // e ridondante, di default true
         }
     }
 
@@ -90,12 +75,6 @@ android {
         targetCompatibility = JavaVersion.VERSION_17 // generate bytecode compatible with java 17
     }
 
-    // Note
-//    kotlinOptions {
-//        jvmTarget = "17" // use bytecode compatible with Java 17/ non serve, perché è già la versione del plugin Kotlin
-//        languageVersion = "1.9" // use kotlin version 1.9 for the project // TODO non serve
-//    }
-
 
     buildFeatures {
         buildConfig = true // for api keys on 'local.properties' (3/3)
@@ -103,6 +82,7 @@ android {
     }
 
 }
+
 
 // OLD ----------------------------------------
 //dependencies {
@@ -183,7 +163,7 @@ android {
 //
 //}
 
-// NEW ----------------------------------------
+// Kotlin DSL ----------------------------------------
 dependencies {
 
     // core android
@@ -246,8 +226,3 @@ dependencies {
 }
 
 
-// enables more precise error handling and better diagnostics when using annotation processing with kapt,
-// like annotation for room, dagger etc
-//kapt {
-//    correctErrorTypes = true // serve solo per Glide
-//}
