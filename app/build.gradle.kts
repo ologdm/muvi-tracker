@@ -67,10 +67,9 @@ android {
     }
 
 
-
+    // TODO: check configurazione
     lint {
-        // eliminate forces checks on build release
-        checkReleaseBuilds = false
+//        checkReleaseBuilds = false // NOTE: con agp 8+ non necessaria
         abortOnError = false // TODO X aggiunto
     }
 
