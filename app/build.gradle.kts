@@ -1,39 +1,48 @@
 import java.util.Properties
 
-// TODO ok
+
+// NOTE: temporarely with agp 8, because of store4 library compatible with -> kotlin 1.9.10 -> compatible only with agp 8
+// TODO: add AGP 9+
+//  - remove kapt with agp 9+ (kap nop more needed), use only ksp -> compatible with glide, hilt, room
+
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.parcelize)
     alias(libs.plugins.kotlin.serialization)
-    alias(libs.plugins.ksp) // serve per Room e Hilt
+//    alias(libs.plugins.kotlin.kapt)
+    alias(libs.plugins.ksp) // for Room, Hilt, Glide
     alias(libs.plugins.hilt.android)
 }
 
+// ------------------------------------------------------------------------
 
+// for API keys on 'local.properties' (1/3)
 val localProperties = Properties().apply {
     val file = rootProject.file("local.properties")
     if (file.exists()) {
         load(file.inputStream()) // input stream - default UTF-8
     }
-
 }
 
 fun getApiKey(name: String): String =
     localProperties.getProperty(name) ?: ""
 
+// ------------------------------------------------------------------------
 
 android {
     namespace = "com.example.muvitracker"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "dev.dimao.muvitracker" // modificato per release
+        applicationId = "dev.dimao.muvitracker"
         minSdk = 26
         targetSdk = 36
         versionCode = 1_02_00
         versionName = "1.2.0"
 
         // for API keys on 'local.properties' (2/3)
+        // -> buildFeatures { buildConfig = true } (3/3)
         buildConfigField ("String", "TRAKT_API_KEY", "\"${getApiKey("trakt_api_key")}\"")
         buildConfigField ("String", "TMDB_API_KEY", "\"${getApiKey("tmdb_api_key")}\"")
         buildConfigField ("String", "OMDB_API_KEY", "\"${getApiKey("omdb_api_key")}\"")
@@ -44,24 +53,18 @@ android {
 
     buildTypes {
         release {
-//             isDebuggable = false  // -> di default
-            // disables minification, so the code will not be removed or reduced.
-            // only for the release version, so true it's ok
             isMinifyEnabled = false
-
-            // uses ProGuard/R8 configuration files for optimization and obfuscation.
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
         }
 
-        debug { // default settings, di base non specificato
+        debug {
             applicationIdSuffix = ".debug"
-//             isMinifyEnabled = false
-//            isDebuggable = true // e ridondante, di default true
         }
     }
+
 
 
     lint {
@@ -77,93 +80,14 @@ android {
 
 
     buildFeatures {
-        buildConfig = true // for api keys on 'local.properties' (3/3)
+        buildConfig = true
         viewBinding = true
     }
 
 }
 
+// ---------------------------------------------------------------------------
 
-// OLD ----------------------------------------
-//dependencies {
-//
-//// 1) implementation: for app => both debug and release versions
-//    // core android libraries
-//    implementation 'androidx.appcompat:appcompat:1.6.1'
-//    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-//    implementation 'androidx.core:core-ktx:1.12.0' // era ktx:1.12.0 (1.10.1 per sdk33)
-//    implementation 'com.google.android.material:material:1.12.0'
-//    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0' // swipe refresh
-//
-//    // kotlin libraries
-//    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.9.24"  // base features of kotlin
-//    implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3'// alternativa a gson
-//
-//    // retrofit
-//    def retrofit_version = "2.10.0"
-//    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
-//    implementation "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0" //  koltin serialization for retrofit
-////    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version" // not used yet, substitute with kotlin.serialization
-//    implementation "com.google.code.gson:gson:2.10.1" // gson indipendente per la conversione su shared, sostituito a quello di retrofit
-//
-//    def okhttp_version = "4.11.0"
-//    implementation "com.squareup.okhttp3:okhttp:$okhttp_version"
-//
-//    // fragment ktx extension: of base 'androidx.fragment', for 'livedata', etc
-//    implementation "androidx.fragment:fragment-ktx:1.7.1" // era ktx:1.7.1 (ktx:1.6.1 per sdk 33)
-//
-//    // glide
-//    def glide_version = "4.16.0"
-//    implementation "com.github.bumptech.glide:glide:$glide_version" // glide
-//    kapt "com.github.bumptech.glide:compiler:$glide_version" // glide use kapt to generate code
-//
-//    // hilt dagger
-//    def hilt_version = "2.51.1"
-//    implementation "com.google.dagger:hilt-android:$hilt_version"
-//    kapt "com.google.dagger:hilt-compiler:$hilt_version"
-//
-//    // coroutines: base + android
-//    def coroutines_version = "1.8.1"
-//    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
-//    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
-//
-//    // paging3
-//    def paging_version = "3.3.1"
-//    implementation "androidx.paging:paging-runtime-ktx:$paging_version"
-//
-//    // viewPager2, tabs already incleded in m3
-//    implementation 'androidx.viewpager2:viewpager2:1.0.0'
-//
-//    // room for local database
-//    def room_version = "2.6.1"
-//    implementation "androidx.room:room-ktx:$room_version"
-////    annotationProcessor "androidx.room:room-compiler:$room_version" // annotationProcessor for java; use kapt
-//    kapt "androidx.room:room-compiler:$room_version"// to use kapt
-////    ksp "androidx.room:room-compiler:$room_version"  // to use KSP
-//
-//    // store - caching helper library for coroutines
-//    implementation "org.mobilenativefoundation.store:store4:4.0.7"
-//
-//
-//// 2) unit test implementation
-//    testImplementation 'junit:junit:4.13.2' // base test library
-////    testImplementation "androidx.arch.core:core-testing:2.2.0"   // specific test library for ViewModel and LiveData
-////    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.1" // test for coroutines
-////    testImplementation "androidx.room:room-testing:$room_version" // room test helpers
-//
-//
-//// 3) android test implementation
-//    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-//    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
-//
-//    // AI model for translation
-//    implementation 'com.google.mlkit:translate:17.0.3'
-//
-//    implementation "com.google.android.flexbox:flexbox:3.0.0"
-//
-//}
-
-// Kotlin DSL ----------------------------------------
 dependencies {
 
     // core android
@@ -174,6 +98,7 @@ dependencies {
     implementation(libs.androidx.swiperefreshlayout)
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.androidx.viewpager2)
+    implementation(libs.flexbox)
 
     // kotlin
     implementation(libs.kotlin.stdlib)
@@ -189,12 +114,12 @@ dependencies {
     implementation(libs.glide)
 //    kapt(libs.glide.compiler)
 // NOTE: Il processor KSP di Glide non supporta alcune API generate, tipo: GlideApp, GlideRequests, GlideOptions
-    ksp(libs.glide.ksp)
+    ksp(libs.glide.ksp) // TODO: use with agp 9+
 
     // hilt
     implementation(libs.hilt.android)
 //    kapt(libs.hilt.compiler)
-    ksp(libs.hilt.compiler)
+    ksp(libs.hilt.compiler) // TODO: use with agp 9+
 
     // coroutines
     implementation(libs.coroutines.core)
@@ -206,16 +131,10 @@ dependencies {
     // room
     implementation(libs.room.ktx)
 //    kapt(libs.room.compiler)
-    ksp(libs.room.compiler)
+    ksp(libs.room.compiler) // TODO: use with agp 9+
 
-    // store
+    // store4 - caching library
     implementation(libs.store4)
-
-    // MLKit
-    implementation(libs.mlkit.translate)
-
-    // flexbox
-    implementation(libs.flexbox)
 
     // unit tests
     testImplementation(libs.junit)
@@ -223,6 +142,9 @@ dependencies {
     // android tests
     androidTestImplementation(libs.androidx.test.junit)
     androidTestImplementation(libs.androidx.test.espresso)
+
+    // MLKit
+    implementation(libs.mlkit.translate)
 }
 
 
