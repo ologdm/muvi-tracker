@@ -1,7 +1,5 @@
 package com.example.muvitracker.data.repositories
 
-import com.dropbox.android.external.store4.StoreRequest
-import com.dropbox.android.external.store4.fresh
 import com.example.muvitracker.data.TmdbApi
 import com.example.muvitracker.data.TraktApi
 import com.example.muvitracker.data.database.MyDatabase
@@ -22,6 +20,8 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import org.mobilenativefoundation.store.store5.StoreReadRequest
+import org.mobilenativefoundation.store.store5.impl.extensions.fresh
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -123,7 +123,7 @@ class EpisodeRepositoryImpl @Inject constructor(
     ): Flow<IoResponse<List<Episode>>> {
         return episodesStore
             .stream(
-                StoreRequest.cached(
+                StoreReadRequest.cached(
                     ShowRequestKeys(showIds = showIds, seasonNr = seasonNr),
                     refresh = true
                 )

@@ -23,8 +23,9 @@ kotlin_serialization = "1.10.0"
 retrofit_kotlin_serialization = "1.0.0"
 gson = "2.13.2"
 # fixme: store4 crasha, non compatibile con 'kotlin 2.3.10'; 'kotlin 1.9.10' non compatibile con 'agp 9.0.1'
-store4 = "4.0.7" # NOTE:  kotlin vs required 1.9.10, 1.9.10 non compotible with agp9, only 8
-store5 = "5.0." # NOTE: last stable version 5.0.0, TODO: need to change the import on store usage files
+#  resolution: added store5
+#store4 = "4.0.7" # NOTE:  kotlin vs required 1.9.10, 1.9.10 non compotible with agp9, only 8
+store5 = "5.0.0" # NOTE: last stable version 5.0.0, TODO: need to change the import on store usage files
 #
 junit = "4.13.2"
 testJunit = "1.3.0"
@@ -63,7 +64,8 @@ paging-runtime-ktx = { module = "androidx.paging:paging-runtime-ktx", version.re
 room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 
-store4 = { module = "org.mobilenativefoundation.store:store4", version.ref = "store4" }
+#store4 = { module = "org.mobilenativefoundation.store:store4", version.ref = "store4" }
+store5 = { module = "org.mobilenativefoundation.store:store5", version.ref = "store5" }
 
 mlkit-translate = { module = "com.google.mlkit:translate", version.ref = "mlkit_translate" }
 

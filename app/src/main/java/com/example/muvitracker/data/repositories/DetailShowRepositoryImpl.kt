@@ -1,6 +1,5 @@
 package com.example.muvitracker.data.repositories
 
-import com.dropbox.android.external.store4.StoreRequest
 import com.example.muvitracker.data.OmdbApi
 import com.example.muvitracker.data.TmdbApi
 import com.example.muvitracker.data.TraktApi
@@ -31,6 +30,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.sync.Semaphore
 import kotlinx.coroutines.sync.withPermit
+import org.mobilenativefoundation.store.store5.StoreReadRequest
 import java.util.Locale
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -102,7 +102,7 @@ class DetailShowRepositoryImpl @Inject constructor(
 
 
     override fun getSingleDetailShowFlow(showIds: Ids): Flow<IoResponse<Show>> {
-        return store.stream(StoreRequest.cached(key = showIds, refresh = true))
+        return store.stream(StoreReadRequest.cached(key = showIds, refresh = true))
             .mapToIoResponse()
     }
 

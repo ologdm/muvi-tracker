@@ -134,7 +134,8 @@ dependencies {
     ksp(libs.room.compiler) // TODO: use with agp 9+
 
     // store4 - caching library
-    implementation(libs.store4)
+//    implementation(libs.store4)
+    implementation(libs.store5)
 
     // unit tests
     testImplementation(libs.junit)
