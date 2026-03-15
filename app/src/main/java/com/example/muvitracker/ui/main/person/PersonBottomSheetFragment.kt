@@ -6,8 +6,8 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.example.muvitracker.R
-import com.example.muvitracker.data.dto._support.Ids
-import com.example.muvitracker.data.glide.ImageTmdbRequest
+import com.example.muvitracker.dataX.dtoX._support.Ids
+import com.example.muvitracker.dataX.glide.ImageTmdbRequest
 import com.example.muvitracker.databinding.FragmentPersonBinding
 import com.example.muvitracker.utils.orDefaultText
 import com.example.muvitracker.utils.viewBinding

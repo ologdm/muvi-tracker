@@ -1,7 +1,7 @@
 package com.example.muvitracker.domain.model
 
 
-import com.example.muvitracker.data.dto._support.Ids
+import com.example.muvitracker.dataX.dtoX._support.Ids
 
 data class Show(
     // DA DETAIL ENTITY

@@ -7,8 +7,8 @@ import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.muvitracker.R
-import com.example.muvitracker.data.dto._support.Ids
-import com.example.muvitracker.data.glide.ImageTmdbRequest
+import com.example.muvitracker.dataX.dtoX._support.Ids
+import com.example.muvitracker.dataX.glide.ImageTmdbRequest
 import com.example.muvitracker.databinding.FragmentEpisodeBottomsheetBinding
 import com.example.muvitracker.domain.model.Episode
 import com.example.muvitracker.utils.episodesFormatNumber

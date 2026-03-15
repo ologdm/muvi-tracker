@@ -3,10 +3,10 @@ package com.example.muvitracker.ui.main.person
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.muvitracker.data.TmdbApi
-import com.example.muvitracker.data.TraktApi
-import com.example.muvitracker.data.dto._support.Ids
-import com.example.muvitracker.data.dto.person.detail.mergePersonDtoToDomain
+import com.example.muvitracker.dataX.TmdbApi
+import com.example.muvitracker.dataX.TraktApi
+import com.example.muvitracker.dataX.dtoX._support.Ids
+import com.example.muvitracker.dataX.dtoX.person.detail.mergePersonDtoToDomain
 import com.example.muvitracker.domain.model.Person
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async

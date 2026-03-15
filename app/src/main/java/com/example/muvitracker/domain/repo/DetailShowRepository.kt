@@ -1,13 +1,11 @@
 package com.example.muvitracker.domain.repo
 
-import com.example.muvitracker.data.dto._support.Ids
+import com.example.muvitracker.dataX.dtoX._support.Ids
 import com.example.muvitracker.domain.model.CastAndCrew
 import com.example.muvitracker.domain.model.Show
-import com.example.muvitracker.domain.model.base.MovieBase
 import com.example.muvitracker.domain.model.base.ShowBase
 import com.example.muvitracker.utils.IoResponse
 import kotlinx.coroutines.flow.Flow
-import java.security.Provider
 
 interface DetailShowRepository {
 

@@ -1,10 +1,10 @@
 package com.example.muvitracker.ui.main
 
-import com.example.muvitracker.data.dto._support.Ids
-import com.example.muvitracker.data.dto.person.detail.PersonTmdbDto
-import com.example.muvitracker.data.dto.person.detail.PersonTraktDto
-import com.example.muvitracker.data.dto.person.detail.SocialIds
-import com.example.muvitracker.data.dto.person.detail.mergePersonDtoToDomain
+import com.example.muvitracker.dataX.dtoX._support.Ids
+import com.example.muvitracker.dataX.dtoX.person.detail.PersonTmdbDto
+import com.example.muvitracker.dataX.dtoX.person.detail.PersonTraktDto
+import com.example.muvitracker.dataX.dtoX.person.detail.SocialIds
+import com.example.muvitracker.dataX.dtoX.person.detail.mergePersonDtoToDomain
 
 fun main() {
 

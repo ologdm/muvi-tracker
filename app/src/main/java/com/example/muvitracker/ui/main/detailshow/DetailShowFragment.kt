@@ -26,8 +26,8 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.muvitracker.MyApp
 import com.example.muvitracker.R
-import com.example.muvitracker.data.dto._support.Ids
-import com.example.muvitracker.data.glide.ImageTmdbRequest
+import com.example.muvitracker.dataX.dtoX._support.Ids
+import com.example.muvitracker.dataX.glide.ImageTmdbRequest
 import com.example.muvitracker.databinding.DialogMyNotesBinding
 import com.example.muvitracker.databinding.FragmentDetailShowBinding
 import com.example.muvitracker.domain.model.Provider

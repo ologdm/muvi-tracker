@@ -1,6 +1,6 @@
 package com.example.muvitracker.domain.repo
 
-import com.example.muvitracker.data.dto._support.Ids
+import com.example.muvitracker.dataX.dtoX._support.Ids
 import com.example.muvitracker.domain.model.Episode
 import com.example.muvitracker.utils.IoResponse
 import kotlinx.coroutines.flow.Flow

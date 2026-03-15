@@ -9,7 +9,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.Fragment
 import com.example.muvitracker.R
-import com.example.muvitracker.data.dto._support.Ids
+import com.example.muvitracker.dataX.dtoX._support.Ids
 import com.example.muvitracker.databinding.FragmentSeasonViewpagerBinding
 import com.example.muvitracker.utils.viewBinding
 import com.google.android.material.tabs.TabLayout

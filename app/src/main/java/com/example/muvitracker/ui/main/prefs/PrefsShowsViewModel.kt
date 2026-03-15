@@ -3,7 +3,7 @@ package com.example.muvitracker.ui.main.prefs
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.muvitracker.data.dto._support.Ids
+import com.example.muvitracker.dataX.dtoX._support.Ids
 import com.example.muvitracker.domain.model.Show
 import com.example.muvitracker.domain.repo.DetailShowRepository
 import com.example.muvitracker.domain.repo.PrefsShowRepository

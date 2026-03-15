@@ -3,8 +3,8 @@ package com.example.muvitracker.ui.main.detailmovie
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.muvitracker.data.TraktApi
-import com.example.muvitracker.data.dto._support.Ids
+import com.example.muvitracker.dataX.TraktApi
+import com.example.muvitracker.dataX.dtoX._support.Ids
 import com.example.muvitracker.domain.model.CastMember
 import com.example.muvitracker.domain.model.Movie
 import com.example.muvitracker.domain.model.Provider

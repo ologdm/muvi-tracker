@@ -3,7 +3,7 @@ package com.example.muvitracker.ui.main.episode
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.muvitracker.data.dto._support.Ids
+import com.example.muvitracker.dataX.dtoX._support.Ids
 import com.example.muvitracker.domain.model.Episode
 import com.example.muvitracker.domain.repo.EpisodeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel

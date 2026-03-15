@@ -10,7 +10,7 @@ import android.widget.ImageButton
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.example.muvitracker.R
-import com.example.muvitracker.data.dto._support.Ids
+import com.example.muvitracker.dataX.dtoX._support.Ids
 import com.example.muvitracker.databinding.ViewholderPrefsShowBinding
 import com.example.muvitracker.domain.model.Show
 

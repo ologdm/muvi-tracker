@@ -1,6 +1,6 @@
 package com.example.muvitracker.domain.model.base
 
-import com.example.muvitracker.data.dto._support.Ids
+import com.example.muvitracker.dataX.dtoX._support.Ids
 
 data class ShowBase(
     val title: String = "",

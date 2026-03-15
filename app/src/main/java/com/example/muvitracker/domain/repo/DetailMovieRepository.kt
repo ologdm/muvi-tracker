@@ -1,8 +1,8 @@
 package com.example.muvitracker.domain.repo
 
 
-import com.example.muvitracker.data.database.entities.MovieEntity
-import com.example.muvitracker.data.dto._support.Ids
+import com.example.muvitracker.dataX.databaseX.entities.MovieEntity
+import com.example.muvitracker.dataX.dtoX._support.Ids
 import com.example.muvitracker.domain.model.CastAndCrew
 import com.example.muvitracker.domain.model.Movie
 import com.example.muvitracker.domain.model.Provider
