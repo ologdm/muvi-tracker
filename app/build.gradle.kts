@@ -144,7 +144,7 @@ dependencies {
 
     // TODO: test
     implementation(project(":data")) // -> va a build gradle data
-    implementation(project(":domain")) // -> va a build gradle data
+    implementation(project(":domain"))
 }
 
 

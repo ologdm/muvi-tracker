@@ -82,6 +82,8 @@ dependencies {
     implementation(libs.store5)
 
 
+    implementation(project(":domain")) // -> va a build gradle data
+
     /* NOTE:
         non devono stare in data
         - AppCompat

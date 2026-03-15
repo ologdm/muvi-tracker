@@ -1,5 +1,9 @@
 plugins {
+    // base
     alias(libs.plugins.android.library)
+    // new
+    alias(libs.plugins.kotlin.parcelize)
+//    alias(libs.plugins.kotlin.serialization) non serve per ids domain
 }
 
 android {
@@ -31,10 +35,15 @@ android {
 }
 
 dependencies {
+    // base
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.material)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.junit)
     androidTestImplementation(libs.androidx.test.espresso)
+
+    // added serializable, parcelable (per ui)
+
+
 }
