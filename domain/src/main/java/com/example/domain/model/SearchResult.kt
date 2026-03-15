@@ -1,8 +1,8 @@
-package com.example.muvitracker.domain.model
+package com.example.domain.model
 
-import com.example.muvitracker.domain.model.base.MovieBase
-import com.example.muvitracker.domain.model.base.PersonBase
-import com.example.muvitracker.domain.model.base.ShowBase
+import com.example.domain.model.base.MovieBase
+import com.example.domain.model.base.PersonBase
+import com.example.domain.model.base.ShowBase
 
 
 // TODO 1.1.3: sistemare i default per serialization OK

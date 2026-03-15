@@ -3,7 +3,7 @@ package com.example.data.database.dao
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
-import com.example.muvitracker.data.database.entities.PrefsMovieEntity
+import com.example.data.database.entities.PrefsMovieEntity
 import kotlinx.coroutines.flow.Flow
 
 

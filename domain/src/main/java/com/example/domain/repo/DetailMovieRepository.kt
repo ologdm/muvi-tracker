@@ -1,4 +1,4 @@
-package com.example.muvitracker.domain.repo
+package com.example.domain.repo
 
 
 import com.example.muvitracker.dataX.databaseX.entities.MovieEntity

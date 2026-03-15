@@ -1,4 +1,4 @@
-package com.example.muvitracker.domain.model.base
+package com.example.domain.model.base
 
 import com.example.muvitracker.dataX.dtoX._support.Ids
 

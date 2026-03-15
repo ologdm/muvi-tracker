@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
+import com.example.data.database.entities.PrefsShowEntity
 import com.example.muvitracker.data.database.entities.PrefsShowEntity
 import com.example.muvitracker.domain.model.Show
 import kotlinx.coroutines.flow.Flow

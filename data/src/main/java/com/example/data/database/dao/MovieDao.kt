@@ -5,7 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.muvitracker.data.database.entities.MovieEntity
+import com.example.data.database.entities.MovieEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
