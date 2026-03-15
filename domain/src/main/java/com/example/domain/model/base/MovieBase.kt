@@ -1,6 +1,6 @@
 package com.example.domain.model.base
 
-import com.example.domain.model.Ids
+import com.example.domain.model.IdsDomain
 
 
 //  to Domain() -> PopuDto, BoxoDto
@@ -8,7 +8,7 @@ import com.example.domain.model.Ids
 data class MovieBase(
     val title: String = "",
     val year: Int = -1,
-    val ids: Ids,  // val default ok
+    val ids: IdsDomain,  // val default ok
 )
 
 

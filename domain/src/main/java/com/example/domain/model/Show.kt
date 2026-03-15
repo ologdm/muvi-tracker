@@ -6,7 +6,7 @@ data class Show(
 
     // da trakt
     val year: Int?,
-    val ids: Ids,
+    val ids: IdsDomain,
     val airedEpisodes: Int,
 
     // da tmdb
@@ -48,7 +48,7 @@ data class Show(
     // TODO: calcola dalla query di seasons il totale stagioni
     val seasonsCount: Int = 0,
 
-) {
+    ) {
 
     // TICKET: watchedAll marked for shows not yet released (anticipated)
     val watchedAll: Boolean // stato  -> solo a livello di Ui

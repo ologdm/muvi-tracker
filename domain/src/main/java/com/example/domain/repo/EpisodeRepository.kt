@@ -1,19 +1,19 @@
 package com.example.domain.repo
 
 import com.example.domain.model.Episode
-import com.example.domain.model.Ids
+import com.example.domain.model.IdsDomain
 import com.example.domain.utils.IoResponse
 import kotlinx.coroutines.flow.Flow
 
 interface EpisodeRepository {
 
     suspend fun fetchSeasonEpisodes(
-        showIds: Ids,
+        showIds: IdsDomain,
         seasonNr: Int
     )
 
     fun getSeasonAllEpisodesFlow(
-        showIds: Ids,
+        showIds: IdsDomain,
         seasonNr: Int
     ): Flow<IoResponse<List<Episode>>>
 
@@ -24,7 +24,7 @@ interface EpisodeRepository {
     ): Flow<Episode?>
 
     suspend fun toggleSingleWatchedEpisode(
-        showIds: Ids,
+        showIds: IdsDomain,
         seasonNr: Int,
         episodeNr: Int
     )

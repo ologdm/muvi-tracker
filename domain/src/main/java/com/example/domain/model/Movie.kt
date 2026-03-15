@@ -5,7 +5,7 @@ package com.example.domain.model
 data class Movie(
     // from detail entity
     val year: Int?,
-    val ids: Ids,
+    val ids: IdsDomain,
     //
     val title: String?,
     val tagline: String?,

@@ -5,7 +5,7 @@ data class Season(
     // construtor - 11 attributi
     val showId: Int,
     val seasonNumber: Int,
-    val ids: Ids,
+    val ids: IdsDomain,
     val traktRating: String?,
     val episodeCount: Int, // DEFAULT = 0 a db
     val airedEpisodes: Int, // DEFAULT = 0 a db
