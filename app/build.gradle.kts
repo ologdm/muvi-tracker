@@ -48,7 +48,7 @@ android {
     buildTypes {
 
         debug {
-            applicationIdSuffix = ".debug" // TODO: check config
+            applicationIdSuffix = ".debug"
         }
 
 
