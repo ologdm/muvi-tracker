@@ -1,6 +1,5 @@
 package com.example.muvitracker.data.repositories
 
-import com.dropbox.android.external.store4.StoreRequest
 import com.example.muvitracker.MyApp
 import com.example.muvitracker.R
 import com.example.muvitracker.data.OmdbApi
@@ -27,6 +26,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
+import org.mobilenativefoundation.store.store5.StoreReadRequest
 import java.util.Locale
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -119,7 +119,7 @@ class DetailMovieRepositoryImpl @Inject constructor(
     // CONTRACT METHODS ###########################################################
 
     override fun getSingleDetailMovieFlow(movieIds: Ids): Flow<IoResponse<Movie>> {
-        return store.stream(StoreRequest.cached(key = movieIds, refresh = true))
+        return store.stream(StoreReadRequest.cached(key = movieIds, refresh = true))
             .mapToIoResponse()
     }
 

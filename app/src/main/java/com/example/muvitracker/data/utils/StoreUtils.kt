@@ -1,16 +1,16 @@
 package com.example.muvitracker.data.utils
 
-import com.dropbox.android.external.store4.Fetcher
-import com.dropbox.android.external.store4.FetcherResult
-import com.dropbox.android.external.store4.SourceOfTruth
-import com.dropbox.android.external.store4.Store
-import com.dropbox.android.external.store4.StoreBuilder
-import com.dropbox.android.external.store4.StoreResponse
 import com.example.muvitracker.utils.IoResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filterNot
 import kotlinx.coroutines.flow.map
 import kotlin.coroutines.cancellation.CancellationException
+import org.mobilenativefoundation.store.store5.Fetcher
+import org.mobilenativefoundation.store.store5.FetcherResult
+import org.mobilenativefoundation.store.store5.SourceOfTruth
+import org.mobilenativefoundation.store.store5.Store
+import org.mobilenativefoundation.store.store5.StoreBuilder
+import org.mobilenativefoundation.store.store5.StoreReadResponse
 
 // Input, Ouput - generici con momi specifici
 // T Any? default; 'Any' not nullable come store richiede
@@ -38,7 +38,7 @@ fun <Key : Any, DtoInput : Any, DomainOutput : Any> storeFactory(
             },
             writer = { key, dtoInput ->
                 try {
-                    writer(key,dtoInput)
+                    writer(key, dtoInput)
 //                    detailShowDao.insertSingle(dto.toEntity())
                 } catch (ex: Exception) {
                     ex.printStackTrace()
@@ -47,33 +47,33 @@ fun <Key : Any, DtoInput : Any, DomainOutput : Any> storeFactory(
         )
     )
         .disableCache() // livello cache interno di store
-        .build()
+        .build() as Store<Key, DomainOutput>
 }
 
 
 // 2. extended function for
-fun <T> Flow<StoreResponse<T>>.mapToIoResponse(): Flow<IoResponse<T>> {
+fun <T> Flow<StoreReadResponse<T>>.mapToIoResponse(): Flow<IoResponse<T>> {
     return this
         .filterNot { response ->
-            response is StoreResponse.Loading || response is StoreResponse.NoNewData
+            response is StoreReadResponse.Loading || response is StoreReadResponse.NoNewData
         }
         .map { storeResponse ->
             when (storeResponse) {
-                is StoreResponse.Data -> {
+                is StoreReadResponse.Data -> {
                     val data = storeResponse.value
                     IoResponse.Success(data)
                 }
 
-                is StoreResponse.Error.Exception -> {
+                is StoreReadResponse.Error.Exception -> {
                     IoResponse.Error(storeResponse.error)
                 }
 
-                is StoreResponse.Error.Message -> {
+                is StoreReadResponse.Error.Message -> {
                     IoResponse.Error(RuntimeException(storeResponse.message))
                 }
 
-                is StoreResponse.Loading,
-                is StoreResponse.NoNewData -> error("should be filtered upstream")
+                is StoreReadResponse.Loading,
+                is StoreReadResponse.NoNewData -> error("should be filtered upstream")
             }
         }
 }

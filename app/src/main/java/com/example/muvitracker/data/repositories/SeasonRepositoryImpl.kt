@@ -1,6 +1,5 @@
 package com.example.muvitracker.data.repositories
 
-import com.dropbox.android.external.store4.StoreRequest
 import com.example.muvitracker.data.TmdbApi
 import com.example.muvitracker.data.TraktApi
 import com.example.muvitracker.data.database.MyDatabase
@@ -18,6 +17,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import org.mobilenativefoundation.store.store5.StoreReadRequest
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.coroutines.cancellation.CancellationException
@@ -111,7 +111,7 @@ class SeasonRepositoryImpl @Inject constructor(
     //TODO OK 1.1.3 OK
     override
     fun getAllSeasonsFlow(showIds: Ids): Flow<IoResponse<List<Season>>> {
-        return seasonStore.stream(StoreRequest.cached(showIds, refresh = true))
+        return seasonStore.stream(StoreReadRequest.cached(showIds, refresh = true))
             .mapToIoResponse()
     }
 

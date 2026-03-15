@@ -1,0 +1,97 @@
+[versions]
+# NOTE: Use 9.0.1 because it is compatible with 'gradle-9.1.0-bin.zip'; Gradle 9.3.1 requires the latest version of Android Studio 2025.3.2
+agp = "9.0.1"
+kotlin = "2.3.10"
+coroutines = "1.10.2"
+ksp = "2.3.4"
+hilt = "2.59.2" # required ksp (or kapt)
+room = "2.8.4" # required ksp (or kapt)
+glide = "5.0.5" # required ksp (or kapt)
+#
+retrofit = "3.0.0"
+okhttp = "5.3.2"
+paging = "3.4.2"
+#
+appcompat = "1.7.1"
+constraintlayout = "2.2.1"
+corektx = "1.18.0"
+material = "1.13.0"
+swiperefreshlayout = "1.2.0"
+fragmentktx = "1.8.9"
+viewpager2 = "1.1.0"
+flexbox = "3.0.0"
+#
+mlkit_translate = "17.0.3"
+#
+kotlin_serialization = "1.10.0"
+retrofit_kotlin_serialization = "1.0.0"
+gson = "2.13.2"
+# ----------------------------------------------
+# FIXME: Store4 craches because is not compatible with Kotlin 2.3.10.
+#   The latest Store4 version requires Kotlin 1.9.10, which is not compatible with AGP 9.(only AGP 8)
+#store4 = "4.0.7"
+# Resolution: migrated to Store5
+store5 = "5.0.0" # NOTE: last stable version 5.0.0
+# ----------------------------------------------
+junit = "4.13.2"
+testJunit = "1.3.0"
+testEspresso = "3.7.0"
+
+
+[libraries]
+androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
+androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintlayout" }
+androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "corektx" }
+androidx-material = { module = "com.google.android.material:material", version.ref = "material" }
+androidx-swiperefreshlayout = { module = "androidx.swiperefreshlayout:swiperefreshlayout", version.ref = "swiperefreshlayout" }
+androidx-fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "fragmentktx" }
+androidx-viewpager2 = { module = "androidx.viewpager2:viewpager2", version.ref = "viewpager2" }
+
+kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlin_serialization" }
+
+retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+retrofit-kotlinx-serialization = { module = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter", version.ref = "retrofit_kotlin_serialization" }
+gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
+okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
+
+glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
+glide-ksp = { module = "com.github.bumptech.glide:ksp", version.ref = "glide" }
+
+hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
+hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt" }
+
+coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
+coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
+
+paging-runtime-ktx = { module = "androidx.paging:paging-runtime-ktx", version.ref = "paging" }
+
+room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
+room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
+
+#store4 = { module = "org.mobilenativefoundation.store:store4", version.ref = "store4" }
+store5 = { module = "org.mobilenativefoundation.store:store5", version.ref = "store5" }
+
+mlkit-translate = { module = "com.google.mlkit:translate", version.ref = "mlkit_translate" }
+
+flexbox = { module = "com.google.android.flexbox:flexbox", version.ref = "flexbox" }
+
+# test dependencies
+junit = { module = "junit:junit", version.ref = "junit" }
+androidx-test-junit = { module = "androidx.test.ext:junit", version.ref = "testJunit" }
+androidx-test-espresso = { module = "androidx.test.espresso:espresso-core", version.ref = "testEspresso" }
+
+
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+#android-library = { id = "com.android.library", version.ref = "agp" } # for AGP 8+: no longer necessary
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize" }
+# NOTE: 'kotlin-kapt' - old kapt plugin used with AGP 7/8
+#kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
+# NOTE: 'legacy-kapt' - replacement for kapt when using AGP 9
+legacy-kapt = { id = "com.android.legacy-kapt", version.ref = "agp" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
