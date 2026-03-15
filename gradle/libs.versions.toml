@@ -1,32 +1,38 @@
 [versions]
-agp = "9.0.1" # NOTE: usare 9.0.1 compoatibile con 'gradle-9.1.0-bin.zip';  gradle-9.3.1 richiede ultima vers di android studio
+# NOTE: Use 9.0.1 because it is compatible with 'gradle-9.1.0-bin.zip'; Gradle 9.3.1 requires the latest version of Android Studio 2025.3.2
+agp = "9.0.1"
 kotlin = "2.3.10"
+coroutines = "1.10.2"
 ksp = "2.3.4"
-hilt = "2.59.2"
-
+hilt = "2.59.2" # required ksp (or kapt)
+room = "2.8.4" # required ksp (or kapt)
+glide = "5.0.5" # required ksp (or kapt)
+#
 retrofit = "3.0.0"
 okhttp = "5.3.2"
-glide = "5.0.5"
-coroutines = "1.10.2"
 paging = "3.4.2"
-room = "2.8.4"
-material = "1.13.0"
+#
 appcompat = "1.7.1"
 constraintlayout = "2.2.1"
 corektx = "1.18.0"
+material = "1.13.0"
 swiperefreshlayout = "1.2.0"
 fragmentktx = "1.8.9"
 viewpager2 = "1.1.0"
-mlkit_translate = "17.0.3"
 flexbox = "3.0.0"
+#
+mlkit_translate = "17.0.3"
+#
 kotlin_serialization = "1.10.0"
 retrofit_kotlin_serialization = "1.0.0"
 gson = "2.13.2"
-# fixme: store4 crasha, non compatibile con 'kotlin 2.3.10'; 'kotlin 1.9.10' non compatibile con 'agp 9.0.1'
-#  resolution: added store5
-#store4 = "4.0.7" # NOTE:  kotlin vs required 1.9.10, 1.9.10 non compotible with agp9, only 8
-store5 = "5.0.0" # NOTE: last stable version 5.0.0, TODO: need to change the import on store usage files
-#
+# ----------------------------------------------
+# FIXME: Store4 craches because is not compatible with Kotlin 2.3.10.
+#   The latest Store4 version requires Kotlin 1.9.10, which is not compatible with AGP 9.(only AGP 8)
+#store4 = "4.0.7"
+# Resolution: migrated to Store5
+store5 = "5.0.0" # NOTE: last stable version 5.0.0
+# ----------------------------------------------
 junit = "4.13.2"
 testJunit = "1.3.0"
 testEspresso = "3.7.0"
@@ -50,7 +56,6 @@ gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
 
 glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
-#glide-compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "glide" }
 glide-ksp = { module = "com.github.bumptech.glide:ksp", version.ref = "glide" }
 
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
@@ -80,13 +85,13 @@ androidx-test-espresso = { module = "androidx.test.espresso:espresso-core", vers
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
-#android-library = { id = "com.android.library", version.ref = "agp" } # AGP8+ not more necessary
+#android-library = { id = "com.android.library", version.ref = "agp" } # for AGP 8+: no longer necessary
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
-kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize" } # non serve piu la version kotlin
-# NOTE: old 'kapt', for agp 8,7..
+kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize" }
+# NOTE: 'kotlin-kapt' - old kapt plugin used with AGP 7/8
 #kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
-# NOTE: new 'kapt' for agp9
+# NOTE: 'legacy-kapt' - replacement for kapt when using AGP 9
 legacy-kapt = { id = "com.android.legacy-kapt", version.ref = "agp" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
