@@ -2,8 +2,7 @@
 
 plugins {
     alias(libs.plugins.android.application) apply false
-//    alias(libs.plugins.android.library) apply false // AGP 8+: no longer necessary
-    alias(libs.plugins.kotlin.android) apply false
+//    alias(libs.plugins.kotlin.android) apply false // TODO eliminare per agp 9+?
     alias(libs.plugins.kotlin.serialization) apply false
     alias(libs.plugins.hilt.android) apply false
 //    alias(libs.plugins.kotlin.kapt) apply false       // Legacy kapt (AGP 7/8)
