@@ -1,4 +1,4 @@
-package com.example.muvitracker.utils
+package com.example.domain.utils
 
 
 sealed interface IoResponse<out T> {
@@ -8,7 +8,7 @@ sealed interface IoResponse<out T> {
 
     companion object {
         fun <T> success(dataValue: T): IoResponse<T> {
-            return IoResponse.Success(dataValue)
+            return Success(dataValue)
         }
     }
 }

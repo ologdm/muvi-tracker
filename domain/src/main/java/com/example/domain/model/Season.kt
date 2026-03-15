@@ -1,7 +1,5 @@
 package com.example.domain.model
 
-import com.example.muvitracker.dataX.dtoX._support.Ids
-
 
 data class Season(
     // construtor - 11 attributi

@@ -1,8 +1,8 @@
 package com.example.domain.repo
 
-import com.example.muvitracker.dataX.dtoX._support.Ids
-import com.example.muvitracker.domain.model.Season
-import com.example.muvitracker.utils.IoResponse
+import com.example.domain.model.Ids
+import com.example.domain.model.Season
+import com.example.domain.utils.IoResponse
 import kotlinx.coroutines.flow.Flow
 
 

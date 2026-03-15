@@ -1,6 +1,6 @@
 package com.example.domain.model.base
 
-import com.example.muvitracker.dataX.dtoX._support.Ids
+import com.example.domain.model.Ids
 
 data class ShowBase(
     val title: String = "",

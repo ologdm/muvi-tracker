@@ -1,6 +1,6 @@
 package com.example.domain.repo
 
-import com.example.muvitracker.domain.model.Movie
+import com.example.domain.model.Movie
 import kotlinx.coroutines.flow.Flow
 
 interface PrefsMovieRepository {

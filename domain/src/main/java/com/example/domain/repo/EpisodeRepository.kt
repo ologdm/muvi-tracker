@@ -1,8 +1,8 @@
 package com.example.domain.repo
 
-import com.example.muvitracker.dataX.dtoX._support.Ids
-import com.example.muvitracker.domain.model.Episode
-import com.example.muvitracker.utils.IoResponse
+import com.example.domain.model.Episode
+import com.example.domain.model.Ids
+import com.example.domain.utils.IoResponse
 import kotlinx.coroutines.flow.Flow
 
 interface EpisodeRepository {

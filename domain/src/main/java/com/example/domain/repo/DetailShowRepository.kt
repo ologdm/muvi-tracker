@@ -1,10 +1,11 @@
 package com.example.domain.repo
 
-import com.example.muvitracker.dataX.dtoX._support.Ids
-import com.example.muvitracker.domain.model.CastAndCrew
-import com.example.muvitracker.domain.model.Show
-import com.example.muvitracker.domain.model.base.ShowBase
-import com.example.muvitracker.utils.IoResponse
+import com.example.domain.model.CastAndCrew
+import com.example.domain.model.Ids
+import com.example.domain.model.Provider
+import com.example.domain.model.Show
+import com.example.domain.model.base.ShowBase
+import com.example.domain.utils.IoResponse
 import kotlinx.coroutines.flow.Flow
 
 interface DetailShowRepository {
@@ -17,5 +18,5 @@ interface DetailShowRepository {
 
     suspend fun checkAndSetWatchedAllShowEpisodes(showIds: Ids)
 
-    suspend fun getShowProviders (showId: Int): IoResponse<List<com.example.muvitracker.domain.model.Provider>>
+    suspend fun getShowProviders (showId: Int): IoResponse<List<Provider>>
 }

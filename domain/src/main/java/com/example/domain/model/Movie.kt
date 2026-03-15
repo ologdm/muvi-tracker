@@ -1,7 +1,5 @@
 package com.example.domain.model
 
-import com.example.muvitracker.dataX.dtoX._support.Ids
-
 
 // TODO: 1.1.3 OK
 data class Movie(

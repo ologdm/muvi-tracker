@@ -1,7 +1,7 @@
 package com.example.domain.repo
 
 
-import com.example.muvitracker.domain.model.Show
+import com.example.domain.model.Show
 import kotlinx.coroutines.flow.Flow
 
 interface PrefsShowRepository {
