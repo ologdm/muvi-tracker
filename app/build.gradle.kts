@@ -101,7 +101,6 @@ dependencies {
     //  -------- Networking --------------------------------------------------
     implementation(libs.retrofit)
     implementation(libs.retrofit.kotlinx.serialization)
-    implementation(libs.gson)
     implementation(libs.okhttp)
 
     //  -------- Image Loading (Glide) -----------------------------------------
@@ -126,6 +125,7 @@ dependencies {
     implementation(libs.room.ktx)
     // kapt(libs.room.compiler)
     ksp(libs.room.compiler) // replaces kapt
+    implementation(libs.gson) // per room type converter
 
     // ---------- Caching ------------------------------------------------------
     // store4 - caching library
@@ -139,6 +139,11 @@ dependencies {
 
     // ---------- ML Kit -------------------------------------------------------
     implementation(libs.mlkit.translate)
+
+
+
+    // TODO: test
+    implementation(project(":data")) // -> va a build gradle data
 }
 
 
