@@ -62,7 +62,6 @@ android {
     }
 
 
-    // Lint configuration
     lint {
 //        checkReleaseBuilds = false // NOTE: checkReleaseBuilds is not required with AGP 8+
         abortOnError = false
