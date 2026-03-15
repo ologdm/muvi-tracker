@@ -9,4 +9,7 @@ plugins {
 //    alias(libs.plugins.kotlin.kapt) apply false       // Legacy kapt (AGP 7/8)
 //    alias (libs.plugins.legacy.kapt) apply false      // Kapt support for AGP 9+
     alias(libs.plugins.ksp) apply false // KSP (replaces kapt)
+
+    // NOTE: Needed when adding a new Android library module
+    alias(libs.plugins.android.library) apply false
 }
