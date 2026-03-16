@@ -4,13 +4,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import com.example.muvitracker.dataX.dtoX._support.Ids
+import com.example.domain.model.IdsDomain
+import com.example.domain.model.base.ShowBase
 import com.example.muvitracker.databinding.ViewholderExploreBaseBinding
-import com.example.muvitracker.domain.model.base.ShowBase
 
 
 class AllShowsPagingAdapter(
-    val onClickVH: (Ids) -> Unit
+    val onClickVH: (IdsDomain) -> Unit
 ) : PagingDataAdapter<ShowBase, ShowViewholder>(DIFF_CALLBACK) {
 
     companion object {

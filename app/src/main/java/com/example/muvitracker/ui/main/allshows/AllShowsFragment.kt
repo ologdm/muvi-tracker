@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.core.ShowsType
 import com.example.muvitracker.R
 import com.example.muvitracker.databinding.FragmentExploreBaseBinding
 import com.example.muvitracker.ui.main.Navigator

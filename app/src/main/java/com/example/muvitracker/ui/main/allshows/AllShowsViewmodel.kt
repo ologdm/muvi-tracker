@@ -6,9 +6,9 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
-import com.example.muvitracker.R
-import com.example.muvitracker.dataX.TraktApi
-import com.example.muvitracker.dataX.repositories.paging.ShowsPagingSource
+import com.example.core.ShowsType
+import com.example.data.TraktApi
+import com.example.data.repositories.paging.ShowsPagingSource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -18,6 +18,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ShowsViewmodel @Inject constructor(
+    // FIXME: sposta TraktApi su repo
     private val traktApi: TraktApi,
     private val sharedPrefs: SharedPreferences,
 ) : ViewModel() {
@@ -52,26 +53,4 @@ class ShowsViewmodel @Inject constructor(
 }
 
 
-enum class ShowsType {
-    Popular,
-    Watched,
-    Favorited,
-    ComingSoon;
 
-    val stringRes: Int
-        get() = when (this) {
-            Popular -> R.string.popular
-            Watched -> R.string.watched
-            Favorited -> R.string.favorited
-            ComingSoon -> R.string.anticipated
-        }
-
-    val sharedPrefsValue: String
-        get() = when (this) {
-            Popular -> "popular"
-            Watched -> "watched"
-            Favorited -> "favorited"
-            ComingSoon -> "anticipated"
-        }
-
-}
