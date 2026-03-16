@@ -84,6 +84,10 @@ dependencies {
     // paging
     implementation(libs.paging.runtime.ktx)
 
+
+    // ---------- ML Kit -------------------------------------------------------
+    implementation(libs.mlkit.translate)
+
     implementation(project(":domain")) // -> va a build gradle data
     implementation(project(":core"))
 

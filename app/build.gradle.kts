@@ -117,9 +117,6 @@ dependencies {
     androidTestImplementation(libs.androidx.test.junit)
     androidTestImplementation(libs.androidx.test.espresso)
 
-    // ---------- ML Kit -------------------------------------------------------
-    implementation(libs.mlkit.translate)
-
 
 
     // TODO: test
