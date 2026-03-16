@@ -9,6 +9,8 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kotlinx.serialization.json.Json
+import okhttp3.OkHttpClient
+import okhttp3.Request
 import javax.inject.Singleton
 
 // SU CORE:
@@ -57,60 +59,20 @@ class DaggerModules {
     }
 
 
+    // per app -> vai al link
+    @Provides
+    @Singleton
+    fun provideHttpsClient (): OkHttpClient {
+        return OkHttpClient()
+    }
+
+    @Provides
+    @Singleton
+    fun provideRequestBuilder(): Request.Builder {
+        return Request.Builder()
+    }
 
 
-
-    // TODO: 16 mar 2026 spostare retrofit su core
-//    @OptIn(ExperimentalSerializationApi::class) // opt-in corretto per asConverterFactory
-//    @Provides
-//    @Singleton
-//    fun provideTraktApi(): TraktApi {
-//        val json = provideJson()
-//        val contentType = "application/json".toMediaType()
-//
-//        val retrofit = Retrofit.Builder()
-//            .baseUrl("https://api.trakt.tv/")
-//            .addConverterFactory(json.asConverterFactory(contentType))
-//            .client( // al posto di callFactory()
-//                OkHttpClient.Builder()
-//                    .addInterceptor { chain ->
-//                        val newRequest = chain.request().newBuilder()
-//                            .addHeader("trakt-api-key", BuildConfig.TRAKT_API_KEY)
-//                            .build()
-//                        chain.proceed(newRequest)
-//                    }.build()
-//            )
-//            .build()
-//        return retrofit.create(TraktApi::class.java)
-//    }
-
-
-//    @Provides
-//    @Singleton
-//    fun provideTmdbApi(): TmdbApi {
-//        val json = provideJson()
-//        val contentType = "application/json".toMediaType()
-//
-//        val retrofit = Retrofit.Builder()
-//            .baseUrl("https://api.themoviedb.org/3/")
-//            .addConverterFactory(json.asConverterFactory(contentType))
-//            .build()
-//        return retrofit.create(TmdbApi::class.java)
-//    }
-
-
-//    @Provides
-//    @Singleton
-//    fun provideOmdbApi(): OmdbApi {
-//        val json = provideJson()
-//        val contentType = "application/json".toMediaType()
-//
-//        val retrofit = Retrofit.Builder()
-//            .baseUrl("http://www.omdbapi.com/")
-//            .addConverterFactory(json.asConverterFactory(contentType))
-//            .build()
-//        return retrofit.create(OmdbApi::class.java)
-//    }
 
 
 

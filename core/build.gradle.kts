@@ -89,6 +89,8 @@ dependencies {
 
     implementation(libs.gson)
 
+    // NOTE: spostata da app/build.gradle.kts
+    implementation(libs.okhttp) // modulo dagger
 
 
     // room NO, non possibile
