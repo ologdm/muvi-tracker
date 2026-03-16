@@ -10,12 +10,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.core.MovieType
 import com.example.muvitracker.R
 import com.example.muvitracker.databinding.FragmentExploreBaseBinding
 import com.example.muvitracker.ui.main.Navigator
 import com.example.muvitracker.ui.main.allmovies.base.AllMoviesPagingAdapter
-import com.example.muvitracker.utils.viewBinding
 import com.example.muvitracker.utils.fragmentViewLifecycleScope
+import com.example.muvitracker.utils.viewBinding
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import dagger.hilt.android.AndroidEntryPoint

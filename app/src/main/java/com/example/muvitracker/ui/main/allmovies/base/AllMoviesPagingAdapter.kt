@@ -4,16 +4,17 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import com.example.muvitracker.dataX.dtoX._support.Ids
+import com.example.data.dto._support.Ids
+import com.example.domain.model.IdsDomain
+import com.example.domain.model.base.MovieBase
 import com.example.muvitracker.databinding.ViewholderExploreBaseBinding
-import com.example.muvitracker.domain.model.base.MovieBase
 
 // used by:
 // - popular fragment - lists with paging needed
 
 
 class AllMoviesPagingAdapter (
-    val onClickVH: (Ids) -> Unit
+    val onClickVH: (IdsDomain) -> Unit
 ) : PagingDataAdapter<MovieBase, MovieViewholder>(DIFF_CALLBACK) {
 
     companion object {
