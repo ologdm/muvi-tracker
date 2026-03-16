@@ -50,7 +50,7 @@ dependencies {
 
 //    TODO: implementation(project(":domain"))
     //  -------- Kotlin ------------------------------------------------------
-//    implementation(libs.kotlinx.serialization.json) // CHECK: serve??
+    implementation(libs.kotlinx.serialization.json) // serve per retrofit
 
     //  -------- Networking (Retrofit) --------------------------------------------------
     implementation(libs.retrofit)
@@ -81,8 +81,12 @@ dependencies {
     // implementation(libs.store4) // old, not compatible with Kotlin 2.3.10 and agp 9
     implementation(libs.store5)
 
+    // paging
+    implementation(libs.paging.runtime.ktx)
 
     implementation(project(":domain")) // -> va a build gradle data
+    implementation(project(":core"))
+
 
     /* NOTE:
         non devono stare in data
