@@ -3,7 +3,7 @@ import java.util.Properties
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.parcelize)
-    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.kotlin.serialization) // TODO eliminare
     // alias(libs.plugins.kotlin.kapt)     // Old kapt plugin used with AGP 7/8
     // alias(libs.plugins.legacy.kapt)     // Replacement for kapt when using AGP 9+
     alias(libs.plugins.ksp) // KSP (Room, Hilt, Glide) – replaces kapt
@@ -81,9 +81,9 @@ dependencies {
     //  -------- Networking -------------------------------------------------- TODO OK
 //    implementation(libs.retrofit)
 //    implementation(libs.retrofit.kotlinx.serialization)
-    implementation(libs.okhttp)
+//    implementation(libs.okhttp) // TODO spostata su core, serve per accesso al sito
 
-    //  -------- Image Loading (Glide) -----------------------------------------
+    //  -------- Image Loading (Glide) ----------------------------------------- ok, anche su data
     implementation(libs.glide)
     // kapt(libs.glide.compiler)
     // NOTE: Glide KSP does not fully support generated APIs such as GlideApp, GlideRequests, and GlideOptions
