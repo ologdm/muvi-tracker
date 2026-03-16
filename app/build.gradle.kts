@@ -81,7 +81,7 @@ dependencies {
     //  -------- Networking -------------------------------------------------- TODO OK
 //    implementation(libs.retrofit)
 //    implementation(libs.retrofit.kotlinx.serialization)
-//    implementation(libs.okhttp)
+    implementation(libs.okhttp)
 
     //  -------- Image Loading (Glide) -----------------------------------------
     implementation(libs.glide)
