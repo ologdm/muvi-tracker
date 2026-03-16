@@ -9,7 +9,7 @@ import com.bumptech.glide.annotation.GlideModule
 import com.bumptech.glide.load.engine.executor.GlideExecutor
 import com.bumptech.glide.load.engine.executor.GlideExecutor.UncaughtThrowableStrategy.IGNORE
 import com.bumptech.glide.module.AppGlideModule
-import com.example.muvitracker.data.TmdbApi
+import com.example.data.TmdbApi
 import dagger.hilt.EntryPoint
 import dagger.hilt.EntryPoints
 import dagger.hilt.InstallIn

@@ -5,10 +5,9 @@ import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.data.DataFetcher
 import com.bumptech.glide.load.data.HttpUrlFetcher
 import com.bumptech.glide.load.model.GlideUrl
-
-import com.example.muvitracker.data.TmdbApi
-import com.example.muvitracker.data.dtoX.movie.detail.MovieTmdbDto
-import com.example.muvitracker.data.dtoX.show.detail.ShowTmdbDto
+import com.example.data.TmdbApi
+import com.example.data.dto.movie.detail.MovieTmdbDto
+import com.example.data.dto.show.detail.ShowTmdbDto
 import kotlinx.coroutines.runBlocking
 import java.io.InputStream
 

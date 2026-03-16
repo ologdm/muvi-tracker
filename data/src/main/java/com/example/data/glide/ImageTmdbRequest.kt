@@ -1,6 +1,6 @@
 package com.example.data.glide
 
-import com.example.muvitracker.data.LanguageManager
+import com.example.data.LanguageManager
 
 
 /**

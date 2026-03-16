@@ -88,6 +88,11 @@ dependencies {
     // ---------- ML Kit -------------------------------------------------------
     implementation(libs.mlkit.translate)
 
+    // ---------- Glide ------------------------------------
+    implementation(libs.glide)
+    ksp(libs.glide.ksp) // replaces kapt
+
+
     implementation(project(":domain")) // -> va a build gradle data
     implementation(project(":core"))
 
