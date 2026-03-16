@@ -3,16 +3,16 @@ package com.example.muvitracker.ui.main.detailmovie
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.muvitracker.dataX.TraktApi
-import com.example.muvitracker.dataX.dtoX._support.Ids
-import com.example.muvitracker.domain.model.CastMember
-import com.example.muvitracker.domain.model.Movie
-import com.example.muvitracker.domain.model.Provider
-import com.example.muvitracker.domain.model.base.MovieBase
-import com.example.muvitracker.domain.repo.DetailMovieRepository
-import com.example.muvitracker.domain.repo.PrefsMovieRepository
+import com.example.data.TraktApi
+import com.example.domain.model.CastMember
+import com.example.domain.model.IdsDomain
+import com.example.domain.model.Movie
+import com.example.domain.model.Provider
+import com.example.domain.model.base.MovieBase
+import com.example.domain.repo.DetailMovieRepository
+import com.example.domain.repo.PrefsMovieRepository
 import com.example.muvitracker.ui.main.providers.AppCountry
-import com.example.muvitracker.utils.IoResponse
+import com.example.domain.utils.IoResponse
 import com.example.muvitracker.utils.ListStateContainerTwo
 import com.example.muvitracker.utils.StateContainerThree
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -47,7 +47,7 @@ class DetailMovieViewmodel @Inject constructor(
 
 
     // flow -> livedata
-    fun loadMovieDetailFlow(movieIds: Ids) {
+    fun loadMovieDetailFlow(movieIds: IdsDomain) {
         var cachedMovie: Movie? = null
 
         viewModelScope.launch {

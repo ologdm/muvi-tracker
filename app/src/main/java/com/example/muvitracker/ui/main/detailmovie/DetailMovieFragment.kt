@@ -26,19 +26,14 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.muvitracker.MyApp
 import com.example.muvitracker.R
-import com.example.muvitracker.dataX.TmdbApi
-import com.example.muvitracker.dataX.dtoX._support.Ids
-import com.example.muvitracker.dataX.glide.ImageTmdbRequest
 import com.example.muvitracker.databinding.DialogMyNotesBinding
 import com.example.muvitracker.databinding.FragmentDetailMovieBinding
-import com.example.muvitracker.domain.model.Movie
-import com.example.muvitracker.domain.model.Provider
 import com.example.muvitracker.ui.main.Navigator
 import com.example.muvitracker.ui.main.person.adapters.CastAdapter
 import com.example.muvitracker.ui.main.detailmovie.adapters.RelatedMoviesAdapter
-import com.example.muvitracker.utils.formatToReadableDate
-import com.example.muvitracker.utils.getNowFormattedDateTime
-import com.example.muvitracker.utils.orDefaultText
+import com.example.core.utils.formatToReadableDate
+import com.example.core.utils.getNowFormattedDateTime
+import com.example.core.utils.orDefaultText
 import com.example.muvitracker.utils.statesFlowDetail
 import com.example.muvitracker.utils.twoStatesFlow
 import com.example.muvitracker.utils.viewBinding
@@ -51,10 +46,13 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import okhttp3.OkHttpClient
-import okhttp3.Request
 import javax.inject.Inject
 import androidx.core.net.toUri
+import com.example.data.TmdbApi
+import com.example.data.glide.ImageTmdbRequest
+import com.example.domain.model.IdsDomain
+import com.example.domain.model.Movie
+import com.example.domain.model.Provider
 import com.example.muvitracker.ui.main.providers.CountriesDialog
 import kotlinx.coroutines.async
 
@@ -77,7 +75,7 @@ import kotlinx.coroutines.async
 @AndroidEntryPoint
 class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
 
-    private var currentMovieIds: Ids = Ids()
+    private var currentMovieIds: IdsDomain = IdsDomain()
 
     private val b by viewBinding(FragmentDetailMovieBinding::bind)
     private val viewModel by viewModels<DetailMovieViewmodel>()
@@ -112,6 +110,7 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
     // 1.2.0
     //by lazy:  inizializza solo la prima volta che viene usata.
     // client HTTP per richieste GET, POST, HEAD,
+    // FIXME:  OkHttpClient vedere dove spostare
     private val okHttpClient by lazy { OkHttpClient() }
 
     override fun onViewCreated(
@@ -126,7 +125,7 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
 
         val bundle = arguments
         if (bundle != null) {
-            currentMovieIds = bundle.getParcelable(MOVIE_IDS_KEY) ?: Ids()
+            currentMovieIds = bundle.getParcelable(MOVIE_IDS_KEY) ?: IdsDomain()
             println("W")
         }
 
@@ -727,7 +726,7 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
 
 
     companion object {
-        fun create(movieIds: Ids): DetailMovieFragment {
+        fun create(movieIds: IdsDomain): DetailMovieFragment {
             val detailMovieFragment = DetailMovieFragment()
             val bundle = Bundle()
             bundle.putParcelable(MOVIE_IDS_KEY, movieIds)

@@ -4,12 +4,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import com.example.muvitracker.dataX.dtoX._support.Ids
+import com.example.domain.model.IdsDomain
+import com.example.domain.model.base.MovieBase
 import com.example.muvitracker.databinding.ViewholderRelatedListOnDetailBinding
-import com.example.muvitracker.domain.model.base.MovieBase
 
 class RelatedMoviesAdapter(
-    private val onClickVH: (Ids) -> Unit,
+    private val onClickVH: (IdsDomain) -> Unit,
 ) : ListAdapter<MovieBase, RelatedMovieViewholder>(RelatedMoviesAdapter) {
 
 

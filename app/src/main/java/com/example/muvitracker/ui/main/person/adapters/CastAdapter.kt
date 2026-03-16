@@ -4,13 +4,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import com.example.muvitracker.dataX.dtoX._support.Ids
+import com.example.domain.model.CastMember
+import com.example.domain.model.IdsDomain
 import com.example.muvitracker.databinding.ViewholderCastListOnDetailBinding
-import com.example.muvitracker.domain.model.CastMember
 
 
 class CastAdapter(
-    private val onClickVH: (Ids, String) -> Unit,
+    private val onClickVH: (IdsDomain, String) -> Unit,
 ) : ListAdapter<CastMember, CastViewholder>(CastAdapter) {
 
 
