@@ -1,8 +1,5 @@
-package com.example.muvitracker.utils
+package com.example.core.utils
 
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.LifecycleCoroutineScope
-import androidx.lifecycle.lifecycleScope
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -11,9 +8,7 @@ import java.time.Period
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
-// fragment extended property for scope
-val Fragment.fragmentViewLifecycleScope: LifecycleCoroutineScope
-    get() = this.viewLifecycleOwner.lifecycleScope
+
 
 
 // dateFormatter ###############################################################
