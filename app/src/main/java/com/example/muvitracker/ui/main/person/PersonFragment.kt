@@ -10,10 +10,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.example.muvitracker.R
-import com.example.muvitracker.dataX.dtoX._support.Ids
-import com.example.muvitracker.dataX.glide.ImageTmdbRequest
 import com.example.muvitracker.databinding.FragmentPersonBinding
-import com.example.muvitracker.utils.orDefaultText
+import com.example.core.utils.orDefaultText
+import com.example.data.glide.ImageTmdbRequest
+import com.example.domain.model.IdsDomain
 import com.example.muvitracker.utils.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -22,7 +22,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class PersonFragment : Fragment(R.layout.fragment_person) {
 
-    private var currentPersonIds: Ids = Ids()
+    private var currentPersonIds: IdsDomain = IdsDomain()
 
     val viewmodel by viewModels<PersonViewmodel>()
     val binding by viewBinding(FragmentPersonBinding::bind)
@@ -37,7 +37,7 @@ class PersonFragment : Fragment(R.layout.fragment_person) {
 
         val bundle = arguments
         bundle?.let {
-            currentPersonIds = bundle.getParcelable(PERSON_IDS_KEY) ?: Ids()
+            currentPersonIds = bundle.getParcelable(PERSON_IDS_KEY) ?: IdsDomain()
         }
 
 
@@ -127,7 +127,7 @@ class PersonFragment : Fragment(R.layout.fragment_person) {
 
     companion object {
         // from search (personDto -> personExtended)
-        fun create(personIds: Ids): PersonFragment {
+        fun create(personIds: IdsDomain): PersonFragment {
             val personFragment = PersonFragment()
             val bundle = Bundle()
             bundle.putParcelable(PERSON_IDS_KEY, personIds)

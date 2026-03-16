@@ -3,11 +3,11 @@ package com.example.muvitracker.ui.main.person
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.muvitracker.dataX.TmdbApi
-import com.example.muvitracker.dataX.TraktApi
-import com.example.muvitracker.dataX.dtoX._support.Ids
-import com.example.muvitracker.dataX.dtoX.person.detail.mergePersonDtoToDomain
-import com.example.muvitracker.domain.model.Person
+import com.example.data.TmdbApi
+import com.example.data.TraktApi
+import com.example.data.dto.person.detail.mergePersonDtoToDomain
+import com.example.domain.model.IdsDomain
+import com.example.domain.model.Person
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -24,7 +24,7 @@ class PersonViewmodel @Inject constructor(
     val personState = MutableLiveData<Person>()
 
 
-    fun getPersonDetail(personIds: Ids) {
+    fun getPersonDetail(personIds: IdsDomain) {
         viewModelScope.launch {
             val traktDeferred = async {
                 try {
