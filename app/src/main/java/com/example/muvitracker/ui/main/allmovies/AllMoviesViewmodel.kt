@@ -7,9 +7,9 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
-import com.example.muvitracker.R
-import com.example.muvitracker.dataX.TraktApi
-import com.example.muvitracker.dataX.repositories.paging.MoviesPagingSource
+import com.example.core.MovieType
+import com.example.data.TraktApi
+import com.example.data.repositories.paging.MoviesPagingSource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -19,6 +19,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MoviesViewmodel @Inject constructor(
+    // FIXME: spostare api su repo, presentation non ha accesso
     private val traktApi: TraktApi,
     private val sharedPrefs: SharedPreferences
 ) : ViewModel() {
@@ -58,33 +59,6 @@ class MoviesViewmodel @Inject constructor(
 }
 
 
-enum class MovieType {
-    Popular,
-    BoxOffice,
-    Watched,
-    Favorited,
-    ComingSoon;
-
-    val stringRes: Int
-        get() = when (this) {
-            Popular -> R.string.popular
-            BoxOffice -> R.string.box_office
-            Watched -> R.string.watched
-            Favorited -> R.string.favorited
-            ComingSoon -> R.string.anticipated
-        }
-
-    val sharedPrefsValue: String
-        get() = when (this) {
-            Popular -> "popular"
-            BoxOffice -> "boxoffice"
-            Watched -> "watched"
-            Favorited -> "favorited"
-            ComingSoon -> "anticipated"
-        }
-
-
-}
 
 
 
