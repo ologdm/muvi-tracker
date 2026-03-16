@@ -1,9 +1,9 @@
 package com.example.data.dto.show.explore
 
 import android.annotation.SuppressLint
-import com.example.muvitracker.data.dto.show.ShowBaseDto
-import com.example.muvitracker.domain.model.base.ShowBase
-import com.google.gson.annotations.SerializedName
+import com.example.data.dto._support.toDomain
+import com.example.data.dto.show.ShowBaseDto
+import com.example.domain.model.base.ShowBase
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -19,7 +19,7 @@ fun AnticipatedShowDto.toDomain(): ShowBase {
     return ShowBase(
         title = show.title,
         year = show.year,
-        ids = show.ids
+        ids = show.ids.toDomain()
     )
 }
 

@@ -2,11 +2,11 @@ package com.example.data.repositories.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.example.muvitracker.data.TraktApi
-import com.example.muvitracker.data.dtoX.show.explore.toDomain
-import com.example.muvitracker.data.dtoX.show.toDomain
-import com.example.muvitracker.domain.model.base.ShowBase
-import com.example.muvitracker.ui.main.allshows.ShowsType
+import com.example.core.ShowsType
+import com.example.data.TraktApi
+import com.example.data.dto.show.explore.toDomain
+import com.example.data.dto.show.toDomain
+import com.example.domain.model.base.ShowBase
 import java.util.concurrent.CancellationException
 
 class ShowsPagingSource(

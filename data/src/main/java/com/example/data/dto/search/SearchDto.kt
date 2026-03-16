@@ -2,13 +2,13 @@ package com.example.data.dto.search
 
 
 import android.annotation.SuppressLint
-import com.example.muvitracker.data.dto.movie.MovieBaseDto
-import com.example.muvitracker.data.dto.show.ShowBaseDto
-import com.example.muvitracker.data.dto.movie.toDomain
-import com.example.muvitracker.data.dto.person.PersonBaseDto
-import com.example.muvitracker.data.dto.person.toDomain
-import com.example.muvitracker.data.dto.show.toDomain
-import com.example.muvitracker.domain.model.SearchResult
+import com.example.data.dto.movie.MovieBaseDto
+import com.example.data.dto.movie.toDomain
+import com.example.data.dto.person.PersonBaseDto
+import com.example.data.dto.person.toDomain
+import com.example.data.dto.show.ShowBaseDto
+import com.example.data.dto.show.toDomain
+import com.example.domain.model.SearchResult
 import kotlinx.serialization.Serializable
 
 // TODO: 1.1.3 - valori default per sottoclassi ok

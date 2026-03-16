@@ -1,11 +1,10 @@
 package com.example.data.repositories
 
-import com.example.muvitracker.data.databaseX.MyDatabase
-import com.example.muvitracker.data.databaseX.entities.PrefsShowEntity
-import com.example.muvitracker.domain.model.Show
-import com.example.muvitracker.domain.repo.PrefsShowRepository
+import com.example.data.database.MyDatabase
+import com.example.data.database.entities.PrefsShowEntity
+import com.example.domain.model.Show
+import com.example.domain.repo.PrefsShowRepository
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton

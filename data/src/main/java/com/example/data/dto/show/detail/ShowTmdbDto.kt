@@ -1,10 +1,9 @@
 package com.example.data.dto.show.detail
 
 import android.annotation.SuppressLint
-import com.example.muvitracker.data.dto.movie.detail.GenreDto
-import com.example.muvitracker.data.dto.movie.detail.VideosResult
-import com.example.muvitracker.data.dto.season.SeasonTmdbDto
-import com.google.gson.annotations.SerializedName
+import com.example.data.dto.movie.detail.GenreDto
+import com.example.data.dto.movie.detail.VideosResult
+import com.example.data.dto.season.SeasonTmdbDto
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

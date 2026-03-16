@@ -1,11 +1,11 @@
 package com.example.data.dto.episode
 
 import android.annotation.SuppressLint
-import com.example.muvitracker.data.databaseX.entities.EpisodeEntity
-import com.example.muvitracker.data.dto._support.Ids
-import com.example.muvitracker.data.utils.dtoStringOr
-import com.example.muvitracker.utils.firstDecimalApproxToString
-import com.example.muvitracker.utils.formatToSqliteCompatibleDate
+import com.example.core.utils.firstDecimalApproxToString
+import com.example.core.utils.formatToSqliteCompatibleDate
+import com.example.data.database.entities.EpisodeEntity
+import com.example.data.dto._support.Ids
+import com.example.data.utils.dtoStringOr
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

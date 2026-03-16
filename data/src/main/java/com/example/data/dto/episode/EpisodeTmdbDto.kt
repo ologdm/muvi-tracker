@@ -1,7 +1,6 @@
 package com.example.data.dto.episode
 
 import android.annotation.SuppressLint
-import com.google.gson.annotations.SerializedName
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

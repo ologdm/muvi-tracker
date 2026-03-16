@@ -1,20 +1,21 @@
 package com.example.data.repositories
 
-import com.example.muvitracker.data.TmdbApi
-import com.example.muvitracker.data.TraktApi
-import com.example.muvitracker.data.databaseX.MyDatabase
-import com.example.muvitracker.data.databaseX.entities.EpisodeEntity
-import com.example.muvitracker.data.databaseX.entities.copyOnlyDtoData
-import com.example.muvitracker.data.databaseX.entities.toDomain
-import com.example.muvitracker.data.dtoX.episode.mergeEpisodeDtos
-import com.example.muvitracker.data.dtoX._support.Ids
-import com.example.muvitracker.data.utils.ShowRequestKeys
-import com.example.muvitracker.data.utils.mapToIoResponse
-import com.example.muvitracker.data.utils.storeFactory
-import com.example.muvitracker.domain.model.Episode
-import com.example.muvitracker.domain.repo.EpisodeRepository
-import com.example.muvitracker.domain.repo.PrefsShowRepository
-import com.example.muvitracker.utils.IoResponse
+import com.example.data.TmdbApi
+import com.example.data.TraktApi
+import com.example.data.database.MyDatabase
+import com.example.data.database.entities.EpisodeEntity
+import com.example.data.database.entities.copyOnlyDtoData
+import com.example.data.database.entities.toDomain
+import com.example.data.dto._support.Ids
+import com.example.data.dto.episode.mergeEpisodeDtos
+import com.example.data.utils.ShowRequestKeys
+import com.example.data.utils.mapToIoResponse
+import com.example.data.utils.storeFactory
+import com.example.domain.model.Episode
+import com.example.domain.model.IdsDomain
+import com.example.domain.repo.EpisodeRepository
+import com.example.domain.repo.PrefsShowRepository
+import com.example.domain.utils.IoResponse
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
@@ -64,7 +65,8 @@ class EpisodeRepositoryImpl @Inject constructor(
                     }
 
                     val traktDtos = traktDeferred.await()
-                    val tmdbDtos = tmdbDeferred.await()?.episodes // da dto season specifica, solo per episodi
+                    val tmdbDtos =
+                        tmdbDeferred.await()?.episodes // da dto season specifica, solo per episodi
 
                     val returnList = traktDtos.map { traktEpisodeDto ->
                         val tmdbDto = tmdbDtos?.find { it ->
@@ -83,7 +85,7 @@ class EpisodeRepositoryImpl @Inject constructor(
                          * per corretto funzionamento della UI   */
 //                        if (episodes.isEmpty()) null // consiglio eugi, uso empty list per far funzionare il flow
 //                        else
-                            episodes.map { it.toDomain() }
+                        episodes.map { it.toDomain() }
                     }
             },
             // 1.1.3  writer OK
@@ -108,23 +110,36 @@ class EpisodeRepositoryImpl @Inject constructor(
         }
     }
 
-    // 1.1.3 TODO OK
-    override suspend fun fetchSeasonEpisodes(showIds: Ids, seasonNr: Int) {
-        episodesStore.fresh(ShowRequestKeys(showIds, seasonNr))
+    // FIXME: fixed con idsData
+    override suspend fun fetchSeasonEpisodes(showIds: IdsDomain, seasonNr: Int) {
+        val idsData = Ids(
+            trakt = showIds.trakt,
+            tmdb = showIds.tmdb,
+            imdb = showIds.imdb,
+            slug = showIds.slug
+        )
+
+        episodesStore.fresh(ShowRequestKeys(idsData, seasonNr))
     }
 
 
-
-    // 1.1.3 TODO OK
+    // FIXME: fixed con idsData
     override
     fun getSeasonAllEpisodesFlow(
-        showIds: Ids,
+        showIds: IdsDomain,
         seasonNr: Int
     ): Flow<IoResponse<List<Episode>>> {
+        val idsData = Ids(
+            trakt = showIds.trakt,
+            tmdb = showIds.tmdb,
+            imdb = showIds.imdb,
+            slug = showIds.slug
+        )
+
         return episodesStore
             .stream(
                 StoreReadRequest.cached(
-                    ShowRequestKeys(showIds = showIds, seasonNr = seasonNr),
+                    ShowRequestKeys(showIds = idsData, seasonNr = seasonNr),
                     refresh = true
                 )
             )
@@ -145,9 +160,10 @@ class EpisodeRepositoryImpl @Inject constructor(
     }
 
 
+    //FIXME: IdsDomain
     override
     suspend fun toggleSingleWatchedEpisode(
-        showIds: Ids,
+        showIds: IdsDomain,
         seasonNr: Int,
         episodeNr: Int
     ) {

@@ -1,13 +1,12 @@
 package com.example.data
 
 
-import com.example.muvitracker.BuildConfig
-import com.example.muvitracker.data.dtoX.episode.EpisodeTmdbDto
-import com.example.muvitracker.data.dtoX.movie.detail.MovieTmdbDto
-import com.example.muvitracker.data.dtoX.person.detail.PersonTmdbDto
-import com.example.muvitracker.data.dtoX.provider.MovieProvidersResponseDto
-import com.example.muvitracker.data.dtoX.season.SeasonEpTmdbDto
-import com.example.muvitracker.data.dtoX.show.detail.ShowTmdbDto
+import com.example.data.dto.episode.EpisodeTmdbDto
+import com.example.data.dto.movie.detail.MovieTmdbDto
+import com.example.data.dto.person.detail.PersonTmdbDto
+import com.example.data.dto.provider.MovieProvidersResponseDto
+import com.example.data.dto.season.SeasonEpTmdbDto
+import com.example.data.dto.show.detail.ShowTmdbDto
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -20,7 +19,8 @@ import retrofit2.http.Query
 interface TmdbApi {
     // TODO: BuildConfig prende valore da local propreties
     companion object {
-        const val API_KEY_QUERY_MOD = BuildConfig.TMDB_API_KEY
+//        const val API_KEY_QUERY_MOD = BuildConfig.TMDB_API_KEY
+        const val API_KEY_QUERY_MOD = "BuildConfig.TMDB_API_KEY" // TODO check dopo sync
     }
 
 

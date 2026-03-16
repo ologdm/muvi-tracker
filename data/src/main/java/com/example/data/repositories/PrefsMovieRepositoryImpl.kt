@@ -1,11 +1,10 @@
 package com.example.data.repositories
 
-import com.example.muvitracker.data.databaseX.MyDatabase
-import com.example.muvitracker.data.databaseX.entities.PrefsMovieEntity
-import com.example.muvitracker.data.databaseX.entities.toDomain
-import com.example.muvitracker.domain.model.Movie
-import com.example.muvitracker.domain.repo.DetailMovieRepository
-import com.example.muvitracker.domain.repo.PrefsMovieRepository
+import com.example.data.database.MyDatabase
+import com.example.data.database.entities.PrefsMovieEntity
+import com.example.domain.model.Movie
+import com.example.domain.repo.DetailMovieRepository
+import com.example.domain.repo.PrefsMovieRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.firstOrNull

@@ -1,27 +1,29 @@
 package com.example.data.repositories
 
-import com.example.muvitracker.data.OmdbApi
-import com.example.muvitracker.data.TmdbApi
-import com.example.muvitracker.data.TraktApi
-import com.example.muvitracker.data.databaseX.MyDatabase
-import com.example.muvitracker.data.databaseX.entities.ShowEntity
-import com.example.muvitracker.data.dtoX.OmdbResultDto
-import com.example.muvitracker.data.dtoX.show.detail.mergeShowsDtoToEntity
-import com.example.muvitracker.data.dtoX._support.Ids
-import com.example.muvitracker.data.dtoX.person.toDomain
-import com.example.muvitracker.data.dtoX.provider.MovieProvidersResponseDto
-import com.example.muvitracker.data.dtoX.show.detail.ShowTmdbDto
-import com.example.muvitracker.data.dtoX.show.detail.ShowTraktDto
-import com.example.muvitracker.data.dtoX.show.toDomain
-import com.example.muvitracker.data.utils.mapToIoResponse
-import com.example.muvitracker.data.utils.storeFactory
-import com.example.muvitracker.domain.model.CastAndCrew
-import com.example.muvitracker.domain.model.Provider
-import com.example.muvitracker.domain.model.Show
-import com.example.muvitracker.domain.model.base.ShowBase
-import com.example.muvitracker.domain.repo.DetailShowRepository
-import com.example.muvitracker.domain.repo.SeasonRepository
-import com.example.muvitracker.utils.IoResponse
+import com.example.data.OmdbApi
+import com.example.data.TmdbApi
+import com.example.data.TraktApi
+import com.example.data.database.MyDatabase
+import com.example.data.database.entities.ShowEntity
+import com.example.data.dto.OmdbResultDto
+import com.example.data.dto._support.Ids
+import com.example.data.dto.person.toDomain
+import com.example.data.dto.provider.MovieProvidersResponseDto
+import com.example.data.dto.show.detail.ShowTmdbDto
+import com.example.data.dto.show.detail.ShowTraktDto
+import com.example.data.dto.show.detail.mergeShowsDtoToEntity
+import com.example.data.dto.show.toDomain
+import com.example.data.utils.mapToIoResponse
+import com.example.data.utils.storeFactory
+import com.example.domain.model.CastAndCrew
+import com.example.domain.model.IdsDomain
+import com.example.domain.model.Provider
+import com.example.domain.model.Show
+import com.example.domain.model.base.ShowBase
+import com.example.domain.repo.DetailShowRepository
+import com.example.domain.repo.SeasonRepository
+import com.example.domain.utils.IoResponse
+import com.example.domain.utils.map
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
@@ -98,9 +100,15 @@ class DetailShowRepositoryImpl @Inject constructor(
         }
     )
 
-
-    override fun getSingleDetailShowFlow(showIds: Ids): Flow<IoResponse<Show>> {
-        return store.stream(StoreReadRequest.cached(key = showIds, refresh = true))
+    // FIXME:  fixed con idsData
+    override fun getSingleDetailShowFlow(showIds: IdsDomain): Flow<IoResponse<Show>> {
+        val idsData = Ids(
+            trakt = showIds.trakt,
+            tmdb = showIds.tmdb,
+            imdb = showIds.imdb,
+            slug = showIds.slug
+        )
+        return store.stream(StoreReadRequest.cached(key = idsData, refresh = true))
             .mapToIoResponse()
     }
 
@@ -135,7 +143,8 @@ class DetailShowRepositoryImpl @Inject constructor(
 
 
     // WATCHED_ALL SU SHOW
-    override suspend fun checkAndSetWatchedAllShowEpisodes(showIds: Ids) = coroutineScope {
+    // FIXME: IdsDomain
+    override suspend fun checkAndSetWatchedAllShowEpisodes(showIds: IdsDomain) = coroutineScope {
         val showAllSeasonsCount = seasonDao.countAllSeasonsOfShow(showIds.trakt)
         val isShowWatchedAll = detailShowDao.getSingleFlow(showIds.trakt)
             .firstOrNull()?.watchedAll // watchedAll calculated

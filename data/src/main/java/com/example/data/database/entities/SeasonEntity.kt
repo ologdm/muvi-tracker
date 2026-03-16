@@ -2,10 +2,10 @@ package com.example.data.database.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.muvitracker.data.dto.season.SeasonTmdbDto
-import com.example.muvitracker.data.dto.season.SeasonTraktDto
-import com.example.muvitracker.data.dto.season.mergeSeasonsDtoToEntity
-import com.example.muvitracker.data.dto._support.Ids
+import com.example.data.dto._support.Ids
+import com.example.data.dto.season.SeasonTmdbDto
+import com.example.data.dto.season.SeasonTraktDto
+import com.example.data.dto.season.mergeSeasonsDtoToEntity
 
 
 // 1.1.3 OK

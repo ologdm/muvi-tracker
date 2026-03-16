@@ -1,21 +1,21 @@
 package com.example.data
 
-import com.example.muvitracker.data.dtoX.movie.explore.BoxofficeDtoM
-import com.example.muvitracker.data.dtoX.movie.detail.MovieTraktDto
-import com.example.muvitracker.data.dtoX.show.detail.ShowTraktDto
-import com.example.muvitracker.data.dtoX.episode.EpisodeTraktDto
-import com.example.muvitracker.data.dtoX.movie.MovieBaseDto
-import com.example.muvitracker.data.dtoX.search.SearchDto
-import com.example.muvitracker.data.dtoX.movie.explore.AnticipatedDtoM
-import com.example.muvitracker.data.dtoX.movie.explore.FavoritedDtoM
-import com.example.muvitracker.data.dtoX.movie.explore.WatchedDtoM
-import com.example.muvitracker.data.dtoX.season.SeasonTraktDto
-import com.example.muvitracker.data.dtoX.show.explore.AnticipatedShowDto
-import com.example.muvitracker.data.dtoX.show.explore.FavoritedShowDto
-import com.example.muvitracker.data.dtoX.show.ShowBaseDto
-import com.example.muvitracker.data.dtoX.show.explore.WatchedShowDto
-import com.example.muvitracker.data.dtoX.person.CastResponseDto
-import com.example.muvitracker.data.dtoX.person.detail.PersonTraktDto
+import com.example.data.dto.episode.EpisodeTraktDto
+import com.example.data.dto.movie.MovieBaseDto
+import com.example.data.dto.movie.detail.MovieTraktDto
+import com.example.data.dto.movie.explore.AnticipatedDtoM
+import com.example.data.dto.movie.explore.BoxofficeDtoM
+import com.example.data.dto.movie.explore.FavoritedDtoM
+import com.example.data.dto.movie.explore.WatchedDtoM
+import com.example.data.dto.person.CastResponseDto
+import com.example.data.dto.person.detail.PersonTraktDto
+import com.example.data.dto.search.SearchDto
+import com.example.data.dto.season.SeasonTraktDto
+import com.example.data.dto.show.ShowBaseDto
+import com.example.data.dto.show.detail.ShowTraktDto
+import com.example.data.dto.show.explore.AnticipatedShowDto
+import com.example.data.dto.show.explore.FavoritedShowDto
+import com.example.data.dto.show.explore.WatchedShowDto
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -94,7 +94,7 @@ interface TraktApi {
     suspend fun getAnticipatedShows(
         @Query("page") page: Int,
         @Query("limit") limit: Int
-    ): List<`AnticipatedShowDto`>
+    ): List<AnticipatedShowDto>
 
 
     // DETAIL MOVIE/SHOW -------------------------------------------------------------------------------

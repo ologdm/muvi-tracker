@@ -1,29 +1,34 @@
 package com.example.data.repositories
 
-import com.example.muvitracker.MyApp
-import com.example.muvitracker.R
-import com.example.muvitracker.data.OmdbApi
-import com.example.muvitracker.data.TmdbApi
-import com.example.muvitracker.data.TraktApi
-import com.example.muvitracker.data.databaseX.MyDatabase
-import com.example.muvitracker.data.databaseX.entities.MovieEntity
-import com.example.muvitracker.data.dtoX._support.Ids
-import com.example.muvitracker.data.dtoX.movie.detail.mergeMoviesDtoToEntity
-import com.example.muvitracker.data.dtoX.movie.toDomain
-import com.example.muvitracker.data.dtoX.person.toDomain
-import com.example.muvitracker.data.dtoX.provider.MovieProvidersResponseDto
-import com.example.muvitracker.data.utils.mapToIoResponse
-import com.example.muvitracker.data.utils.storeFactory
-import com.example.muvitracker.domain.model.CastAndCrew
-import com.example.muvitracker.domain.model.Movie
-import com.example.muvitracker.domain.model.Provider
-import com.example.muvitracker.domain.model.base.MovieBase
-import com.example.muvitracker.domain.repo.DetailMovieRepository
-import com.example.muvitracker.utils.IoResponse
+import com.example.data.OmdbApi
+import com.example.data.TmdbApi
+import com.example.data.TraktApi
+import com.example.data.database.MyDatabase
+import com.example.data.database.entities.MovieEntity
+import com.example.data.database.entities.toDomain
+import com.example.data.dto._support.Ids
+import com.example.data.dto._support.toDomain
+import com.example.data.dto.movie.detail.mergeMoviesDtoToEntity
+import com.example.data.dto.movie.toDomain
+import com.example.data.dto.person.toDomain
+import com.example.data.dto.provider.MovieProvidersResponseDto
+import com.example.data.utils.mapToIoResponse
+import com.example.data.utils.storeFactory
+import com.example.domain.model.CastAndCrew
+import com.example.domain.model.IdsDomain
+import com.example.domain.model.Movie
+import com.example.domain.model.Provider
+import com.example.domain.model.base.MovieBase
+import com.example.domain.repo.DetailMovieRepository
+import com.example.domain.utils.IoResponse
+import com.example.domain.utils.map
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.map
 import org.mobilenativefoundation.store.store5.StoreReadRequest
 import java.util.Locale
 import javax.inject.Inject
@@ -114,16 +119,30 @@ class DetailMovieRepositoryImpl @Inject constructor(
 
 
     // CONTRACT METHODS ###########################################################
-
-    override fun getSingleDetailMovieFlow(movieIds: Ids): Flow<IoResponse<Movie>> {
-        return store.stream(StoreReadRequest.cached(key = movieIds, refresh = true))
+    // FIXME: fixed con idsData
+    override fun getSingleDetailMovieFlow(movieIds: IdsDomain): Flow<IoResponse<Movie>> {
+        val idsData = Ids(
+            trakt = movieIds.trakt,
+            tmdb = movieIds.tmdb,
+            imdb = movieIds.imdb,
+            slug = movieIds.slug
+        )
+        return store.stream(StoreReadRequest.cached(key = idsData, refresh = true))
             .mapToIoResponse()
     }
 
 
     // for prefs view
-    override fun getDetailListFlow(): Flow<List<MovieEntity>> {
-        return detailTraktDao.readAllFlow()
+    // FIXME: se voglio mantenere fun nel interf domain, return 'MovieEntity' sbagliato
+    //  esclusa temp dall'interfaccia, non puo essere usata !!!!!
+//    override fun getDetailListFlow(): Flow<List<MovieEntity>> {
+//    fun getDetailListFlow(): Flow<List<MovieEntity>> {
+    override fun getDetailListFlow(): Flow<List<Movie>> {
+        return detailTraktDao.readAllFlow().map {
+            it.map { entity ->
+                entity.toDomain(null)
+            }
+        }
     }
 
 
@@ -190,6 +209,10 @@ class DetailMovieRepositoryImpl @Inject constructor(
             pair.second.isNotEmpty() // emptyList default
         }
 
+        val pair = Pair("Mario", 25)
+        val x = pair.first
+        val y = pair.second
+
         // 2. da mappa a Pair<key, Obj>
         // struttura key, elemento singolo
         val flatProvidersPair = providersPair.flatMap { pair ->
@@ -235,14 +258,21 @@ class DetailMovieRepositoryImpl @Inject constructor(
     }
 }
 
-
+// FIXME: capire dove spostare
+//object ProviderTypes {
+//    var STREAM = MyApp.appContext.getString(R.string.textProviderStream)
+//    var BUY = MyApp.appContext.getString(R.string.textProviderBuy)
+//    var RENT = MyApp.appContext.getString(R.string.textProviderRent)
+//    var ADS = MyApp.appContext.getString(R.string.textProviderAds)
+//    var FREE = MyApp.appContext.getString(R.string.textProviderFree)
+//}
+// provvisoria
 object ProviderTypes {
-    var STREAM = MyApp.appContext.getString(R.string.textProviderStream)
-    var BUY = MyApp.appContext.getString(R.string.textProviderBuy)
-    var RENT = MyApp.appContext.getString(R.string.textProviderRent)
-    var ADS = MyApp.appContext.getString(R.string.textProviderAds)
-    var FREE = MyApp.appContext.getString(R.string.textProviderFree)
-
+    var STREAM = "Streaming"
+    var BUY = "Buy"
+    var RENT = "Rent"
+    var ADS = "With ads"
+    var FREE = "Free"
 }
 
 /*

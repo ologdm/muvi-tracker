@@ -3,18 +3,19 @@ package com.example.data.database
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.example.muvitracker.data.database.dao.MovieDao
-import com.example.muvitracker.data.database.dao.ShowDao
-import com.example.muvitracker.data.database.dao.EpisodeDao
-import com.example.muvitracker.data.database.dao.PrefsMovieDao
-import com.example.muvitracker.data.database.dao.PrefsShowDao
-import com.example.muvitracker.data.database.dao.SeasonDao
-import com.example.muvitracker.data.database.entities.MovieEntity
-import com.example.muvitracker.data.database.entities.ShowEntity
-import com.example.muvitracker.data.database.entities.EpisodeEntity
-import com.example.muvitracker.data.database.entities.PrefsMovieEntity
-import com.example.muvitracker.data.database.entities.PrefsShowEntity
-import com.example.muvitracker.data.database.entities.SeasonEntity
+import com.example.data.database.dao.EpisodeDao
+import com.example.data.database.dao.MovieDao
+import com.example.data.database.dao.PrefsMovieDao
+import com.example.data.database.dao.PrefsShowDao
+import com.example.data.database.dao.SeasonDao
+import com.example.data.database.dao.ShowDao
+import com.example.data.database.entities.EpisodeEntity
+import com.example.data.database.entities.MovieEntity
+import com.example.data.database.entities.PrefsMovieEntity
+import com.example.data.database.entities.PrefsShowEntity
+import com.example.data.database.entities.SeasonEntity
+import com.example.data.database.entities.ShowEntity
+import com.example.domain.model.Movie
 
 @Database(
     entities = [

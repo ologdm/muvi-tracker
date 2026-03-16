@@ -2,8 +2,9 @@ package com.example.data.database.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.muvitracker.data.dto._support.Ids
-import com.example.muvitracker.domain.model.Episode
+import com.example.data.dto._support.Ids
+import com.example.data.dto._support.toDomain
+import com.example.domain.model.Episode
 
 
 // 1.1.3 OK
@@ -13,7 +14,7 @@ data class EpisodeEntity(
     val seasonNumber: Int, // -1 default
     val episodeNumber: Int, // -1 default
     val numberAbs: Int?,
-    val ids: Ids,
+    val ids: Ids, // ids del dto
     val showId: Int, // passed through parameter .toEntity(showId)
     //
     val title: String?, // tmdb traslated
@@ -46,7 +47,8 @@ fun EpisodeEntity.toDomain(): Episode {
         seasonNumber = seasonNumber,
         episodeNumber = episodeNumber,
         numberAbs = numberAbs,
-        ids = ids,
+        // FIXME: cambiare nome in idsDto
+        ids = ids.toDomain(),
         showId = showId,
 
         title = title,

@@ -1,9 +1,9 @@
 package com.example.data.dto.movie.explore
 
 import android.annotation.SuppressLint
-import com.example.muvitracker.data.dto.movie.MovieBaseDto
-import com.example.muvitracker.domain.model.base.MovieBase
-import com.google.gson.annotations.SerializedName
+import com.example.data.dto._support.toDomain
+import com.example.data.dto.movie.MovieBaseDto
+import com.example.domain.model.base.MovieBase
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -19,7 +19,7 @@ fun FavoritedDtoM.toDomain(): MovieBase {
     return MovieBase(
         title = movie.title,
         year = movie.year,
-        ids = movie.ids
+        ids = movie.ids.toDomain()
     )
 }
 

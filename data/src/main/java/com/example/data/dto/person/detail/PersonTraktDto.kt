@@ -1,11 +1,13 @@
 package com.example.data.dto.person.detail
 
 import android.annotation.SuppressLint
-import com.example.muvitracker.data.dto._support.Ids
-import com.example.muvitracker.data.utils.dtoStringOr
-import com.example.muvitracker.domain.model.Person
-import com.example.muvitracker.utils.calculatePersonAge
-import com.example.muvitracker.utils.formatToDdMmmYyyy
+import com.example.core.utils.calculatePersonAge
+import com.example.core.utils.formatToDdMmmYyyy
+import com.example.data.dto._support.Ids
+import com.example.data.dto._support.toDomain
+import com.example.data.utils.dtoStringOr
+import com.example.domain.model.IdsDomain
+import com.example.domain.model.Person
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -46,7 +48,8 @@ fun mergePersonDtoToDomain(trakt: PersonTraktDto, tmdb: PersonTmdbDto?): Person 
 
     return Person(
         name = trakt.name, // only trakt
-        ids = trakt.ids ?: Ids(),
+        ids = trakt.ids?.toDomain() ?: IdsDomain(),
+
         biography = tmdb?.biography.dtoStringOr(trakt.biography),
         birthday = birthday?.formatToDdMmmYyyy(), // convert if not null ok
         death = deathday?.formatToDdMmmYyyy(), // ok

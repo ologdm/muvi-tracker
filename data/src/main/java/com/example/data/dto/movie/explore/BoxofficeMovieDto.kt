@@ -1,8 +1,9 @@
 package com.example.data.dto.movie.explore
 
 import android.annotation.SuppressLint
-import com.example.muvitracker.data.dto.movie.MovieBaseDto
-import com.example.muvitracker.domain.model.base.MovieBase
+import com.example.data.dto._support.toDomain
+import com.example.data.dto.movie.MovieBaseDto
+import com.example.domain.model.base.MovieBase
 import kotlinx.serialization.Serializable
 
 @SuppressLint("UnsafeOptInUsageError")
@@ -17,7 +18,7 @@ fun BoxofficeDtoM.toDomain(): MovieBase {
     return MovieBase(
         movie.title,
         movie.year,
-        movie.ids
+        movie.ids.toDomain()
     )
 }
 

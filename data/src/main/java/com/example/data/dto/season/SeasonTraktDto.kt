@@ -2,12 +2,11 @@ package com.example.data.dto.season
 
 import android.annotation.SuppressLint
 import android.os.Parcelable
-import com.example.muvitracker.data.LanguageManager
-import com.example.muvitracker.data.databaseX.entities.SeasonEntity
-import com.example.muvitracker.data.dto._support.Ids
-import com.example.muvitracker.data.utils.dtoStringOr
-import com.example.muvitracker.utils.firstDecimalApproxToString
-import kotlinx.parcelize.Parcelize
+import com.example.core.utils.firstDecimalApproxToString
+import com.example.data.LanguageManager
+import com.example.data.database.entities.SeasonEntity
+import com.example.data.dto._support.Ids
+import com.example.data.utils.dtoStringOr
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -17,7 +16,6 @@ import kotlinx.serialization.Serializable
  */
 @SuppressLint("UnsafeOptInUsageError")
 @Serializable
-@Parcelize
 data class SeasonTraktDto(
     val number: Int?,
     val ids: Ids,
@@ -32,7 +30,7 @@ data class SeasonTraktDto(
     @SerialName("first_aired") val firstAired: String?, // tmdb
 //    @SerializedName("updated_at") val updatedAt: String?, // not use
     val network: String? // tmdb
-) : Parcelable {
+) {
 
 //    fun getYear(): String? {
 //        return firstAired?.substring(0, 4)
@@ -71,7 +69,6 @@ fun mergeSeasonsDtoToEntity(
         currentTranslation = LanguageManager.getAppLocaleLanguageTag()
     )
 }
-
 
 
 /*

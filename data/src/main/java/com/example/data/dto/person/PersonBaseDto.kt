@@ -1,8 +1,9 @@
 package com.example.data.dto.person
 
 import android.annotation.SuppressLint
-import com.example.muvitracker.data.dto._support.Ids
-import com.example.muvitracker.domain.model.base.PersonBase
+import com.example.data.dto._support.Ids
+import com.example.data.dto._support.toDomain
+import com.example.domain.model.base.PersonBase
 import kotlinx.serialization.Serializable
 
 @SuppressLint("UnsafeOptInUsageError")
@@ -15,6 +16,6 @@ data class PersonBaseDto(
 fun PersonBaseDto.toDomain(): PersonBase {
     return PersonBase(
         name = name ?: "",
-        ids = ids
+        ids = ids.toDomain()
     )
 }

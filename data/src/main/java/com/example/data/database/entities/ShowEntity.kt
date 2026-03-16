@@ -3,9 +3,8 @@ package com.example.data.database.entities
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
-import com.example.muvitracker.data.database.ConvertersUtils
-import com.example.muvitracker.data.dto._support.Ids
-import com.example.muvitracker.domain.model.Show
+import com.example.data.database.ConvertersUtils
+import com.example.data.dto._support.Ids
 
 /**
  *  tutte i conteggi aired/all sonio fatti su dati di trakt

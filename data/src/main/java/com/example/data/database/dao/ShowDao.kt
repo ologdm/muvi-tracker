@@ -6,9 +6,10 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
-import com.example.muvitracker.data.database.entities.ShowEntity
-import com.example.muvitracker.domain.model.Show
 import kotlinx.coroutines.flow.Flow
+import com.example.data.database.entities.ShowEntity
+import com.example.domain.model.Show
+
 
 @Dao
 interface ShowDao {

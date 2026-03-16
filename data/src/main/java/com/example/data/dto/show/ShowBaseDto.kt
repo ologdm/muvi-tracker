@@ -1,8 +1,9 @@
 package com.example.data.dto.show
 
 import android.annotation.SuppressLint
-import com.example.muvitracker.data.dto._support.Ids
-import com.example.muvitracker.domain.model.base.ShowBase
+import com.example.data.dto._support.Ids
+import com.example.data.dto._support.toDomain
+import com.example.domain.model.base.ShowBase
 import kotlinx.serialization.Serializable
 
 
@@ -17,8 +18,8 @@ data class ShowBaseDto(
 
 fun ShowBaseDto.toDomain(): ShowBase {
     return ShowBase(
-        title = this.title,
-        year = this.year,
-        ids = this.ids
+        title = title,
+        year = year,
+        ids = ids.toDomain()
     )
 }

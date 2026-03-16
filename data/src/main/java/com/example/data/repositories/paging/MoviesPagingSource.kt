@@ -2,11 +2,11 @@ package com.example.data.repositories.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.example.muvitracker.data.TraktApi
-import com.example.muvitracker.data.dtoX.movie.explore.toDomain
-import com.example.muvitracker.data.dtoX.movie.toDomain
-import com.example.muvitracker.domain.model.base.MovieBase
-import com.example.muvitracker.ui.main.allmovies.MovieType
+import com.example.core.MovieType
+import com.example.data.TraktApi
+import com.example.data.dto.movie.explore.toDomain
+import com.example.data.dto.movie.toDomain
+import com.example.domain.model.base.MovieBase
 import java.util.concurrent.CancellationException
 
 // PagingSource<key,resultValue> - due metodi da implementare

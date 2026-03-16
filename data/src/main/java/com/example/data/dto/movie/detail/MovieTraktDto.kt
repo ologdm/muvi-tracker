@@ -1,16 +1,16 @@
 package com.example.data.dto.movie.detail
 
 import android.annotation.SuppressLint
-import com.example.muvitracker.data.LanguageManager
-import com.example.muvitracker.data.databaseX.entities.MovieEntity
-import com.example.muvitracker.data.dto.OmdbResultDto
-import com.example.muvitracker.data.dto._support.Ids
-import com.example.muvitracker.data.utils.dtoListOr
-import com.example.muvitracker.data.utils.dtoValueOr
-import com.example.muvitracker.data.utils.dtoStringOr
-import com.example.muvitracker.data.utils.splitToCleanList
-import com.example.muvitracker.data.utils.youtubeLinkTransformation
-import com.example.muvitracker.utils.firstDecimalApproxToString
+import com.example.core.utils.firstDecimalApproxToString
+import com.example.data.LanguageManager
+import com.example.data.database.entities.MovieEntity
+import com.example.data.dto.OmdbResultDto
+import com.example.data.dto._support.Ids
+import com.example.data.utils.dtoListOr
+import com.example.data.utils.dtoStringOr
+import com.example.data.utils.dtoValueOr
+import com.example.data.utils.splitToCleanList
+import com.example.data.utils.youtubeLinkTransformation
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

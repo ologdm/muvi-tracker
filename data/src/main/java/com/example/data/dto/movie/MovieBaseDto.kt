@@ -1,8 +1,9 @@
 package com.example.data.dto.movie
 
 import android.annotation.SuppressLint
-import com.example.muvitracker.data.dto._support.Ids
-import com.example.muvitracker.domain.model.base.MovieBase
+import com.example.data.dto._support.Ids
+import com.example.data.dto._support.toDomain
+import com.example.domain.model.base.MovieBase
 import kotlinx.serialization.Serializable
 
 // used for popular
@@ -16,7 +17,11 @@ data class MovieBaseDto(
 
 
 fun MovieBaseDto.toDomain(): MovieBase {
-    return MovieBase(title, year, ids)
+    return MovieBase(
+        title = title,
+        year = year,
+        ids = ids.toDomain()
+    )
 }
 
 

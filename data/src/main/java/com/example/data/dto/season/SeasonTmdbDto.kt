@@ -1,8 +1,7 @@
 package com.example.data.dto.season
 
 import android.annotation.SuppressLint
-import com.example.muvitracker.data.dto.episode.EpisodeTmdbDto
-import com.google.gson.annotations.SerializedName
+import com.example.data.dto.episode.EpisodeTmdbDto
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

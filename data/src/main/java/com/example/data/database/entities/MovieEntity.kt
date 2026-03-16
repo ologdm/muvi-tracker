@@ -3,9 +3,10 @@ package com.example.data.database.entities
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
-import com.example.muvitracker.data.database.ConvertersUtils
-import com.example.muvitracker.data.dto._support.Ids
-import com.example.muvitracker.domain.model.Movie
+import com.example.data.database.ConvertersUtils
+import com.example.data.dto._support.Ids
+import com.example.data.dto._support.toDomain
+import com.example.domain.model.Movie
 
 /*
  * all elements - null
@@ -58,8 +59,7 @@ data class MovieEntity(
 fun MovieEntity.toDomain(prefsMovieEntity: PrefsMovieEntity?): Movie {
     return Movie(
         year = year,
-        ids = ids,
-
+        ids = ids.toDomain(),
         title = title,
         tagline = tagline,
         overview = overview,

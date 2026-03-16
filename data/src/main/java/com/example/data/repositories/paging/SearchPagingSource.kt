@@ -2,9 +2,9 @@ package com.example.data.repositories.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.example.muvitracker.data.TraktApi
-import com.example.muvitracker.data.dtoX.search.toDomain
-import com.example.muvitracker.domain.model.SearchResult
+import com.example.data.TraktApi
+import com.example.data.dto.search.toDomain
+import com.example.domain.model.SearchResult
 
 class SearchPagingSource(
     private val queryValue: String,

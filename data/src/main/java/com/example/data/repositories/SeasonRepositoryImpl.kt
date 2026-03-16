@@ -1,18 +1,19 @@
 package com.example.data.repositories
 
-import com.example.muvitracker.data.TmdbApi
-import com.example.muvitracker.data.TraktApi
-import com.example.muvitracker.data.databaseX.MyDatabase
-import com.example.muvitracker.data.databaseX.entities.SeasonEntity
-import com.example.muvitracker.data.dtoX.season.mergeSeasonsDtoToEntity
-import com.example.muvitracker.data.dtoX._support.Ids
-import com.example.muvitracker.data.utils.mapToIoResponse
-import com.example.muvitracker.data.utils.storeFactory
-import com.example.muvitracker.domain.model.Season
-import com.example.muvitracker.domain.repo.EpisodeRepository
-import com.example.muvitracker.domain.repo.PrefsShowRepository
-import com.example.muvitracker.domain.repo.SeasonRepository
-import com.example.muvitracker.utils.IoResponse
+import com.example.data.TmdbApi
+import com.example.data.TraktApi
+import com.example.data.database.MyDatabase
+import com.example.data.database.entities.SeasonEntity
+import com.example.data.dto._support.Ids
+import com.example.data.dto.season.mergeSeasonsDtoToEntity
+import com.example.data.utils.mapToIoResponse
+import com.example.data.utils.storeFactory
+import com.example.domain.model.IdsDomain
+import com.example.domain.model.Season
+import com.example.domain.repo.EpisodeRepository
+import com.example.domain.repo.PrefsShowRepository
+import com.example.domain.repo.SeasonRepository
+import com.example.domain.utils.IoResponse
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
@@ -108,10 +109,16 @@ class SeasonRepositoryImpl @Inject constructor(
     }
 
 
-    //TODO OK 1.1.3 OK
+    // FIXME: fixed con idsData
     override
-    fun getAllSeasonsFlow(showIds: Ids): Flow<IoResponse<List<Season>>> {
-        return seasonStore.stream(StoreReadRequest.cached(showIds, refresh = true))
+    fun getAllSeasonsFlow(showIds: IdsDomain): Flow<IoResponse<List<Season>>> {
+        val idsData = Ids(
+            trakt = showIds.trakt,
+            tmdb = showIds.tmdb,
+            imdb = showIds.imdb,
+            slug = showIds.slug
+        )
+        return seasonStore.stream(StoreReadRequest.cached(idsData, refresh = true))
             .mapToIoResponse()
     }
 
@@ -133,14 +140,21 @@ class SeasonRepositoryImpl @Inject constructor(
     }
 
 
-    // TODO 1.1.3 OK
+    // FIXME: idsData non serve
     // (click - single season)
     //  toggle single season -> from ShowFragment & SeasonFragment
     override
     suspend fun checkAndSetSingleSeasonWatchedAllEpisodes(
-        showIds: Ids,
+        showIds: IdsDomain,
         seasonNr: Int
     ) {
+//        val idsData = Ids(
+//            trakt = showIds.trakt,
+//            tmdb = showIds.tmdb,
+//            imdb = showIds.imdb,
+//            slug = showIds.slug
+//        )
+
         // 1. check and download all season episodes
         if (!areEpisodesAvailableForSeasonOnDB(showIds.trakt, seasonNr)) {
             // if (ep == 0), download episode
@@ -165,12 +179,12 @@ class SeasonRepositoryImpl @Inject constructor(
     }
 
 
-    // TODO 1.1.3 OK - funziona bene
+    // FIXME:  idsData non serve
     // (click - show watchedAll)
     // from ShowDetail -> forceWatchedAll ()
     override
     suspend fun checkAndSetSingleSeasonWatchedAllEpisodes(
-        showIds: Ids,
+        showIds: IdsDomain,
         seasonNr: Int,
         watchedAllState: Boolean
     ) {

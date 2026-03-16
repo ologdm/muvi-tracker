@@ -2,7 +2,7 @@ package com.example.data.utils
 
 import android.content.Context
 import android.os.LocaleList
-import com.example.muvitracker.data.dtoX.movie.detail.VideosResult
+import com.example.data.dto.movie.detail.VideosResult
 import com.google.mlkit.nl.translate.TranslateLanguage
 import com.google.mlkit.nl.translate.Translation
 import com.google.mlkit.nl.translate.Translator
@@ -116,19 +116,4 @@ suspend fun translateToSystemLanguage(context: Context, text: String?)
             }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
