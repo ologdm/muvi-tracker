@@ -10,19 +10,6 @@ plugins {
     alias(libs.plugins.hilt.android)
 }
 
-// -----------------------------------------------------------------------------------------------------
-// Load API keys from local.properties (1/3)
-val localProperties = Properties().apply {
-    val file = rootProject.file("local.properties")
-    if (file.exists()) {
-        load(file.inputStream()) // inputStream: UTF-8 by default
-    }
-}
-
-fun getApiKey(name: String): String =
-    localProperties.getProperty(name) ?: ""
-
-// ----------------------------------------------------------------------------------------------------
 
 android {
     namespace = "com.example.muvitracker"
@@ -34,12 +21,6 @@ android {
         targetSdk = 36
         versionCode = 1_02_00
         versionName = "1.2.0"
-
-        // API keys loaded from local.properties (2/3)
-        // Requires: buildFeatures { buildConfig = true } (3/3)
-        buildConfigField ("String", "TRAKT_API_KEY", "\"${getApiKey("trakt_api_key")}\"")
-        buildConfigField ("String", "TMDB_API_KEY", "\"${getApiKey("tmdb_api_key")}\"")
-        buildConfigField ("String", "OMDB_API_KEY", "\"${getApiKey("omdb_api_key")}\"")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -74,7 +55,6 @@ android {
 
 
     buildFeatures {
-        buildConfig = true
         viewBinding = true
     }
 
@@ -98,10 +78,10 @@ dependencies {
     implementation(libs.kotlin.stdlib)
     implementation(libs.kotlinx.serialization.json)
 
-    //  -------- Networking --------------------------------------------------
-    implementation(libs.retrofit)
-    implementation(libs.retrofit.kotlinx.serialization)
-    implementation(libs.okhttp)
+    //  -------- Networking -------------------------------------------------- TODO OK
+//    implementation(libs.retrofit)
+//    implementation(libs.retrofit.kotlinx.serialization)
+//    implementation(libs.okhttp)
 
     //  -------- Image Loading (Glide) -----------------------------------------
     implementation(libs.glide)
@@ -119,18 +99,18 @@ dependencies {
     implementation(libs.coroutines.android)
 
     //  -------- Pagination ----------------------------------------------------
-    implementation(libs.paging.runtime.ktx)
+    implementation(libs.paging.runtime.ktx) // also on data module
 
-    // --------- Database (Room) -----------------------------------------------
-    implementation(libs.room.ktx)
-    // kapt(libs.room.compiler)
-    ksp(libs.room.compiler) // replaces kapt
-    implementation(libs.gson) // per room type converter
+    // --------- Database (Room) ----------------------------------------------- TODO OK
+//    implementation(libs.room.ktx)
+//    // kapt(libs.room.compiler)
+//    ksp(libs.room.compiler) // replaces kapt
+//    implementation(libs.gson) // per room type converter
 
-    // ---------- Caching ------------------------------------------------------
+    // ---------- Caching ------------------------------------------------------ TODO OK
     // store4 - caching library
     // implementation(libs.store4) // old, not compatible with Kotlin 2.3.10 and agp 9
-    implementation(libs.store5)
+//    implementation(libs.store5)
 
     // ---------- Testing ------------------------------------------------------
     testImplementation(libs.junit)
@@ -145,6 +125,7 @@ dependencies {
     // TODO: test
     implementation(project(":data")) // -> va a build gradle data
     implementation(project(":domain"))
+    implementation(project(":core"))
 }
 
 
