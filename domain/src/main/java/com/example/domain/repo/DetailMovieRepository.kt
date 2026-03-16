@@ -15,6 +15,8 @@ interface DetailMovieRepository {
     fun getSingleDetailMovieFlow(movieIds: IdsDomain): Flow<IoResponse<Movie>>
 
 //    fun getDetailListFlow(): Flow<List<MovieEntity?>> // FIXME: fixare il toDomain, serve che la funzione sia nell'imterfaccia?
+    // new test FIXME
+    fun getDetailListFlow(): Flow<List<Movie>>
 
     suspend fun getRelatedMovies(movieId: Int): IoResponse<List<MovieBase>>
 
