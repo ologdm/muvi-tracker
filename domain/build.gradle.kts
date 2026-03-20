@@ -42,6 +42,8 @@ dependencies {
     androidTestImplementation(libs.androidx.test.junit)
     androidTestImplementation(libs.androidx.test.espresso)
 
+    implementation(libs.kotlinx.serialization.json)
+
     implementation(project(":core"))
 
     // added serializable, parcelable (per ui)
