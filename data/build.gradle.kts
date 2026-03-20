@@ -7,6 +7,9 @@ plugins {
     alias(libs.plugins.ksp) // KSP (Room, Hilt, Glide) – replaces kapt
     alias(libs.plugins.hilt.android)
     alias(libs.plugins.kotlin.serialization)
+
+    alias (libs.plugins.room)
+
 }
 
 android {
@@ -95,7 +98,7 @@ dependencies {
 
     implementation(project(":domain")) // -> va a build gradle data
     implementation(project(":core"))
-
+}
 
     /* NOTE:
         non devono stare in data
@@ -110,4 +113,7 @@ dependencies {
      */
 
 
+
+room {
+    schemaDirectory("$projectDir/schemas")  // <- obbligatorio per KSP multi-module
 }
