@@ -11,4 +11,7 @@ plugins {
 
     // NOTE: Needed when adding a new Android library module
     alias(libs.plugins.android.library) apply false
+
+    // FIXME: room export schema OK
+    alias (libs.plugins.room) apply false
 }
