@@ -2,9 +2,8 @@ package com.example.data.database.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.data.dto._support.Ids
-import com.example.data.dto._support.toDomain
 import com.example.domain.model.Episode
+import com.example.domain.model.Ids
 
 
 // 1.1.3 OK
@@ -48,7 +47,8 @@ fun EpisodeEntity.toDomain(): Episode {
         episodeNumber = episodeNumber,
         numberAbs = numberAbs,
         // FIXME: cambiare nome in idsDto
-        ids = ids.toDomain(),
+//        ids = ids.toDomain(),
+        ids = ids,
         showId = showId,
 
         title = title,

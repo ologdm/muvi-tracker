@@ -6,8 +6,6 @@ import com.example.data.TraktApi
 import com.example.data.database.MyDatabase
 import com.example.data.database.entities.MovieEntity
 import com.example.data.database.entities.toDomain
-import com.example.data.dto._support.Ids
-import com.example.data.dto._support.toDomain
 import com.example.data.dto.movie.detail.mergeMoviesDtoToEntity
 import com.example.data.dto.movie.toDomain
 import com.example.data.dto.person.toDomain
@@ -15,7 +13,7 @@ import com.example.data.dto.provider.MovieProvidersResponseDto
 import com.example.data.utils.mapToIoResponse
 import com.example.data.utils.storeFactory
 import com.example.domain.model.CastAndCrew
-import com.example.domain.model.IdsDomain
+import com.example.domain.model.Ids
 import com.example.domain.model.Movie
 import com.example.domain.model.Provider
 import com.example.domain.model.base.MovieBase
@@ -26,8 +24,6 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import org.mobilenativefoundation.store.store5.StoreReadRequest
 import java.util.Locale
@@ -37,7 +33,6 @@ import kotlin.collections.joinToString
 import kotlin.collections.map
 import kotlin.collections.sortedBy
 import kotlin.coroutines.cancellation.CancellationException
-import kotlin.text.get
 
 
 // TODO:
@@ -119,15 +114,16 @@ class DetailMovieRepositoryImpl @Inject constructor(
 
 
     // CONTRACT METHODS ###########################################################
-    // FIXME: fixed con idsData
-    override fun getSingleDetailMovieFlow(movieIds: IdsDomain): Flow<IoResponse<Movie>> {
-        val idsData = Ids(
-            trakt = movieIds.trakt,
-            tmdb = movieIds.tmdb,
-            imdb = movieIds.imdb,
-            slug = movieIds.slug
-        )
-        return store.stream(StoreReadRequest.cached(key = idsData, refresh = true))
+
+    override fun getSingleDetailMovieFlow(movieIds: Ids): Flow<IoResponse<Movie>> {
+        // FIXME: fixed con idsData,
+//        val idsData = Ids(
+//            trakt = movieIds.trakt,
+//            tmdb = movieIds.tmdb,
+//            imdb = movieIds.imdb,
+//            slug = movieIds.slug
+//        )
+        return store.stream(StoreReadRequest.cached(key = movieIds, refresh = true))
             .mapToIoResponse()
     }
 

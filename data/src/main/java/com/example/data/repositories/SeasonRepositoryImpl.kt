@@ -4,11 +4,10 @@ import com.example.data.TmdbApi
 import com.example.data.TraktApi
 import com.example.data.database.MyDatabase
 import com.example.data.database.entities.SeasonEntity
-import com.example.data.dto._support.Ids
 import com.example.data.dto.season.mergeSeasonsDtoToEntity
 import com.example.data.utils.mapToIoResponse
 import com.example.data.utils.storeFactory
-import com.example.domain.model.IdsDomain
+import com.example.domain.model.Ids
 import com.example.domain.model.Season
 import com.example.domain.repo.EpisodeRepository
 import com.example.domain.repo.PrefsShowRepository
@@ -111,7 +110,7 @@ class SeasonRepositoryImpl @Inject constructor(
 
     // FIXME: fixed con idsData
     override
-    fun getAllSeasonsFlow(showIds: IdsDomain): Flow<IoResponse<List<Season>>> {
+    fun getAllSeasonsFlow(showIds: Ids): Flow<IoResponse<List<Season>>> {
         val idsData = Ids(
             trakt = showIds.trakt,
             tmdb = showIds.tmdb,
@@ -145,7 +144,7 @@ class SeasonRepositoryImpl @Inject constructor(
     //  toggle single season -> from ShowFragment & SeasonFragment
     override
     suspend fun checkAndSetSingleSeasonWatchedAllEpisodes(
-        showIds: IdsDomain,
+        showIds: Ids,
         seasonNr: Int
     ) {
 //        val idsData = Ids(
@@ -184,7 +183,7 @@ class SeasonRepositoryImpl @Inject constructor(
     // from ShowDetail -> forceWatchedAll ()
     override
     suspend fun checkAndSetSingleSeasonWatchedAllEpisodes(
-        showIds: IdsDomain,
+        showIds: Ids,
         seasonNr: Int,
         watchedAllState: Boolean
     ) {

@@ -1,6 +1,7 @@
 package com.example.data.utils
 
-import com.example.data.dto._support.Ids
+import com.example.domain.model.Ids
+
 
 data class ShowRequestKeys(
     val showIds: Ids,

@@ -3,10 +3,8 @@ package com.example.data.dto.person.detail
 import android.annotation.SuppressLint
 import com.example.core.utils.calculatePersonAge
 import com.example.core.utils.formatToDdMmmYyyy
-import com.example.data.dto._support.Ids
-import com.example.data.dto._support.toDomain
 import com.example.data.utils.dtoStringOr
-import com.example.domain.model.IdsDomain
+import com.example.domain.model.Ids
 import com.example.domain.model.Person
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -48,7 +46,8 @@ fun mergePersonDtoToDomain(trakt: PersonTraktDto, tmdb: PersonTmdbDto?): Person 
 
     return Person(
         name = trakt.name, // only trakt
-        ids = trakt.ids?.toDomain() ?: IdsDomain(),
+//        ids = trakt.ids?.toDomain() ?: Ids(),
+        ids = trakt.ids ?: Ids(),
 
         biography = tmdb?.biography.dtoStringOr(trakt.biography),
         birthday = birthday?.formatToDdMmmYyyy(), // convert if not null ok

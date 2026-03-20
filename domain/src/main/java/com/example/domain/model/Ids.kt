@@ -9,7 +9,7 @@ import kotlinx.serialization.Serializable
 // Domain parcelable / data serializable
 @Serializable
 @Parcelize
-data class IdsDomain(
+data class Ids(
     val trakt: Int = -1,
     val slug: String = "",
     val tvdb: Int = -1,

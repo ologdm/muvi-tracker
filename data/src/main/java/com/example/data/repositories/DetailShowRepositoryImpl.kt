@@ -6,7 +6,6 @@ import com.example.data.TraktApi
 import com.example.data.database.MyDatabase
 import com.example.data.database.entities.ShowEntity
 import com.example.data.dto.OmdbResultDto
-import com.example.data.dto._support.Ids
 import com.example.data.dto.person.toDomain
 import com.example.data.dto.provider.MovieProvidersResponseDto
 import com.example.data.dto.show.detail.ShowTmdbDto
@@ -16,7 +15,7 @@ import com.example.data.dto.show.toDomain
 import com.example.data.utils.mapToIoResponse
 import com.example.data.utils.storeFactory
 import com.example.domain.model.CastAndCrew
-import com.example.domain.model.IdsDomain
+import com.example.domain.model.Ids
 import com.example.domain.model.Provider
 import com.example.domain.model.Show
 import com.example.domain.model.base.ShowBase
@@ -38,7 +37,6 @@ import javax.inject.Singleton
 import kotlin.collections.map
 import kotlin.collections.sortedBy
 import kotlin.coroutines.cancellation.CancellationException
-import kotlin.text.get
 
 
 @Singleton
@@ -100,15 +98,16 @@ class DetailShowRepositoryImpl @Inject constructor(
         }
     )
 
-    // FIXME:  fixed con idsData
-    override fun getSingleDetailShowFlow(showIds: IdsDomain): Flow<IoResponse<Show>> {
-        val idsData = Ids(
-            trakt = showIds.trakt,
-            tmdb = showIds.tmdb,
-            imdb = showIds.imdb,
-            slug = showIds.slug
-        )
-        return store.stream(StoreReadRequest.cached(key = idsData, refresh = true))
+    override fun getSingleDetailShowFlow(showIds: Ids): Flow<IoResponse<Show>> {
+        // FIXME:  fixed con idsData
+//        val idsData = Ids(
+//            trakt = showIds.trakt,
+//            tmdb = showIds.tmdb,
+//            imdb = showIds.imdb,
+//            slug = showIds.slug
+//        )
+//        return store.stream(StoreReadRequest.cached(key = idsData, refresh = true))
+        return store.stream(StoreReadRequest.cached(key = showIds, refresh = true))
             .mapToIoResponse()
     }
 
@@ -144,7 +143,7 @@ class DetailShowRepositoryImpl @Inject constructor(
 
     // WATCHED_ALL SU SHOW
     // FIXME: IdsDomain
-    override suspend fun checkAndSetWatchedAllShowEpisodes(showIds: IdsDomain) = coroutineScope {
+    override suspend fun checkAndSetWatchedAllShowEpisodes(showIds: Ids) = coroutineScope {
         val showAllSeasonsCount = seasonDao.countAllSeasonsOfShow(showIds.trakt)
         val isShowWatchedAll = detailShowDao.getSingleFlow(showIds.trakt)
             .firstOrNull()?.watchedAll // watchedAll calculated

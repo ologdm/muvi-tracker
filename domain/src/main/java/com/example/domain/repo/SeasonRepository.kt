@@ -1,6 +1,6 @@
 package com.example.domain.repo
 
-import com.example.domain.model.IdsDomain
+import com.example.domain.model.Ids
 import com.example.domain.model.Season
 import com.example.domain.utils.IoResponse
 import kotlinx.coroutines.flow.Flow
@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 interface SeasonRepository {
 
     fun getAllSeasonsFlow(
-        showIds: IdsDomain
+        showIds: Ids
     ): Flow<IoResponse<List<Season>>>
 
 
@@ -20,13 +20,13 @@ interface SeasonRepository {
 
 
     suspend fun checkAndSetSingleSeasonWatchedAllEpisodes(
-        showIds: IdsDomain,
+        showIds: Ids,
         seasonNr: Int
     )
 
 
     suspend fun checkAndSetSingleSeasonWatchedAllEpisodes(
-        showIds: IdsDomain,
+        showIds: Ids,
         seasonNr: Int,
         watchedAllState: Boolean
     )

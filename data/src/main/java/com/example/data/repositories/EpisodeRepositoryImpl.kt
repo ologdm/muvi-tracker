@@ -6,13 +6,12 @@ import com.example.data.database.MyDatabase
 import com.example.data.database.entities.EpisodeEntity
 import com.example.data.database.entities.copyOnlyDtoData
 import com.example.data.database.entities.toDomain
-import com.example.data.dto._support.Ids
 import com.example.data.dto.episode.mergeEpisodeDtos
 import com.example.data.utils.ShowRequestKeys
 import com.example.data.utils.mapToIoResponse
 import com.example.data.utils.storeFactory
 import com.example.domain.model.Episode
-import com.example.domain.model.IdsDomain
+import com.example.domain.model.Ids
 import com.example.domain.repo.EpisodeRepository
 import com.example.domain.repo.PrefsShowRepository
 import com.example.domain.utils.IoResponse
@@ -110,36 +109,40 @@ class EpisodeRepositoryImpl @Inject constructor(
         }
     }
 
-    // FIXME: fixed con idsData
-    override suspend fun fetchSeasonEpisodes(showIds: IdsDomain, seasonNr: Int) {
-        val idsData = Ids(
-            trakt = showIds.trakt,
-            tmdb = showIds.tmdb,
-            imdb = showIds.imdb,
-            slug = showIds.slug
-        )
 
-        episodesStore.fresh(ShowRequestKeys(idsData, seasonNr))
+    override suspend fun fetchSeasonEpisodes(showIds: Ids, seasonNr: Int) {
+        // FIXME: fixed con idsData
+//        val idsData = Ids(
+//            trakt = showIds.trakt,
+//            tmdb = showIds.tmdb,
+//            imdb = showIds.imdb,
+//            slug = showIds.slug
+//        )
+
+//        episodesStore.fresh(ShowRequestKeys(idsData, seasonNr))
+        episodesStore.fresh(ShowRequestKeys(showIds, seasonNr))
     }
 
 
-    // FIXME: fixed con idsData
+
     override
     fun getSeasonAllEpisodesFlow(
-        showIds: IdsDomain,
+        showIds: Ids,
         seasonNr: Int
     ): Flow<IoResponse<List<Episode>>> {
-        val idsData = Ids(
-            trakt = showIds.trakt,
-            tmdb = showIds.tmdb,
-            imdb = showIds.imdb,
-            slug = showIds.slug
-        )
+        // FIXME: fixed con idsData
+//        val idsData = Ids(
+//            trakt = showIds.trakt,
+//            tmdb = showIds.tmdb,
+//            imdb = showIds.imdb,
+//            slug = showIds.slug
+//        )
 
         return episodesStore
             .stream(
                 StoreReadRequest.cached(
-                    ShowRequestKeys(showIds = idsData, seasonNr = seasonNr),
+//                    ShowRequestKeys(showIds = idsData, seasonNr = seasonNr),
+                    ShowRequestKeys(showIds = showIds, seasonNr = seasonNr),
                     refresh = true
                 )
             )
@@ -163,7 +166,7 @@ class EpisodeRepositoryImpl @Inject constructor(
     //FIXME: IdsDomain
     override
     suspend fun toggleSingleWatchedEpisode(
-        showIds: IdsDomain,
+        showIds: Ids,
         seasonNr: Int,
         episodeNr: Int
     ) {

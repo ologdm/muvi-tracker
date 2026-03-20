@@ -6,7 +6,7 @@ data class Show(
 
     // da trakt
     val year: Int?,
-    val ids: IdsDomain,
+    val ids: Ids,
     val airedEpisodes: Int,
 
     // da tmdb

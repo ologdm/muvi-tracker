@@ -3,7 +3,7 @@ package com.example.domain.model
 
 data class Person(
     val name: String?,
-    val ids: IdsDomain,
+    val ids: Ids,
     val biography: String?,
     val birthday: String?,
     val death: String?,
