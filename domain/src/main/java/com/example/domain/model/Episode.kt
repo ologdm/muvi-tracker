@@ -25,7 +25,7 @@ data class Episode (
     val seasonNumber: Int, // default -1 su entity
     val episodeNumber: Int, // default -1 su entity
     val numberAbs: Int?,
-    val ids: IdsDomain,
+    val ids: Ids,
     val showId: Int,
     //
     val title: String?,
