@@ -2,10 +2,12 @@ package com.example.domain.model
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
+import kotlinx.serialization.Serializable
 
 
-//@Serializable // non serve
-// FIXME: temporaneo, Separare con Ids Data
+// FIXME: Ids Refactor -temporaneo, Separare con Ids Data
+// Domain parcelable / data serializable
+@Serializable
 @Parcelize
 data class IdsDomain(
     val trakt: Int = -1,
@@ -14,3 +16,4 @@ data class IdsDomain(
     val imdb: String = "", // for images
     val tmdb: Int = -1
 ) : Parcelable
+
