@@ -2,8 +2,8 @@
 # NOTE: Use 9.0.1 because it is compatible with 'gradle-9.1.0-bin.zip'; Gradle 9.3.1 requires the latest version of Android Studio 2025.3.2
 agp = "9.0.1"
 kotlin = "2.3.10"
+ksp = "2.3.4" # KSP2 non deve piu compbaciare la versione con quella di kotlin
 coroutines = "1.10.2"
-ksp = "2.3.4"
 hilt = "2.59.2" # required ksp (or kapt)
 room = "2.8.4" # required ksp (or kapt)
 glide = "5.0.5" # required ksp (or kapt)
@@ -97,3 +97,5 @@ hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 
 # NOTE: Needed when adding a new Android library module
 android-library = { id = "com.android.library", version.ref = "agp" }
+
+room = { id = "androidx.room", version.ref = "room" }
