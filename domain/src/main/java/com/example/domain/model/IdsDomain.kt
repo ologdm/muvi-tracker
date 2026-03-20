@@ -5,6 +5,7 @@ import kotlinx.android.parcel.Parcelize
 
 
 //@Serializable // non serve
+// FIXME: temporaneo, Separare con Ids Data
 @Parcelize
 data class IdsDomain(
     val trakt: Int = -1,
