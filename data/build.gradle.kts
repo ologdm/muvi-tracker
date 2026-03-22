@@ -1,15 +1,12 @@
 plugins {
     // 1. base
     alias(libs.plugins.android.library)
-
     // 2. optional
 //    alias(libs.plugins.kotlin.android) // BUILD WARNING: is no longer required for Kotlin support since AGP 9.0.
-    alias(libs.plugins.ksp) // KSP (Room, Hilt, Glide) – replaces kapt
     alias(libs.plugins.hilt.android)
+    alias(libs.plugins.ksp) // KSP (Room, Hilt, Glide) – replaces kapt
     alias(libs.plugins.kotlin.serialization)
-
     alias (libs.plugins.room)
-
 }
 
 android {
@@ -42,23 +39,30 @@ android {
 }
 
 dependencies {
-    // 1. base android library
-//    implementation(libs.androidx.core.ktx) // Kotlin Extensions in AndroidX - può stare, ma non è obbligatorio nel data
-//    implementation(libs.androidx.appcompat) // UI
-//    implementation(libs.androidx.material) // // UI
-    testImplementation(libs.junit) // ok
-    androidTestImplementation(libs.androidx.test.junit) // ok
-    androidTestImplementation(libs.androidx.test.espresso) // ok
+    implementation(project(":domain"))
+    implementation(project(":core"))
+
+    // TESTS
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.test.junit)
+//    androidTestImplementation(libs.androidx.test.espresso) // ??
 
 
-//    TODO: implementation(project(":domain"))
-    //  -------- Kotlin ------------------------------------------------------
-    implementation(libs.kotlinx.serialization.json) // serve per retrofit
+    //  -------- Concurrency (Coroutines) -------------------------------------- OK
+    implementation(libs.coroutines.core) // coroutines core only OK
 
-    //  -------- Networking (Retrofit) --------------------------------------------------
+
+    //  -------- Dependency Injection (Hilt) ----------------------------------- OK
+    implementation(libs.hilt.android)
+    // kapt(libs.hilt.compiler)
+    ksp(libs.hilt.compiler) // replaces kapt
+
+
+    //  -------- Networking (Retrofit) -------------------------------------------------- OK
     implementation(libs.retrofit)
     implementation(libs.okhttp)
     implementation(libs.retrofit.kotlinx.serialization)
+    implementation(libs.kotlinx.serialization.json) // serve per retrofit
 
 
     // --------- Database (Room) ----------------------------------------------- OK
@@ -68,25 +72,14 @@ dependencies {
     implementation(libs.gson) // per room type converter
 
 
-    //  -------- Dependency Injection (Hilt) ----------------------------------- OK
-    implementation(libs.hilt.android)
-    // kapt(libs.hilt.compiler)
-    ksp(libs.hilt.compiler) // replaces kapt
-
-
-    //  -------- Concurrency (Coroutines) -------------------------------------- OK
-//    implementation(libs.coroutines.android) // non serve
-    implementation(libs.coroutines.core)     // Coroutines (solo core)
-
-
     // ---------- Caching ------------------------------------------------------ OK
     // store4 - caching library
     // implementation(libs.store4) // old, not compatible with Kotlin 2.3.10 and agp 9
     implementation(libs.store5)
 
-    // paging
-    implementation(libs.paging.runtime.ktx)
 
+    // ---------- Paging ----------------------------------------------------------
+    implementation(libs.paging.runtime.ktx) // TODO spostare su presentation
 
     // ---------- ML Kit -------------------------------------------------------
     implementation(libs.mlkit.translate)
@@ -95,10 +88,12 @@ dependencies {
     implementation(libs.glide)
     ksp(libs.glide.ksp) // replaces kapt
 
-
-    implementation(project(":domain")) // -> va a build gradle data
-    implementation(project(":core"))
 }
+
+room {
+    schemaDirectory("$projectDir/schemas")  // <- obbligatorio per KSP multi-module
+}
+
 
     /* NOTE:
         non devono stare in data
@@ -114,6 +109,3 @@ dependencies {
 
 
 
-room {
-    schemaDirectory("$projectDir/schemas")  // <- obbligatorio per KSP multi-module
-}
