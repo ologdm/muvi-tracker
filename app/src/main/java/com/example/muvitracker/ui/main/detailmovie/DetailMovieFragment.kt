@@ -475,6 +475,7 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
     ): Boolean {
         return withContext(Dispatchers.IO) {
             try {
+                // FIXME:
                 // 1. Request
                 val requestBuilder = Request.Builder().url(url)
                 val request = if (useHead) {
