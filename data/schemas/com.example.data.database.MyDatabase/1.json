@@ -1,0 +1,565 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "331b0c3ed8efe978a878560e73f9f648",
+    "entities": [
+      {
+        "tableName": "movie_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`traktId` INTEGER NOT NULL, `year` INTEGER, `ids` TEXT NOT NULL, `title` TEXT, `tagline` TEXT, `overview` TEXT, `status` TEXT, `releaseDate` TEXT, `countries` TEXT NOT NULL, `runtime` INTEGER, `originalLanguage` TEXT, `originalTitle` TEXT, `englishTitle` TEXT, `genres` TEXT NOT NULL, `youtubeTrailer` TEXT, `homepage` TEXT, `backdropPath` TEXT, `posterPath` TEXT, `traktRating` TEXT, `tmdbRating` TEXT, `imdbRating` TEXT, `rottenTomatoesRating` TEXT, `metacriticRating` TEXT, `currentTranslation` TEXT NOT NULL, PRIMARY KEY(`traktId`))",
+        "fields": [
+          {
+            "fieldPath": "traktId",
+            "columnName": "traktId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "year",
+            "columnName": "year",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "ids",
+            "columnName": "ids",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "tagline",
+            "columnName": "tagline",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "overview",
+            "columnName": "overview",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "releaseDate",
+            "columnName": "releaseDate",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "countries",
+            "columnName": "countries",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "runtime",
+            "columnName": "runtime",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "originalLanguage",
+            "columnName": "originalLanguage",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "originalTitle",
+            "columnName": "originalTitle",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "englishTitle",
+            "columnName": "englishTitle",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "genres",
+            "columnName": "genres",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "youtubeTrailer",
+            "columnName": "youtubeTrailer",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "homepage",
+            "columnName": "homepage",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "backdropPath",
+            "columnName": "backdropPath",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "posterPath",
+            "columnName": "posterPath",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "traktRating",
+            "columnName": "traktRating",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "tmdbRating",
+            "columnName": "tmdbRating",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "imdbRating",
+            "columnName": "imdbRating",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "rottenTomatoesRating",
+            "columnName": "rottenTomatoesRating",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "metacriticRating",
+            "columnName": "metacriticRating",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "currentTranslation",
+            "columnName": "currentTranslation",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "traktId"
+          ]
+        }
+      },
+      {
+        "tableName": "show_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`traktId` INTEGER NOT NULL, `year` INTEGER, `ids` TEXT NOT NULL, `airedEpisodes` INTEGER NOT NULL, `title` TEXT, `tagline` TEXT, `overview` TEXT, `status` TEXT, `firstAirDate` TEXT, `lastAirDate` TEXT, `runtime` INTEGER, `countries` TEXT NOT NULL, `originalLanguage` TEXT, `languages` TEXT NOT NULL, `originalTitle` TEXT, `englishTitle` TEXT, `networks` TEXT NOT NULL, `genres` TEXT NOT NULL, `youtubeTrailer` TEXT, `homepage` TEXT, `backdropPath` TEXT, `posterPath` TEXT, `traktRating` TEXT, `tmdbRating` TEXT, `imdbRating` TEXT, `metacriticRating` TEXT, `rottenTomatoesRating` TEXT, `currentTranslation` TEXT NOT NULL, PRIMARY KEY(`traktId`))",
+        "fields": [
+          {
+            "fieldPath": "traktId",
+            "columnName": "traktId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "year",
+            "columnName": "year",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "ids",
+            "columnName": "ids",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "airedEpisodes",
+            "columnName": "airedEpisodes",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "tagline",
+            "columnName": "tagline",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "overview",
+            "columnName": "overview",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "firstAirDate",
+            "columnName": "firstAirDate",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "lastAirDate",
+            "columnName": "lastAirDate",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "runtime",
+            "columnName": "runtime",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "countries",
+            "columnName": "countries",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "originalLanguage",
+            "columnName": "originalLanguage",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "languages",
+            "columnName": "languages",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "originalTitle",
+            "columnName": "originalTitle",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "englishTitle",
+            "columnName": "englishTitle",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "networks",
+            "columnName": "networks",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "genres",
+            "columnName": "genres",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "youtubeTrailer",
+            "columnName": "youtubeTrailer",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "homepage",
+            "columnName": "homepage",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "backdropPath",
+            "columnName": "backdropPath",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "posterPath",
+            "columnName": "posterPath",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "traktRating",
+            "columnName": "traktRating",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "tmdbRating",
+            "columnName": "tmdbRating",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "imdbRating",
+            "columnName": "imdbRating",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "metacriticRating",
+            "columnName": "metacriticRating",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "rottenTomatoesRating",
+            "columnName": "rottenTomatoesRating",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "currentTranslation",
+            "columnName": "currentTranslation",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "traktId"
+          ]
+        }
+      },
+      {
+        "tableName": "prefs_movie_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`traktId` INTEGER NOT NULL, `liked` INTEGER NOT NULL, `watched` INTEGER NOT NULL, `addedDateTime` INTEGER NOT NULL, `notes` TEXT NOT NULL, PRIMARY KEY(`traktId`))",
+        "fields": [
+          {
+            "fieldPath": "traktId",
+            "columnName": "traktId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "liked",
+            "columnName": "liked",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "watched",
+            "columnName": "watched",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "addedDateTime",
+            "columnName": "addedDateTime",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "notes",
+            "columnName": "notes",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "traktId"
+          ]
+        }
+      },
+      {
+        "tableName": "prefs_show_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`traktId` INTEGER NOT NULL, `liked` INTEGER NOT NULL, `addedDateTime` INTEGER NOT NULL, `notes` TEXT NOT NULL, PRIMARY KEY(`traktId`))",
+        "fields": [
+          {
+            "fieldPath": "traktId",
+            "columnName": "traktId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "liked",
+            "columnName": "liked",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "addedDateTime",
+            "columnName": "addedDateTime",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "notes",
+            "columnName": "notes",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "traktId"
+          ]
+        }
+      },
+      {
+        "tableName": "season_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`seasonTraktId` INTEGER NOT NULL, `seasonNumber` INTEGER NOT NULL, `ids` TEXT NOT NULL, `showId` INTEGER NOT NULL, `episodeCount` INTEGER NOT NULL, `airedEpisodes` INTEGER NOT NULL, `network` TEXT, `title` TEXT, `overview` TEXT, `airDate` TEXT, `posterPath` TEXT, `traktRating` TEXT, `tmdbRating` TEXT, `currentTranslation` TEXT NOT NULL, PRIMARY KEY(`seasonTraktId`))",
+        "fields": [
+          {
+            "fieldPath": "seasonTraktId",
+            "columnName": "seasonTraktId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "seasonNumber",
+            "columnName": "seasonNumber",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ids",
+            "columnName": "ids",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "showId",
+            "columnName": "showId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "episodeCount",
+            "columnName": "episodeCount",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "airedEpisodes",
+            "columnName": "airedEpisodes",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "network",
+            "columnName": "network",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "overview",
+            "columnName": "overview",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "airDate",
+            "columnName": "airDate",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "posterPath",
+            "columnName": "posterPath",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "traktRating",
+            "columnName": "traktRating",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "tmdbRating",
+            "columnName": "tmdbRating",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "currentTranslation",
+            "columnName": "currentTranslation",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "seasonTraktId"
+          ]
+        }
+      },
+      {
+        "tableName": "episode_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`episodeTraktId` INTEGER NOT NULL, `seasonNumber` INTEGER NOT NULL, `episodeNumber` INTEGER NOT NULL, `numberAbs` INTEGER, `ids` TEXT NOT NULL, `showId` INTEGER NOT NULL, `title` TEXT, `overview` TEXT, `firstAiredFormatted` TEXT, `runtime` INTEGER, `episodeType` TEXT, `traktRating` TEXT, `stillPath` TEXT, `watched` INTEGER NOT NULL, PRIMARY KEY(`episodeTraktId`))",
+        "fields": [
+          {
+            "fieldPath": "episodeTraktId",
+            "columnName": "episodeTraktId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "seasonNumber",
+            "columnName": "seasonNumber",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "episodeNumber",
+            "columnName": "episodeNumber",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "numberAbs",
+            "columnName": "numberAbs",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "ids",
+            "columnName": "ids",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "showId",
+            "columnName": "showId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "overview",
+            "columnName": "overview",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "firstAiredFormatted",
+            "columnName": "firstAiredFormatted",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "runtime",
+            "columnName": "runtime",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "episodeType",
+            "columnName": "episodeType",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "traktRating",
+            "columnName": "traktRating",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "stillPath",
+            "columnName": "stillPath",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "watched",
+            "columnName": "watched",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "episodeTraktId"
+          ]
+        }
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '331b0c3ed8efe978a878560e73f9f648')"
+    ]
+  }
+}

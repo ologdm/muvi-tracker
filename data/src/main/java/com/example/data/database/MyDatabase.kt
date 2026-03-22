@@ -33,7 +33,7 @@ import com.example.domain.model.Movie
 //        PersonImageEntity::class,
     ],
     version = 1,
-    exportSchema = false
+    exportSchema = true
 )
 @TypeConverters(
     ConvertersUtils::class,
