@@ -1,4 +1,4 @@
-package com.example.data
+package com.example.core
 
 import android.app.LocaleManager
 import android.content.Context
