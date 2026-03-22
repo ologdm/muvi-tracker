@@ -66,11 +66,11 @@ class DaggerModules {
         return OkHttpClient()
     }
 
-    @Provides
-    @Singleton
-    fun provideRequestBuilder(): Request.Builder {
-        return Request.Builder()
-    }
+//    @Provides
+//    @Singleton
+//    fun provideRequestBuilder(): Request.Builder {
+//        return Request.Builder()
+//    }
 
 
 
