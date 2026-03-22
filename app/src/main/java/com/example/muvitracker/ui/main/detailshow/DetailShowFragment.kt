@@ -33,7 +33,7 @@ import com.example.muvitracker.ui.main.detailmovie.ProvidersAdapter
 import com.example.muvitracker.ui.main.detailmovie.adapter.DetailSeasonsAdapter
 import com.example.muvitracker.ui.main.detailshow.adapters.RelatedShowsAdapter
 import com.example.muvitracker.ui.main.person.adapters.CastAdapter
-import com.example.core.utils.orDefaultText
+import com.example.core.orDefaultText
 import com.example.muvitracker.utils.statesFlowDetail
 import com.example.muvitracker.utils.twoStatesFlow
 import com.example.muvitracker.utils.viewBinding

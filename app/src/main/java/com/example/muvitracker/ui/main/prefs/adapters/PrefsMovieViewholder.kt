@@ -6,8 +6,8 @@ import com.bumptech.glide.Glide
 import com.example.muvitracker.R
 
 import com.example.muvitracker.ui.main.detailmovie.DetailMovieFragment.MovieDefaults
-import com.example.core.utils.formatToReadableDate
-import com.example.core.utils.orDefaultText
+import com.example.core.formatToReadableDate
+import com.example.core.orDefaultText
 import com.example.data.glide.ImageTmdbRequest
 import com.example.domain.model.Movie
 import com.example.muvitracker.databinding.ViewholderPrefsMovieBinding

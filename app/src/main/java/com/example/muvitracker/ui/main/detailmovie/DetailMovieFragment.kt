@@ -31,9 +31,9 @@ import com.example.muvitracker.databinding.FragmentDetailMovieBinding
 import com.example.muvitracker.ui.main.Navigator
 import com.example.muvitracker.ui.main.person.adapters.CastAdapter
 import com.example.muvitracker.ui.main.detailmovie.adapters.RelatedMoviesAdapter
-import com.example.core.utils.formatToReadableDate
-import com.example.core.utils.getNowFormattedDateTime
-import com.example.core.utils.orDefaultText
+import com.example.core.formatToReadableDate
+import com.example.core.getNowFormattedDateTime
+import com.example.core.orDefaultText
 import com.example.muvitracker.utils.statesFlowDetail
 import com.example.muvitracker.utils.twoStatesFlow
 import com.example.muvitracker.utils.viewBinding

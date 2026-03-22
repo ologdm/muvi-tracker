@@ -11,7 +11,7 @@ import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.example.muvitracker.R
 import com.example.muvitracker.databinding.FragmentPersonBinding
-import com.example.core.utils.orDefaultText
+import com.example.core.orDefaultText
 import com.example.data.glide.ImageTmdbRequest
 import com.example.domain.model.Ids
 import com.example.muvitracker.utils.viewBinding

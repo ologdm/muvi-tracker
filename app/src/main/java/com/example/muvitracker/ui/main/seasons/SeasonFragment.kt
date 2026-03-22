@@ -11,7 +11,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.muvitracker.R
 import com.example.muvitracker.databinding.FragmentSeasonSonBinding
 import com.example.muvitracker.ui.main.Navigator
-import com.example.core.utils.orDefaultText
+import com.example.core.orDefaultText
 import com.example.data.glide.ImageTmdbRequest
 import com.example.domain.model.Ids
 import com.example.domain.model.Season

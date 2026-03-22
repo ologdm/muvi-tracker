@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.example.muvitracker.R
 import com.example.muvitracker.databinding.ViewholderEpisodeOnSeasonBinding
-import com.example.core.utils.getNowFormattedDateTime
+import com.example.core.getNowFormattedDateTime
 import com.example.domain.model.Episode
 
 class SeasonEpisodesAdapter(

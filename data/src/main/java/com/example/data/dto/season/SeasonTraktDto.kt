@@ -1,7 +1,7 @@
 package com.example.data.dto.season
 
 import android.annotation.SuppressLint
-import com.example.core.utils.firstDecimalApproxToString
+import com.example.core.firstDecimalApproxToString
 import com.example.core.LanguageManager
 import com.example.data.database.entities.SeasonEntity
 import com.example.data.utils.dtoStringOr

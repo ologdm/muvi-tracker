@@ -4,7 +4,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.muvitracker.R
 import com.example.muvitracker.ui.main.detailshow.DetailShowFragment.ShowDefaults
-import com.example.core.utils.orDefaultText
+import com.example.core.orDefaultText
 import com.example.data.glide.ImageTmdbRequest
 import com.example.domain.model.Show
 import com.example.muvitracker.databinding.ViewholderPrefsShowBinding

@@ -1,8 +1,8 @@
 package com.example.data.dto.episode
 
 import android.annotation.SuppressLint
-import com.example.core.utils.firstDecimalApproxToString
-import com.example.core.utils.formatToSqliteCompatibleDate
+import com.example.core.firstDecimalApproxToString
+import com.example.core.formatToSqliteCompatibleDate
 import com.example.data.database.entities.EpisodeEntity
 import com.example.data.utils.dtoStringOr
 import com.example.domain.model.Ids

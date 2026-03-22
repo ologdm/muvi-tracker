@@ -1,8 +1,8 @@
 package com.example.data.dto.person.detail
 
 import android.annotation.SuppressLint
-import com.example.core.utils.calculatePersonAge
-import com.example.core.utils.formatToDdMmmYyyy
+import com.example.core.calculatePersonAge
+import com.example.core.formatToDdMmmYyyy
 import com.example.data.utils.dtoStringOr
 import com.example.domain.model.Ids
 import com.example.domain.model.Person
