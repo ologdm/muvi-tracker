@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.data.TmdbApi
 import com.example.data.TraktApi
 import com.example.data.dto.person.detail.mergePersonDtoToDomain
-import com.example.domain.model.IdsDomain
+import com.example.domain.model.Ids
 import com.example.domain.model.Person
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
@@ -24,7 +24,7 @@ class PersonViewmodel @Inject constructor(
     val personState = MutableLiveData<Person>()
 
 
-    fun getPersonDetail(personIds: IdsDomain) {
+    fun getPersonDetail(personIds: Ids) {
         viewModelScope.launch {
             val traktDeferred = async {
                 try {

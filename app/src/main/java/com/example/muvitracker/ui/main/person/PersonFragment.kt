@@ -13,7 +13,7 @@ import com.example.muvitracker.R
 import com.example.muvitracker.databinding.FragmentPersonBinding
 import com.example.core.utils.orDefaultText
 import com.example.data.glide.ImageTmdbRequest
-import com.example.domain.model.IdsDomain
+import com.example.domain.model.Ids
 import com.example.muvitracker.utils.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -22,7 +22,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class PersonFragment : Fragment(R.layout.fragment_person) {
 
-    private var currentPersonIds: IdsDomain = IdsDomain()
+    private var currentPersonIds: Ids = Ids()
 
     val viewmodel by viewModels<PersonViewmodel>()
     val binding by viewBinding(FragmentPersonBinding::bind)
@@ -37,7 +37,7 @@ class PersonFragment : Fragment(R.layout.fragment_person) {
 
         val bundle = arguments
         bundle?.let {
-            currentPersonIds = bundle.getParcelable(PERSON_IDS_KEY) ?: IdsDomain()
+            currentPersonIds = bundle.getParcelable(PERSON_IDS_KEY) ?: Ids()
         }
 
 
@@ -127,7 +127,7 @@ class PersonFragment : Fragment(R.layout.fragment_person) {
 
     companion object {
         // from search (personDto -> personExtended)
-        fun create(personIds: IdsDomain): PersonFragment {
+        fun create(personIds: Ids): PersonFragment {
             val personFragment = PersonFragment()
             val bundle = Bundle()
             bundle.putParcelable(PERSON_IDS_KEY, personIds)
