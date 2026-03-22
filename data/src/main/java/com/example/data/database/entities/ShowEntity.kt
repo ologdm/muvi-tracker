@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.example.data.database.ConvertersUtils
-import com.example.data.dto._support.Ids
+import com.example.domain.model.Ids
 
 /**
  *  tutte i conteggi aired/all sonio fatti su dati di trakt

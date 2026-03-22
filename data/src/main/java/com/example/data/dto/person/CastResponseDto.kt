@@ -1,10 +1,9 @@
 package com.example.data.dto.person
 
 import android.annotation.SuppressLint
-import com.example.data.dto._support.Ids
-import com.example.data.dto._support.toDomain
 import com.example.domain.model.CastAndCrew
 import com.example.domain.model.CastMember
+import com.example.domain.model.Ids
 import com.example.domain.model.base.PersonBase
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -41,7 +40,8 @@ fun CastMemberDto.toDomain(): CastMember {
     return CastMember(
         character = character ?: "N/A",
         episodeCount = episodeCount?.toString() ?: "N/A",
-        personBase = person?.toDomain() ?: PersonBase("", Ids().toDomain())
+//        personBase = person?.toDomain() ?: PersonBase("", Ids().toDomain())
+        personBase = person?.toDomain() ?: PersonBase("", Ids())
     )
 }
 

@@ -6,11 +6,11 @@ import com.example.core.utils.formatDateFromFirsAired
 import com.example.data.LanguageManager
 import com.example.data.database.entities.ShowEntity
 import com.example.data.dto.OmdbResultDto
-import com.example.data.dto._support.Ids
 import com.example.data.utils.dtoListOr
 import com.example.data.utils.dtoStringOr
 import com.example.data.utils.splitToCleanList
 import com.example.data.utils.youtubeLinkTransformation
+import com.example.domain.model.Ids
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

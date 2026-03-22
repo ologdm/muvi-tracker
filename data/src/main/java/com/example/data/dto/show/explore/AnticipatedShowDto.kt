@@ -1,7 +1,6 @@
 package com.example.data.dto.show.explore
 
 import android.annotation.SuppressLint
-import com.example.data.dto._support.toDomain
 import com.example.data.dto.show.ShowBaseDto
 import com.example.domain.model.base.ShowBase
 import kotlinx.serialization.SerialName
@@ -19,7 +18,8 @@ fun AnticipatedShowDto.toDomain(): ShowBase {
     return ShowBase(
         title = show.title,
         year = show.year,
-        ids = show.ids.toDomain()
+//        ids = show.ids.toDomain()
+        ids = show.ids
     )
 }
 

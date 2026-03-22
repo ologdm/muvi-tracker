@@ -5,8 +5,8 @@ import android.os.Parcelable
 import com.example.core.utils.firstDecimalApproxToString
 import com.example.data.LanguageManager
 import com.example.data.database.entities.SeasonEntity
-import com.example.data.dto._support.Ids
 import com.example.data.utils.dtoStringOr
+import com.example.domain.model.Ids
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

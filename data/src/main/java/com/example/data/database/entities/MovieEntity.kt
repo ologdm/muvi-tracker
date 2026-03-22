@@ -4,8 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.example.data.database.ConvertersUtils
-import com.example.data.dto._support.Ids
-import com.example.data.dto._support.toDomain
+import com.example.domain.model.Ids
 import com.example.domain.model.Movie
 
 /*
@@ -59,7 +58,8 @@ data class MovieEntity(
 fun MovieEntity.toDomain(prefsMovieEntity: PrefsMovieEntity?): Movie {
     return Movie(
         year = year,
-        ids = ids.toDomain(),
+        ids = ids,
+//        ids = ids.toDomain(),
         title = title,
         tagline = tagline,
         overview = overview,

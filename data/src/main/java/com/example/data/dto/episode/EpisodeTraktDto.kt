@@ -4,8 +4,8 @@ import android.annotation.SuppressLint
 import com.example.core.utils.firstDecimalApproxToString
 import com.example.core.utils.formatToSqliteCompatibleDate
 import com.example.data.database.entities.EpisodeEntity
-import com.example.data.dto._support.Ids
 import com.example.data.utils.dtoStringOr
+import com.example.domain.model.Ids
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

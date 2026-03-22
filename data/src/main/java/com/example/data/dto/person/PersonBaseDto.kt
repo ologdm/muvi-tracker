@@ -1,8 +1,7 @@
 package com.example.data.dto.person
 
 import android.annotation.SuppressLint
-import com.example.data.dto._support.Ids
-import com.example.data.dto._support.toDomain
+import com.example.domain.model.Ids
 import com.example.domain.model.base.PersonBase
 import kotlinx.serialization.Serializable
 
@@ -16,6 +15,7 @@ data class PersonBaseDto(
 fun PersonBaseDto.toDomain(): PersonBase {
     return PersonBase(
         name = name ?: "",
-        ids = ids.toDomain()
+        ids = ids
+//        ids = ids.toDomain()
     )
 }
