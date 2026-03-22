@@ -4,10 +4,10 @@ import android.content.Context
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.muvitracker.R
 import com.example.muvitracker.databinding.ViewholderEpisodeOnSeasonBinding
-import com.example.muvitracker.domain.model.Episode
-import com.example.muvitracker.utils.episodesFormatNumber
-import com.example.muvitracker.utils.formatDateFromFirsAired
-import com.example.muvitracker.utils.orDefaultText
+import com.example.core.utils.episodesFormatNumber
+import com.example.core.utils.formatDateFromFirsAired
+import com.example.core.utils.orDefaultText
+import com.example.domain.model.Episode
 
 
 class EpisodeViewholder(

@@ -3,14 +3,14 @@ package com.example.muvitracker.ui.main.seasons
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.muvitracker.dataX.TmdbApi
-import com.example.muvitracker.dataX.TraktApi
-import com.example.muvitracker.dataX.dtoX._support.Ids
-import com.example.muvitracker.domain.model.Episode
-import com.example.muvitracker.domain.model.Season
-import com.example.muvitracker.domain.repo.EpisodeRepository
-import com.example.muvitracker.domain.repo.SeasonRepository
-import com.example.muvitracker.utils.IoResponse
+import com.example.data.TmdbApi
+import com.example.data.TraktApi
+import com.example.domain.model.Episode
+import com.example.domain.model.Ids
+import com.example.domain.model.Season
+import com.example.domain.repo.EpisodeRepository
+import com.example.domain.repo.SeasonRepository
+import com.example.domain.utils.IoResponse
 import com.example.muvitracker.utils.ListStateContainerTwo
 import com.example.muvitracker.utils.StateContainerThree
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -26,8 +26,8 @@ import javax.inject.Inject
 class SeasonViewmodel @Inject constructor(
     private val seasonRepository: SeasonRepository,
     private val episodeRepository: EpisodeRepository,
-    private val traktApi: TraktApi,
-    private val tmdbApi: TmdbApi
+    private val traktApi: TraktApi, // FIXME: possibile eliminare?
+    private val tmdbApi: TmdbApi // FIXME: possibile eliminare?
 
 ) : ViewModel() {
 

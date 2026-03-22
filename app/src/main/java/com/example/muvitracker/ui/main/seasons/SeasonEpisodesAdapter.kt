@@ -8,8 +8,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.example.muvitracker.R
 import com.example.muvitracker.databinding.ViewholderEpisodeOnSeasonBinding
-import com.example.muvitracker.domain.model.Episode
-import com.example.muvitracker.utils.getNowFormattedDateTime
+import com.example.core.utils.getNowFormattedDateTime
+import com.example.domain.model.Episode
 
 class SeasonEpisodesAdapter(
     val onCLickVH: (Int) -> Unit,

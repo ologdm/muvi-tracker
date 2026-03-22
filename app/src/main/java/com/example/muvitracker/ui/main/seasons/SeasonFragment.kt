@@ -9,12 +9,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.muvitracker.R
-import com.example.muvitracker.dataX.dtoX._support.Ids
-import com.example.muvitracker.dataX.glide.ImageTmdbRequest
 import com.example.muvitracker.databinding.FragmentSeasonSonBinding
-import com.example.muvitracker.domain.model.Season
 import com.example.muvitracker.ui.main.Navigator
-import com.example.muvitracker.utils.orDefaultText
+import com.example.core.utils.orDefaultText
+import com.example.data.glide.ImageTmdbRequest
+import com.example.domain.model.Ids
+import com.example.domain.model.Season
 import com.example.muvitracker.utils.twoStatesFlow
 import com.example.muvitracker.utils.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
