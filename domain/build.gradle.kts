@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.android.library)
     // new
     alias(libs.plugins.kotlin.parcelize)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -43,8 +44,9 @@ dependencies {
     androidTestImplementation(libs.androidx.test.espresso)
 
     implementation(libs.kotlinx.serialization.json)
+//    implementation(libs.retrofit.kotlinx.serialization) // Non serve in domain se non c'è retrofit
 
-    implementation(project(":core"))
+//    implementation(project(":core"))
 
     // added serializable, parcelable (per ui)
 
