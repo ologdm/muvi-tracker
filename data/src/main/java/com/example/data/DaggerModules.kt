@@ -1,8 +1,8 @@
 package com.example.data
 
 import android.content.Context
-import android.content.SharedPreferences
 import androidx.room.Room
+import com.example.core.BuildConfig
 import com.example.data.database.MyDatabase
 import com.example.data.repositories.DetailMovieRepositoryImpl
 import com.example.data.repositories.DetailShowRepositoryImpl
@@ -128,8 +128,7 @@ class DaggerModules {
                 OkHttpClient.Builder()
                     .addInterceptor { chain ->
                         val newRequest = chain.request().newBuilder()
-//                            .addHeader("trakt-api-key", BuildConfig.TRAKT_API_KEY)  fixme:
-                            .addHeader("trakt-api-key", "XXXXXXX")
+                            .addHeader("trakt-api-key", BuildConfig.TRAKT_API_KEY)
                             .build()
                         chain.proceed(newRequest)
                     }.build()

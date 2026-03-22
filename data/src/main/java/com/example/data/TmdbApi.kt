@@ -1,6 +1,7 @@
 package com.example.data
 
 
+import com.example.core.BuildConfig
 import com.example.data.dto.episode.EpisodeTmdbDto
 import com.example.data.dto.movie.detail.MovieTmdbDto
 import com.example.data.dto.person.detail.PersonTmdbDto
@@ -19,8 +20,7 @@ import retrofit2.http.Query
 interface TmdbApi {
     // TODO: BuildConfig prende valore da local propreties
     companion object {
-//        const val API_KEY_QUERY_MOD = BuildConfig.TMDB_API_KEY
-        const val API_KEY_QUERY_MOD = "BuildConfig.TMDB_API_KEY" // TODO check dopo sync
+        const val API_KEY_QUERY_MOD = BuildConfig.TMDB_API_KEY
     }
 
 
