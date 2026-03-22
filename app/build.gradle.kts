@@ -63,11 +63,16 @@ android {
 // ---------------------------------------------------------------------------------------------------
 
 dependencies {
+    implementation(project(":data")) // -> va a build gradle data
+    implementation(project(":domain"))
+    implementation(project(":core"))
+    implementation(project(":presentation"))
+
 
     //  -------- Core Android --------------------------------------------------
     implementation(libs.androidx.appcompat)
-    implementation(libs.androidx.constraintlayout)
-    implementation(libs.androidx.core.ktx) // Kotlin Extensions in AndroidX
+    implementation(libs.androidx.core.ktx) // Kotlin Extensions in AndroidX, todo check
+    // presentation only
     implementation(libs.androidx.material)
     implementation(libs.androidx.swiperefreshlayout)
     implementation(libs.androidx.fragment.ktx)
@@ -75,21 +80,17 @@ dependencies {
     implementation(libs.flexbox)
 
     //  -------- Kotlin ------------------------------------------------------
-    implementation(libs.kotlin.stdlib)
+    implementation(libs.kotlin.stdlib) // ?? potrebbe non servire, TODO check
     implementation(libs.kotlinx.serialization.json)
 
-    //  -------- Networking -------------------------------------------------- TODO OK
-//    implementation(libs.retrofit)
-//    implementation(libs.retrofit.kotlinx.serialization)
-//    implementation(libs.okhttp) // TODO spostata su core, serve per accesso al sito
 
-    //  -------- Image Loading (Glide) ----------------------------------------- ok, anche su data
+    //  -------- Image Loading (Glide) ----------------------------------------- TODO presentation  + data
     implementation(libs.glide)
     // kapt(libs.glide.compiler)
     // NOTE: Glide KSP does not fully support generated APIs such as GlideApp, GlideRequests, and GlideOptions
     ksp(libs.glide.ksp) // replaces kapt
 
-    //  -------- Dependency Injection (Hilt) -----------------------------------
+    //  -------- Dependency Injection (Hilt) ----------------------------------- TODO OK, su core
     implementation(libs.hilt.android)
     // kapt(libs.hilt.compiler)
     ksp(libs.hilt.compiler) // replaces kapt
@@ -98,7 +99,7 @@ dependencies {
     implementation(libs.coroutines.core)
     implementation(libs.coroutines.android)
 
-    //  -------- Pagination ----------------------------------------------------
+    //  -------- Pagination ----------------------------------------------------  TODO spostare
     implementation(libs.paging.runtime.ktx) // also on data module
 
     // --------- Database (Room) ----------------------------------------------- TODO OK
@@ -117,13 +118,6 @@ dependencies {
     androidTestImplementation(libs.androidx.test.junit)
     androidTestImplementation(libs.androidx.test.espresso)
 
-
-
-    // TODO: test
-    implementation(project(":data")) // -> va a build gradle data
-    implementation(project(":domain"))
-    implementation(project(":core"))
-    implementation(project(":presentation"))
 
     // client HTTP per richieste GET, POST, HEAD,
 //    implementation(libs.okhttp) // FIXME: provvisorio, deve stare in core, ma non trova su fragment se voglio fare inject con dagger
