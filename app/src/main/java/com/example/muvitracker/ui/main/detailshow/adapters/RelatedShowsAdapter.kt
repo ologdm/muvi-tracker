@@ -4,9 +4,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import com.example.muvitracker.dataX.dtoX._support.Ids
+import com.example.domain.model.Ids
+import com.example.domain.model.base.ShowBase
 import com.example.muvitracker.databinding.ViewholderRelatedListOnDetailBinding
-import com.example.muvitracker.domain.model.base.ShowBase
 
 // vh solo immagine senza titolo
 

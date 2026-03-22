@@ -26,18 +26,14 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.muvitracker.MyApp
 import com.example.muvitracker.R
-import com.example.muvitracker.dataX.dtoX._support.Ids
-import com.example.muvitracker.dataX.glide.ImageTmdbRequest
 import com.example.muvitracker.databinding.DialogMyNotesBinding
 import com.example.muvitracker.databinding.FragmentDetailShowBinding
-import com.example.muvitracker.domain.model.Provider
-import com.example.muvitracker.domain.model.Show
 import com.example.muvitracker.ui.main.Navigator
 import com.example.muvitracker.ui.main.detailmovie.ProvidersAdapter
 import com.example.muvitracker.ui.main.detailmovie.adapter.DetailSeasonsAdapter
 import com.example.muvitracker.ui.main.detailshow.adapters.RelatedShowsAdapter
 import com.example.muvitracker.ui.main.person.adapters.CastAdapter
-import com.example.muvitracker.utils.orDefaultText
+import com.example.core.utils.orDefaultText
 import com.example.muvitracker.utils.statesFlowDetail
 import com.example.muvitracker.utils.twoStatesFlow
 import com.example.muvitracker.utils.viewBinding
@@ -51,6 +47,10 @@ import kotlinx.coroutines.launch
 import java.time.LocalDate
 import javax.inject.Inject
 import androidx.core.net.toUri
+import com.example.data.glide.ImageTmdbRequest
+import com.example.domain.model.Ids
+import com.example.domain.model.Provider
+import com.example.domain.model.Show
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
@@ -102,8 +102,11 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
         }
     )
 
-    // 1.2.0
-    private val okHttpClient by lazy { OkHttpClient() }
+    // 1.2.0 OK
+    // FIXME: 1.2.+ OkHttps from core -> daggermodules
+//    private val okHttpClient by lazy { OkHttpClient() } // oòd
+    @Inject
+    lateinit var okHttpClient : OkHttpClient
 
 
     override fun onViewCreated(
@@ -504,6 +507,7 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
     ): Boolean {
         return withContext(Dispatchers.IO) {
             try {
+                // FIXME: 1.2.+ request ottenibile da core
                 // 1. Request
                 val requestBuilder = Request.Builder().url(url)
                 val request = if (useHead) {
