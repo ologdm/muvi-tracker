@@ -128,14 +128,6 @@ class DetailMovieRepositoryImpl @Inject constructor(
     }
 
 
-    // for prefs view
-    // NOTE:
-    //  1. usata solo su PrefsMovieRepo -> esclusa da domain !!
-    //  2. istanzio detailRepo con Hilt tramite interfaccia su prefs, questa funz quindi non disponibile
-    // FIXME: usare direttamente detailTraktDao su prefs !!! OK
-//    fun getDetailListFlow(): Flow<List<MovieEntity>> {
-//        return detailTraktDao.readAllFlow()
-//    }
 
 
     // RELATED MOVIES ------------------------------------------------------------------------------
