@@ -68,36 +68,12 @@ android {
 }
 
 dependencies {
-
-//    implementation(libs.androidx.core.ktx)
-//    implementation(libs.androidx.appcompat)
-//    implementation(libs.androidx.material)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.test.junit)
-    androidTestImplementation(libs.androidx.test.espresso)
-
-    // dagger hilt -------------------------- OK
+    // dagger OK
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
-
-    // retrofit TODO
-//    implementation(libs.retrofit)
-//    implementation(libs.okhttp)
-//    implementation(libs.retrofit.kotlinx.serialization)
-
-    //  -------- Kotlin ------------------------------------------------------ OK
+    //
     implementation(libs.kotlinx.serialization.json) // serve per Json
-
     implementation(libs.gson)
-
-    // NOTE: spostata da app/build.gradle.kts
-    implementation(libs.okhttp)
     api(libs.okhttp) // condivide libreria con chi ne dipende
-
-
-    // room NO, non possibile
-
-
-
 
 }
