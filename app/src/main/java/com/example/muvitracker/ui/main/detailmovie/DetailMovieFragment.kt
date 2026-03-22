@@ -50,11 +50,13 @@ import javax.inject.Inject
 import androidx.core.net.toUri
 import com.example.data.TmdbApi
 import com.example.data.glide.ImageTmdbRequest
-import com.example.domain.model.IdsDomain
+import com.example.domain.model.Ids
 import com.example.domain.model.Movie
 import com.example.domain.model.Provider
 import com.example.muvitracker.ui.main.providers.CountriesDialog
 import kotlinx.coroutines.async
+import okhttp3.OkHttpClient
+import okhttp3.Request
 
 /** Linee
  *   —        (Shift + Option + -)
@@ -75,9 +77,10 @@ import kotlinx.coroutines.async
 @AndroidEntryPoint
 class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
 
-    private var currentMovieIds: IdsDomain = IdsDomain()
+    private var currentMovieIds: Ids = Ids()
 
     private val b by viewBinding(FragmentDetailMovieBinding::bind)
+    // NOTE: AndroidEntryPoint crea un ViewModel facotry nella view
     private val viewModel by viewModels<DetailMovieViewmodel>()
 
     @Inject
@@ -100,18 +103,26 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
         }
     )
 
-    /**
+    /** SOLO TEST TODO: eliminare
      * Scritto cosi, Il frammento riceverà api dopo il onAttach(), quindi prima puoi usarlo solo in
      * lifecycle methods come onViewCreated.
      */
-    @Inject
-    lateinit var api: TmdbApi
+//    @Inject
+//    lateinit var api: TmdbApi
 
     // 1.2.0
-    //by lazy:  inizializza solo la prima volta che viene usata.
-    // client HTTP per richieste GET, POST, HEAD,
+    //by lazy:  inizializza solo la prima volta che viene usata
+
     // FIXME:  OkHttpClient vedere dove spostare
-    private val okHttpClient by lazy { OkHttpClient() }
+//    private val okHttpClient by lazy { OkHttpClient() }
+    @Inject
+    lateinit var okHttpClient : OkHttpClient
+
+    // Request non si puo iniettare,
+    // Normalmente non inietti un Request già pronto, perché ogni richiesta ha parametri diversi (URL, header, body, ecc.).
+    // Piuttosto, crei il Request al momento della chiamata, usando l’OkHttpClient iniettato:
+//    @Inject
+//    private lateinit var okHttpRequest : Request
 
     override fun onViewCreated(
         view: View, savedInstanceState: Bundle?
@@ -125,7 +136,7 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
 
         val bundle = arguments
         if (bundle != null) {
-            currentMovieIds = bundle.getParcelable(MOVIE_IDS_KEY) ?: IdsDomain()
+            currentMovieIds = bundle.getParcelable(MOVIE_IDS_KEY) ?: Ids()
             println("W")
         }
 
@@ -247,9 +258,10 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
         // 1° + 2°
         b.releasedDateAndCountry.text = "$releaseDateText$countryText"
 
-        //
+
+        // FIXME: Smart cast to 'Int' is impossible, because 'runtime' is a public API property declared in different module.
         b.runtime.text =
-            if (movie.runtime != null && movie.runtime > 0)
+            if (movie.runtime != null && movie.runtime!! > 0) // NOTE: !! is safe in that case
                 getString(R.string.runtime_description, movie.runtime.toString())
             else
                 MovieDefaults.RUNTIME
@@ -488,7 +500,7 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
         b.watchedCheckbox.setOnCheckedChangeListener(null)
         b.watchedCheckbox.isChecked = movie.watched
 
-        val isDisabled = movie.releaseDate != null && movie.releaseDate > getNowFormattedDateTime()
+        val isDisabled = movie.releaseDate != null && movie.releaseDate!! > getNowFormattedDateTime() // NOTE: movie.releaseDate!! is safe in that case
         b.watchedCheckbox.isEnabled = !isDisabled
         b.watchedTextview.alpha = if (isDisabled) 0.4f else 1f
 
@@ -726,7 +738,7 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
 
 
     companion object {
-        fun create(movieIds: IdsDomain): DetailMovieFragment {
+        fun create(movieIds: Ids): DetailMovieFragment {
             val detailMovieFragment = DetailMovieFragment()
             val bundle = Bundle()
             bundle.putParcelable(MOVIE_IDS_KEY, movieIds)

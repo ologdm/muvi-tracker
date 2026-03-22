@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.data.TraktApi
 import com.example.domain.model.CastMember
-import com.example.domain.model.IdsDomain
+import com.example.domain.model.Ids
 import com.example.domain.model.Movie
 import com.example.domain.model.Provider
 import com.example.domain.model.base.MovieBase
@@ -47,7 +47,7 @@ class DetailMovieViewmodel @Inject constructor(
 
 
     // flow -> livedata
-    fun loadMovieDetailFlow(movieIds: IdsDomain) {
+    fun loadMovieDetailFlow(movieIds: Ids) {
         var cachedMovie: Movie? = null
 
         viewModelScope.launch {
