@@ -1,9 +1,8 @@
 package com.example.data.dto.season
 
 import android.annotation.SuppressLint
-import android.os.Parcelable
 import com.example.core.utils.firstDecimalApproxToString
-import com.example.data.LanguageManager
+import com.example.core.LanguageManager
 import com.example.data.database.entities.SeasonEntity
 import com.example.data.utils.dtoStringOr
 import com.example.domain.model.Ids

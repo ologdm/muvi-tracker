@@ -3,7 +3,7 @@ package com.example.data.dto.show.detail
 import android.annotation.SuppressLint
 import com.example.core.utils.firstDecimalApproxToString
 import com.example.core.utils.formatDateFromFirsAired
-import com.example.data.LanguageManager
+import com.example.core.LanguageManager
 import com.example.data.database.entities.ShowEntity
 import com.example.data.dto.OmdbResultDto
 import com.example.data.utils.dtoListOr

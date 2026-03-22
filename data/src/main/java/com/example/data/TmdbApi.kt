@@ -2,6 +2,7 @@ package com.example.data
 
 
 import com.example.core.BuildConfig
+import com.example.core.LanguageManager
 import com.example.data.dto.episode.EpisodeTmdbDto
 import com.example.data.dto.movie.detail.MovieTmdbDto
 import com.example.data.dto.person.detail.PersonTmdbDto
