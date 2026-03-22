@@ -91,7 +91,8 @@ dependencies {
     implementation(libs.gson)
 
     // NOTE: spostata da app/build.gradle.kts
-    implementation(libs.okhttp) // modulo dagger
+    implementation(libs.okhttp)
+    api(libs.okhttp) // condivide libreria con chi ne dipende
 
 
     // room NO, non possibile

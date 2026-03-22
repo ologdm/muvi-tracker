@@ -126,7 +126,7 @@ dependencies {
     implementation(project(":presentation"))
 
     // client HTTP per richieste GET, POST, HEAD,
-    implementation(libs.okhttp) // FIXME: provvisorio, deve stare in core, ma non trova su fragment se voglio fare inject con dagger
+//    implementation(libs.okhttp) // FIXME: provvisorio, deve stare in core, ma non trova su fragment se voglio fare inject con dagger
 }
 
 
