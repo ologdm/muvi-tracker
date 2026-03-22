@@ -48,7 +48,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import androidx.core.net.toUri
-import com.example.data.TmdbApi
 import com.example.data.glide.ImageTmdbRequest
 import com.example.domain.model.Ids
 import com.example.domain.model.Movie
