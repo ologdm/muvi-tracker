@@ -123,6 +123,9 @@ dependencies {
     implementation(project(":data")) // -> va a build gradle data
     implementation(project(":domain"))
     implementation(project(":core"))
+
+    // client HTTP per richieste GET, POST, HEAD,
+    implementation(libs.okhttp) // FIXME: provvisorio, deve stare in core, ma non trova su fragment se voglio fare inject con dagger
 }
 
 
