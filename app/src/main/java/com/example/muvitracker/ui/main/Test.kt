@@ -1,17 +1,23 @@
 package com.example.muvitracker.ui.main
 
-import com.example.muvitracker.dataX.dtoX._support.Ids
-import com.example.muvitracker.dataX.dtoX.person.detail.PersonTmdbDto
-import com.example.muvitracker.dataX.dtoX.person.detail.PersonTraktDto
-import com.example.muvitracker.dataX.dtoX.person.detail.SocialIds
-import com.example.muvitracker.dataX.dtoX.person.detail.mergePersonDtoToDomain
+import com.example.data.dto.person.detail.PersonTmdbDto
+import com.example.data.dto.person.detail.PersonTraktDto
+import com.example.data.dto.person.detail.SocialIds
+import com.example.data.dto.person.detail.mergePersonDtoToDomain
+import com.example.domain.model.Ids
 
+// TODO: eliminare o spostare da app
 fun main() {
 
     val fakePersonTrakt = PersonTraktDto(
         name = "John Doe",
         ids = Ids(trakt = 12345, slug = "john-doe", imdb = "nm1234567", tmdb = 54321),
-        socialIds = SocialIds(instagram = "johndoe", twitter = "johndoe", facebook = "johndoe", wikipedia = "johndoe"),
+        socialIds = SocialIds(
+            instagram = "johndoe",
+            twitter = "johndoe",
+            facebook = "johndoe",
+            wikipedia = "johndoe"
+        ),
         biography = "John Doe is a fictional filmmaker known for experimental sci-fi movies.",
         birthday = "1980-01-15",
         death = null,
