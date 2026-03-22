@@ -3,8 +3,8 @@ package com.example.muvitracker.ui.main.prefs
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.muvitracker.domain.model.Movie
-import com.example.muvitracker.domain.repo.PrefsMovieRepository
+import com.example.domain.model.Movie
+import com.example.domain.repo.PrefsMovieRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch

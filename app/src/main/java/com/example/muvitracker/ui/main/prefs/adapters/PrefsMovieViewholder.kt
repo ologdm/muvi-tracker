@@ -4,12 +4,13 @@ import android.content.Context
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.muvitracker.R
-import com.example.muvitracker.dataX.glide.ImageTmdbRequest
-import com.example.muvitracker.databinding.ViewholderPrefsMovieBinding
-import com.example.muvitracker.domain.model.Movie
+
 import com.example.muvitracker.ui.main.detailmovie.DetailMovieFragment.MovieDefaults
-import com.example.muvitracker.utils.formatToReadableDate
-import com.example.muvitracker.utils.orDefaultText
+import com.example.core.utils.formatToReadableDate
+import com.example.core.utils.orDefaultText
+import com.example.data.glide.ImageTmdbRequest
+import com.example.domain.model.Movie
+import com.example.muvitracker.databinding.ViewholderPrefsMovieBinding
 
 
 class PrefsMovieViewholder(

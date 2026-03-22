@@ -3,10 +3,10 @@ package com.example.muvitracker.ui.main.prefs
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.muvitracker.dataX.dtoX._support.Ids
-import com.example.muvitracker.domain.model.Show
-import com.example.muvitracker.domain.repo.DetailShowRepository
-import com.example.muvitracker.domain.repo.PrefsShowRepository
+import com.example.domain.model.Ids
+import com.example.domain.model.Show
+import com.example.domain.repo.DetailShowRepository
+import com.example.domain.repo.PrefsShowRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch

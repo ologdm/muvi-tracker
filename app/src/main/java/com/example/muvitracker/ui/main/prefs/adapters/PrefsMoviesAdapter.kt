@@ -8,10 +8,10 @@ import android.widget.CompoundButton
 import android.widget.ImageButton
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
+import com.example.domain.model.Ids
+import com.example.domain.model.Movie
 import com.example.muvitracker.R
-import com.example.muvitracker.dataX.dtoX._support.Ids
 import com.example.muvitracker.databinding.ViewholderPrefsMovieBinding
-import com.example.muvitracker.domain.model.Movie
 
 
 class PrefsMoviesAdapter(
