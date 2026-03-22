@@ -41,7 +41,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 class DaggerModules {
 
-    // ok
+    // repos ------------------------------------------------------------------------- data OK
     @Provides
     @Singleton
     fun providedDetailMovieRepo(impl: DetailMovieRepositoryImpl): DetailMovieRepository {
@@ -84,7 +84,7 @@ class DaggerModules {
     }
 
 
-    // DATABASING ---------------------------------------------------------------------------------
+    // DATABASING --------------------------------------------------------------------------------- data OK
     @Provides
     @Singleton
     fun getMyDatabase(@ApplicationContext context: Context): MyDatabase {
