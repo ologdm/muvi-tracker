@@ -7,14 +7,14 @@ import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.muvitracker.R
-import com.example.muvitracker.dataX.dtoX._support.Ids
-import com.example.muvitracker.dataX.glide.ImageTmdbRequest
 import com.example.muvitracker.databinding.FragmentEpisodeBottomsheetBinding
-import com.example.muvitracker.domain.model.Episode
-import com.example.muvitracker.utils.episodesFormatNumber
-import com.example.muvitracker.utils.formatDateFromFirsAired
-import com.example.muvitracker.utils.getNowFormattedDateTime
-import com.example.muvitracker.utils.orDefaultText
+import com.example.core.utils.episodesFormatNumber
+import com.example.core.utils.formatDateFromFirsAired
+import com.example.core.utils.getNowFormattedDateTime
+import com.example.core.utils.orDefaultText
+import com.example.data.glide.ImageTmdbRequest
+import com.example.domain.model.Episode
+import com.example.domain.model.Ids
 import com.example.muvitracker.utils.viewBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -59,10 +59,15 @@ class EpisodeFragment : BottomSheetDialogFragment(
                     )
 
                 // 1.1.3 ok default
-                binding.episodeType.text = if (it.episodeType.isNullOrBlank()) {
+                // FIXME: soluzione
+                val type = it.episodeType // new
+//                binding.episodeType.text = if (it.episodeType.isNullOrBlank()) {
+                binding.episodeType.text = if (type.isNullOrBlank()) { // new
                     " — "
                 } else {
-                    "${it.episodeType.replace("_", " ").replaceFirstChar { it.uppercaseChar() }}"
+                    // FIXME: dava errore - Smart cast to 'String' is impossible, because 'episodeType' is a public API property declared in different module
+//                    "${it.episodeType.replace("_", " ").replaceFirstChar { it.uppercaseChar() }}" // old
+                    type.replace("_", " ").replaceFirstChar { it.uppercaseChar() } // new with fixme
                 }
 
 
