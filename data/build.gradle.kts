@@ -60,9 +60,9 @@ dependencies {
 
     //  -------- Networking (Retrofit) -------------------------------------------------- OK
     implementation(libs.retrofit)
+    implementation(libs.retrofit.kotlinx.serialization) // only for conversion
+    implementation(libs.kotlinx.serialization.json) // @Serializable, Json config ecc
     implementation(libs.okhttp)
-    implementation(libs.retrofit.kotlinx.serialization)
-    implementation(libs.kotlinx.serialization.json) // serve per retrofit
 
 
     // --------- Database (Room) ----------------------------------------------- OK
