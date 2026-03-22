@@ -2,6 +2,7 @@ package com.example.data.repositories
 
 import com.example.data.database.MyDatabase
 import com.example.data.database.entities.PrefsMovieEntity
+import com.example.data.database.entities.toDomain
 import com.example.domain.model.Movie
 import com.example.domain.repo.DetailMovieRepository
 import com.example.domain.repo.PrefsMovieRepository
@@ -19,10 +20,14 @@ class PrefsMovieRepositoryImpl @Inject constructor(
 ) : PrefsMovieRepository {
 
     private val prefsMovieDao = database.prefsMovieDao()
+    private val moviesDao = database.movieDao()
 
 
     override fun getListFLow(): Flow<List<Movie>> {
-        val detailListFLow = detailMovieRepository.getDetailListFlow()
+        // FIXME: 1.2.+ Gradle modules - soluzione: usare direttamente detailTraktDao su prefsOK
+//        val detailListFLow = detailMovieRepository.getDetailListFlow() // old
+        val detailListFLow = moviesDao.readAllFlow()  // 1.2.+ OK
+
         val prefsListFLow = prefsMovieDao.readAll()
 
         return detailListFLow.combine(prefsListFLow) { detailList, prefsList ->

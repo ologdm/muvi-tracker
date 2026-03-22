@@ -129,17 +129,13 @@ class DetailMovieRepositoryImpl @Inject constructor(
 
 
     // for prefs view
-    // FIXME: se voglio mantenere fun nel interf domain, return 'MovieEntity' sbagliato
-    //  esclusa temp dall'interfaccia, non puo essere usata !!!!!
-//    override fun getDetailListFlow(): Flow<List<MovieEntity>> {
+    // NOTE:
+    //  1. usata solo su PrefsMovieRepo -> esclusa da domain !!
+    //  2. istanzio detailRepo con Hilt tramite interfaccia su prefs, questa funz quindi non disponibile
+    // FIXME: usare direttamente detailTraktDao su prefs !!! OK
 //    fun getDetailListFlow(): Flow<List<MovieEntity>> {
-    override fun getDetailListFlow(): Flow<List<Movie>> {
-        return detailTraktDao.readAllFlow().map {
-            it.map { entity ->
-                entity.toDomain(null)
-            }
-        }
-    }
+//        return detailTraktDao.readAllFlow()
+//    }
 
 
     // RELATED MOVIES ------------------------------------------------------------------------------
@@ -205,9 +201,6 @@ class DetailMovieRepositoryImpl @Inject constructor(
             pair.second.isNotEmpty() // emptyList default
         }
 
-        val pair = Pair("Mario", 25)
-        val x = pair.first
-        val y = pair.second
 
         // 2. da mappa a Pair<key, Obj>
         // struttura key, elemento singolo
