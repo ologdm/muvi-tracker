@@ -67,7 +67,7 @@ dependencies {
     //  -------- Core Android --------------------------------------------------
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.constraintlayout)
-    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.core.ktx) // Kotlin Extensions in AndroidX
     implementation(libs.androidx.material)
     implementation(libs.androidx.swiperefreshlayout)
     implementation(libs.androidx.fragment.ktx)
