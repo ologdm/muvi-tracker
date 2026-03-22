@@ -9,6 +9,7 @@ plugins {
     alias (libs.plugins.room)
 }
 
+
 android {
     namespace = "com.example.data"
     compileSdk {
@@ -38,6 +39,7 @@ android {
     }
 }
 
+
 dependencies {
     implementation(project(":domain"))
     implementation(project(":core"))
@@ -47,16 +49,13 @@ dependencies {
     androidTestImplementation(libs.androidx.test.junit)
 //    androidTestImplementation(libs.androidx.test.espresso) // ??
 
-
     //  -------- Concurrency (Coroutines) -------------------------------------- OK
     implementation(libs.coroutines.core) // coroutines core only OK
-
 
     //  -------- Dependency Injection (Hilt) ----------------------------------- OK
     implementation(libs.hilt.android)
     // kapt(libs.hilt.compiler)
     ksp(libs.hilt.compiler) // replaces kapt
-
 
     //  -------- Networking (Retrofit) -------------------------------------------------- OK
     implementation(libs.retrofit)
@@ -64,19 +63,16 @@ dependencies {
     implementation(libs.kotlinx.serialization.json) // @Serializable, Json config ecc
     implementation(libs.okhttp)
 
-
     // --------- Database (Room) ----------------------------------------------- OK
     implementation(libs.room.ktx)
     // kapt(libs.room.compiler)
     ksp(libs.room.compiler) // replaces kapt
     implementation(libs.gson) // per room type converter
 
-
     // ---------- Caching ------------------------------------------------------ OK
     // store4 - caching library
     // implementation(libs.store4) // old, not compatible with Kotlin 2.3.10 and agp 9
     implementation(libs.store5)
-
 
     // ---------- Paging ----------------------------------------------------------
     implementation(libs.paging.runtime.ktx) // TODO spostare su presentation
