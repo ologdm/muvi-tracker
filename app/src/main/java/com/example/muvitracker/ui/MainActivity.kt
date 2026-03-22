@@ -1,22 +1,21 @@
-package com.example.muvitracker.ui.main
+package com.example.muvitracker.ui
 
 import android.content.SharedPreferences
 import android.content.pm.ActivityInfo
-import android.graphics.Color
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.WindowCompat
+import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import com.example.muvitracker.R
 import com.example.muvitracker.databinding.ActivityMainBinding
-import com.example.muvitracker.ui.main.allmovies.AllMoviesFragment
-import com.example.muvitracker.ui.main.allshows.AllShowsFragment
-import com.example.muvitracker.ui.main.prefs.viewpager.PrefsViewpagerFragment
-import com.example.muvitracker.ui.main.search.SearchFragment
+import com.example.muvitracker.ui.Navigator
+import com.example.presentation.allmovies.AllMoviesFragment
+import com.example.presentation.allshows.AllShowsFragment
+import com.example.presentation.prefs.viewpager.PrefsViewpagerFragment
+import com.example.presentation.search.SearchFragment
 import com.google.android.material.navigation.NavigationBarView
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
-import androidx.core.content.edit
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -100,6 +99,3 @@ class MainActivity : AppCompatActivity() {
     }
 
 }
-
-
-

@@ -1,4 +1,4 @@
-package com.example.muvitracker.ui.main
+package com.example.muvitracker.ui
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -6,14 +6,13 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.example.domain.model.Ids
 import com.example.muvitracker.R
-import com.example.muvitracker.ui.main.detailmovie.DetailMovieFragment
-import com.example.muvitracker.ui.main.detailshow.DetailShowFragment
-import com.example.muvitracker.ui.main.episode.EpisodeFragment
-import com.example.muvitracker.ui.main.person.PersonBottomSheetFragment
-import com.example.muvitracker.ui.main.person.PersonFragment
-import com.example.muvitracker.ui.main.seasons.viewpager.SeasonViewpagerFragment
+import com.example.presentation.detailmovie.DetailMovieFragment
+import com.example.presentation.detailshow.DetailShowFragment
+import com.example.presentation.episode.EpisodeFragment
+import com.example.presentation.person.PersonBottomSheetFragment
+import com.example.presentation.person.PersonFragment
+import com.example.presentation.seasons.viewpager.SeasonViewpagerFragment
 import javax.inject.Inject
-
 
 class Navigator @Inject constructor(
     private val fragmentActivity: FragmentActivity
@@ -39,7 +38,7 @@ class Navigator @Inject constructor(
     ) {
         val manager = fragmentActivity.supportFragmentManager
         manager.beginTransaction()
-            .replace(R.id.frameLayout, DetailMovieFragment.create(movieIds))
+            .replace(R.id.frameLayout, DetailMovieFragment.Companion.create(movieIds))
             .addToBackStack(null)
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
             .commit()
@@ -51,7 +50,7 @@ class Navigator @Inject constructor(
     ) {
         val manager = fragmentActivity.supportFragmentManager
         manager.beginTransaction()
-            .replace(R.id.frameLayout, DetailShowFragment.create(showIds))
+            .replace(R.id.frameLayout, DetailShowFragment.Companion.create(showIds))
             .addToBackStack(null)
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN) // setTransition solo animazioni standard
             .commit()
@@ -67,7 +66,7 @@ class Navigator @Inject constructor(
         manager.beginTransaction()
             .replace(
                 R.id.frameLayout,
-                SeasonViewpagerFragment.create(showTitle, showIds, seasonNumber, totSeasonsNumber)
+                SeasonViewpagerFragment.Companion.create(showTitle, showIds, seasonNumber, totSeasonsNumber)
             )
             .addToBackStack(null)
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
@@ -80,7 +79,7 @@ class Navigator @Inject constructor(
         seasonNumber: Int,
         episodeNumber: Int
     ) {
-        val episodeFragment = EpisodeFragment.create(showIds, seasonNumber, episodeNumber)
+        val episodeFragment = EpisodeFragment.Companion.create(showIds, seasonNumber, episodeNumber)
         episodeFragment.show(fragmentActivity.supportFragmentManager, "EpisodeFragment")
         // replace,commit non necessari -> show() fa gia tutto internamente
     }
@@ -92,7 +91,7 @@ class Navigator @Inject constructor(
         personIds: Ids,
         character: String
     ) {
-        val personFragment = PersonBottomSheetFragment.create(personIds, character).apply {
+        val personFragment = PersonBottomSheetFragment.Companion.create(personIds, character).apply {
             show(fragmentActivity.supportFragmentManager, "PersonFragmentCast")
         }
     }
@@ -104,7 +103,7 @@ class Navigator @Inject constructor(
         fragmentActivity.supportFragmentManager.beginTransaction()
             .replace(
                 R.id.frameLayout,
-                PersonFragment.create(personIds)
+                PersonFragment.Companion.create(personIds)
             )
             .addToBackStack(null)
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
@@ -113,4 +112,3 @@ class Navigator @Inject constructor(
 
 
 }
-
