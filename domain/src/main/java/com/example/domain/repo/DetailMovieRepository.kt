@@ -7,7 +7,6 @@ import com.example.domain.model.Ids
 import com.example.domain.model.Movie
 import com.example.domain.model.Provider
 import com.example.domain.model.base.MovieBase
-
 import kotlinx.coroutines.flow.Flow
 
 interface DetailMovieRepository {

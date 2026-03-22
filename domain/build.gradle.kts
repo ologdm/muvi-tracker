@@ -1,7 +1,9 @@
+import kotlinx.coroutines.flow.Flow
+
 plugins {
     // base
-    alias(libs.plugins.android.library)
-    // new
+    alias(libs.plugins.android.library) // serve per usare moduli
+    // others
     alias(libs.plugins.kotlin.parcelize)
     alias(libs.plugins.kotlin.serialization)
 }
@@ -34,21 +36,11 @@ android {
     }
 }
 
+
 dependencies {
-    // base
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.androidx.material)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.test.junit)
-    androidTestImplementation(libs.androidx.test.espresso)
-
+    // others
+    implementation(libs.coroutines.core) // NOTE: per flow return
     implementation(libs.kotlinx.serialization.json)
-//    implementation(libs.retrofit.kotlinx.serialization) // Non serve in domain se non c'è retrofit
-
-//    implementation(project(":core"))
-
-    // added serializable, parcelable (per ui)
-
+    // NOTE: parcelable doesn't have library
 
 }
