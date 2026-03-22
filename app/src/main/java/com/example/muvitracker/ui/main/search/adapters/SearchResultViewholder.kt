@@ -4,10 +4,10 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.example.data.glide.ImageTmdbRequest
+import com.example.domain.model.SearchResult
 import com.example.muvitracker.R
-import com.example.muvitracker.dataX.glide.ImageTmdbRequest
 import com.example.muvitracker.databinding.ViewholderSearchBinding
-import com.example.muvitracker.domain.model.SearchResult
 import com.example.muvitracker.ui.main.search.SearchFragment
 
 class SearchResultViewholder(

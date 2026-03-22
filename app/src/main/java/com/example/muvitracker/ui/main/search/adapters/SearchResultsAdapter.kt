@@ -4,9 +4,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import com.example.muvitracker.dataX.dtoX._support.Ids
+import com.example.domain.model.Ids
+import com.example.domain.model.SearchResult
 import com.example.muvitracker.databinding.ViewholderSearchBinding
-import com.example.muvitracker.domain.model.SearchResult
 import com.example.muvitracker.ui.main.search.SearchFragment
 
 class SearchResultsAdapter(
