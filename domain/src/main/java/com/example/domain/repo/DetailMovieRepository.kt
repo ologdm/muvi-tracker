@@ -1,7 +1,7 @@
 package com.example.domain.repo
 
 
-import com.example.domain.utils.IoResponse
+import com.example.domain.IoResponse
 import com.example.domain.model.CastAndCrew
 import com.example.domain.model.Ids
 import com.example.domain.model.Movie

@@ -12,7 +12,7 @@ import com.example.domain.model.Season
 import com.example.domain.repo.EpisodeRepository
 import com.example.domain.repo.PrefsShowRepository
 import com.example.domain.repo.SeasonRepository
-import com.example.domain.utils.IoResponse
+import com.example.domain.IoResponse
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow

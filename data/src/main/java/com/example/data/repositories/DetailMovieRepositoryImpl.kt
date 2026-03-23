@@ -18,13 +18,12 @@ import com.example.domain.model.Movie
 import com.example.domain.model.Provider
 import com.example.domain.model.base.MovieBase
 import com.example.domain.repo.DetailMovieRepository
-import com.example.domain.utils.IoResponse
-import com.example.domain.utils.map
+import com.example.domain.IoResponse
+import com.example.domain.map
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.map
 import org.mobilenativefoundation.store.store5.StoreReadRequest
 import java.util.Locale
 import javax.inject.Inject

@@ -10,7 +10,7 @@ import com.example.domain.model.Ids
 import com.example.domain.model.Season
 import com.example.domain.repo.EpisodeRepository
 import com.example.domain.repo.SeasonRepository
-import com.example.domain.utils.IoResponse
+import com.example.domain.IoResponse
 import com.example.muvitracker.utils.ListStateContainerTwo
 import com.example.muvitracker.utils.StateContainerThree
 import dagger.hilt.android.lifecycle.HiltViewModel

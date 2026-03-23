@@ -21,8 +21,8 @@ import com.example.domain.model.Show
 import com.example.domain.model.base.ShowBase
 import com.example.domain.repo.DetailShowRepository
 import com.example.domain.repo.SeasonRepository
-import com.example.domain.utils.IoResponse
-import com.example.domain.utils.map
+import com.example.domain.IoResponse
+import com.example.domain.map
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope

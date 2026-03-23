@@ -10,7 +10,7 @@ import com.example.domain.model.Provider
 import com.example.domain.model.base.MovieBase
 import com.example.domain.repo.DetailMovieRepository
 import com.example.domain.repo.PrefsMovieRepository
-import com.example.domain.utils.IoResponse
+import com.example.domain.IoResponse
 import com.example.presentation.providers.AppCountry
 import com.example.presentation.utils.ListStateContainerTwo
 import com.example.presentation.utils.StateContainerThree

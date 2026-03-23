@@ -2,7 +2,7 @@ package com.example.domain.repo
 
 import com.example.domain.model.Ids
 import com.example.domain.model.Season
-import com.example.domain.utils.IoResponse
+import com.example.domain.IoResponse
 import kotlinx.coroutines.flow.Flow
 
 

@@ -14,7 +14,7 @@ import com.example.domain.model.Episode
 import com.example.domain.model.Ids
 import com.example.domain.repo.EpisodeRepository
 import com.example.domain.repo.PrefsShowRepository
-import com.example.domain.utils.IoResponse
+import com.example.domain.IoResponse
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope

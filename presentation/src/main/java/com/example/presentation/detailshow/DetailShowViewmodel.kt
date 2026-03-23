@@ -12,7 +12,7 @@ import com.example.domain.model.base.ShowBase
 import com.example.domain.repo.DetailShowRepository
 import com.example.domain.repo.PrefsShowRepository
 import com.example.domain.repo.SeasonRepository
-import com.example.domain.utils.IoResponse
+import com.example.domain.IoResponse
 import com.example.muvitracker.utils.ListStateContainerTwo
 import com.example.muvitracker.utils.StateContainerThree
 import dagger.hilt.android.lifecycle.HiltViewModel

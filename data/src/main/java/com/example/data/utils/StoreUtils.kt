@@ -1,6 +1,6 @@
 package com.example.data.utils
 
-import com.example.domain.utils.IoResponse
+import com.example.domain.IoResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filterNot
 import kotlinx.coroutines.flow.map

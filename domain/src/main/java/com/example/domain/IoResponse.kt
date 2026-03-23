@@ -1,4 +1,4 @@
-package com.example.domain.utils
+package com.example.domain
 
 
 sealed interface IoResponse<out T> {
