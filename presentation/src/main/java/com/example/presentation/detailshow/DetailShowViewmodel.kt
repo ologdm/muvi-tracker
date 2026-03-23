@@ -13,8 +13,8 @@ import com.example.domain.repo.DetailShowRepository
 import com.example.domain.repo.PrefsShowRepository
 import com.example.domain.repo.SeasonRepository
 import com.example.domain.IoResponse
-import com.example.muvitracker.utils.ListStateContainerTwo
-import com.example.muvitracker.utils.StateContainerThree
+import com.example.presentation.utils.ListStateContainerTwo
+import com.example.presentation.utils.StateContainerThree
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.catch

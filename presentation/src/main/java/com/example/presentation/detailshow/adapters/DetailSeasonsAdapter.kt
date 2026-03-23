@@ -5,9 +5,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.CompoundButton
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import com.example.domain.model.Season
-import com.example.muvitracker.databinding.ViewholderSeasonsOnDetailshowBinding
+import com.example.presentation.databinding.ViewholderSeasonsOnDetailshowBinding
 import com.example.presentation.detailshow.adapters.SeasonViewholder
 
 class DetailSeasonsAdapter(

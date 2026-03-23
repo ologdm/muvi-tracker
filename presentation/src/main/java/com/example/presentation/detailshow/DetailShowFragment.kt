@@ -6,13 +6,11 @@ import android.content.res.ColorStateList
 import android.content.res.Configuration
 import android.graphics.Color
 import android.net.Uri
-import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
@@ -26,18 +24,10 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.example.muvitracker.MyApp
-import com.example.muvitracker.databinding.DialogMyNotesBinding
-import com.example.muvitracker.databinding.FragmentDetailShowBinding
-import com.example.muvitracker.ui.main.Navigator
 import com.example.presentation.detailmovie.ProvidersAdapter
 import com.example.muvitracker.ui.main.detailmovie.adapter.DetailSeasonsAdapter
 import com.example.presentation.detailshow.adapters.RelatedShowsAdapter
-import com.example.muvitracker.ui.main.person.adapters.CastAdapter
 import com.example.core.orDefaultText
-import com.example.muvitracker.utils.statesFlowDetail
-import com.example.muvitracker.utils.twoStatesFlow
-import com.example.muvitracker.utils.viewBinding
 import com.google.android.material.chip.Chip
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -48,11 +38,18 @@ import kotlinx.coroutines.launch
 import java.time.LocalDate
 import javax.inject.Inject
 import androidx.core.net.toUri
-import com.example.data.glide.ImageTmdbRequest
+import com.example.domain.ImageTmdbRequest
 import com.example.domain.model.Ids
 import com.example.domain.model.Provider
 import com.example.domain.model.Show
-import com.google.android.material.R
+import com.example.presentation.Navigator
+import com.example.presentation.R
+import com.example.presentation.databinding.DialogMyNotesBinding
+import com.example.presentation.databinding.FragmentDetailShowBinding
+import com.example.presentation.person.adapters.CastAdapter
+import com.example.presentation.utils.statesFlowDetail
+import com.example.presentation.utils.twoStatesFlow
+import com.example.presentation.utils.viewBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
@@ -239,10 +236,10 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
         //
         b.tagline.apply { // 1.1.3 OK
             if (show.tagline.isNullOrBlank()) {
-                View.setVisibility = View.GONE
+                visibility = View.GONE
             } else {
-                TextView.setText = show.tagline
-                View.setVisibility = View.VISIBLE
+                text = show.tagline
+                visibility = View.VISIBLE
             }
         }
 
@@ -308,10 +305,10 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
         // 1.1.3 - IN INGLESE OK
         b.englishTitle.apply {
             if (show.title != show.englishTitle) {
-                View.setVisibility = View.VISIBLE
-                TextView.setText = "${show.englishTitle}"
+                visibility = View.VISIBLE
+                text = "${show.englishTitle}"
             } else {
-                View.setVisibility = View.GONE
+                visibility = View.GONE
             }
 
         }
@@ -398,7 +395,7 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
                 fillColor = ColorStateList.valueOf(
                     MaterialColors.getColor(
                         dialogBinding.root,
-                        R.attr.colorSurface
+                        com.google.android.material.R.attr.colorSurface
                     )
                 )
             }
@@ -711,7 +708,7 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
                 // trova typevalue
                 val typedValue = TypedValue()
                 requireContext().theme.resolveAttribute(
-                    R.attr.colorOnPrimaryContainer,
+                    com.google.android.material.R.attr.colorOnPrimaryContainer,
                     typedValue,
                     true
                 )

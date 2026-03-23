@@ -3,10 +3,9 @@ package com.example.presentation.detailshow.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import com.example.domain.model.Ids
 import com.example.domain.model.base.ShowBase
-import com.example.muvitracker.databinding.ViewholderRelatedListOnDetailBinding
+import com.example.presentation.databinding.ViewholderRelatedListOnDetailBinding
 
 // vh solo immagine senza titolo
 

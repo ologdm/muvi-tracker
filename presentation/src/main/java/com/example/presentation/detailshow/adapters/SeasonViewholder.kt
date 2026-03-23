@@ -1,10 +1,9 @@
 package com.example.presentation.detailshow.adapters
 
 import android.content.Context
-import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.domain.model.Season
-import com.example.muvitracker.R
-import com.example.muvitracker.databinding.ViewholderSeasonsOnDetailshowBinding
+import com.example.presentation.R
+import com.example.presentation.databinding.ViewholderSeasonsOnDetailshowBinding
 
 
 class SeasonViewholder(
