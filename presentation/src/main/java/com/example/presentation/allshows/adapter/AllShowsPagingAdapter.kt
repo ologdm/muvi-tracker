@@ -1,4 +1,4 @@
-package com.example.presentation.allshows.base
+package com.example.presentation.allshows.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
