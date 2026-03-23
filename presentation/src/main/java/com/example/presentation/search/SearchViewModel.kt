@@ -6,8 +6,6 @@ import androidx.paging.InvalidatingPagingSourceFactory
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
-import com.example.data.TraktApi
-import com.example.data.repositories.paging.SearchPagingSource
 import com.example.presentation.search.SearchFragment.Companion.MOVIE_SHOW_PERSON
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
@@ -22,7 +20,8 @@ import javax.inject.Inject
 @OptIn(FlowPreview::class)
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val traktApi: TraktApi,
+//    private val traktApi: TraktApi,
+    // TODO repo
 ) : ViewModel() {
 
     companion object {

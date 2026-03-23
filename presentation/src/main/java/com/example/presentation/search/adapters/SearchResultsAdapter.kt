@@ -6,7 +6,7 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import com.example.domain.model.Ids
 import com.example.domain.model.SearchResult
-import com.example.muvitracker.databinding.ViewholderSearchBinding
+import com.example.presentation.databinding.ViewholderSearchBinding
 import com.example.presentation.search.SearchFragment
 
 class SearchResultsAdapter(

@@ -9,12 +9,12 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.muvitracker.R
-import com.example.muvitracker.databinding.FragmentSearchBinding
-import com.example.muvitracker.ui.main.Navigator
 import com.example.presentation.search.adapters.SearchResultsAdapter
-import com.example.muvitracker.utils.fragmentViewLifecycleScope
-import com.example.muvitracker.utils.viewBinding
+import com.example.presentation.Navigator
+import com.example.presentation.R
+import com.example.presentation.databinding.FragmentSearchBinding
+import com.example.presentation.utils.fragmentViewLifecycleScope
+import com.example.presentation.utils.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
