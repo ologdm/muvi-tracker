@@ -41,7 +41,7 @@ interface TraktApi {
     // todo filters - genre, year
 
     // ?page={page}&limit={limit} - impostazione standard
-    @GET("movies/popular")
+    @GET("movies/popular") // TODO change name - getPopularMoviesPage
     suspend fun getPopularMovies(
         @Query("page") page: Int, // standard
         @Query("limit") limit: Int // standard
