@@ -3,7 +3,9 @@ package com.example.presentation.allmovies.adapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.example.domain.ImageTmdbRequest
 import com.example.domain.model.base.MovieBase
+import com.example.presentation.R
 import com.example.presentation.databinding.ViewholderExploreBaseBinding
 
 class MovieViewholder(
@@ -13,7 +15,7 @@ class MovieViewholder(
     fun bind(movieBase: MovieBase) {
         binding.title.text = "${movieBase.title} (${movieBase.year})"
 
-        // TODO TEST
+        // TEST
         // Thumbnail aggiornato usando RequestBuilder invece del float deprecato
 //        val thumbRequest = Glide.with(binding.root.context)
 //            .load(ImageTmdbRequest.MovieVertical(movie.ids.tmdb))
@@ -30,7 +32,7 @@ class MovieViewholder(
             .error(R.drawable.glide_placeholder_base)
             .into(binding.image)
 
-        // TODO 1.1.3 preloading,
+        // 1.1.3 preloading OK
         Glide.with(binding.root.context)
             .load(ImageTmdbRequest.MovieHorizontal(movieBase.ids.tmdb))
             .preload()

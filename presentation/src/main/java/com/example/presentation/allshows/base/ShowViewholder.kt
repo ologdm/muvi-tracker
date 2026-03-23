@@ -3,10 +3,10 @@ package com.example.presentation.allshows.base
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.example.data.glide.ImageTmdbRequest
+import com.example.domain.ImageTmdbRequest
 import com.example.domain.model.base.ShowBase
-import com.example.muvitracker.R
-import com.example.muvitracker.databinding.ViewholderExploreBaseBinding
+import com.example.presentation.R
+import com.example.presentation.databinding.ViewholderExploreBaseBinding
 
 class ShowViewholder(
     private val binding: ViewholderExploreBaseBinding

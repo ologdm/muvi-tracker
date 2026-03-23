@@ -3,8 +3,6 @@ package com.example.presentation.allshows
 import android.content.SharedPreferences
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import com.example.domain.ShowsType
 import com.example.domain.repo.ExploreRepository

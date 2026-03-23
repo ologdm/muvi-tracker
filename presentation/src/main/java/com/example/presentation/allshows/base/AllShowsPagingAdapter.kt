@@ -6,7 +6,7 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import com.example.domain.model.Ids
 import com.example.domain.model.base.ShowBase
-import com.example.muvitracker.databinding.ViewholderExploreBaseBinding
+import com.example.presentation.databinding.ViewholderExploreBaseBinding
 
 
 class AllShowsPagingAdapter(
