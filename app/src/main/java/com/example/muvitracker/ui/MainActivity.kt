@@ -7,10 +7,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import com.example.muvitracker.R
-import com.example.muvitracker.databinding.ActivityMainBinding
-import com.example.muvitracker.ui.Navigator
+import com.example.presentation.Navigator
 import com.example.presentation.allmovies.AllMoviesFragment
 import com.example.presentation.allshows.AllShowsFragment
+import com.example.presentation.databinding.ActivityMainBinding
 import com.example.presentation.prefs.viewpager.PrefsViewpagerFragment
 import com.example.presentation.search.SearchFragment
 import com.google.android.material.navigation.NavigationBarView

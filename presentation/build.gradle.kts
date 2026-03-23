@@ -50,7 +50,7 @@ dependencies {
     // android base -  NOTE: Tutto utile se i tuoi fragment lo usano
     implementation(libs.androidx.appcompat) // AppCompatActivity, themes
     implementation(libs.androidx.core.ktx) // estensioni Kotlin
-    implementation(libs.androidx.material) // Material Components (BottomNavigationView, etc.)
+    api(libs.androidx.material) // Material Components (BottomNavigationView, etc.) // NOTE: api for app module
     // android others
     implementation(libs.androidx.fragment.ktx) // Fragment / FragmentManager
     implementation(libs.androidx.viewpager2)
