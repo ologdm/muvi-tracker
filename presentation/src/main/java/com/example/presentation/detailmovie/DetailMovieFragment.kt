@@ -25,19 +25,10 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.example.muvitracker.MyApp
-import com.example.muvitracker.R
-import com.example.muvitracker.databinding.DialogMyNotesBinding
-import com.example.muvitracker.databinding.FragmentDetailMovieBinding
-import com.example.muvitracker.ui.main.Navigator
-import com.example.muvitracker.ui.main.person.adapters.CastAdapter
 import com.example.presentation.detailmovie.adapters.RelatedMoviesAdapter
 import com.example.core.formatToReadableDate
 import com.example.core.getNowFormattedDateTime
 import com.example.core.orDefaultText
-import com.example.muvitracker.utils.statesFlowDetail
-import com.example.muvitracker.utils.twoStatesFlow
-import com.example.muvitracker.utils.viewBinding
 import com.google.android.material.chip.Chip
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -49,12 +40,17 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import androidx.core.net.toUri
-import com.example.data.glide.ImageTmdbRequest
 import com.example.domain.model.Ids
 import com.example.domain.model.Movie
 import com.example.domain.model.Provider
-import com.example.muvitracker.ui.main.providers.CountriesDialog
-import com.google.android.material.R
+import com.example.presentation.Navigator
+import com.example.presentation.R
+import com.example.presentation.databinding.DialogMyNotesBinding
+import com.example.presentation.databinding.FragmentDetailMovieBinding
+import com.example.presentation.person.adapters.CastAdapter
+import com.example.presentation.utils.statesFlowDetail
+import com.example.presentation.utils.twoStatesFlow
+import com.example.presentation.utils.viewBinding
 import kotlinx.coroutines.async
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -233,10 +229,10 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
         //
         b.tagline.apply {
             if (movie.tagline.isNullOrBlank()) {
-                View.setVisibility = View.GONE
+                visibility = View.GONE
             } else {
-                TextView.setText = movie.tagline
-                View.setVisibility = View.VISIBLE
+                text = movie.tagline
+                visibility = View.VISIBLE
             }
         }
 
@@ -273,10 +269,10 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
         // TODO 1.1.3  - ok in inglese
         b.englishTitle.apply {
             if (movie.title != movie.englishTraktTitle) {
-                View.setVisibility = View.VISIBLE
-                TextView.setText = "${movie.englishTraktTitle}"
+                visibility = View.VISIBLE
+                text = "${movie.englishTraktTitle}"
             } else
-                View.setVisibility = View.GONE
+                visibility = View.GONE
         }
         //
         b.overviewContent.text = movie.overview.orDefaultText(MovieDefaults.OVERVIEW)
@@ -351,7 +347,7 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
                 fillColor = ColorStateList.valueOf(
                     MaterialColors.getColor(
                         dialogBinding.root,
-                        R.attr.colorSurface
+                        com.google.android.material.R.attr.colorSurface // FIXME: che r vuole? non presentation?
                     )
                 )
             }
