@@ -7,6 +7,7 @@ import com.example.data.database.MyDatabase
 import com.example.data.repositories.DetailMovieRepositoryImpl
 import com.example.data.repositories.DetailShowRepositoryImpl
 import com.example.data.repositories.EpisodeRepositoryImpl
+import com.example.data.repositories.PersonRepositoryImpl
 import com.example.data.repositories.PrefsMovieRepositoryImpl
 import com.example.data.repositories.PrefsShowRepositoryImpl
 import com.example.data.repositories.SeasonRepositoryImpl
@@ -15,6 +16,7 @@ import com.example.domain.repo.DetailMovieRepository
 import com.example.domain.repo.DetailShowRepository
 import com.example.domain.repo.EpisodeRepository
 import com.example.domain.repo.ExploreRepository
+import com.example.domain.repo.PersonRepository
 import com.example.domain.repo.PrefsMovieRepository
 import com.example.domain.repo.PrefsShowRepository
 import com.example.domain.repo.SeasonRepository
@@ -90,6 +92,12 @@ class DaggerModules {
     @Provides
     @Singleton
     fun provideExploreRepo(impl: ExploreRepositoryImpl): ExploreRepository {
+        return impl
+    }
+
+    @Provides
+    @Singleton
+    fun providePersonRepo(impl: PersonRepositoryImpl): PersonRepository {
         return impl
     }
 

@@ -1,54 +1,74 @@
 package com.example.presentation.person
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.data.TmdbApi
-import com.example.data.TraktApi
-import com.example.data.dto.person.detail.mergePersonDtoToDomain
+import com.example.domain.IoResponse
 import com.example.domain.model.Ids
 import com.example.domain.model.Person
+import com.example.domain.repo.PersonRepository
+import com.example.presentation.utils.StateContainerTwo
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.async
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.coroutines.cancellation.CancellationException
 
 
 @HiltViewModel
 class PersonViewmodel @Inject constructor(
-    val traktApi: TraktApi,
-    val tmdbApi: TmdbApi
+    // moved to repo - new
+//    val traktApi: TraktApi,
+//    val tmdbApi: TmdbApi
+    private val personRepo: PersonRepository //  NEW OK
 ) : ViewModel() {
 
-    val personState = MutableLiveData<Person>()
+    // NEW OK
+    private val _personState = MutableStateFlow(StateContainerTwo<Person>(null))
+    val personState = _personState.asStateFlow()
 
 
+    // NEW OK
     fun getPersonDetail(personIds: Ids) {
         viewModelScope.launch {
-            val traktDeferred = async {
-                try {
-                    traktApi.getPersonDetail(personIds.trakt) // -> da sempre risultato, parte da un PersonBase
-                } catch (ex: CancellationException) {
-                    throw ex
+            // TODO: moved to repo OK
+            viewModelScope.launch {
+                val response = personRepo.getPersonDetail(personIds)
+                when (response) {
+                    is IoResponse.Success -> {
+                        _personState.value = StateContainerTwo(response.dataValue)
+                    }
+
+                    is IoResponse.Error -> {
+                        _personState.value = StateContainerTwo(isError = true)
+                    }
                 }
             }
 
-            val tmdbDeferred = async {
-                try {
-                    tmdbApi.getPersonDto(personIds.tmdb)
-                } catch (ex: CancellationException) {
-                    throw ex
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                    null
-                }
-            }
 
-            val traktDto = traktDeferred.await()
-            val tmdbDto = tmdbDeferred.await()
 
-            personState.value = mergePersonDtoToDomain(traktDto, tmdbDto)
+//            val traktDeferred = async {
+//                try {
+//                    traktApi.getPersonDetail(personIds.trakt) // -> da sempre risultato, parte da un PersonBase
+//                } catch (ex: CancellationException) {
+//                    throw ex
+//                }
+//            }
+//
+//            val tmdbDeferred = async {
+//                try {
+//                    tmdbApi.getPersonDto(personIds.tmdb)
+//                } catch (ex: CancellationException) {
+//                    throw ex
+//                } catch (e: Exception) {
+//                    e.printStackTrace()
+//                    null
+//                }
+//            }
+//
+//            val traktDto = traktDeferred.await()
+//            val tmdbDto = tmdbDeferred.await()
+//
+//            personState.value = mergePersonDtoToDomain(traktDto, tmdbDto)
         }
     }
 

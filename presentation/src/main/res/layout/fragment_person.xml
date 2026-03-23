@@ -1,22 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-
     android:id="@+id/mainLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="12dp">
 
-    <!--    for BottomSheetFragment() and Fragment() -->
+<!--    start visible, switch with -->
+    <ProgressBar
+        android:id="@+id/personProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="visible" />
 
-    <!--    <TextView-->
-    <!--        android:id="@+id/deathContent2"-->
-    <!--        android:layout_width="0dp"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_columnWeight="1"-->
-    <!--        tools:text="15 Oct 2023\nLondon UK\nkkkkkkk" />-->
+    <TextView
+        android:id="@+id/personErrorMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginVertical="8dp"
+        android:textAppearance="?attr/textAppearanceBodyMedium"
+        android:visibility="gone"
+        tools:text="@string/not_available"
+        tools:visibility="visible" />
+
 
 
     <androidx.core.widget.NestedScrollView
@@ -30,7 +40,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:visibility="gone"
             app:layout_constraintTop_toTopOf="parent">
+
 
 
             <!--        NOTE: layout solo per PersonFragment
@@ -222,4 +234,4 @@
 
 
     </androidx.core.widget.NestedScrollView>
-</LinearLayout>
+</FrameLayout>

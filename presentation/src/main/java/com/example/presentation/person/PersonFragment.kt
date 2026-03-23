@@ -9,13 +9,17 @@ import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
-import com.example.muvitracker.R
-import com.example.muvitracker.databinding.FragmentPersonBinding
 import com.example.core.orDefaultText
-import com.example.data.glide.ImageTmdbRequest
+import com.example.domain.ImageTmdbRequest
 import com.example.domain.model.Ids
-import com.example.muvitracker.utils.viewBinding
+import com.example.domain.model.Person
+import com.example.presentation.R
+import com.example.presentation.databinding.FragmentPersonBinding
+import com.example.presentation.utils.fragmentViewLifecycleScope
+import com.example.presentation.utils.statesFlow
+import com.example.presentation.utils.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 // !!! similar to PersonBottomSheetFragment
 
@@ -52,40 +56,94 @@ class PersonFragment : Fragment(R.layout.fragment_person) {
 
         viewmodel.getPersonDetail(currentPersonIds)
 
-        viewmodel.personState.observe(viewLifecycleOwner) { person ->
-            // ok 1.1.3 ok
-            binding.personName.text = person.name
-                .orDefaultText(getString(R.string.unknown_name))
+        // NOTE: old with livedata
+//        viewmodel.personState.observe(viewLifecycleOwner) { person ->
 
-            // calculated, return null or age ok 1.1.3 ok
-            binding.ageContent.text = person.age.toString()
-                .orDefaultText(getString(R.string.unknown_age))
+//            binding.personName.text = person.name
+//                .orDefaultText(getString(R.string.unknown_name))
+//
+//            binding.ageContent.text = person.age.toString()
+//                .orDefaultText(getString(R.string.unknown_age))
+//
+//            binding.knownContent.text = person.knownForDepartment
+//                .orDefaultText(getString(R.string.unknown))
+//
+//            binding.bornContent.text = "${person.birthday
+//                .orDefaultText(getString(R.string.unknown_birthday))}" +
+//                    "\n${person.birthplace
+//                        .orDefaultText(getString(R.string.unknown_birthplace))}"
+//
+//            if (person.death.isNullOrBlank()) {
+//                binding.deathContent.visibility = View.GONE
+//                binding.deathTitle.visibility = View.GONE
+//            } else {
+//                binding.deathContent.text = person.death
+//                // default visible
+//            }
+//
+//            binding.biographyContent.text = person.biography
+//                .orDefaultText(getString(R.string.not_available))
+//        }
 
-            // 1.1.3 ok
-            binding.knownContent.text = person.knownForDepartment
-                .orDefaultText(getString(R.string.unknown))
 
-            // 1.1.3 ok
-            binding.bornContent.text = "${person.birthday
-                .orDefaultText(getString(R.string.unknown_birthday))}" +
-                    "\n${person.birthplace
-                        .orDefaultText(getString(R.string.unknown_birthplace))}"
 
-            // 1.1.3 ok
-            if (person.death.isNullOrBlank()) {
-                binding.deathContent.visibility = View.GONE
-                binding.deathTitle.visibility = View.GONE
-            } else {
-                binding.deathContent.text = person.death
-                // default visible
+//        viewmodel.personState.observe(viewLifecycleOwner) { person ->
+        fragmentViewLifecycleScope.launch {
+            viewmodel.personState.collect { stateContainer ->
+                stateContainer.statesFlow(
+                    progressBar = binding.personProgressBar,
+                    errorTextview = binding.personErrorMessage,
+                    errorMsg = getString(R.string.not_available),
+                    contentView = binding.innerLayout,
+                    bindData = { person ->
+                        updateUi(person)
+                    }
+                )
             }
-
-            // 1.1.3 ok
-            binding.biographyContent.text = person.biography
-                .orDefaultText(getString(R.string.not_available))
         }
+
+
         expandBiographySetup()
     }
+
+
+    fun updateUi(person: Person) {
+
+        binding.personName.text = person.name
+            .orDefaultText(getString(R.string.unknown_name))
+
+        // calculated, return null or age ok 1.1.3 ok
+        binding.ageContent.text = person.age.toString()
+            .orDefaultText(getString(R.string.unknown_age))
+
+        // 1.1.3 ok
+        binding.knownContent.text = person.knownForDepartment
+            .orDefaultText(getString(R.string.unknown))
+
+        // 1.1.3 ok
+        binding.bornContent.text = "${
+            person.birthday
+                .orDefaultText(getString(R.string.unknown_birthday))
+        }" +
+                "\n${
+                    person.birthplace
+                        .orDefaultText(getString(R.string.unknown_birthplace))
+                }"
+
+        // 1.1.3 ok
+        if (person.death.isNullOrBlank()) {
+            binding.deathContent.visibility = View.GONE
+            binding.deathTitle.visibility = View.GONE
+        } else {
+            binding.deathContent.text = person.death
+            // default visible
+        }
+
+        // 1.1.3 ok
+        binding.biographyContent.text = person.biography
+            .orDefaultText(getString(R.string.not_available))
+    }
+
 
     private fun expandBiographySetup() {
         var isTextExpanded = false
@@ -111,8 +169,6 @@ class PersonFragment : Fragment(R.layout.fragment_person) {
     }
 
 
-
-
     private fun mainLayoutTopEdgeToEdgeManagement() {
         ViewCompat.setOnApplyWindowInsetsListener(binding.mainLayout) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -121,8 +177,6 @@ class PersonFragment : Fragment(R.layout.fragment_person) {
             insets
         }
     }
-
-
 
 
     companion object {

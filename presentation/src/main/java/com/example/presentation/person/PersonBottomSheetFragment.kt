@@ -5,14 +5,18 @@ import android.text.TextUtils
 import android.view.View
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
-import com.example.muvitracker.R
-import com.example.muvitracker.databinding.FragmentPersonBinding
 import com.example.core.orDefaultText
-import com.example.data.glide.ImageTmdbRequest
+import com.example.domain.ImageTmdbRequest
 import com.example.domain.model.Ids
-import com.example.muvitracker.utils.viewBinding
+import com.example.domain.model.Person
+import com.example.presentation.R
+import com.example.presentation.databinding.FragmentPersonBinding
+import com.example.presentation.utils.fragmentViewLifecycleScope
+import com.example.presentation.utils.statesFlow
+import com.example.presentation.utils.viewBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class PersonBottomSheetFragment : BottomSheetDialogFragment(R.layout.fragment_person) {
@@ -44,45 +48,105 @@ class PersonBottomSheetFragment : BottomSheetDialogFragment(R.layout.fragment_pe
     private fun personLoadingSetup() {
         viewmodel.getPersonDetail(currentPersonIds)
 
-        viewmodel.personState.observe(viewLifecycleOwner) { person ->
-            // 1.1.3 ok
-            binding.personName.text = person.name
-                .orDefaultText(getString(R.string.unknown_name)) // 1.1.3
+//        viewmodel.personState.observe(viewLifecycleOwner) { person ->
+//            // 1.1.3 ok
+//            binding.personName.text = person.name
+//                .orDefaultText(getString(R.string.unknown_name)) // 1.1.3
+//
+//            // 1.1.3 ok
+//            binding.knownContent.text = person.knownForDepartment
+//                .orDefaultText(getString(R.string.unknown)) // 1.1.3 in inglese ok
+//
+//            // calculated, return null or age 1.1.3 ok
+//            binding.ageContent.text = person.age.toString()
+//                .orDefaultText(getString(R.string.unknown_age)) // 1.1.3 defaults ok
+//
+//            // 1.1.3 ok
+//            binding.bornContent.text =
+//                "${
+//                    person.birthday
+//                        .orDefaultText(getString(R.string.unknown_birthday))
+//                }," +
+//                        "\n${
+//                            person.birthplace
+//                                .orDefaultText(getString(R.string.unknown_birthplace))
+//                        }"
+//
+//            // 1.1.3 OK
+//            if (person.death.isNullOrBlank()) {
+//                binding.deathContent.visibility = View.GONE
+//                binding.deathTitle.visibility = View.GONE
+//            } else {
+//                binding.deathContent.text = "${person.death}"
+//                // default xml visible
+//            }
+//
+//            // 1.1.3 ok
+//            binding.biographyContent.text = person.biography
+//                .orDefaultText(getString(R.string.not_available))
+//        }
 
-            // 1.1.3 ok
-            binding.knownContent.text = person.knownForDepartment
-                .orDefaultText(getString(R.string.unknown)) // 1.1.3 in inglese ok
 
-            // calculated, return null or age 1.1.3 ok
-            binding.ageContent.text = person.age.toString()
-                .orDefaultText(getString(R.string.unknown_age)) // 1.1.3 defaults ok
-
-            // 1.1.3 ok
-            binding.bornContent.text =
-                "${
-                    person.birthday
-                        .orDefaultText(getString(R.string.unknown_birthday))
-                }," +
-                        "\n${
-                            person.birthplace
-                                .orDefaultText(getString(R.string.unknown_birthplace))
-                        }"
-
-            // 1.1.3 OK
-            if (person.death.isNullOrBlank()) {
-                binding.deathContent.visibility = View.GONE
-                binding.deathTitle.visibility = View.GONE
-            } else {
-                binding.deathContent.text = "${person.death}"
-                // default xml visible
+//        viewmodel.personState.observe(viewLifecycleOwner) { person ->
+        fragmentViewLifecycleScope.launch {
+            viewmodel.personState.collect { stateContainer ->
+                stateContainer.statesFlow(
+                    progressBar = binding.personProgressBar,
+                    errorTextview = binding.personErrorMessage,
+                    errorMsg = getString(R.string.not_available),
+                    contentView = binding.innerLayout,
+                    bindData = { person ->
+                        updateUi(person)
+                    }
+                )
             }
-
-            // 1.1.3 ok
-            binding.biographyContent.text = person.biography
-                .orDefaultText(getString(R.string.not_available))
         }
+
         expandBiographySetup()
     }
+
+
+    // da fragment base
+    fun updateUi(person: Person) {
+
+        binding.personName.text = person.name
+            .orDefaultText(getString(R.string.unknown_name))
+
+        // calculated, return null or age ok 1.1.3 ok
+        binding.ageContent.text = person.age.toString()
+            .orDefaultText(getString(R.string.unknown_age))
+
+        // 1.1.3 ok
+        binding.knownContent.text = person.knownForDepartment
+            .orDefaultText(getString(R.string.unknown))
+
+        // 1.1.3 ok
+        binding.bornContent.text = "${
+            person.birthday
+                .orDefaultText(getString(R.string.unknown_birthday))
+        }" +
+                "\n${
+                    person.birthplace
+                        .orDefaultText(getString(R.string.unknown_birthplace))
+                }"
+
+        // 1.1.3 ok
+        if (person.death.isNullOrBlank()) {
+            binding.deathContent.visibility = View.GONE
+            binding.deathTitle.visibility = View.GONE
+        } else {
+            binding.deathContent.text = person.death
+            // default visible
+        }
+
+        // 1.1.3 ok
+        binding.biographyContent.text = person.biography
+            .orDefaultText(getString(R.string.not_available))
+    }
+
+
+
+
 
     private fun loadImagesWithCustomTmdbGlide() {
         Glide.with(requireContext())
