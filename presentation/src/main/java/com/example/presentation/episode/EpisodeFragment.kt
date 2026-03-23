@@ -6,16 +6,16 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.example.muvitracker.R
-import com.example.muvitracker.databinding.FragmentEpisodeBottomsheetBinding
 import com.example.core.episodesFormatNumber
 import com.example.core.formatDateFromFirsAired
 import com.example.core.getNowFormattedDateTime
 import com.example.core.orDefaultText
-import com.example.data.glide.ImageTmdbRequest
+import com.example.domain.ImageTmdbRequest
 import com.example.domain.model.Episode
 import com.example.domain.model.Ids
-import com.example.muvitracker.utils.viewBinding
+import com.example.presentation.R
+import com.example.presentation.databinding.FragmentEpisodeBottomsheetBinding
+import com.example.presentation.utils.viewBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 
