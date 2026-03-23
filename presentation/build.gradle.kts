@@ -1,22 +1,24 @@
 plugins {
-    alias(libs.plugins.android.library)
+    alias(libs.plugins.android.application) // con app library non serve?
+    //    alias(libs.plugins.android.library)
 
     alias(libs.plugins.hilt.android)
     alias(libs.plugins.ksp) // KSP (Room, Hilt, Glide) – replaces kapt
 
+    alias(libs.plugins.kotlin.parcelize)
+
 }
+
 
 android {
     namespace = "com.example.presentation"
-    compileSdk {
-        version = release(36)
-    }
+    compileSdk = 36
 
     defaultConfig {
         minSdk = 26
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
+//        consumerProguardFiles("consumer-rules.pro") // TODO check
     }
 
     buildTypes {
@@ -28,33 +30,45 @@ android {
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+
+    // NOTE: serve per presentation OK
+    buildFeatures {
+        viewBinding = true
+    }
+
 }
 
 dependencies {
     implementation(project(":domain"))
     implementation(project(":core"))
 
-    // base TODO check
-    implementation(libs.androidx.appcompat)
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.material)
-    // others android OK TODO cveck
-    implementation(libs.androidx.swiperefreshlayout)
-    implementation(libs.androidx.fragment.ktx)
+    // android base -  NOTE: Tutto utile se i tuoi fragment lo usano
+    implementation(libs.androidx.appcompat) // AppCompatActivity, themes
+    implementation(libs.androidx.core.ktx) // estensioni Kotlin
+    implementation(libs.androidx.material) // Material Components (BottomNavigationView, etc.)
+    // android others
+    implementation(libs.androidx.fragment.ktx) // Fragment / FragmentManager
     implementation(libs.androidx.viewpager2)
-    implementation(libs.flexbox)
+    implementation(libs.androidx.swiperefreshlayout)
+    implementation(libs.flexbox) // FlexboxLayout
 
-    // test base OK
+    // test - serve su presentation OK
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.junit)
-    androidTestImplementation(libs.androidx.test.espresso)
+//    androidTestImplementation(libs.androidx.test.espresso)
 
 
-    // others
+    // Dependency Injection (Hilt) - ok averlo in presentation
+    implementation(libs.hilt.android)
+    // kapt(libs.hilt.compiler)
+    ksp(libs.hilt.compiler) // replaces kapt
+
+
     //  -------- Image Loading (Glide) ----------------------------------------- OK, anche su data
     implementation(libs.glide)
     // kapt(libs.glide.compiler)
@@ -66,10 +80,19 @@ dependencies {
     implementation(libs.paging.runtime.ktx) // also on data module
 
 
-    //  -------- Dependency Injection (Hilt) ----------------------------------- TODO move to core
-    implementation(libs.hilt.android)
-    // kapt(libs.hilt.compiler)
-    ksp(libs.hilt.compiler) // replaces kapt
+    //  -------- Concurrency (Coroutines) --------------------------------------
+    implementation(libs.coroutines.core)
+    implementation(libs.coroutines.android)
+
+    // android base, testing
+    // coroutines
+    // hilt
+    // pagination
+    // glide
+    // parcelize plugin
+    //
+    //
+    //
 
 
 }
