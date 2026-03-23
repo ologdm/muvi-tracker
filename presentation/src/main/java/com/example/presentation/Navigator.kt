@@ -1,11 +1,10 @@
-package com.example.muvitracker.ui
+package com.example.presentation
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.example.domain.model.Ids
-import com.example.muvitracker.R
 import com.example.presentation.detailmovie.DetailMovieFragment
 import com.example.presentation.detailshow.DetailShowFragment
 import com.example.presentation.episode.EpisodeFragment
