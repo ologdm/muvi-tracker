@@ -56,38 +56,6 @@ class PersonFragment : Fragment(R.layout.fragment_person) {
 
         viewmodel.getPersonDetail(currentPersonIds)
 
-        // NOTE: old with livedata
-//        viewmodel.personState.observe(viewLifecycleOwner) { person ->
-
-//            binding.personName.text = person.name
-//                .orDefaultText(getString(R.string.unknown_name))
-//
-//            binding.ageContent.text = person.age.toString()
-//                .orDefaultText(getString(R.string.unknown_age))
-//
-//            binding.knownContent.text = person.knownForDepartment
-//                .orDefaultText(getString(R.string.unknown))
-//
-//            binding.bornContent.text = "${person.birthday
-//                .orDefaultText(getString(R.string.unknown_birthday))}" +
-//                    "\n${person.birthplace
-//                        .orDefaultText(getString(R.string.unknown_birthplace))}"
-//
-//            if (person.death.isNullOrBlank()) {
-//                binding.deathContent.visibility = View.GONE
-//                binding.deathTitle.visibility = View.GONE
-//            } else {
-//                binding.deathContent.text = person.death
-//                // default visible
-//            }
-//
-//            binding.biographyContent.text = person.biography
-//                .orDefaultText(getString(R.string.not_available))
-//        }
-
-
-
-//        viewmodel.personState.observe(viewLifecycleOwner) { person ->
         fragmentViewLifecycleScope.launch {
             viewmodel.personState.collect { stateContainer ->
                 stateContainer.statesFlow(
@@ -102,11 +70,10 @@ class PersonFragment : Fragment(R.layout.fragment_person) {
             }
         }
 
-
         expandBiographySetup()
     }
 
-
+    // same fun as on 'PersonBottomSheetFragment'
     fun updateUi(person: Person) {
 
         binding.personName.text = person.name

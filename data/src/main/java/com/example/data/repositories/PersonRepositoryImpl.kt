@@ -50,10 +50,4 @@ class PersonRepositoryImpl @Inject constructor(
         }
     }
 
-    // NOTE IMPORTANTE:
-    // unitule in produzion
-    // e.printStackTrace()
-    // meglio
-    // Timber.e(e)
-
 }

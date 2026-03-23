@@ -16,18 +16,13 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PersonViewmodel @Inject constructor(
-    // moved to repo - new
-//    val traktApi: TraktApi,
-//    val tmdbApi: TmdbApi
-    private val personRepo: PersonRepository //  NEW OK
+    private val personRepo: PersonRepository
 ) : ViewModel() {
 
-    // NEW OK
     private val _personState = MutableStateFlow(StateContainerTwo<Person>(null))
     val personState = _personState.asStateFlow()
 
 
-    // NEW OK
     fun getPersonDetail(personIds: Ids) {
         viewModelScope.launch {
             // TODO: moved to repo OK
@@ -43,32 +38,6 @@ class PersonViewmodel @Inject constructor(
                     }
                 }
             }
-
-
-
-//            val traktDeferred = async {
-//                try {
-//                    traktApi.getPersonDetail(personIds.trakt) // -> da sempre risultato, parte da un PersonBase
-//                } catch (ex: CancellationException) {
-//                    throw ex
-//                }
-//            }
-//
-//            val tmdbDeferred = async {
-//                try {
-//                    tmdbApi.getPersonDto(personIds.tmdb)
-//                } catch (ex: CancellationException) {
-//                    throw ex
-//                } catch (e: Exception) {
-//                    e.printStackTrace()
-//                    null
-//                }
-//            }
-//
-//            val traktDto = traktDeferred.await()
-//            val tmdbDto = tmdbDeferred.await()
-//
-//            personState.value = mergePersonDtoToDomain(traktDto, tmdbDto)
         }
     }
 

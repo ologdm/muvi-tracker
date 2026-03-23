@@ -48,46 +48,6 @@ class PersonBottomSheetFragment : BottomSheetDialogFragment(R.layout.fragment_pe
     private fun personLoadingSetup() {
         viewmodel.getPersonDetail(currentPersonIds)
 
-//        viewmodel.personState.observe(viewLifecycleOwner) { person ->
-//            // 1.1.3 ok
-//            binding.personName.text = person.name
-//                .orDefaultText(getString(R.string.unknown_name)) // 1.1.3
-//
-//            // 1.1.3 ok
-//            binding.knownContent.text = person.knownForDepartment
-//                .orDefaultText(getString(R.string.unknown)) // 1.1.3 in inglese ok
-//
-//            // calculated, return null or age 1.1.3 ok
-//            binding.ageContent.text = person.age.toString()
-//                .orDefaultText(getString(R.string.unknown_age)) // 1.1.3 defaults ok
-//
-//            // 1.1.3 ok
-//            binding.bornContent.text =
-//                "${
-//                    person.birthday
-//                        .orDefaultText(getString(R.string.unknown_birthday))
-//                }," +
-//                        "\n${
-//                            person.birthplace
-//                                .orDefaultText(getString(R.string.unknown_birthplace))
-//                        }"
-//
-//            // 1.1.3 OK
-//            if (person.death.isNullOrBlank()) {
-//                binding.deathContent.visibility = View.GONE
-//                binding.deathTitle.visibility = View.GONE
-//            } else {
-//                binding.deathContent.text = "${person.death}"
-//                // default xml visible
-//            }
-//
-//            // 1.1.3 ok
-//            binding.biographyContent.text = person.biography
-//                .orDefaultText(getString(R.string.not_available))
-//        }
-
-
-//        viewmodel.personState.observe(viewLifecycleOwner) { person ->
         fragmentViewLifecycleScope.launch {
             viewmodel.personState.collect { stateContainer ->
                 stateContainer.statesFlow(
