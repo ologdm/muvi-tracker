@@ -2,12 +2,12 @@ package com.example.presentation.prefs.adapters
 
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.muvitracker.R
 import com.example.presentation.detailshow.DetailShowFragment.ShowDefaults
 import com.example.core.orDefaultText
-import com.example.data.glide.ImageTmdbRequest
+import com.example.domain.ImageTmdbRequest
 import com.example.domain.model.Show
-import com.example.muvitracker.databinding.ViewholderPrefsShowBinding
+import com.example.presentation.R
+import com.example.presentation.databinding.ViewholderPrefsShowBinding
 import java.time.LocalDate
 
 class PrefsShowViewholder(

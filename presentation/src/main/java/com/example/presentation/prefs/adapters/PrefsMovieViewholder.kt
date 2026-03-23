@@ -3,14 +3,14 @@ package com.example.presentation.prefs.adapters
 import android.content.Context
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.muvitracker.R
 
 import com.example.presentation.detailmovie.DetailMovieFragment.MovieDefaults
 import com.example.core.formatToReadableDate
 import com.example.core.orDefaultText
-import com.example.data.glide.ImageTmdbRequest
+import com.example.domain.ImageTmdbRequest
 import com.example.domain.model.Movie
-import com.example.muvitracker.databinding.ViewholderPrefsMovieBinding
+import com.example.presentation.R
+import com.example.presentation.databinding.ViewholderPrefsMovieBinding
 
 
 class PrefsMovieViewholder(

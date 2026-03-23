@@ -9,7 +9,7 @@ import com.example.presentation.prefs.PrefsShowsFragment
 
 class PrefsViewpagerAdapter (
     fragment: Fragment
-) : androidx.viewpager2.adapter.FragmentStateAdapter(fragment) {
+) : FragmentStateAdapter(fragment) {
 
 
     override fun getItemCount(): Int {

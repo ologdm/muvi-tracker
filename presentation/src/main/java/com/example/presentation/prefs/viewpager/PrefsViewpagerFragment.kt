@@ -7,14 +7,13 @@ import android.view.View
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
-import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
-import com.example.muvitracker.R
-import com.example.muvitracker.databinding.FragmentPrefsViewpagerBinding
-import com.example.muvitracker.utils.viewBinding
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import androidx.core.content.edit
+import com.example.presentation.R
+import com.example.presentation.databinding.FragmentPrefsViewpagerBinding
+import com.example.presentation.utils.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

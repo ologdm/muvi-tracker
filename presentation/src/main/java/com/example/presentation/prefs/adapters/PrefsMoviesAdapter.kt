@@ -7,11 +7,10 @@ import android.view.ViewGroup
 import android.widget.CompoundButton
 import android.widget.ImageButton
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import com.example.domain.model.Ids
 import com.example.domain.model.Movie
-import com.example.muvitracker.R
-import com.example.muvitracker.databinding.ViewholderPrefsMovieBinding
+import com.example.presentation.R
+import com.example.presentation.databinding.ViewholderPrefsMovieBinding
 
 
 class PrefsMoviesAdapter(

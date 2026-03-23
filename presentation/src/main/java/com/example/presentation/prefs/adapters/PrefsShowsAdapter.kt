@@ -8,11 +8,10 @@ import android.view.ViewGroup
 import android.widget.CompoundButton
 import android.widget.ImageButton
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import com.example.domain.model.Ids
 import com.example.domain.model.Show
-import com.example.muvitracker.R
-import com.example.muvitracker.databinding.ViewholderPrefsShowBinding
+import com.example.presentation.R
+import com.example.presentation.databinding.ViewholderPrefsShowBinding
 
 
 class PrefsShowsAdapter(

@@ -1,18 +1,9 @@
 package com.example.presentation.prefs
 
-import android.os.Bundle
-import android.view.View
+
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.muvitracker.R
-import com.example.muvitracker.databinding.FragmentPrefsSonBinding
-import com.example.muvitracker.ui.main.Navigator
-import com.example.presentation.prefs.adapters.PrefsMoviesAdapter
-import com.example.muvitracker.utils.viewBinding
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.example.presentation.R
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 
 @AndroidEntryPoint

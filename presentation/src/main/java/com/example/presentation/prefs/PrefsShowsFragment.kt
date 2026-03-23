@@ -5,11 +5,11 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.muvitracker.R
-import com.example.muvitracker.databinding.FragmentPrefsSonBinding
-import com.example.muvitracker.ui.main.Navigator
+import com.example.presentation.Navigator
+import com.example.presentation.R
+import com.example.presentation.databinding.FragmentPrefsSonBinding
 import com.example.presentation.prefs.adapters.PrefsShowsAdapter
-import com.example.muvitracker.utils.viewBinding
+import com.example.presentation.utils.viewBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
