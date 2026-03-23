@@ -5,6 +5,7 @@ import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.data.DataFetcher
 import com.bumptech.glide.load.data.HttpUrlFetcher
 import com.bumptech.glide.load.model.GlideUrl
+import com.example.core.LanguageManager
 import com.example.data.TmdbApi
 import com.example.data.dto.movie.detail.MovieTmdbDto
 import com.example.data.dto.show.detail.ShowTmdbDto
@@ -31,6 +32,7 @@ class TmdbFetcher(
             // when viene fatta per ogni tipo di richiesta
             is ImageTmdbRequest.MovieVertical -> fetchMovieImage(
                 model.movieId,
+                // TODO passare quala lingua, TEST !!!!!!!!!!
                 imagePathType = { it.posterPath },
                 isVertical = true,
                 priority,
