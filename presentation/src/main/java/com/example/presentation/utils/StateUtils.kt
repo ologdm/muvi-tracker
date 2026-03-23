@@ -95,18 +95,21 @@ fun <T> StateContainerTwo<T>.statesFlow(
     progressBar: ProgressBar,
     errorTextview: TextView,
     errorMsg: String,
-    recyclerView : RecyclerView,
+//    recyclerView : RecyclerView,
+    contentView: View,
     bindData: ((T) -> Unit)?
 ) {
     progressBar.visibility = View.VISIBLE
 
     if (data != null) { // data
         bindData?.invoke(data!!)
-        recyclerView.visibility = View.VISIBLE
+//        recyclerView.visibility = View.VISIBLE
+        contentView.visibility = View.VISIBLE
         progressBar.visibility = View.GONE
         errorTextview.visibility = View.GONE
     } else {            // no data
-        recyclerView.visibility = View.GONE
+//        recyclerView.visibility = View.GONE
+        contentView.visibility = View.GONE
         progressBar.visibility = View.GONE
         errorTextview.visibility = View.VISIBLE
         errorTextview.text = errorMsg
