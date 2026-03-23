@@ -2,7 +2,7 @@ package com.example.data.repositories.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.example.core.MovieType
+import com.example.domain.MovieType
 import com.example.data.TraktApi
 import com.example.data.dto.movie.explore.toDomain
 import com.example.data.dto.movie.toDomain
