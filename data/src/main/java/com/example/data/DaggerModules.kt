@@ -10,9 +10,11 @@ import com.example.data.repositories.EpisodeRepositoryImpl
 import com.example.data.repositories.PrefsMovieRepositoryImpl
 import com.example.data.repositories.PrefsShowRepositoryImpl
 import com.example.data.repositories.SeasonRepositoryImpl
+import com.example.data.repositories.paging.ExploreRepositoryImpl
 import com.example.domain.repo.DetailMovieRepository
 import com.example.domain.repo.DetailShowRepository
 import com.example.domain.repo.EpisodeRepository
+import com.example.domain.repo.ExploreRepository
 import com.example.domain.repo.PrefsMovieRepository
 import com.example.domain.repo.PrefsShowRepository
 import com.example.domain.repo.SeasonRepository
@@ -81,6 +83,13 @@ class DaggerModules {
     @Provides
     @Singleton
     fun provideEpisodeRepo(impl: EpisodeRepositoryImpl): EpisodeRepository {
+        return impl
+    }
+
+    // new
+    @Provides
+    @Singleton
+    fun provideExploreRepo(impl: ExploreRepositoryImpl): ExploreRepository {
         return impl
     }
 

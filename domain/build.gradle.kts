@@ -42,5 +42,6 @@ dependencies {
     implementation(libs.coroutines.core) // NOTE: per flow return
     implementation(libs.kotlinx.serialization.json)
     // NOTE: parcelable doesn't have library
+    implementation(libs.paging.common.ktx) // OK, serve per separazione clean logica paging
 
 }
