@@ -3,12 +3,11 @@ package com.example.presentation.detailmovie
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.domain.model.Provider
-import com.example.muvitracker.R
-import com.example.muvitracker.databinding.ViewholderProviderBinding
+import com.example.presentation.R
+import com.example.presentation.databinding.ViewholderProviderBinding
 
 // TODO sia x movie che show
 class ProvidersAdapter(

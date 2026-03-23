@@ -11,7 +11,6 @@ import android.text.TextUtils
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
@@ -40,20 +39,22 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import androidx.core.net.toUri
+import com.example.domain.ImageTmdbRequest
 import com.example.domain.model.Ids
 import com.example.domain.model.Movie
 import com.example.domain.model.Provider
 import com.example.presentation.Navigator
-import com.example.presentation.R
 import com.example.presentation.databinding.DialogMyNotesBinding
 import com.example.presentation.databinding.FragmentDetailMovieBinding
 import com.example.presentation.person.adapters.CastAdapter
+import com.example.presentation.providers.CountriesDialog
 import com.example.presentation.utils.statesFlowDetail
 import com.example.presentation.utils.twoStatesFlow
 import com.example.presentation.utils.viewBinding
 import kotlinx.coroutines.async
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import com.example.presentation.R
 
 /** Linee
  *   —        (Shift + Option + -)
@@ -626,7 +627,8 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
                 // trova typevalue
                 val typedValue = TypedValue()
                 requireContext().theme.resolveAttribute(
-                    R.attr.colorOnPrimaryContainer,
+                    // TODO: check corretto import??
+                    com.google.android.material.R.attr.colorOnPrimaryContainer,
                     typedValue,
                     true
                 )

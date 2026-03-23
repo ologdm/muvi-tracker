@@ -6,6 +6,7 @@ import android.content.res.ColorStateList
 import android.content.res.Configuration
 import android.graphics.Color
 import android.net.Uri
+import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.TypedValue
@@ -26,7 +27,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.muvitracker.MyApp
-import com.example.muvitracker.R
 import com.example.muvitracker.databinding.DialogMyNotesBinding
 import com.example.muvitracker.databinding.FragmentDetailShowBinding
 import com.example.muvitracker.ui.main.Navigator

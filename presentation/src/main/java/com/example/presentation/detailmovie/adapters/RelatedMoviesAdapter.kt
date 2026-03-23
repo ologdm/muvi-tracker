@@ -3,10 +3,9 @@ package com.example.presentation.detailmovie.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import com.example.domain.model.Ids
 import com.example.domain.model.base.MovieBase
-import com.example.muvitracker.databinding.ViewholderRelatedListOnDetailBinding
+import com.example.presentation.databinding.ViewholderRelatedListOnDetailBinding
 
 class RelatedMoviesAdapter(
     private val onClickVH: (Ids) -> Unit,
