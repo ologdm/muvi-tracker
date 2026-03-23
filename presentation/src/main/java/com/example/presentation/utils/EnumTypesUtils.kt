@@ -5,6 +5,8 @@ import com.example.domain.ShowsType
 import com.example.presentation.R
 
 
+// NOTE: prima era "stringRes"
+
 fun MovieType.toStringRes(): Int = when (this) {
     MovieType.Popular -> R.string.popular
     MovieType.BoxOffice -> R.string.box_office
