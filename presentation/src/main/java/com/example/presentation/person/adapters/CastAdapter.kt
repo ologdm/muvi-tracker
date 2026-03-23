@@ -3,10 +3,9 @@ package com.example.presentation.person.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import com.example.domain.model.CastMember
 import com.example.domain.model.Ids
-import com.example.muvitracker.databinding.ViewholderCastListOnDetailBinding
+import com.example.presentation.databinding.ViewholderCastListOnDetailBinding
 
 
 class CastAdapter(
@@ -35,7 +34,7 @@ class CastAdapter(
 
     }
 
-    // TODO OK domain
+
     companion object : DiffUtil.ItemCallback<CastMember>() {
         override fun areItemsTheSame(oldItem: CastMember, newItem: CastMember): Boolean {
             return oldItem.personBase.ids.trakt == newItem.personBase.ids.trakt
