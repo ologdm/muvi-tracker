@@ -54,6 +54,7 @@ android {
     }
 
 
+    // TODO eliminare, solo presentartion
     buildFeatures {
         viewBinding = true
     }
@@ -73,22 +74,22 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.core.ktx) // Kotlin Extensions in AndroidX, todo check
     // presentation only
-    implementation(libs.androidx.material)
-    implementation(libs.androidx.swiperefreshlayout)
-    implementation(libs.androidx.fragment.ktx)
-    implementation(libs.androidx.viewpager2)
-    implementation(libs.flexbox)
+//    implementation(libs.androidx.material) // NO
+//    implementation(libs.androidx.swiperefreshlayout) // NO
+    implementation(libs.androidx.fragment.ktx) // per fragm manager
+//    implementation(libs.androidx.viewpager2)
+//    implementation(libs.flexbox)
 
     //  -------- Kotlin ------------------------------------------------------
     implementation(libs.kotlin.stdlib) // ?? potrebbe non servire, TODO check
-    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.kotlinx.serialization.json)  //glideTODO check
 
 
     //  -------- Image Loading (Glide) ----------------------------------------- TODO presentation  + data
-    implementation(libs.glide)
+//    implementation(libs.glide)
     // kapt(libs.glide.compiler)
     // NOTE: Glide KSP does not fully support generated APIs such as GlideApp, GlideRequests, and GlideOptions
-    ksp(libs.glide.ksp) // replaces kapt
+//    ksp(libs.glide.ksp) // replaces kapt
 
     //  -------- Dependency Injection (Hilt) ----------------------------------- TODO OK, su core
     implementation(libs.hilt.android)
@@ -96,11 +97,11 @@ dependencies {
     ksp(libs.hilt.compiler) // replaces kapt
 
     //  -------- Concurrency (Coroutines) --------------------------------------
-    implementation(libs.coroutines.core)
+    implementation(libs.coroutines.core) // TODO check
     implementation(libs.coroutines.android)
 
     //  -------- Pagination ----------------------------------------------------  TODO spostare
-    implementation(libs.paging.runtime.ktx) // also on data module
+//    implementation(libs.paging.runtime.ktx) // also on data module
 
     // --------- Database (Room) ----------------------------------------------- TODO OK
 //    implementation(libs.room.ktx)
@@ -113,7 +114,7 @@ dependencies {
     // implementation(libs.store4) // old, not compatible with Kotlin 2.3.10 and agp 9
 //    implementation(libs.store5)
 
-    // ---------- Testing ------------------------------------------------------
+    // ---------- Testing ------------------------------------------------------ TODO seeve su app?
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.junit)
     androidTestImplementation(libs.androidx.test.espresso)
