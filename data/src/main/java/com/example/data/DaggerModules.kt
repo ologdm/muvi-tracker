@@ -37,6 +37,7 @@ import javax.inject.Singleton
 // core - gson, shared, retrofit builder
 
 
+// NOTES: old history, new dagger on core
 @Module
 @InstallIn(SingletonComponent::class)
 class DaggerModules {

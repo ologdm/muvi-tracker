@@ -1,5 +1,6 @@
 package com.example.core
 
+// NOTE: story persa, scorporato da viewmodel
 enum class MovieType {
     Popular,
     BoxOffice,
