@@ -3,7 +3,6 @@ package com.example.presentation.detailmovie
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.data.TraktApi
 import com.example.domain.model.CastMember
 import com.example.domain.model.Ids
 import com.example.domain.model.Movie
@@ -11,10 +10,10 @@ import com.example.domain.model.Provider
 import com.example.domain.model.base.MovieBase
 import com.example.domain.repo.DetailMovieRepository
 import com.example.domain.repo.PrefsMovieRepository
-import com.example.muvitracker.ui.main.providers.AppCountry
 import com.example.domain.utils.IoResponse
-import com.example.muvitracker.utils.ListStateContainerTwo
-import com.example.muvitracker.utils.StateContainerThree
+import com.example.presentation.providers.AppCountry
+import com.example.presentation.utils.ListStateContainerTwo
+import com.example.presentation.utils.StateContainerThree
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.catch
@@ -29,7 +28,6 @@ import javax.inject.Inject
 class DetailMovieViewmodel @Inject constructor(
     private val detailMovieRepository: DetailMovieRepository,
     private val prefsMovieRepository: PrefsMovieRepository,
-    private val traktApi: TraktApi
 ) : ViewModel() {
 
     val detailState = MutableLiveData<StateContainerThree<Movie>>()
