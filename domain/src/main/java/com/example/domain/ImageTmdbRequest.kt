@@ -1,7 +1,4 @@
-package com.example.data.glide
-
-import com.example.core.LanguageManager
-
+package com.example.domain
 
 /**
  * RELEASE 1.1.3 - Update images when the system language changes.
@@ -11,32 +8,32 @@ import com.example.core.LanguageManager
 sealed interface ImageTmdbRequest {
     data class MovieVertical(
         val movieId: Int,
-        val language: String = LanguageManager.getAppLocaleLanguageTag()
+//        val language: String = LanguageManager.getAppLocaleLanguageTag() // MOVE TO FETCHER
     ) : ImageTmdbRequest
 
 
     data class MovieHorizontal(
         val movieId: Int,
-        val language: String = LanguageManager.getAppLocaleLanguageTag()
+//        val language: String = LanguageManager.getAppLocaleLanguageTag()
     ) : ImageTmdbRequest
 
 
     data class ShowVertical(
         val showId: Int,
-        val language: String = LanguageManager.getAppLocaleLanguageTag()
+//        val language: String = LanguageManager.getAppLocaleLanguageTag()
     ) : ImageTmdbRequest
 
 
     data class ShowHorizontal(
         val showId: Int,
-        val language: String = LanguageManager.getAppLocaleLanguageTag()
+//        val language: String = LanguageManager.getAppLocaleLanguageTag()
     ) : ImageTmdbRequest
 
 
     data class Season(
         val showId: Int,
         val seasonNr: Int,
-        val language: String = LanguageManager.getAppLocaleLanguageTag()
+//        val language: String = LanguageManager.getAppLocaleLanguageTag()
     ) : ImageTmdbRequest
 
 

@@ -9,6 +9,7 @@ import com.example.core.LanguageManager
 import com.example.data.TmdbApi
 import com.example.data.dto.movie.detail.MovieTmdbDto
 import com.example.data.dto.show.detail.ShowTmdbDto
+import com.example.domain.ImageTmdbRequest
 import kotlinx.coroutines.runBlocking
 import java.io.InputStream
 

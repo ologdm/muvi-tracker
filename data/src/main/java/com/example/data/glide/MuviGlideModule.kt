@@ -10,6 +10,7 @@ import com.bumptech.glide.load.engine.executor.GlideExecutor
 import com.bumptech.glide.load.engine.executor.GlideExecutor.UncaughtThrowableStrategy.IGNORE
 import com.bumptech.glide.module.AppGlideModule
 import com.example.data.TmdbApi
+import com.example.domain.ImageTmdbRequest
 import dagger.hilt.EntryPoint
 import dagger.hilt.EntryPoints
 import dagger.hilt.InstallIn
