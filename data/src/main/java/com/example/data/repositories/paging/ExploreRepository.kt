@@ -1,9 +1,15 @@
 package com.example.data.repositories.paging
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.example.data.TraktApi
 import com.example.domain.MovieType
+import com.example.domain.ShowsType
 import com.example.domain.model.Movie
+import com.example.domain.model.Show
+import com.example.domain.model.base.MovieBase
+import com.example.domain.model.base.ShowBase
 import com.example.domain.repo.ExploreRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -16,7 +22,17 @@ class ExploreRepositoryImpl @Inject constructor(
 
     // movies, shows, search
 
-    override fun getPopularMovies(type: MovieType): Flow<PagingData<Movie>> {
+    // TODO OK -> flow passato a viewmodel
+    override fun getMoviesByType(type: MovieType): Flow<PagingData<MovieBase>> {
+        // fare pager, che usa paging source
+        return Pager(
+            config = PagingConfig(pageSize = 15, enablePlaceholders = false),
+            pagingSourceFactory = { MoviesPagingSource(type, traktApi) }
+        ).flow
+    }
+
+
+    override fun getShowsByType(type: ShowsType): Flow<PagingData<ShowBase>> {
         TODO("Not yet implemented")
     }
 
@@ -24,7 +40,7 @@ class ExploreRepositoryImpl @Inject constructor(
 }
 
 
-// TODO dopo
+//dopo
 //    // explore movies - for paging
 //    // spostare su data
 //    suspend fun getPopularMovies(page: Int, pageSize: Int): List<MovieBase>

@@ -4,12 +4,9 @@ package com.example.presentation.allmovies
 import android.content.SharedPreferences
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
-import com.example.core.MovieType
-import com.example.data.TraktApi
-import com.example.data.repositories.paging.MoviesPagingSource
+import com.example.domain.MovieType
+import com.example.domain.repo.ExploreRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -20,8 +17,9 @@ import javax.inject.Inject
 @HiltViewModel
 class MoviesViewmodel @Inject constructor(
     // FIXME: spostare api su repo, presentation non ha accesso
-    private val traktApi: TraktApi,
-    private val sharedPrefs: SharedPreferences
+//    private val traktApi: TraktApi,
+    private val sharedPrefs: SharedPreferences,
+    private  val exploreRepo: ExploreRepository
 ) : ViewModel() {
 
     companion object {
@@ -36,10 +34,13 @@ class MoviesViewmodel @Inject constructor(
 
     val statePaging = selectedFeed
         .flatMapLatest { selectedFeed ->
-            Pager(
-                config = PagingConfig(pageSize = 15, enablePlaceholders = false),
-                pagingSourceFactory = { MoviesPagingSource(selectedFeed, traktApi) }
-            ).flow
+            // old
+//            Pager(
+//                config = PagingConfig(pageSize = 15, enablePlaceholders = false),
+//                pagingSourceFactory = { MoviesPagingSource(selectedFeed, traktApi) }
+//            ).flow
+            // new
+            exploreRepo.getMoviesByType(selectedFeed)
         }
         .cachedIn(viewModelScope)
 

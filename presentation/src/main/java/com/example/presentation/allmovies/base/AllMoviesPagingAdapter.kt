@@ -6,7 +6,7 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import com.example.domain.model.Ids
 import com.example.domain.model.base.MovieBase
-import com.example.muvitracker.databinding.ViewholderExploreBaseBinding
+import com.example.presentation.databinding.ViewholderExploreBaseBinding
 
 // used by:
 // - popular fragment - lists with paging needed

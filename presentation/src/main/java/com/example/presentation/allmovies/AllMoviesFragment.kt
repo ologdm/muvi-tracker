@@ -10,13 +10,14 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.core.MovieType
-import com.example.muvitracker.R
-import com.example.muvitracker.databinding.FragmentExploreBaseBinding
-import com.example.muvitracker.ui.main.Navigator
+import com.example.domain.MovieType
+import com.example.presentation.Navigator
 import com.example.presentation.allmovies.base.AllMoviesPagingAdapter
-import com.example.muvitracker.utils.fragmentViewLifecycleScope
-import com.example.muvitracker.utils.viewBinding
+import com.example.presentation.R
+import com.example.presentation.databinding.FragmentExploreBaseBinding
+import com.example.presentation.utils.fragmentViewLifecycleScope
+import com.example.presentation.utils.toStringRes
+import com.example.presentation.utils.viewBinding
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import dagger.hilt.android.AndroidEntryPoint
@@ -72,7 +73,8 @@ class AllMoviesFragment : Fragment(R.layout.fragment_explore_base) {
         this.removeAllViews()
         MovieType.entries.forEach { feed ->
             val chip = Chip(context).apply {
-                text = getString(feed.stringRes)
+//                text = getString(feed.stringRes) // old
+                text = getString(feed.toStringRes()) // new ok
                 isCheckable = true
                 tag = feed // tag type object
             }
@@ -167,7 +169,6 @@ class AllMoviesFragment : Fragment(R.layout.fragment_explore_base) {
 //
 //// test deadpool
 //// https://api.themoviedb.org/3/movie/293660?api_key=36b68580564c93f78a52fc28c15c44e5&language=it-IT&append_to_response=videos
-//// TODO per test:
 //b.toolbar.setOnClickListener {
 //    // retrofit, fai chiamata
 //    fragmentViewLifecycleScope.launch {
