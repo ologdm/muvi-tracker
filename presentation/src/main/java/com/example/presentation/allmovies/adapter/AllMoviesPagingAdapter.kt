@@ -1,4 +1,4 @@
-package com.example.presentation.allmovies.base
+package com.example.presentation.allmovies.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

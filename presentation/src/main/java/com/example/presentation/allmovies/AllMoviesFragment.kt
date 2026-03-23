@@ -12,7 +12,7 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.domain.MovieType
 import com.example.presentation.Navigator
-import com.example.presentation.allmovies.base.AllMoviesPagingAdapter
+import com.example.presentation.allmovies.adapter.AllMoviesPagingAdapter
 import com.example.presentation.R
 import com.example.presentation.databinding.FragmentExploreBaseBinding
 import com.example.presentation.utils.fragmentViewLifecycleScope
