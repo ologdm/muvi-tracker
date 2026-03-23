@@ -3,20 +3,19 @@ package com.example.presentation.seasons
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.example.muvitracker.R
-import com.example.muvitracker.databinding.FragmentSeasonSonBinding
-import com.example.muvitracker.ui.main.Navigator
 import com.example.core.orDefaultText
-import com.example.data.glide.ImageTmdbRequest
+import com.example.domain.ImageTmdbRequest
 import com.example.domain.model.Ids
 import com.example.domain.model.Season
-import com.example.muvitracker.utils.twoStatesFlow
-import com.example.muvitracker.utils.viewBinding
+import com.example.presentation.Navigator
+import com.example.presentation.R
+import com.example.presentation.databinding.FragmentSeasonSonBinding
+import com.example.presentation.utils.twoStatesFlow
+import com.example.presentation.utils.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

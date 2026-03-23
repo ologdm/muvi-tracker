@@ -7,11 +7,10 @@ import android.view.ViewGroup
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
-import androidx.fragment.app.Fragment
 import com.example.domain.model.Ids
-import com.example.muvitracker.R
-import com.example.muvitracker.databinding.FragmentSeasonViewpagerBinding
-import com.example.muvitracker.utils.viewBinding
+import com.example.presentation.R
+import com.example.presentation.databinding.FragmentSeasonViewpagerBinding
+import com.example.presentation.utils.viewBinding
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint

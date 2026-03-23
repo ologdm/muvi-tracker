@@ -3,16 +3,14 @@ package com.example.presentation.seasons
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.data.TmdbApi
-import com.example.data.TraktApi
 import com.example.domain.model.Episode
 import com.example.domain.model.Ids
 import com.example.domain.model.Season
 import com.example.domain.repo.EpisodeRepository
 import com.example.domain.repo.SeasonRepository
 import com.example.domain.IoResponse
-import com.example.muvitracker.utils.ListStateContainerTwo
-import com.example.muvitracker.utils.StateContainerThree
+import com.example.presentation.utils.ListStateContainerTwo
+import com.example.presentation.utils.StateContainerThree
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
@@ -22,12 +20,13 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+
 @HiltViewModel
 class SeasonViewmodel @Inject constructor(
     private val seasonRepository: SeasonRepository,
     private val episodeRepository: EpisodeRepository,
-    private val traktApi: TraktApi, // FIXME: possibile eliminare?
-    private val tmdbApi: TmdbApi // FIXME: possibile eliminare?
+//    private val traktApi: TraktApi, // FIXME: possibile eliminare?
+//    private val tmdbApi: TmdbApi // FIXME: possibile eliminare?
 
 ) : ViewModel() {
 

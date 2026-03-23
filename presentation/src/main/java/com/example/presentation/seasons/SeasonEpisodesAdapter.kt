@@ -5,11 +5,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
-import com.example.muvitracker.R
-import com.example.muvitracker.databinding.ViewholderEpisodeOnSeasonBinding
 import com.example.core.getNowFormattedDateTime
 import com.example.domain.model.Episode
+import com.example.presentation.R
+import com.example.presentation.databinding.ViewholderEpisodeOnSeasonBinding
 
 class SeasonEpisodesAdapter(
     val onCLickVH: (Int) -> Unit,

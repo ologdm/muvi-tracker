@@ -2,10 +2,9 @@ package com.example.presentation.providers
 
 import android.os.Bundle
 import android.view.View
-import com.example.muvitracker.R
-import com.example.muvitracker.databinding.DialogCountriesBinding
-import com.example.muvitracker.databinding.FragmentEpisodeBottomsheetBinding.bind
-import com.example.muvitracker.utils.viewBinding
+import com.example.presentation.R
+import com.example.presentation.databinding.DialogCountriesBinding
+import com.example.presentation.utils.viewBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class CountriesDialog : BottomSheetDialogFragment(R.layout.dialog_countries) {
