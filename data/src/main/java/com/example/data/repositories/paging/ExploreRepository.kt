@@ -33,10 +33,11 @@ class ExploreRepositoryImpl @Inject constructor(
 
 
     override fun getShowsByType(type: ShowsType): Flow<PagingData<ShowBase>> {
-        TODO("Not yet implemented")
+        return Pager(
+            config = PagingConfig(pageSize = 15, enablePlaceholders = false),
+            pagingSourceFactory = { ShowsPagingSource(type, traktApi) }
+        ).flow
     }
-
-
 }
 
 
