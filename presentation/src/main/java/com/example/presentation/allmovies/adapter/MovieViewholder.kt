@@ -1,12 +1,10 @@
-package com.example.presentation.allmovies.base
+package com.example.presentation.allmovies.adapter
 
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.example.data.glide.ImageTmdbRequest
 import com.example.domain.model.base.MovieBase
-import com.example.muvitracker.R
-import com.example.muvitracker.databinding.ViewholderExploreBaseBinding
+import com.example.presentation.databinding.ViewholderExploreBaseBinding
 
 class MovieViewholder(
     val binding: ViewholderExploreBaseBinding,
