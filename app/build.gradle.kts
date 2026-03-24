@@ -3,7 +3,7 @@ import java.util.Properties
 plugins {
     alias(libs.plugins.android.application) // serve solo qua
     alias(libs.plugins.hilt.android)
-    alias(libs.plugins.ksp) // KSP (Room, Hilt, Glide) – replaces kapt
+    alias(libs.plugins.ksp) // NOTE: KSP (Room, Hilt, Glide) – replaces kapt
 }
 
 
@@ -45,8 +45,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17 //  use java 17 for source code compatibility
-        targetCompatibility = JavaVersion.VERSION_17 // generate bytecode compatible with java 17
+        sourceCompatibility = JavaVersion.VERSION_17 //  NOTE: use java 17 for source code compatibility
+        targetCompatibility = JavaVersion.VERSION_17 // NOTE: generate bytecode compatible with java 17
     }
 
 
@@ -68,13 +68,11 @@ dependencies {
 
     // --- Android Core ---
     implementation(libs.androidx.appcompat)
-    implementation(libs.androidx.core.ktx) // Kotlin Extensions in AndroidX, todo check
+    implementation(libs.androidx.core.ktx) // Kotlin Extensions in AndroidX,
     implementation(libs.androidx.fragment.ktx) // per fragm manager...TODO serve=?
 
-    //  -------- Kotlin ------------------------------------------------------
-//    implementation(libs.kotlin.stdlib) // NOTE: opzionale, AGP 9 + Kotlin plugin lo include già
 
-    // --- Hilt --- gia su modulo core via api()
+    // --- Hilt ---
     implementation(libs.hilt.android)
     // kapt(libs.hilt.compiler)
     ksp(libs.hilt.compiler) // replaces kapt
