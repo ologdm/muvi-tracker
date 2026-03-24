@@ -1,43 +1,44 @@
 package com.example.presentation.prefs.adapters
 
-import android.content.Context
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 
-import com.example.presentation.detailmovie.DetailMovieFragment.MovieDefaults
 import com.example.core.formatToReadableDate
 import com.example.core.orDefaultText
 import com.example.domain.ImageTmdbRequest
 import com.example.domain.model.Movie
 import com.example.presentation.R
 import com.example.presentation.databinding.ViewholderPrefsMovieBinding
+import com.example.presentation.detailmovie.MovieDefaults
 
 
 class PrefsMovieViewholder(
     val binding: ViewholderPrefsMovieBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(movie: Movie, context: Context) {
+    val defaults = MovieDefaults(binding.root.context)
 
+
+    fun bind(movie: Movie) {
         binding.run {
-            //
-            title.text = movie.title.orDefaultText(MovieDefaults.TITLE)
+
+            title.text = movie.title.orDefaultText(defaults.TITLE)
 
             //
             // 1° element
             val releaseDate = movie.releaseDate?.formatToReadableDate()
-            val releaseDateText = releaseDate.orDefaultText(MovieDefaults.YEAR)
+            val releaseDateText = releaseDate.orDefaultText(defaults.YEAR)
             // 2° element
             val countryList = movie.countries.filter { it.isNotBlank() }
-            val countryText = if (countryList.isNullOrEmpty()){
-                MovieDefaults.COUNTRY
+            val countryText = if (countryList.isNullOrEmpty()) {
+                defaults.COUNTRY
             } else {
                 "${countryList.joinToString(", ")}"
             }
 
             //
             val statusText = movie.status?.replaceFirstChar { it.uppercaseChar() }
-                .orDefaultText(MovieDefaults.STATUS)  // es released
+                .orDefaultText(defaults.STATUS)  // es released
 
             // 1+2
             otherInfo.text = "$releaseDateText  |  $countryText  |  $statusText"

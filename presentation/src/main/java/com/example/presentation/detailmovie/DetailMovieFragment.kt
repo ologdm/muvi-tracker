@@ -78,6 +78,7 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
     private var currentMovieIds: Ids = Ids()
 
     private val b by viewBinding(FragmentDetailMovieBinding::bind)
+
     // NOTE: AndroidEntryPoint crea un ViewModel facotry nella view
     private val viewModel by viewModels<DetailMovieViewmodel>()
 
@@ -114,13 +115,16 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
     // FIXME:  OkHttpClient vedere dove spostare
 //    private val okHttpClient by lazy { OkHttpClient() }
     @Inject
-    lateinit var okHttpClient : OkHttpClient
+    lateinit var okHttpClient: OkHttpClient
 
     // Request non si puo iniettare,
     // Normalmente non inietti un Request già pronto, perché ogni richiesta ha parametri diversi (URL, header, body, ecc.).
     // Piuttosto, crei il Request al momento della chiamata, usando l’OkHttpClient iniettato:
 //    @Inject
 //    private lateinit var okHttpRequest : Request
+
+
+    private val defaults by lazy { MovieDefaults(requireContext()) }
 
     override fun onViewCreated(
         view: View, savedInstanceState: Bundle?
@@ -226,7 +230,7 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
     private fun setupDetailMovieUiSection(movie: Movie) {
         //
 //        b.title.text = movie.title.orIfBlank(MovieDefaults.TITLE)
-        b.title.text = movie.title.orDefaultText(MovieDefaults.TITLE)
+        b.title.text = movie.title.orDefaultText(defaults.TITLE)
         //
         b.tagline.apply {
             if (movie.tagline.isNullOrBlank()) {
@@ -239,17 +243,17 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
 
         // info section ----------------------------------------------------------------
         b.status.text = movie.status?.replaceFirstChar { it.uppercaseChar() }
-            .orDefaultText(MovieDefaults.STATUS)  // es released
+            .orDefaultText(defaults.STATUS)  // es released
 
         // date (country)
         // 1° element
         val releaseDate = movie.releaseDate?.formatToReadableDate()
-        val releaseDateText = releaseDate.orDefaultText(MovieDefaults.YEAR)
+        val releaseDateText = releaseDate.orDefaultText(defaults.YEAR)
 
         // 2° element - 2 formats
         val countryList = movie.countries.filter { it.isNotBlank() }
         val countryText = if (countryList.isNullOrEmpty()) {
-            ", ${MovieDefaults.COUNTRY}"
+            ", ${defaults.COUNTRY}"
         } else {
             " (${countryList.joinToString(", ")})"
         }
@@ -262,7 +266,7 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
             if (movie.runtime != null && movie.runtime!! > 0) // NOTE: !! is safe in that case
                 getString(R.string.runtime_description, movie.runtime.toString())
             else
-                MovieDefaults.RUNTIME
+                defaults.RUNTIME
 
         //
         ratingLayoutsSetup(movie)
@@ -276,7 +280,7 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
                 visibility = View.GONE
         }
         //
-        b.overviewContent.text = movie.overview.orDefaultText(MovieDefaults.OVERVIEW)
+        b.overviewContent.text = movie.overview.orDefaultText(defaults.OVERVIEW)
         expandOverviewSetup()
         //
         // genres
@@ -499,7 +503,8 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
         b.watchedCheckbox.setOnCheckedChangeListener(null)
         b.watchedCheckbox.isChecked = movie.watched
 
-        val isDisabled = movie.releaseDate != null && movie.releaseDate!! > getNowFormattedDateTime() // NOTE: movie.releaseDate!! is safe in that case
+        val isDisabled =
+            movie.releaseDate != null && movie.releaseDate!! > getNowFormattedDateTime() // NOTE: movie.releaseDate!! is safe in that case
         b.watchedCheckbox.isEnabled = !isDisabled
         b.watchedTextview.alpha = if (isDisabled) 0.4f else 1f
 
@@ -774,23 +779,24 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
         private const val NOW_TV = "Now TV"
         private const val TIMVISION = "Timvision"
     }
+}
 
 
-    object MovieDefaults {
-        var TITLE = MyApp.appContext.getString(R.string.untitled)
 
-        var STATUS = MyApp.appContext.getString(R.string.status_unknown)
-        var YEAR = MyApp.appContext.getString(R.string.year_n_a)
-        var COUNTRY = MyApp.appContext.getString(R.string.country_n_a)
-        var RUNTIME = MyApp.appContext.getString(R.string.runtime_n_a)
+    data class MovieDefaults(val context: Context) {
+        var TITLE = context.getString(R.string.untitled)
 
-        var OVERVIEW = MyApp.appContext.getString(R.string.not_available)
+        var STATUS = context.getString(R.string.status_unknown)
+        var YEAR = context.getString(R.string.year_n_a)
+        var COUNTRY = context.getString(R.string.country_n_a)
+        var RUNTIME = context.getString(R.string.runtime_n_a)
 
-        var LANGUAGE = MyApp.appContext.getString(R.string.language_unknown)
-        var TAGLINE = MyApp.appContext.getString(R.string.tagline_are_not_available)
+        var OVERVIEW = context.getString(R.string.not_available)
+
+        var LANGUAGE = context.getString(R.string.language_unknown)
+        var TAGLINE = context.getString(R.string.tagline_are_not_available)
     }
 
-}
 
 
 
