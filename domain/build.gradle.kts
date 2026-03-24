@@ -44,4 +44,8 @@ dependencies {
     // NOTE: parcelable doesn't have library
     implementation(libs.paging.common.ktx) // OK, serve per separazione clean logica paging
 
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.test.junit)
+    androidTestImplementation(libs.androidx.test.espresso)
+
 }
