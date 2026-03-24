@@ -782,20 +782,19 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
 }
 
 
+class MovieDefaults(val context: Context) {
+    var TITLE = context.getString(R.string.untitled)
 
-    data class MovieDefaults(val context: Context) {
-        var TITLE = context.getString(R.string.untitled)
+    var STATUS = context.getString(R.string.status_unknown)
+    var YEAR = context.getString(R.string.year_n_a)
+    var COUNTRY = context.getString(R.string.country_n_a)
+    var RUNTIME = context.getString(R.string.runtime_n_a)
 
-        var STATUS = context.getString(R.string.status_unknown)
-        var YEAR = context.getString(R.string.year_n_a)
-        var COUNTRY = context.getString(R.string.country_n_a)
-        var RUNTIME = context.getString(R.string.runtime_n_a)
+    var OVERVIEW = context.getString(R.string.not_available)
 
-        var OVERVIEW = context.getString(R.string.not_available)
-
-        var LANGUAGE = context.getString(R.string.language_unknown)
-        var TAGLINE = context.getString(R.string.tagline_are_not_available)
-    }
+    var LANGUAGE = context.getString(R.string.language_unknown)
+    var TAGLINE = context.getString(R.string.tagline_are_not_available)
+}
 
 
 
