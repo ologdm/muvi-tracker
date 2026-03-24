@@ -2,16 +2,14 @@
 
 plugins {
     alias(libs.plugins.android.application) apply false
-//    alias(libs.plugins.kotlin.android) apply false // TODO eliminare per agp 9+?
+//    alias(libs.plugins.kotlin.android) apply false // NOTE: doesn't with AGP 9+
     alias(libs.plugins.kotlin.serialization) apply false
     alias(libs.plugins.hilt.android) apply false
+
 //    alias(libs.plugins.kotlin.kapt) apply false       // Legacy kapt (AGP 7/8)
 //    alias (libs.plugins.legacy.kapt) apply false      // Kapt support for AGP 9+
     alias(libs.plugins.ksp) apply false // KSP (replaces kapt)
 
-    // NOTE: Needed when adding a new Android library module
-    alias(libs.plugins.android.library) apply false
-
-    // FIXME: room export schema OK
-    alias (libs.plugins.room) apply false
+    alias(libs.plugins.android.library) apply false // NOTE: Needed when adding a new Android library module
+    alias (libs.plugins.room) apply false           // NOTE: room export schema
 }
