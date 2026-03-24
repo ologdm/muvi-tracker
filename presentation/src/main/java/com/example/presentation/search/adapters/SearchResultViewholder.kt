@@ -5,18 +5,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.domain.ImageTmdbRequest
+import com.example.domain.SearchType
 import com.example.domain.model.SearchResult
 import com.example.presentation.R
 import com.example.presentation.databinding.ViewholderSearchBinding
-import com.example.presentation.search.SearchFragment
 
 class SearchResultViewholder(
     val binding: ViewholderSearchBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(item: SearchResult, currentFilter: String) {
-        // TODO 1.1.3 - visibilità type -> solo se 'all' selez - OK
-        binding.typeItem.visibility = if (currentFilter == SearchFragment.MOVIE_SHOW_PERSON) {
+    fun bind(item: SearchResult, currentFilter: SearchType) {
+        // NOTE: 1.1.3 - visibilità type su viewholder -> solo se 'all' selez
+        binding.typeItem.visibility = if (currentFilter == SearchType.MovieShowPerson) {
             View.VISIBLE
         } else {
             View.GONE
@@ -70,7 +70,7 @@ class SearchResultViewholder(
                     typeItem.text = root.context.getString(R.string.people)
 
                     val person = item.personBase
-                    title.text = if (person.name.isBlank()){
+                    title.text = if (person.name.isBlank()) {
                         "Unknown"
                     } else {
                         "${item.personBase.name}"

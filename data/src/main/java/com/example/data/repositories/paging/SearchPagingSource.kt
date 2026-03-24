@@ -4,11 +4,14 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.data.TraktApi
 import com.example.data.dto.search.toDomain
+import com.example.domain.SearchType
 import com.example.domain.model.SearchResult
 
+// per goni ricerca si aggiorna
 class SearchPagingSource(
     private val queryValue: String,
-    private val filterValue: String,
+//    private val filterValue: String,
+    private val filterValue: SearchType,
     private val traktApi: TraktApi
 ) : PagingSource<Int, SearchResult>() {
 
@@ -17,7 +20,7 @@ class SearchPagingSource(
 
         try {
             val response = traktApi.getSearch(
-                typeFilter = filterValue,
+                typeFilter = filterValue.value,
                 query = queryValue,
                 page = currentPage,
             )

@@ -9,6 +9,7 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.domain.SearchType
 import com.example.presentation.search.adapters.SearchResultsAdapter
 import com.example.presentation.Navigator
 import com.example.presentation.R
@@ -67,11 +68,11 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         binding.searchChipGroup.check(R.id.chipAll) // default selected chip
         binding.searchChipGroup.setOnCheckedChangeListener { _, checkedId ->
             val filterValue = when (checkedId) {
-                R.id.chipAll -> MOVIE_SHOW_PERSON
-                R.id.chipMovies -> MOVIE
-                R.id.chipShows -> SHOW
-                R.id.chipPeople -> PERSON
-                else -> MOVIE_SHOW_PERSON
+                R.id.chipAll -> SearchType.MovieShowPerson
+                R.id.chipMovies -> SearchType.Movie
+                R.id.chipShows -> SearchType.Show
+                R.id.chipPeople -> SearchType.Person
+                else -> SearchType.MovieShowPerson
             }
             viewModel.updateFilterValue(filterValue)
 
@@ -93,11 +94,11 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     }
 
 
-    companion object {
-        const val MOVIE_SHOW_PERSON = "movie,show,person"
-        private const val MOVIE = "movie"
-        private const val SHOW = "show"
-        private const val PERSON = "person"
-    }
+//    companion object {
+//        const val MOVIE_SHOW_PERSON = "movie,show,person"
+//        private const val MOVIE = "movie"
+//        private const val SHOW = "show"
+//        private const val PERSON = "person"
+//    }
 }
 

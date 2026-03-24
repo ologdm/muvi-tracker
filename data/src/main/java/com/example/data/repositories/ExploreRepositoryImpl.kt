@@ -1,13 +1,13 @@
-package com.example.data.repositories.paging
+package com.example.data.repositories
 
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.example.data.TraktApi
+import com.example.data.repositories.paging.MoviesPagingSource
+import com.example.data.repositories.paging.ShowsPagingSource
 import com.example.domain.MovieType
 import com.example.domain.ShowsType
-import com.example.domain.model.Movie
-import com.example.domain.model.Show
 import com.example.domain.model.base.MovieBase
 import com.example.domain.model.base.ShowBase
 import com.example.domain.repo.ExploreRepository

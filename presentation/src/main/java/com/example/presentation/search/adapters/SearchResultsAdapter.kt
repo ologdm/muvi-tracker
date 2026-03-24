@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
+import com.example.domain.SearchType
 import com.example.domain.model.Ids
 import com.example.domain.model.SearchResult
 import com.example.presentation.databinding.ViewholderSearchBinding
@@ -15,7 +16,7 @@ class SearchResultsAdapter(
     private var onClickVHPerson: (Ids) -> Unit
 ) : PagingDataAdapter<SearchResult, SearchResultViewholder>(SearchResultsAdapter) {
 
-    var currentFilter: String = SearchFragment.MOVIE_SHOW_PERSON
+    var currentFilter: SearchType = SearchType.MovieShowPerson
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchResultViewholder {
@@ -34,12 +35,12 @@ class SearchResultsAdapter(
             when (item) {
                 is SearchResult.MovieItem -> onClickVHMovie(item.movieBase.ids)
                 is SearchResult.ShowItem -> onClickVHShow(item.showBase.ids)
-                is SearchResult.PersonItem ->  onClickVHPerson(item.personBase.ids)
+                is SearchResult.PersonItem -> onClickVHPerson(item.personBase.ids)
             }
         }
     }
 
-    fun updateFilter(filter: String) {
+    fun updateFilter(filter: SearchType) {
         currentFilter = filter
         notifyDataSetChanged() // serve
     }

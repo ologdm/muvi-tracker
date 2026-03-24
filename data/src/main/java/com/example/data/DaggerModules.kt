@@ -10,8 +10,9 @@ import com.example.data.repositories.EpisodeRepositoryImpl
 import com.example.data.repositories.PersonRepositoryImpl
 import com.example.data.repositories.PrefsMovieRepositoryImpl
 import com.example.data.repositories.PrefsShowRepositoryImpl
+import com.example.data.repositories.SearchRepositoryImpl
 import com.example.data.repositories.SeasonRepositoryImpl
-import com.example.data.repositories.paging.ExploreRepositoryImpl
+import com.example.data.repositories.ExploreRepositoryImpl
 import com.example.domain.repo.DetailMovieRepository
 import com.example.domain.repo.DetailShowRepository
 import com.example.domain.repo.EpisodeRepository
@@ -19,6 +20,7 @@ import com.example.domain.repo.ExploreRepository
 import com.example.domain.repo.PersonRepository
 import com.example.domain.repo.PrefsMovieRepository
 import com.example.domain.repo.PrefsShowRepository
+import com.example.domain.repo.SearchRepository
 import com.example.domain.repo.SeasonRepository
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
@@ -98,6 +100,12 @@ class DaggerModules {
     @Provides
     @Singleton
     fun providePersonRepo(impl: PersonRepositoryImpl): PersonRepository {
+        return impl
+    }
+
+    @Provides
+    @Singleton
+    fun provideSearchRepo(impl: SearchRepositoryImpl): SearchRepository {
         return impl
     }
 
