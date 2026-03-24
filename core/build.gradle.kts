@@ -3,10 +3,8 @@ import kotlin.apply
 
 plugins {
     alias(libs.plugins.android.library)
-
-    // dagger,
-    alias(libs.plugins.ksp)
     alias(libs.plugins.hilt.android)
+    alias(libs.plugins.ksp)
     alias(libs.plugins.kotlin.serialization)
 }
 
@@ -68,15 +66,13 @@ android {
 }
 
 dependencies {
-    // dagger OK
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
     //
     implementation(libs.kotlinx.serialization.json) // serve per Json
     implementation(libs.gson)
-    api(libs.okhttp) // condivide libreria con chi ne dipende
-
-
+    api(libs.okhttp) // NOTE: api - condivide la libreria con chi ne dipende
+    //
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.junit)
     androidTestImplementation(libs.androidx.test.espresso)
