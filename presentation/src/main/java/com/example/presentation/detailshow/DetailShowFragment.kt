@@ -155,6 +155,7 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
         // 1.1.3 NEW loading, data + no internet, no data no internet OK
         viewModel.showState.observe(viewLifecycleOwner) { stateContainer ->
             stateContainer.statesFlowDetail(
+                requireContext(),
                 b.errorTextView,
                 b.progressBar,
                 b.mainLayoutToDisplayDetail,

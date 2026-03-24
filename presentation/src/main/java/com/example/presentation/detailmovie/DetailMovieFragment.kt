@@ -169,6 +169,7 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
             // main_layout_detail.xml  -> default GONE
 
             stateContainer.statesFlowDetail(
+                requireContext(),
                 b.errorTextView,
                 b.progressBar,
                 b.mainLayoutToDisplayDetail,

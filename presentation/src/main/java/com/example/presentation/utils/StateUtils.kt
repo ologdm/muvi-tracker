@@ -1,12 +1,12 @@
 package com.example.presentation.utils
 
+import android.content.Context
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
-import com.example.muvitracker.MyApp
-import com.example.muvitracker.R
+import com.example.presentation.R
 import kotlin.Boolean
 
 
@@ -27,12 +27,13 @@ data class StateContainerThree<T>(
  */
 
 fun <T> StateContainerThree<T>.statesFlowDetail(
+    context: Context,
     errorTextview: TextView,
     progressBar: ProgressBar,
     mainLayout: ConstraintLayout,
     bindData: ((T) -> Unit)? = null
 ) {
-    val context = MyApp.appContext
+//    val context = MyApp.appContext
 
     // Controllo se ho un dato effettivo -> serve
 //    val isDataReady = data != null
