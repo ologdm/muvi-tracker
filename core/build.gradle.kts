@@ -76,4 +76,9 @@ dependencies {
     implementation(libs.gson)
     api(libs.okhttp) // condivide libreria con chi ne dipende
 
+
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.test.junit)
+    androidTestImplementation(libs.androidx.test.espresso)
+
 }
