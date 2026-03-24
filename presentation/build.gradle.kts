@@ -1,12 +1,11 @@
 plugins {
-    alias(libs.plugins.android.application) // con app library non serve?
-    //    alias(libs.plugins.android.library)
-
+// NOTE: The 'com.android.application' plugin must be applied only to the main app module.
+//  All other modules (presentation, domain, data, core) must use com.android.library.
+//  alias(libs.plugins.android.application)
+    alias(libs.plugins.android.library)
     alias(libs.plugins.hilt.android)
     alias(libs.plugins.ksp) // KSP (Room, Hilt, Glide) – replaces kapt
-
     alias(libs.plugins.kotlin.parcelize)
-
 }
 
 
