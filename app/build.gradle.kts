@@ -1,13 +1,9 @@
 import java.util.Properties
 
 plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.parcelize)
-    alias(libs.plugins.kotlin.serialization) // TODO eliminare
-    // alias(libs.plugins.kotlin.kapt)     // Old kapt plugin used with AGP 7/8
-    // alias(libs.plugins.legacy.kapt)     // Replacement for kapt when using AGP 9+
-    alias(libs.plugins.ksp) // KSP (Room, Hilt, Glide) – replaces kapt
+    alias(libs.plugins.android.application) // serve solo qua
     alias(libs.plugins.hilt.android)
+    alias(libs.plugins.ksp) // KSP (Room, Hilt, Glide) – replaces kapt
 }
 
 
@@ -61,67 +57,33 @@ android {
 
 }
 
-// ---------------------------------------------------------------------------------------------------
 
 dependencies {
-    implementation(project(":data")) // -> va a build gradle data
+    // --- Moduli core ---
+    implementation(project(":data"))
     implementation(project(":domain"))
-    implementation(project(":core"))
     implementation(project(":presentation"))
+    implementation(project(":core"))
 
 
-    //  -------- Core Android --------------------------------------------------
+    // --- Android Core ---
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.core.ktx) // Kotlin Extensions in AndroidX, todo check
-    // presentation only
-//    implementation(libs.androidx.material) // NO
-//    implementation(libs.androidx.swiperefreshlayout) // NO
-    implementation(libs.androidx.fragment.ktx) // per fragm manager
-//    implementation(libs.androidx.viewpager2)
-//    implementation(libs.flexbox)
+    implementation(libs.androidx.fragment.ktx) // per fragm manager...TODO serve=?
 
     //  -------- Kotlin ------------------------------------------------------
-    implementation(libs.kotlin.stdlib) // ?? potrebbe non servire, TODO check
-    implementation(libs.kotlinx.serialization.json)  //glideTODO check
+//    implementation(libs.kotlin.stdlib) // NOTE: opzionale, AGP 9 + Kotlin plugin lo include già
 
-
-    //  -------- Image Loading (Glide) ----------------------------------------- TODO presentation  + data
-//    implementation(libs.glide)
-    // kapt(libs.glide.compiler)
-    // NOTE: Glide KSP does not fully support generated APIs such as GlideApp, GlideRequests, and GlideOptions
-//    ksp(libs.glide.ksp) // replaces kapt
-
-    //  -------- Dependency Injection (Hilt) ----------------------------------- TODO OK, su core
+    // --- Hilt --- gia su modulo core via api()
     implementation(libs.hilt.android)
     // kapt(libs.hilt.compiler)
     ksp(libs.hilt.compiler) // replaces kapt
 
-    //  -------- Concurrency (Coroutines) --------------------------------------
-    implementation(libs.coroutines.core) // TODO check
-    implementation(libs.coroutines.android)
-
-    //  -------- Pagination ----------------------------------------------------  TODO spostare
-//    implementation(libs.paging.runtime.ktx) // also on data module
-
-    // --------- Database (Room) ----------------------------------------------- TODO OK
-//    implementation(libs.room.ktx)
-//    // kapt(libs.room.compiler)
-//    ksp(libs.room.compiler) // replaces kapt
-//    implementation(libs.gson) // per room type converter
-
-    // ---------- Caching ------------------------------------------------------ TODO OK
-    // store4 - caching library
-    // implementation(libs.store4) // old, not compatible with Kotlin 2.3.10 and agp 9
-//    implementation(libs.store5)
-
-    // ---------- Testing ------------------------------------------------------ TODO seeve su app?
+    // ---------- Testing ------------------------------------------------------
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.junit)
     androidTestImplementation(libs.androidx.test.espresso)
 
-
-    // client HTTP per richieste GET, POST, HEAD,
-//    implementation(libs.okhttp) // FIXME: provvisorio, deve stare in core, ma non trova su fragment se voglio fare inject con dagger
 }
 
 
