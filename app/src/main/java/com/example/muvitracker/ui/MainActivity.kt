@@ -6,8 +6,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.edit
 import androidx.fragment.app.Fragment
-import com.example.muvitracker.R
 import com.example.presentation.Navigator
+import com.example.presentation.R
 import com.example.presentation.allmovies.AllMoviesFragment
 import com.example.presentation.allshows.AllShowsFragment
 import com.example.presentation.databinding.ActivityMainBinding
