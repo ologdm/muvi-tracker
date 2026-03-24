@@ -105,8 +105,9 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
     // FIXME: 1.2.+ OkHttps from core -> daggermodules
 //    private val okHttpClient by lazy { OkHttpClient() } // oòd
     @Inject
-    lateinit var okHttpClient : OkHttpClient
+    lateinit var okHttpClient: OkHttpClient
 
+    private val showDefaults by lazy { ShowDefaults(requireContext()) }
 
     override fun onViewCreated(
         view: View, savedInstanceState: Bundle?
@@ -124,15 +125,21 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
         }
 
 
-        // data loadings
+        // data loadings --------------
         loadDetailShowSetup()
+
         loadSeasonsSetup()
+
         loadRelatedSetup()
+
         loadCastSetup()
+
         myNotesDialogSetup()
+
         loadProvidersSetup()
 
-        // BUTTONS CLICK ---------------------------------------------------------------------------
+
+        // button clicks ---------------------------------------------------------------------------
         b.buttonBack.setOnClickListener {
             requireActivity().onBackPressed()
         }
@@ -227,11 +234,11 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
     private fun setupDetailShowUiSection(show: Show) {
         // per passare a season
         currentShowTitle = show.title
-            .orDefaultText(ShowDefaults.TITLE) // 1.1.3 OK
+            .orDefaultText(showDefaults.TITLE) // 1.1.3 OK
 
         //
         b.title.text = show.title
-            .orDefaultText(ShowDefaults.TITLE) // 1.1.3 OK
+            .orDefaultText(showDefaults.TITLE) // 1.1.3 OK
 
         //
         b.tagline.apply { // 1.1.3 OK
@@ -245,7 +252,7 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
 
         // INFO SECTION ON LAYOUT -----------------------------------------------------------------------------
         b.status.text = show.status?.replaceFirstChar { it.uppercaseChar() } // 1.1.3 OK
-            .orDefaultText(ShowDefaults.STATUS)  // es released
+            .orDefaultText(showDefaults.STATUS)  // es released
 
 
         // network (country)
@@ -253,7 +260,7 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
         val networkList = show.networks.filter { it.isNotBlank() }
         val networkText =
             if (networkList.isNullOrEmpty()) {
-                ShowDefaults.NETWORK
+                showDefaults.NETWORK
             } else {
                 networkList.joinToString(", ")
             }
@@ -261,7 +268,7 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
         val countryList = show.countries.filter { it.isNotBlank() }
         val countryText =
             if (countryList.isNullOrEmpty()) {
-                ", ${ShowDefaults.COUNTRY}"
+                ", ${showDefaults.COUNTRY}"
             } else {
                 " (${countryList.joinToString(", ")})"
             }
@@ -286,7 +293,7 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
 
             firstYear != null -> getString(R.string.from_release_year, "$firstYear")
 
-            else -> ShowDefaults.YEAR
+            else -> showDefaults.YEAR
         }
 
 
@@ -314,7 +321,7 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
         }
         // 1.1.3 - OK
         b.overviewContent.text = show.overview
-            .orDefaultText(ShowDefaults.OVERVIEW)
+            .orDefaultText(showDefaults.OVERVIEW)
         expandOverviewSetup()
 
         // TODO: upgrade grafica
@@ -820,14 +827,14 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
         private const val TIMVISION = "Timvision"
     }
 
+}
 
-    object ShowDefaults {
-        var TITLE = MyApp.appContext.getString(R.string.untitled)
-        var STATUS = MyApp.appContext.getString(R.string.status_unknown)
-        var YEAR = MyApp.appContext.getString(R.string.year_n_a)
-        var NETWORK = MyApp.appContext.getString(R.string.network_n_a)
-        var COUNTRY = MyApp.appContext.getString(R.string.country_n_a)
 
-        var OVERVIEW = MyApp.appContext.getString(R.string.not_available)
-    }
+class ShowDefaults(context: Context) {
+    var TITLE = context.getString(R.string.untitled)
+    var STATUS = context.getString(R.string.status_unknown)
+    var YEAR = context.getString(R.string.year_n_a)
+    var NETWORK = context.getString(R.string.network_n_a)
+    var COUNTRY = context.getString(R.string.country_n_a)
+    var OVERVIEW = context.getString(R.string.not_available)
 }

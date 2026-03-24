@@ -2,23 +2,26 @@ package com.example.presentation.prefs.adapters
 
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.presentation.detailshow.DetailShowFragment.ShowDefaults
 import com.example.core.orDefaultText
 import com.example.domain.ImageTmdbRequest
 import com.example.domain.model.Show
 import com.example.presentation.R
 import com.example.presentation.databinding.ViewholderPrefsShowBinding
+import com.example.presentation.detailshow.ShowDefaults
 import java.time.LocalDate
 
 class PrefsShowViewholder(
     val binding: ViewholderPrefsShowBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 
+    val ctx = binding.root.context
+    val defaults = ShowDefaults(ctx)
+
+
     fun bind(show: Show) {
-        val ctx = itemView.context
 
         binding.run {
-            title.text = show.title.orDefaultText(ShowDefaults.TITLE)
+            title.text = show.title.orDefaultText(defaults.TITLE)
 
             // 1°
             val networkList = show.networks
@@ -26,15 +29,15 @@ class PrefsShowViewholder(
                 .take(6) // edge case, limitare il numero max elementi
             val networkText =
                 if (networkList.isNullOrEmpty()) {
-                    ShowDefaults.NETWORK
+                    defaults.NETWORK
                 } else {
                     networkList.joinToString(", ")
                 }
 
             // 3°
             val countryList = show.countries.filter { it.isNotBlank() }
-            val countryText = if (countryList.isNullOrEmpty()){
-                ShowDefaults.COUNTRY
+            val countryText = if (countryList.isNullOrEmpty()) {
+                defaults.COUNTRY
             } else {
                 "${countryList.joinToString(", ")}"
             }
@@ -55,12 +58,12 @@ class PrefsShowViewholder(
 
                 firstYear != null -> ctx.getString(R.string.from_release_year, "$firstYear")
 
-                else -> ShowDefaults.YEAR
+                else -> defaults.YEAR
             }
 
             // 4°
             val statusText = show.status?.replaceFirstChar { it.uppercaseChar() } // 1.1.3 OK
-                .orDefaultText(ShowDefaults.STATUS)  // es released
+                .orDefaultText(defaults.STATUS)  // es released
 
 
             otherInfo.text = "$yearText  |  $networkText  |  $countryText  |  $statusText"
