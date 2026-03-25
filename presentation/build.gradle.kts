@@ -1,11 +1,10 @@
 plugins {
 // NOTE: The 'com.android.application' plugin must be applied only to the main app module.
-//  All other modules (presentation, domain, data, core) must use com.android.library.
-//  alias(libs.plugins.android.application)
+// All other modules (presentation, domain, data, core) must use com.android.library.
     alias(libs.plugins.android.library)
     alias(libs.plugins.hilt.android)
     alias(libs.plugins.ksp) // KSP (Room, Hilt, Glide) – replaces kapt
-    alias(libs.plugins.kotlin.parcelize)
+    alias(libs.plugins.kotlin.parcelize) // only plugin, no library
 }
 
 
@@ -17,7 +16,7 @@ android {
         minSdk = 26
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-//        consumerProguardFiles("consumer-rules.pro") // TODO check
+//        consumerProguardFiles("consumer-rules.pro") // NOTE: optional for library modules
     }
 
     buildTypes {
@@ -43,55 +42,43 @@ android {
 }
 
 dependencies {
+
     implementation(project(":domain"))
     implementation(project(":core"))
 
-    // android base -  NOTE: Tutto utile se i tuoi fragment lo usano
+    // -------- Android base ----------------------------------------------
     implementation(libs.androidx.appcompat) // AppCompatActivity, themes
-    implementation(libs.androidx.core.ktx) // estensioni Kotlin
+    implementation(libs.androidx.core.ktx) // Kotlin extensions for android
     api(libs.androidx.material) // Material Components (BottomNavigationView, etc.) // NOTE: api for app module
-    // android others
+    // -------- Android others ----------------------------------------------
     implementation(libs.androidx.fragment.ktx) // Fragment / FragmentManager
     implementation(libs.androidx.viewpager2)
     implementation(libs.androidx.swiperefreshlayout)
     implementation(libs.flexbox) // FlexboxLayout
 
-    // test - serve su presentation OK
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.test.junit)
-//    androidTestImplementation(libs.androidx.test.espresso)
-
-
-    // Dependency Injection (Hilt) - ok averlo in presentation
+    // --------- Dependency Injection (Hilt) -----------------------------------
     implementation(libs.hilt.android)
-    // kapt(libs.hilt.compiler)
     ksp(libs.hilt.compiler) // replaces kapt
 
 
-    //  -------- Image Loading (Glide) ----------------------------------------- OK, anche su data
+    //  -------- Image Loading (Glide) -----------------------------------------
     implementation(libs.glide)
-    // kapt(libs.glide.compiler)
-    // NOTE: Glide KSP does not fully support generated APIs such as GlideApp, GlideRequests, and GlideOptions
     ksp(libs.glide.ksp) // replaces kapt
+    // NOTE: Glide KSP does not fully support generated APIs such as GlideApp, GlideRequests, and GlideOptions
 
 
-    //  -------- Pagination ---------------------------------------------------- OK
-    implementation(libs.paging.runtime.ktx) // also on data module
+    //  -------- Pagination ----------------------------------------------------
+    implementation(libs.paging.runtime.ktx) // also in data module
 
 
     //  -------- Concurrency (Coroutines) --------------------------------------
     implementation(libs.coroutines.core)
-    implementation(libs.coroutines.android)
+    implementation(libs.coroutines.android) // needed for lifecycleScope/viewModelScope
 
-    // android base, testing
-    // coroutines
-    // hilt
-    // pagination
-    // glide
-    // parcelize plugin
-    //
-    //
-    //
 
+    // test - serve su presentation OK
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.test.junit)
+//    androidTestImplementation(libs.androidx.test.espresso)
 
 }
