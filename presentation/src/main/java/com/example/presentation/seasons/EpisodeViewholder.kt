@@ -15,7 +15,7 @@ class EpisodeViewholder(
 
     private val context: Context = binding.root.context
 
-    // TODO min null, default cases
+    // RELEASE 1.3.1 - fixed min null, default cases
     fun bind(episode: Episode) {
         binding.episodeInfo.text =
             context.getString(

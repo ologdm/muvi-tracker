@@ -25,9 +25,6 @@ import javax.inject.Inject
 class SeasonViewmodel @Inject constructor(
     private val seasonRepository: SeasonRepository,
     private val episodeRepository: EpisodeRepository,
-//    private val traktApi: TraktApi, // FIXME: possibile eliminare?
-//    private val tmdbApi: TmdbApi // FIXME: possibile eliminare?
-
 ) : ViewModel() {
 
     val seasonInfoState = MutableLiveData<StateContainerThree<Season>>()
