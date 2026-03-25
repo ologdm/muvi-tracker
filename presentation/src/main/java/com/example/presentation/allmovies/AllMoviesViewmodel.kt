@@ -16,8 +16,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MoviesViewmodel @Inject constructor(
-    // FIXME: spostare api su repo, presentation non ha accesso
-//    private val traktApi: TraktApi,
     private val sharedPrefs: SharedPreferences,
     private  val exploreRepo: ExploreRepository
 ) : ViewModel() {
@@ -34,12 +32,6 @@ class MoviesViewmodel @Inject constructor(
 
     val statePaging = selectedFeed
         .flatMapLatest { selectedFeed ->
-            // old
-//            Pager(
-//                config = PagingConfig(pageSize = 15, enablePlaceholders = false),
-//                pagingSourceFactory = { MoviesPagingSource(selectedFeed, traktApi) }
-//            ).flow
-            // new
             exploreRepo.getMoviesByType(selectedFeed)
         }
         .cachedIn(viewModelScope)

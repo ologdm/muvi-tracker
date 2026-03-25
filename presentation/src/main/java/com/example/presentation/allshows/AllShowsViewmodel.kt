@@ -15,7 +15,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ShowsViewmodel @Inject constructor(
-    // FIXME: sposta TraktApi su repo
     private val sharedPrefs: SharedPreferences,
     private val exploreRepo: ExploreRepository
 ) : ViewModel() {
