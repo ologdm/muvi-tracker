@@ -1,0 +1,25 @@
+package com.example.data.dto.show
+
+import android.annotation.SuppressLint
+import com.example.domain.model.Ids
+import com.example.domain.model.base.ShowBase
+import kotlinx.serialization.Serializable
+
+
+@SuppressLint("UnsafeOptInUsageError")
+@Serializable
+data class ShowBaseDto(
+    val title: String = "",
+    val year: Int = -1,
+    val ids: Ids
+)
+
+
+fun ShowBaseDto.toDomain(): ShowBase {
+    return ShowBase(
+        title = title,
+        year = year,
+//        ids = ids.toDomain()
+        ids = ids
+    )
+}

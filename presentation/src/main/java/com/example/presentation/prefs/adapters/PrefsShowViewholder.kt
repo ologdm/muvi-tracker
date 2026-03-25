@@ -1,0 +1,86 @@
+package com.example.presentation.prefs.adapters
+
+import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.example.core.orDefaultText
+import com.example.domain.glide.ImageTmdbRequest
+import com.example.domain.model.Show
+import com.example.presentation.R
+import com.example.presentation.databinding.ViewholderPrefsShowBinding
+import com.example.presentation.detailshow.ShowDefaults
+import java.time.LocalDate
+
+class PrefsShowViewholder(
+    val binding: ViewholderPrefsShowBinding
+) : RecyclerView.ViewHolder(binding.root) {
+
+    val ctx = binding.root.context
+    val defaults = ShowDefaults(ctx)
+
+
+    fun bind(show: Show) {
+
+        binding.run {
+            title.text = show.title.orDefaultText(defaults.TITLE)
+
+            // 1°
+            val networkList = show.networks
+                .filter { it.isNotBlank() } // rimuove eventuali stringhe vuote
+                .take(6) // edge case, limitare il numero max elementi
+            val networkText =
+                if (networkList.isNullOrEmpty()) {
+                    defaults.NETWORK
+                } else {
+                    networkList.joinToString(", ")
+                }
+
+            // 3°
+            val countryList = show.countries.filter { it.isNotBlank() }
+            val countryText = if (countryList.isNullOrEmpty()) {
+                defaults.COUNTRY
+            } else {
+                "${countryList.joinToString(", ")}"
+            }
+
+            // 2°
+            val currentYear = LocalDate.now().year
+            val firstYear: Int? = show.year // 2019
+            val lastYear: Int? = show.lastAirDate // 2019-05-19
+                ?.takeIf { it.length >= 4 } // if() return this, or null - stringa < 4
+                ?.substring(0, 4)
+                ?.toIntOrNull()
+
+            val yearText = when {
+                firstYear != null &&
+                        lastYear != null &&
+                        lastYear > firstYear &&
+                        lastYear != currentYear -> "$firstYear - $lastYear"
+
+                firstYear != null -> ctx.getString(R.string.from_release_year, "$firstYear")
+
+                else -> defaults.YEAR
+            }
+
+            // 4°
+            val statusText = show.status?.replaceFirstChar { it.uppercaseChar() } // 1.1.3 OK
+                .orDefaultText(defaults.STATUS)  // es released
+
+
+            otherInfo.text = "$yearText  |  $networkText  |  $countryText  |  $statusText"
+//                "${show.networks.joinToString(", ")}, ${show.year}, ${show.countries.joinToString(", ").uppercase()}, ${show.status}"
+
+            Glide
+                .with(binding.root.context)
+                .load(ImageTmdbRequest.ShowVertical(show.ids.tmdb))
+                .placeholder(R.drawable.glide_placeholder_base)
+                .error(R.drawable.glide_placeholder_base)
+                .into(image)
+
+            // update watched states
+            watchedCounterProgressBar.max = show.airedEpisodes
+            watchedCounterProgressBar.progress = show.watchedCount
+            watchedCounterTextview.text = "${show.watchedCount}/${show.airedEpisodes}"
+
+        }
+    }
+}

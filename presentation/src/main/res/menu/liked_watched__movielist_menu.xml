@@ -1,0 +1,13 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--        check - doesn't used-->
+    <item
+        android:id="@+id/action_likedItem"
+        android:icon="@drawable/liked_icon_filled"
+        android:title="liked" />
+
+    <item
+        android:id="@+id/action_watchedItem"
+        android:icon="@drawable/baseline_check"
+        android:title="watched" />
+</menu>

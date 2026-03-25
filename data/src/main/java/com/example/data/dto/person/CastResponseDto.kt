@@ -1,0 +1,69 @@
+package com.example.data.dto.person
+
+import android.annotation.SuppressLint
+import com.example.domain.model.CastAndCrew
+import com.example.domain.model.CastMember
+import com.example.domain.model.Ids
+import com.example.domain.model.base.PersonBase
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+
+// cast & crew
+// https://api.trakt.tv/movies/id/people
+// https://api.trakt.tv/shows/id/people
+//https://api.trakt.tv/shows/id/seasons/season/episodes/episode/people
+
+@SuppressLint("UnsafeOptInUsageError")
+@Serializable
+data class CastResponseDto(
+    val cast: List<CastMemberDto>?,
+//    val crew: Crew
+)
+
+fun CastResponseDto.toDomain(): CastAndCrew {
+    return CastAndCrew(
+        castMembers = cast?.map { it.toDomain() } ?: emptyList()
+    )
+}
+
+@SuppressLint("UnsafeOptInUsageError")
+@Serializable
+data class CastMemberDto(
+    val character: String?, // provide all the characters
+//    val characters: List<String>?,<
+    @SerialName("episode_count")
+    val episodeCount: Int? = null, // only for shows
+    val person: PersonBaseDto?
+)
+
+fun CastMemberDto.toDomain(): CastMember {
+    return CastMember(
+        character = character ?: "N/A",
+        episodeCount = episodeCount?.toString() ?: "N/A",
+//        personBase = person?.toDomain() ?: PersonBase("", Ids().toDomain())
+        personBase = person?.toDomain() ?: PersonBase("", Ids())
+    )
+}
+
+
+// TODO
+//data class Crew(
+//    val production: List<CrewMember>,
+//    val art: List<CrewMember>,
+//    val crew: List<CrewMember>,
+//    @SerializedName("costume & make-up") val costumeAndMakeUp: List<CrewMember>,
+//    val directing: List<CrewMember>,
+//    val writing: List<CrewMember>,
+//    val sound: List<CrewMember>,
+//    val camera: List<CrewMember>,
+//    @SerializedName("visual_effects") val visualEffects: List<CrewMember>,
+//    val lighting: List<CrewMember>,
+//    val editing: List<CrewMember>,
+//    @SerializedName("created_by")val createdBy: List<CrewMember>, // only for shows
+
+//)
+//
+//data class CrewMember(
+//    val jobs: List<String>,
+//    val person: Person
+//)

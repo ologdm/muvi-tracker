@@ -1,0 +1,19 @@
+package com.example.domain.model
+
+import com.example.domain.model.base.PersonBase
+
+data class CastAndCrew(
+    val castMembers: List<CastMember>,
+//    val crew: Crew
+)
+
+
+data class CastMember(
+    val character: String, // more than one
+    val episodeCount: String, // only for shows
+    val personBase: PersonBase // val default ok
+)
+
+//data class Crew() TODO: New feature
+
+

@@ -1,0 +1,77 @@
+package com.example.presentation.prefs.viewpager
+
+
+import android.content.SharedPreferences
+import android.os.Bundle
+import android.view.View
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
+import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
+import androidx.core.content.edit
+import com.example.presentation.R
+import com.example.presentation.databinding.FragmentPrefsViewpagerBinding
+import com.example.presentation.utils.viewBinding
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
+
+@AndroidEntryPoint
+class PrefsViewpagerFragment : androidx.fragment.app.Fragment(R.layout.fragment_prefs_viewpager) {
+
+    private val b by viewBinding(FragmentPrefsViewpagerBinding::bind)
+
+    @Inject
+    lateinit var sharedPrefs: SharedPreferences
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        b.viewPager.adapter = PrefsViewpagerAdapter(this)
+        b.viewPager.setCurrentItem(getLastTab(), false)
+
+        b.viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                saveLastTab(position) // salva su shared
+            }
+        })
+
+
+        b.tabLayout.tabMode = TabLayout.MODE_SCROLLABLE
+
+        TabLayoutMediator(b.tabLayout, b.viewPager) { tab, position ->
+            tab.text = when (position) {
+                0 -> getString(R.string.movies)
+                1 -> getString(R.string.shows)
+                2 -> getString(R.string.people) // TODO
+                else -> null
+            }
+        }.attach()
+
+
+        mainLayoutTopEdgeToEdgeManagement()
+    }
+
+
+    private fun saveLastTab(position: Int) {
+        sharedPrefs.edit {
+            putInt("last_tab_prefs", position)
+        }
+    }
+
+
+    private fun getLastTab(): Int {
+        return sharedPrefs
+            .getInt("last_tab_prefs", 0) // default = 0
+    }
+
+    private fun mainLayoutTopEdgeToEdgeManagement() {
+        ViewCompat.setOnApplyWindowInsetsListener(b.mainLayout) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            // aggiorno solo lati che mi servono
+            v.updatePadding(top = systemBars.top)
+            insets
+        }
+    }
+}

@@ -1,0 +1,36 @@
+package com.example.data.repositories
+
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import com.example.data.api.TraktApi
+import com.example.data.paging.SearchPagingSource
+import com.example.domain.types.SearchType
+import com.example.domain.model.SearchResult
+import com.example.domain.repo.SearchRepository
+import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
+import javax.inject.Singleton
+
+@Singleton
+class SearchRepositoryImpl @Inject constructor(
+    private val traktApi: TraktApi,
+) : SearchRepository {
+
+
+    override fun getSearchResult(
+        searchString: String,
+        typeFilter: SearchType
+    ): Flow<PagingData<SearchResult>> {
+
+        val pager = Pager(
+            config = PagingConfig(pageSize = 15, enablePlaceholders = false),
+            pagingSourceFactory = {
+                SearchPagingSource(searchString, typeFilter, traktApi)
+            }
+        )
+
+        return pager.flow
+    }
+
+}

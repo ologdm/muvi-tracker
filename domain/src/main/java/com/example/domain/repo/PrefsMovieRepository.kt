@@ -1,0 +1,18 @@
+package com.example.domain.repo
+
+import com.example.domain.model.Movie
+import kotlinx.coroutines.flow.Flow
+
+interface PrefsMovieRepository {
+
+    fun getListFLow(): Flow<List<Movie>>
+
+    suspend fun toggleLikedOnDB(movieId: Int)
+
+    suspend fun updateWatchedOnDB(movieId: Int, watched: Boolean)
+
+    suspend fun deleteItemOnDB(movieId: Int)
+
+    suspend fun setNotesOnDB(movieId: Int, notes: String)
+
+}

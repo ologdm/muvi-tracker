@@ -2,8 +2,8 @@
 # NOTE: Use 9.0.1 because it is compatible with 'gradle-9.1.0-bin.zip'; Gradle 9.3.1 requires the latest version of Android Studio 2025.3.2
 agp = "9.0.1"
 kotlin = "2.3.10"
+ksp = "2.3.4" # KSP2 non deve piu compbaciare la versione con quella di kotlin
 coroutines = "1.10.2"
-ksp = "2.3.4"
 hilt = "2.59.2" # required ksp (or kapt)
 room = "2.8.4" # required ksp (or kapt)
 glide = "5.0.5" # required ksp (or kapt)
@@ -65,6 +65,7 @@ coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", ve
 coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
 
 paging-runtime-ktx = { module = "androidx.paging:paging-runtime-ktx", version.ref = "paging" }
+paging-common-ktx = { module = "androidx.paging:paging-common-ktx", version.ref = "paging" } # reduced version of library for domain
 
 room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
@@ -85,8 +86,7 @@ androidx-test-espresso = { module = "androidx.test.espresso:espresso-core", vers
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
-#android-library = { id = "com.android.library", version.ref = "agp" } # for AGP 8+: no longer necessary
-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+#kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" } # TODO: eliminare? agp 9+ non serve piu
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize" }
 # NOTE: 'kotlin-kapt' - old kapt plugin used with AGP 7/8
@@ -95,3 +95,8 @@ kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize" }
 legacy-kapt = { id = "com.android.legacy-kapt", version.ref = "agp" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+
+# NOTE: Needed when adding a new Android library module
+android-library = { id = "com.android.library", version.ref = "agp" }
+
+room = { id = "androidx.room", version.ref = "room" }

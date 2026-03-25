@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="popular">Popular</string>
+    <string name="box_office">Box Office</string>
+    <string name="watched">Watched</string>
+    <string name="favorited">Favorited</string>
+    <string name="anticipated">Coming Soon</string>
+<!--TODO: traslate in all languages-->
+</resources>
