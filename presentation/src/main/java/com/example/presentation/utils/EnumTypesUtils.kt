@@ -1,7 +1,7 @@
 package com.example.presentation.utils
 
-import com.example.domain.MovieType
-import com.example.domain.ShowsType
+import com.example.domain.types.MovieType
+import com.example.domain.types.ShowsType
 import com.example.presentation.R
 
 

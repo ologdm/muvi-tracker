@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.core.orDefaultText
-import com.example.domain.ImageTmdbRequest
+import com.example.domain.glide.ImageTmdbRequest
 import com.example.domain.model.Ids
 import com.example.domain.model.Season
 import com.example.presentation.Navigator

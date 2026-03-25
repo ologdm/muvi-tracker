@@ -10,7 +10,7 @@ import com.example.core.episodesFormatNumber
 import com.example.core.formatDateFromFirsAired
 import com.example.core.getNowFormattedDateTime
 import com.example.core.orDefaultText
-import com.example.domain.ImageTmdbRequest
+import com.example.domain.glide.ImageTmdbRequest
 import com.example.domain.model.Episode
 import com.example.domain.model.Ids
 import com.example.presentation.R

@@ -4,8 +4,8 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.example.domain.ImageTmdbRequest
-import com.example.domain.SearchType
+import com.example.domain.glide.ImageTmdbRequest
+import com.example.domain.types.SearchType
 import com.example.domain.model.SearchResult
 import com.example.presentation.R
 import com.example.presentation.databinding.ViewholderSearchBinding

@@ -3,7 +3,7 @@ package com.example.presentation.detailmovie.adapters
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.example.domain.ImageTmdbRequest
+import com.example.domain.glide.ImageTmdbRequest
 import com.example.domain.model.base.MovieBase
 import com.example.presentation.R
 import com.example.presentation.databinding.ViewholderRelatedListOnDetailBinding

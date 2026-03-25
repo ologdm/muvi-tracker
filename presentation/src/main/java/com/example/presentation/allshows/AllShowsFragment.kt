@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.domain.ShowsType
+import com.example.domain.types.ShowsType
 import com.example.presentation.allshows.adapter.AllShowsPagingAdapter
 import com.example.presentation.Navigator
 import com.example.presentation.R

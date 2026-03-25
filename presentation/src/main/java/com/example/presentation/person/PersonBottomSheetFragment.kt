@@ -6,7 +6,7 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.example.core.orDefaultText
-import com.example.domain.ImageTmdbRequest
+import com.example.domain.glide.ImageTmdbRequest
 import com.example.domain.model.Ids
 import com.example.domain.model.Person
 import com.example.presentation.R

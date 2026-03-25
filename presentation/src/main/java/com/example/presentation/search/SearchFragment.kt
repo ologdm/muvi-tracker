@@ -9,7 +9,7 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.domain.SearchType
+import com.example.domain.types.SearchType
 import com.example.presentation.search.adapters.SearchResultsAdapter
 import com.example.presentation.Navigator
 import com.example.presentation.R

@@ -2,7 +2,7 @@ package com.example.data.repositories.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.example.domain.ShowsType
+import com.example.domain.types.ShowsType
 import com.example.data.TraktApi
 import com.example.data.dto.show.explore.toDomain
 import com.example.data.dto.show.toDomain

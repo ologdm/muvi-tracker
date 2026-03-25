@@ -4,7 +4,7 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.data.TraktApi
 import com.example.data.dto.search.toDomain
-import com.example.domain.SearchType
+import com.example.domain.types.SearchType
 import com.example.domain.model.SearchResult
 
 // per goni ricerca si aggiorna

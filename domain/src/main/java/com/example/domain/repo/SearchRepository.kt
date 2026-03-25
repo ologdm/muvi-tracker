@@ -1,7 +1,7 @@
 package com.example.domain.repo
 
 import androidx.paging.PagingData
-import com.example.domain.SearchType
+import com.example.domain.types.SearchType
 import com.example.domain.model.SearchResult
 import kotlinx.coroutines.flow.Flow
 

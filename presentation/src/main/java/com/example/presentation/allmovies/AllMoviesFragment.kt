@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.domain.MovieType
+import com.example.domain.types.MovieType
 import com.example.presentation.Navigator
 import com.example.presentation.allmovies.adapter.AllMoviesPagingAdapter
 import com.example.presentation.R

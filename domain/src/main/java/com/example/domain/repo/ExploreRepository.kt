@@ -1,8 +1,8 @@
 package com.example.domain.repo
 
 import androidx.paging.PagingData
-import com.example.domain.MovieType
-import com.example.domain.ShowsType
+import com.example.domain.types.MovieType
+import com.example.domain.types.ShowsType
 import com.example.domain.model.base.MovieBase
 import com.example.domain.model.base.ShowBase
 import kotlinx.coroutines.flow.Flow

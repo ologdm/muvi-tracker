@@ -5,7 +5,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.example.data.TraktApi
 import com.example.data.repositories.paging.SearchPagingSource
-import com.example.domain.SearchType
+import com.example.domain.types.SearchType
 import com.example.domain.model.SearchResult
 import com.example.domain.repo.SearchRepository
 import kotlinx.coroutines.flow.Flow

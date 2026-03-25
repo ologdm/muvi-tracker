@@ -38,7 +38,7 @@ import kotlinx.coroutines.launch
 import java.time.LocalDate
 import javax.inject.Inject
 import androidx.core.net.toUri
-import com.example.domain.ImageTmdbRequest
+import com.example.domain.glide.ImageTmdbRequest
 import com.example.domain.model.Ids
 import com.example.domain.model.Provider
 import com.example.domain.model.Show

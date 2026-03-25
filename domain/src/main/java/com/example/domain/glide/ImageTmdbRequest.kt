@@ -1,4 +1,4 @@
-package com.example.domain
+package com.example.domain.glide
 
 /**
  * RELEASE 1.1.3 - Update images when the system language changes.

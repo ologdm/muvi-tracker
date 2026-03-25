@@ -1,4 +1,4 @@
-package com.example.domain
+package com.example.domain.types
 
 enum class SearchType(val value: String) {
     MovieShowPerson("movie,show,person"),

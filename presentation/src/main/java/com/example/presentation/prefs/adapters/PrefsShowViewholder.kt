@@ -3,7 +3,7 @@ package com.example.presentation.prefs.adapters
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.core.orDefaultText
-import com.example.domain.ImageTmdbRequest
+import com.example.domain.glide.ImageTmdbRequest
 import com.example.domain.model.Show
 import com.example.presentation.R
 import com.example.presentation.databinding.ViewholderPrefsShowBinding

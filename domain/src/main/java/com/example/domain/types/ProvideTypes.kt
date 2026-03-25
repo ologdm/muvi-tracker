@@ -1,4 +1,4 @@
-package com.example.domain
+package com.example.domain.types
 
 // FIXME:
 //object ProviderTypes {

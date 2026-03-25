@@ -1,4 +1,4 @@
-package com.example.domain
+package com.example.domain.types
 
 // NOTE: story persa, scorporato da viewmodel
 enum class MovieType {
