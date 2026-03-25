@@ -65,7 +65,12 @@ class Navigator @Inject constructor(
         manager.beginTransaction()
             .replace(
                 R.id.frameLayout,
-                SeasonViewpagerFragment.Companion.create(showTitle, showIds, seasonNumber, totSeasonsNumber)
+                SeasonViewpagerFragment.Companion.create(
+                    showTitle,
+                    showIds,
+                    seasonNumber,
+                    totSeasonsNumber
+                )
             )
             .addToBackStack(null)
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
@@ -90,9 +95,10 @@ class Navigator @Inject constructor(
         personIds: Ids,
         character: String
     ) {
-        val personFragment = PersonBottomSheetFragment.Companion.create(personIds, character).apply {
-            show(fragmentActivity.supportFragmentManager, "PersonFragmentCast")
-        }
+        val personFragment =
+            PersonBottomSheetFragment.Companion.create(personIds, character).apply {
+                show(fragmentActivity.supportFragmentManager, "PersonFragmentCast")
+            }
     }
 
     // 2. from search
