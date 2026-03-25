@@ -6,21 +6,7 @@ import dagger.hilt.android.HiltAndroidApp
 
 
 @HiltAndroidApp
-class MyApp : Application() {
-
-    override fun onCreate() {
-        super.onCreate()
-        appContext = applicationContext
-    }
-
-
-    companion object {
-        // Context globale accessibile ovunque
-        lateinit var appContext: Context
-            private set
-    }
-
-}
+class MyApp : Application()
 
 
 
