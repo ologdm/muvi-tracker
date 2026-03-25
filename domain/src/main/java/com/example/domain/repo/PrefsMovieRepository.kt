@@ -5,7 +5,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface PrefsMovieRepository {
 
-    //    fun getList(): LiveData<List<DetailMovie>>
     fun getListFLow(): Flow<List<Movie>>
 
     suspend fun toggleLikedOnDB(movieId: Int)

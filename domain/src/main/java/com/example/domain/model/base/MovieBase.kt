@@ -8,7 +8,7 @@ import com.example.domain.model.Ids
 data class MovieBase(
     val title: String = "",
     val year: Int = -1,
-    val ids: Ids,  // val default ok
+    val ids: Ids,  // has default
 )
 
 
