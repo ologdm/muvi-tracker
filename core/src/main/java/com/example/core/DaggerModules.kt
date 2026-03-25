@@ -10,7 +10,6 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kotlinx.serialization.json.Json
 import okhttp3.OkHttpClient
-import okhttp3.Request
 import javax.inject.Singleton
 
 @Module
@@ -33,24 +32,23 @@ class DaggerModules {
     }
 
 
-    // TODO OK
     @Provides
     @Singleton
     fun provideJson(): Json {
         return Json {
             ignoreUnknownKeys =
-                true // ignora campi non presenti nel tuo data class
+                true // ignores fields not present in your data class
             isLenient =
-                true // rende il parser più permissivo in lettura di JSON non perfetto
+                true // makes the parser more permissive when reading imperfect JSON
             encodeDefaults =
-                true // (per POST, invio dati) include sempre i valori di default nella serializzazione in JSON
+                true // (for POST, sending data) always includes default values in JSON serialization
             coerceInputValues =
-                true // GET - se trova un null in un campo non nullable, usa il valore di default invece di crashare.
+                true // GET - if it finds a null in a non-nullable field, it uses the default value instead of crashing
         }
     }
 
 
-    // per app -> vai al link
+    //  usages -> open link
     @Provides
     @Singleton
     fun provideHttpsClient (): OkHttpClient {
