@@ -9,6 +9,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kotlinx.serialization.json.Json
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import javax.inject.Singleton
 
@@ -48,11 +49,21 @@ class DaggerModules {
     }
 
 
-    //  usages -> open link
+    // usages - retrofit, open links
     @Provides
     @Singleton
     fun provideHttpsClient (): OkHttpClient {
         return OkHttpClient()
+        // NOTE:
+        //  Client globale “pulito”
+        //   - Impostazioni di default di OkHttp:
+        //       • connectTimeout = 10s
+        //       • readTimeout = 10s
+        //       • writeTimeout = 10s
+        //   - Non ha cache, logging o interceptor
+        //   - Per API che richiedono header o comportamenti speciali (es. Trakt),
+        //     usare client.newBuilder() per aggiungere solo quello che serve
+        //   - In futuro, basta modificare qui timeout, cache o logging per tutti i Retrofit
     }
 
 

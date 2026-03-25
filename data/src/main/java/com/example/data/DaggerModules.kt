@@ -32,7 +32,9 @@ import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
+import retrofit2.Converter
 import retrofit2.Retrofit
+import javax.inject.Qualifier
 import javax.inject.Singleton
 
 
@@ -110,39 +112,52 @@ class DaggerModules {
             MyDatabase::class.java,
             "muvi-tracker-db"
         )
-            // calcella db e ne create uno nuovo - non crasha quando modifichi lo schema del DB
+            // NOTE: calcella db e ne create uno nuovo - non crasha quando modifichi lo schema del DB
 //            .fallbackToDestructiveMigration()
-            // TODO: valutare se aggiungere
+            // valutare se aggiungere
 //            .addMigrations(MIGRATION_1_2) // add movie tmdb elements
 //            .addMigrations(MIGRATION_2_3) // add show tmdb elements
 //            .addMigrations(MIGRATION_3_4) // add season tmdb elements
             .build()
     }
 
+    // ---------------------------------------------------------------------------
 
-
-
-
-    @OptIn(ExperimentalSerializationApi::class) // opt-in corretto per asConverterFactory
     @Provides
     @Singleton
-    fun provideTraktApi(): TraktApi {
-        val json = Json {
-            ignoreUnknownKeys = true // ignora campi non presenti nel tuo data class
-            isLenient = true // rende il parser più permissivo in lettura di JSON non perfetto
-            encodeDefaults =
-                true // (per POST, invio dati) include sempre i valori di default nella serializzazione in JSON
-            coerceInputValues =
-                true // GET - se trova un null in un campo non nullable, usa il valore di default invece di crashare.
-        }
-
+    fun provideConverterFactory(json: Json): Converter.Factory {
         val contentType = "application/json".toMediaType()
+        return json.asConverterFactory(contentType)
+    }
 
-        val retrofit = Retrofit.Builder()
+    // API SERVICES -----------------------------------------------------------------------------------
+
+    @Qualifier
+    @Retention(AnnotationRetention.BINARY)
+    annotation class TraktRetrofit
+
+    @Qualifier
+    @Retention(AnnotationRetention.BINARY)
+    annotation class TmdbRetrofit
+
+    @Qualifier
+    @Retention(AnnotationRetention.BINARY)
+    annotation class OmdbRetrofit
+
+
+    @Provides
+    @Singleton
+    @TraktRetrofit
+    fun provideTraktRetrofit(
+        converterFactory: Converter.Factory,
+        client: OkHttpClient
+    ): Retrofit {
+        val traktRetrofit = Retrofit.Builder()
             .baseUrl("https://api.trakt.tv/")
-            .addConverterFactory(json.asConverterFactory(contentType))
+            .addConverterFactory(converterFactory)
             .client( // al posto di callFactory()
-                OkHttpClient.Builder()
+//                OkHttpClient.Builder()
+                client.newBuilder() // eredita impostazione da altri builder - CHECK SERVRE
                     .addInterceptor { chain ->
                         val newRequest = chain.request().newBuilder()
                             .addHeader("trakt-api-key", BuildConfig.TRAKT_API_KEY)
@@ -151,28 +166,62 @@ class DaggerModules {
                     }.build()
             )
             .build()
+        return traktRetrofit
+    }
+
+
+    @Provides
+    @Singleton
+    @TmdbRetrofit
+    fun provideTmdbRetrofit(
+        converterFactory: Converter.Factory,
+    ) {
+        val retrofit = Retrofit.Builder()
+            .baseUrl("https://api.themoviedb.org/3/")
+            .addConverterFactory(converterFactory)
+            .build()
+    }
+
+
+    @Provides
+    @Singleton
+    @OmdbRetrofit
+    fun provideOmdbRetrofit(
+        converterFactory: Converter.Factory,
+    ) {
+        val retrofit = Retrofit.Builder()
+            .baseUrl("http://www.omdbapi.com/")
+            .addConverterFactory(converterFactory)
+            .build()
+    }
+
+
+    // API SERVICES -----------------------------------------------------------------------------------
+
+    @Provides
+    @Singleton
+    fun provideTraktApi(@TraktRetrofit retrofit: Retrofit): TraktApi {
         return retrofit.create(TraktApi::class.java)
     }
 
 
     @Provides
     @Singleton
-    fun provideTmdbApi(): TmdbApi {
-        val json = Json {
-            ignoreUnknownKeys = true
-            isLenient = true
-            encodeDefaults = true
-            coerceInputValues = true
-        }
-
-        val contentType = "application/json".toMediaType()
-
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://api.themoviedb.org/3/")
-            .addConverterFactory(json.asConverterFactory(contentType))
-            .build()
+    fun provideTmdbApi(
+        @TmdbRetrofit retrofit: Retrofit
+    ): TmdbApi {
         return retrofit.create(TmdbApi::class.java)
     }
+
+
+    @Provides
+    @Singleton
+    fun provideOmdbApi(
+        @OmdbRetrofit retrofit: Retrofit
+    ): OmdbApi {
+        return retrofit.create(OmdbApi::class.java)
+    }
+
 
 
     @Provides
@@ -195,6 +244,7 @@ class DaggerModules {
     }
 
 
+    // TODO: NEW FEATURES
     /**  ALL IMAGES FROM TMDB - attualmente non usato
      * -> data.unused.tmdb_all_images
      */
