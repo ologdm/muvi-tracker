@@ -36,19 +36,10 @@ import retrofit2.Retrofit
 import javax.inject.Singleton
 
 
-// data ok
-// repo ok
-// api ok
-
-// core - gson, shared, retrofit builder
-
-
-// NOTES: old history, new dagger on core
 @Module
 @InstallIn(SingletonComponent::class)
 class DaggerModules {
 
-    // repos ------------------------------------------------------------------------- data OK
     @Provides
     @Singleton
     fun providedDetailMovieRepo(impl: DetailMovieRepositoryImpl): DetailMovieRepository {
