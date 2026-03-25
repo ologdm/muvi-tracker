@@ -31,30 +31,15 @@ fun <T> T?.dtoValueOr(fallback: T?): T? {
 }
 
 
-//// Per Collection nullable
-//fun <T> Collection<T>?.dtoCollectionOr(fallback: Collection<T>?): Collection<T>? {
-//    return if (!this.isNullOrEmpty()) this else fallback
-//}
-//
-//// generica per tutti i tipi
-//fun <T> coalesce(value: T?, fallback: T?): T? {
-//    return when (value) {
-//        is String -> if (value.isNotBlank()) value else fallback
-//        is Collection<*> -> if (!value.isNullOrEmpty()) value else fallback
-//        else -> value ?: fallback
-//    }
-//}
-
-
 /**
  *  "one, two, three" -> ["one", "two", "three"]
  */
 fun String.splitToCleanList(): List<String>? {
     return this
-        .takeIf { it.isNotBlank() } // va avanti solo se stringa non vuota
-        ?.split(",") // crea lista
-        ?.map { it.trim() } // rimuove eventuali spazi da ogni elemento
-        ?.filter { it.isNotBlank() } // rimuove eventuali stringhe vuote
+        .takeIf { it.isNotBlank() }
+        ?.split(",")
+        ?.map { it.trim() }
+        ?.filter { it.isNotBlank() }
 }
 
 
@@ -77,7 +62,7 @@ fun VideosResult.youtubeLinkTransformation(): String? {
 }
 
 
-// TODO traduzione testi con AI  -----------------------------------------------------------------------------------------
+// TODO: traduzione testi con AI  -----------------------------------------------------------------------------------------
 
 /**
  * Translates the given text (assumed to be in English) into the system language using Ai ML Kit.

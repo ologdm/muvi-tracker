@@ -4,8 +4,8 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.example.data.TraktApi
-import com.example.data.repositories.paging.MoviesPagingSource
-import com.example.data.repositories.paging.ShowsPagingSource
+import com.example.data.paging.MoviesPagingSource
+import com.example.data.paging.ShowsPagingSource
 import com.example.domain.types.MovieType
 import com.example.domain.types.ShowsType
 import com.example.domain.model.base.MovieBase

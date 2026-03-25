@@ -4,7 +4,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.example.data.TraktApi
-import com.example.data.repositories.paging.SearchPagingSource
+import com.example.data.paging.SearchPagingSource
 import com.example.domain.types.SearchType
 import com.example.domain.model.SearchResult
 import com.example.domain.repo.SearchRepository
