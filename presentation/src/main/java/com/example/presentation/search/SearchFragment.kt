@@ -93,12 +93,5 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         }
     }
 
-
-//    companion object {
-//        const val MOVIE_SHOW_PERSON = "movie,show,person"
-//        private const val MOVIE = "movie"
-//        private const val SHOW = "show"
-//        private const val PERSON = "person"
-//    }
 }
 

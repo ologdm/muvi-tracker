@@ -15,32 +15,21 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import javax.inject.Inject
 
+// TODO:
+//  - check invalidazione
+//  - start searchtype - solo in un posto per tutti gli elementi che lo usano
 
 @OptIn(FlowPreview::class)
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-//    private val traktApi: TraktApi,
-    // TODO repo
-    private val searchRepo: SearchRepository // TODO provides OK
+    private val searchRepo: SearchRepository
 ) : ViewModel() {
 
-    private val searchQueryFlow = MutableStateFlow("") // string ok
-
-    //    private val filterValueFlow = MutableStateFlow(MOVIE_SHOW_PERSON) // old string
+    private val searchQueryFlow = MutableStateFlow("")
     private val filterValueFlow =
-        MutableStateFlow(SearchType.MovieShowPerson) // passiamo il type al modulo data
+        MutableStateFlow(SearchType.MovieShowPerson)
 
-    // OLD
-//    val statePaging = Pager(
-//        config = PagingConfig(pageSize = 15, enablePlaceholders = false),
-//        pagingSourceFactory = {
-//            sourceFactory()
-//        }
-//    ).flow
-//        .cachedIn(viewModelScope)
-
-    // TODO NEW
-    //  CHECK INVALIDAZIONE
+    // TODO 1.2.+ - NEW LOGIC - CHECK INVALIDAZIONE
     val statePaging = searchQueryFlow // flow string
         .debounce(DEBOUNCE_DELAY)
         .combine(filterValueFlow) { query, type ->
@@ -56,44 +45,13 @@ class SearchViewModel @Inject constructor(
         .cachedIn(viewModelScope)
 
 
-    // TODO eliminare
-    //  invalidate pernmette di invalidare il factory del paging sourse, aoptrimenti non lo fa
-//    private val sourceFactory = InvalidatingPagingSourceFactory {
-    // old
-//        SearchPagingSource(
-//            queryValue = searchQueryFlow.value,
-//            filterValue = filterValueFlow.value,
-//            traktApi = traktApi
-//        )
-    // new TODO devo passargli lo stesso tipo
-//        searchRepo.getSearchResult(
-//            searchString = searchQueryFlow.value,
-//            typeFilter = filterValueFlow.value
-//        )
-//    }
-
-    // NOTE: gestione debounce query OK
-//    init {
-//        viewModelScope.launch {
-//
-//            searchQueryFlow
-//                .drop(1)
-//                .debounce(DEBOUNCE_DELAY)
-//                .collectLatest {
-//                    sourceFactory.invalidate() // invalido ogni volta, ricreo la factory solo quando immetto valoce nuovo
-//                }
-//        }
-//    }
-
-
-    // NOTE: aggiornamenti flow di query e type OK
+    // aggiornamenti flow di query e type --------------------------------
     fun updateQuery(searchInput: String) {
         searchQueryFlow.value = searchInput
     }
 
     fun updateFilterValue(filterValue: SearchType) {
-        filterValueFlow.value = filterValue // ok SearchType
-//        sourceFactory.invalidate() // invalido ogni volta; non serve piu
+        filterValueFlow.value = filterValue
     }
 
 
