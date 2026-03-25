@@ -96,7 +96,7 @@
 //
 //val MIGRATION_2_3 = object : Migration(2, 3) {
 //    override fun migrate(database: SupportSQLiteDatabase) {
-//        // 1. Creiamo nuova tabella TODO OK
+//        // 1. Creiamo nuova tabella
 //        database.execSQL(
 //            """
 //            CREATE TABLE IF NOT EXISTS detail_show_table (
@@ -128,7 +128,6 @@
 //        """.trimIndent()
 //        )
 //
-//        // TODO
 //        // 2. Copia dati compatibili dalla vecchia tabella
 //        database.execSQL(
 //            """
