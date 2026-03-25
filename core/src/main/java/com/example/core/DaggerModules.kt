@@ -13,15 +13,6 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import javax.inject.Singleton
 
-// SU CORE:
-//  - REPO NO
-//  - DATABASE NO
-
-//  - SHARED SI
-//  - GSON SI
-//  - JSON
-// - RETROFIT PROVIDER TODO SI
-
 @Module
 @InstallIn(SingletonComponent::class)
 class DaggerModules {
@@ -65,12 +56,6 @@ class DaggerModules {
     fun provideHttpsClient (): OkHttpClient {
         return OkHttpClient()
     }
-
-//    @Provides
-//    @Singleton
-//    fun provideRequestBuilder(): Request.Builder {
-//        return Request.Builder()
-//    }
 
 
 
