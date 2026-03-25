@@ -34,7 +34,7 @@ class SeasonRepositoryImpl @Inject constructor(
     private val seasonDao = database.seasonsDao()
     private val episodeDao = database.episodesDao()
 
-    // TODO 1.1.3 store OK
+    // RELEASE 1.1.3 store
     /**
      * Nel Fetcher, il tipo di ritorno di `DetailShowTmdbDto` è nullable.
      * Il Fetcher deve lanciare un'eccezione solo se l'intero processo di fetch fallisce.
@@ -86,8 +86,8 @@ class SeasonRepositoryImpl @Inject constructor(
     -> NON aspetta il fetch prima di emettere la prima emissione. È un comportamento corretto e voluto dal design di Store4.
      */
 
-    // TODO OK 1.1.3
-    // TICKET 1.0.0: Crash su click WatchedAllShow, in presenza di stagione specials, numero 0 - fixed OK
+    // RELEASE 1.1.3
+    // TICKET 1.0.0: Crash su click WatchedAllShow, in presenza di stagione specials, numero 0  -> FIXED OK
     private suspend fun saveAllSeasonsDtoToDatabase(showId: Int, entities: List<SeasonEntity>) {
         // if (non esiste) insertNuovo, else updateParziale
         for (seasonEntity in entities) {
@@ -173,7 +173,7 @@ class SeasonRepositoryImpl @Inject constructor(
             episodeDao.setSeasonWatchedAllEpisodes(showIds.trakt, seasonNr, true)
         }
 
-        // todo egde case
+        // TODO: egde case
         // - se puntate aumentano, devo watchedAll scompare, airedEpisodes 10->13, 3 episodi non scaricati
     }
 

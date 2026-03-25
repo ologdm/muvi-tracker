@@ -34,8 +34,6 @@ import kotlin.collections.sortedBy
 import kotlin.coroutines.cancellation.CancellationException
 
 
-// TODO:
-// combinare i 2 flow trakt+tmdb in uno solo
 
 @Singleton
 class DetailMovieRepositoryImpl @Inject constructor(
@@ -58,6 +56,7 @@ class DetailMovieRepositoryImpl @Inject constructor(
      */
     private val store = storeFactory<Ids, MovieEntity, Movie>(
         fetcher = { movieIds ->
+            // NOTE: supervisorScope not needed — Trakt is mandatory, TMDB is just a best-effort enrichment.
             coroutineScope {
                 // 1° chiamata async
                 val traktDtoDeferred = async { traktApi.getMovieDetail(movieIds.trakt) }
@@ -72,7 +71,7 @@ class DetailMovieRepositoryImpl @Inject constructor(
                         null // fallback: ritorna null se qualsiasi altra eccezione
                     }
                 }
-                // TODO 1.2.0  - other ratings - Imdb, Metacritic, Rotten Tomatoes
+                // RELEASE 1.2.0  - other ratings - Imdb, Metacritic, Rotten Tomatoes
                 val omdbDeferred = async {
                     try {
                         omdbApi.getData(movieIds.imdb)
@@ -161,7 +160,6 @@ class DetailMovieRepositoryImpl @Inject constructor(
 
 
     override suspend fun getMovieProviders(movieId: Int): IoResponse<List<Provider>> {
-        // devo ritornare un IoResponse
         return try {
             val dto = tmdbApi.getMovieProviders(movieId)
             IoResponse.Success(getProviderList(dto))
@@ -174,9 +172,10 @@ class DetailMovieRepositoryImpl @Inject constructor(
     }
 
 
+    // FIXME: migliorare
     private fun getProviderList(response: MovieProvidersResponseDto): List<Provider> {
-        //        val region = "IT" // TODO test
-//        var responseDto = api.getMovieProviders(293660).results // TODO test
+        //        val region = "IT" // TEST
+//        var responseDto = api.getMovieProviders(293660).results // TEST
         val region = Locale.getDefault().country
         val regionProvidersDto = response.results[region] ?: return emptyList()
 
@@ -246,6 +245,7 @@ class DetailMovieRepositoryImpl @Inject constructor(
 //    var ADS = MyApp.appContext.getString(R.string.textProviderAds)
 //    var FREE = MyApp.appContext.getString(R.string.textProviderFree)
 //}
+
 // provvisoria
 object ProviderTypes {
     var STREAM = "Streaming"

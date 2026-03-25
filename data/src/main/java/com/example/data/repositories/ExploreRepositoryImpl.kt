@@ -22,7 +22,6 @@ class ExploreRepositoryImpl @Inject constructor(
 
     // movies, shows, search
 
-    // TODO OK -> flow passato a viewmodel
     override fun getMoviesByType(type: MovieType): Flow<PagingData<MovieBase>> {
         // fare pager, che usa paging source
         return Pager(
@@ -39,13 +38,3 @@ class ExploreRepositoryImpl @Inject constructor(
         ).flow
     }
 }
-
-
-//dopo
-//    // explore movies - for paging
-//    // spostare su data
-//    suspend fun getPopularMovies(page: Int, pageSize: Int): List<MovieBase>
-//    suspend fun getBoxoMovies(page: Int, pageSize: Int): List<MovieBase>
-//    suspend fun getWatchedMovies(page: Int, pageSize: Int): List<MovieBase>
-//    suspend fun getFavoritedMovies(page: Int, pageSize: Int): List<MovieBase>
-//    suspend fun getAnticipatedMovies(page: Int, pageSize: Int): List<MovieBase>

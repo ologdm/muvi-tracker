@@ -18,7 +18,6 @@ class SearchRepositoryImpl @Inject constructor(
 ) : SearchRepository {
 
 
-    // corretta
     override fun getSearchResult(
         searchString: String,
         typeFilter: SearchType
@@ -27,14 +26,11 @@ class SearchRepositoryImpl @Inject constructor(
         val pager = Pager(
             config = PagingConfig(pageSize = 15, enablePlaceholders = false),
             pagingSourceFactory = {
-                // TODO passare qua il PagingSource nel factory
                 SearchPagingSource(searchString, typeFilter, traktApi)
-
             }
         )
 
-        return pager.flow // ritorna pager flow
+        return pager.flow
     }
-
 
 }

@@ -184,6 +184,7 @@ class DetailShowRepositoryImpl @Inject constructor(
     }
 
 
+    // FIXME: migliorare
     private fun getProviderList(response: MovieProvidersResponseDto): List<Provider> {
         val region = Locale.getDefault().country
         val regionProvidersDto = response.results[region] ?: return emptyList()

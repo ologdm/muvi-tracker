@@ -16,7 +16,6 @@ import javax.inject.Singleton
 @Singleton
 class PrefsMovieRepositoryImpl @Inject constructor(
     database: MyDatabase,
-    private val detailMovieRepository: DetailMovieRepository
 ) : PrefsMovieRepository {
 
     private val prefsMovieDao = database.prefsMovieDao()
@@ -24,8 +23,7 @@ class PrefsMovieRepositoryImpl @Inject constructor(
 
 
     override fun getListFLow(): Flow<List<Movie>> {
-        // FIXME: 1.2.+ Gradle modules - soluzione: usare direttamente detailTraktDao su prefsOK
-//        val detailListFLow = detailMovieRepository.getDetailListFlow() // old
+        // FIXED 1.2.+ - Gradle modules - soluzione: usare direttamente detailTraktDao su prefs
         val detailListFLow = moviesDao.readAllFlow()  // 1.2.+ OK
 
         val prefsListFLow = prefsMovieDao.readAll()
