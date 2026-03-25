@@ -1,4 +1,4 @@
-package com.example.data
+package com.example.data.api
 
 import com.example.data.dto.episode.EpisodeTraktDto
 import com.example.data.dto.movie.MovieBaseDto

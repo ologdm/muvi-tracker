@@ -1,7 +1,7 @@
 package com.example.data.repositories
 
-import com.example.data.TmdbApi
-import com.example.data.TraktApi
+import com.example.data.api.TmdbApi
+import com.example.data.api.TraktApi
 import com.example.data.database.MyDatabase
 import com.example.data.database.entities.EpisodeEntity
 import com.example.data.database.entities.copyOnlyDtoData

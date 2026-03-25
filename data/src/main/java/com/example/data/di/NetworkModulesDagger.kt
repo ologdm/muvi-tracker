@@ -1,18 +1,21 @@
-package com.example.data
+package com.example.data.di
 
 import android.content.Context
 import androidx.room.Room
 import com.example.core.BuildConfig
+import com.example.data.api.OmdbApi
+import com.example.data.api.TmdbApi
+import com.example.data.api.TraktApi
 import com.example.data.database.MyDatabase
 import com.example.data.repositories.DetailMovieRepositoryImpl
 import com.example.data.repositories.DetailShowRepositoryImpl
 import com.example.data.repositories.EpisodeRepositoryImpl
+import com.example.data.repositories.ExploreRepositoryImpl
 import com.example.data.repositories.PersonRepositoryImpl
 import com.example.data.repositories.PrefsMovieRepositoryImpl
 import com.example.data.repositories.PrefsShowRepositoryImpl
 import com.example.data.repositories.SearchRepositoryImpl
 import com.example.data.repositories.SeasonRepositoryImpl
-import com.example.data.repositories.ExploreRepositoryImpl
 import com.example.domain.repo.DetailMovieRepository
 import com.example.domain.repo.DetailShowRepository
 import com.example.domain.repo.EpisodeRepository
@@ -28,7 +31,6 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
@@ -37,100 +39,9 @@ import retrofit2.Retrofit
 import javax.inject.Qualifier
 import javax.inject.Singleton
 
-
 @Module
 @InstallIn(SingletonComponent::class)
-class DaggerModules {
-
-    @Provides
-    @Singleton
-    fun providedDetailMovieRepo(impl: DetailMovieRepositoryImpl): DetailMovieRepository {
-        return impl
-    }
-
-    // ok
-    @Provides
-    @Singleton
-    fun providedDetailShowRepo(impl: DetailShowRepositoryImpl): DetailShowRepository {
-        return impl
-    }
-
-
-    @Provides
-    @Singleton
-    fun providePrefsMovieRepo(impl: PrefsMovieRepositoryImpl): PrefsMovieRepository {
-        return impl
-    }
-
-
-    @Provides
-    @Singleton
-    fun providePrefsShowRepo(impl: PrefsShowRepositoryImpl): PrefsShowRepository {
-        return impl
-    }
-
-
-    @Provides
-    @Singleton
-    fun provideSeasonRepo(impl: SeasonRepositoryImpl): SeasonRepository {
-        return impl
-    }
-
-
-    @Provides
-    @Singleton
-    fun provideEpisodeRepo(impl: EpisodeRepositoryImpl): EpisodeRepository {
-        return impl
-    }
-
-    // new
-    @Provides
-    @Singleton
-    fun provideExploreRepo(impl: ExploreRepositoryImpl): ExploreRepository {
-        return impl
-    }
-
-    @Provides
-    @Singleton
-    fun providePersonRepo(impl: PersonRepositoryImpl): PersonRepository {
-        return impl
-    }
-
-    @Provides
-    @Singleton
-    fun provideSearchRepo(impl: SearchRepositoryImpl): SearchRepository {
-        return impl
-    }
-
-
-    // DATABASING --------------------------------------------------------------------------------- data OK
-    @Provides
-    @Singleton
-    fun getMyDatabase(@ApplicationContext context: Context): MyDatabase {
-        return Room.databaseBuilder(
-            context,
-            MyDatabase::class.java,
-            "muvi-tracker-db"
-        )
-            // NOTE: calcella db e ne create uno nuovo - non crasha quando modifichi lo schema del DB
-//            .fallbackToDestructiveMigration()
-            // valutare se aggiungere
-//            .addMigrations(MIGRATION_1_2) // add movie tmdb elements
-//            .addMigrations(MIGRATION_2_3) // add show tmdb elements
-//            .addMigrations(MIGRATION_3_4) // add season tmdb elements
-            .build()
-    }
-
-    // ---------------------------------------------------------------------------
-
-    @Provides
-    @Singleton
-    fun provideConverterFactory(json: Json): Converter.Factory {
-        val contentType = "application/json".toMediaType()
-        return json.asConverterFactory(contentType)
-    }
-
-    // API SERVICES -----------------------------------------------------------------------------------
+class NetworkModulesDagger {
 
     @Qualifier
     @Retention(AnnotationRetention.BINARY)
@@ -147,12 +58,22 @@ class DaggerModules {
 
     @Provides
     @Singleton
+    fun provideConverterFactory(json: Json): Converter.Factory {
+        val contentType = "application/json".toMediaType()
+        return json.asConverterFactory(contentType)
+    }
+
+
+    // RETROFIT -----------------------------------------------------------------------------------
+
+    @Provides
+    @Singleton
     @TraktRetrofit
     fun provideTraktRetrofit(
         converterFactory: Converter.Factory,
         client: OkHttpClient
     ): Retrofit {
-        val traktRetrofit = Retrofit.Builder()
+        return Retrofit.Builder()
             .baseUrl("https://api.trakt.tv/")
             .addConverterFactory(converterFactory)
             .client( // al posto di callFactory()
@@ -166,7 +87,6 @@ class DaggerModules {
                     }.build()
             )
             .build()
-        return traktRetrofit
     }
 
 
@@ -175,8 +95,8 @@ class DaggerModules {
     @TmdbRetrofit
     fun provideTmdbRetrofit(
         converterFactory: Converter.Factory,
-    ) {
-        val retrofit = Retrofit.Builder()
+    ): Retrofit {
+        return Retrofit.Builder()
             .baseUrl("https://api.themoviedb.org/3/")
             .addConverterFactory(converterFactory)
             .build()
@@ -188,8 +108,8 @@ class DaggerModules {
     @OmdbRetrofit
     fun provideOmdbRetrofit(
         converterFactory: Converter.Factory,
-    ) {
-        val retrofit = Retrofit.Builder()
+    ): Retrofit {
+        return Retrofit.Builder()
             .baseUrl("http://www.omdbapi.com/")
             .addConverterFactory(converterFactory)
             .build()
@@ -200,7 +120,9 @@ class DaggerModules {
 
     @Provides
     @Singleton
-    fun provideTraktApi(@TraktRetrofit retrofit: Retrofit): TraktApi {
+    fun provideTraktApi(
+        @TraktRetrofit retrofit: Retrofit
+    ): TraktApi {
         return retrofit.create(TraktApi::class.java)
     }
 
@@ -219,27 +141,6 @@ class DaggerModules {
     fun provideOmdbApi(
         @OmdbRetrofit retrofit: Retrofit
     ): OmdbApi {
-        return retrofit.create(OmdbApi::class.java)
-    }
-
-
-
-    @Provides
-    @Singleton
-    fun provideOmdbApi(): OmdbApi {
-        val json = Json {
-            ignoreUnknownKeys = true
-            isLenient = true
-            encodeDefaults = true
-            coerceInputValues = true
-        }
-
-        val contentType = "application/json".toMediaType()
-
-        val retrofit = Retrofit.Builder()
-            .baseUrl("http://www.omdbapi.com/")
-            .addConverterFactory(json.asConverterFactory(contentType))
-            .build()
         return retrofit.create(OmdbApi::class.java)
     }
 

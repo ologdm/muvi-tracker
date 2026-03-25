@@ -9,13 +9,12 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kotlinx.serialization.json.Json
-import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-class DaggerModules {
+class CoreModulesDagger {
 
 
     // shared preferences
@@ -65,9 +64,6 @@ class DaggerModules {
         //     usare client.newBuilder() per aggiungere solo quello che serve
         //   - In futuro, basta modificare qui timeout, cache o logging per tutti i Retrofit
     }
-
-
-
 
 
 }

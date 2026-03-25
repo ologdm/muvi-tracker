@@ -5,8 +5,7 @@ import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.data.DataFetcher
 import com.bumptech.glide.load.data.HttpUrlFetcher
 import com.bumptech.glide.load.model.GlideUrl
-import com.example.core.LanguageManager
-import com.example.data.TmdbApi
+import com.example.data.api.TmdbApi
 import com.example.data.dto.movie.detail.MovieTmdbDto
 import com.example.data.dto.show.detail.ShowTmdbDto
 import com.example.domain.glide.ImageTmdbRequest

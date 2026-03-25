@@ -2,7 +2,7 @@ package com.example.data.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.example.data.TraktApi
+import com.example.data.api.TraktApi
 import com.example.data.dto.search.toDomain
 import com.example.domain.types.SearchType
 import com.example.domain.model.SearchResult
