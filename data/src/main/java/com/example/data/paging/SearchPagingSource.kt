@@ -10,7 +10,6 @@ import com.example.domain.model.SearchResult
 // per goni ricerca si aggiorna
 class SearchPagingSource(
     private val queryValue: String,
-//    private val filterValue: String,
     private val filterValue: SearchType,
     private val traktApi: TraktApi
 ) : PagingSource<Int, SearchResult>() {
