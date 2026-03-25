@@ -9,30 +9,6 @@ import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 
-
-
-// dateFormatter ###############################################################
-// sdk 24 compatible
-fun String.dateFormatterInMMMyyy(): String {
-    val formatterInput = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)   // Input date format
-    val formatterOutput = SimpleDateFormat("MMM yyyy", Locale.ENGLISH)    // Output date format
-
-    val date = formatterInput.parse(this)     // Parse the input date string
-    return formatterOutput.format(date)              // Format to output string
-}
-
-// sdk 26
-//    private fun dateFormatter(data: String): String {
-//        // style input
-//        val formatterInput = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-//        // style output
-//        val formatterOutput = DateTimeFormatter.ofPattern("MMM yyyy", Locale.ENGLISH)
-//        // save input
-//        val dataLocale = LocalDate.parse(data, formatterInput)
-//        // modify to output
-//        return dataLocale.format(formatterOutput)
-//    }
-
 /**
  * Date converter
  * input necessario: yyyy-MM-dd
@@ -127,7 +103,6 @@ fun formatToSqliteCompatibleDate(isoDate: String?): String? {
         // Caso solo data, es: "2025-12-19"
         "$isoDate 00:00:00"
     } else {
-
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
         // Caso ISO con T e Z, es: "2011-04-25T01:00:00.000Z"
         OffsetDateTime.parse(isoDate)
@@ -148,7 +123,7 @@ fun formatToSqliteCompatibleDate(isoDate: String?): String? {
 //}
 
 
-// TODO 1.1.3 OK
+// RELEASE 1.1.3 OK
 // input - Solo data (yyyy-MM-dd)
 fun String?.formatToReadableDate(): String? {
     if (this.isNullOrBlank()) return null
