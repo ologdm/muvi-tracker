@@ -3,10 +3,11 @@ plugins {
     alias(libs.plugins.android.library)
     // 2. optional
 //    alias(libs.plugins.kotlin.android) // BUILD WARNING: is no longer required for Kotlin support since AGP 9.0.
+    //
     alias(libs.plugins.hilt.android)
     alias(libs.plugins.ksp) // KSP (Room, Hilt, Glide) – replaces kapt
     alias(libs.plugins.kotlin.serialization)
-    alias (libs.plugins.room)
+    alias(libs.plugins.room)
 }
 
 
@@ -37,6 +38,11 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+
+//    testOptions {
+//        unitTests.isIncludeAndroidResources = true // NOTE: required if you test Room or other Android libraries
+//    }
+
 }
 
 
@@ -44,64 +50,53 @@ dependencies {
     implementation(project(":domain"))
     implementation(project(":core"))
 
-    // TESTS
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.test.junit)
-//    androidTestImplementation(libs.androidx.test.espresso) // ??
+    //  -------- Concurrency (Coroutines) --------------------------------------
+    implementation(libs.coroutines.core) // coroutines core only, no android
 
-    //  -------- Concurrency (Coroutines) -------------------------------------- OK
-    implementation(libs.coroutines.core) // coroutines core only OK
-
-    //  -------- Dependency Injection (Hilt) ----------------------------------- OK
+    //  -------- Dependency Injection (Hilt) -----------------------------------
     implementation(libs.hilt.android)
     // kapt(libs.hilt.compiler)
     ksp(libs.hilt.compiler) // replaces kapt
 
-    //  -------- Networking (Retrofit) -------------------------------------------------- OK
+    //  -------- Networking (Retrofit) --------------------------------------------------
     implementation(libs.retrofit)
     implementation(libs.retrofit.kotlinx.serialization) // only for conversion
     implementation(libs.kotlinx.serialization.json) // @Serializable, Json config ecc
     implementation(libs.okhttp)
 
-    // --------- Database (Room) ----------------------------------------------- OK
+    // --------- Database (Room) -----------------------------------------------
     implementation(libs.room.ktx)
     // kapt(libs.room.compiler)
     ksp(libs.room.compiler) // replaces kapt
-    implementation(libs.gson) // per room type converter
+    implementation(libs.gson) // for room type converter
 
-    // ---------- Caching ------------------------------------------------------ OK
-    // store4 - caching library
+    // ---------- Store Caching Library ------------------------------------------------------
     // implementation(libs.store4) // old, not compatible with Kotlin 2.3.10 and agp 9
     implementation(libs.store5)
 
     // ---------- Paging ----------------------------------------------------------
-    implementation(libs.paging.runtime.ktx) // TODO spostare su presentation
-
-    // ---------- ML Kit -------------------------------------------------------
-    implementation(libs.mlkit.translate)
+    implementation(libs.paging.runtime.ktx)
 
     // ---------- Glide ------------------------------------
     implementation(libs.glide)
     ksp(libs.glide.ksp) // replaces kapt
 
+    // ---------- ML Kit -------------------------------------------------------
+    implementation(libs.mlkit.translate)
+
+
+    // --------- TESTS --------------------------------------
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.test.junit)
+//    androidTestImplementation(libs.androidx.test.espresso)
+
 }
+
 
 room {
-    schemaDirectory("$projectDir/schemas")  // <- obbligatorio per KSP multi-module
+    schemaDirectory("$projectDir/schemas")  // <- mandatory for KSP multi-module
 }
 
-
-    /* NOTE:
-        non devono stare in data
-        - AppCompat
-        - ConstraintLayout
-        - Material
-        - Fragment
-        - ViewPager2
-        - UI libraries
-
-        Il modulo data non dovrebbe conoscere nulla di UI.
-     */
 
 
 
