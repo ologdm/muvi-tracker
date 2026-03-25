@@ -36,7 +36,7 @@ class PrefsMovieViewholder(
                 "${countryList.joinToString(", ")}"
             }
 
-            //
+
             val statusText = movie.status?.replaceFirstChar { it.uppercaseChar() }
                 .orDefaultText(defaults.STATUS)  // es released
 
