@@ -43,7 +43,7 @@ object LanguageManager {
 
     // --------------------------------------------------------------------------------------
 
-    //TODO 1.1.3  forza la lingua app per test OK
+    // RELEASE 1.1.3  forza la lingua app per test OK
     fun setAppLocale(context: Context, languageCode: String?): Context {
         val locale = Locale(languageCode)
         Locale.setDefault(locale)
@@ -67,7 +67,7 @@ object LanguageManager {
     }
 
 
-    // TODO fare test e differenze con
+    // RELEASE fare test e differenze con
 //    fun getSystemLanguage(): String { // it
 //        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
 //            Resources.getSystem().configuration.locales[0].language
