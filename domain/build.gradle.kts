@@ -1,8 +1,7 @@
 import kotlinx.coroutines.flow.Flow
 
 plugins {
-    // base
-    alias(libs.plugins.android.library) // serve per usare moduli
+    alias(libs.plugins.android.library)
     // others
     alias(libs.plugins.kotlin.parcelize)
     alias(libs.plugins.kotlin.serialization)
@@ -42,10 +41,11 @@ dependencies {
     implementation(libs.coroutines.core) // NOTE: per flow return
     implementation(libs.kotlinx.serialization.json)
     // NOTE: parcelable doesn't have library
-    implementation(libs.paging.common.ktx) // OK, serve per separazione clean logica paging
+    implementation(libs.paging.common.ktx) // serve per separazione clean logica paging
+
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.junit)
-    androidTestImplementation(libs.androidx.test.espresso)
+//    androidTestImplementation(libs.androidx.test.espresso)
 
 }
