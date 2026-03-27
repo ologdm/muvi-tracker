@@ -1,16 +1,11 @@
 # 🎬 MuviTracker 
 
 
-[![Kotlin](https://img.shields.io/badge/Kotlin-1.9+-blue.svg)](https://kotlinlang.org/)    
-
+[![Kotlin](https://img.shields.io/badge/Kotlin-1.9+-blue.svg)](https://kotlinlang.org/)
 ![API](https://img.shields.io/badge/API-Trakt%20|%20TMDB%20|%20OMDB-orange.svg)
-
 ![Min SDK](https://img.shields.io/badge/Min%20SDK-26-green.svg)
-
 ![Architecture](https://img.shields.io/badge/Architecture-Clean%20%2B%20MVVM-purple.svg)
-
 ![Platform](https://img.shields.io/badge/Platform-Android-brightgreen.svg)
-
 [![Play Store](https://img.shields.io/badge/Google%20Play-Available-success.svg)](https://play.google.com/store/apps/details?id=dev.dimao.muvitracker)
 
 
