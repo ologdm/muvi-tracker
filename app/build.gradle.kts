@@ -69,7 +69,6 @@ dependencies {
     // --- Android Core ---
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.core.ktx) // Kotlin Extensions in AndroidX,
-    implementation(libs.androidx.fragment.ktx) // per fragm manager...TODO serve=?
 
 
     // --- Hilt ---
