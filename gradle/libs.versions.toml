@@ -36,6 +36,10 @@ store5 = "5.0.0" # NOTE: last stable version 5.0.0
 junit = "4.13.2"
 testJunit = "1.3.0"
 testEspresso = "3.7.0"
+#
+composeBom = "2026.03.01"
+activityCompose = "1.13.0"
+lifecycleRuntimeKtx = "2.10.0"
 
 
 [libraries]
@@ -83,6 +87,16 @@ androidx-test-junit = { module = "androidx.test.ext:junit", version.ref = "testJ
 androidx-test-espresso = { module = "androidx.test.espresso:espresso-core", version.ref = "testEspresso" }
 
 
+# compose core
+androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
+androidx-compose-ui = { group = "androidx.compose.ui", name = "ui" } # composeBom
+androidx-compose-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" } # composeBom
+androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" } # composeBom
+# compose extra
+androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
+androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
+androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" } # composeBom
+
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -99,3 +113,6 @@ hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 android-library = { id = "com.android.library", version.ref = "agp" } # NOTE: Needed when adding a new Android library module
 
 room = { id = "androidx.room", version.ref = "room" }
+
+# compose
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }

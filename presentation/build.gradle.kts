@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.hilt.android)
     alias(libs.plugins.ksp) // KSP (Room, Hilt, Glide) – replaces kapt
     alias(libs.plugins.kotlin.parcelize) // only plugin, no library
+    alias(libs.plugins.kotlin.compose)
 }
 
 
@@ -34,9 +35,9 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
 
-    // NOTE: serve per presentation OK
     buildFeatures {
         viewBinding = true
+        compose = true
     }
 
 }
@@ -80,5 +81,26 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.junit)
 //    androidTestImplementation(libs.androidx.test.espresso)
+
+    // compose
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.compose.ui)
+    implementation(libs.androidx.compose.ui.graphics)
+    implementation(libs.androidx.compose.material3) // se vuoi UI moderna
+    implementation(libs.androidx.activity.compose)   // utile ma non obbligatoria nei Fragment
+
+
+    // CORE COMPOSE -----------------------------------------------------------------------------------------
+    implementation(platform(libs.androidx.compose.bom)) // versionamento automatico ui, material3, foundation
+    implementation(libs.androidx.compose.ui) // cuore compose
+    implementation(libs.androidx.compose.ui.graphics) // (colori, gradienti, shape, ImageBitmap)
+    implementation(libs.androidx.compose.material3) // (Button, TextField, Card, TopAppBar, BottomBar, Dialog, themes Material You)
+    //
+    implementation(libs.androidx.activity.compose) // collega compose ad activity fragment; serve se usi Compose in Activity principale, nei fragment consigliata
+    implementation(libs.androidx.lifecycle.runtime.ktx) // (lifecycleScope, repeatOnLifecycle, collectAsState()) - supporto Kotlin Flow, gestione lifecycle-aware
+    //
+    implementation(libs.androidx.compose.ui.tooling.preview)
+
+
 
 }

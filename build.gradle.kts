@@ -12,4 +12,6 @@ plugins {
 
     alias(libs.plugins.android.library) apply false // NOTE: Needed when adding a new Android library module
     alias (libs.plugins.room) apply false           // NOTE: room export schema
+
+    alias (libs.plugins.kotlin.compose) apply false
 }
