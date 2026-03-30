@@ -50,6 +50,7 @@ dependencies {
     implementation(libs.androidx.appcompat) // AppCompatActivity, themes
     implementation(libs.androidx.core.ktx) // Kotlin extensions for android
     api(libs.androidx.material) // Material Components (BottomNavigationView, etc.) // NOTE: api for app module
+    implementation(libs.androidx.constraintlayout)
     // -------- Android others ----------------------------------------------
     implementation(libs.androidx.fragment.ktx) // Fragment / FragmentManager
     implementation(libs.androidx.viewpager2)
@@ -63,8 +64,7 @@ dependencies {
 
     //  -------- Image Loading (Glide) -----------------------------------------
     implementation(libs.glide)
-    ksp(libs.glide.ksp) // replaces kapt
-    // NOTE: Glide KSP does not fully support generated APIs such as GlideApp, GlideRequests, and GlideOptions
+    ksp(libs.glide.ksp) // NOTE: Glide KSP does not fully support generated APIs such as GlideApp, GlideRequests, and GlideOptions
 
 
     //  -------- Pagination ----------------------------------------------------

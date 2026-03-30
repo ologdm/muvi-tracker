@@ -2,7 +2,7 @@
 # NOTE: Use 9.0.1 because it is compatible with 'gradle-9.1.0-bin.zip'; Gradle 9.3.1 requires the latest version of Android Studio 2025.3.2
 agp = "9.0.1"
 kotlin = "2.3.10"
-ksp = "2.3.4" # KSP2 non deve piu compbaciare la versione con quella di kotlin
+ksp = "2.3.4" # KSP2 no longer needs to strictly match the Kotlin version, but just remain compatible
 coroutines = "1.10.2"
 hilt = "2.59.2" # required ksp (or kapt)
 room = "2.8.4" # required ksp (or kapt)
@@ -27,8 +27,8 @@ kotlin_serialization = "1.10.0"
 retrofit_kotlin_serialization = "1.0.0"
 gson = "2.13.2"
 # ----------------------------------------------
-# FIXME: Store4 craches because is not compatible with Kotlin 2.3.10.
-#   The latest Store4 version requires Kotlin 1.9.10, which is not compatible with AGP 9.(only AGP 8)
+# FIXED: Store4 craches because is not compatible with Kotlin 2.3.10.
+# The latest Store4 version requires Kotlin 1.9.10, which is not compatible with AGP 9.(only AGP 8)
 #store4 = "4.0.7"
 # Resolution: migrated to Store5
 store5 = "5.0.0" # NOTE: last stable version 5.0.0
@@ -47,7 +47,7 @@ androidx-swiperefreshlayout = { module = "androidx.swiperefreshlayout:swiperefre
 androidx-fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "fragmentktx" }
 androidx-viewpager2 = { module = "androidx.viewpager2:viewpager2", version.ref = "viewpager2" }
 
-kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
+#kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" } # already included with Kotlin 1.8+
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlin_serialization" }
 
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
@@ -86,17 +86,16 @@ androidx-test-espresso = { module = "androidx.test.espresso:espresso-core", vers
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
-#kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" } # TODO: eliminare? agp 9+ non serve piu
+#kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" } # NOTE: with AGP 9+, 'com.android.application' included kotlin support
+
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize" }
-# NOTE: 'kotlin-kapt' - old kapt plugin used with AGP 7/8
-#kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
-# NOTE: 'legacy-kapt' - replacement for kapt when using AGP 9
-legacy-kapt = { id = "com.android.legacy-kapt", version.ref = "agp" }
-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 
-# NOTE: Needed when adding a new Android library module
-android-library = { id = "com.android.library", version.ref = "agp" }
+#kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" } # NOTE: 'kotlin-kapt' (deprecated) - old kapt plugin used with AGP 7/
+#legacy-kapt = { id = "com.android.legacy-kapt", version.ref = "agp" } # NOTE: 'legacy-kapt' - replacement for kapt when using AGP 9
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+
+hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+android-library = { id = "com.android.library", version.ref = "agp" } # NOTE: Needed when adding a new Android library module
 
 room = { id = "androidx.room", version.ref = "room" }
