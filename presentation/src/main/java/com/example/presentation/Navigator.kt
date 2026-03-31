@@ -10,6 +10,7 @@ import com.example.presentation.detailshow.DetailShowFragment
 import com.example.presentation.episode.EpisodeFragment
 import com.example.presentation.person.PersonBottomSheetFragment
 import com.example.presentation.person.PersonFragment
+import com.example.presentation.person.PersonFragmentCompose
 import com.example.presentation.seasons.viewpager.SeasonViewpagerFragment
 import javax.inject.Inject
 
@@ -112,6 +113,18 @@ class Navigator @Inject constructor(
             )
             .addToBackStack(null)
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+            .commit()
+    }
+
+
+    fun startPersonFragmentCompose(
+        personIds: Ids,
+//        character: String
+    ) {
+        fragmentActivity.supportFragmentManager.beginTransaction()
+            .replace(R.id.frameLayout, PersonFragmentCompose.create(personIds))
+            .addToBackStack(null)
+//            .setTransition()
             .commit()
     }
 

@@ -25,10 +25,8 @@ class PersonViewmodel @Inject constructor(
 
     fun getPersonDetail(personIds: Ids) {
         viewModelScope.launch {
-            // TODO: moved to repo OK
             viewModelScope.launch {
-                val response = personRepo.getPersonDetail(personIds)
-                when (response) {
+                when (val response = personRepo.getPersonDetail(personIds)) {
                     is IoResponse.Success -> {
                         _personState.value = StateContainerTwo(response.dataValue)
                     }
