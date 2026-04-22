@@ -35,6 +35,10 @@ android {
     }
 }
 
+kotlin {
+    jvmToolchain(17)
+}
+
 
 dependencies {
     // others

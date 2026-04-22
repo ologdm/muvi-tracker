@@ -1,3 +1,4 @@
+import com.android.tools.r8.k
 import java.util.Properties
 
 plugins {
@@ -5,7 +6,6 @@ plugins {
     alias(libs.plugins.hilt.android)
     alias(libs.plugins.ksp) // NOTE: KSP (Room, Hilt, Glide) – replaces kapt
 }
-
 
 android {
     namespace = "com.example.muvitracker"
@@ -45,8 +45,10 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17 //  NOTE: use java 17 for source code compatibility
-        targetCompatibility = JavaVersion.VERSION_17 // NOTE: generate bytecode compatible with java 17
+        sourceCompatibility =
+            JavaVersion.VERSION_17 //  NOTE: use java 17 for source code compatibility
+        targetCompatibility =
+            JavaVersion.VERSION_17 // NOTE: generate bytecode compatible with java 17
     }
 
 
@@ -55,6 +57,11 @@ android {
         viewBinding = true
     }
 
+}
+
+
+kotlin {
+    jvmToolchain(17)
 }
 
 

@@ -23,8 +23,6 @@ fun getApiKey(name: String): String =
 // ----------------------------------------------------------------------------------------------------
 
 
-
-
 android {
     namespace = "com.example.core"
     compileSdk {
@@ -36,9 +34,9 @@ android {
 
         // API keys loaded from local.properties (2/3)
         // Requires: buildFeatures { buildConfig = true } (3/3)
-        buildConfigField ("String", "TRAKT_API_KEY", "\"${getApiKey("trakt_api_key")}\"")
-        buildConfigField ("String", "TMDB_API_KEY", "\"${getApiKey("tmdb_api_key")}\"")
-        buildConfigField ("String", "OMDB_API_KEY", "\"${getApiKey("omdb_api_key")}\"")
+        buildConfigField("String", "TRAKT_API_KEY", "\"${getApiKey("trakt_api_key")}\"")
+        buildConfigField("String", "TMDB_API_KEY", "\"${getApiKey("tmdb_api_key")}\"")
+        buildConfigField("String", "OMDB_API_KEY", "\"${getApiKey("omdb_api_key")}\"")
 
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -59,10 +57,15 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
 
+
     buildFeatures {
         buildConfig = true
     }
 
+}
+
+kotlin {
+    jvmToolchain(17)
 }
 
 dependencies {
