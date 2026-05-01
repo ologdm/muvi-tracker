@@ -46,7 +46,7 @@ class PersonBottomSheetFragment : BottomSheetDialogFragment(R.layout.fragment_pe
     }
 
     private fun personLoadingSetup() {
-        viewmodel.getPersonDetail(currentPersonIds)
+        viewmodel.loadPersonDetail(currentPersonIds)
 
         fragmentViewLifecycleScope.launch {
             viewmodel.personState.collect { stateContainer ->

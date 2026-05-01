@@ -54,7 +54,7 @@ class PersonFragment : Fragment(R.layout.fragment_person) {
 
     private fun personLoadingSetup() {
 
-        viewmodel.getPersonDetail(currentPersonIds)
+        viewmodel.loadPersonDetail(currentPersonIds)
 
         fragmentViewLifecycleScope.launch {
             viewmodel.personState.collect { stateContainer ->

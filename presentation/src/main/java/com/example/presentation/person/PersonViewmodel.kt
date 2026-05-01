@@ -23,7 +23,7 @@ class PersonViewmodel @Inject constructor(
     val personState = _personState.asStateFlow()
 
 
-    fun getPersonDetail(personIds: Ids) {
+    fun loadPersonDetail(personIds: Ids) {
         viewModelScope.launch {
             viewModelScope.launch {
                 when (val response = personRepo.getPersonDetail(personIds)) {
