@@ -1,33 +1,41 @@
+# Build results
+.gradle/
+.kotlin/
+build/
+/*/release/
+# Ignore build folders for all modules
+/*/build/
+captures/
+.externalNativeBuild/
+.cxx/
+*.apk
+*.ap_
+*.dex
+*.class
+# Memory dumps
+*.hprof
+
+# IDE settings
+# Local IDE settings (simplified for individual project)
+.idea/
 *.iml
-.gradle
-/local.properties
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
+*.iws
+*.ipr
+/out/
+
+# OS generated files
 .DS_Store
-/build
-/captures
-.externalNativeBuild
-.cxx
+Thumbs.db
+
+# Secrets and local config
+# Local environment config
 local.properties
-/app/release/
 keystore.properties
-
+# Private signing keys
 key_store_muvitraker
+*.jks
+*.keystore
+*google-services.json
 
-/.idea/AndroidProjectSystem.xml
-/.idea/deviceManager.xml
-/.idea/studiobot.xml
-
-.idea/appInsightsSettings.xml
-.idea/deploymentTargetSelector.xml
-.idea/gradle.xml
-.idea/kotlinc.xml
-.idea/misc.xml
-.idea/runConfigurations.xml
-
+# Misc
 db_vers per test migrazione
-/.idea/markdown.xml
