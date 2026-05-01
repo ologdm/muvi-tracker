@@ -70,6 +70,7 @@ dependencies {
     //  -------- Image Loading (Glide) -----------------------------------------
     implementation(libs.glide)
     ksp(libs.glide.ksp) // NOTE: Glide KSP does not fully support generated APIs such as GlideApp, GlideRequests, and GlideOptions
+    implementation(libs.glide.compose)
 
 
     //  -------- Pagination ----------------------------------------------------
