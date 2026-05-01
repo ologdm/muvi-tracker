@@ -1,87 +1,82 @@
 package com.example.presentation.person
 
 import android.os.Bundle
-import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.viewinterop.AndroidView
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.bumptech.glide.Glide
+import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
+import com.bumptech.glide.integration.compose.GlideImage
 import com.example.core.orDefaultText
 import com.example.domain.glide.ImageTmdbRequest
 import com.example.domain.model.Ids
 import com.example.domain.model.Person
 import com.example.presentation.R
-import com.example.presentation.databinding.FragmentPersonBinding
 import com.example.presentation.utils.StateContainerTwo
-import com.example.presentation.utils.fragmentViewLifecycleScope
-import com.example.presentation.utils.statesFlow
-import com.example.presentation.utils.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 // !!! similar to PersonBottomSheetFragment
 
 @AndroidEntryPoint
 class PersonFragmentCompose : Fragment() {
 
+    // TODO OK
     val viewmodel by viewModels<PersonViewmodel>()
 
+    // TODO OK
     private var currentPersonIds: Ids = Ids()
 
 
+    // TODO OK
+    //  1. creo compose view e la passo come return a 'onCreateView()';
+    //  - 'onViewCreated()' non piu utilizzato
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
 
-        val composeView = ComposeView(requireContext())
-
         val bundle = arguments
         bundle?.let {
             currentPersonIds = bundle.getParcelable<Ids>(PERSON_IDS_KEY) ?: Ids()
         }
 
-        viewmodel.getPersonDetail(currentPersonIds)
+        viewmodel.loadPersonDetail(currentPersonIds)
 
+        val composeView = ComposeView(requireContext())
         // TODO: check!! , funzionalità aggiuntiva
         composeView.setViewCompositionStrategy(
             ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed
         )
-
         composeView.setContent {
             val state = viewmodel.personState.collectAsState().value
-
 //            TestCompose()
             PersonScreen(
                 state = state,
                 onBack = {
+                    // TODO: ok
                     requireActivity().onBackPressed()
                 })
         }
+
         return composeView
     }
 
@@ -106,6 +101,12 @@ class PersonFragmentCompose : Fragment() {
 }
 
 
+// ---------- COMPOSABLES -----------------------------------------------------------------------
+
+// PersonScreen
+// PersonContent
+// PersonImage
+
 @Composable
 fun PersonScreen(
     state: StateContainerTwo<Person>,
@@ -119,7 +120,9 @@ fun PersonScreen(
                 Button(onClick = onBack) {
                     Text("Back")
                 }
-                PersonImage(person?.ids?.tmdb ?: -1)
+
+
+                PersonGlideImage(person?.ids?.tmdb ?: -1)
 //                PersonImage1(person?.ids?.tmdb ?: -1)
                 Text(text = person?.name.orDefaultText("Unknown"))
                 Spacer(modifier = Modifier.height(12.dp))
@@ -139,23 +142,19 @@ fun PersonScreen(
 }
 
 
+@OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-fun PersonImage(tmdbId: Int) {
-    AndroidView(
+fun PersonGlideImage(tmdbId: Int) {
+    GlideImage(
+        model = ImageTmdbRequest.Person(tmdbId),
+        contentDescription = "Person Image",
         modifier = Modifier
-            .fillMaxWidth()
-            .height(250.dp),
-
-        factory = { context ->
-            ImageView(context).apply {
-                Glide.with(context)
-                    .load(ImageTmdbRequest.Person(tmdbId))
-                    .placeholder(R.drawable.glide_placeholder_base)
-                    .error(R.drawable.glide_placeholder_base)
-                    .into(this)
-            }
-        }
-    )
+            .height(250.dp)
+            .clip(RoundedCornerShape(8.dp))
+            .background(Color.LightGray),
+        contentScale = ContentScale.Crop
+    ) {
+        it.placeholder(R.drawable.glide_placeholder_base)
+            .error(R.drawable.glide_placeholder_base)
+    }
 }
-
-
