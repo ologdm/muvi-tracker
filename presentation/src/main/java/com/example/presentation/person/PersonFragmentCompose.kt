@@ -5,12 +5,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -31,6 +35,7 @@ import com.example.domain.model.Ids
 import com.example.domain.model.Person
 import com.example.presentation.R
 import com.example.presentation.utils.StateContainerTwo
+import com.google.android.material.progressindicator.CircularProgressIndicator
 import dagger.hilt.android.AndroidEntryPoint
 
 // !!! similar to PersonBottomSheetFragment
@@ -69,12 +74,16 @@ class PersonFragmentCompose : Fragment() {
         composeView.setContent {
             val state = viewmodel.personState.collectAsState().value
 //            TestCompose()
-            PersonScreen(
-                state = state,
-                onBack = {
-                    // TODO: ok
-                    requireActivity().onBackPressed()
-                })
+            Scaffold() {
+                PersonScreen(
+                    modifier = Modifier.padding(it),
+                    state = state,
+                    onBack = {
+                        // TODO: ok
+                        requireActivity().onBackPressed()
+                    })
+            }
+
         }
 
         return composeView
@@ -109,36 +118,42 @@ class PersonFragmentCompose : Fragment() {
 
 @Composable
 fun PersonScreen(
+    modifier: Modifier = Modifier,
     state: StateContainerTwo<Person>,
     onBack: () -> Unit
 ) {
-    when {
-        state.data != null -> {
-            val person = state.data
+    Box(
+        modifier = modifier
+    ) {
+        when {
+            state.data != null -> {
+                val person = state.data
 
-            Column(modifier = Modifier.padding(top = 40.dp)) {
-                Button(onClick = onBack) {
-                    Text("Back")
-                }
+                Column() {
+                    Button(onClick = onBack) {
+                        Text("Back")
+                    }
 
 
-                PersonGlideImage(person?.ids?.tmdb ?: -1)
+                    PersonGlideImage(person?.ids?.tmdb ?: -1)
 //                PersonImage1(person?.ids?.tmdb ?: -1)
-                Text(text = person?.name.orDefaultText("Unknown"))
-                Spacer(modifier = Modifier.height(12.dp))
+                    Text(text = person?.name.orDefaultText("Unknown"))
+                    Spacer(modifier = Modifier.height(12.dp))
 
-                Text(text = person?.biography.orDefaultText("Not available"))
+                    Text(text = person?.biography.orDefaultText("Not available"))
+                }
+            }
+
+            state.isError -> {
+                Text("Errore")
+            }
+
+            else -> {
+                CircularProgressIndicator(modifier = Modifier.size(0.1.dp))
             }
         }
-
-        state.isError -> {
-            Text("Errore")
-        }
-
-//        else -> {
-//            CircularProgressIndicator(modifier = Modifier.size(0.1.dp))
-//        }
     }
+
 }
 
 
