@@ -1,12 +1,8 @@
-package com.example.presentation.person
+package com.example.presentation.person.xml
 
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.updatePadding
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.example.core.orDefaultText
@@ -15,45 +11,42 @@ import com.example.domain.model.Ids
 import com.example.domain.model.Person
 import com.example.presentation.R
 import com.example.presentation.databinding.FragmentPersonBinding
+import com.example.presentation.person.PersonViewmodel
 import com.example.presentation.utils.fragmentViewLifecycleScope
 import com.example.presentation.utils.statesFlow
 import com.example.presentation.utils.viewBinding
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
-// !!! similar to PersonBottomSheetFragment
-
 @AndroidEntryPoint
-class PersonFragment : Fragment(R.layout.fragment_person) {
+class PersonBottomSheetFragmentXml : BottomSheetDialogFragment(R.layout.fragment_person) {
 
     private var currentPersonIds: Ids = Ids()
+    private var currentCharacter: String = ""
 
     val viewmodel by viewModels<PersonViewmodel>()
     val binding by viewBinding(FragmentPersonBinding::bind)
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
         // layout adaptation
-        binding.buttonBack.setOnClickListener { requireActivity().onBackPressed() }
-        binding.character.visibility = View.GONE
-
+        binding.buttonBackLayout.visibility = View.GONE
 
         val bundle = arguments
         bundle?.let {
             currentPersonIds = bundle.getParcelable(PERSON_IDS_KEY) ?: Ids()
+            currentCharacter = bundle.getString(CHARACTER_NAME_KEY) ?: ""
         }
+
+        binding.character.text = currentCharacter // the only element from who create the Fragment
 
 
         personLoadingSetup()
         loadImagesWithCustomTmdbGlide()
-
-        mainLayoutTopEdgeToEdgeManagement()
     }
 
-
     private fun personLoadingSetup() {
-
         viewmodel.loadPersonDetail(currentPersonIds)
 
         fragmentViewLifecycleScope.launch {
@@ -73,7 +66,8 @@ class PersonFragment : Fragment(R.layout.fragment_person) {
         expandBiographySetup()
     }
 
-    // same fun as on 'PersonBottomSheetFragment'
+
+    // da fragment base
     fun updateUi(person: Person) {
 
         binding.personName.text = person.name
@@ -112,6 +106,17 @@ class PersonFragment : Fragment(R.layout.fragment_person) {
     }
 
 
+
+
+
+    private fun loadImagesWithCustomTmdbGlide() {
+        Glide.with(requireContext())
+            .load(ImageTmdbRequest.Person(currentPersonIds.tmdb))
+            .placeholder(R.drawable.glide_placeholder_base)
+            .error(R.drawable.glide_placeholder_base)
+            .into(binding.verticalImage)
+    }
+
     private fun expandBiographySetup() {
         var isTextExpanded = false
         binding.biographyContent.setOnClickListener {
@@ -127,35 +132,18 @@ class PersonFragment : Fragment(R.layout.fragment_person) {
     }
 
 
-    private fun loadImagesWithCustomTmdbGlide() {
-        Glide.with(requireContext())
-            .load(ImageTmdbRequest.Person(currentPersonIds.tmdb))
-            .placeholder(R.drawable.glide_placeholder_base)
-            .error(R.drawable.glide_placeholder_base)
-            .into(binding.verticalImage)
-    }
-
-
-    private fun mainLayoutTopEdgeToEdgeManagement() {
-        ViewCompat.setOnApplyWindowInsetsListener(binding.mainLayout) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            // aggiorno solo lati che mi servono
-            v.updatePadding(top = systemBars.top)
-            insets
-        }
-    }
-
-
     companion object {
-        // from search (personDto -> personExtended)
-        fun create(personIds: Ids): PersonFragment {
-            val personFragment = PersonFragment()
+        // from movie, show (castMember -> personExtended)
+        fun create(personIds: Ids, character: String): PersonBottomSheetFragmentXml {
+            val personFragment = PersonBottomSheetFragmentXml()
             val bundle = Bundle()
             bundle.putParcelable(PERSON_IDS_KEY, personIds)
+            bundle.putString(CHARACTER_NAME_KEY, character)
             personFragment.arguments = bundle
             return personFragment
         }
 
         private const val PERSON_IDS_KEY = "person_ids_key"
+        private const val CHARACTER_NAME_KEY = "character_ids_key"
     }
 }

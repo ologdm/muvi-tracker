@@ -8,8 +8,8 @@ import com.example.domain.model.Ids
 import com.example.presentation.detailmovie.DetailMovieFragment
 import com.example.presentation.detailshow.DetailShowFragment
 import com.example.presentation.episode.EpisodeFragment
-import com.example.presentation.person.PersonBottomSheetFragment
-import com.example.presentation.person.PersonFragment
+import com.example.presentation.person.xml.PersonBottomSheetFragmentXml
+import com.example.presentation.person.xml.PersonFragmentXml
 import com.example.presentation.person.PersonFragmentCompose
 import com.example.presentation.seasons.viewpager.SeasonViewpagerFragment
 import javax.inject.Inject
@@ -91,25 +91,25 @@ class Navigator @Inject constructor(
 
 
     // PERSON DETAIL
-    // 1. from cast
+    // 1. from cast with xml
     fun startPersonFragmentFromCast(
         personIds: Ids,
         character: String
     ) {
         val personFragment =
-            PersonBottomSheetFragment.Companion.create(personIds, character).apply {
+            PersonBottomSheetFragmentXml.Companion.create(personIds, character).apply {
                 show(fragmentActivity.supportFragmentManager, "PersonFragmentCast")
             }
     }
 
-    // 2. from search
+    // 2. from search - with xml
     fun startPersonFragmentFromSearch(
         personIds: Ids
     ) {
         fragmentActivity.supportFragmentManager.beginTransaction()
             .replace(
                 R.id.frameLayout,
-                PersonFragment.Companion.create(personIds)
+                PersonFragmentXml.Companion.create(personIds)
             )
             .addToBackStack(null)
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
@@ -117,9 +117,9 @@ class Navigator @Inject constructor(
     }
 
 
+    // TODO: from search - with compose
     fun startPersonFragmentCompose(
         personIds: Ids,
-//        character: String
     ) {
         fragmentActivity.supportFragmentManager.beginTransaction()
             .replace(R.id.frameLayout, PersonFragmentCompose.create(personIds))
