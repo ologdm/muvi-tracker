@@ -32,6 +32,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -48,6 +49,7 @@ import com.example.domain.model.Ids
 import com.example.domain.model.Person
 import com.example.presentation.R
 import com.example.presentation.utils.StateContainerTwo
+import java.nio.file.WatchEvent
 
 // NOTE: ------------------------------------------------------------------------------------
 //  - usare per full compose, non mischiare xml con compose api
@@ -150,85 +152,96 @@ fun PersonDetailLayout(
 ) {
     var isExpanded by remember { mutableStateOf(false) }
 
-    Column(
+    LazyColumn(
         modifier = Modifier
             .fillMaxWidth()
     ) {
 
+        // item 1
         if (!isBottomSheet) {
-            IconButton(onClick = onBack) {
-                Icon(
-                    painter = painterResource(id = R.drawable.back_button_arrow),
-                    contentDescription = null
-                )
-            }
+            item {
+                IconButton(onClick = onBack) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.back_button_arrow),
+                        contentDescription = null
+                    )
+                }
 
-            HorizontalDivider(modifier = Modifier.padding(top = 10.dp, bottom = 16.dp))
+                HorizontalDivider(modifier = Modifier.padding(top = 10.dp, bottom = 16.dp))
+            }
         }
 
         // --- imageAndInfoLayout equivalent ---
-        Row(modifier = Modifier.fillMaxWidth()) {
-            // verticalImage
-            PersonGlideImage(
-                tmdbId = person.ids.tmdb,
-                modifier = Modifier
-                    .weight(0.4f)
-                    .aspectRatio(2f / 3f)
-            )
-
-            Spacer(modifier = Modifier.width(20.dp))
-
-            // infoLayout
-            Column(modifier = Modifier.weight(0.6f)) {
-                Text(
-                    text = person.name.orDefaultText("No Name Available"), // TODO OK
-                    style = MaterialTheme.typography.titleLarge.copy(
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 20.sp
-                    )
+        // item 2
+        item {
+            Row(modifier = Modifier.fillMaxWidth()) {
+                // verticalImage
+                PersonGlideImage(
+                    tmdbId = person.ids.tmdb,
+                    modifier = Modifier
+                        .weight(0.4f)
+                        .aspectRatio(2f / 3f)
                 )
 
-                // character
-                character?.let {
+                Spacer(modifier = Modifier.width(20.dp))
+
+                // infoLayout
+                Column(modifier = Modifier.weight(0.6f)) {
                     Text(
-                        text = character.orDefaultText("No Character Available"),
-                        color = MaterialTheme.colorScheme.tertiary,
-                        style = MaterialTheme.typography.bodyMedium
+                        text = person.name.orDefaultText("No Name Available"), // TODO OK
+                        style = MaterialTheme.typography.titleLarge.copy(
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 20.sp
+                        )
                     )
-                }
 
-
-                Spacer(modifier = Modifier.height(8.dp))
-
-                // GridLayout equivalent - NOTE: rispetta tutto OK
-                PersonInfoRows(
-                    label = stringResource(R.string.known_for),
-                    value = person.knownForDepartment.orDefaultText("-")
-                )
-                PersonInfoRows(
-                    label = stringResource(R.string.age),
-                    value = person.age?.toString().orDefaultText("-")
-                )
-
-                val bornInfo = buildString {
-                    append(person.birthday.orDefaultText(""))
-                    if (!person.birthplace.isNullOrEmpty()) {
-                        if (isNotEmpty()) append("\n")
-                        append(person.birthplace)
+                    // character
+                    character?.let {
+                        Text(
+                            text = character.orDefaultText("No Character Available"),
+                            color = MaterialTheme.colorScheme.tertiary,
+                            style = MaterialTheme.typography.bodyMedium
+                        )
                     }
-                }.ifEmpty { "-" }
-                PersonInfoRows(label = stringResource(R.string.born), value = bornInfo)
 
-                if (!person.death.isNullOrEmpty()) {
-                    PersonInfoRows(label = stringResource(R.string.died), value = person.death!!)
+
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    // GridLayout equivalent - NOTE: rispetta tutto OK
+                    PersonInfoRows(
+                        label = stringResource(R.string.known_for),
+                        value = person.knownForDepartment.orDefaultText("-")
+                    )
+                    PersonInfoRows(
+                        label = stringResource(R.string.age),
+                        value = person.age?.toString().orDefaultText("-")
+                    )
+
+                    val bornInfo = buildString {
+                        append(person.birthday.orDefaultText(""))
+                        if (!person.birthplace.isNullOrEmpty()) {
+                            if (isNotEmpty()) append("\n")
+                            append(person.birthplace)
+                        }
+                    }.ifEmpty { "-" }
+                    PersonInfoRows(label = stringResource(R.string.born), value = bornInfo)
+
+                    if (!person.death.isNullOrEmpty()) {
+                        PersonInfoRows(
+                            label = stringResource(R.string.died),
+                            value = person.death!!
+                        )
+                    }
                 }
             }
         }
 
+        // item 3
         // --- toolbarDivider equivalent ---
-        HorizontalDivider(modifier = Modifier.padding(top = 16.dp))
+        item {
+            HorizontalDivider(modifier = Modifier.padding(top = 16.dp))
 
-        // --- biographyTitle equivalent ---
+            // --- biographyTitle equivalent ---
 //        Text(
 //            text = stringResource(R.string.biography),
 //            style = MaterialTheme.typography.bodyMedium,
@@ -236,40 +249,41 @@ fun PersonDetailLayout(
 //            modifier = Modifier.padding(top = 12.dp)
 //        )
 
-        // --- biographyContent equivalent ---
-        Text(
-            text = person.biography.orDefaultText("Not available"),
-            maxLines = if (isExpanded) Int.MAX_VALUE else 5,
-            overflow = TextOverflow.Ellipsis,
-            style = MaterialTheme.typography.bodyMedium,
-            modifier = Modifier
-                .padding(top = 12.dp)
-                .clickable(
-                ) { isExpanded = !isExpanded }
-        )
+            // --- biographyContent equivalent ---
+            Text(
+                text = person.biography.orDefaultText("Not available"),
+                maxLines = if (isExpanded) Int.MAX_VALUE else 5,
+                overflow = TextOverflow.Ellipsis,
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier
+                    .padding(top = 12.dp)
+                    .clickable(
+                    ) { isExpanded = !isExpanded }
+            )
 
-        // TODO:  TEST CON LISTA LUNGA
-        HorizontalDivider(modifier = Modifier.padding(vertical = 16.dp))
+            // TODO:  TEST CON LISTA LUNGA
+            HorizontalDivider(modifier = Modifier.padding(vertical = 16.dp))
 
-        Text(
-            text = "FILM/ SERIE TV",
-            style = MaterialTheme.typography.titleMedium,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(bottom = 8.dp)
-        )
-
-
-
-        LazyColumn() {
-            items(30) { index ->
-                Text(text = "Elemento #$index")
-            }
+            Text(
+                text = "FILM/ SERIE TV",
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(bottom = 8.dp)
+            )
         }
 
+
+        items(150) { index ->
+            Text(text = "Elemento #$index",
+                modifier = Modifier
+                    .fillMaxWidth()
+
+            )
+        }
     }
 
-
 }
+
 
 
 @OptIn(ExperimentalGlideComposeApi::class)
