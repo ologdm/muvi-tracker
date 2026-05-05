@@ -13,19 +13,13 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -34,18 +28,47 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.example.core.orDefaultText
 import com.example.domain.glide.ImageTmdbRequest
+import com.example.domain.model.Ids
 import com.example.domain.model.Person
 import com.example.presentation.R
 import com.example.presentation.utils.StateContainerTwo
 
 
 // ---------- COMPOSABLES -----------------------------------------------------------------------
+
+@Preview(showBackground = true)
+@Composable
+fun PersonPreview() {
+    val mockPerson = Person(
+        ids = Ids(tmdb = 123),
+        name = "Brad Pitt",
+        knownForDepartment = "Acting",
+        birthday = "1963-12-18",
+        birthplace = "Shawnee, Oklahoma, USA",
+        age = 60,
+        twitter = null,
+        facebook = null,
+        instagram = null,
+        wikipedia = null,
+        biography = "William Bradley Pitt is an American actor and film producer. He is the recipient of various accolades, including two Academy Awards, a British Academy Film Award, two Golden Globe Awards, and a Primetime Emmy Award. William Bradley Pitt is an American actor and film producer. He is the recipient of various accolades, including two Academy Awards, a British Academy Film Award, two Golden Globe Awards, and a Primetime Emmy Award.",
+        death = null
+    )
+
+    MaterialTheme {
+        PersonScreen(
+            state = StateContainerTwo(data = mockPerson),
+            isBottomSheet = true,
+            character = "Superman"
+        )
+    }
+}
 
 @Composable
 fun PersonScreen(
@@ -209,10 +232,6 @@ fun PersonDetailLayout(
 //        }
 
     }
-
-
-
-
 
 
 }
