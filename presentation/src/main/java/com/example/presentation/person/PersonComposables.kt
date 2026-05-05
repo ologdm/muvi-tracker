@@ -1,6 +1,8 @@
 package com.example.presentation.person
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -146,6 +148,8 @@ fun PersonDetailLayout(
     isBottomSheet: Boolean = false,
     onBack: () -> Unit
 ) {
+    var isExpanded by remember { mutableStateOf(false) }
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -225,20 +229,23 @@ fun PersonDetailLayout(
         HorizontalDivider(modifier = Modifier.padding(top = 16.dp))
 
         // --- biographyTitle equivalent ---
-        Text(
-            text = stringResource(R.string.biography),
-            style = MaterialTheme.typography.bodyMedium,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(top = 12.dp)
-        )
+//        Text(
+//            text = stringResource(R.string.biography),
+//            style = MaterialTheme.typography.bodyMedium,
+//            fontWeight = FontWeight.Bold,
+//            modifier = Modifier.padding(top = 12.dp)
+//        )
 
         // --- biographyContent equivalent ---
         Text(
             text = person.biography.orDefaultText("Not available"),
-            maxLines = 5,
+            maxLines = if (isExpanded) Int.MAX_VALUE else 5,
             overflow = TextOverflow.Ellipsis,
             style = MaterialTheme.typography.bodyMedium,
-            modifier = Modifier.padding(top = 4.dp)
+            modifier = Modifier
+                .padding(top = 12.dp)
+                .clickable(
+                ) { isExpanded = !isExpanded }
         )
 
         // TODO:  TEST CON LISTA LUNGA
@@ -248,8 +255,10 @@ fun PersonDetailLayout(
             text = "FILM/ SERIE TV",
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding( bottom = 8.dp)
+            modifier = Modifier.padding(bottom = 8.dp)
         )
+
+
 
         LazyColumn() {
             items(30) { index ->
@@ -308,6 +317,7 @@ fun PersonInfoRows(
 }
 
 
+// -------- PREVIEWS ------------------------------------------------------------------------------
 @Preview(showBackground = true)
 @Composable
 fun PersonPreview() {
