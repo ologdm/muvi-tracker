@@ -104,6 +104,7 @@ dependencies {
     implementation(libs.androidx.activity.compose) // collega compose ad activity fragment; serve se usi Compose in Activity principale, nei fragment consigliata
     implementation(libs.androidx.lifecycle.runtime.ktx) // (lifecycleScope, repeatOnLifecycle, collectAsState()) - supporto Kotlin Flow, gestione lifecycle-aware
     //
+    debugImplementation(libs.androidx.compose.ui.tooling)
     implementation(libs.androidx.compose.ui.tooling.preview)
 
 
