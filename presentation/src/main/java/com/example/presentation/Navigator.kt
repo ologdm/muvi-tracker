@@ -8,7 +8,6 @@ import com.example.domain.model.Ids
 import com.example.presentation.detailmovie.DetailMovieFragment
 import com.example.presentation.detailshow.DetailShowFragment
 import com.example.presentation.episode.EpisodeFragment
-import com.example.presentation.person.PersonBottomSheetInCompose
 import com.example.presentation.person.xml.PersonBottomSheetFragmentXml
 import com.example.presentation.person.xml.PersonFragmentXml
 import com.example.presentation.person.PersonFragmentCompose
@@ -124,20 +123,6 @@ class Navigator @Inject constructor(
     ) {
         fragmentActivity.supportFragmentManager.beginTransaction()
             .replace(R.id.frameLayout, PersonFragmentCompose.create(personIds))
-            .addToBackStack(null)
-//            .setTransition()
-            .commit()
-    }
-
-    // TODO: from movie/tv detail
-    fun startPersonBottomSheetInCompose(
-        personIds: Ids,
-        character: String
-    ) {
-        fragmentActivity.supportFragmentManager.beginTransaction()
-            .replace(
-                R.id.frameLayout, PersonBottomSheetInCompose.create(personIds, character)
-            )
             .addToBackStack(null)
 //            .setTransition()
             .commit()
