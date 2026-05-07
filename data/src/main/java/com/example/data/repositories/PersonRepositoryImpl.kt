@@ -2,10 +2,12 @@ package com.example.data.repositories
 
 import com.example.data.api.TmdbApi
 import com.example.data.api.TraktApi
+import com.example.data.api.toDomain
 import com.example.data.dto.person.detail.mergePersonDtoToDomain
 import com.example.domain.IoResponse
 import com.example.domain.model.Ids
 import com.example.domain.model.Person
+import com.example.domain.model.PersonCredit
 import com.example.domain.repo.PersonRepository
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
@@ -48,6 +50,20 @@ class PersonRepositoryImpl @Inject constructor(
         } catch (e: Exception) {
             IoResponse.Error(e)
         }
+    }
+
+
+    // test - david corennswet - trakt 852412
+    override suspend fun getPersonCredits(traktId: Int): List<PersonCredit> {
+//        // TODO: test
+//        val moviesCastCredits =
+//            traktApi.getPersonCredits(traktId, "movies").cast ?: emptyList()
+//        return moviesCastCredits.map { it.toDomain() }
+
+        val showsCastCredits =
+            traktApi.getPersonCredits(traktId, "shows").cast ?: emptyList()
+        return showsCastCredits.map { it.toDomain() }
+
     }
 
 }

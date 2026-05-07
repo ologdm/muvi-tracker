@@ -1,5 +1,7 @@
 package com.example.data.api
 
+import android.annotation.SuppressLint
+import com.example.data.database.dao.MovieDao
 import com.example.data.dto.episode.EpisodeTraktDto
 import com.example.data.dto.movie.MovieBaseDto
 import com.example.data.dto.movie.detail.MovieTraktDto
@@ -7,6 +9,7 @@ import com.example.data.dto.movie.explore.AnticipatedDtoM
 import com.example.data.dto.movie.explore.BoxofficeDtoM
 import com.example.data.dto.movie.explore.FavoritedDtoM
 import com.example.data.dto.movie.explore.WatchedDtoM
+import com.example.data.dto.movie.toDomain
 import com.example.data.dto.person.CastResponseDto
 import com.example.data.dto.person.detail.PersonTraktDto
 import com.example.data.dto.search.SearchDto
@@ -16,6 +19,10 @@ import com.example.data.dto.show.detail.ShowTraktDto
 import com.example.data.dto.show.explore.AnticipatedShowDto
 import com.example.data.dto.show.explore.FavoritedShowDto
 import com.example.data.dto.show.explore.WatchedShowDto
+import com.example.data.dto.show.toDomain
+import com.example.domain.model.Movie
+import com.example.domain.model.PersonCredit
+import kotlinx.serialization.Serializable
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -177,6 +184,64 @@ interface TraktApi {
     ): PersonTraktDto
 
 
+    @GET("people/{traktId}/{type}")
+//    @GET("people/{traktId}/{type}?extended=full")
+    suspend fun getPersonCredits(
+        @Path("traktId") traktId: Int,
+        @Path("type") type: String,
+    ): PersonCreditsResponseDto
+
 }
 
+@SuppressLint("UnsafeOptInUsageError")
+@Serializable
+data class PersonCreditsResponseDto(
+    val cast: List<PersonCreditDto>?,
+//    val crew: Map<String, List<PersonCreditDto>>?, // TODO check gestione
+)
+
+
+// NOTE: null tutti i campi che possono non esserci
+@SuppressLint("UnsafeOptInUsageError")
+@Serializable
+data class PersonCreditDto(
+    val character: String?,
+    val characters: List<String>?,
+    //
+    val show: ShowBaseDto? = null,
+    val movie: MovieBaseDto? = null,
+    // solo shows
+    val episode_count: Int? = null, // 1
+    val series_regular: Boolean? = null, // false
+    // solo crew, es directing
+    val job: String? = null, // "Assistant Director"
+    val jobs: List<String>? = null, // ["Assistant Director", "Assistant"]
+
+) {
+
+    val isShow = show != null
+    val isMovie = movie != null
+
+    val year = if (isShow) show!!.year else movie!!.year
+}
+
+
+// NOTE: dto == domain
+fun PersonCreditDto.toDomain(): PersonCredit {
+    return PersonCredit(
+        character = character,
+        characters = characters,
+        show = show?.toDomain(),
+        movie = movie?.toDomain(),
+        episode_count = episode_count,
+        series_regular = series_regular,
+        job = job,
+        jobs = jobs
+    )
+}
+
+// test person credits:
+// slug: david-corennswet | superman
+// trakt: 852412
+// tmdb: 1785590
 
