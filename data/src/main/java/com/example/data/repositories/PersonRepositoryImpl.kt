@@ -54,15 +54,15 @@ class PersonRepositoryImpl @Inject constructor(
 
 
     // test - david corennswet - trakt 852412
-    override suspend fun getPersonCredits(traktId: Int): List<PersonCredit> {
+    override suspend fun getPersonCredits(personIds: Ids): List<PersonCredit> {
 //        // TODO: test
-//        val moviesCastCredits =
-//            traktApi.getPersonCredits(traktId, "movies").cast ?: emptyList()
-//        return moviesCastCredits.map { it.toDomain() }
+        val moviesCastCredits =
+            traktApi.getPersonCredits(personIds.trakt, "movies").cast ?: emptyList()
+        return moviesCastCredits.map { it.toDomain() }
 
-        val showsCastCredits =
-            traktApi.getPersonCredits(traktId, "shows").cast ?: emptyList()
-        return showsCastCredits.map { it.toDomain() }
+//        val showsCastCredits =
+//            traktApi.getPersonCredits(traktId, "shows").cast ?: emptyList()
+//        return showsCastCredits.map { it.toDomain() }
 
     }
 

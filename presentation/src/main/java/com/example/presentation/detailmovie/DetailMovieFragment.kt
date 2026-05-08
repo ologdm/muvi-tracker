@@ -162,13 +162,16 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
 
             // viewmodel spostarla su recycler view??
             personViewmodel.loadPersonDetail(ids)
+            personViewmodel.loadPersonCastCredits(ids)
 
             setContent {
                 MaterialTheme {
                     val state = personViewmodel.personState.collectAsState().value
+                    val creditsState = personViewmodel.personCastCredits.collectAsState().value
 
                     PersonBottomSheetHost(
-                        state = state,
+                        personState = state,
+                        creditsState = creditsState,
                         character = character,
                         onDismissCallback = {
                             removePersonBottomSheet() // REMOVE 1

@@ -9,7 +9,7 @@ interface PersonRepository {
 
     suspend fun getPersonDetail(personIds: Ids): IoResponse<Person>
 
-    suspend fun getPersonCredits(traktId: Int = 852412): List<PersonCredit>
+    suspend fun getPersonCredits(personIds: Ids): List<PersonCredit>
 
 }
 

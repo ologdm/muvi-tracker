@@ -2,7 +2,6 @@ package com.example.presentation.person
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,7 +12,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
@@ -21,7 +20,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -32,10 +30,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -47,9 +46,10 @@ import com.example.core.orDefaultText
 import com.example.domain.glide.ImageTmdbRequest
 import com.example.domain.model.Ids
 import com.example.domain.model.Person
+import com.example.domain.model.PersonCredit
 import com.example.presentation.R
+import com.example.presentation.utils.ListStateContainerTwo
 import com.example.presentation.utils.StateContainerTwo
-import java.nio.file.WatchEvent
 
 // NOTE: ------------------------------------------------------------------------------------
 //  - usare per full compose, non mischiare xml con compose api
@@ -59,7 +59,8 @@ import java.nio.file.WatchEvent
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PersonBottomSheetHost(
-    state: StateContainerTwo<Person>,
+    personState: StateContainerTwo<Person>,
+    creditsState: ListStateContainerTwo<PersonCredit>,
     character: String,
     onDismissCallback: () -> Unit
 ) {
@@ -83,7 +84,8 @@ fun PersonBottomSheetHost(
         ) {
             // Sheet content
             PersonScreen(
-                state = state,
+                personState = personState,
+                creditsState = creditsState,
                 character = character,
                 isBottomSheet = true
             )
@@ -97,7 +99,8 @@ fun PersonBottomSheetHost(
 @Composable
 fun PersonScreen(
     modifier: Modifier = Modifier,
-    state: StateContainerTwo<Person>,
+    personState: StateContainerTwo<Person>,
+    creditsState: ListStateContainerTwo<PersonCredit>,
     character: String? = null, // NOTE: if null, clean person, hide character,
     isBottomSheet: Boolean = false,
     onBack: () -> Unit = {}  // NOTE: per tasto specifico back
@@ -108,16 +111,17 @@ fun PersonScreen(
     ) {
 
         when {
-            state.data != null -> {
+            personState.data != null -> {
                 PersonDetailLayout(
-                    person = state.data!!,
+                    person = personState.data!!,
+                    credits = creditsState.data,
                     character = character,
                     isBottomSheet = isBottomSheet,
                     onBack = onBack
                 )
             }
 
-            state.isError -> {
+            personState.isError -> {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -139,6 +143,8 @@ fun PersonScreen(
                 }
             }
         }
+
+
     }
 }
 
@@ -146,6 +152,7 @@ fun PersonScreen(
 @Composable
 fun PersonDetailLayout(
     person: Person,
+    credits: List<PersonCredit>,
     character: String? = null,
     isBottomSheet: Boolean = false,
     onBack: () -> Unit
@@ -177,7 +184,7 @@ fun PersonDetailLayout(
             Row(modifier = Modifier.fillMaxWidth()) {
                 // verticalImage
                 PersonGlideImage(
-                    tmdbId = person.ids.tmdb,
+                    personTmdbId = person.ids.tmdb,
                     modifier = Modifier
                         .weight(0.4f)
                         .aspectRatio(2f / 3f)
@@ -261,7 +268,7 @@ fun PersonDetailLayout(
                     ) { isExpanded = !isExpanded }
             )
 
-            // TODO:  TEST CON LISTA LUNGA
+
             HorizontalDivider(modifier = Modifier.padding(vertical = 16.dp))
 
             Text(
@@ -272,25 +279,113 @@ fun PersonDetailLayout(
             )
         }
 
+        // TODO:  TEST CON LISTA LUNGA
+//        items(150) { index ->
+//            Text(
+//                text = "Elemento #$index",
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//
+//            )
+//        }
 
-        items(150) { index ->
-            Text(text = "Elemento #$index",
-                modifier = Modifier
-                    .fillMaxWidth()
+        items(credits) {
+            MovieCreditItemScreen(personCredit = it)
 
-            )
+            // TODO movie/tv screening logic
         }
     }
 
 }
 
 
+@Composable
+fun MovieCreditItemScreen(
+    modifier: Modifier = Modifier,
+    personCredit: PersonCredit
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(80.dp)
+            .padding(vertical = 4.dp)
+            .clickable {
+                // TODO apri DetailMovie,
+            }) {
+        MovieCreditGlideImage(
+            modifier = modifier
+//                .weight(0.4f)
+                .aspectRatio(2f / 3f),
+            personCredit = personCredit
+        )
+
+        MovieCreditInfo(personCredit)
+
+    }
+}
+
+
+@Composable
+fun MovieCreditInfo(
+    personCredit: PersonCredit,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier
+            .fillMaxWidth()
+            .padding( vertical = 2.dp, horizontal = 4.dp)
+    ) {
+        personCredit.isMovie.let {
+            Text(
+                text = personCredit.movie!!.title,
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.SemiBold,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+
+            Text(
+                text = "Role: ${personCredit.character}" ?: "Not Character ",
+                style = MaterialTheme.typography.bodyMedium,
+            )
+            Text(
+                text = personCredit.year.toString(),
+                style = MaterialTheme.typography.bodyMedium,
+            )
+//            Text(text = personCredit.description) // TODO serve item completo
+        }
+
+    }
+}
+
+
+// CREDIT IMAGE
+@OptIn(ExperimentalGlideComposeApi::class)
+@Composable
+fun MovieCreditGlideImage(
+    personCredit: PersonCredit,
+    modifier: Modifier = Modifier
+) {
+    GlideImage(
+        model = ImageTmdbRequest.MovieVertical(personCredit.movie!!.ids.tmdb),
+//        model = ImageTmdbRequest.ShowVertical(tmdbId), // TODO
+        contentDescription = null,
+        modifier = modifier
+            .clip(MaterialTheme.shapes.small)
+            .background(MaterialTheme.colorScheme.secondaryContainer),
+        contentScale = ContentScale.Crop
+    ) {
+        it.placeholder(R.drawable.glide_placeholder_base)
+            .error(R.drawable.glide_placeholder_base)
+    }
+}
+
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-fun PersonGlideImage(tmdbId: Int, modifier: Modifier = Modifier) {
+fun PersonGlideImage(personTmdbId: Int, modifier: Modifier = Modifier) {
     GlideImage(
-        model = ImageTmdbRequest.Person(tmdbId),
+        model = ImageTmdbRequest.Person(personTmdbId),
         contentDescription = null,
         // <style name="ImageLargeRoundedShape" parent="ShapeAppearance.Material3.Corner.Large" />
         modifier = modifier
@@ -351,10 +446,11 @@ fun PersonPreview() {
     )
 
     MaterialTheme {
-        PersonScreen(
-            state = StateContainerTwo(data = mockPerson),
-            isBottomSheet = true,
-            character = "Superman"
-        )
+//        PersonScreen(
+//            personState = StateContainerTwo(data = mockPerson),
+//            creditsState = emptyList(),
+//            isBottomSheet = true,
+//            character = "Superman"
+//        )
     }
 }
