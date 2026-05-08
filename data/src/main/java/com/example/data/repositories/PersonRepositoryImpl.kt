@@ -10,6 +10,7 @@ import com.example.domain.model.Person
 import com.example.domain.model.PersonCredit
 import com.example.domain.repo.PersonRepository
 import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -53,17 +54,54 @@ class PersonRepositoryImpl @Inject constructor(
     }
 
 
-    // test - david corennswet - trakt 852412
+    // test trakt - david corennswet, traktId 852412
     override suspend fun getPersonCredits(personIds: Ids): List<PersonCredit> {
-//        // TODO: test
-        val moviesCastCredits =
-            traktApi.getPersonCredits(personIds.trakt, "movies").cast ?: emptyList()
-        return moviesCastCredits.map { it.toDomain() }
+        return try {
+            coroutineScope {
+                val movieDiff =
+                    async {
+                        traktApi.getPersonCredits(personIds.trakt, "movies").cast ?: emptyList()
+                    }
+                val showDiff =
+                    async {
+                        traktApi.getPersonCredits(personIds.trakt, "shows").cast ?: emptyList()
+                    }
 
-//        val showsCastCredits =
-//            traktApi.getPersonCredits(traktId, "shows").cast ?: emptyList()
-//        return showsCastCredits.map { it.toDomain() }
 
+                val creditsResult = awaitAll(movieDiff, showDiff).flatMap {
+                    it
+                }.map {
+                    it.toDomain()
+                }
+
+                val transfrmedList = creditsResult.groupBy {
+                    it.year
+                }
+
+                creditsResult
+            }
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+            emptyList()
+        }
     }
 
 }
+
+
+        // TODO tmdb call OK, only for translation
+        // NOTE: can't call directly tmdb person credits, because don't have traktMovieId to open the DetailMovie
+//      override suspend fun getTmdbPersonCredits(personIds: Ids): List<PersonCreditNew> {
+//          try {
+//              val moviesCastCredits =
+//                  tmdbApi.getPersonCreditsDto(personIds.tmdb).cast ?: emptyList()
+//              return moviesCastCredits.to
+//
+//          } catch (e: Exception) {
+//              println("ERROR")
+//          }
+//
+//          return emptyList()
+//      }
+//}

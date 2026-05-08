@@ -1,8 +1,5 @@
 package com.example.domain.model
 
-import com.example.domain.model.base.MovieBase
-import com.example.domain.model.base.ShowBase
-
 
 data class Person(
     val name: String?,
@@ -10,7 +7,7 @@ data class Person(
     val biography: String?,
     val birthday: String?,
     val death: String?,
-    val age : Int?, // calculated value, -1 or age
+    val age: Int?, // calculated value, -1 or age
     val birthplace: String?,
     val knownForDepartment: String?,
 
@@ -22,24 +19,24 @@ data class Person(
 )
 
 
-// TODO TEST
 data class PersonCredit(
+    val isShow : Boolean,
+
+    val title : String?,
+    val year : Int?, // NOTE: per alcuni e -1
+    val ids : Ids,
+    val status : String?,
+    val overview : String?,
+
     val character: String?,
-    val characters: List<String>?,
-    //
-    val show: ShowBase?,
-    val movie: MovieBase?,
+
     // solo shows
-    val episode_count: Int?, // 1
-    val series_regular: Boolean?, // false
-    // solo crew, es directing
-    val job: String?, // "Assistant Director"
-    val jobs: List<String>?, // ["Assistant Director", "Assistant"]
+    val seriesRegular: Boolean?, // false
+    val episodeCount: Int?, // 1
 
-) {
+    // solo crew
+    val job: String?,
+    val jobs: List<String>?,
 
-    val isShow = show != null
-    val isMovie = movie != null
+)
 
-    val year = if (isShow) show!!.year else movie!!.year
-}

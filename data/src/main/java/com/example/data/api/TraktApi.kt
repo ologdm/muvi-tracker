@@ -1,7 +1,6 @@
 package com.example.data.api
 
 import android.annotation.SuppressLint
-import com.example.data.database.dao.MovieDao
 import com.example.data.dto.episode.EpisodeTraktDto
 import com.example.data.dto.movie.MovieBaseDto
 import com.example.data.dto.movie.detail.MovieTraktDto
@@ -9,7 +8,6 @@ import com.example.data.dto.movie.explore.AnticipatedDtoM
 import com.example.data.dto.movie.explore.BoxofficeDtoM
 import com.example.data.dto.movie.explore.FavoritedDtoM
 import com.example.data.dto.movie.explore.WatchedDtoM
-import com.example.data.dto.movie.toDomain
 import com.example.data.dto.person.CastResponseDto
 import com.example.data.dto.person.detail.PersonTraktDto
 import com.example.data.dto.search.SearchDto
@@ -19,8 +17,6 @@ import com.example.data.dto.show.detail.ShowTraktDto
 import com.example.data.dto.show.explore.AnticipatedShowDto
 import com.example.data.dto.show.explore.FavoritedShowDto
 import com.example.data.dto.show.explore.WatchedShowDto
-import com.example.data.dto.show.toDomain
-import com.example.domain.model.Movie
 import com.example.domain.model.PersonCredit
 import kotlinx.serialization.Serializable
 import retrofit2.http.GET
@@ -184,57 +180,63 @@ interface TraktApi {
     ): PersonTraktDto
 
 
-    @GET("people/{traktId}/{type}")
-//    @GET("people/{traktId}/{type}?extended=full")
+    @GET("people/{traktId}/{type}?extended=full") // extended=full serve
     suspend fun getPersonCredits(
         @Path("traktId") traktId: Int,
         @Path("type") type: String,
-    ): PersonCreditsResponseDto
+    ): TraktCreditsResponseDto
 
 }
 
 @SuppressLint("UnsafeOptInUsageError")
 @Serializable
-data class PersonCreditsResponseDto(
-    val cast: List<PersonCreditDto>?,
-//    val crew: Map<String, List<PersonCreditDto>>?, // TODO check gestione
+data class TraktCreditsResponseDto(
+    val cast: List<TraktCreditDto>? = null,
+//    val crew: Map<String, List<PersonCreditDto>>? = null, // TODO check gestione
 )
 
 
 // NOTE: null tutti i campi che possono non esserci
 @SuppressLint("UnsafeOptInUsageError")
 @Serializable
-data class PersonCreditDto(
-    val character: String?,
-    val characters: List<String>?,
+data class TraktCreditDto(
+    val character: String? = null,
+//    val characters: List<String>? = null,
     //
-    val show: ShowBaseDto? = null,
-    val movie: MovieBaseDto? = null,
+    val show: ShowTraktDto? = null,
+    val movie: MovieTraktDto? = null,
     // solo shows
-    val episode_count: Int? = null, // 1
-    val series_regular: Boolean? = null, // false
+    val episodeCount: Int? = null, // 1
+    val seriesRegular: Boolean? = null, // false
     // solo crew, es directing
     val job: String? = null, // "Assistant Director"
     val jobs: List<String>? = null, // ["Assistant Director", "Assistant"]
-
 ) {
-
     val isShow = show != null
-    val isMovie = movie != null
-
+    // from movie/show
+    val title = if (isShow) show!!.title else movie!!.title
     val year = if (isShow) show!!.year else movie!!.year
+    val ids = if (isShow) show!!.ids else movie!!.ids
+    val status = if (isShow) show!!.status else movie!!.status // "in production", "canceled", "released"
+    val overview = if (isShow) show!!.overview else movie!!.overview
 }
 
 
-// NOTE: dto == domain
-fun PersonCreditDto.toDomain(): PersonCredit {
+fun TraktCreditDto.toDomain(): PersonCredit {
     return PersonCredit(
+        isShow = isShow,
+        //
+        title = title,
+        year = year,
+        ids = ids,
+        status = status,
+        overview = overview,
+        //
         character = character,
-        characters = characters,
-        show = show?.toDomain(),
-        movie = movie?.toDomain(),
-        episode_count = episode_count,
-        series_regular = series_regular,
+        // solo shows
+        seriesRegular = seriesRegular,
+        episodeCount = episodeCount,
+        // solo crew
         job = job,
         jobs = jobs
     )
