@@ -33,8 +33,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -289,55 +287,59 @@ fun PersonDetailLayout(
 //            )
 //        }
 
+        // NOTE: elemento unico per entrambi
         items(credits) {
-            MovieCreditItemScreen(personCredit = it)
+            CreditItemScreen(personCredit = it)
 
-            // TODO movie/tv screening logic
         }
     }
 
 }
 
-
+// movie != show
 @Composable
-fun MovieCreditItemScreen(
+fun CreditItemScreen(
     modifier: Modifier = Modifier,
-    personCredit: PersonCredit
+    personCredit: PersonCredit,
 ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .height(80.dp)
+            .height(120.dp)
             .padding(vertical = 4.dp)
             .clickable {
-                // TODO apri DetailMovie,
+                // TODO apri DetailMovie or DetailShow
             }) {
-        MovieCreditGlideImage(
+
+
+        CreditGlideImage(
             modifier = modifier
 //                .weight(0.4f)
                 .aspectRatio(2f / 3f),
-            personCredit = personCredit
+            personCredit = personCredit,
         )
 
-        MovieCreditInfo(personCredit)
+        CreditInfo(personCredit)
 
     }
 }
 
 
+// movie == show
 @Composable
-fun MovieCreditInfo(
-    personCredit: PersonCredit,
-    modifier: Modifier = Modifier
+fun CreditInfo(
+    credit: PersonCredit,
+    modifier: Modifier = Modifier,
 ) {
     Column(
         modifier
             .fillMaxWidth()
-            .padding( vertical = 2.dp, horizontal = 4.dp)
+            .padding(vertical = 2.dp, horizontal = 4.dp)
     ) {
-        personCredit.isMovie.let {
+        credit.isShow.let {
+
             Text(
-                text = personCredit.movie!!.title,
+                text = credit.title ?: "No title",
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.SemiBold,
                 maxLines = 1,
@@ -345,14 +347,26 @@ fun MovieCreditInfo(
             )
 
             Text(
-                text = "Role: ${personCredit.character}" ?: "Not Character ",
+                text = "Role: ${credit.character ?: "No Character"}",
+                style = MaterialTheme.typography.bodyMedium,
+            )
+
+            Text(
+                text =
+                    if (credit.isShow) "show" else "movie"
+                            + " | "
+                            + credit.year.toString()
+                            + " | "
+                            + credit.status
+                ,
                 style = MaterialTheme.typography.bodyMedium,
             )
             Text(
-                text = personCredit.year.toString(),
+                text = credit.overview ?: "No Overview",
                 style = MaterialTheme.typography.bodyMedium,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis
             )
-//            Text(text = personCredit.description) // TODO serve item completo
         }
 
     }
@@ -360,15 +374,17 @@ fun MovieCreditInfo(
 
 
 // CREDIT IMAGE
+// movie != show
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-fun MovieCreditGlideImage(
+fun CreditGlideImage(
+    modifier: Modifier = Modifier,
     personCredit: PersonCredit,
-    modifier: Modifier = Modifier
 ) {
     GlideImage(
-        model = ImageTmdbRequest.MovieVertical(personCredit.movie!!.ids.tmdb),
-//        model = ImageTmdbRequest.ShowVertical(tmdbId), // TODO
+        model =
+            if (personCredit.isShow) ImageTmdbRequest.ShowVertical(personCredit.ids.tmdb)
+            else ImageTmdbRequest.MovieVertical(personCredit.ids.tmdb),
         contentDescription = null,
         modifier = modifier
             .clip(MaterialTheme.shapes.small)
