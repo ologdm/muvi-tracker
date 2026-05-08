@@ -1,6 +1,7 @@
 package com.example.data.api
 
 
+import android.annotation.SuppressLint
 import com.example.core.BuildConfig
 import com.example.core.LanguageManager
 import com.example.data.dto.episode.EpisodeTmdbDto
@@ -9,6 +10,8 @@ import com.example.data.dto.person.detail.PersonTmdbDto
 import com.example.data.dto.provider.MovieProvidersResponseDto
 import com.example.data.dto.season.SeasonEpTmdbDto
 import com.example.data.dto.show.detail.ShowTmdbDto
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -16,6 +19,26 @@ import retrofit2.http.Query
 // esempio: movie=deadpool
 // dto - https://api.themoviedb.org/3/movie/293660?api_key=36b68580564c93f78a52fc28c15c44e5
 // dto images - https://api.themoviedb.org/3/movie/293660/images?api_key=36b68580564c93f78a52fc28c15c44e5
+
+
+// -------------------NOTES -----------------------------------------
+// trovare lingua di sistema
+//    val locale = Resources.getSystem().configuration.locales.get(0)
+//    val locale = Locale.getDefault()
+// nome abbrev
+//    val language = locale.language       // es: "it"
+// nome completo lingua
+//    val languageName = locale.displayLanguage // es: "italiano"
+
+//    val country = locale.country         // es: "IT"
+
+//    language restituisce il codice della lingua (ISO 639-1), es. "en", "it".
+//    country restituisce il codice del paese (ISO 3166-1), es. "US", "IT".
+
+// tmdb usa ISO 639-1 come il sistema operativo
+
+// trailer tradotto -> comporre link
+//    https://api.themoviedb.org/3/tv/{series_id}/videos?language=it-IT
 
 
 interface TmdbApi {
@@ -102,10 +125,26 @@ interface TmdbApi {
         @Path("series_id") showId: Int,
         @Query("api_key") apiKey: String = API_KEY_QUERY_MOD
     ): MovieProvidersResponseDto
-
 }
 
+    // PERSON CREDITS movie/tv together
+//    @GET("person/{person_id}/combined_credits")
+//    suspend fun getPersonCreditsDto(
+//        @Path("person_id") personId: Int,
+//        @Query("api_key") apiKey: String = API_KEY_QUERY_MOD,
+//        @Query("language") language: String = LanguageManager.getAppLocaleLanguageTag(),
+//    ): TmdbPersonMovieCreditsResponse
+//
+//}
 
+
+//@SuppressLint("UnsafeOptInUsageError")
+//@Serializable
+//data class TmdbPersonMovieCreditsResponse(
+//    val cast: List<TmdbCreditDto>,
+////    val crew: List<TmdbCreditDto>, // TODO next
+//    val id: Int // personId
+//)
 
 // -------------------NOTES -----------------------------------------
 // trovare lingua di sistema
@@ -116,13 +155,30 @@ interface TmdbApi {
 // nome completo lingua
 //    val languageName = locale.displayLanguage // es: "italiano"
 
-//    val country = locale.country         // es: "IT"
+//@SuppressLint("UnsafeOptInUsageError")
+//@Serializable
+//data class TmdbCreditDto(
+//    val id: Int, // shared
+//
+//    // MOVIE SPECIFIC -------------------------------
+//    val title: String? = null,
+////    @SerialName("original_title") val originalTitle: String? = null,
+//    @SerialName("release_date") val releaseDate: String? = null,
+//
+//    // TV SPECIFIC ----------------------------------
+//    val name: String? = null, // tv
+////    val originalName: String? = null,
+//    @SerialName("first_air_date") val firstAirDate: String? = null,
+////    @SerialName("episode_count") val episodeCount: Int? = null,
+//
+//    // SHARED ---------------------------------------
+//    @SerialName("media_type") val mediaType: String? = null, // movie, tv
+//    val character: String? = null,
+//    val overview: String? = null,
+//    val status: String? = null // in production / released
+////    val creditId: String?,
+////    val order: Int, // 1, 2, 3
+////    @SerialName("original_language") val originalLanguage: String? = null,
+//)
 
-//    language restituisce il codice della lingua (ISO 639-1), es. "en", "it".
-//    country restituisce il codice del paese (ISO 3166-1), es. "US", "IT".
-
-// tmdb usa ISO 639-1 come il sistema operativo
-
-// trailer tradotto -> comporre link
-//    https://api.themoviedb.org/3/tv/{series_id}/videos?language=it-IT
 
