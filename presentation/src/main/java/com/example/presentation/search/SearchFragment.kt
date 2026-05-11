@@ -38,7 +38,8 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
             navigator.startShowDetailFragment(showIds)
         },
         onClickVHPerson = { personIds ->
-            navigator.startPersonFragmentFromSearch(personIds)
+//            navigator.startPersonFragmentFromSearch(personIds)
+            navigator.startPersonFragmentCompose(personIds)
         })
 
 
