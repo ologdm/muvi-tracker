@@ -69,11 +69,7 @@ import com.example.presentation.person.PersonViewmodel
  */
 
 
-// 1.1.3 grafica edge toedge
-// status bar dinamiche ok  TODO fix
-// trailer sbiadito ok
-// back dinamico ok TODO fix background
-// floating like dinamico ok  TODO fix layout
+
 // TODO - fix listeners, ottimizzare lettura valori default sistema Material3.DynamicColors
 //  torna a valori di default onDestroy {1.listener null, 2. status bar default }
 
@@ -98,7 +94,7 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
 
     private val castMovieAdapter = CastAdapter(onClickVH = { ids, character ->
 //        navigator.startPersonFragmentFromCast(ids, character)
-        // TODO: test
+        // TODO: test ok
         showPersonBottomSheet(ids, character)
     })
 
@@ -157,7 +153,7 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
 
             setViewCompositionStrategy(
 //                ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed
-                ViewCompositionStrategy.DisposeOnDetachedFromWindow
+                ViewCompositionStrategy.DisposeOnDetachedFromWindow // NOTE: ???
             )
 
             // viewmodel spostarla su recycler view??
@@ -166,11 +162,11 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
 
             setContent {
                 MaterialTheme {
-                    val state = personViewmodel.personState.collectAsState().value
+                    val personState = personViewmodel.personState.collectAsState().value
                     val creditsState = personViewmodel.personCastCredits.collectAsState().value
 
                     PersonBottomSheetHost(
-                        personState = state,
+                        personState = personState,
                         creditsState = creditsState,
                         character = character,
                         onDismissCallback = {
