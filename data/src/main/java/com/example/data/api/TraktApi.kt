@@ -18,6 +18,7 @@ import com.example.data.dto.show.explore.AnticipatedShowDto
 import com.example.data.dto.show.explore.FavoritedShowDto
 import com.example.data.dto.show.explore.WatchedShowDto
 import com.example.domain.model.PersonCredit
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -206,11 +207,17 @@ data class TraktCreditDto(
     val show: ShowTraktDto? = null,
     val movie: MovieTraktDto? = null,
     // solo shows
-    val episodeCount: Int? = null, // 1
-    val seriesRegular: Boolean? = null, // false
+    @SerialName("episode_count") val episodeCount: Int? = null, // 1
+    @SerialName("series_regular")val seriesRegular: Boolean? = null, // false
     // solo crew, es directing
     val job: String? = null, // "Assistant Director"
     val jobs: List<String>? = null, // ["Assistant Director", "Assistant"]
+
+    // TODO: 3.6.26 - dati aggiuntivi:
+    //  movie -> released
+    //  show -> first_aired
+    val released : Int? = null,
+    val firstAired : Int? = null,
 ) {
     val isShow = show != null
     // from movie/show
