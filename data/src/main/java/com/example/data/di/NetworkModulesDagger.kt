@@ -34,6 +34,7 @@ import dagger.hilt.components.SingletonComponent
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Converter
 import retrofit2.Retrofit
 import javax.inject.Qualifier
@@ -84,7 +85,12 @@ class NetworkModulesDagger {
                             .addHeader("trakt-api-key", BuildConfig.TRAKT_API_KEY)
                             .build()
                         chain.proceed(newRequest)
-                    }.build()
+                    }
+                    // NOTE: per debug - intercettare json ricevuto
+//                    .addInterceptor(HttpLoggingInterceptor().apply {
+//                        level = HttpLoggingInterceptor.Level.BODY
+//                    })
+                    .build()
             )
             .build()
     }

@@ -74,9 +74,14 @@ class PersonRepositoryImpl @Inject constructor(
                     it.toDomain()
                 }
 
-                val transfrmedList = creditsResult.groupBy {
-                    it.year
-                }
+                // TODO: creare una nuova lista da mostrare a ui con anno in testa
+                val transfrmedList = creditsResult
+                    .groupBy {
+                        it.year ?: -1
+                    }
+                    .forEach { (i, credits) ->
+
+                    }
 
                 creditsResult
             }
@@ -90,8 +95,8 @@ class PersonRepositoryImpl @Inject constructor(
 }
 
 
-        // TODO tmdb call OK, only for translation
-        // NOTE: can't call directly tmdb person credits, because don't have traktMovieId to open the DetailMovie
+// TODO tmdb call OK, only for translation
+// NOTE: can't call directly tmdb person credits, because don't have traktMovieId to open the DetailMovie
 //      override suspend fun getTmdbPersonCredits(personIds: Ids): List<PersonCreditNew> {
 //          try {
 //              val moviesCastCredits =

@@ -213,6 +213,7 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
         val bundle = arguments
         if (bundle != null) {
             currentMovieIds = bundle.getParcelable(MOVIE_IDS_KEY) ?: Ids()
+//            currentMovieIds = Ids(trakt = 996352 ) // "The Unbelievables" 1999 test
             println("W")
         }
 

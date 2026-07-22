@@ -17,9 +17,11 @@ import com.example.data.dto.show.detail.ShowTraktDto
 import com.example.data.dto.show.explore.AnticipatedShowDto
 import com.example.data.dto.show.explore.FavoritedShowDto
 import com.example.data.dto.show.explore.WatchedShowDto
+import com.example.domain.model.Ids
 import com.example.domain.model.PersonCredit
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -206,26 +208,31 @@ data class TraktCreditDto(
     //
     val show: ShowTraktDto? = null,
     val movie: MovieTraktDto? = null,
-    // solo shows
+    // solo x  shows
     @SerialName("episode_count") val episodeCount: Int? = null, // 1
-    @SerialName("series_regular")val seriesRegular: Boolean? = null, // false
+    @SerialName("series_regular") val seriesRegular: Boolean? = null, // false
     // solo crew, es directing
     val job: String? = null, // "Assistant Director"
     val jobs: List<String>? = null, // ["Assistant Director", "Assistant"]
-
-    // TODO: 3.6.26 - dati aggiuntivi:
-    //  movie -> released
-    //  show -> first_aired
-    val released : Int? = null,
-    val firstAired : Int? = null,
 ) {
-    val isShow = show != null
+
+    // TODO: 3.6.26 - dati aggiuntivi su dto corrispettivi movie o show
+//    val releasedYear = released?.substring(0, 3)
+//    val firstAiredYear = firstAired?.substring(0, 3)
+
+    // Fondamentale per evitare che venga cercato nel JSON e crei conflitti
+    val isShow get() = show != null
+
     // from movie/show
-    val title = if (isShow) show!!.title else movie!!.title
-    val year = if (isShow) show!!.year else movie!!.year
-    val ids = if (isShow) show!!.ids else movie!!.ids
-    val status = if (isShow) show!!.status else movie!!.status // "in production", "canceled", "released"
-    val overview = if (isShow) show!!.overview else movie!!.overview
+    val title get() = if (isShow) show?.title else movie?.title
+
+    val year get() = if (isShow) show?.year else movie?.year
+
+    val ids get() = if (isShow) show?.ids else movie?.ids
+
+    val status get() = if (isShow) show?.status else movie?.status // "in production", "canceled", "released"
+
+    val overview get() = if (isShow) show?.overview else movie?.overview
 }
 
 
@@ -235,7 +242,7 @@ fun TraktCreditDto.toDomain(): PersonCredit {
         //
         title = title,
         year = year,
-        ids = ids,
+        ids = ids ?: Ids(),
         status = status,
         overview = overview,
         //

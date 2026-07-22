@@ -19,14 +19,15 @@ data class Person(
 )
 
 
+// show/movie
 data class PersonCredit(
-    val isShow : Boolean,
+    val isShow: Boolean,
 
-    val title : String?,
-    val year : Int?, // NOTE: per alcuni e -1
-    val ids : Ids,
-    val status : String?,
-    val overview : String?,
+    val title: String?,
+    val year: Int?, // NOTE: per alcuni e -1
+    val ids: Ids,
+    val status: String?,
+    val overview: String?,
 
     val character: String?,
 
@@ -38,5 +39,17 @@ data class PersonCredit(
     val job: String?,
     val jobs: List<String>?,
 
-)
+    )
+
+
+sealed interface PersonCreditUiItem {
+
+    data class YearHeader(
+        val year: Int
+    ) : PersonCreditUiItem
+
+    data class Credit(
+        val credit: PersonCredit
+    ) : PersonCreditUiItem
+}
 

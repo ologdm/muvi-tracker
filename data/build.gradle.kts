@@ -67,6 +67,7 @@ dependencies {
     implementation(libs.retrofit.kotlinx.serialization) // only for conversion
     implementation(libs.kotlinx.serialization.json) // @Serializable, Json config ecc
     implementation(libs.okhttp)
+    implementation(libs.okhttp.logging)
 
     // --------- Database (Room) -----------------------------------------------
     implementation(libs.room.ktx)
