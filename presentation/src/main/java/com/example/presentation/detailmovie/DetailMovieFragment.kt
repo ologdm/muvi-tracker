@@ -93,8 +93,11 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
 
 
     private val castMovieAdapter = CastAdapter(onClickVH = { ids, character ->
+// old - with views
 //        navigator.startPersonFragmentFromCast(ids, character)
-        // TODO: test ok
+        /**
+         * BottomSheet with compose
+         */
         showPersonBottomSheet(ids, character)
     })
 
@@ -132,72 +135,17 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
     private val defaults by lazy { MovieDefaults(requireContext()) }
 
 
-    //BottomSheet 1. crea ComposeView
+    /**  Compose BottomSheet Management Functions: ------------------------------------------------------------
+     *      1) showPersonBottomSheet()
+     *      2) removePersonBottomSheet()
+     *
+     *      NOTES: bottomSheet is also managed on onDestroyView
+     */
+
+    /** Compose BottomSheet 1. dichiara ComposeView (2,3,4) */
     private var personSheetComposeView: ComposeView? = null
+
     val personViewmodel by viewModels<PersonViewmodel>()
-
-    // BottomSheet 2. Funzione per mostrare il bottom sheet
-    // funziona solo se personSheetComposeView == null
-    private fun showPersonBottomSheet(
-        ids: Ids,
-        character: String
-    ) {
-        if (personSheetComposeView != null) return
-
-
-        personSheetComposeView = ComposeView(requireContext()).apply {
-            layoutParams = ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT
-            )
-
-            setViewCompositionStrategy(
-//                ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed
-                ViewCompositionStrategy.DisposeOnDetachedFromWindow // NOTE: ???
-            )
-
-            // viewmodel spostarla su recycler view??
-            personViewmodel.loadPersonDetail(ids)
-            personViewmodel.loadPersonCastCredits(ids)
-
-            setContent {
-                MaterialTheme {
-                    val personState = personViewmodel.personState.collectAsState().value
-                    val creditsState = personViewmodel.personCastCredits.collectAsState().value
-
-                    PersonBottomSheetHost(
-                        personState = personState,
-                        creditsState = creditsState,
-                        character = character,
-                        onDismissCallback = {
-                            removePersonBottomSheet() // REMOVE 1
-                        }
-                    )
-                }
-            }
-        }
-
-        // Aggiunge la ComposeView programmaticamente al layout root del Fragment (Binding)
-        (b.root as ViewGroup).addView(personSheetComposeView)
-    }
-
-
-    // compose BottomSheet - 3. Funzione per rimuoverlo
-    // Rimuove la ComposeView dal ViewGroup genitore per liberare le risorse
-    // e resetta il riferimento locale a null per permettere future aperture.
-    private fun removePersonBottomSheet() {
-        personSheetComposeView?.let {
-            (b.root as ViewGroup).removeView(it)
-        }
-        personSheetComposeView = null
-    }
-
-
-    // compose BottomSheet - 4. Cleanup lifecycle
-    override fun onDestroyView() {
-        removePersonBottomSheet()  // REMOVE 2
-        super.onDestroyView()
-    }
 
 
     override fun onViewCreated(
@@ -302,10 +250,8 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
 
     // PRIVATE FUNCTIONS ###############################################
 // movie detail
-// TODO DEFAULT CASES - OK
+// NOTE: DEFAULT CASES - OK
     private fun setupDetailMovieUiSection(movie: Movie) {
-        //
-//        b.title.text = movie.title.orIfBlank(MovieDefaults.TITLE)
         b.title.text = movie.title.orDefaultText(defaults.TITLE)
         //
         b.tagline.apply {
@@ -344,10 +290,9 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
             else
                 defaults.RUNTIME
 
-        //
         ratingLayoutsSetup(movie)
 
-        // TODO 1.1.3  - ok in inglese
+        // NOTE 1.1.3  - ok in inglese
         b.englishTitle.apply {
             if (movie.title != movie.englishTraktTitle) {
                 visibility = View.VISIBLE
@@ -459,7 +404,7 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
         ratingsB.tomatoesRatingNumber.text = "${movie.rottenTomatoesRating}%"
 
         // rating number/icon ---------------------
-        val invalidRatings = setOf(null, "", "0.0", "N/A", "n/a", "-") // TODO  EGDE CASES
+        val invalidRatings = setOf(null, "", "0.0", "N/A", "n/a", "-") // NOTE: EGDE CASES MANAGEMENT
 
         val hasTraktRating = movie.traktRating !in invalidRatings
         val hasImdbRating = movie.imdbRating !in invalidRatings
@@ -623,11 +568,11 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
     }
 
 
-    // TODO: reset status bar color when Fragment/activity changes
-// 1.1.3 gestione colori status bar colori per edgeToEdge OK
-// - su imageHorizontal -> status bar bianche Ok
-// - restante mainScrollView -> nere OK
-// - solo per tema bianco OK
+    // NOTE: reset status bar color when Fragment/activity changes
+    // 1.1.3 gestione colori status bar colori per edgeToEdge OK
+    // - su imageHorizontal -> status bar bianche Ok
+    // - restante mainScrollView -> nere OK
+    // - solo per tema bianco OK
     private fun setupStatusBarEdgeToEdgeScrollEffect() {
         // Controlla se il tema corrente è chiaro
         val isLightTheme = (resources.configuration.uiMode and
@@ -720,7 +665,7 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
     }
 
 
-    // TODO 1.1.3 OK cosi
+    // NOTE 1.1.3 OK cosi
     private fun setupTopEdgeToEdgeAutoPaddingToLayoutElements() {
         ViewCompat.setOnApplyWindowInsetsListener(b.buttonBack) { view, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -762,7 +707,7 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
         }
 
 
-        // TODO 1.2.0 - cambia paese
+        // TODO - cambia paese da lista; funzionalità da valutare
         b.providersCountry.text = viewModel.countryEnum.displayName
 
         b.providersCountry.setOnClickListener {
@@ -816,6 +761,78 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
         context?.startActivity(intent)
     }
+
+
+
+
+    /** ################################################################################################
+     *   Compose BottomSheet 2. Funzione per mostrare il bottom sheet
+     *   NOTES: funziona solo se personSheetComposeView == null
+     */
+    private fun showPersonBottomSheet(
+        ids: Ids,
+        character: String
+    ) {
+        if (personSheetComposeView != null) return
+
+
+        personSheetComposeView = ComposeView(requireContext()).apply {
+            layoutParams = ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT
+            )
+
+            setViewCompositionStrategy(
+//                ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed
+                ViewCompositionStrategy.DisposeOnDetachedFromWindow // NOTE: ???
+            )
+
+
+            personViewmodel.loadPersonDetail(ids)
+            personViewmodel.loadPersonCastCredits(ids)
+
+            setContent {
+                MaterialTheme {
+                    val personState = personViewmodel.personState.collectAsState().value
+                    val creditsState = personViewmodel.personCastCredits.collectAsState().value
+
+                    PersonBottomSheetHost(
+                        personState = personState,
+                        creditsState = creditsState,
+                        character = character,
+                        onDismissCallback = {
+                            removePersonBottomSheet() // REMOVE 1
+                        }
+                    )
+                }
+            }
+        }
+
+        // NOTE: Aggiunge la ComposeView programmaticamente al layout root del Fragment (Binding)
+        (b.root as ViewGroup).addView(personSheetComposeView)
+    }
+
+
+    /**
+     *   Compose BottomSheet - 3. Funzione per rimuoverlo
+     *   Rimuove la ComposeView dal ViewGroup genitore per liberare le risorse...
+     *   ...e resetta il riferimento locale a null per permettere future aperture.
+     */
+
+    private fun removePersonBottomSheet() {
+        personSheetComposeView?.let {
+            (b.root as ViewGroup).removeView(it)
+        }
+        personSheetComposeView = null
+    }
+
+
+    /** Compose BottomSheet - 4. Cleanup lifecycle  */
+    override fun onDestroyView() {
+        removePersonBottomSheet()  // REMOVE 2
+        super.onDestroyView()
+    }
+
 
 
     companion object {
