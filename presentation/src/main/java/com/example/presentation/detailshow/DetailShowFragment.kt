@@ -12,6 +12,10 @@ import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
@@ -46,6 +50,8 @@ import com.example.presentation.Navigator
 import com.example.presentation.R
 import com.example.presentation.databinding.DialogMyNotesBinding
 import com.example.presentation.databinding.FragmentDetailShowBinding
+import com.example.presentation.person.PersonBottomSheetHost
+import com.example.presentation.person.PersonViewmodel
 import com.example.presentation.person.adapters.CastAdapter
 import com.example.presentation.utils.statesFlowDetail
 import com.example.presentation.utils.twoStatesFlow
@@ -92,7 +98,12 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
     })
 
     private val castMovieAdapter = CastAdapter(onClickVH = { ids, character ->
-        navigator.startPersonFragmentFromCast(ids, character)
+        // old - with views
+        //        navigator.startPersonFragmentFromCast(ids, character)
+        /**
+         * BottomSheet with compose
+         */
+        showPersonBottomSheet(ids, character)
     })
 
     private val providersAdapter = ProvidersAdapter(
@@ -108,6 +119,20 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
     lateinit var okHttpClient: OkHttpClient
 
     private val showDefaults by lazy { ShowDefaults(requireContext()) }
+
+
+    /**  Compose BottomSheet Management Functions: ------------------------------------------------------------
+     *      1) showPersonBottomSheet()
+     *      2) removePersonBottomSheet()
+     *
+     *      NOTES: bottomSheet is also managed on onDestroyView
+     */
+
+    /** Compose BottomSheet 1. dichiara ComposeView (2,3,4) */
+    private var personSheetComposeView: ComposeView? = null
+
+    val personViewmodel by viewModels<PersonViewmodel>()
+
 
     override fun onViewCreated(
         view: View, savedInstanceState: Bundle?
@@ -826,6 +851,75 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
         private const val SKY_GO = "Sky Go"
         private const val NOW_TV = "Now TV"
         private const val TIMVISION = "Timvision"
+    }
+
+
+    /** ################################################################################################
+     *   Compose BottomSheet 2. Funzione per mostrare il bottom sheet
+     *   NOTES: funziona solo se personSheetComposeView == null
+     */
+    private fun showPersonBottomSheet(
+        ids: Ids,
+        character: String
+    ) {
+        if (personSheetComposeView != null) return
+
+
+        personSheetComposeView = ComposeView(requireContext()).apply {
+            layoutParams = ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT
+            )
+
+            setViewCompositionStrategy(
+//                ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed
+                ViewCompositionStrategy.DisposeOnDetachedFromWindow // NOTE: ???
+            )
+
+
+            personViewmodel.loadPersonDetail(ids)
+            personViewmodel.loadPersonCastCredits(ids)
+
+            setContent {
+                MaterialTheme {
+                    val personState = personViewmodel.personState.collectAsState().value
+                    val creditsState = personViewmodel.personCastCredits.collectAsState().value
+
+                    PersonBottomSheetHost(
+                        personState = personState,
+                        creditsState = creditsState,
+                        character = character,
+                        onDismissCallback = {
+                            removePersonBottomSheet() // REMOVE 1
+                        }
+                    )
+                }
+            }
+        }
+
+        // NOTE: Aggiunge la ComposeView programmaticamente al layout root del Fragment (Binding)
+        (b.root as ViewGroup).addView(personSheetComposeView)
+    }
+
+
+    /**
+     *   Compose BottomSheet - 3. Funzione per rimuoverlo
+     *   Rimuove la ComposeView dal ViewGroup genitore per liberare le risorse...
+     *   ...e resetta il riferimento locale a null per permettere future aperture.
+     */
+
+    private fun removePersonBottomSheet() {
+        personSheetComposeView?.let {
+            (b.root as ViewGroup).removeView(it)
+        }
+        personSheetComposeView = null
+    }
+
+
+    /** Compose BottomSheet - 4. Cleanup lifecycle  */
+    override fun onDestroyView() {
+        removePersonBottomSheet()  // REMOVE 2
+        super.onDestroyView()
     }
 
 }
