@@ -53,7 +53,9 @@ import com.example.presentation.utils.StateContainerTwo
 //  - usare per full compose, non mischiare xml con compose api
 //  - utilizzare api comunicazione xml (fragment/fragment) e all'interno costruire compose
 //  - in compose isVisible è usato per nascondere/mostrare ModalBottomSheet
-// BOTTOM_SHEET --------------------------------------------------------------------------
+/**
+ * PersonBottomSheetHost - used for BottomSheet on DetailMovieFragment, DetailShowFragment
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PersonBottomSheetHost(
@@ -267,31 +269,25 @@ fun PersonDetailLayout(
             )
 
 
-            HorizontalDivider(modifier = Modifier.padding(vertical = 16.dp))
+            // TODO: 18.09.2026 - MOSTRARE CREDITI PER ATTORE
+            //  1) layout
+            //  2) repo: ordinamento per anno, edge cases in produzione, vecchi
 
-            Text(
-                text = "FILM/ SERIE TV",
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(bottom = 8.dp)
-            )
-        }
-
-        // TODO:  TEST CON LISTA LUNGA
-//        items(150) { index ->
-//            Text(
-//                text = "Elemento #$index",
-//                modifier = Modifier
-//                    .fillMaxWidth()
+//            HorizontalDivider(modifier = Modifier.padding(vertical = 16.dp))
 //
+//            Text(
+//                text = "FILM/ SERIE TV",
+//                style = MaterialTheme.typography.titleMedium,
+//                fontWeight = FontWeight.Bold,
+//                modifier = Modifier.padding(bottom = 8.dp)
 //            )
-//        }
-
-        // NOTE: elemento unico per entrambi
-        items(credits) {
-            CreditItemScreen(personCredit = it)
-
         }
+
+        // TODO: 18.09.2026 - mostrare crediti per attore
+        // NOTE: elemento unico per film/show
+//        items(credits) {
+//            CreditItemScreen(personCredit = it)
+//        }
     }
 
 }
@@ -443,30 +439,30 @@ fun PersonInfoRows(
 
 
 // -------- PREVIEWS ------------------------------------------------------------------------------
-@Preview(showBackground = true)
-@Composable
-fun PersonPreview() {
-    val mockPerson = Person(
-        ids = Ids(tmdb = 123),
-        name = "Brad Pitt",
-        knownForDepartment = "Acting",
-        birthday = "1963-12-18",
-        birthplace = "Shawnee, Oklahoma, USA",
-        age = 60,
-        twitter = null,
-        facebook = null,
-        instagram = null,
-        wikipedia = null,
-        biography = "William Bradley Pitt is an American actor and film producer. He is the recipient of various accolades, including two Academy Awards, a British Academy Film Award, two Golden Globe Awards, and a Primetime Emmy Award. William Bradley Pitt is an American actor and film producer. He is the recipient of various accolades, including two Academy Awards, a British Academy Film Award, two Golden Globe Awards, and a Primetime Emmy Award.",
-        death = "Shawnee, Oklahoma, USA"
-    )
-
-    MaterialTheme {
+//@Preview(showBackground = true)
+//@Composable
+//fun PersonPreview() {
+//    val mockPerson = Person(
+//        ids = Ids(tmdb = 123),
+//        name = "Brad Pitt",
+//        knownForDepartment = "Acting",
+//        birthday = "1963-12-18",
+//        birthplace = "Shawnee, Oklahoma, USA",
+//        age = 60,
+//        twitter = null,
+//        facebook = null,
+//        instagram = null,
+//        wikipedia = null,
+//        biography = "William Bradley Pitt is an American actor and film producer. He is the recipient of various accolades, including two Academy Awards, a British Academy Film Award, two Golden Globe Awards, and a Primetime Emmy Award. William Bradley Pitt is an American actor and film producer. He is the recipient of various accolades, including two Academy Awards, a British Academy Film Award, two Golden Globe Awards, and a Primetime Emmy Award.",
+//        death = "Shawnee, Oklahoma, USA"
+//    )
+//
+//    MaterialTheme {
 //        PersonScreen(
 //            personState = StateContainerTwo(data = mockPerson),
 //            creditsState = emptyList(),
-//            isBottomSheet = true,
+//            isBottomSheet = false,
 //            character = "Superman"
 //        )
-    }
-}
+//    }
+//}
