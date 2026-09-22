@@ -125,7 +125,9 @@ class DetailShowFragment : Fragment(R.layout.fragment_detail_show) {
      *      1) showPersonBottomSheet()
      *      2) removePersonBottomSheet()
      *
-     *      NOTES: bottomSheet is also managed on onDestroyView
+     *      NOTES:
+     *      - bottomSheet is also managed on onDestroyView
+     *      - same logic as DetailMovieFragment
      */
 
     /** Compose BottomSheet 1. dichiara ComposeView (2,3,4) */
