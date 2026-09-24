@@ -35,7 +35,24 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("debug")
         }
+    }
+
+
+    /*
+     * NOTE:
+     *  Configure build-type-specific resources.
+     *  Debug uses src/debug/res.
+     *  Release-specific resources are not used yet.
+     */
+    sourceSets {
+        getByName("debug") {
+            res.srcDirs("src/debug/res")
+        }
+//        getByName("release") {
+//            res.srcDirs("src/release/res")
+//        }
     }
 
 
