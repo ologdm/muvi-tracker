@@ -2,7 +2,6 @@ package com.example.data.dto.movie.detail
 
 import android.annotation.SuppressLint
 import com.example.core.firstDecimalApproxToString
-import com.example.core.LanguageManager
 import com.example.data.database.entities.MovieEntity
 import com.example.data.dto.OmdbResultDto
 import com.example.data.utils.dtoListOr
@@ -10,6 +9,7 @@ import com.example.data.utils.dtoStringOr
 import com.example.data.utils.dtoValueOr
 import com.example.data.utils.splitToCleanList
 import com.example.data.utils.youtubeLinkTransformation
+import com.example.domain.LanguageManager
 import com.example.domain.model.Ids
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
