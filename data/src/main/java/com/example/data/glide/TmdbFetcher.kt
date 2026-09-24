@@ -32,7 +32,6 @@ class TmdbFetcher(
             // when viene fatta per ogni tipo di richiesta
             is ImageTmdbRequest.MovieVertical -> fetchMovieImage(
                 model.movieId,
-                // TODO passare quala lingua, TEST !!!!!!!!!!
                 imagePathType = { it.posterPath },
                 isVertical = true,
                 priority,
@@ -70,7 +69,7 @@ class TmdbFetcher(
     }
 
 
-    // TODO 1.1.3 OK
+    // 1.1.3 OK
     private suspend fun fetchMovieImage(
         movieId: Int,
         imagePathType: (MovieTmdbDto) -> String?,
@@ -92,7 +91,7 @@ class TmdbFetcher(
     }
 
 
-    // TODO 1.1.3 OK
+    // 1.1.3 OK
     private suspend fun fetchShowImage(
         showId: Int,
         imagePathType: (ShowTmdbDto) -> String?,
