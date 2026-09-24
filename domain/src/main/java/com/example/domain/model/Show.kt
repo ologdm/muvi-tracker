@@ -14,10 +14,10 @@ data class Show(
     val tagline: String?,
     val overview: String?,
     val status: String?,
-    val firstAirDate: String?, // TODO new
-    val lastAirDate: String?,// TODO new
+    val firstAirDate: String?, // new
+    val lastAirDate: String?,// new
     val runtime: Int?,
-    val countries: List<String>, // TODO new
+    val countries: List<String>, // new
     val originalLanguage: String?,
 //    languages NO
     val englishTitle: String?, // trakt
@@ -31,8 +31,8 @@ data class Show(
     val imdbRating: String?,
     val rottenTomatoesRating: String?,
 
-    val backdropPath: String?, // TODO new
-    val posterPath: String?, // TODO new
+    val backdropPath: String?, // new
+    val posterPath: String?, // new
 
     val currentTranslation: String,
 
@@ -45,7 +45,7 @@ data class Show(
     // CALCOLATO DA EPISODE_TABLE
     val watchedCount: Int = 0, // computed data from episodeRepository
 
-    // TODO: calcola dalla query di seasons il totale stagioni
+    // NOTE: calculated from the seasons query for total seasons
     val seasonsCount: Int = 0,
 
     ) {

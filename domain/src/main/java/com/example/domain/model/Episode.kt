@@ -1,25 +1,6 @@
 package com.example.domain.model
 
-//data class EpisodeExtended (
-//    val episodeTraktId: Int,
-//    val seasonNumber: Int,
-//    val episodeNumber: Int,
-//    val title: String,
-//    val ids: Ids,
-//    val showId: Int,
-//    //
-//    val numberAbs: Int,
-//    val overview: String,
-//    val rating: String,
-//    val firstAiredFormatted: String?,
-//    val availableTranslations: List<String>,
-//    val runtime: Int,
-//    val episodeType: String,
-//    //
-//    val watched: Boolean = false
-//)
-
-// TODO: OK 1.1.3 OK
+// 1.1.3 OK
 data class Episode (
     val episodeTraktId: Int,
     val seasonNumber: Int, // default -1 su entity

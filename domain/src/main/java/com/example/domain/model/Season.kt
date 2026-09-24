@@ -2,7 +2,7 @@ package com.example.domain.model
 
 
 data class Season(
-    // construtor - 11 attributi
+    // construtor -> 11 attributi
     val showId: Int,
     val seasonNumber: Int,
     val ids: Ids,

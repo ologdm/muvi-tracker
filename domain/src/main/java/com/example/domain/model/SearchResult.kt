@@ -5,7 +5,7 @@ import com.example.domain.model.base.PersonBase
 import com.example.domain.model.base.ShowBase
 
 
-// TODO 1.1.3: sistemare i default per serialization OK
+// 1.1.3: sistemato i default per serialization OK
 sealed interface SearchResult {
 
     data class MovieItem(
