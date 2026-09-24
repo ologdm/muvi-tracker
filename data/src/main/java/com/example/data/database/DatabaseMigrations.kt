@@ -1,4 +1,4 @@
-//package com.example.muvitracker.data.database
+package com.example.muvitracker.data.database
 //
 //import androidx.room.migration.Migration
 //import androidx.sqlite.db.SupportSQLiteDatabase
