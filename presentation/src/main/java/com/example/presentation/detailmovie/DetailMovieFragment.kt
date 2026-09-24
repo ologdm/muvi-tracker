@@ -92,6 +92,7 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
     })
 
 
+    // TODO: add person credits
     private val castMovieAdapter = CastAdapter(onClickVH = { ids, character ->
 // old - with views
 //        navigator.startPersonFragmentFromCast(ids, character)
@@ -114,11 +115,6 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
      * Scritto cosi, Il frammento riceverà api dopo il onAttach(), quindi prima puoi usarlo solo in
      * lifecycle methods come onViewCreated.
      */
-//    @Inject
-//    lateinit var api: TmdbApi
-
-    // 1.2.0
-    //by lazy:  inizializza solo la prima volta che viene usata
 
     // FIXME:  OkHttpClient vedere dove spostare
 //    private val okHttpClient by lazy { OkHttpClient() }
@@ -250,7 +246,7 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
 
     // PRIVATE FUNCTIONS ###############################################
 // movie detail
-// NOTE: DEFAULT CASES - OK
+// note: default cases ok
     private fun setupDetailMovieUiSection(movie: Movie) {
         b.title.text = movie.title.orDefaultText(defaults.TITLE)
         //
@@ -378,8 +374,7 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
                 )
             }
 
-            // TODO:
-            // Save button -----------------------------------------------------
+
             dialogBinding.saveNoteButton.setOnClickListener {
                 val notes = dialogBinding.noteContentText.text.toString()
                 viewModel.setNotes(currentMovieIds.trakt, notes)
@@ -388,7 +383,7 @@ class DetailMovieFragment : Fragment(R.layout.fragment_detail_movie) {
         }
     }
 
-    // Helper per convertire dp in pixel
+    // note: helper to convert dp to pixels
     private fun Float.dpToPx(context: Context): Float {
         return this * context.resources.displayMetrics.density
     }

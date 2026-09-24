@@ -35,7 +35,7 @@ class DetailMovieViewmodel @Inject constructor(
     val relatedMoviesState = MutableLiveData<ListStateContainerTwo<MovieBase>>()
     val castState = MutableLiveData<ListStateContainerTwo<CastMember>>()
 
-    // 1.2.0 providers ok
+    // 1.2.0 OK providers
     val providersState = MutableStateFlow<List<Provider>>(emptyList())
 
     private var movieNotes = ""
@@ -44,7 +44,6 @@ class DetailMovieViewmodel @Inject constructor(
     var countryEnum = AppCountry.fromCode(Locale.getDefault().country.lowercase())
 
 
-    // flow -> livedata
     fun loadMovieDetailFlow(movieIds: Ids) {
         var cachedMovie: Movie? = null
 
@@ -75,7 +74,6 @@ class DetailMovieViewmodel @Inject constructor(
                     }
                 }
                 .catch {
-                    // flow no try catch, direttamente catch -
                     it.printStackTrace()
                 }
                 .collectLatest { container ->
@@ -87,7 +85,7 @@ class DetailMovieViewmodel @Inject constructor(
 
     // RELATED MOVIES --------------------------------------------------------------------------
     fun loadRelatedMovies(movieId: Int) {
-        // senza store, no problema se first emission emptyList
+        // note: senza store, no problema se first emission emptyList
         viewModelScope.launch {
             val response = detailMovieRepository.getRelatedMovies(movieId)
             // for test
