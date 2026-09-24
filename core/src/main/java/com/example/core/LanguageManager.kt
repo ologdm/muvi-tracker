@@ -9,65 +9,65 @@ import android.os.LocaleList
 import androidx.core.content.edit
 import java.util.Locale
 
-object LanguageManager {
+// NOTE: only for testing purposes r.1.1.3
 
-    /** Ritorna la lingua di sistema corrente (es. "en", "it", "fr") */
-    fun getAppLocaleLanguage(): String {
-        return Locale.getDefault().language
-    }
+//object LanguageManager {
+//
+//
+//    /** Ritorna la lingua di sistema corrente (es. "en", "it", "fr") */
+//    // NOTE: not used
+//    fun getAppLocaleLanguage(): String {
+//        return Locale.getDefault().language
+//    }
+//
+//    /* SET/ GET LANGUAGE FROM SHARED PREFS ------------------------
+//     * NOTE: not used, only for testing purposes r.1.1.3
+//     */
 
-    /** Ritorna il locale completo (es. "en-US", "it-IT") */
-    fun getAppLocaleLanguageTag(): String {
-        val locale = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            Locale.getDefault()
-        } else {
-            @Suppress("DEPRECATION")
-            Locale.getDefault()
-        }
-        return locale.toLanguageTag()
-    }
-
-    // SET/ GET LANGUAGE FROM SHARED PREFS -----------------------------------------------------------
-
-    /** Salva la lingua di sistema iniziale (ad esempio nel tuo repository o prefs) */
-    fun saveSystemLanguage(prefs: SharedPreferences) {
-        val lang = getAppLocaleLanguage()
-        prefs.edit { putString(OLD_APP_LANGUAGE, lang) }
-    }
-
-    /** Recupera la lingua salvata */
-    fun getSavedSystemLanguage(prefs: SharedPreferences): String? {
-        return prefs.getString(OLD_APP_LANGUAGE, DEF_LANGUAGE) // lingua default
-    }
+    // Salva la lingua di sistema iniziale (ad esempio nel tuo repository o prefs)
+//    private const val OLD_APP_LANGUAGE = "old_app_language"
+//    private const val DEF_LANGUAGE = "en"
+//
+//    fun saveSystemLanguage(prefs: SharedPreferences) {
+//        val lang = getAppLocaleLanguage()
+//        prefs.edit { putString(OLD_APP_LANGUAGE, lang) }
+//    }
+//
+//    /** Recupera la lingua salvata */
+//    fun getSavedSystemLanguage(prefs: SharedPreferences): String? {
+//        return prefs.getString(OLD_APP_LANGUAGE, DEF_LANGUAGE) // lingua default
+//    }
 
 
-    // --------------------------------------------------------------------------------------
+    // -----------------------------------------------------
 
-    // RELEASE 1.1.3  forza la lingua app per test OK
-    fun setAppLocale(context: Context, languageCode: String?): Context {
-        val locale = Locale(languageCode)
-        Locale.setDefault(locale)
+    // NOTE:
+    //  - force the app language
+    //  - note used, only for testing purposes r.1.1.3
+//    fun setAppLocale(context: Context, languageCode: String?): Context {
+//        val locale = Locale(languageCode)
+//        Locale.setDefault(locale)
+//
+//        val config = Configuration(context.resources.configuration)
+//        config.setLocale(locale)
+//
+//        // ✅ Supporto per Android 13 e superiori
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+//            context.getSystemService(LocaleManager::class.java)
+//                ?.applicationLocales = LocaleList.forLanguageTags(languageCode)
+//        }
+//
+//        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+//            context.createConfigurationContext(config)
+//        } else {
+//            @Suppress("DEPRECATION")
+//            context.resources.updateConfiguration(config, context.resources.displayMetrics)
+//            context
+//        }
+//    }
 
-        val config = Configuration(context.resources.configuration)
-        config.setLocale(locale)
 
-        // ✅ Supporto per Android 13 e superiori
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            context.getSystemService(LocaleManager::class.java)
-                ?.applicationLocales = LocaleList.forLanguageTags(languageCode)
-        }
-
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            context.createConfigurationContext(config)
-        } else {
-            @Suppress("DEPRECATION")
-            context.resources.updateConfiguration(config, context.resources.displayMetrics)
-            context
-        }
-    }
-
-
-    // RELEASE fare test e differenze con
+    // TODO: RELEASE fare test e differenze con
 //    fun getSystemLanguage(): String { // it
 //        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
 //            Resources.getSystem().configuration.locales[0].language
@@ -86,9 +86,6 @@ object LanguageManager {
 //            java.util.Locale.getDefault().toLanguageTag()  // su Android < 7 coincide con sistema
 //        }
 //    }
-
-
-    // per sharedPrefs
-    const val OLD_APP_LANGUAGE = "old_app_language"
-    const val DEF_LANGUAGE = "en"
-}
+//
+//
+//}
