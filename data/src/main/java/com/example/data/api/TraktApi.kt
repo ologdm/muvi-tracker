@@ -9,6 +9,7 @@ import com.example.data.dto.movie.explore.BoxofficeDtoM
 import com.example.data.dto.movie.explore.FavoritedDtoM
 import com.example.data.dto.movie.explore.WatchedDtoM
 import com.example.data.dto.person.CastResponseDto
+import com.example.data.dto.person.TraktCreditsResponseDto
 import com.example.data.dto.person.detail.PersonTraktDto
 import com.example.data.dto.search.SearchDto
 import com.example.data.dto.season.SeasonTraktDto
@@ -21,7 +22,6 @@ import com.example.domain.model.Ids
 import com.example.domain.model.PersonCredit
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.Transient
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -44,60 +44,60 @@ interface TraktApi {
 
 
     // MOVIES ----------------------------------------------------------------
-    // todo filters - genre, year
+    // TODO: filters - genre, year
 
-    // ?page={page}&limit={limit} - impostazione standard
+    // NOTE: ?page={page}&limit={limit} - impostazione standard
     @GET("movies/popular") // TODO change name - getPopularMoviesPage
-    suspend fun getPopularMovies(
+    suspend fun getPopularMoviesPage(
         @Query("page") page: Int, // standard
         @Query("limit") limit: Int // standard
     ): List<MovieBaseDto>
 
     @GET("movies/watched/weekly")
-    suspend fun getWatchedMovies(
+    suspend fun getWatchedMoviesPage(
         @Query("page") page: Int,
         @Query("limit") limit: Int
     ): List<WatchedDtoM>
 
     @GET("movies/favorited/weekly")
-    suspend fun getFavoritedMovies(
+    suspend fun getFavoritedMoviesPage(
         @Query("page") page: Int,
         @Query("limit") limit: Int
     ): List<FavoritedDtoM>
 
     @GET("movies/anticipated")
-    suspend fun getAnticipatedMovies(
+    suspend fun getAnticipatedMoviesPage(
         @Query("page") page: Int,
         @Query("limit") limit: Int
     ): List<AnticipatedDtoM>
 
     @GET("movies/boxoffice")
-    suspend fun getBoxoMovies(): List<BoxofficeDtoM>
+    suspend fun getBoxofficeMoviesPage(): List<BoxofficeDtoM>
 
 
     // SHOWS -----------------------------------------------------------------------------------------
-    // todo filters - gennre, year, network
+    // TODO: filters - genre, year, network
 
     @GET("shows/popular")
-    suspend fun getPopularShows(
+    suspend fun getPopularShowsPage(
         @Query("page") page: Int,
         @Query("limit") limit: Int
     ): List<ShowBaseDto>
 
     @GET("shows/watched/weekly")
-    suspend fun getWatchedShows(
+    suspend fun getWatchedShowsPage(
         @Query("page") page: Int,
         @Query("limit") limit: Int
     ): List<WatchedShowDto>
 
     @GET("shows/favorited/weekly")
-    suspend fun getFavoritedShows(
+    suspend fun getFavoritedShowsPage(
         @Query("page") page: Int,
         @Query("limit") limit: Int
     ): List<FavoritedShowDto>
 
     @GET("shows/anticipated")
-    suspend fun getAnticipatedShows(
+    suspend fun getAnticipatedShowsPage(
         @Query("page") page: Int,
         @Query("limit") limit: Int
     ): List<AnticipatedShowDto>
@@ -183,6 +183,7 @@ interface TraktApi {
     ): PersonTraktDto
 
 
+    // TODO: 24-09-2026 - person credits
     @GET("people/{traktId}/{type}?extended=full") // extended=full serve
     suspend fun getPersonCredits(
         @Path("traktId") traktId: Int,
@@ -190,74 +191,4 @@ interface TraktApi {
     ): TraktCreditsResponseDto
 
 }
-
-@SuppressLint("UnsafeOptInUsageError")
-@Serializable
-data class TraktCreditsResponseDto(
-    val cast: List<TraktCreditDto>? = null,
-//    val crew: Map<String, List<PersonCreditDto>>? = null, // TODO check gestione
-)
-
-
-// NOTE: null tutti i campi che possono non esserci
-@SuppressLint("UnsafeOptInUsageError")
-@Serializable
-data class TraktCreditDto(
-    val character: String? = null,
-//    val characters: List<String>? = null,
-    //
-    val show: ShowTraktDto? = null,
-    val movie: MovieTraktDto? = null,
-    // solo x  shows
-    @SerialName("episode_count") val episodeCount: Int? = null, // 1
-    @SerialName("series_regular") val seriesRegular: Boolean? = null, // false
-    // solo crew, es directing
-    val job: String? = null, // "Assistant Director"
-    val jobs: List<String>? = null, // ["Assistant Director", "Assistant"]
-) {
-
-    // TODO: 3.6.26 - dati aggiuntivi su dto corrispettivi movie o show
-//    val releasedYear = released?.substring(0, 3)
-//    val firstAiredYear = firstAired?.substring(0, 3)
-
-    // Fondamentale per evitare che venga cercato nel JSON e crei conflitti
-    val isShow get() = show != null
-
-    // from movie/show
-    val title get() = if (isShow) show?.title else movie?.title
-
-    val year get() = if (isShow) show?.year else movie?.year
-
-    val ids get() = if (isShow) show?.ids else movie?.ids
-
-    val status get() = if (isShow) show?.status else movie?.status // "in production", "canceled", "released"
-
-    val overview get() = if (isShow) show?.overview else movie?.overview
-}
-
-
-fun TraktCreditDto.toDomain(): PersonCredit {
-    return PersonCredit(
-        isShow = isShow,
-        //
-        title = title,
-        year = year,
-        ids = ids ?: Ids(),
-        status = status,
-        overview = overview,
-        //
-        character = character,
-        // solo shows
-        seriesRegular = seriesRegular,
-        episodeCount = episodeCount,
-        // solo crew
-        job = job,
-        jobs = jobs
-    )
-}
-
-// test person credits:
-// slug: david-corennswet | superman
-// trakt: 852412
-// tmdb: 1785590
 

@@ -23,16 +23,16 @@ class ShowsPagingSource(
 
         return try {
             val response = when (feedCategory) {
-                ShowsType.Popular -> traktApi.getPopularShows(currentPage, params.loadSize)
+                ShowsType.Popular -> traktApi.getPopularShowsPage(currentPage, params.loadSize)
                     .map { it.toDomain() }
 
-                ShowsType.Watched -> traktApi.getWatchedShows(currentPage, params.loadSize)
+                ShowsType.Watched -> traktApi.getWatchedShowsPage(currentPage, params.loadSize)
                     .map { it.toDomain() }
 
-                ShowsType.Favorited -> traktApi.getFavoritedShows(currentPage, params.loadSize)
+                ShowsType.Favorited -> traktApi.getFavoritedShowsPage(currentPage, params.loadSize)
                     .map { it.toDomain() }
 
-                ShowsType.ComingSoon -> traktApi.getAnticipatedShows(currentPage, params.loadSize)
+                ShowsType.ComingSoon -> traktApi.getAnticipatedShowsPage(currentPage, params.loadSize)
                     .map { it.toDomain() }
             }
 

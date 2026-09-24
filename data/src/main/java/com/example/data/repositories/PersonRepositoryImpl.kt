@@ -2,8 +2,8 @@ package com.example.data.repositories
 
 import com.example.data.api.TmdbApi
 import com.example.data.api.TraktApi
-import com.example.data.api.toDomain
 import com.example.data.dto.person.detail.mergePersonDtoToDomain
+import com.example.data.dto.person.toDomain
 import com.example.domain.IoResponse
 import com.example.domain.model.Ids
 import com.example.domain.model.Person
@@ -96,7 +96,7 @@ class PersonRepositoryImpl @Inject constructor(
 
 
 // TODO tmdb call OK, only for translation
-// NOTE: can't call directly tmdb person credits, because don't have traktMovieId to open the DetailMovie
+//      NOTE: can't call directly tmdb person credits, because don't have traktMovieId to open the DetailMovie
 //      override suspend fun getTmdbPersonCredits(personIds: Ids): List<PersonCreditNew> {
 //          try {
 //              val moviesCastCredits =

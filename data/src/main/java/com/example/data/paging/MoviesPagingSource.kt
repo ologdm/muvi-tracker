@@ -32,19 +32,19 @@ class MoviesPagingSource(
 
         return try {
             val response = when (feedCategory) {
-                MovieType.Popular -> traktApi.getPopularMovies(currentPage, params.loadSize)
+                MovieType.Popular -> traktApi.getPopularMoviesPage(currentPage, params.loadSize)
                     .map { it.toDomain() }
 
-                MovieType.BoxOffice -> traktApi.getBoxoMovies()
+                MovieType.BoxOffice -> traktApi.getBoxofficeMoviesPage()
                     .map { it.toDomain() }   // only 10 results
 
-                MovieType.Watched -> traktApi.getWatchedMovies(currentPage, params.loadSize)
+                MovieType.Watched -> traktApi.getWatchedMoviesPage(currentPage, params.loadSize)
                     .map { it.toDomain() }
 
-                MovieType.Favorited -> traktApi.getFavoritedMovies(currentPage, params.loadSize)
+                MovieType.Favorited -> traktApi.getFavoritedMoviesPage(currentPage, params.loadSize)
                     .map { it.toDomain() }
 
-                MovieType.ComingSoon -> traktApi.getAnticipatedMovies(currentPage, params.loadSize)
+                MovieType.ComingSoon -> traktApi.getAnticipatedMoviesPage(currentPage, params.loadSize)
                     .map { it.toDomain() }
             }
 

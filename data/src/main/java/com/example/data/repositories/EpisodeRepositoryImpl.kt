@@ -34,8 +34,9 @@ class EpisodeRepositoryImpl @Inject constructor(
 ) : EpisodeRepository {
     private val episodeDao = database.episodesDao()
 
-    // TODO 1.1.3 store OK
+
     /**
+     * r.1.1.3
      * Nel Fetcher, il tipo di ritorno di `Tmdb` è nullable.
      * Il Fetcher deve lanciare un'eccezione solo se l'intero processo di fetch fallisce.
      * Per evitare che un errore nel recupero da TMDB causi un `FetcherResult.Error.Exception(ex)` sullo Store,
@@ -76,7 +77,7 @@ class EpisodeRepositoryImpl @Inject constructor(
                     returnList // return emptylist
                 }
             },
-            // 1.1.3 reader OK
+            // r.1.1.3 reader OK
             reader = { request ->
                 episodeDao.readAllOfSeason(request.showIds.trakt, request.seasonNr)
                     .map { episodes ->
@@ -94,7 +95,7 @@ class EpisodeRepositoryImpl @Inject constructor(
         )
 
 
-    // TODO 1.1.3 OK
+    //  NOTE: r.1.1.3
     /** Insert new or partial update (without 'watched' state, used for backend logic)
      */
     private suspend fun saveEntitiesOnDatabase(entities: List<EpisodeEntity>) {
