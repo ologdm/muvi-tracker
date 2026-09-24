@@ -25,7 +25,7 @@ class MoviesViewmodel @Inject constructor(
         private const val SELECTED_FEED_KEY = "movie_selected_feed_key"
     }
 
-    // prende l'ultimo valore registrato su prefs, o Popular
+    // gets the last recorded value from prefs, or Popular
     private val _selectedFeed = MutableStateFlow(getLastFeed()) // valore default
     val selectedFeed: StateFlow<MovieType> = _selectedFeed
 
@@ -37,7 +37,7 @@ class MoviesViewmodel @Inject constructor(
         .cachedIn(viewModelScope)
 
 
-    // SET/GET FEED - da sharedPrefs
+    // SET/GET FEED - from sharedPrefs
     fun setFeed(selectedFeed: MovieType) {
         _selectedFeed.value = selectedFeed
         sharedPrefs.edit().putString(SELECTED_FEED_KEY, selectedFeed.sharedPrefsValue).apply()

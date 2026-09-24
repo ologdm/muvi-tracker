@@ -139,7 +139,7 @@ class AllMoviesFragment : Fragment(R.layout.fragment_explore_base) {
                 }
 
 
-                // fix 1.1.2 - paging does not invalidate when filter changes
+                // fix 1.1.2 OK - paging does not invalidate when filter changes
                 if (combLoadStates.refresh is LoadState.NotLoading && shouldScrollToTop) {
                     b.recyclerView.scrollToPosition(0)
                     shouldScrollToTop = false
@@ -159,38 +159,6 @@ class AllMoviesFragment : Fragment(R.layout.fragment_explore_base) {
     }
 
 }
-
-
-// TODO - per test, eliminare
-//@Inject
-//lateinit var tmdbApi: TmdbApi
-//@Inject
-//lateinit var detailMoviesRepo : DetailMovieRepository
-//
-//// test deadpool
-//// https://api.themoviedb.org/3/movie/293660?api_key=36b68580564c93f78a52fc28c15c44e5&language=it-IT&append_to_response=videos
-//b.toolbar.setOnClickListener {
-//    // retrofit, fai chiamata
-//    fragmentViewLifecycleScope.launch {
-////                val x1 = Locale.getDefault().toLanguageTag()
-////                val x2 = Locale.getDefault().language
-////                println("x1=$x1")
-//
-//        // test movie - 293660 deadpool
-//        val detailMovieDtoTmdb = tmdbApi.getMovieDto(
-//            movieId = 293660,
-//            language = LanguageManager.getSystemLocaleTag()
-//        )
-//        println(detailMovieDtoTmdb)
-//
-//        // test show - 1399 games of thrones
-//        val detailShowDtoTmdb = tmdbApi.getShowDto(
-//            showId = 1399,
-//            language = LanguageManager.getSystemLocaleTag()
-//        )
-//        println(detailShowDtoTmdb)
-//    }
-//}
 
 
 
