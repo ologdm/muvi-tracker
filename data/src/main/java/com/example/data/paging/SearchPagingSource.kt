@@ -7,7 +7,7 @@ import com.example.data.dto.search.toDomain
 import com.example.domain.types.SearchType
 import com.example.domain.model.SearchResult
 
-// per goni ricerca si aggiorna
+// NOTE: updated for every search
 class SearchPagingSource(
     private val queryValue: String,
     private val filterValue: SearchType,

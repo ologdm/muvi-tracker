@@ -9,15 +9,6 @@ import com.example.data.dto.movie.toDomain
 import com.example.domain.model.base.MovieBase
 import java.util.concurrent.CancellationException
 
-// PagingSource<key,resultValue> - due metodi da implementare
-//   1. getRefreshKey
-//   2. load
-
-// Result ->
-//   - LoadResult.Page - if the result was successful.
-//   - LoadResult.Error -  in case of error.
-//   - LoadResult.Invalid -  if the PagingSource should be invalidated because it can no longer guarantee the integrity of its results.
-
 class MoviesPagingSource(
     private val feedCategory: MovieType,
     private val traktApi: TraktApi // FIXME: aggiungere repo al posto api, api deve stare su repo -> questo e un layer intermedio tra repo e vm
@@ -70,6 +61,15 @@ class MoviesPagingSource(
                 ?: anchorPage?.nextKey?.minus(1)
         }
     }
-
-
 }
+
+
+/* NOTE:
+    PagingSource<key,resultValue> - due metodi da implementare
+       1. getRefreshKey
+       2. load
+     Result ->
+       - LoadResult.Page - if the result was successful.
+       - LoadResult.Error -  in case of error.
+       - LoadResult.Invalid -  if the PagingSource should be invalidated because it can no longer guarantee the integrity of its results.
+ */
