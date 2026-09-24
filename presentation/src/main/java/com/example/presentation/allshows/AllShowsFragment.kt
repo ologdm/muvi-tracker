@@ -69,7 +69,7 @@ class AllShowsFragment : Fragment(R.layout.fragment_explore_base) {
 
     // PRIVATE FUNCTIONS
     private fun ChipGroup.createChipGroup() {
-        // 1. creo i chip in base alla lista Enum
+        // 1. create chips based on the Enum list
         this.removeAllViews()
         ShowsType.entries.forEach { feed ->
             val chip = Chip(context).apply {
@@ -86,14 +86,14 @@ class AllShowsFragment : Fragment(R.layout.fragment_explore_base) {
 
 
     private fun ChipGroup.setupChips() {
-        // 1. inizializzo chip con feed attuale
+        // 1. initialize chip with current feed
         this.findViewWithTag<Chip>(viewModel.selectedFeed.value)
             ?.let {
                 it.isChecked = true // check the chip
                 b.chipsScrollView.smoothScrollTo(it.left, it.top)
             }
 
-        // 2. set chip con feed attuale
+        // 2. update feed when chip is selected
         this.setOnCheckedChangeListener { chipGroup, checkedId ->
             chipGroup.findViewById<Chip>(checkedId)?.let { chip ->
                 val newFeed = chip.tag as ShowsType
