@@ -39,7 +39,6 @@ fun <Key : Any, DtoInput : Any, DomainOutput : Any> storeFactory(
             writer = { key, dtoInput ->
                 try {
                     writer(key, dtoInput)
-//                    detailShowDao.insertSingle(dto.toEntity())
                 } catch (ex: Exception) {
                     ex.printStackTrace()
                 }

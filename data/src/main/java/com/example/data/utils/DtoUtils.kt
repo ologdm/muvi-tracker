@@ -62,44 +62,41 @@ fun VideosResult.youtubeLinkTransformation(): String? {
 }
 
 
-// TODO: NEW FEATURE
-//  traduzione testi con AI  -----------------------------------------------------------------------------------------
-
+// TODO: NEW FEATURE - AI text translation
 /**
- * Translates the given text (assumed to be in English) into the system language using Ai ML Kit.
- * Returns the original text if translation fails or the text is null/blank.
+ * Translates the provided text (assumed to be in English) into the system language using AI ML Kit.
+ * Returns the original text if translation fails or if the text is null/empty.
  */
-suspend fun translateToSystemLanguage(context: Context, text: String?)
-        : String? {
-    val clean = text?.trim()
-    // Se è null ritorni null (non ha senso tradurre "null")
-    if (clean == null) return null
-
-    val targetLanguage = TranslateLanguage.fromLanguageTag(
-        LocaleList.getDefault()[0].language
-    ) ?: TranslateLanguage.ENGLISH // fallback
-
-    val options = TranslatorOptions.Builder()
-        .setSourceLanguage(TranslateLanguage.ENGLISH)
-        .setTargetLanguage(targetLanguage)
-        .build()
-
-    val translator: Translator = Translation.getClient(options)
-
-    return suspendCancellableCoroutine { cont ->
-        translator.downloadModelIfNeeded()
-            .addOnSuccessListener {
-                translator.translate(text)
-                    .addOnSuccessListener { translatedText ->
-                        cont.resume(translatedText)
-                    }
-                    .addOnFailureListener {
-                        cont.resume(text) // fallback: original text
-                    }
-            }
-            .addOnFailureListener {
-                cont.resume(text) // fallback: original text
-            }
-    }
-}
+//suspend fun translateToSystemLanguage(context: Context, text: String?): String? {
+//    val clean = text?.trim()
+//    // Se è null ritorni null (non ha senso tradurre "null")
+//    if (clean == null) return null
+//
+//    val targetLanguage = TranslateLanguage.fromLanguageTag(
+//        LocaleList.getDefault()[0].language
+//    ) ?: TranslateLanguage.ENGLISH // fallback
+//
+//    val options = TranslatorOptions.Builder()
+//        .setSourceLanguage(TranslateLanguage.ENGLISH)
+//        .setTargetLanguage(targetLanguage)
+//        .build()
+//
+//    val translator: Translator = Translation.getClient(options)
+//
+//    return suspendCancellableCoroutine { cont ->
+//        translator.downloadModelIfNeeded()
+//            .addOnSuccessListener {
+//                translator.translate(text)
+//                    .addOnSuccessListener { translatedText ->
+//                        cont.resume(translatedText)
+//                    }
+//                    .addOnFailureListener {
+//                        cont.resume(text) // fallback: original text
+//                    }
+//            }
+//            .addOnFailureListener {
+//                cont.resume(text) // fallback: original text
+//            }
+//    }
+//}
 
