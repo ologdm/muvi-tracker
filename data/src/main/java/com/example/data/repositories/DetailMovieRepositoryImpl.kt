@@ -9,7 +9,7 @@ import com.example.data.database.entities.toDomain
 import com.example.data.dto.movie.detail.mergeMoviesDtoToEntity
 import com.example.data.dto.movie.toDomain
 import com.example.data.dto.person.toDomain
-import com.example.data.dto.provider.MovieProvidersResponseDto
+import com.example.data.dto.provider.MovieShowProvidersResponseDto
 import com.example.data.utils.mapToIoResponse
 import com.example.data.utils.storeFactory
 import com.example.domain.model.CastAndCrew
@@ -173,7 +173,7 @@ class DetailMovieRepositoryImpl @Inject constructor(
 
 
     // FIXME: migliorare
-    private fun getProviderList(response: MovieProvidersResponseDto): List<Provider> {
+    private fun getProviderList(response: MovieShowProvidersResponseDto): List<Provider> {
         //        val region = "IT" // TEST
 //        var responseDto = api.getMovieProviders(293660).results // TEST
         val region = Locale.getDefault().country
@@ -181,7 +181,7 @@ class DetailMovieRepositoryImpl @Inject constructor(
 
         // 1. unisci le 4 liste come una mappa
         // struttura come mappa key -> lista
-        val providersPair = listOf(
+        val providersByType = listOf(
             ProviderTypes.BUY to regionProvidersDto.buy,
             ProviderTypes.STREAM to regionProvidersDto.flatrate,
             ProviderTypes.RENT to regionProvidersDto.rent,
@@ -194,7 +194,7 @@ class DetailMovieRepositoryImpl @Inject constructor(
 
         // 2. da mappa a Pair<key, Obj>
         // struttura key, elemento singolo
-        val flatProvidersPair = providersPair.flatMap { pair ->
+        val flatProvidersPair = providersByType.flatMap { pair ->
             val scomposto = pair.second.map { dto ->
                 pair.first to dto // == Pair(pair.first, dto)
             }
@@ -237,6 +237,7 @@ class DetailMovieRepositoryImpl @Inject constructor(
     }
 }
 
+
 // FIXME: capire dove spostare
 //object ProviderTypes {
 //    var STREAM = MyApp.appContext.getString(R.string.textProviderStream)
@@ -245,7 +246,7 @@ class DetailMovieRepositoryImpl @Inject constructor(
 //    var ADS = MyApp.appContext.getString(R.string.textProviderAds)
 //    var FREE = MyApp.appContext.getString(R.string.textProviderFree)
 //}
-
+//
 // provvisoria
 object ProviderTypes {
     var STREAM = "Streaming"

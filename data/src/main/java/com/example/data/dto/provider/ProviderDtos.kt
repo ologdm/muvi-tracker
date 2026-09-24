@@ -16,7 +16,7 @@ import kotlinx.serialization.Serializable
 
 @SuppressLint("UnsafeOptInUsageError")
 @Serializable
-data class MovieProvidersResponseDto(
+data class MovieShowProvidersResponseDto(
     val id: Int, // movie id
     val results: Map<String, RegionProvidersDto> = emptyMap() // "AO" -> RegionProviders
 )

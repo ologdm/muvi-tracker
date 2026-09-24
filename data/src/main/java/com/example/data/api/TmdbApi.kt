@@ -4,7 +4,7 @@ import com.example.core.BuildConfig
 import com.example.data.dto.episode.EpisodeTmdbDto
 import com.example.data.dto.movie.detail.MovieTmdbDto
 import com.example.data.dto.person.detail.PersonTmdbDto
-import com.example.data.dto.provider.MovieProvidersResponseDto
+import com.example.data.dto.provider.MovieShowProvidersResponseDto
 import com.example.data.dto.season.SeasonEpTmdbDto
 import com.example.data.dto.show.detail.ShowTmdbDto
 import com.example.domain.LanguageManager
@@ -80,14 +80,14 @@ interface TmdbApi {
     suspend fun getMovieProviders(
         @Path("movie_id") movieId: Int,
         @Query("api_key") apiKey: String = API_KEY_QUERY_MOD
-    ): MovieProvidersResponseDto
+    ): MovieShowProvidersResponseDto
 
 
     @GET("tv/{series_id}/watch/providers")
     suspend fun getShowProviders(
         @Path("series_id") showId: Int,
         @Query("api_key") apiKey: String = API_KEY_QUERY_MOD
-    ): MovieProvidersResponseDto
+    ): MovieShowProvidersResponseDto
 }
 
 

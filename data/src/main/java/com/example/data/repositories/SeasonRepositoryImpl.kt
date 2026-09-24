@@ -22,7 +22,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.coroutines.cancellation.CancellationException
 
-// OK 1.1.3
+
 @Singleton
 class SeasonRepositoryImpl @Inject constructor(
     private val traktApi: TraktApi,
@@ -34,7 +34,7 @@ class SeasonRepositoryImpl @Inject constructor(
     private val seasonDao = database.seasonsDao()
     private val episodeDao = database.episodesDao()
 
-    // RELEASE 1.1.3 store
+    // r.1.1.3 store updated OK
     /**
      * Nel Fetcher, il tipo di ritorno di `DetailShowTmdbDto` è nullable.
      * Il Fetcher deve lanciare un'eccezione solo se l'intero processo di fetch fallisce.
@@ -86,7 +86,7 @@ class SeasonRepositoryImpl @Inject constructor(
     -> NON aspetta il fetch prima di emettere la prima emissione. È un comportamento corretto e voluto dal design di Store4.
      */
 
-    // RELEASE 1.1.3
+    // r 1.1.3 OK
     // TICKET 1.0.0: Crash su click WatchedAllShow, in presenza di stagione specials, numero 0  -> FIXED OK
     private suspend fun saveAllSeasonsDtoToDatabase(showId: Int, entities: List<SeasonEntity>) {
         // if (non esiste) insertNuovo, else updateParziale
@@ -108,7 +108,7 @@ class SeasonRepositoryImpl @Inject constructor(
     }
 
 
-    // FIXME: fixed con idsData
+    // FIXME: fixed con idsData OK
     override
     fun getAllSeasonsFlow(showIds: Ids): Flow<IoResponse<List<Season>>> {
         val idsData = Ids(

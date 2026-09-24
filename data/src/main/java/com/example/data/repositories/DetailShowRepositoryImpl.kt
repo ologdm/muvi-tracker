@@ -7,7 +7,7 @@ import com.example.data.database.MyDatabase
 import com.example.data.database.entities.ShowEntity
 import com.example.data.dto.OmdbResultDto
 import com.example.data.dto.person.toDomain
-import com.example.data.dto.provider.MovieProvidersResponseDto
+import com.example.data.dto.provider.MovieShowProvidersResponseDto
 import com.example.data.dto.show.detail.ShowTmdbDto
 import com.example.data.dto.show.detail.ShowTraktDto
 import com.example.data.dto.show.detail.mergeShowsDtoToEntity
@@ -185,12 +185,12 @@ class DetailShowRepositoryImpl @Inject constructor(
 
 
     // FIXME: migliorare
-    private fun getProviderList(response: MovieProvidersResponseDto): List<Provider> {
+    private fun getProviderList(response: MovieShowProvidersResponseDto): List<Provider> {
         val region = Locale.getDefault().country
         val regionProvidersDto = response.results[region] ?: return emptyList()
 
         // 1.
-        val providersPair = listOf(
+        val providersByType = listOf(
             ProviderTypes.BUY to regionProvidersDto.buy,
             ProviderTypes.STREAM to regionProvidersDto.flatrate,
             ProviderTypes.RENT to regionProvidersDto.rent,
@@ -201,9 +201,9 @@ class DetailShowRepositoryImpl @Inject constructor(
         }
 
         // 2.
-        val flatProvidersPair = providersPair.flatMap { pair ->
+        val flatProvidersPair = providersByType.flatMap { pair ->
             val scomposto = pair.second.map { dto ->
-                pair.first to dto // == Pair(pair.first, dto)
+                pair.first to dto
             }
             scomposto
         }
