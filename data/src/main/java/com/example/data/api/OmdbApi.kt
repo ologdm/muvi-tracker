@@ -6,6 +6,7 @@ import com.example.data.dto.OmdbResultDto
 import retrofit2.http.GET
 import retrofit2.http.Query
 
+/** OmdbApi used for ratings */
 interface OmdbApi {
 
     companion object{
