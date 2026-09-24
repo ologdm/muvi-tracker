@@ -34,7 +34,7 @@ class TmdbModelLoader(
         return ModelLoader.LoadData(
             /**
              * RELEASE 1.1.3 - Handles glide cache invalidation when the system language changes.
-             * The model key is a composite of ID + language, ensuring:
+             * The model key is a composite of ID + language', ensuring:
              * 1. Cache entries are invalidated if the language changes.
              *
              * Note: Correct image updates depend on the language correctly passed to Retrofit via its API.
