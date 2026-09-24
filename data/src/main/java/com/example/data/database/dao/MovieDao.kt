@@ -12,15 +12,9 @@ import kotlinx.coroutines.flow.Flow
 interface MovieDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
      suspend fun insertSingle(entity: MovieEntity)
+
     @Delete
     fun deleteSingle(entity: MovieEntity)
-
-
-//    @Query("SELECT * FROM detail_movie_entities WHERE traktId=:inputId")
-//    fun readSingleFlow(inputId: Int): Flow<DetailMovieEntity?>
-//
-//    @Query("SELECT * FROM detail_movie_entities")
-//    fun readAllFlow(): Flow<List<DetailMovieEntity>>
 
     @Query("SELECT * FROM movie_table WHERE traktId=:inputId")
     fun readSingleFlow(inputId: Int): Flow<MovieEntity?>

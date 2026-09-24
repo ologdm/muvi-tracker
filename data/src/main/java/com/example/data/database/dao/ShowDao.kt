@@ -27,9 +27,9 @@ interface ShowDao {
     fun deleteSingle(entity: ShowEntity)
 
 
-    // TODO 1.1.3 OK
+    // r.1.1.3 OK
     // show, prefs, episode, season table
-    // 21 show ent, 3 prefs, 1 ep, 1 seas
+    // .... 21 show ent, 3 prefs, 1 ep, 1 seas
     @Transaction
     @Query(
         """

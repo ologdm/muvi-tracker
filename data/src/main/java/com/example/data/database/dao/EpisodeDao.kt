@@ -10,7 +10,6 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface EpisodeDao {
 
-    // to update by dto, check if element exist
     @Query(
         """
         SELECT * FROM episode_table 
@@ -20,7 +19,7 @@ interface EpisodeDao {
     suspend fun readSingleById(episodeTraktId: Int): EpisodeEntity?
 
 
-    // to episodeFragment
+    // used in episodeFragment
     @Query(
         """
         SELECT * 
@@ -33,7 +32,7 @@ interface EpisodeDao {
     fun readSingle(showId: Int, seasonNr: Int, episodeNr: Int): Flow<EpisodeEntity?>
 
 
-    // to seasonFragment
+    // used in seasonFragment
     @Query(
         """
         SELECT * 
@@ -45,7 +44,7 @@ interface EpisodeDao {
     fun readAllOfSeason(showId: Int, seasonNr: Int): Flow<List<EpisodeEntity>>
 
 
-    // to episode store
+    // used in episode store
     @Insert
     suspend fun insertSingle(entity: EpisodeEntity)
 
@@ -59,7 +58,7 @@ interface EpisodeDao {
     //  2.
 
 
-    // TODO 1.1.3 OK
+    // NOTE:r.1.1.3 OK
     @Query(
         """
         UPDATE episode_table
@@ -85,7 +84,7 @@ interface EpisodeDao {
 
 
     // 2. SEASON EPISODES
-    // to show, season fragment
+    // used in show, season fragment
     @Query(
         """
         SELECT COUNT(*)

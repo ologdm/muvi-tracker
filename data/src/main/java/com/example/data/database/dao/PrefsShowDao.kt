@@ -30,7 +30,7 @@ interface PrefsShowDao {
     suspend fun deleteSingle(id: Int)
 
 
-    // Get Domain -> with join
+    // Get Domain -> with join FIXME: refactor the extraction, in way to respect the architecture
     // JOIN prefsEntity + detailEntity + (watchedEpisode)
     @Transaction
     @Query(
@@ -82,8 +82,7 @@ interface PrefsShowDao {
     fun getAllPrefs(): Flow<List<Show>>
 
 
-    // 1.1.3 new
-//    @Query("UPDATE prefs_show_table SET notes =:note WHERE traktId = :showId")
+    // r.1.1.3 OK
     @Query("UPDATE prefs_show_table SET notes =:notes WHERE traktId = :showId ")
     suspend fun setNotes (showId: Int, notes: String)
 
