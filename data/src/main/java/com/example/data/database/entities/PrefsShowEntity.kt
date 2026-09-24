@@ -12,5 +12,5 @@ data class PrefsShowEntity(
     // TODO 1.1.3 add notes
     val notes : String = ""
 
-    // !!note: watchedAll calcolato volta per volta a ui in base agli episodi
+    // NOTE: watchedAll calcolato volta per volta a ui in base agli episodi
 )

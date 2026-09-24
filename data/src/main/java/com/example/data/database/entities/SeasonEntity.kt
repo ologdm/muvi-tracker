@@ -8,7 +8,7 @@ import com.example.data.dto.season.mergeSeasonsDtoToEntity
 import com.example.domain.model.Ids
 
 
-// 1.1.3 OK
+// 1.1.3
 @Entity(tableName = "season_table")
 data class SeasonEntity(
     // base data - from trakt dto
@@ -21,7 +21,7 @@ data class SeasonEntity(
     val airedEpisodes: Int = 0, // usciti stagione
     val network: String?, //  * su tmdb List<Network> non è disponibile nella chiamata
 
-    // tmdb ---------------------
+    // tmdb data ---------------------
     val title: String?,
     val overview: String?,
     val airDate: String?,
@@ -30,7 +30,7 @@ data class SeasonEntity(
     val traktRating: String?,
     val tmdbRating: String?, // da double
 
-    // da sistema
+    // system data
     val currentTranslation: String, // not null
 )
 

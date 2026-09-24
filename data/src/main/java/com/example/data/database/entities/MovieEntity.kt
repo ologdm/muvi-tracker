@@ -7,10 +7,10 @@ import com.example.data.database.ConvertersUtils
 import com.example.domain.model.Ids
 import com.example.domain.model.Movie
 
-/*
- * all elements - null
- * lists notnull
- * currentTranslation - not null
+/**
+ * all elements - Nullable
+ * lists NotNull
+ * currentTranslation - NotNull
  */
 
 @Entity(tableName = "movie_table")
@@ -39,17 +39,15 @@ data class MovieEntity(
     val posterPath: String?,    // /zoSiiUUzg2ny6uzuil7PbP13z53.jpg
 
     // ratings
-    val traktRating: String?, // 8.3
+    val traktRating: String?, //  8.3
     val tmdbRating: String?, // 7.9
     // da omdb
     val imdbRating: String?, // 1.2.0 OK
     val rottenTomatoesRating: String?, // 1.2.0 OK
     val metacriticRating: String? = "",
 
-    // current translation
-
-    // da sistema
-    val currentTranslation: String, // not null, new
+    // current translation - da sistema
+    val currentTranslation: String, // not null
 
 )
 

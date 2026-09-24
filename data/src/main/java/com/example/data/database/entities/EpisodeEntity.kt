@@ -39,14 +39,14 @@ fun EpisodeEntity.copyOnlyDtoData(watchedState: Boolean): EpisodeEntity {
 }
 
 
-// OK 1.1.3 OK
+//  1.1.3 OK
 fun EpisodeEntity.toDomain(): Episode {
     return Episode(
         episodeTraktId = episodeTraktId,
         seasonNumber = seasonNumber,
         episodeNumber = episodeNumber,
         numberAbs = numberAbs,
-        // FIXME: cambiare nome in idsDto
+        // FIXME: change the name in idsDto
 //        ids = ids.toDomain(),
         ids = ids,
         showId = showId,
@@ -56,7 +56,7 @@ fun EpisodeEntity.toDomain(): Episode {
         firstAiredFormatted = firstAiredFormatted,
         runtime = runtime,
         episodeType = episodeType,
-        traktRating = traktRating, // gia convertita 1.1.3
+        traktRating = traktRating, // already converted 1.1.3
 
         watched = watched,
     )

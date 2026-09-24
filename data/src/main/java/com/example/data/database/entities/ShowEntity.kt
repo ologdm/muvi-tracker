@@ -13,14 +13,14 @@ import com.example.domain.model.Ids
 
 @Entity(tableName = "show_table")
 data class ShowEntity(
-    // trakt
+    // trakt data
     @PrimaryKey val traktId: Int,
     val year: Int?,
     @TypeConverters(ConvertersUtils::class) val ids: Ids,
     /** airedEpisodes = 0 default, serve per evitare crash nei calcolo  */
     val airedEpisodes: Int = 0, // not null -> default 0 -> serve per calcolo
 
-    // tmdb
+    // tmdb data
     val title: String?, // Trono di spade (it)
     val tagline: String?,
     val overview: String?,
@@ -49,7 +49,7 @@ data class ShowEntity(
     val traktRating: String?, // 8.3
     val tmdbRating: String?, // 7.9
 
-    // TODO  other ratings - Imdb, Metacritic, Rotten Tomatoes
+    // 1.2.0 - other ratings: Imdb, Metacritic, Rotten Tomatoes OK
     val imdbRating: String?,
     val metacriticRating: String? = "",
     val rottenTomatoesRating: String?,

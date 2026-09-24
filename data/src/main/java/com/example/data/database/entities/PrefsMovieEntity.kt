@@ -11,6 +11,6 @@ data class PrefsMovieEntity(
     val watched: Boolean = false,
     val addedDateTime : Long, // using timestamp
 
-    // TODO 1.1.3 add notes
+    /**  1.1.3 added notes  */
     val notes : String = ""
 )
